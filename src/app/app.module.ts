@@ -44,6 +44,7 @@ import { HttpClientModule } from "@angular/common/http";
 
 // mis modulos
 import { ProductoModule } from "./pages/productos/producto.module";
+// import { MarcasCreateOrEditComponent } from './pages/marcas/marcas-create-or-edit/marcas-create-or-edit.component';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { ProductoModule } from "./pages/productos/producto.module";
     P500Component,
     LoginComponent,
     RegisterComponent,
+    // MarcasCreateOrEditComponent,
     // ProductosComponent,
   ],
   providers: [

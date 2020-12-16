@@ -1,0 +1,47 @@
+<div class="">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fa fa-align-justify"></i> Tabla de Categorias
+            </div>
+            <button type="button" [routerLink]="['create']" class="btn btn-pill btn-warning">Crear Categoria</button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <caption>Resultados de {{categories?.total}} productos</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" colspan="2">Nombre</th>
+                            <th scope="col">Codigo</th>
+                            <th scope="col">Numero de productos</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of categories?.data | paginate: {
+                        itemsPerPage: perPage,
+                        currentPage: pageCurrent,
+                        totalItems: totalItem 
+                    }">
+                            <td>{{item.id}}</td>
+                            <td>{{item.code}}</td>
+                            <td>{{item.code_alt}}</td>
+                            <td colspan="2">{{item.name}}</td>
+                            <td colspan="2">{{item.description}}</td>
+                            <td>{{item.prefix_id}}</td>
+                            <td>{{item.category_id}}</td>
+                            <td>{{item.sequence_id}}</td>
+                            <td>{{item.brand_id}}</td>
+                            <td class="d-flex"><span [routerLink]="['edit',item.id]" routerLinkActive="router-link-active" class="mr-1 btn btn-spotify" role="button"><i class="far fa-edit"></i></span><span (click)="destroyProduct(item.id)" class="btn btn-html5"><i class="far fa-trash-alt"></i></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="nextPage($event)" (pageBoundsCorrection)="nextPage($event)" maxSize="9" directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

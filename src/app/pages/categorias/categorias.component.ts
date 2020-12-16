@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { IProducts } from '../../interfaces/iproducts';
-import { ProductsService } from '../../services/products.service';
+import { CategoriasService } from '../../services/categorias.service';
+
 
 declare let Swal:any;
 @Component({
-  selector: 'app-productos',
-  templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css']
+  selector: 'app-categorias',
+  templateUrl: './categorias.component.html',
+  styleUrls: ['./categorias.component.css']
 })
-export class ProductosComponent implements OnInit {
+export class CategoriasComponent implements OnInit {
 
-  constructor(private s_products:ProductsService) { }
+  constructor(private s_categories:CategoriasService) { }
   
-  products:IProducts
+  categories:any
   pageCurrent:number = 1;
   perPage:number = 10;
   totalItem:number = 0;
@@ -23,19 +23,19 @@ export class ProductosComponent implements OnInit {
   nextPage(pageNumber=1):void{
     console.log(pageNumber);
     
-    this.s_products.index(pageNumber).subscribe(
+    this.s_categories.index(pageNumber).subscribe(
       (response:any)=>{
         console.log(response);
-        this.products = response[0]
-        this.totalItem = this.products.total;
-        this.perPage = this.products.per_page;
-        this.pageCurrent =  this.products.current_page;   
+        this.categories = response[0]
+        this.totalItem = this.categories.total;
+        this.perPage = this.categories.per_page;
+        this.pageCurrent =  this.categories.current_page;   
       }
     )
   }
 
   destroyProduct(id):void{
-    let index = this.products.data.findIndex(x=>x.id===id)
+    let index = this.categories.data.findIndex(x=>x.id===id)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mr-1',
@@ -46,7 +46,7 @@ export class ProductosComponent implements OnInit {
     
     swalWithBootstrapButtons.fire({
       title: 'Seguro que quieres eliminar este Producto?',
-      text: this.products.data[index].name,
+      text: this.categories.data[index].name,
       icon: 'warning',
       showCancelButton: true,
     
@@ -72,7 +72,4 @@ export class ProductosComponent implements OnInit {
       }
     })
   }
-
-
-
 }

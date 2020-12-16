@@ -30,12 +30,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Categoria',
-    url: '/theme/colors',
+    url: '/categorias',
     icon: 'icon-badge'
   },
   {
     name: 'Marcas',
-    url: '/theme/colors',
+    url: '/marcas',
     icon: 'icon-bag'
   },
   {

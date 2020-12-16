@@ -63,6 +63,14 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/productos/producto.module').then(m => m.ProductoModule)
       },
       {
+        path: 'categorias',
+        loadChildren: () => import('./pages/categorias/categorias.module').then(m => m.CategoriasModule)
+      },
+      {
+        path: 'marcas',
+        loadChildren: () => import('./pages/marcas/marcas.module').then(m => m.MarcasModule)
+      },
+      {
         path: 'charts',
         loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
       },
