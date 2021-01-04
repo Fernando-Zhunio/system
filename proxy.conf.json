@@ -1,0 +1,10 @@
+{
+    "/public/*": {
+        "target": "http://apibitwanv1.tk",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+
+
+    }
+}

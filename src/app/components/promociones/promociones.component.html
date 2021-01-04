@@ -1,0 +1,95 @@
+<div class="card">
+    <div class=" card-body">
+        <div class="">
+            Estado : <span class="badge {{ promotion.status }}">{{promotion.status}}</span>
+        </div>
+        <ng-container *ngIf="promotion.title">
+            <h4 class="title">{{promotion.title}}</h4>
+            <hr>
+        </ng-container>
+        <!-- <ng-container *ngFor="let product of promotion.products"> -->
+        <!-- <div class="row">
+                <div *ngIf="product.ml_infos.length > 0" class="col-md-3 text-center">
+                    <img class="img-fluid" [src]="product.ml_infos[0].image">
+                </div>
+                <div class="col-md-6">
+                    Codigo: <b>{{product.code}}</b> <br> <b>{{product.name}}</b>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="">
+                        <span class="label">Cantidad:</span> <span class="value">{{product.pivot.quantity}}</span>
+                    </div>
+                    <div class="">
+                        <span class="label">Se factura en:</span>
+                        <span class="value">${{(product.pivot.price)}}</span>
+                    </div>
+                </div>
+            </div> -->
+        <!-- <div class="row"> -->
+        <!-- <div *ngIf="promotion.product[0].ml_infos.length > 0" class="col-md-3 text-center">
+                <img class="img-fluid" [src]="promotion.product[0].ml_infos[0].image">
+            </div> -->
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Se factura en</th>
+                        <th>Imagen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of promotion.products">
+                        <td>{{product.code}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.pivot.quantity}}</td>
+                        <td>{{product.pivot.price | currency}}</td>
+                        <td *ngIf="product.prestashop_products.length > 0" class="text-center">
+                            <a [href]="product.prestashop_products[0].link" target="_blank">
+                                <img class="img-fluid" width="75px" [src]="product.prestashop_products[0].image">
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+
+
+                    <!-- <div *ngIf="product.ml_infos.length > 0" class="col-md-3 text-center">
+                                <img class="img-fluid" [src]="product.ml_infos[0].image">
+                            </div>
+                            <div class="col-md-6">
+                                Codigo: <b>{{product.code}}</b> <br> <b>{{product.name}}</b>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="">
+                                    <span class="label">Cantidad:</span> <span class="value">{{product.pivot.quantity}}</span>
+                                </div>
+                                <div class="">
+                                    <span class="label">Se factura en:</span>
+                                    <span class="value">${{(product.pivot.price)}}</span>
+                                </div>
+                            </div> -->
+            </table>
+        </div>
+        <div *ngIf="promotion.note" class="note">{{ promotion.note }}</div>
+        <div class="">
+            <div>
+                <!-- <i class="far fa-clock"></i> --><span class="font-weight-bolder">Duración:</span>
+                <ng-container *ngIf="promotion.duration_type == 'out_stock'">
+                    HASTA AGOTAR STOCK
+                </ng-container>
+                <br>
+                <span class="font-weight-bolder">PRECIO PROMOCION: </span><span class="value">${{promotion.price_formated}}</span>
+                <div><span class="font-weight-bolder">Desde:</span> {{ promotion.start_date | date }} <span class="font-weight-bolder"> Hasta:</span> {{ promotion.end_date | date }}</div>
+            </div>
+            <!-- <div class="duration_label">
+                    <div class="">
+                        Desde: {{ promotion.start_date | date }}<br> Hasta: {{ promotion.end_date | date }}
+                    </div>
+                </div> -->
+        </div>
+    </div>
+    <!-- </div> -->
+</div>

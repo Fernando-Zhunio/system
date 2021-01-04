@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "http://sistema-codificacion.test",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

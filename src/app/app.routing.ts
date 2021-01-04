@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
+import { AuthReverseGuard } from './guards/auth-reverse.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -34,14 +36,17 @@ export const routes: Routes = [
     component: LoginComponent,
     data: {
       title: 'Login Page'
-    }
+    },
+    canActivate:[AuthReverseGuard]
+    
   },
   {
     path: 'register',
     component: RegisterComponent,
     data: {
       title: 'Register Page'
-    }
+    },
+    canActivate:[AuthReverseGuard]
   },
   {
     path: '',
@@ -49,6 +54,7 @@ export const routes: Routes = [
     data: {
       title: 'Home'
     },
+    canActivate:[AuthGuard],
     children: [
       {
         path: 'base',
@@ -60,16 +66,33 @@ export const routes: Routes = [
       },
       {
         path: 'productos',
-        loadChildren: () => import('./pages/productos/producto.module').then(m => m.ProductoModule)
+        loadChildren: () => import('./pages/administracion_productos/productos/producto.module').then(m => m.ProductoModule)
       },
       {
         path: 'categorias',
-        loadChildren: () => import('./pages/categorias/categorias.module').then(m => m.CategoriasModule)
+        loadChildren: () => import('./pages/administracion_productos/categorias/categorias.module').then(m => m.CategoriasModule)
       },
       {
         path: 'marcas',
-        loadChildren: () => import('./pages/marcas/marcas.module').then(m => m.MarcasModule)
+        loadChildren: () => import('./pages/administracion_productos/marcas/marcas.module').then(m => m.MarcasModule)
       },
+      {
+        path: 'prefijos',
+        loadChildren: () => import('./pages/administracion_productos/prefijo/prefijo.module').then(m => m.PrefijoModule)
+      },
+      {
+        path: 'buscar_productos',
+        loadChildren: () => import('./pages/catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
+      {
+        path: 'catalogo',
+        loadChildren: () => import('./pages/catalogo/catalogo.module').then(m => m.CatalogoModule)
+      },
+      {
+        path: 'admin-products',
+        loadChildren: () => import('./pages/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule)
+      },
+      // mercado-libre
       {
         path: 'charts',
         loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)

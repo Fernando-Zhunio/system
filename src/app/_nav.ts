@@ -25,18 +25,23 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Productos',
-    url: '/productos',
+    url: '/admin-products/productos',
     icon: 'icon-basket'
   },
   {
     name: 'Categoria',
-    url: '/categorias',
+    url: '/admin-products/categorias',
     icon: 'icon-badge'
   },
   {
     name: 'Marcas',
-    url: '/marcas',
+    url: '/admin-products/marcas',
     icon: 'icon-bag'
+  },
+  {
+    name: 'Prefijos',
+    url: '/admin-products/prefijos',
+    icon: 'fab fa-autoprefixer'
   },
   {
     title: true,
@@ -44,12 +49,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Buscar producto',
-    url: '/theme/colors',
+    url: '/catalogo/buscar_productos',
     icon: 'fas fa-search'
   },
   {
     name: 'Mercado libre',
-    url: '/theme/colors',
+    url: '/catalogo/mercado-libre',
     icon: 'far fa-handshake'
   },
   {

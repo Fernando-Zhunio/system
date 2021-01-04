@@ -1,0 +1,16 @@
+.gold {
+    color: #d4af37;
+}
+
+.silver {
+    color: #c4cace;
+}
+
+.dropdown-menu {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+button {
+    outline: none;
+}

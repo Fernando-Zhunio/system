@@ -1,0 +1,182 @@
+<div class="mb-4 bg-white card-body shadow rounded">
+
+
+    <!-- <div class="position-relative w-100">
+        <input class="form-control form-control-lg rounded-pill" style="padding-right: 50px;" placeholder="Escriba el nombre del producto" type="search" (keyup)="searchAutocomplete()" [(ngModel)]="search_name">
+        <a (click)="searchAutocomplete()" style="
+        position: absolute;
+        right: 10px;
+        height: 100%;
+        top: 0;
+        padding: 0 10px;
+    " class="fa-2x">
+            <i class="fas fa-search"></i>
+        </a>
+    </div> -->
+
+    <mat-form-field class="w-100" appearance="outline">
+        <!-- <mat-label>Outline form field</mat-label> -->
+        <input matInput placeholder="Escriba el nombre del producto" (keyup)="searchAutocomplete()" [(ngModel)]="search_name">
+        <button mat-icon-button matSuffix (click)="searchAutocomplete()">
+            <mat-icon  type="search" >search</mat-icon>
+
+        </button>
+
+    </mat-form-field>
+    <!-- <mat-form-field class="example-full-width">
+        <mat-label>Assignee</mat-label>
+        <input type="text" matInput [(ngModel)]="wordSearch" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field> -->
+    <div class="btn-group ml-2" role="group" aria-label="Basic example">
+        <button type="button" [ngClass]="{'bg-green': isColumns}" (click)="isColumns=true" class="btn btn-secondary"><i class="fas fa-th"></i></button>
+        <button type="button" [ngClass]="{'bg-green': !isColumns}" (click)="isColumns=false" class="btn btn-secondary"><i class="fas fa-grip-lines"></i></button>
+    </div>
+</div>
+
+<div [ngClass]="{'card-columns': isColumns}" class="card-columns">
+    <div class="card" *ngFor="let item of products">
+        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+        <div class="card-body">
+            <h5 class="card-title d-flex justify-content-between">
+                {{item.name}}
+                <!-- @can($route) -->
+                <div>
+                    <div class="btn-group" dropdown placement="bottom left">
+                        <a dropdownToggle href="javascript:void(0);">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li role="menuitem"><a class="dropdown-item" href="#">Editar producto</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- @endcan -->
+
+            </h5>
+            <small class="text-muted">
+                Tipo: <b>{{item.prefix?.type}}</b> -
+                Código: <b>{{item.code}}</b> -
+                Código Alternativo: <b>{{item.code_alt}}</b> -
+                Categoria: <b>{{item.category?.name}}</b> -
+                Marca: <b>{{item.brand?.name}}</b> -
+                Secuencia: <b>{{item.sequence?.sequence_number}}</b><br>
+                <ng-container *ngIf="item?.description">
+                    Descripción: {{item.description}}
+                </ng-container>
+            </small>
+            <div>
+                <button class="btn btn-primary my-1" type="button">Stock para ventas: {{item.available}}</button>
+                <button class="btn btn-success my-1" type="button">Stock en bodegas</button>
+                <button *ngIf="item.facebook_posts_count > 0" class="btn btn-facebook my-1" type="button">Ver post</button>
+            </div>
+            <ng-container *ngIf="item.promotions.length > 0">
+                <h3>Promociones</h3>
+                <app-promociones *ngFor="let promotion of item.promotions" [promotion]="promotion"></app-promociones>
+            </ng-container>
+            <!-- @if($p->imports->count() > 0) -->
+            <div *ngIf="item.imports.length >0" class="">
+                <div class="header">
+                    <h3>
+                        Historial de importaciones
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <li *ngFor="let imports of item.imports" class="list-group-item"><b><a target="_blank"
+                                 [routerLink]="['/import',imports.id]" routerLinkActive="router-link-active" >
+                                 {{imports.sequence.origin.name}} #{{imports.sequence.sequence_number}}</a></b></li>
+                </ul>
+            </div>
+            <!-- @endif -->
+
+
+
+
+            <!-- <ng-container *ngIf="item.prestashopProducts.length >0">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="header">
+                        <h2>
+                            PÁGINA WEB
+                        </h2>
+                    </div>
+                </div>
+                @foreach($p->prestashopProducts as $i)
+                <div *ngFor="let i of item.prestashopProducts" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <?php 
+                         $combination = $i->getCombination($p->code); 
+                         $link = $combination ? $combination->link : $i->link;
+                         $img = $combination && !empty($combination->image) ? $combination->image : $i->image;
+                         //$reference = $combination ? $combination->reference : $i->reference;
+                     ?>
+                    <div class="item-info-box">
+                        <span class="badge bg-cyan">PÁGINA WEB</span><br>
+                        <span class="badge bg-red ">{{ i.prestashop.name}}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <a href="{{ $link }}" target="_blank"><img style="width: 100%;max-width: 270px" src="{{$img}}"></a>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        <h4 style="font-family: 'Roboto', Arial, Tahoma, sans-serif;">{{$i->name}}</h4>
+                        <p>
+                            @if($combination) Referencia:
+                            <span class="badge" @if($combination->ps_product_option_value_color !== '#ffffff')
+                                     style="color: #FFF; background: {{ $combination->ps_product_option_value_color }};"
+                                     @endif
+                                     >{{ $combination->ps_product_option_value_name }}</span>
+                            <b>{{ $combination->reference }}</b> @elseif($i->reference) Referencia: <b>{{$i->reference}}</b> @endif
+                            <br><br>
+
+                            <?php
+                                 $combinations =  
+                                 $combination ? 
+                                 $i->combinations->filter(function ($value, $key) use  ($combination){
+                                     return $value->id !== $combination->id;
+                                 })
+                                 : $i->combinations;
+                             ?>
+
+                                @if($combinations->count() > 0) Otras referencias: @foreach($combinations as $comb)
+                                <span class="badge" @if($comb->ps_product_option_value_color !== '#ffffff')
+                                     style="color: #FFF; background: {{ $comb->ps_product_option_value_color }};"
+                                     @endif
+                                     >{{ $comb->ps_product_option_value_name }}</span>
+                                <b>{{ $comb->reference }}</b> @endforeach
+                                <br><br> @endif {!!$i->description_short!!}
+
+                        </p>
+                        <button type="button" class="btn btn-danger waves-effect">$ {{$i->full_price_formated}}</button>
+
+                        <a href="{{ $link }}" target="_blank" class="btn btn-info waves-effect">Ver en Web </a> @if($i->isActive())
+                        <a href="javascript:return false;" class="btn btn-default waves-effect font-bold col-teal">
+                                 Producto Activo
+                             </a> @endif @if($i->isInactive())
+
+                        <a href="javascript:return false;" class="btn btn-default waves-effect font-bold col-orange">
+                                 Producto Pausado
+                             </a> @endif @if($i->isDeleted())
+
+                        <a href="javascript:return false;" class="btn btn-default waves-effect font-bold col-pink">
+                                 Producto Eliminado
+                             </a> @endif
+
+
+                        </a>
+                    </div>
+
+
+                </div>
+                <div><small class="pull-right" style="padding-right: 10px;color: #999;">Actualizado por última vez: {{$i->updated_at->diffForHumans()}}</small></div>
+
+                @endforeach
+
+            </ng-container> -->
+
+        </div>
+
+    </div>
+</div>

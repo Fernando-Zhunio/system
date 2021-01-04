@@ -1,8 +1,44 @@
 // If you want to override variables do it here
 @import "variables";
-
 // Import styles
 @import "~@coreui/coreui/scss/coreui";
-
 // If you want to add something do it here
 @import "custom";
+.justify-end>div {
+    // justify-content: flex-end;
+    display: block;
+}
+
+button {
+    outline: none;
+}
+
+.dropdown-menu .header {
+    font-size: 13px;
+    font-weight: bold;
+    min-width: 270px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    padding: 4px 0 6px 0;
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+
+.dropdown-menu>li>a {
+    padding: 7px 18px;
+    color: #666;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    font-size: 14px;
+    line-height: 25px;
+}

@@ -39,11 +39,21 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ChartsModule } from "ng2-charts";
 import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 // import { ProductosComponent } from './pages/productos/productos.component';
 
 // mis modulos
-import { ProductoModule } from "./pages/productos/producto.module";
+// import { ProductoModule } from "./pages/productos/producto.module";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { CustomInterceptor } from "./interceptors/custom.interceptor";
+
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
+// import { PrefijosCreateOrEditComponent } from './pages/administracion_productos/prefijo/prefijos-create-or-edit/prefijos-create-or-edit.component';
+
+// import { BuscarProductosComponent } from './pages/buscar-productos/buscar-productos.component';
 // import { MarcasCreateOrEditComponent } from './pages/marcas/marcas-create-or-edit/marcas-create-or-edit.component';
 
 @NgModule({
@@ -62,7 +72,12 @@ import { ProductoModule } from "./pages/productos/producto.module";
     ChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ProductoModule,
+    // ProductoModule,
+    NgxSpinnerModule,
+    NgxPermissionsModule.forRoot(),
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule
   ],
   declarations: [
     AppComponent,
@@ -71,6 +86,9 @@ import { ProductoModule } from "./pages/productos/producto.module";
     P500Component,
     LoginComponent,
     RegisterComponent,
+    // PrefijosCreateOrEditComponent,
+    // PromocionesComponent,
+    // BuscarProductosComponent,
     // MarcasCreateOrEditComponent,
     // ProductosComponent,
   ],
@@ -78,6 +96,11 @@ import { ProductoModule } from "./pages/productos/producto.module";
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass:CustomInterceptor,
+      multi:true
     },
   ],
   bootstrap: [AppComponent],
