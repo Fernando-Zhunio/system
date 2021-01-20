@@ -51,8 +51,12 @@ export class StorageService {
     // this.secureStorage.setItem('data', session);
 
     this.secureStorage.setItem('currentUser',session);
-    console.log(this.getCurrentSession());
-    
+    console.log(this.getCurrentSession());  
+  }
+
+  setCompanyUser(id_company){
+    this.currentSession.user.company_company_id = id_company;
+    this.secureStorage.setItem('currentUser',this.currentSession);
   }
 
   loadSessionData(): Session{
@@ -70,8 +74,8 @@ export class StorageService {
   }
 
   removeCurrentSession(): void {
-    this.localStorageService.clear();
     this.currentSession = null;
+    this.localStorageService.clear();
   }
 
   getCurrentUser(): User {
@@ -85,7 +89,7 @@ export class StorageService {
 
   getCurrentToken(): string {
     var session = this.getCurrentSession();
-    console.log(session);
+    // console.log(session);
     
     return (session && session.token) ? session.token : null;
   }

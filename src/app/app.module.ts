@@ -10,6 +10,7 @@ import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { AppComponent } from "./app.component";
 
@@ -38,7 +39,7 @@ import { AppRoutingModule } from "./app.routing";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ChartsModule } from "ng2-charts";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 // import { ProductosComponent } from './pages/productos/productos.component';
 
@@ -51,10 +52,20 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatMenuModule } from "@angular/material/menu";
+import { RepricarMlModalComponent } from './components/repricar-ml-modal/repricar-ml-modal.component';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { InfoViewComponent } from './components/modals/info-view/info-view.component';
+// import { PublicacionesComponent } from './pages/importaciones/publicaciones/publicaciones.component';
+// import { ImportacionesComponent } from './Importaciones/importaciones/importaciones.component';
 // import { PrefijosCreateOrEditComponent } from './pages/administracion_productos/prefijo/prefijos-create-or-edit/prefijos-create-or-edit.component';
 
 // import { BuscarProductosComponent } from './pages/buscar-productos/buscar-productos.component';
 // import { MarcasCreateOrEditComponent } from './pages/marcas/marcas-create-or-edit/marcas-create-or-edit.component';
+import {MatDialogModule} from '@angular/material/dialog';
+// import { MlComponent } from './components/ml/ml.component';
+import { MatCardModule } from "@angular/material/card";
+import { MomentModule } from "ngx-moment";
 
 @NgModule({
   imports: [
@@ -77,7 +88,17 @@ import { MatMenuModule } from "@angular/material/menu";
     NgxPermissionsModule.forRoot(),
     MatButtonModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatDialogModule,
+    MatCardModule,
+    MomentModule
+
+    
+ 
+
   ],
   declarations: [
     AppComponent,
@@ -86,6 +107,11 @@ import { MatMenuModule } from "@angular/material/menu";
     P500Component,
     LoginComponent,
     RegisterComponent,
+    RepricarMlModalComponent,
+    InfoViewComponent,
+    // MlComponent,
+    // PublicacionesComponent,
+    // ImportacionesComponent,
     // PrefijosCreateOrEditComponent,
     // PromocionesComponent,
     // BuscarProductosComponent,
@@ -102,6 +128,9 @@ import { MatMenuModule } from "@angular/material/menu";
       useClass:CustomInterceptor,
       multi:true
     },
+  ],
+  entryComponents: [
+    InfoViewComponent
   ],
   bootstrap: [AppComponent],
 })

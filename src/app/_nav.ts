@@ -59,7 +59,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Publicaciones',
-    url: '/theme/colors',
+    url: '/catalogo/publicaciones',
     icon: 'fab fa-telegram-plane'
   },
 
@@ -69,7 +69,7 @@ export const navItems: INavData[] = [
 },
 {
   name: 'Proveedores',
-  url: '/theme/colors',
+  url: '/importaciones/proveedores',
   icon: 'fas fa-search'
 },
 {

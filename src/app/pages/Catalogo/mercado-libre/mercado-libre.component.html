@@ -1,212 +1,154 @@
-<div class="mb-4 bg-white card-body shadow rounded">
-    <mat-form-field class="w-100" appearance="outline">
-        <!-- <mat-label>Outline form field</mat-label> -->
-        <input matInput placeholder="Escriba el nombre del producto" (keyup)="searchAutocomplete()" [(ngModel)]="search_name">
-        <button mat-icon-button matSuffix (click)="searchAutocomplete()">
-            <mat-icon  type="search" >search</mat-icon>
-        </button>
-
-    </mat-form-field>
-    <div class="btn-group ml-2" role="group" aria-label="Basic example">
-        <button type="button" [ngClass]="{'bg-green': isColumns}" (click)="isColumns=true" class="btn btn-secondary"><i class="fas fa-th"></i></button>
-        <button type="button" [ngClass]="{'bg-green': !isColumns}" (click)="isColumns=false" class="btn btn-secondary"><i class="fas fa-grip-lines"></i></button>
+<div class="row scroll">
+    <div class=" sticky-top p-0 card-body   row" style="z-index: 10;">
+        <mat-tab-group class="py-0 w-100" style="overflow: hidden;">
+            <mat-tab label="Busqueda">
+                <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
+                    <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="productSearch">
+                    <button class="position-absolute" style="top: 0px;
+                    left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
+                        <mat-icon style="font-size: 30px;" type="search">search</mat-icon>
+                    </button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Filtros">
+                <div class="pt-3 bg-gray-200 px-2" style="overflow: hidden;">
+                    <mat-form-field class="mx-2" appearance="outline">
+                        <mat-label>Estados</mat-label>
+                        <mat-select (selectionChange)="searchBar()" [(value)]="selected_state">
+                            <mat-option value="all">Todos</mat-option>
+                            <mat-option value="active">Activo</mat-option>
+                            <mat-option value="closed">Inactivo</mat-option>
+                            <mat-option value="payment_required">Pago requerido</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 150px;">
+                        <mat-label>Precio Min</mat-label>
+                        <input matInput [(ngModel)]="price_min" type="number" class="example-right-align">
+                        <span matPrefix>$&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 150px;">
+                        <mat-label>Precio Max</mat-label>
+                        <input [(ngModel)]="price_max" matInput type="number" class="example-right-align">
+                        <span matPrefix>$&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+                    <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Paginacion">
+                <mat-paginator class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
+                </mat-paginator>
+            </mat-tab>
+        </mat-tab-group>
     </div>
-</div>
 
-<mat-card *ngFor="let ml of products" class="example-card my-2">
-    <mat-card-content>
-        <div class="row p-md-4 p-sm-0">
-            <div class="col-md-2">
-                <a [href]="ml.link" target="_blank"><img style="width: 100%;max-width: 270px" [src]="ml.image" alt=""></a>
-            </div>
-            <div class="col-md-8">
-                <mat-card-title class="font-weight-light">{{ml.name}}</mat-card-title>
-                <!-- <p *ngIf="ml.description" style="max-width: 600px;" [innerHTML]="ml.description"></p> -->
-                <p *ngIf="ml.stock" class="lead text-muted">
-                    <span>Stock Inical: {{ml.stock.initial_quantity}}</span> - <span>Vendido: {{ml.stock.sold_quantity}}</span> - <span class="text-success">Disponible: {{ml.stock.available_quantity}}</span>
-                </p>
-                <button mat-raised-button color="accent">{{ml.price+ml.tax | currency}}</button>
-                <a [href]="ml.link" mat-raised-button target="_blank" color="primary">Ver en Web </a>
 
-                <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 col-md-12 col-sm-12" style="margin: 0px">
-                    <div class="alert alert-warning">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <strong>Atención!</strong> Este item ha sido publicado como <b>"{{ml.listing_type_id }}"</b> pero requiere de pago para ser visible. <b>Páguese en la cuenta {{ml.account.user_name}}</b>
+
+
+    <div *ngIf="hasData; else elseTemplate" class="mt-4">
+        <mat-card *ngFor="let ml of products" class="example-card my-2">
+            <!-- <mat-card-content>
+                <div class="row p-md-2 p-sm-0">
+                    <div class="col-md-2">
+                        <a [href]="ml.link" target="_blank"><img style="width: 100%;max-width: 270px" [src]="ml.image" alt=""></a>
+                    </div>
+                    <div class="col-md-7">
+                        <mat-card-title >{{ml.name}}</mat-card-title>
+                        <p *ngIf="ml.stock" class="lead text-muted">
+                            <span>Stock Inical: {{ml.stock.initial_quantity}}</span> - <span>Vendido:
+                                {{ml.stock.sold_quantity}}</span> - <span class="text-success">Disponible:
+                                {{ml.stock.available_quantity}}</span>
+                        </p>
+                        <button mat-raised-button color="accent">{{ml.price+ml.tax | currency}}</button>
+                        <a [href]="ml.link" mat-raised-button target="_blank" color="primary">Ver en Web </a>
+
+                        <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
+                            <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                                <strong>Atención!</strong> Este item ha sido publicado como <b>"{{ml.listing_type_id
+                                    }}"</b> pero requiere de pago para ser visible. <b>Páguese en la cuenta
+                                    {{ml.account.user_name}}</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
+                            <span class="text-uppercase {{ml.listing_type_id}}">
+                                <i class="fas fa-coins {{ml.listing_type_id}}"></i>
+                                PUBLICACIÓN {{ml.listing_type_id}}
+                            </span>
+                            <br>
+                        </ng-container>
+
+                        <div class="justify-end">
+
+                            <span class="mb-1 badge font-lg  bg-warning text-white mt-2">MERCADO LIBRE</span><br>
+                            <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge font-lg bg-pink text-white">
+                                {{company.name}}</span><br>
+                            <span class="mb-1 badge font-lg  bg-green text-white">{{ml.account.city.name}}</span><br>
+                            <span class="mb-1 badge font-lg  bg-green text-white">{{ml.account.user_name}}</span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 info-panel">
+                        <div class="text-right">
+                            <small class="font-italic font-sm font-weight-bold">Actualizado por última vez:
+                                {{ml.updated_at
+                                | amLocale:'es' |
+                                amTimeAgo}}</small>
+                        </div>
+                        <div class="options-bar">
+                            <button [ngClass]="{'bg-danger': ml.status == 'closed'}" color="secondary" mat-raised-button>
+                                <mat-icon>{{(ml.status != 'closed') ? 'play_circle_outline' : 'stop'}}</mat-icon>
+                                <span class="text-uppercase">{{ml.status }}</span>
+                            </button>
+
+
+
+                            <button mat-raised-button>
+                                <mat-icon>access_alarm</mat-icon>
+                                <span>{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
+                                    amLocale:'es' |
+                                    amTimeAgo }} </span>
+                            </button>
+
+                            <button *ngIf="ml.relist_forever == 'on'" mat-raised-button style="color: #16a943;">
+                                <mat-icon>restore</mat-icon><span>Republicación Activada </span>
+                            </button>
+                            <ng-container *ngIf="ml.menu">
+                                <div class="float-right">
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <div class="px-2 font-weight-bold text-center">{{ml.menu.type}}</div>
+                                        <button (click)="executeMenu(itemMenu.type,ml.id,i)" *ngFor="let itemMenu of ml.menu.availablesItems;index as i " mat-menu-item>
+                                            <mat-icon>{{itemMenu.icon}}</mat-icon>
+                                            <span>{{itemMenu.label}}</span>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
+            </mat-card-content> -->
+            <app-ml (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
+        </mat-card>
+
+    </div>
+
+    <ng-template #elseTemplate>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
             </div>
-            <div class="col-md-2 text-right">
-                <!-- @if($ml->isGold() || $ml->isSilver()) -->
-                <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
-                    <span class="text-uppercase {{ml.listing_type_id}}">
-                        <!-- <img src="{{asset("images/{$ml->listing_type_id}.png")}}"> -->
-                        <i  class="fas fa-coins {{ml.listing_type_id}}"></i>
-                         PUBLICACIÓN {{ml.listing_type_id}}</span>
-                    <br>
-                </ng-container>
-
-                <!-- @endif -->
-                <mat-chip-list class="justify-end">
-                    <mat-chip class="bg-warning text-white mt-2">MERCADO LIBRE</mat-chip><br>
-                    <mat-chip *ngFor="let company of ml.account.companies_access" class="bg-pink text-white">{{company.name}}</mat-chip><br>
-                    <mat-chip class="bg-green text-white">{{ml.account.city.name}}</mat-chip>
-                </mat-chip-list>
-                <!-- <span class="badge bg-orange ">MERCADO LIBRE</span><br>
-                <span class="badge bg-red ">{{ml.account.company.name}}</span><br>
-                <span class="badge bg-teal ">{{ml.account.city.name}}</span> -->
-
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 info-panel">
-                <div class="text-right">
-                    <small class="font-italic font-sm font-weight-bold">Actualizado por última vez: {{ml.updated_at |date}}</small>
-                </div>
-                <div class="options-bar">
-                    <button color="secondary" mat-raised-button>
-                        <!-- <mat-icon>{{ml.status }}</mat-icon> -->
-                        <mat-icon>play_circle_outline</mat-icon>
-                        <!-- <i class="far fa-play-circle"></i> -->
-                        <span class="text-uppercase">{{ml.status }}</span>
-                    </button>
-                    <button mat-raised-button>
-                        <mat-icon>access_alarm</mat-icon>
-                        <span>{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time | amLocale:'es' | amTimeAgo }} </span>
-                    </button>
-
-                    <!-- @if($ml->relistIsActive()) -->
-                    <button *ngIf="ml.relist_forever == 'on'" mat-raised-button style="color: #16a943;">
-                        <mat-icon>restore</mat-icon><span>Republicación Activada </span>
-                    </button>
-                    <!-- @endif -->
-
-                    <ng-container *ngIf="ml.menu">
-                        <div class="float-right">
-                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                <mat-icon>more_vert</mat-icon>
-                              </button>
-                            <mat-menu #menu="matMenu">
-                                <div class="px-2 font-weight-bold text-center">{{ml.menu.type}}</div>
-                                <button (click)="assingProduct(ml.menu.item)" *ngFor="let itemMenu of ml.menu.availablesItems" mat-menu-item>
-                                  <mat-icon>{{itemMenu.icon}}</mat-icon>
-                                  <span>{{itemMenu.label}}</span>
-                                </button>
-                            </mat-menu>
-                        </div>
-                    </ng-container>
-                    <!-- @endif -->
-
-                </div>
-
-
+            <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
+                Ups! Lo que Buscaste no lo encontramos mejorar el criterio de Busqueda
             </div>
         </div>
-
-    </mat-card-content>
-    <!-- <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header> -->
-    <!-- <mat-card-content>
-
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-    </mat-card-actions> -->
-</mat-card>
-
-<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 item-product" id="product-ml">
-    <div class="item-info-box">
-
-        @if($ml->isGold() || $ml->isSilver())
-        <ng-container *ngIf="item">
-            
-        </ng-container>
-        
-        <span class="badge  bg-orange ml-item-type {{$ml->listing_type_id}}"><img src="{{asset("images/{$ml->listing_type_id}.png")}}"> PUBLICACIÓN {{trans("mlinfo.".$ml->listing_type_id)}}</span>
-        <br>
-        @endif
-         <span class="badge bg-orange " >MERCADO LIBRE</span><br>
-         <span class="badge bg-red " >{{strtoupper($ml->account->company->name)}}</span><br>
-         <span class="badge bg-teal " >{{strtoupper($ml->account->city->name)}}</span>
-    </div>
-    
-    <div class="col-lg-2 col-md-2 col-sm-2">
-        <a href="{{$ml->link}}" target="_blank"><img style="width: 100%;max-width: 270px" src="{{$ml->image}}"></a>
-    </div>
-
-    <div class="col-lg-10 col-md-10 col-sm-10">
-        <h4 style="font-family: 'Roboto', Arial, Tahoma, sans-serif;"><span>{{$ml->name}}</span>
-
-            
-            @if(!empty($options['search_title']))
-                <div class="tooltips">
-                    <button type="button" class="btn btn-default btn-circle waves-effect waves-circle waves-float searchTitle">
-                        <i class="material-icons">search</i>
-                    </button>
-                    <span class="tooltiptext tooltip-top">Buscar todos los productos con este titulo</span>
-                </div>
-            @endif
-
-
-        </h4>
-        @if(!empty($description))
-            <p style="max-width: 600px;">{!!$ml->description!!}</p>
-        @endif
-
-        @if($ml->stock)
-            <p>
-                <span class="font-italic col-blue-grey">Stock Inical: {{$ml->stock->initial_quantity}}</span> -  <span class="font-italic col-blue-grey">Vendido: {{$ml->stock->sold_quantity}}</span> - <span class="font-italic font-bold col-teal">Disponible: {{$ml->stock->available_quantity}}</span>
-            </p>
-        @endif
-        <button type="button" class="btn btn-danger waves-effect">$ {{$ml->getPrice()}}</button>
-
-        <a  href="{{$ml->link}}" target="_blank" class="btn bg-orange waves-effect">Ver en Web </a> 
-
-    </div>
-
-    @if($ml->isPaymentRequired())
-        <div class="col-lg-12 col-md-12 col-sm-12" style="margin: 0px">
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <strong>Atención!</strong> Este item ha sido publicado como <b>"{{trans("mlinfo.".$ml->listing_type_id)}}"</b> pero requiere de pago para ser visible. <b>Páguese en la cuenta {{$ml->account->user_name}}</b>
-            </div>
-        </div>
-    @endif
-
-    <div class="col-lg-12 col-md-12 col-sm-12 info-panel">
-        <small class="pull-right last-update">Actualizado por última vez: {{$ml->updated_at->diffForHumans()}}</small>
-        <div class="options-bar">
-
-            <button type="button" class="btn btn-xs btn-default waves-effect btn-expired status {{$ml->status}}">
-                <i class="material-icons">{{trans('mlinfo.icon-'.$ml->status) }}</i><span>{{trans('mlinfo.'.$ml->status) }}</span>
-            </button>
-            
-
-            <button type="button" class="btn btn-xs btn-default waves-effect btn-expired">
-                <i class="material-icons">access_alarm</i>
-                <span>{{$ml->isClosed() ? 'Finalizado' : 'Finaliza'}} {{ $ml->stop_time->diffForHumans() }} </span>
-            </button>
-
-            @if($ml->relistIsActive())
-            <button type="button" class="btn btn-xs btn-default waves-effect btn-expired" style="color: #16a943;">
-                <i class="material-icons">restore</i><span>Republicación Activada </span>
-            </button>
-            @endif
-            
-            @if(getMenuAvailableMlItems()->count() > 0)
-            <div class="btn-group dropup item-options pull-right">
-                <button type="button" class="btn bg-orange waves-effect"><i class="material-icons">settings</i></button>
-                <button type="button" class="btn bg-orange waves-effect dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="material-icons">keyboard_arrow_up</i>
-                    
-                </button>
-                <ul class="dropdown-menu">{!! App\Http\Controllers\Catalogue\Product\ProductMlController::renderMlMenuItems($ml) !!}</ul>
-            </div>
-            @endif
-
-        </div>
-
-
-    </div>
-    
-</div> -->
+    </ng-template>
+</div>

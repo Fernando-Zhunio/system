@@ -13,4 +13,5 @@ export class PromocionesComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
 }

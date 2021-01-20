@@ -1,0 +1,12 @@
+.published {
+    background-color: #4dbd74;
+    color: white;
+}
+
+button {
+    outline: none;
+}
+
+.btn-view-more {
+    cursor: pointer;
+}

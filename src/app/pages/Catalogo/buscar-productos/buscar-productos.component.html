@@ -1,50 +1,90 @@
-<div class="mb-4 bg-white card-body shadow rounded">
+<div>
+    <div class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
+        <mat-tab-group class="py-0 col-sm-12 w-100" style="overflow: hidden;">
+            <mat-tab label="Busqueda">
+                <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
+                    <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="productSearch">
+                    <button class="position-absolute" style="top: 0px;
+                left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
+                        <mat-icon style="font-size: 30px;" type="search">search</mat-icon>
+                    </button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Filtros">
+                <div class="pt-3 bg-gray-200 px-2" style="overflow: hidden;">
+                    <mat-form-field class="mx-2" appearance="outline">
+                        <mat-label>Estados</mat-label>
+                        <mat-select (selectionChange)="searchBar()" [(value)]="selected_state">
+                            <mat-option value="all">Todos</mat-option>
+                            <mat-option value="active">Activo</mat-option>
+                            <mat-option value="closed">Inactivo</mat-option>
+                            <mat-option value="payment_required">Pago requerido</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 150px;">
+                        <mat-label>Precio Min</mat-label>
+                        <input matInput [(ngModel)]="price_min" type="number" class="example-right-align">
+                        <span matPrefix>$&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 150px;">
+                        <mat-label>Precio Max</mat-label>
+                        <input [(ngModel)]="price_max" matInput type="number" class="example-right-align">
+                        <span matPrefix>$&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+                    <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Paginacion">
+                <mat-paginator class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
+                </mat-paginator>
+            </mat-tab>
+        </mat-tab-group>
+        <!-- <div class="col-md-2">
+            <button mat-raised-button color="accent" [routerLink]="['./create']" routerLinkActive="router-link-active">Crear publicacion</button>
+        </div> -->
 
-
-    <!-- <div class="position-relative w-100">
-        <input class="form-control form-control-lg rounded-pill" style="padding-right: 50px;" placeholder="Escriba el nombre del producto" type="search" (keyup)="searchAutocomplete()" [(ngModel)]="search_name">
-        <a (click)="searchAutocomplete()" style="
-        position: absolute;
-        right: 10px;
-        height: 100%;
-        top: 0;
-        padding: 0 10px;
-    " class="fa-2x">
-            <i class="fas fa-search"></i>
-        </a>
-    </div> -->
-
-    <mat-form-field class="w-100" appearance="outline">
-        <!-- <mat-label>Outline form field</mat-label> -->
-        <input matInput placeholder="Escriba el nombre del producto" (keyup)="searchAutocomplete()" [(ngModel)]="search_name">
-        <button mat-icon-button matSuffix (click)="searchAutocomplete()">
-            <mat-icon  type="search" >search</mat-icon>
-
-        </button>
-
-    </mat-form-field>
-    <!-- <mat-form-field class="example-full-width">
-        <mat-label>Assignee</mat-label>
-        <input type="text" matInput [(ngModel)]="wordSearch" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field> -->
-    <div class="btn-group ml-2" role="group" aria-label="Basic example">
-        <button type="button" [ngClass]="{'bg-green': isColumns}" (click)="isColumns=true" class="btn btn-secondary"><i class="fas fa-th"></i></button>
-        <button type="button" [ngClass]="{'bg-green': !isColumns}" (click)="isColumns=false" class="btn btn-secondary"><i class="fas fa-grip-lines"></i></button>
     </div>
-</div>
 
-<div [ngClass]="{'card-columns': isColumns}" class="card-columns">
-    <div class="card" *ngFor="let item of products">
-        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-        <div class="card-body">
-            <h5 class="card-title d-flex justify-content-between">
+    <div>
+        <mat-card class="my-1" *ngFor="let p of products;index as i">
+            <mat-card-header class="d-block mat-card-header-m-0">
+                <mat-card-title style="display: flex;" class="row">
+                    <div class="col-sm-12 col-md-7">
+                        <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{p.id}}</span>{{p.name}}
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <div class="float-right">
+                            <!-- <span class="font-sm badge {{p.status}}  text-uppercase">{{p.status}}</span> -->
+                            <ng-container *ngxPermissionsOnly="['catalogs.publications.edit']">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!-- <div class="px-2 font-weight-bold text-center">{{ml.menu.type}}</div> -->
+                                    <button (click)="EditPublication(p.id)" mat-menu-item>
+                                        <mat-icon>create</mat-icon>
+                                        <span>Editar Publicación</span>
+                                    </button>
+                                    <button (click)="deletePublication(p.id,i)" mat-menu-item>
+                                        <mat-icon>delete_forever</mat-icon>
+                                        <span>Eliminar</span>
+                                    </button>
+                                </mat-menu>
+                            </ng-container>
+                        </div>
+                    </div>
+                </mat-card-title>
+                <div class="mat-card-subtitle d-block"><small class="d-flex" *ngIf="p.description"><i class="d-block"
+                            style="width: 65%;">{{p.description}}</i>
+                        <span class="btn-view-more text-info" (click)="openDescription(i)">ver mas</span>
+                    </small></div>
+            </mat-card-header>
+            <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+            <mat-card-content>
+                <!-- <h5 class=" d-flex justify-content-between">
                 {{item.name}}
-                <!-- @can($route) -->
                 <div>
                     <div class="btn-group" dropdown placement="bottom left">
                         <a dropdownToggle href="javascript:void(0);">
@@ -55,128 +95,180 @@
                         </ul>
                     </div>
                 </div>
+            </h5> -->
+                <small class="text-muted">
+                    Tipo: <b>{{p.prefix?.type}}</b> -
+                    Código: <b>{{p.code}}</b> -
+                    Código Alternativo: <b>{{p.code_alt}}</b> -
+                    Categoria: <b>{{p.category?.name}}</b> -
+                    Marca: <b>{{p.brand?.name}}</b> -
+                    Secuencia: <b>{{p.sequence?.sequence_number}}</b><br>
+                    <ng-container *ngIf="p?.description">
+                        Descripción: {{p.description}}
+                    </ng-container>
+                </small>
 
-                <!-- @endcan -->
-
-            </h5>
-            <small class="text-muted">
-                Tipo: <b>{{item.prefix?.type}}</b> -
-                Código: <b>{{item.code}}</b> -
-                Código Alternativo: <b>{{item.code_alt}}</b> -
-                Categoria: <b>{{item.category?.name}}</b> -
-                Marca: <b>{{item.brand?.name}}</b> -
-                Secuencia: <b>{{item.sequence?.sequence_number}}</b><br>
-                <ng-container *ngIf="item?.description">
-                    Descripción: {{item.description}}
-                </ng-container>
-            </small>
-            <div>
-                <button class="btn btn-primary my-1" type="button">Stock para ventas: {{item.available}}</button>
-                <button class="btn btn-success my-1" type="button">Stock en bodegas</button>
-                <button *ngIf="item.facebook_posts_count > 0" class="btn btn-facebook my-1" type="button">Ver post</button>
-            </div>
-            <ng-container *ngIf="item.promotions.length > 0">
-                <h3>Promociones</h3>
-                <app-promociones *ngFor="let promotion of item.promotions" [promotion]="promotion"></app-promociones>
-            </ng-container>
-            <!-- @if($p->imports->count() > 0) -->
-            <div *ngIf="item.imports.length >0" class="">
-                <div class="header">
-                    <h3>
-                        Historial de importaciones
-                    </h3>
-                </div>
-                <ul class="list-group">
-                    <li *ngFor="let imports of item.imports" class="list-group-item"><b><a target="_blank"
-                                 [routerLink]="['/import',imports.id]" routerLinkActive="router-link-active" >
-                                 {{imports.sequence.origin.name}} #{{imports.sequence.sequence_number}}</a></b></li>
-                </ul>
-            </div>
-            <!-- @endif -->
-
-
-
-
-            <!-- <ng-container *ngIf="item.prestashopProducts.length >0">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="header">
-                        <h2>
-                            PÁGINA WEB
-                        </h2>
-                    </div>
-                </div>
-                @foreach($p->prestashopProducts as $i)
-                <div *ngFor="let i of item.prestashopProducts" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <?php 
-                         $combination = $i->getCombination($p->code); 
-                         $link = $combination ? $combination->link : $i->link;
-                         $img = $combination && !empty($combination->image) ? $combination->image : $i->image;
-                         //$reference = $combination ? $combination->reference : $i->reference;
-                     ?>
-                    <div class="item-info-box">
-                        <span class="badge bg-cyan">PÁGINA WEB</span><br>
-                        <span class="badge bg-red ">{{ i.prestashop.name}}</span>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2">
-                        <a href="{{ $link }}" target="_blank"><img style="width: 100%;max-width: 270px" src="{{$img}}"></a>
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10">
-                        <h4 style="font-family: 'Roboto', Arial, Tahoma, sans-serif;">{{$i->name}}</h4>
-                        <p>
-                            @if($combination) Referencia:
-                            <span class="badge" @if($combination->ps_product_option_value_color !== '#ffffff')
-                                     style="color: #FFF; background: {{ $combination->ps_product_option_value_color }};"
-                                     @endif
-                                     >{{ $combination->ps_product_option_value_name }}</span>
-                            <b>{{ $combination->reference }}</b> @elseif($i->reference) Referencia: <b>{{$i->reference}}</b> @endif
-                            <br><br>
-
-                            <?php
-                                 $combinations =  
-                                 $combination ? 
-                                 $i->combinations->filter(function ($value, $key) use  ($combination){
-                                     return $value->id !== $combination->id;
-                                 })
-                                 : $i->combinations;
-                             ?>
-
-                                @if($combinations->count() > 0) Otras referencias: @foreach($combinations as $comb)
-                                <span class="badge" @if($comb->ps_product_option_value_color !== '#ffffff')
-                                     style="color: #FFF; background: {{ $comb->ps_product_option_value_color }};"
-                                     @endif
-                                     >{{ $comb->ps_product_option_value_name }}</span>
-                                <b>{{ $comb->reference }}</b> @endforeach
-                                <br><br> @endif {!!$i->description_short!!}
-
-                        </p>
-                        <button type="button" class="btn btn-danger waves-effect">$ {{$i->full_price_formated}}</button>
-
-                        <a href="{{ $link }}" target="_blank" class="btn btn-info waves-effect">Ver en Web </a> @if($i->isActive())
-                        <a href="javascript:return false;" class="btn btn-default waves-effect font-bold col-teal">
-                                 Producto Activo
-                             </a> @endif @if($i->isInactive())
-
-                        <a href="javascript:return false;" class="btn btn-default waves-effect font-bold col-orange">
-                                 Producto Pausado
-                             </a> @endif @if($i->isDeleted())
-
-                        <a href="javascript:return false;" class="btn btn-default waves-effect font-bold col-pink">
-                                 Producto Eliminado
-                             </a> @endif
-
-
+                <!-- @php ( $route = 'products-admin.products.edit')
+                @can($route)
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
                         </a>
+    
+                        <ul class="dropdown-menu pull-right">
+                            @can($route)
+                            <li><a href="{{ route($route, $p->id) }}">Editar Producto</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                </ul>
+                @endcan
+                <hr> -->
+                <div>
+                    <button class="btn btn-primary my-1" type="button">Stock para ventas: {{p.available}}</button>
+                    <button class="btn btn-success my-1" type="button">Stock en bodegas</button>
+                    <button *ngIf="p.facebook_posts_count > 0" class="btn btn-facebook my-1" type="button">Ver
+                        post</button>
+                </div>
+
+                <div *ngIf="p.prestashop_products.length > 0 || p.ml_infos.length > 0 || p.last_prices.length > 0">
+
+                    <div *ngIf="p.last_prices.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="header">
+                            <h2>
+                                Precios
+                            </h2>
+                        </div>
+                        <ul class="list-group">
+                            <li *ngFor="let price of p.last_prices" class="list-group-item">{{price.group.name}}:
+                                <b>${{price.full_price_formated}}</b></li>
+                        </ul>
                     </div>
 
+                    <div *ngIf="p.promotions.length > 0">
+                        <h3>Promociones</h3>
+                        <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion">
+                        </app-promociones>
+                    </div>
 
+                    <div *ngIf="p.imports.length >0" class="">
+                        <div class="header">
+                            <h3>
+                                Historial de importaciones
+                            </h3>
+                        </div>
+                        <ul class="list-group">
+                            <li *ngFor="let imports of p.imports" class="list-group-item"><b><a target="_blank"
+                                        [routerLink]="['/import',imports.id]" routerLinkActive="router-link-active">
+                                        {{imports.sequence.origin.name}} #{{imports.sequence.sequence_number}}</a></b>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div><small class="pull-right" style="padding-right: 10px;color: #999;">Actualizado por última vez: {{$i->updated_at->diffForHumans()}}</small></div>
 
-                @endforeach
+                <ng-container *ngIf="p.prestashop_products.length >0">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="header">
+                            <h2>
+                                PÁGINA WEB
+                            </h2>
+                        </div>
+                    </div>
+                    @foreach($p->prestashop_products as $i)
+                    <div *ngFor="let i of p.prestashop_products" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="item-info-box">
+                                <span class="badge bg-cyan">PÁGINA WEB</span><br>
+                                <span class="badge bg-red ">{{ i.prestashop.name}}</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
 
-            </ng-container> -->
+                                <a href="{{ i.self_combination ? i.self_combination.link : i.link }}" target="_blank"><img style="width: 100%;max-width: 270px" src="{{(i.self_combination && i.self_combination.image) ? i.self_combination.image : i.image}}"></a>
 
-        </div>
+                            </div>
 
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <h4 style="font-family: 'Roboto', Arial, Tahoma, sans-serif;">{{i.name}}</h4>
+                                <p>
+
+                                    <!-- @if($i->self_combination) -->
+                                    <ng-container *ngIf="i.self_combination; else reference">
+                                        Referencia:
+                                        <span class="badge">
+                                            {{ i.self_combination.ps_product_option_value_name }}
+                                        </span>
+                                        <b>{{ i.self_combination.reference }}</b>
+                                    </ng-container>
+                                    <ng-template #reference>
+                                        Referencia:
+                                        <b>{{i.reference}}</b>
+                                    </ng-template>
+                                    <br><br>
+
+                                    <!-- <?php
+                                        $combinations =  
+                                        $i->self_combination ? 
+                                        $i->combinations->filter(function ($value, $key) use  ($i){
+                                            return $value->id !== $i->self_combination->id;
+                                        })
+                                        : $i->combinations;
+                                    ?>
+
+                                    @if($combinations->count() > 0) Otras referencias: @foreach($combinations as $comb)
+                                    <span class="badge" @if($comb->ps_product_option_value_color !== '#ffffff')
+                                        style="color: #FFF; background: {{ $comb->ps_product_option_value_color }};"
+                                        @endif
+                                        >{{ $comb->ps_product_option_value_name }}</span>
+                                    <b>{{ $comb->reference }}</b> @endforeach
+                                    <br><br> @endif  -->
+                                    {{i.description_short}}
+                                </p>
+                                <button type="button" class="btn btn-danger waves-effect">$
+                                    {{i.full_price_formated}}</button>
+
+                                <a href="{{ i.self_combination ? i.self_combination.link : i.link }}" target="_blank" class="btn btn-info waves-effect">Ver en Web </a>
+                                <!-- @if($i->isActive())
+                                <a href="javascript:return false;"
+                                    class="btn btn-default waves-effect font-bold col-teal">
+                                    Producto Activo
+                                </a> @endif @if($i->isInactive())
+
+                                <a href="javascript:return false;"
+                                    class="btn btn-default waves-effect font-bold col-orange">
+                                    Producto Pausado
+                                </a> @endif @if($i->isDeleted())
+
+                                <a href="javascript:return false;"
+                                    class="btn btn-default waves-effect font-bold col-pink">
+                                    Producto Eliminado
+                                </a> @endif -->
+
+
+                                <!-- </a> -->
+                            </div>
+
+
+                        </div>
+
+                        <div><small class="pull-right" style="padding-right: 10px;color: #999;">Actualizado por última vez:
+                                {{i.updated_at}}</small></div>
+
+                    </div>
+
+                    <!-- @endforeach -->
+
+                </ng-container>
+
+                <div *ngIf="p.ml_infos.length > 0">
+                    <h2>Mercado Libre</h2>
+                    <mat-card class="my-2" *ngFor="let ml of p.ml_infos">
+                        <app-ml (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
+                    </mat-card>
+                </div>
+
+            </mat-card-content>
+
+        </mat-card>
     </div>
 </div>

@@ -1,0 +1,279 @@
+<div>
+    <div class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
+        <mat-tab-group class="py-0 col-md-10 w-100" style="overflow: hidden;">
+            <mat-tab label="Busqueda">
+                <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
+                    <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="productSearch">
+                    <button class="position-absolute" style="top: 0px;
+                    left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
+                        <mat-icon style="font-size: 30px;" type="search">search</mat-icon>
+                    </button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Filtros">
+                <div class="pt-3 bg-gray-200 px-2" style="overflow: hidden;">
+                    <mat-form-field class="mx-2" appearance="outline">
+                        <mat-label>Estados</mat-label>
+                        <mat-select (selectionChange)="searchBar()" [(value)]="selected_state">
+                            <mat-option value="all">Todos</mat-option>
+                            <mat-option value="active">Activo</mat-option>
+                            <mat-option value="closed">Inactivo</mat-option>
+                            <mat-option value="payment_required">Pago requerido</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 150px;">
+                        <mat-label>Precio Min</mat-label>
+                        <input matInput [(ngModel)]="price_min" type="number" class="example-right-align">
+                        <span matPrefix>$&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 150px;">
+                        <mat-label>Precio Max</mat-label>
+                        <input [(ngModel)]="price_max" matInput type="number" class="example-right-align">
+                        <span matPrefix>$&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+                    <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Paginacion">
+                <mat-paginator class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
+                </mat-paginator>
+            </mat-tab>
+        </mat-tab-group>
+        <div class="col-md-2">
+            <button mat-raised-button color="accent" [routerLink]="['./create']" routerLinkActive="router-link-active">Crear publicacion</button>
+        </div>
+
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <mat-card style="background-color: beige;" class="my-2" *ngFor="let p of products;index as i">
+            <mat-card-header class="d-block mat-card-header-m-0">
+                <mat-card-title style="display: flex;" class="row">
+                    <div class="col-sm-12 col-md-7">
+                        <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{p.id}}</span>{{p.name}}
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <div class="float-right">
+                            <span class="font-sm badge {{p.status}}  text-uppercase">{{p.status}}</span>
+                            <ng-container *ngxPermissionsOnly="['catalogs.publications.edit']">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!-- <div class="px-2 font-weight-bold text-center">{{ml.menu.type}}</div> -->
+                                    <button (click)="EditPublication(p.id)" mat-menu-item>
+                                        <mat-icon>create</mat-icon>
+                                        <span>Editar Publicación</span>
+                                    </button>
+                                    <button (click)="deletePublication(p.id,i)" mat-menu-item>
+                                        <mat-icon>delete_forever</mat-icon>
+                                        <span>Eliminar</span>
+                                    </button>
+                                </mat-menu>
+                            </ng-container>
+                        </div>
+                    </div>
+                </mat-card-title>
+                <div class="mat-card-subtitle d-block"><small class="d-flex" *ngIf="p.description"><i
+                            [ngClass]="{'text-truncate': true}" class="d-block"
+                            style="width: 65%;">{{p.description}}</i>
+                            <span class="btn-view-more text-info" (click)="openDescription(i)">ver mas</span>
+                        </small></div>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="mt-0">
+                    <ng-container *ngIf="p.ml_accounts.length > 0">
+                        Cuentas: <span *ngFor="let account of p.ml_accounts" class="badge font-sm mr-1 {{p.status}}">{{account.user_name}}</span>
+                    </ng-container>
+                </div>
+
+                <!-- @if($p->mlInfos->count() > 0 || $p->errors->count() > 0) -->
+                <div *ngIf="p.ml_infos.length > 0 || p.errors.length > 0" class="body">
+
+                    <div class="row">
+
+
+                        <div *ngIf="p.ml_infos.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="header header-info">
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <div class="font-facebook font-3xl">
+                                        Publicaciones
+                                    </div>
+                                    <div>
+                                        <ng-container *ngIf="p.menu">
+                                            <div>
+                                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                    <mat-icon>more_vert</mat-icon>
+                                                </button>
+                                                <mat-menu #menu="matMenu">
+                                                    <div class="px-2 my-2 font-3xl font-facebook">{{p.menu.type}}</div>
+                                                    <button (click)="executeMenu(itemMenu.type,ml.id)" *ngFor="let itemMenu of p.menu.availablesItems;index as i " mat-menu-item>
+                                                        <mat-icon>{{itemMenu.icon}}</mat-icon>
+                                                        <span>{{itemMenu.label}}</span>
+                                    </button>
+                                                </mat-menu>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div>
+                                    <mat-card class="my-3" *ngFor="let ml of p.ml_infos">
+                                        <!-- @foreach($p->mlInfos as $ml) -->
+
+                                        <app-ml (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
+                                        <!-- @include('admin.catalogs.ml.mlInfosItem') -->
+                                        <!-- <div class="more-ml-info" style="display: none;"></div> -->
+
+
+                                        <!-- @endforeach -->
+                                    </mat-card>
+                                </div>
+                                <!-- @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1) -->
+                                <!-- <div *ngIf="p.menu?.length > 0 && p.ml_infos.length > 1" class="options-bar">
+                                    <h2>Acciones</h2>
+
+                                </div> -->
+                                <!-- @endif -->
+                                <!-- </div>
+                            @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1)
+                            <div class="mobile-padding"></div>
+                            @endif
+                        </div>
+                        @endif -->
+
+                                <!-- <div id="ml-items-content">
+                                    @foreach($p->mlInfos as $ml) @include('admin.catalogs.ml.mlInfosItem')
+                                    <div class="more-ml-info" style="display: none;"></div>
+
+
+                                    @endforeach
+                                </div> -->
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <!-- <button mat-button>Ok</button> -->
+            </mat-card-actions>
+        </mat-card>
+
+    </div>
+</div>
+<!-- <div class="card" id="publication-content" product_id="{{$p->id}}">
+        
+        <div class="header"> -->
+
+<!-- <h2>
+                <span style="color:#f44336; font-weight: bold;">#{{$p->id}}</span> {{$p->name}}
+                @if($p->description)
+                    <small><i>{{ str_limit($p->description, $limit = 150, $end = '...') }}</i></small>
+                @endif
+            </h2> -->
+<!-- <div class="m-t-5">
+            <span class="badge {{$p->status}}">{{trans('publication.status-'.$p->status)}}</span>
+
+            @if($p->mlAccounts->count() > 0)
+            Cuentas:
+
+            @foreach ($p->mlAccounts as $account)
+            <span class="badge {{$p->status}}">{{$account->user_name}}</span>
+            @endforeach
+            @endif
+        </div> -->
+
+
+<!-- @php ( $route = 'catalogs.publications.edit')
+        @can($route)
+        <ul class="header-dropdown m-r--5">
+            <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="material-icons">more_vert</i>
+                </a>
+
+                <ul class="dropdown-menu pull-right">
+                    @can($route)
+                    <li><a href="{{ route($route, $p->id) }}">Editar Publicación</a></li>
+                    @endcan
+
+                    <li><a href="#" class="delete" id="{{$p->id}}">Eliminar Publicación</a></li>
+                </ul>
+            </li>
+        </ul>
+        @endcan -->
+
+<!-- </div> -->
+
+<!-- @if($p->mlInfos->count() > 0 || $p->errors->count() > 0)
+    <div class="body">
+
+        <div class="row">
+
+            @if($p->mlInfos->count() > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="header header-info">
+                    <h2>
+                        Publicaciones
+                    </h2>
+                    @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1)
+                    <div class="options-bar">
+                        <h2>Acciones</h2>
+                        <div class="btn-group item-options">
+                            <button type="button" class="btn btn-xs bg-orange waves-effect"><i
+                                    class="material-icons">settings</i></button>
+                            <button type="button" class="btn btn-xs bg-orange waves-effect dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">keyboard_arrow_down</i>
+
+                            </button>
+                            <ul class="dropdown-menu">{!!
+                                App\Http\Controllers\Catalogue\Product\ProductMlController::renderMlMenuItems($p,
+                                'publication') !!}</ul>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+                @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1)
+                <div class="mobile-padding"></div>
+                @endif
+            </div>
+            @endif
+            {{-- Ml --}}
+            <div id="ml-items-content">
+                @foreach($p->mlInfos as $ml)
+
+
+                @include('admin.catalogs.ml.mlInfosItem')
+                <div class="more-ml-info" style="display: none;"></div>
+
+
+                @endforeach
+            </div>
+
+
+
+        </div>
+
+        @if ($p->errors->count() > 0)
+        @foreach ($p->errors as $e)
+        <div class="alert alert-danger">
+            <strong>Error Code: {{ $e->code }} </strong> {{ $e->message }} [{{ $e->references }}] <strong>Account: {{
+                $e->mlAccount->user_name }}</strong>
+            - {{ $e->created_at }}
+            .
+        </div>
+        @endforeach
+        @endif
+
+    </div>
+    @endif -->
+<!-- 
+</div>
+</div>
+</div> -->

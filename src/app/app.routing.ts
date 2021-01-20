@@ -92,6 +92,11 @@ export const routes: Routes = [
         path: 'admin-products',
         loadChildren: () => import('./pages/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule)
       },
+      {
+        path: 'importaciones',
+        loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
+      },
+
       // mercado-libre
       {
         path: 'charts',

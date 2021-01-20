@@ -40,4 +40,8 @@ export class AuthService {
   logout() {
     return this.http.get(this.server + "auth/logout");
   }
+
+  changedCompany(company):Observable<any>{
+    return this.http.patch(`${this.server}user/preferences/company/context`,{company})
+  }
 }

@@ -1,0 +1,26 @@
+.grid-imagen {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-gap: 10px;
+}
+
+.imagen-main-shadow {
+    -webkit-box-shadow: 0px 0px 29px 0px rgba(24, 148, 49, 1);
+    -moz-box-shadow: 0px 0px 29px 0px rgba(24, 148, 49, 1);
+    box-shadow: 0px 0px 29px 0px rgba(24, 148, 49, 1);
+}
+
+.imagen-shadow {
+    -webkit-box-shadow: 0px 0px 29px 0px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 29px 0px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 29px 0px rgba(0, 0, 0, 1);
+}
+
+.btn-delete-imagen {
+    position: absolute;
+    right: 5px;
+}
+
+img {
+    cursor: move;
+}

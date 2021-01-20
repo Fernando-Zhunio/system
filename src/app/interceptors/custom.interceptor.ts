@@ -75,6 +75,8 @@ export class CustomInterceptor implements HttpInterceptor {
       accept: "application/json",
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
+      "Access-Control-Allow-Origin":"*"
+
     });
     return Header;
   }

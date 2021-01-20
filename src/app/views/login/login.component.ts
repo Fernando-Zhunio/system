@@ -35,7 +35,7 @@ export class LoginComponent {
             session.expires_at = res.expires_at;
             session.token_type = res.token_type;
 
-            let user:User = new User(res.user.id,res.user.name,res.user.permissions,res.user.roles,res.companies)
+            let user:User = new User(res.user.id,res.user.name,res.user.permissions,res.user.roles,res.companies,res.company_company_id)
             session.user =user;
             // this.auth_service.saveToken(res.access_token);
             this.s_storage.setCurrentSession(session)

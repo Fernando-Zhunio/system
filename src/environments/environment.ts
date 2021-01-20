@@ -6,4 +6,6 @@
 export const environment = {
   production: false,
   server:'http://sistema-codificacion.test/api/'
+  
 };
+// server:'https://system.novicompu.com/api/',

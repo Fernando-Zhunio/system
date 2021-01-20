@@ -16,13 +16,21 @@
         <li class="nav-item d-md-down-none">
             <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
         </li>
+        <!-- <mat-form-field>
+            <mat-label>Compañias</mat-label>
+            <mat-select [value]="company_select">
+                <mat-option *ngFor="let company of companies;index as i" [value]="company.id">
+                    {{company.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
         <li class="nav-item d-md-down-none">
             <!-- <a class="nav-link" href="#"><i class="icon-list"></i></a> -->
             <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                <mat-icon>business</mat-icon>Novicompu
+                <mat-icon>business</mat-icon>{{company_select}}
               </button>
             <mat-menu #menu="matMenu">
-                <button *ngFor="let company of companies" mat-menu-item>
+                <button *ngFor="let company of companies;index as i" mat-menu-item (click)="changeCompany(company.id,i)">
                   <!-- <mat-icon>dialpad</mat-icon> -->
                   <span>{{company.name}}</span>
                 </button>
@@ -68,7 +76,7 @@
         <app-sidebar-minimizer></app-sidebar-minimizer>
     </app-sidebar>
     <!-- Main content -->
-    <main class="main">
+    <main class="main scroll">
         <!-- Breadcrumb -->
         <!-- breaking change 'cui-breadcrumb' -->
         <cui-breadcrumb>
@@ -93,7 +101,7 @@
         <!--</div>-->
         <!--</li>-->
         <!--</ol>-->
-        <div class="container-fluid">
+        <div class="container-fluid scroll">
             <router-outlet></router-outlet>
         </div>
         <!-- /.container-fluid -->

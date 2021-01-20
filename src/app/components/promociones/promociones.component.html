@@ -7,29 +7,27 @@
             <h4 class="title">{{promotion.title}}</h4>
             <hr>
         </ng-container>
-        <!-- <ng-container *ngFor="let product of promotion.products"> -->
-        <!-- <div class="row">
-                <div *ngIf="product.ml_infos.length > 0" class="col-md-3 text-center">
-                    <img class="img-fluid" [src]="product.ml_infos[0].image">
+        <div *ngFor="let product of promotion.products">
+            <!-- <div class="row"> -->
+            <div *ngIf="product.ml_infos.length > 0" class="col-md-3 text-center">
+                <img class="img-fluid" [src]="product.ml_infos[0].image">
+            </div>
+            <div class="col-md-6">
+                Codigo: <b>{{product.code}}</b> <br> <b>{{product.name}}</b>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="">
+                    <span class="label">Cantidad:</span> <span class="value">{{product.pivot.quantity}}</span>
                 </div>
-                <div class="col-md-6">
-                    Codigo: <b>{{product.code}}</b> <br> <b>{{product.name}}</b>
+                <div class="">
+                    <span class="label">Se factura en:</span>
+                    <span class="value">${{(product.pivot.price | currency)}}</span>
                 </div>
-                <div class="col-md-3 text-center">
-                    <div class="">
-                        <span class="label">Cantidad:</span> <span class="value">{{product.pivot.quantity}}</span>
-                    </div>
-                    <div class="">
-                        <span class="label">Se factura en:</span>
-                        <span class="value">${{(product.pivot.price)}}</span>
-                    </div>
-                </div>
-            </div> -->
-        <!-- <div class="row"> -->
-        <!-- <div *ngIf="promotion.product[0].ml_infos.length > 0" class="col-md-3 text-center">
-                <img class="img-fluid" [src]="promotion.product[0].ml_infos[0].image">
-            </div> -->
-        <div class="table-responsive">
+            </div>
+        </div>
+
+        <div *ngIf="promotion.note" class="note">{{promotion.note }}</div>
+        <!-- <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -54,25 +52,8 @@
                     </tr>
                 </tbody>
                 <tbody>
-
-
-                    <!-- <div *ngIf="product.ml_infos.length > 0" class="col-md-3 text-center">
-                                <img class="img-fluid" [src]="product.ml_infos[0].image">
-                            </div>
-                            <div class="col-md-6">
-                                Codigo: <b>{{product.code}}</b> <br> <b>{{product.name}}</b>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <div class="">
-                                    <span class="label">Cantidad:</span> <span class="value">{{product.pivot.quantity}}</span>
-                                </div>
-                                <div class="">
-                                    <span class="label">Se factura en:</span>
-                                    <span class="value">${{(product.pivot.price)}}</span>
-                                </div>
-                            </div> -->
             </table>
-        </div>
+        </div> -->
         <div *ngIf="promotion.note" class="note">{{ promotion.note }}</div>
         <div class="">
             <div>
@@ -84,11 +65,11 @@
                 <span class="font-weight-bolder">PRECIO PROMOCION: </span><span class="value">${{promotion.price_formated}}</span>
                 <div><span class="font-weight-bolder">Desde:</span> {{ promotion.start_date | date }} <span class="font-weight-bolder"> Hasta:</span> {{ promotion.end_date | date }}</div>
             </div>
-            <!-- <div class="duration_label">
-                    <div class="">
-                        Desde: {{ promotion.start_date | date }}<br> Hasta: {{ promotion.end_date | date }}
-                    </div>
-                </div> -->
+            <div class="duration_label">
+                <div class="">
+                    Desde: {{ promotion.start_date | date }}<br> Hasta: {{ promotion.end_date | date }}
+                </div>
+            </div>
         </div>
     </div>
     <!-- </div> -->

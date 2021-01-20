@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 // import { CategoriasMainComponent } from './categorias-main.component';
 import { Component } from '@angular/core';
+import { PublicacionesComponent } from './publicaciones/publicaciones.component';
+import { CreateOrEditPublicacionComponent } from './publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
 
 @Component({
   selector: 'app-catalogo',
@@ -26,7 +28,18 @@ const routes: Routes = [
         path: 'buscar_productos',
         // component:MarcasMainComponents,
         loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      },     
+      }, 
+      {
+        path: 'publicaciones',
+        component:PublicacionesComponent,
+        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
+      {
+        path: 'publicaciones/create',
+        component:CreateOrEditPublicacionComponent,
+        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
+
     ]
   }
 ];

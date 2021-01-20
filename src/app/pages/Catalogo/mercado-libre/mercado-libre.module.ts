@@ -12,7 +12,14 @@ import {MatChipsModule} from '@angular/material/chips';
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import {MatMenuModule} from '@angular/material/menu';
 import { MomentModule } from 'ngx-moment';
+import { NgxPaginationModule } from 'ngx-pagination';
 // import { TranslateModule } from '@ngx-translate/core';
+import {MatPaginatorModule} from '@angular/material/paginator';
+// import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MatSelectModule } from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
+import { MlModule } from '../../../Modulos/ml/ml.module';
+// import { MlComponent } from '../../../components/ml/ml.component';
 
 
 
@@ -31,6 +38,12 @@ import { MomentModule } from 'ngx-moment';
     MatChipsModule,
     MatMenuModule,
     MomentModule,
+    NgxPaginationModule,
+    MatPaginatorModule,
+    // NgxSkeletonLoaderModule,
+    MatSelectModule,
+    MatTabsModule,
+    MlModule
     // TranslateModule
 
   ]
