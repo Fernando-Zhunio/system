@@ -27,12 +27,24 @@ const routes: Routes = [
       {
         path: 'create',
         component: PrefijosCreateOrEditComponent,
-        data:{isEdit:false}
+        // data:{isEdit:false}
+        data: {
+          isEdit: false,
+          permissions: {
+            only: ["super-admin", "products-admin.prefix.create"],
+          },
+        },
       },
       {
         path: 'edit/:id',
         component: PrefijosCreateOrEditComponent,
-        data:{isEdit:true}
+        data: {
+          isEdit: true,
+          permissions: {
+            only: ["super-admin", "products-admin.prefix.edit"],
+          },
+        },
+        // data:{isEdit:true}
       },     
     ]
   }

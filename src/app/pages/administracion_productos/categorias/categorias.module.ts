@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { NgxPermissionsModule } from 'ngx-permissions';
 // import { CategoriasMainComponent } from './categorias-main.component';
 
 
@@ -24,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    NgxPermissionsModule,
   ]
 })
 export class CategoriasModule { }

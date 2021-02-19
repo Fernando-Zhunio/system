@@ -1,32 +1,42 @@
 <div>
-    <div *ngIf="!publication_current" class="mb-3">
+    <div *ngIf="isEditNamePublication;else templatePublication" class="mb-3">
         <h2 class="font-facebook font-3xl">Publicaciones</h2>
         <form [formGroup]="formName" (ngSubmit)="createPulicationName()">
             <mat-form-field appearance="fill" class="d-block">
                 <mat-label>Ingrese el nombre de la publicacion</mat-label>
-                <input matInput placeholder="pat@example.com" formControlName="name" required>
+                <input matInput formControlName="name" required>
                 <mat-error *ngIf="formName.invalid">Nombre Requerido</mat-error>
             </mat-form-field>
-            <button mat-raised-button type="submit" [disabled]="formName.invalid || publication_current" color="accent">Guardar</button>
+            <button mat-raised-button type="submit" [disabled]="formName.invalid" color="accent">Guardar</button>
         </form>
     </div>
-    <div *ngIf="publication_current">
+    <ng-template #templatePublication>
         <!-- <div> -->
         <div>
-            <h3>Publicacion # {{publication_current?.id}}</h3>
-            <h2 *ngIf="publication_current">
-                {{publication_current.name}}
-                <button mat-mini-fab color="primary"><mat-icon>create</mat-icon></button>
+            <h3>Publicacion # {{publication?.id}}</h3>
+            <h2 *ngIf="publication">
+                {{publication.name}}
+                <button (click)="editName()" mat-mini-fab color="primary">
+                    <mat-icon>create</mat-icon>
+                </button>
             </h2>
         </div>
-        <div #formMain [formGroup]="formPublication" (ngSubmit)="publicationNow()" class="row">
-            <div class="col-md-6">
+        <form [formGroup]="formPublication" (ngSubmit)="publicationNow()" class="row rounded-fz bg-white p-md-3 p-2 shadow-lg">
+            <div #formMain class="col-md-6 px-3">
                 <div>
                     <div>
                         <div class="font-3xl font-facebook mb-3">Cuentas de mercado libre</div>
                         <mat-form-field class="w-100">
                             <mat-label>Selecciones Empresas</mat-label>
-                            <mat-select [formControl]="empresas" multiple>
+                            <mat-select formControlName="mlaccounts" multiple>
+                                <mat-select-trigger>
+                                    <mat-chip-list>
+                                        <mat-chip (removed)="removeItemMlAccount(ml_account)" *ngFor="let ml_account of formPublication.get('mlaccounts').value" [removable]="true">
+                                            {{getNameMlAccount(ml_account)}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+                                    </mat-chip-list>
+                                </mat-select-trigger>
                                 <mat-option *ngFor="let ml_account of ml_accounts" [value]="ml_account.id">
                                     {{ml_account.user_name}}</mat-option>
                             </mat-select>
@@ -37,39 +47,32 @@
                         <div class="row">
                             <mat-form-field class="col-12" appearance="fill">
                                 <mat-label>Titulo</mat-label>
-                                <!-- categorias pasando por backend -->
                                 <input matInput formControlName="title" (keyup)="predictorMl($event)" required>
-
-                                <!-- categorias directo a mercado libre -->
-                                <!-- <input matInput formControlName="title" (keyup)="alternativePredictor($event)" required> -->
-
                             </mat-form-field>
                             <div>
                                 <div class="font-facebook col-12">Seleccione una categoria</div>
-                                <!-- <mat-selection-list #options [multiple]="false">
-                                    <mat-list-option *ngFor="let option of optionsTitle">
-                                        {{option.category_name}}
-                                    </mat-list-option>
-                                </mat-selection-list> -->
                                 <div class="col-12">
                                     <div *ngIf="isLoadCategory">
                                         <mat-spinner [diameter]="50">
                                             Cargando categorias espere
                                         </mat-spinner>
                                     </div>
-                                    <div *ngIf="optionsTitle.length < 1 && !isLoadCategory" class="text-danger">
+                                    <div *ngIf="optionsTitle?.length < 1 && !isLoadCategory" class="text-danger">
                                         Con este titulo no se encontro categorias
                                     </div>
+
                                     <mat-radio-group formControlName="category" *ngIf="!isLoadCategory" aria-label="Select an option">
-                                        <mat-radio-button (change)="getAttributes(option.category_id,option.category_name)" class="mx-1" *ngFor="let option of optionsTitle" [value]="option.category_id"> {{option.category_name}}</mat-radio-button>
-                                        <!-- <mat-radio-button value="2">Option 2</mat-radio-button> -->
+                                        <mat-radio-button [checked]="isSelectCategory" (change)="getAttributes(option.category_id)" class="mx-1" *ngFor="let option of optionsTitle" [value]="option.category_id"> {{option.category_name}}
+                                            <small>({{option.domain_name}})</small>
+                                        </mat-radio-button>
+                                        <mat-error *ngIf="formPublication.get('category').invalid">Debe tener una categoria seleccionada</mat-error>
                                     </mat-radio-group>
 
                                 </div>
                             </div>
-                            <mat-form-field class="col-12">
+                            <mat-form-field class="col-12 mt-3">
                                 <mat-label>Descripcion</mat-label>
-                                <textarea required formControlName="description" matInput rows="4"></textarea>
+                                <textarea required formControlName="description" matInput rows="8"></textarea>
                             </mat-form-field>
 
                             <mat-form-field class="col-md-4" appearance="fill">
@@ -93,62 +96,52 @@
                                 <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
                             </mat-form-field>
 
-                            <div class="w-100 border rounded p-3 mb-3">
+                            <div class="w-100 p-3 mb-3">
                                 <div class="mb-2">Imagenes</div>
                                 <ngx-file-drop contentClassName="h-100" dropZoneClassName="border-dot" accept=".png,.jpeg,.jpg" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
                                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                                        <div class="row m-0 p-3 w-100">
+                                        <div class="row m-0 p-3 w-100 position-relative">
+                                            <div *ngIf="isLoadPosition" style="    top: 0;
+                                            left: 0;
+                                            z-index: 1;
+                                            background-color: #80808094;
+                                            color: white;" class="position-absolute rounded-fz font-2xl font-facebook w-100 h-100 d-flex align-items-center justify-content-center">
+                                                <mat-spinner [diameter]="50">
+
+                                                </mat-spinner> Procesando...</div>
                                             <div class=" col-12 d-flex justify-content-center align-items-center">
-                                                Da click en boton o arratra para subirlo
+                                                Da click en boton o arrastra para subirlo
                                                 <button type="button" mat-raised-button (click)="openFileSelector()">Browse Files</button>
                                             </div>
-                                            <small *ngIf="arrayImagen.length > 0" class="ml-2 my-2 w-100">Arrastre para
+                                            <small *ngIf="publication?.images.length > 0" class="ml-2 my-2 w-100">Arrastre para
                                                 cambiar la imagen principal</small>
-                                            <div class=" grid-imagen" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-                                                <div *ngFor="let item of arrayImagen; let i=index" cdkDrag>
-                                                    <div class="position-relative">
-                                                        <button mat-icon-button color="warn" (click)="removeImage(i)" class="btn-delete-imagen">
-                                                            <mat-icon>close</mat-icon>
-                                                        </button>
-                                                        <span class="badge badge-pill badge-success position-absolute m-2" *ngIf="i==0">Imagen principal</span>
-                                                        <img [src]="item.base64" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'">
+                                            <div *ngIf="publication?.images">
+                                                <div class="d-flex" style="flex-wrap: wrap;" [sortablejs]="publication?.images" [sortablejsOptions]="options">
+                                                    <div style="width: 120px;" class="m-2" *ngFor="let item of publication?.images; let i=index">
+                                                        <div style="width: 120px;" class="position-relative">
+                                                            <button mat-icon-button color="warn" (click)="removeImage(item.id)" class="btn-delete-imagen">
+                                                                <mat-icon>close</mat-icon>
+                                                            </button>
+                                                            <span class="badge badge-pill badge-success position-absolute m-2" *ngIf="i==0">Imagen principal</span>
+                                                            <img [src]="url_server+'/img/'+item.url" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </ng-template>
                                 </ngx-file-drop>
-                                <!-- <div class="upload-table">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Tamaño</th>
-                                                <th>Tipo</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="upload-name-style">
-                                            <tr *ngFor="let item of arrayImagen; let i=index">
-                                                <td><strong>{{ item.file.name }}</strong></td>
-                                                <td><strong>{{ item.file.size/1024/1024 | number:'.1' }}mb</strong></td>
-                                                <td>{{item.file.type}}</td>
-                                                <td><button color="warn" mat-icon-button (click)="removeImage(i)">
-                                                        <mat-icon>remove</mat-icon>
-                                                    </button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" [ngStyle]="{'height': alturaAttribute}" style="overflow-y: auto;">
-                <div></div>
+            <div class="col-md-6 border-left" [ngStyle]="{'height': alturaAttribute}" style="overflow-y: auto;">
                 <div class="font-3xl font-facebook mb-3">Atributos</div>
-                <div class="" formArrayName="attribute">
+                <div>
+                    <h5 class="text-muted" *ngIf="attributes.length == 0">Se mostraran al seleccionar una categoria</h5>
+                </div>
+                <div formArrayName="attribute">
                     <!-- <div *ngFor="let attribute of attributes"> -->
                     <div *ngFor="let attribute_ of attributes; let i = index">
                         <mat-label class="d-block">{{attribute_.name}}</mat-label>
@@ -172,7 +165,9 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" [disabled]="formPublication.invalid || formPublication.controls['attribute'].invalid" mat-raised-button color="accent">Guardar</button>
-        </div>
-    </div>
+            <!-- <button type="submit" [disabled]="formPublication.invalid || formPublication.controls['attribute'].invalid" mat-raised-button color="accent">Guardar</button> -->
+            <button type="submit" mat-raised-button color="accent">Guardar</button>
+            <!-- <button type="button" mat-raised-button (click)="publicationNow()" color="primary">Ver data log</button> -->
+        </form>
+    </ng-template>
 </div>

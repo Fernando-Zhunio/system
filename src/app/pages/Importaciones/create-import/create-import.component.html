@@ -1,0 +1,80 @@
+<div>
+    <button mat-button (click)="addRowTableItem()">text</button>
+    <mat-card *ngIf="state_import =='create';else importGenerate" class="my-1">
+        <form [formGroup]="form_import" (ngSubmit)="createimport()">
+            <mat-card-title>Crear nueva importacion</mat-card-title>
+            <mat-form-field>
+                <mat-select placeholder="Origen" formControlName="origin">
+                    <mat-option *ngFor="let origin of origins" [value]="origin.id">
+                        {{origin.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Secuencia</mat-label>
+                <input matInput formControlName="sequence" type="number">
+            </mat-form-field>
+            <div class="w-100">
+                <button mat-raised-button type="submit" class="d-flex" [disabled]="form_import.invalid || isLoadGenerate">Generar <mat-spinner [diameter]="20"
+                        *ngIf="isLoadGenerate">
+                    </mat-spinner></button>
+            </div>
+        </form>
+    </mat-card>
+    <ng-template #importGenerate>
+        <mat-card class="my-1">
+            <!-- <mat-card-content *ngIf="import" class="header" style="padding-bottom: 5px;text-transform: uppercase;"> -->
+            <mat-card-content class="header" style="padding-bottom: 5px;text-transform: uppercase;">
+                <div>
+                    <div *ngIf="import" class="mb-3">
+                        <div>
+                            <mat-card-title>Importacion {{import.sequence.origin.name}} #{{import.sequence.sequence_number}}
+                            </mat-card-title>
+                            <mat-card-subtitle> Código: <b>{{import.code}}</b></mat-card-subtitle>
+                        </div>
+                        <mat-chip-list aria-label="Fish selection">
+                            <mat-chip>{{import.last_status.status.name}}</mat-chip>
+                            <mat-chip>Productos: <b>{{import.Counts.product_import_count}}</b></mat-chip>
+                            <mat-chip>Promociones: <b>{{import.Counts.promotion_count}}</b></mat-chip>
+                            <mat-chip *ngIf="import.arrival_date;else dateBetween">
+                                LLegó el {{import.arrival_date | date}}
+                            </mat-chip>
+                            <ng-template #dateBetween>
+                                <mat-chip>
+                                    FECHA ESTIMADA: <b>Entre &nbsp;{{import.estimated_date_first | date}}</b>&nbsp; y&nbsp;
+                                    <b>{{import.estimated_date_last | date}}</b>
+                                </mat-chip>
+                            </ng-template>
+                        </mat-chip-list>
+                    </div>
+                    <div>
+                        <div class="font-2xl font-facebook">Facturas <button mat-mini-fab (click)="newInvoice()">
+                            <mat-icon>add</mat-icon>
+                        </button></div>
+                        <div *ngFor="let invoices of forms_invoices;index as i">
+                            <app-invoice-create-or-edit (close)="deleteInvoice(i)" [id_import]="import?.id" [providers]="providers"></app-invoice-create-or-edit>
+                        </div>
+                    </div>
+                    <div [formGroup]="form_publish">
+                        <div class="font-2xl font-facebook">Fecha estimada de llegada</div>
+                        <div class="my-2">
+                            <mat-form-field class="mr-2">
+                                <mat-label>Inicio</mat-label>
+                                <input matInput formControlName="estimated_date_first" [matDatepicker]="dp3" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Final</mat-label>
+                                <input matInput formControlName="estimated_date_last" [matDatepicker]="dp4" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                                <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <button mat-raised-button [disabled]="form_publish.invalid" (click)="publishNow()">Publicar</button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
+</div>

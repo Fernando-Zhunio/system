@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Session } from '../clases/session';
 import { User } from '../clases/user';
 
 import * as CryptoJS from 'crypto-js';
+import { NgxPermissionsService } from 'ngx-permissions';
 // import {AES}  from 'crypto-js';
 // var CryptoJS = require("crypto-js");
 declare var require: any;
@@ -13,15 +14,29 @@ const SECRET_KEY = 'secret_key';
 @Injectable({
   providedIn: 'root'
 })
-export class StorageService {
+export class StorageService  {
 
   private localStorageService;
   private currentSession : Session = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private s_permissionsService: NgxPermissionsService) {
     this.localStorageService = this.secureStorage;
     this.currentSession = this.loadSessionData();
+    console.log('ccc');
+    const rolAndPermission = this.getRolAndPermissionUser();
+    let mergeRolAndPermission = [];
+    if(rolAndPermission)
+      mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
+      console.log(rolAndPermission);
+     this.s_permissionsService.loadPermissions(mergeRolAndPermission);
+
   }
+
+  changedPermission(){
+
+  }
+
+
 
   secureStorage = new SecureStorage(localStorage, {
     hash: function hash(key) {
@@ -48,10 +63,9 @@ export class StorageService {
 
   setCurrentSession(session): void {
     this.currentSession = session;
-    // this.secureStorage.setItem('data', session);
-
     this.secureStorage.setItem('currentUser',session);
     console.log(this.getCurrentSession());  
+    this.setRolAndPermission();
   }
 
   setCompanyUser(id_company){
@@ -81,6 +95,23 @@ export class StorageService {
   getCurrentUser(): User {
     var session: Session = this.getCurrentSession();
     return (session && session.user) ? session.user : null;
+  }
+
+  setRolAndPermission(rol_permission:{'rol':[],'permission':[]}= null){
+    // if(this.getRolAndPermissionUser() != null){
+
+      const rolAndPermission = rol_permission?rol_permission:this.getRolAndPermissionUser();
+      let mergeRolAndPermission = [];
+      if(rolAndPermission)
+        mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
+        console.log(rolAndPermission);
+       this.s_permissionsService.loadPermissions(mergeRolAndPermission);
+    // }
+  }
+
+  getRolAndPermissionUser(): {'rol':[],'permission':[]} {
+    var user: User = this.getCurrentUser();
+    return (user) ? {rol:user.rol,permission:user.permission} : null;
   }
 
   isAuthenticated(): boolean {

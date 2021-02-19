@@ -1,0 +1,109 @@
+<mat-card-content class="header position-relative" style="padding-bottom: 5px;text-transform: uppercase;">
+    <!-- <h2>
+
+        Importación <span style="color:#f44336; font-weight: bold;">{{import.sequence.origin.name}} #{{import.sequence.sequence_number}}</span>
+        <small>
+            Código: <b>{{import.code}}</b>
+           
+        </small>
+    </h2> -->
+
+    <div class="position-absolute" style="top: -37px;right: 0;">
+        <button [disabled]="isLoad" color="accent" *ngxPermissionsOnly="['super-admin',permissions_component.show]" (click)="showImport()" mat-mini-fab>
+            <mat-icon>visibility</mat-icon>
+            
+        </button>
+        <button (click)="goEdit()" [disabled]="isLoad" color="primary" *ngxPermissionsOnly="['super-admin',permissions_component.edit]" mat-mini-fab>
+            <mat-icon>create</mat-icon>
+            
+        </button>
+        <button [disabled]="isLoad" color="warn" *ngxPermissionsOnly="['super-admin',permissions_component.destroy]" (click)="destroyImport()" mat-mini-fab>
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <div>
+        <mat-card-title>Importacion {{import.sequence.origin.name}} #{{import.sequence.sequence_number}}
+            <!-- <ng-container> -->
+            <!-- <div class="float-right">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div class="p-2 font-weight-bold text-center font-2xl">Acciones</div>
+                    <button *ngxPermissionsOnly="['super-admin',permissions_component.show]" (click)="showImport()" mat-menu-item>
+                        <mat-icon>visibility</mat-icon>
+                        <span>Ver</span>
+                    </button>
+                    <button *ngxPermissionsOnly="['super-admin',permissions_component.edit]" (click)="editImport()" mat-menu-item>
+                        <mat-icon>create</mat-icon>
+                        <span>Editar</span>
+                    </button>
+                    <button *ngxPermissionsOnly="['super-admin',permissions_component.destroy]" (click)="destroyImport()" mat-menu-item>
+                        <mat-icon>delete</mat-icon>
+                        <span>Eliminar</span>
+                    </button>
+                </mat-menu>
+            </div> -->
+            <!-- </ng-container>/ -->
+        </mat-card-title>
+        <!-- <p *ngIf="ml.description" [innerHTML]="ml.description"></p> -->
+        <mat-card-subtitle> Código: <b>{{import.code}}</b></mat-card-subtitle>
+    </div>
+    <div>
+        <mat-chip-list aria-label="Fish selection">
+            <mat-chip>{{import.last_status.status.name}}</mat-chip>
+            <mat-chip>Productos: <b>{{import.Counts.product_import_count}}</b></mat-chip>
+            <mat-chip>Promociones: <b>{{import.Counts.promotion_count}}</b></mat-chip>
+            <mat-chip *ngIf="import.arrival_date;else dateBetween">
+                LLegó el {{import.arrival_date | date}}
+            </mat-chip>
+            <ng-template #dateBetween>
+                <mat-chip>
+                    FECHA ESTIMADA: <b>Entre &nbsp;{{import.estimated_date_first | date}}</b>&nbsp; y&nbsp;
+                    <b>{{import.estimated_date_last | date}}</b>
+                </mat-chip>
+            </ng-template>
+            <!-- <mat-chip color="accent" selected>Accent fish</mat-chip> -->
+        </mat-chip-list>
+    </div>
+
+    <div>
+        <div class="row card-body align-items-center">
+            <div class="col-md-4 px-2">
+                <mat-card class=" d-flex justify-content-around bg-vimeo">
+                    <i class="fas fa-tag font-5xl mx-3 d-flex align-items-center"></i>
+                    <div>
+                        <div>Productos: <b>{{import.Counts.product_count}}</b></div>
+                        <div>Nuevos: <b>{{import.Counts.product_new_count}}</b></div>
+                        <div>Repuestos: <b>{{import.Counts.product_respuesto_count}}</b></div>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-md-4 px-2">
+                <mat-card class="d-flex bg-dark justify-content-around">
+                    <i class="far fa-clipboard mx-3 font-5xl d-flex align-items-center"></i>
+                    <div>
+                        <div>Facturas</div>
+                        <div class="font-3xl">
+                            {{import.invoices.length}}
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-md-4 px-2">
+                <mat-card class=" d-flex justify-content-around bg-yellow">
+                    <i class="fas fa-briefcase mx-3 font-5xl d-flex align-items-center"></i>
+                    <div>
+                        <div>Proveedores</div>
+                        <div>
+                            <b>
+                                {{import.Counts.proveedores}}
+                            </b>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+
+</mat-card-content>

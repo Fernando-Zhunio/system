@@ -1,0 +1,188 @@
+<mat-card class="my-4">
+    <form [formGroup]="formInvoice" *ngIf="state == 'create' || state == 'edit';else formMore" (ngSubmit)="saveInvoice()" class="position-relative">
+        <button mat-icon-button [disabled]="isLoadInvoice" *ngIf="state == 'create';else removeInvoice" (click)="closeInvoice()" class="bg-gray-300" style="position: absolute;right: 10px;top: -30px;">
+            <mat-icon>close</mat-icon>
+        </button>
+        <ng-template #removeInvoice>
+            <button mat-icon-button (click)="deleteInvoice()" [disabled]="isLoadInvoice" class="bg-gray-300" style="position: absolute;right: 10px;top: -30px;">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </ng-template>
+
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input matInput formControlName="identifier">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha</mat-label>
+            <input matInput [matDatepicker]="dp5" formControlName="date_purchase">
+            <mat-datepicker-toggle matSuffix [for]="dp5"></mat-datepicker-toggle>
+            <mat-datepicker #dp5 disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="w-100">
+            <mat-label>Observacion</mat-label>
+            <textarea matInput formControlName="notes"></textarea>
+        </mat-form-field>
+        <div class="d-flex">
+            <mat-form-field class="w-100">
+                <mat-label>Seleccione un Proveedor</mat-label>
+                <mat-select formControlName="provider_id">
+                    <mat-option *ngFor="let provider of providers" [value]="provider.id">
+                        {{provider?.name}}
+                        <small class="text-primary">({{provider.country.name}})</small>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-mini-fab class="mx-3" color="primary" type="button" (click)="openActionProvider()">
+                <mat-icon>construction</mat-icon>
+            </button>
+        </div>
+        <button mat-raised-button [disabled]="formInvoice.invalid || isLoadInvoice" color="primary" type="submit">Guardar</button>
+        <button mat-raised-button *ngIf="state != 'create'" type="button" [disabled]="isLoadInvoice" (click)="cancelEditInvoice()">
+            Ir a añadir item
+        </button>
+        <!-- <button mat-raised-button [disabled]="forms_invoices[i].formInvoice.invalid" color="accent" type="submit">Editar</button> -->
+    </form>
+    <ng-template #formMore>
+        <div style="    z-index: 10;
+        position: absolute;
+        right: 10px;
+        top: -23px;">
+            <button mat-icon-button (click)="editInvoice()" class="bg-gray-300">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteInvoice()" class="bg-gray-300">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <b>Identificador</b>
+                <div class="text-success text-break">{{invoice.identifier}}</div>
+            </div>
+            <div class="col-md-2">
+                <b>Fecha</b>
+                <div class="text-success text-break">{{invoice.date_purchase}}</div>
+
+            </div>
+            <div class="col-md-4">
+                <b>Proveedor</b>
+                <!-- <div class="text-success">{{}}</div> -->
+                <div class="text-success text-break">{{getProvider()}}</div>
+
+            </div>
+            <div class="col-md-3">
+                <div>Observacion</div>
+                <div class="text-success text-break">{{invoice?.notes}}</div>
+            </div>
+        </div>
+        <div>
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="new">
+                    <mat-header-cell *matHeaderCellDef> Is Nuevo?</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.new}} </mat-cell>
+                </ng-container>
+                <!-- Position Column -->
+                <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef> Codigo</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.description}}
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="note">
+                    <mat-header-cell *matHeaderCellDef> Notas </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.note}} </mat-cell>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.quantity}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="tariff">
+                    <mat-header-cell *matHeaderCellDef> Tarifa% </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.tariff}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef>
+                        <!-- <button mat-mini-fab><mat-icon>edit</mat-icon></button> -->
+                        <button mat-icon-button color="accent" (click)="addRowTableItem()">
+                            <mat-icon>post_add</mat-icon>
+                        </button>
+                        <!-- <button [disabled]="isLoadFile" mat-icon-button color="accent" (click)="addFile()">
+                            <mat-icon>backup</mat-icon>
+                        </button> -->
+                        <button mat-icon-button color="accent">
+                            <mat-icon>backup</mat-icon>
+                            <label class="m-0 h-100 w-100 position-absolute"  for="file-excel" style="    top: 0;
+                            right: 0;">
+                                <!-- <span color="accent" > -->
+                                <!-- </span> -->
+                        </label>
+                        <input [disabled]="isLoadFile" type="file" (change)="addFile($event)" class="d-none" id="file-excel" accept=".xlsx">
+                        </button>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element;let ind = index">
+                        <button mat-icon-button (click)="editItem(ind)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <!-- <button mat-icon-button (click)="removeItem(ind)"> -->
+                        <button mat-icon-button (click)="deleteItem(ind)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <!-- <button mat-mini-fab><mat-icon>edit</mat-icon></button>
+                    <button mat-mini-fab><mat-icon>delete</mat-icon></button> -->
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+        <mat-card class="my-1" *ngIf="product_relationship">
+            <mat-card-header class="d-block mat-card-header-m-0">
+                <mat-card-title style="display: flex;" class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{product_relationship.id}}</span>{{product_relationship.name}}
+                    </div>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <!-- <input type="hidden" #imagen [value]="captureImagenProduct(ind)"> -->
+                <div class="row">
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div>
+                            <small class="text-muted font-sm">
+                                Tipo: <b>{{product_relationship.prefix?.type}}</b> -
+                                Código: <b>{{product_relationship.code}}</b> -
+                                Código Alternativo: <b>{{product_relationship.code_alt}}</b> -
+                                Categoria: <b>{{product_relationship.category?.name}}</b> -
+                                Marca: <b>{{product_relationship.brand?.name}}</b> -
+                                Secuencia: <b>{{product_relationship.sequence?.sequence_number}}</b><br>
+                            </small>
+                            <button mat-raised-button>Seleccionar</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img class="w-100" [src]="captureImagenProduct()" alt="">
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
+</mat-card>

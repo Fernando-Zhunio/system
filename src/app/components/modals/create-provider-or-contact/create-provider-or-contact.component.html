@@ -1,0 +1,147 @@
+<!-- <h3 class="m-0 text-muted">{{data.name}}</h3> -->
+<div class="font-5xl font-facebook list-group-item-accent-warning" mat-dialog-title>{{data.title}}</div>
+<mat-card-subtitle *ngIf="state == enum_action_provider.edit_contact">{{provider_name}}</mat-card-subtitle>
+<ng-container *ngIf="state == enum_action_provider.create_provider || state == enum_action_provider.edit_provider">
+    <form [formGroup]="formProvider" (ngSubmit)="closeDialogProviderCreate()">
+        <div mat-dialog-content>
+            <div>
+                <div class="row">
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="name">
+                        <mat-error *ngIf="formProvider.get('name').hasError('required')">
+                            El nombre es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Correo Electronico</mat-label>
+                        <input matInput formControlName="email">
+                        <mat-error *ngIf="formProvider.get('email').hasError('required')">
+                            El Correo es requerido
+                        </mat-error>
+                        <mat-error *ngIf="formProvider.get('email').hasError('email')">
+                            Correo invalido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Sitio Web</mat-label>
+                        <input matInput formControlName="website">
+                        <mat-error *ngIf="formProvider.get('website').hasError('required')">
+                            El sitio web es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Direccion</mat-label>
+                        <input matInput formControlName="address">
+                        <mat-error *ngIf="formProvider.get('address').hasError('required')">
+                            El direccion es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Cuidad</mat-label>
+                        <input matInput formControlName="city">
+                        <mat-error *ngIf="formProvider.get('city').hasError('required')">
+                            El ciudad es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Escoja un pais</mat-label>
+                        <mat-select formControlName="country_id">
+                            <mat-option value="1">Primary</mat-option>
+                            <mat-option value="2">Accent</mat-option>
+                            <mat-option value="3">Warn</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formProvider.get('country_id').hasError('required')">
+                            El pais es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Telefono</mat-label>
+                        <input matInput formControlName="phone">
+                        <mat-error *ngIf="formProvider.get('phone').hasError('required')">
+                            El Telefono es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <!-- <ng-template #contact>
+            </ng-template> -->
+            </div>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-raised-button type="submit" [disabled]="formProvider.invalid" color="primary">Guardar
+                    proveedor</button>
+            <button mat-raised-button type="button" mat-dialog-close cdkFocusInitial color="warn">Cancelar</button>
+        </div>
+    </form>
+</ng-container>
+<ng-container *ngIf="state == enum_action_provider.create_contact || state == enum_action_provider.edit_contact">
+    <form [formGroup]="formContact" (ngSubmit)="closeDialogContactCreate('create_contact')">
+        <div mat-dialog-content>
+            <div class="row">
+                <mat-form-field class="col-md-6">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="name">
+                    <mat-error *ngIf="formContact.get('name').hasError('required')">
+                        El nombre es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-md-6">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="phone">
+                    <mat-error *ngIf="formContact.get('phone').hasError('required')">
+                        El Telefono es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-md-6">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-error *ngIf="formContact.get('email').hasError('required')">
+                        El Correo es requerido
+                    </mat-error>
+                    <mat-error *ngIf="formContact.get('email').hasError('email')">
+                        Correo invalido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-md-6">
+                    <mat-label>Cargo</mat-label>
+                    <input matInput formControlName="position">
+                    <mat-error *ngIf="formContact.get('position').hasError('required')">
+                        El Cargo es requerido
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div mat-dialog-actions>
+            <button type="submit" mat-raised-button (click)="closeDialogContactCreate('create_contact')" color="primary">Guardar contacto</button>
+            <button type="button" mat-raised-button mat-dialog-close cdkFocusInitial color="warn">Cancelar</button>
+        </div>
+    </form>
+</ng-container>
+<ng-container *ngIf="state == enum_action_provider.view_contact">
+    <div *ngIf="contacts.length < 1">Sin Contactos</div>
+    <mat-card *ngFor="let contact of contacts">
+        <mat-card-header>
+            <mat-card-title>{{contact.name}}</mat-card-title>
+            <mat-card-subtitle>{{contact.email}}</mat-card-subtitle>
+            <mat-card-subtitle>{{contact.phone}}</mat-card-subtitle>
+            <mat-card-subtitle>{{contact.position}}</mat-card-subtitle>
+        </mat-card-header>
+        <!-- <mat-card-content>
+        
+        </mat-card-content> -->
+        <mat-card-actions>
+            <button mat-raised-button (click)="editContact(contact.id)">Editar</button>
+            <button mat-raised-button (click)="deleteContact(contact.id)">Eliminar</button>
+        </mat-card-actions>
+    </mat-card>
+</ng-container>

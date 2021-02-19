@@ -1,6 +1,10 @@
 <div>
+    <button mat-fab color="accent" style="    position: fixed;
+    z-index: 10;
+    right: 25px;
+    bottom: 113px;" [routerLink]="['./create']"><mat-icon>add</mat-icon></button>
     <div class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
-        <mat-tab-group class="py-0 col-md-10 w-100" style="overflow: hidden;">
+        <mat-tab-group class="py-0 col" style="overflow: hidden;">
             <mat-tab label="Busqueda">
                 <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
                     <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="productSearch">
@@ -36,134 +40,47 @@
                     <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
                 </div>
             </mat-tab>
-            <mat-tab label="Paginacion">
-                <mat-paginator class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
-                </mat-paginator>
-            </mat-tab>
+            <!-- <mat-tab label="Paginacion">     
+            </mat-tab> -->
         </mat-tab-group>
-        <div class="col-md-2">
-            <button mat-raised-button color="accent" [routerLink]="['./create']" routerLinkActive="router-link-active">Crear publicacion</button>
-        </div>
-
     </div>
 
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <mat-card style="background-color: beige;" class="my-2" *ngFor="let p of products;index as i">
-            <mat-card-header class="d-block mat-card-header-m-0">
-                <mat-card-title style="display: flex;" class="row">
-                    <div class="col-sm-12 col-md-7">
-                        <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{p.id}}</span>{{p.name}}
-                    </div>
-                    <div class="col-sm-12 col-md-5">
-                        <div class="float-right">
-                            <span class="font-sm badge {{p.status}}  text-uppercase">{{p.status}}</span>
-                            <ng-container *ngxPermissionsOnly="['catalogs.publications.edit']">
-                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                    <mat-icon>more_vert</mat-icon>
-                                </button>
-                                <mat-menu #menu="matMenu">
-                                    <!-- <div class="px-2 font-weight-bold text-center">{{ml.menu.type}}</div> -->
-                                    <button (click)="EditPublication(p.id)" mat-menu-item>
-                                        <mat-icon>create</mat-icon>
-                                        <span>Editar Publicación</span>
-                                    </button>
-                                    <button (click)="deletePublication(p.id,i)" mat-menu-item>
-                                        <mat-icon>delete_forever</mat-icon>
-                                        <span>Eliminar</span>
-                                    </button>
-                                </mat-menu>
-                            </ng-container>
-                        </div>
-                    </div>
-                </mat-card-title>
-                <div class="mat-card-subtitle d-block"><small class="d-flex" *ngIf="p.description"><i
-                            [ngClass]="{'text-truncate': true}" class="d-block"
-                            style="width: 65%;">{{p.description}}</i>
-                            <span class="btn-view-more text-info" (click)="openDescription(i)">ver mas</span>
-                        </small></div>
-            </mat-card-header>
-            <mat-card-content>
-                <div class="mt-0">
-                    <ng-container *ngIf="p.ml_accounts.length > 0">
-                        Cuentas: <span *ngFor="let account of p.ml_accounts" class="badge font-sm mr-1 {{p.status}}">{{account.user_name}}</span>
-                    </ng-container>
-                </div>
-
-                <!-- @if($p->mlInfos->count() > 0 || $p->errors->count() > 0) -->
-                <div *ngIf="p.ml_infos.length > 0 || p.errors.length > 0" class="body">
-
-                    <div class="row">
-
-
-                        <div *ngIf="p.ml_infos.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header header-info">
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <div class="font-facebook font-3xl">
-                                        Publicaciones
-                                    </div>
-                                    <div>
-                                        <ng-container *ngIf="p.menu">
-                                            <div>
-                                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                                    <mat-icon>more_vert</mat-icon>
-                                                </button>
-                                                <mat-menu #menu="matMenu">
-                                                    <div class="px-2 my-2 font-3xl font-facebook">{{p.menu.type}}</div>
-                                                    <button (click)="executeMenu(itemMenu.type,ml.id)" *ngFor="let itemMenu of p.menu.availablesItems;index as i " mat-menu-item>
-                                                        <mat-icon>{{itemMenu.icon}}</mat-icon>
-                                                        <span>{{itemMenu.label}}</span>
-                                    </button>
-                                                </mat-menu>
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                                <div>
-                                    <mat-card class="my-3" *ngFor="let ml of p.ml_infos">
-                                        <!-- @foreach($p->mlInfos as $ml) -->
-
-                                        <app-ml (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
-                                        <!-- @include('admin.catalogs.ml.mlInfosItem') -->
-                                        <!-- <div class="more-ml-info" style="display: none;"></div> -->
-
-
-                                        <!-- @endforeach -->
-                                    </mat-card>
-                                </div>
-                                <!-- @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1) -->
-                                <!-- <div *ngIf="p.menu?.length > 0 && p.ml_infos.length > 1" class="options-bar">
-                                    <h2>Acciones</h2>
-
-                                </div> -->
-                                <!-- @endif -->
-                                <!-- </div>
-                            @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1)
-                            <div class="mobile-padding"></div>
-                            @endif
-                        </div>
-                        @endif -->
-
-                                <!-- <div id="ml-items-content">
-                                    @foreach($p->mlInfos as $ml) @include('admin.catalogs.ml.mlInfosItem')
-                                    <div class="more-ml-info" style="display: none;"></div>
-
-
-                                    @endforeach
-                                </div> -->
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-card-content>
-            <mat-card-actions>
-                <!-- <button mat-button>Ok</button> -->
-            </mat-card-actions>
+    <div *ngIf="isload" class="mt-4">
+        <mat-card *ngFor="let item of [1,2,3]" class="my-1">
+            <ngx-skeleton-loader count="1" [theme]="{ 
+              'border-radius': '5px',
+              height: '50px'
+            }"></ngx-skeleton-loader>
+            <ngx-skeleton-loader count="1" [theme]="{ 
+                'border-radius': '5px',
+                height: '30px'
+              }"></ngx-skeleton-loader>
+            <ngx-skeleton-loader count="3" [theme]="{ 
+                'border-radius': '5px',
+                height: '40px',
+                width:'150px',
+                'margin-right':'5px'
+              }"></ngx-skeleton-loader>
         </mat-card>
-
     </div>
+    <div *ngIf="hasData; else elseTemplate" class="mt-4">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!-- <ng-container [@fade] *ngFor="let p of products;index as i"> -->
+            <app-publication [@fade] *ngFor="let p of products;index as i" [publication]="p" (delete)="destroyPublication($event)"></app-publication>
+        </div>
+    </div>
+    <ng-template #elseTemplate>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
+            </div>
+            <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
+                Ups! Lo que Buscaste no lo encontramos mejorar el criterio de Busqueda
+            </div>
+        </div>
+    </ng-template>
+    <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
+    </mat-paginator>
 </div>
 <!-- <div class="card" id="publication-content" product_id="{{$p->id}}">
         

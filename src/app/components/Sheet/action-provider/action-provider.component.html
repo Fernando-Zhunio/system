@@ -1,0 +1,60 @@
+<!-- <mat-nav-list>
+    <div mat-list-item (click)="openLink($event)">
+        <span mat-line>Crear Proveedor</span>
+    </div>
+
+    <ng-container *ngIf="data">
+        <a href="https://docs.google.com/" mat-list-item (click)="openLink($event)">
+            <span mat-line>Editar</span>
+            <span mat-line>{{data.name}}</span>
+        </a>
+
+        <a href="https://plus.google.com/" mat-list-item (click)="openLink($event)">
+            <span mat-line>Eliminar</span>
+            <span mat-line>{{data.name}}</span>
+        </a>
+
+        <a href="https://hangouts.google.com/" mat-list-item (click)="openLink($event)">
+            <span mat-line>Ver contacto</span>
+            <span mat-line>Show to your coworkers</span>
+        </a>
+    </ng-container>
+
+    <a href="https://hangouts.google.com/" mat-list-item (click)="openLink($event)">
+        <span mat-line>Crear contacto</span>
+        <span mat-line>Show to your coworkers</span>
+    </a>
+</mat-nav-list> -->
+<mat-selection-list [multiple]="false">
+    <mat-list-option (click)="createProvider()">
+        <mat-icon mat-list-icon>add</mat-icon>
+        <div mat-line>Crear proveedor</div>
+        <!-- <div mat-line> {{data.name}} </div> -->
+    </mat-list-option>
+    <ng-container *ngIf="data">
+        <mat-divider></mat-divider>
+        <mat-list-option (click)="createContact()">
+            <mat-icon mat-list-icon>person_add</mat-icon>
+            <div mat-line>Crear contacto</div>
+        </mat-list-option>
+        <mat-divider></mat-divider>
+        <mat-list-option (click)="editProvider()">
+            <mat-icon mat-list-icon>edit</mat-icon>
+            <div mat-line>Editar Proveedor</div>
+            <div mat-line> {{data.name}} </div>
+        </mat-list-option>
+        <mat-divider></mat-divider>
+        <mat-list-option (click)="deleteProvider()">
+            <mat-icon mat-list-icon>delete</mat-icon>
+            <div mat-line>Eliminar Proveedor</div>
+            <div mat-line> {{data.name}} </div>
+        </mat-list-option>
+        <mat-divider></mat-divider>
+        <mat-list-option (click)="viewContact()">
+            <mat-icon mat-list-icon>remove_red_eye</mat-icon>
+            <div mat-line>Ver contacto</div>
+            <div mat-line> {{data.name}} </div>
+        </mat-list-option>
+    </ng-container>
+
+</mat-selection-list>

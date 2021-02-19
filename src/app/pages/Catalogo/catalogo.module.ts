@@ -23,11 +23,18 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MlComponent } from '../../components/ml/ml.component';
 import { MomentModule } from 'ngx-moment';
 import { MlModule } from '../../Modulos/ml/ml.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { PublicationComponent } from '../../components/publication/publication.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { SortablejsModule } from 'ngx-sortablejs';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
 
 
 
 @NgModule({
-  declarations: [CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent],
+  declarations: [CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent],
   imports: [
     CommonModule,
     CatalogoRoutingModule,
@@ -42,16 +49,20 @@ import { MlModule } from '../../Modulos/ml/ml.module';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    NgxPermissionsModule.forChild({
-      permissionsIsolate: false, 
-      rolesIsolate: false}),
+    NgxPermissionsModule,
     MatMenuModule,
     DragDropModule,
     MatAutocompleteModule,
     MatListModule,
     MatRadioModule,
     MatProgressSpinnerModule,
-    MlModule
+    MlModule,
+    MatSnackBarModule,
+    NgxSkeletonLoaderModule,
+    MatChipsModule,
+    MlModule,
+    NgxSpinnerModule,
+    SortablejsModule.forRoot({ animation: 150 }),
     // MomentModule,
     
   ]

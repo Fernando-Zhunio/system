@@ -50,6 +50,9 @@ export class MercadoLibreService {
 
   updateStatus(idproduct,status):Observable<any>{
     return this.http.put(`${this.end_point}catalogs/ml-products/${idproduct}/status`,{status});
+  }
 
+  assingProduct(url,params):Observable<any>{
+    return this.http.put(this.end_point+url,{...params});
   }
 }

@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PromocionesComponent } from '../../components/promociones/promociones.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PublicationComponent } from '../../components/publication/publication.component';
 
 
 
@@ -19,6 +21,7 @@ import { PromocionesComponent } from '../../components/promociones/promociones.c
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    MatSnackBarModule,
   ],
   exports: [ MlComponent,PromocionesComponent ]
 })

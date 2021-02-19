@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminProductRoutingModule, AdminProductsMainComponents } from './administracion-productos-routing.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 
@@ -8,7 +9,8 @@ import { AdminProductRoutingModule, AdminProductsMainComponents } from './admini
   declarations: [AdminProductsMainComponents],
   imports: [
     CommonModule,
-    AdminProductRoutingModule
+    AdminProductRoutingModule,
+    NgxPermissionsModule
 
   ]
 })

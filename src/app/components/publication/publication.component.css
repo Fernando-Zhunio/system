@@ -1,0 +1,13 @@
+.COLA {
+    background-color: orange;
+}
+
+.PUBLICADO {
+    background-color: green;
+    color: white;
+}
+
+.NO {
+    background-color: red;
+    color: white;
+}

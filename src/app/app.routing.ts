@@ -64,22 +64,22 @@ export const routes: Routes = [
         path: 'buttons',
         loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
       },
-      {
-        path: 'productos',
-        loadChildren: () => import('./pages/administracion_productos/productos/producto.module').then(m => m.ProductoModule)
-      },
-      {
-        path: 'categorias',
-        loadChildren: () => import('./pages/administracion_productos/categorias/categorias.module').then(m => m.CategoriasModule)
-      },
-      {
-        path: 'marcas',
-        loadChildren: () => import('./pages/administracion_productos/marcas/marcas.module').then(m => m.MarcasModule)
-      },
-      {
-        path: 'prefijos',
-        loadChildren: () => import('./pages/administracion_productos/prefijo/prefijo.module').then(m => m.PrefijoModule)
-      },
+      // {
+      //   path: 'productos',
+      //   loadChildren: () => import('./pages/administracion_productos/productos/producto.module').then(m => m.ProductoModule)
+      // },
+      // {
+      //   path: 'categorias',
+      //   loadChildren: () => import('./pages/administracion_productos/categorias/categorias.module').then(m => m.CategoriasModule)
+      // },
+      // {
+      //   path: 'marcas',
+      //   loadChildren: () => import('./pages/administracion_productos/marcas/marcas.module').then(m => m.MarcasModule)
+      // },
+      // {
+      //   path: 'prefijos',
+      //   loadChildren: () => import('./pages/administracion_productos/prefijo/prefijo.module').then(m => m.PrefijoModule)
+      // },
       {
         path: 'buscar_productos',
         loadChildren: () => import('./pages/catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
@@ -95,6 +95,14 @@ export const routes: Routes = [
       {
         path: 'importaciones',
         loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
+      },
+      // {
+      //   path: 'importaciones',
+      //   loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
+      // }, 
+      {
+        path: 'reports',
+        loadChildren: () => import('./pages/reportes/reportes.module').then(m => m.ReportesModule)
       },
 
       // mercado-libre

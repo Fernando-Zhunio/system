@@ -1,0 +1,19 @@
+<h3 class="m-0 text-muted">Selecciona proveedor</h3>
+<div mat-dialog-content>
+    <!-- <mat-form-field class="w-100">
+        <mat-label>Secuencia</mat-label>
+        <input matInput formControlName="sequence">
+    </mat-form-field> -->
+    <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
+        <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="providerSearch">
+        <button class="position-absolute" style="top: 0px;
+    left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
+            <mat-icon style="font-size: 30px;" type="search">search</mat-icon>
+        </button>
+    </div>
+
+</div>
+<div mat-dialog-actions>
+    <!-- <button mat-button (click)="onNoClick()">No Thanks</button> -->
+    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>

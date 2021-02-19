@@ -14,7 +14,7 @@ import { StorageService } from "../services/storage.service";
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
-  constructor(private route:Router,private s_storage:StorageService) {}
+  constructor(private route: Router, private s_storage: StorageService) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -25,9 +25,9 @@ export class CustomInterceptor implements HttpInterceptor {
       headers = this.createHeader();
     } else {
       headers = new HttpHeaders({
-        "accept": "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin":"*"
+        accept: "application/json",
+        // "Content-Type": ["application/json", "multipart/form-data"],
+        "Access-Control-Allow-Origin": "*",
       });
     }
     const newResquest = request.clone({
@@ -35,13 +35,11 @@ export class CustomInterceptor implements HttpInterceptor {
     });
 
     return next.handle(newResquest).pipe(
-      
       catchError((err) => {
-        
         switch (err.status) {
           case 401:
-            if(this.s_storage.isAuthenticated())this.s_storage.logout();
-          // this.route.navigate(['/login'])
+            if (this.s_storage.isAuthenticated()) this.s_storage.logout();
+            // this.route.navigate(['/login'])
 
             SwalService.swalToast(
               "Error de credenciales comprueben que sean correctas",
@@ -54,14 +52,38 @@ export class CustomInterceptor implements HttpInterceptor {
               "warning"
             );
             break;
+          case 422:
+            // console.log(err);
+            
+            if(err.error.hasOwnProperty('message')){
+              SwalService.swalToast(
+                err.error.message,
+                "warning"
+              )}
+              else{
+                SwalService.swalToast(
+                  "Contenido improcesable codigo 422",
+                  "warning"
+                );
+              }
+            break;
           case 404:
-            SwalService.swalToast("El servidor no pudo encontrar el contenido solicitado.", "warning");
+            SwalService.swalToast(
+              "El servidor no pudo encontrar el contenido solicitado.",
+              "warning"
+            );
             break;
           case 500:
-            SwalService.swalToast("Error del servidor, intentolo otra vez", "warning");
+            SwalService.swalToast(
+              "Error del servidor, intentolo otra vez",
+              "warning"
+            );
             break;
           default:
-            SwalService.swalToast("Error desconocido, intentolo otra vez", "warning");
+            SwalService.swalToast(
+              "Error desconocido, intentolo otra vez",
+              "warning"
+            );
             break;
         }
         return throwError(err);
@@ -73,9 +95,9 @@ export class CustomInterceptor implements HttpInterceptor {
     const token = this.s_storage.getCurrentToken();
     const Header = new HttpHeaders({
       accept: "application/json",
-      "Content-Type": "application/json",
+      // "Content-Type":
+      // 'multipart/form-data',
       Authorization: "Bearer " + token,
-      "Access-Control-Allow-Origin":"*"
 
     });
     return Header;

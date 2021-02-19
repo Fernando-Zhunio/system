@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +12,7 @@ import { SwalService } from '../../../../services/swal.service';
 })
 export class ProductCreateOrEditComponent implements OnInit {
 
-  constructor(private s_products: ProductsService,private act_router:ActivatedRoute) { }
+  constructor(private location: Location,private s_products: ProductsService,private act_router:ActivatedRoute) { }
 
   formCreateOrEdit:FormGroup = new FormGroup({
     name: new FormControl(null,[Validators.required,Validators.max(200)]),
@@ -120,6 +121,10 @@ export class ProductCreateOrEditComponent implements OnInit {
         }
 
       }
+  }
+
+  goBack(){
+    this.location.back();
   }
 
 }

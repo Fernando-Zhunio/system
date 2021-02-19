@@ -52,8 +52,12 @@ button {
 //     background-color: #e4e7ea !important;
 // }
 .font-facebook {
-    font-family: Segoe ui;
-    font-weight: 700;
+    font-family: Segoe ui !important;
+    font-weight: 700 !important;
+}
+
+.rounded-fz {
+    border-radius: 20px;
 }
 
 * {

@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
 import { PublicacionesComponent } from './publicaciones/publicaciones.component';
 import { CreateOrEditPublicacionComponent } from './publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
+import { NgxPermissionsGuard } from 'ngx-permissions';
+import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
 
 @Component({
   selector: 'app-catalogo',
@@ -37,6 +39,36 @@ const routes: Routes = [
       {
         path: 'publicaciones/create',
         component:CreateOrEditPublicacionComponent,
+        data: {
+          isEdit: false,
+          permissions: {
+            only: ["super-admin", "catalogs.publications.create"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
+      {
+        path: 'publicaciones/edit/:id',
+        component:CreateOrEditPublicacionComponent,
+        data: {
+          isEdit: true,
+          permissions: {
+            only: ["super-admin", "catalogs.publications.edit"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
+      {
+        path: 'publicaciones/show/:id',
+        component:ShowPublicationComponent,
+        data: {
+          permissions: {
+            only: ["super-admin", "catalogs.publications.show"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
         // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       },
 

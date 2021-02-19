@@ -15,6 +15,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxPermissionsModule
   ],
   exports: [ MatFormFieldModule,MatInputModule ]
 

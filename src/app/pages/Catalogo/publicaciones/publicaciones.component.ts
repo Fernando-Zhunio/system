@@ -1,8 +1,8 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { MenuItems } from '../../../clases/menu-items';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
@@ -12,11 +12,23 @@ import { SwalService } from '../../../services/swal.service';
 @Component({
   selector: 'app-publicaciones',
   templateUrl: './publicaciones.component.html',
-  styleUrls: ['./publicaciones.component.css']
+  styleUrls: ['./publicaciones.component.css'],
+  animations: [trigger('fade', [
+    transition(
+      ':leave', [
+        style({ transform: 'scale(0)',opacity:'0' }),
+        animate(400)
+      ]
+    )])],
 })
 export class PublicacionesComponent implements OnInit {
 
   @ViewChild("paginator") paginator: MatPaginator;
+  permission_show =['super-admin','catalogs.publications.show'];
+  permission_create =['super-admin','catalogs.publications.create'];
+  permission_edit =['super-admin','catalogs.publications.edit'];
+  permission_destroy =['super-admin','catalogs.publications.destroy'];
+  isLoader:boolean = false;
   selected_state:string = 'all';
   price_min:number = null;
   price_max:number = null;
@@ -29,42 +41,30 @@ export class PublicacionesComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
+  isload:boolean = true;
+  aux_page_next:number;
+
   // selected_state: string = "all";
-  constructor(public dialog: MatDialog,private s_standartSearch:StandartSearchService, private s_permissionsService: NgxPermissionsService,private s_catalogo: CatalogoService,private s_mercado_libre:MercadoLibreService) { }
+  constructor(private snack_bar:MatSnackBar, private s_standart:StandartSearchService, public dialog: MatDialog,private s_catalogo: CatalogoService,private s_mercado_libre:MercadoLibreService) { }
 
   ngOnInit(): void {
-    const perm = ["ADMIN","catalogs.publications.edit","catalogs.products.ml.relist"];
-    this.s_permissionsService.loadPermissions(perm);
-    const menu_small = new MenuItems(this.s_permissionsService).getMenuItemAll();
-    const count = menu_small.length;
-    for (let i = 0; i < count; i++) {
-      this.s_permissionsService.hasPermission(menu_small[i].slug).then(res=>{
-            if(res){
-              this.menu.push(menu_small[i]);
-              console.log(this.menu);
-            }
-            else {
-              console.log(false);
-            }
-        })
-    }
-    this.s_catalogo.index_publications(1).subscribe(
-      res=>{
-        console.log(res);
-        this.products = res.publications.data
-      }
-    )
+
+    
+    this.gotoTop();
+    this.searchBar();
     // return permissions;
   }
 
   searchBar():void{
-    const pageSize = this.paginator.pageSize;
+    // const pageSize = this.paginator.pageSize;
+    this.isload =true;
     console.log(this.pageEvent);
     this.gotoTop();
-    this.s_standartSearch
-      .search(this.productSearch, pageSize, this.selected_state,this.price_min,this.price_max,'catalogs/publications')
+    this.s_standart
+      .search(this.productSearch, this.pageSize, this.selected_state,this.price_min,this.price_max,'catalogs/publications')
       .subscribe((response: any) => {
         console.log(response);
+        this.isload = false;
         this.products = response.publications.data;
         this.length = response.publications.total;
         this.pageSize = response.publications.per_page;
@@ -73,6 +73,9 @@ export class PublicacionesComponent implements OnInit {
           this.hasData = false;
         }
         else this.hasData =true;
+      },err=>{
+        console.log(err);
+        this.isload =false;
       });
   }
 
@@ -81,8 +84,38 @@ export class PublicacionesComponent implements OnInit {
     main[0].scrollTop = 0;
   }
 
-  changedPaginator(event):void{
-
+  changedPaginator($event):void{
+    this.pageSize = $event.pageSize;
+    this.isload = true;
+    console.log($event);
+    if ($event.pageIndex != this.aux_page_next) {
+      this.gotoTop();
+      this.aux_page_next = $event.pageIndex;
+    }
+    this.s_standart
+      .nextPageSearch(
+        $event.pageIndex + 1,
+        this.productSearch,
+        $event.pageSize,
+        this.selected_state,
+        this.price_min,
+        this.price_max,
+        'catalogs/publications'
+      )
+      .subscribe((response: any) => {
+        console.log(response);
+        this.isload = false;
+        this.products = response.publications.data;
+        this.length = response.publications.total;
+        this.pageSize = response.publications.per_page;
+        this.pageCurrent = response.publications.current_page;
+        if (this.products.length < 1) {
+          this.hasData = false;
+        } else this.hasData = true;
+        
+      },err=>{
+        this.isload = false;
+      });
   }
 
   EditPublication(idPublication):void{
@@ -90,45 +123,39 @@ export class PublicacionesComponent implements OnInit {
   }
 
   deletePublication(idPublication,index):void{
+    const snack = this.snack_bar.open('Eliminando espere ...')
+    this.isLoader = true;
     this.s_catalogo.destroyPublications(idPublication).subscribe(
       res=>{
+        snack.dismiss();
+        this.isLoader = false;
         console.log(res);
         if(res.success){
+          this.snack_bar.open('Eliminado con exito', 'OK', {duration:2000})
           this.products.splice(index,1);
           SwalService.swalToast('Eliminado con exito','success');
         }
+      },err=>{
+        console.log(err);
+        this.isLoader = false;
+        snack.dismiss();
+
       }
     )
+  }
+
+  goEdit(){
+
   }
 
   openDescription(index): void {
       this.dialog.open(InfoViewComponent, { 
       data: {name: this.products[index].name, title:"Descripcion",info:this.products[index].description},
-      
     });
   }
 
   executeMenu(event ): void {
     console.log(event);
-    
-    // active,paused,closed,deleted,relist_forever_on,relist_forever_off
-    // switch (type) {
-    //   case "active":
-    //     break;
-    //   case "paused":
-    //     break;
-    //   case "closed":
-    //     break;
-    //   case "deleted":
-    //     break;
-    //   case "relist_forever_on":
-    //     break;
-    //   case "relist_forever_off":
-    //     break;
-
-    //   default:
-    //     break;
-    // }
     this.s_mercado_libre.updateStatus(event.id, event.type).subscribe((res) => {
       console.log(res);
       if (res.success) {
@@ -136,5 +163,12 @@ export class PublicacionesComponent implements OnInit {
         this.products[indice] = res.ml;
       }
     });
+  }
+
+  destroyPublication(event):void{
+    const index = this.products.findIndex(x=>x.id==event.id);
+    if(index != -1){
+      this.products.splice(index,1);
+    }
   }
 }

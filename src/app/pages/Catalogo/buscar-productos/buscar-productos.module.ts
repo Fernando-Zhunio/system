@@ -20,6 +20,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MlModule } from '../../../Modulos/ml/ml.module';
+import { MatChipsModule } from '@angular/material/chips';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 
@@ -39,13 +42,15 @@ import { MlModule } from '../../../Modulos/ml/ml.module';
     MatCardModule,
     MatMenuModule,
     MatButtonModule,
-    NgxPermissionsModule.forChild({
-      permissionsIsolate: false, 
-      rolesIsolate: false}),
+    NgxPermissionsModule,
     MatTabsModule,
     MatSelectModule,
     MatPaginatorModule,
-    MlModule
-  ]
+    MlModule,
+    MatChipsModule,
+    NgxSkeletonLoaderModule,
+    MatSnackBarModule,
+    NgxPermissionsModule,
+    ]
 })
 export class BuscarProductosModule { }

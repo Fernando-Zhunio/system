@@ -48,7 +48,7 @@ export class CatalogoService {
 
   categoriesMl(name): Observable<any> {
     return this.http.get(
-      `https://api.mercadolibre.com/sites/MEC/domain_discovery/search?q=${name}`
+      `http://api.mercadolibre.com/sites/MEC/domain_discovery/search?q=${name}`
     );
   }
 

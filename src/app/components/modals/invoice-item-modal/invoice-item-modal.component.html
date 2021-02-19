@@ -1,0 +1,145 @@
+<mat-dialog-content>
+    <mat-drawer-container class="example-container">
+        <mat-drawer class="col-md-8 col-sm-10" position="end" #drawer mode="push">
+            <div class="font-2xl my-2 font-facebook list-group-item-accent-warning" mat-dialog-title>Buscar Producto
+            </div>
+            <app-header-search [onTabs]="false" (products)="getProduct($event)" [url]="'catalogs/products'">
+            </app-header-search>
+            <mat-card class="my-2" *ngFor="let p of products;index as ind">
+                <mat-card-header class="d-block mat-card-header-m-0">
+                    <mat-card-title style="display: flex;" class="row m-0">
+                        <div class="col-sm-12 col-md-12">
+                            <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{p.id}}</span>{{p.name}}
+                        </div>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="row m-0">
+                        <div class="col-md-7 d-flex align-items-center">
+                            <div>
+                                <small class="text-muted font-sm">
+                                    Tipo: <b>{{p.prefix?.type}}</b> -
+                                    Código: <b>{{p.code}}</b> -
+                                    Código Alternativo: <b>{{p.code_alt}}</b> -
+                                    Categoria: <b>{{p.category?.name}}</b> -
+                                    Marca: <b>{{p.brand?.name}}</b> -
+                                    Secuencia: <b>{{p.sequence?.sequence_number}}</b><br>
+                                </small>
+                                <button mat-raised-button (click)="selectProductRelationship(ind)">Seleccionar</button>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <img class="w-100" [src]="captureImagenProduct(ind)" alt="">
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-drawer>
+        <div class="example-sidenav-content">
+            <div class="font-5xl font-facebook list-group-item-accent-warning" mat-dialog-title>{{title}}
+            </div>
+            <button type="button" mat-raised-button color="accent" (click)="drawer.toggle()">
+                Vincular producto
+            </button>
+            <span style="z-index: 1;" class="m-0">
+                <label for="imgItem" class="btn btn-behance d-inline-flex">
+                    <mat-icon class="mr-2">backup</mat-icon>
+                    <span>
+                        Agregar Imagen
+                    </span>
+            </label>
+            <input type="file" accept=".png,.jpeg,.jpg" (change)="uploadImg($event)" class="d-none" id="imgItem">
+            </span>
+            <form [formGroup]="formMore">
+                <div class="row m-0">
+                    <div [ngClass]="galleryImages.length >0?'col-md-7':'col-md-12'">
+                        <div class="row m-0">
+                            <mat-form-field class="col-md-4">
+                                <mat-label>Codigo</mat-label>
+                                <input matInput formControlName="code">
+                            </mat-form-field>
+                            <mat-form-field class="col-md-4">
+                                <mat-label>Cantidad</mat-label>
+                                <input matInput type="number" formControlName="quantity">
+                            </mat-form-field>
+                            <mat-form-field class="col-md-4">
+                                <mat-label>Precio u.</mat-label>
+                                <input matInput type="number" formControlName="price">
+                            </mat-form-field>
+                            <mat-form-field class="col-md-6">
+                                <mat-label>Es nuevo?</mat-label>
+                                <mat-select formControlName="new">
+                                    <mat-option value="true">SI</mat-option>
+                                    <mat-option value="false">NO</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="col-md-6">
+                                <mat-label>Arancel %</mat-label>
+                                <input matInput type="number" formControlName="tariff">
+                            </mat-form-field>
+                            <mat-form-field class="col-12">
+                                <mat-label>Descripcion</mat-label>
+                                <input matInput formControlName="description">
+                            </mat-form-field>
+                            <mat-form-field class="col-12">
+                                <mat-label>Observacion</mat-label>
+                                <textarea matInput formControlName="note"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <mat-card *ngIf="product_relationship">
+                            <mat-card-header class="d-block mat-card-header-m-0">
+                                <mat-card-title style="display: flex;" class="row m-0">
+                                    <div class="col-sm-12 col-md-12">
+                                        <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{product_relationship.id}}</span>{{product_relationship.name}}
+                                    </div>
+                                </mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <div class="row m-0">
+                                    <div class="col-md-7 d-flex align-items-center">
+                                        <div>
+                                            <small class="text-muted font-sm">
+                                                Tipo: <b>{{product_relationship.prefix?.type}}</b> -
+                                                Código: <b>{{product_relationship.code}}</b> -
+                                                Código Alternativo: <b>{{product_relationship.code_alt}}</b> -
+                                                Categoria: <b>{{product_relationship.category?.name}}</b> -
+                                                Marca: <b>{{product_relationship.brand?.name}}</b> -
+                                                Secuencia: <b>{{product_relationship.sequence?.sequence_number}}</b><br>
+                                            </small>
+                                            <button color="warn" mat-raised-button (click)="removeProductRelationship()">Quitar producto</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img class="w-100" [src]="captureImagenProductInique()" alt="">
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div [ngClass]="{'col-md-5': galleryImages.length > 0}">
+                        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+
+                        <!-- <div class="d-flex h-100 justify-content-center align-items-center jumbotron m-0">
+                            <img class="w-100 h-100" style="position: absolute;top: 0;" [src]="imgInvoice" alt="">
+                            <div style="z-index: 1;">
+                                <label for="imgItem" class="btn btn-behance d-flex">
+                                    <mat-icon class="mr-2">backup</mat-icon>
+                                    <span>
+                                        Agregar Imagen
+                                    </span> 
+                                </label>
+                                <input type="file" accept=".png,.jpeg,.jpg" (change)="uploadImg($event)" class="d-none" id="imgItem">
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <!-- <button mat-raised-button type="submit" color="primary">Guardar</button> -->
+                <!-- <button mat-raised-button type="button">Cancelar</button> -->
+            </form>
+        </div>
+    </mat-drawer-container>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-button (click)="addItem()" [disabled]="formMore.invalid" cdkFocusInitial color="primary">Guardar</button>
+    <button mat-button mat-dialog-close color="warn">Cancelar</button>
+</div>

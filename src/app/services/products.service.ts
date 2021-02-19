@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class ProductsService {
 
-  constructor(private htpp: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   end_point = environment.server;
 
@@ -25,41 +25,45 @@ export class ProductsService {
   index(page):Observable<any>{
     // const Header = this.createHeader();
 
-    return this.htpp.get<any>(this.end_point+'products-admin/products',{params:{page}});
+    return this.http.get<any>(this.end_point+'products-admin/products',{params:{page}});
   }
 
   create():Observable<any>{
     // const Header = this.createHeader();
 
-    return this.htpp.get(this.end_point+"products-admin/products/create");
+    return this.http.get(this.end_point+"products-admin/products/create");
   }
 
   edit(id):Observable<any>{
     // const Header = this.createHeader();
 
-    return this.htpp.get(this.end_point+"products-admin/products/"+id+"/edit");
+    return this.http.get(this.end_point+"products-admin/products/"+id+"/edit");
   }
 
   store(params):Observable<any>{
     // const Header = this.createHeader();
 
-    return this.htpp.post(this.end_point+"products-admin/products",{...params});
+    return this.http.post(this.end_point+"products-admin/products",{...params});
   }
 
   update(id,params):Observable<any>{
     // const Header = this.createHeader();
 
-    return this.htpp.patch(this.end_point+"products-admin/products/"+id,{...params});
+    return this.http.patch(this.end_point+"products-admin/products/"+id,{...params});
   }
 
   destroy(id):Observable<any>{
     // const Header = this.createHeader();
 
-    return this.htpp.delete(this.end_point+"products-admin/products/"+id);
+    return this.http.delete(this.end_point+"products-admin/products/"+id);
   }
 
   searchProduct(search):Observable<any>{
-    return this.htpp.get(this.end_point+"catalogs/products",{params:{search}})
+    return this.http.get(this.end_point+"catalogs/products",{params:{search}})
+  }
+
+  viewWareHouse(id):Observable<any>{
+    return this.http.get(this.end_point+'catalogs/products/'+id+'/stock/ajax')
   }
   
   

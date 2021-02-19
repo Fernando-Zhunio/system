@@ -19,6 +19,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MlModule } from '../../../Modulos/ml/ml.module';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 // import { MlComponent } from '../../../components/ml/ml.component';
 
 
@@ -40,10 +42,11 @@ import { MlModule } from '../../../Modulos/ml/ml.module';
     MomentModule,
     NgxPaginationModule,
     MatPaginatorModule,
-    // NgxSkeletonLoaderModule,
+    NgxSkeletonLoaderModule,
     MatSelectModule,
     MatTabsModule,
-    MlModule
+    MlModule,
+    MatSnackBarModule,
     // TranslateModule
 
   ]

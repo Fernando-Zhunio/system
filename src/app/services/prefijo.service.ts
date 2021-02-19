@@ -38,4 +38,8 @@ export class PrefijoService {
 
     return this.http.delete(this.end_point+"products-admin/prefixes/"+id);
   }
+
+  getAll():Observable<any>{
+    return this.http.get<any>(this.end_point+'products-admin/prefixes',{params:{all:'all'}});
+  }
 }

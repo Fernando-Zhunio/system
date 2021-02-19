@@ -4,7 +4,7 @@
             <div>
                 <i class="fa fa-align-justify"></i> Tabla de Productos
             </div>
-            <button type="button" [routerLink]="['create']" class="btn btn-pill btn-warning">Crear Producto</button>
+            <button type="button" *ngxPermissionsOnly="permission_create" [routerLink]="['create']" class="btn btn-pill btn-warning">Crear Producto</button>
         </div>
         <div class="card-body">
             <table class="table table-responsive table-striped">
@@ -39,7 +39,8 @@
                         <td>{{item.category?.name}}</td>
                         <td>{{item.sequence?.sequence_number}}</td>
                         <td>{{item.brand?.name}}</td>
-                        <td class="d-flex"><span [routerLink]="['edit',item.id]" routerLinkActive="router-link-active" class="mr-1 btn btn-sm btn-spotify" role="button"><i class="far fa-edit"></i></span><span (click)="destroyProduct(item.id)" class="btn btn-html5 btn-sm"><i class="far fa-trash-alt"></i></span></td>
+                        <td class="d-flex"><span [routerLink]="['edit',item.id]" *ngxPermissionsOnly="permission_edit" routerLinkActive="router-link-active" class="mr-1 btn btn-sm btn-spotify" role="button"><i class="far fa-edit"></i></span><span (click)="destroyProduct(item.id)"
+                                *ngxPermissionsOnly="permission_destroy" class="btn btn-html5 btn-sm"><i class="far fa-trash-alt"></i></span></td>
                     </tr>
                 </tbody>
             </table>

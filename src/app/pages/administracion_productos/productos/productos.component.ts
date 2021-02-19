@@ -12,6 +12,9 @@ export class ProductosComponent implements OnInit {
 
   constructor(private s_products:ProductsService) { }
   
+  permission_create:any[] = ['super-admin','products-admin.products.create'];
+  permission_edit:any[] = ['super-admin','products-admin.products.edit'];
+  permission_destroy:any[] = ['super-admin','products-admin.products.destroy'];
   products:IProducts
   pageCurrent:number = 1;
   perPage:number = 10;

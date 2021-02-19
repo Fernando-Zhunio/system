@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
 // import { PublicacionesComponent } from '../Catalogo/publicaciones/publicaciones.component';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
+import { CreateImportComponent } from './create-import/create-import.component';
+import { EditImportComponent } from './edit-import/edit-import.component';
 
 @Component({
   selector: 'app-importaciones',
@@ -23,6 +25,17 @@ const routes: Routes = [
         path: 'proveedores',
         component:ProveedoresComponent,    
       }, 
+      {
+        path:'import/create',
+        component:CreateImportComponent,
+        data:{state:"create"}
+      },
+
+      {
+        path:'import/edit/:id',
+        component:EditImportComponent,
+        data:{state:"edit"}
+      },
       // {
       //   path: 'buscar_productos',
       //   // component:MarcasMainComponents,

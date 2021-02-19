@@ -1,0 +1,68 @@
+<h3 class="m-0 text-muted">{{data.data.product.name}}</h3>
+<div mat-dialog-content>
+    <div *ngIf="data.data.stock.length > 0;else cleanData">
+        <div class="font-5xl font-facebook list-group-item-accent-warning" mat-dialog-title>{{data.titleOne}}</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Bodega</td>
+                    <td>Cuidad</td>
+                    <td>Stock</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let warehouse of data.data.stock">
+                    <td>{{warehouse.warehouse.name}}</td>
+                    <td>{{warehouse.warehouse.city}}</td>
+                    <td>{{warehouse.available}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="font-2xl font-facebook">
+                    <td>Total</td>
+                    <td></td>
+                    <td>{{total_stock}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <ng-template #cleanData>
+        <div class="font-3xl font-facebook" mat-dialog-title>Sin Stock</div>
+    </ng-template>
+    <div *ngIf="data.data.stock_other.length > 0">
+        <div class="font-5xl font-facebook list-group-item-accent-warning" mat-dialog-title>{{data.titleTwo}}</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Bodega</td>
+                    <td>Cuidad</td>
+                    <td>Stock</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let warehouse of data.data.stock_other">
+                    <td>{{warehouse.warehouse.name}}</td>
+                    <td>{{warehouse.warehouse.city}}</td>
+                    <td>{{warehouse.available}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="font-2xl font-facebook">
+                    <td>Total</td>
+                    <td></td>
+                    <td>{{total_stock_other}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div *ngIf="data.data.stock_other.length > 0 || data.data.stock.length > 0" class="font-2xl font-facebook text-center">
+        Stock General: <span class="text-success">
+            {{ total_stock_general }}
+
+        </span>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <!-- <button mat-button (click)="onNoClick()">No Thanks</button> -->
+    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>

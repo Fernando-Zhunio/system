@@ -5,6 +5,7 @@ import { CategoriasComponent } from './categorias.component';
 import { CategoriasCreateOrEditComponent } from './categorias-create-or-edit/categorias-create-or-edit.component';
 // import { CategoriasMainComponent } from './categorias-main.component';
 import { Component } from '@angular/core';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 @Component({
   selector: 'app-productos',
@@ -19,6 +20,13 @@ const routes: Routes = [
   {
     path: '',
     component:CategoriasMainComponents,
+    data: {
+      isEdit: false,
+      permissions: {
+        only: ["super-admin", "products-admin.category.index"],
+      },
+    },
+    canActivate: [NgxPermissionsGuard],
     children: [
       {
         path: '',
@@ -27,12 +35,26 @@ const routes: Routes = [
       {
         path: 'create',
         component: CategoriasCreateOrEditComponent,
-        data:{isEdit:false}
+        data: {
+          isEdit: false,
+          permissions: {
+            only: ["super-admin", "products-admin.category.create"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+        // data:{isEdit:false}
       },
       {
         path: 'edit/:id',
         component: CategoriasCreateOrEditComponent,
-        data:{isEdit:true}
+        // data:{isEdit:true}
+        data: {
+          isEdit: true,
+          permissions: {
+            only: ["super-admin", "products-admin.category.edit"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
       },
 
      

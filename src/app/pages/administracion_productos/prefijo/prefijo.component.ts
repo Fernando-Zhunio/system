@@ -11,6 +11,10 @@ export class PrefijoComponent implements OnInit {
 
   constructor(private s_prefijos: PrefijoService) {}
 
+  permission_create = ['super-admin','products-admin.prefixes.create'];
+  permission_edit = ['super-admin','products-admin.prefixes.edit'];
+  permission_destroy = ['super-admin','products-admin.prefixes.destroy'];
+  
   prefixes = [];
   pageCurrent: number = 1;
   perPage: number = 10;

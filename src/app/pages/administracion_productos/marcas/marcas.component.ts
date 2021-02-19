@@ -10,6 +10,10 @@ declare let Swal: any;
 export class MarcasComponent implements OnInit {
   constructor(private s_marcas: MarcasService) {}
 
+  permission_create = ['super-admin','products-admin.brands.create'];
+  permission_edit = ['super-admin','products-admin.brands.edit'];
+  permission_destroy = ['super-admin','products-admin.brands.destroy'];
+
   brands = [];
   pageCurrent: number = 1;
   perPage: number = 10;
