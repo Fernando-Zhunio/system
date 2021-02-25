@@ -86,6 +86,7 @@ import { NgxGalleryModule } from 'ngx-gallery-9';
 import { CreateProviderOrContactComponent } from './components/modals/create-provider-or-contact/create-provider-or-contact.component';
 import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
 import { PublicationComponent } from './components/publication/publication.component';
+import { InConstructionComponent } from './views/in-construction/in-construction.component';
 
 // import {EchoConfig, EchoService, NgxLaravelEchoModule} from 'ngx-laravel-echo';
 // import { environment } from "../environments/environment";
@@ -163,6 +164,7 @@ import { PublicationComponent } from './components/publication/publication.compo
     InvoiceItemModalComponent,
     CreateProviderOrContactComponent,
     SearchProductModalComponent,
+    InConstructionComponent,
     // PublicationComponent,
     // InvoiceCreateOrEditComponent,
     // HeaderSearchComponent,

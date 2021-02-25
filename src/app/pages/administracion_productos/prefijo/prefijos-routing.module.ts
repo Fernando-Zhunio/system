@@ -31,7 +31,7 @@ const routes: Routes = [
         data: {
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.prefix.create"],
+            only: ["super-admin", "products-admin.prefixes.create"],
           },
         },
       },
@@ -41,7 +41,7 @@ const routes: Routes = [
         data: {
           isEdit: true,
           permissions: {
-            only: ["super-admin", "products-admin.prefix.edit"],
+            only: ["super-admin", "products-admin.prefixes.edit"],
           },
         },
         // data:{isEdit:true}

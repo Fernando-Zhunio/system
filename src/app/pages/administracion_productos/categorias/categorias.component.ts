@@ -16,9 +16,9 @@ export class CategoriasComponent implements OnInit {
   pageCurrent:number = 1;
   perPage:number = 10;
   totalItem:number = 0;
-  permission_edit = ['super-admin','products-admin.products.edit']
-  permission_destroy = ['super-admin','products-admin.products.destroy']
-  permission_create = ['super-admin','products-admin.products.create']
+  permission_edit = ['super-admin','products-admin.categories.edit']
+  permission_destroy = ['super-admin','products-admin.categories.destroy']
+  permission_create = ['super-admin','products-admin.categories.create']
   ngOnInit(): void {
    this.nextPage();
   }

@@ -8,6 +8,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
+import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
@@ -29,6 +30,13 @@ export const routes: Routes = [
     component: P500Component,
     data: {
       title: 'Page 500'
+    }
+  },
+  {
+    path: 'section-construction',
+    component: InConstructionComponent,
+    data: {
+      title: 'Seccion en construccion'
     }
   },
   {

@@ -185,14 +185,9 @@ export class InvoiceCreateOrEditComponent implements OnInit {
         case EProviderActions.create_provider:
           this.dialog.open(CreateProviderOrContactComponent,{data:{title:"Crear Proveedor",isProvider:true}}).beforeClosed().subscribe(res=>{
             if(res && res.success){
-              // this.s_standart.store("purchase-department/providers",res.data).subscribe(res=>{
-              //   if(res.success){
-              //     console.log(res);
                   this.new_action.emit({action:EProviderActions.create_provider,data:res.data});
                 }
               })
-            // }
-          // })
           break;
 
           case EProviderActions.create_contact:

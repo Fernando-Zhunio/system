@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BuscarProductosRoutingModule } from './buscar_productos-routing.module';
 import { BuscarProductosComponent } from './buscar-productos.component';
 import { NgxAutocompleteModule } from 'ngx-angular-autocomplete';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 // import { PromocionesComponent } from '../../../components/promociones/promociones.component';
@@ -23,6 +23,8 @@ import { MlModule } from '../../../Modulos/ml/ml.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 
 
@@ -32,7 +34,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     CommonModule,
     BuscarProductosRoutingModule,
     NgxAutocompleteModule,
-    FormsModule,
+    // FormsModule,
+    ReactiveFormsModule,
     BsDropdownModule,
     MatFormFieldModule,
     MatAutocompleteModule,
@@ -50,7 +53,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatChipsModule,
     NgxSkeletonLoaderModule,
     MatSnackBarModule,
+    ClipboardModule,
     NgxPermissionsModule,
+    MatSelectModule,
+    MatChipsModule,
+    TooltipModule.forRoot()
     ]
 })
 export class BuscarProductosModule { }

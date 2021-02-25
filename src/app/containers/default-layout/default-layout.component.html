@@ -6,24 +6,13 @@
             <a class="nav-link" href="#">Dashboard</a>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="#">Users</a>
-        </li>
-        <li class="nav-item px-3">
             <a class="nav-link" href="#">Settings</a>
         </li>
     </ul>
     <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item d-md-down-none">
+        <!-- <li class="nav-item d-md-down-none">
             <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
-        </li>
-        <!-- <mat-form-field>
-            <mat-label>Compañias</mat-label>
-            <mat-select [value]="company_select">
-                <mat-option *ngFor="let company of companies;index as i" [value]="company.id">
-                    {{company.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field> -->
+        </li> -->
         <li class="nav-item d-md-down-none">
             <!-- <a class="nav-link" href="#"><i class="icon-list"></i></a> -->
             <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -31,30 +20,21 @@
               </button>
             <mat-menu #menu="matMenu">
                 <button *ngFor="let company of companies;index as i" mat-menu-item (click)="changeCompany(company.id,i)">
-                  <!-- <mat-icon>dialpad</mat-icon> -->
                   <span>{{company.name}}</span>
                 </button>
-                <!-- <button mat-menu-item disabled>
-                  <mat-icon>voicemail</mat-icon>
-                  <span>Check voice mail</span>
-                </button>
-                <button mat-menu-item>
-                  <mat-icon>notifications_off</mat-icon>
-                  <span>Disable alerts</span>
-                </button> -->
             </mat-menu>
         </li>
-        <li class="nav-item d-md-down-none">
+        <!-- <li class="nav-item d-md-down-none">
             <a class="nav-link" href="#"><i class="icon-location-pin"></i></a>
-        </li>
+        </li> -->
         <li class="nav-item dropdown" dropdown placement="bottom right">
             <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
                 <!-- <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" /> -->
                 <img [src]="url_img" class="img-avatar" alt="admin@bootstrapmaster.com" />
             </a>
             <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-                <div class="dropdown-header text-center"><strong>Account</strong></div>
-                <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a>
+                <div class="dropdown-header text-center"><strong>Cuenta</strong></div>
+                <!-- <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a>
                 <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a>
                 <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a>
                 <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comment<span class="badge badge-warning">42</span></a>
@@ -64,7 +44,7 @@
                 <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="badge badge-dark">42</span></a>
                 <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a>
                 <div class="divider"></div>
-                <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock account</a>
+                <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock account</a> -->
                 <a (click)="logout()" class="dropdown-item" href="#"><i class="fa fa-lock"></i> Cerrar sesion</a>
             </div>
         </li>
@@ -75,12 +55,66 @@
         <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
         <app-sidebar-minimizer></app-sidebar-minimizer>
     </app-sidebar>
+    <!-- 
+    <div class="sidebar">
+        <nav class="sidebar-nav ">
+            <ul class="nav sidebar-show">
+                <li class="nav-title">Nav Title</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="nav-icon cui-speedometer"></i> Nav item
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="nav-icon cui-speedometer"></i> With badge
+                        <span class="badge badge-primary">NEW</span>
+                    </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="nav-icon cui-puzzle"></i> Nav dropdown
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="nav-icon cui-puzzle"></i> Nav dropdown item
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="nav-icon cui-puzzle"></i> Nav dropdown item
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link nav-link-success" href="https://coreui.io">
+                        <i class="nav-icon cui-cloud-download"></i> Download CoreUI</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-danger" href="https://coreui.io/pro/">
+                        <i class="nav-icon cui-layers"></i> Try CoreUI
+                        <strong>PRO</strong>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div> -->
+
+
+
+
+
     <!-- Main content -->
     <main class="main scroll">
         <!-- Breadcrumb -->
         <!-- breaking change 'cui-breadcrumb' -->
-        <cui-breadcrumb>
-            <!-- Breadcrumb Menu-->
+
+
+        <!-- Breadcrumb Menu-->
+        <!-- <cui-breadcrumb>
             <li class="breadcrumb-menu d-md-down-none">
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                     <a class="btn" href="#"><i class="icon-speech"></i></a>
@@ -88,7 +122,8 @@
                     <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
                 </div>
             </li>
-        </cui-breadcrumb>
+        </cui-breadcrumb> -->
+
         <!-- deprecation warning for 'app-breadcrumb' -->
         <!--<ol class="breadcrumb">-->
         <!--<app-breadcrumb></app-breadcrumb>-->
@@ -361,7 +396,7 @@
         <p style="color: white"> Loading... </p>
     </ngx-spinner>
 </div>
-<app-footer>
+<!-- <app-footer>
     <span><a href="https://coreui.io">CoreUI</a> &copy; 2018 creativeLabs.</span>
     <span class="ml-auto">Powered by <a href="https://coreui.io/angular">CoreUI for Angular</a></span>
-</app-footer>
+</app-footer> -->

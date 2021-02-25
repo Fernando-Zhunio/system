@@ -1,3 +1,18 @@
 .mat-form-field-wrapper {
     padding: 0 !important;
 }
+
+.cursor_copy {
+    cursor: copy;
+    color: darkcyan;
+}
+
+.cursor_copy:hover {
+    color: green;
+}
+
+.cursor_copy:active {
+    /* transform: scale(.2); */
+    font-size: xx-small;
+    transition: 1s all;
+}

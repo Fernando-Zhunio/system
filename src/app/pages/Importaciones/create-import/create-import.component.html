@@ -1,16 +1,15 @@
 <div>
-    <button mat-button (click)="addRowTableItem()">text</button>
     <mat-card *ngIf="state_import =='create';else importGenerate" class="my-1">
         <form [formGroup]="form_import" (ngSubmit)="createimport()">
-            <mat-card-title>Crear nueva importacion</mat-card-title>
-            <mat-form-field>
+            <mat-card-title>Creando importacion</mat-card-title>
+            <mat-form-field class="d-block">
                 <mat-select placeholder="Origen" formControlName="origin">
                     <mat-option *ngFor="let origin of origins" [value]="origin.id">
                         {{origin.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="d-block">
                 <mat-label>Secuencia</mat-label>
                 <input matInput formControlName="sequence" type="number">
             </mat-form-field>
@@ -52,7 +51,7 @@
                             <mat-icon>add</mat-icon>
                         </button></div>
                         <div *ngFor="let invoices of forms_invoices;index as i">
-                            <app-invoice-create-or-edit (close)="deleteInvoice(i)" [id_import]="import?.id" [providers]="providers"></app-invoice-create-or-edit>
+                            <app-invoice-create-or-edit (new_action)="newAction($event)" (close)="deleteInvoice(i)" [id_import]="import?.id" [providers]="providers"></app-invoice-create-or-edit>
                         </div>
                     </div>
                     <div [formGroup]="form_publish">

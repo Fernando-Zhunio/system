@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Ibrands } from "../../../interfaces/ibrands";
+import { Ipagination } from "../../../interfaces/ipagination";
 import { MarcasService } from "../../../services/marcas.service";
 
 declare let Swal: any;
@@ -14,7 +16,7 @@ export class MarcasComponent implements OnInit {
   permission_edit = ['super-admin','products-admin.brands.edit'];
   permission_destroy = ['super-admin','products-admin.brands.destroy'];
 
-  brands = [];
+  brands:Ibrands[] = [];
   pageCurrent: number = 1;
   perPage: number = 10;
   totalItem: number = 0;
@@ -25,12 +27,12 @@ export class MarcasComponent implements OnInit {
   nextPage(pageNumber = 1): void {
     console.log(pageNumber);
 
-    this.s_marcas.index(pageNumber).subscribe((response: any) => {
+    this.s_marcas.index(pageNumber).subscribe((response:{success:boolean,data:Ipagination<Ibrands>}) => {
       console.log(response);
-      this.brands = response.brands.data;
-      this.totalItem = response.brands.total;
-      this.perPage = response.brands.per_page;
-      this.pageCurrent = response.brands.current_page;
+      this.brands = response.data.data;
+      this.totalItem = response.data.total;
+      this.perPage = response.data.per_page;
+      this.pageCurrent = response.data.current_page;
     });
   }
 

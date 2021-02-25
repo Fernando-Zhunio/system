@@ -26,11 +26,11 @@ export class CreateProviderOrContactComponent implements OnInit {
   state: EProviderActions = EProviderActions.create_provider;
   formProvider: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
-    phone: new FormControl(null, [Validators.required]),
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    website: new FormControl(null, [Validators.required]),
-    address: new FormControl(null, [Validators.required]),
-    city: new FormControl(null, [Validators.required]),
+    phone: new FormControl(null),
+    email: new FormControl(null, [Validators.email]),
+    website: new FormControl(null),
+    address: new FormControl(null),
+    city: new FormControl(null),
     country_id: new FormControl(null, [Validators.required]),
   });
 
@@ -41,7 +41,7 @@ export class CreateProviderOrContactComponent implements OnInit {
     position: new FormControl(null, [Validators.required]),
     id: new FormControl(null)
   });
-
+  countries=[];
   ngOnInit(): void {
     if (this.data.hasOwnProperty("state")) {
       this.state = this.data.state;
@@ -69,22 +69,25 @@ export class CreateProviderOrContactComponent implements OnInit {
             country_id,
           });
           break;
-        case EProviderActions.view_contact:
-          this.contacts = this.data.form_data.contacts;
-          this.provider_name = this.data.form_data.name_provider;
-          break;
-        default:
-          break;
-      }
-      // if(this.state == EProviderActions.edit_provider){
-      //   if(this.data.isProvider){
-
-      //   }else{
-      //     const {name,phone,email,position} = this.data.form_data;
-      //     this.formContact.setValue({name,phone,email,position})
-      //   }
-      // }
-    }
+          case EProviderActions.view_contact:
+            this.contacts = this.data.form_data.contacts;
+            this.provider_name = this.data.form_data.name_provider;
+            break;
+            default:
+              break;
+            }
+            // if(this.state == EProviderActions.edit_provider){
+              //   if(this.data.isProvider){
+                
+                //   }else{
+                  //     const {name,phone,email,position} = this.data.form_data;
+                  //     this.formContact.setValue({name,phone,email,position})
+                  //   }
+                  // }
+                }
+                this.countries = JSON.parse(localStorage.getItem('countries'))
+                console.log(this.countries);
+                
   }
 
   closeDialogProviderCreate(): void {

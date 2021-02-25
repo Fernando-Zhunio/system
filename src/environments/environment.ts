@@ -6,7 +6,8 @@
 export const environment = {
   production: false,
   server:'http://sistema-codificacion.test/api/',
-  server_img:'http://sistema-codificacion.test/'
+  server_img:'http://sistema-codificacion.test/',
+  domain_serve:'sistema-codificacion.test'
   
 };
 // server:'https://system.novicompu.com/api/',

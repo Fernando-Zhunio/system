@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { MercadoLibreService } from "../../../services/mercado-libre.service";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { StandartSearchService } from "../../../services/standart-search.service";
+import { ImlInfo } from "../../../interfaces/iml-info";
 
 @Component({
   selector: "app-mercado-libre",
@@ -33,7 +34,7 @@ export class MercadoLibreComponent implements OnInit {
     private s_standart: StandartSearchService
   ) {}
 
-  products = [];
+  mlInfos:ImlInfo[] = [];
   ngOnInit(): void {
     this.gotoTop();
     this.isload = true;
@@ -41,11 +42,11 @@ export class MercadoLibreComponent implements OnInit {
       console.log(res);
       this.isload = false;
       // this.products = res.products.data;
-      this.products = res.products.data;
+      this.mlInfos = res.products.data;
       this.length = res.products.total;
       this.pageSize = res.products.per_page;
       this.pageCurrent = res.products.current_page;
-      if (this.products.length < 1) {
+      if (this.mlInfos.length < 1) {
         this.hasData = false;
       } else this.hasData = true;
       // this.pageEvent.length = 10;

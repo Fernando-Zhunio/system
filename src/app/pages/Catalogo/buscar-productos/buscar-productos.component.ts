@@ -1,123 +1,183 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
-import { StockBodegasComponent } from '../../../components/modals/stock-bodegas/stock-bodegas.component';
-import { MercadoLibreService } from '../../../services/mercado-libre.service';
-import { PrefijoService } from '../../../services/prefijo.service';
-import { ProductsService } from '../../../services/products.service';
-import { StandartSearchService } from '../../../services/standart-search.service';
+import { Clipboard } from "@angular/cdk/clipboard";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Subscription } from "rxjs";
+// import { NgxPermissionsService } from 'ngx-permissions';
+// import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
+import { StockBodegasComponent } from "../../../components/modals/stock-bodegas/stock-bodegas.component";
+import { Iprefix } from "../../../interfaces/iprefix";
+import { Iproduct2 } from "../../../interfaces/iproducts";
+import { Iwarehouse } from "../../../interfaces/iwarehouse";
+// import { MercadoLibreService } from '../../../services/mercado-libre.service';
+import { PrefijoService } from "../../../services/prefijo.service";
+import { ProductsService } from "../../../services/products.service";
+import { StandartSearchService } from "../../../services/standart-search.service";
+import { SwalService } from "../../../services/swal.service";
 
 @Component({
-  selector: 'app-buscar-productos',
-  templateUrl: './buscar-productos.component.html',
-  styleUrls: ['./buscar-productos.component.css']
+  selector: "app-buscar-productos",
+  templateUrl: "./buscar-productos.component.html",
+  styleUrls: ["./buscar-productos.component.css"],
 })
 export class BuscarProductosComponent implements OnInit {
-
-  constructor(private s_prefijos:PrefijoService,private s_permissionsService: NgxPermissionsService, private snack_bar:MatSnackBar, private s_standartSearch:StandartSearchService,private dialog:MatDialog, private s_product: ProductsService,private s_mercado_libre:MercadoLibreService) { }
+  constructor(
+    private clipboard: Clipboard,
+    // private s_prefijos: PrefijoService,
+    private snack_bar: MatSnackBar,
+    private s_standartSearch: StandartSearchService,
+    private dialog: MatDialog,
+    private s_product: ProductsService
+  ) {}
   @ViewChild("paginator") paginator: MatPaginator;
-  permission_edit = ['super-admin','products-admin.products.edit'];
+  permission_edit = ["super-admin", "products-admin.products.edit"];
   length = 100;
   pageSize = 10;
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
-  products=[];
-  isColumns:boolean=true;
-  search_name:string = "";
-  productSearch:string=null;
+  products: Iproduct2[] = [];
+  isColumns: boolean = true;
+  search_name: string = "";
+  productSearch: string = null;
   pageCurrent: number = 1;
-  hasData:boolean =true;
-  selected_state:string = 'all';
-  min:number = null;
-  max:number = null;
+  hasData: boolean = true;
+  selected_state: string = "all";
+  min: number = null;
+  max: number = null;
   aux_page_next = 0;
-  isload:boolean = false;
-  prefixes = [];
+
+  suscrition_api: Subscription;
+  isload: boolean = false;
+  prefixes: Iprefix[] = [];
+  warehouses: Iwarehouse[] = [];
+  form_filter: FormGroup = new FormGroup({
+    prefix_id: new FormControl(null),
+    min: new FormControl(null),
+    max: new FormControl(null),
+    warehouse_ids: new FormControl(['all']),
+    search: new FormControl(''),
+  });
   // wordSearch:string="";
   ngOnInit(): void {
     this.gotoTop();
-   this.isload = true;
-    this.s_product.searchProduct(this.search_name).subscribe(
-      res=>{
-        this.isload =false;
-        // const perm = ["ADMIN","catalogs.publications.edit","catalogs.products.ml.relist"];
-        // this.s_permissionsService.loadPermissions(perm);
-        if(res.success){
-          console.log(res);
-          this.products = res.data.data;
-          this.products = res.data.data;
-          this.length = res.data.total;
-          this.pageSize = res.data.per_page;
-          this.pageCurrent = res.data.current_page;
-          if(this.products.length < 1){
-            this.hasData = false;
-          }else this.hasData = true;
+    this.isload = true;
+    if (this.suscrition_api) {
+      this.suscrition_api.unsubscribe();
+    }
+    this.suscrition_api = this.s_product
+      .searchProduct(this.search_name)
+      .subscribe(
+        (res) => {
+          this.isload = false;
+          if (res.success) {
+            console.log(res);
+            // this.products = res.data.data;
+            this.products = res.data.data;
+            this.length = res.data.total;
+            this.pageSize = res.data.per_page;
+            this.pageCurrent = res.data.current_page;
+            if (this.products.length < 1) {
+              this.hasData = false;
+            } else this.hasData = true;
+          }
+        },
+        (err) => {
+          this.isload = false;
         }
-      },
-      err=>{
-        this.isload =false;
-      }
-    )
-    this.s_prefijos.getAll().subscribe((response: any) => {
-      console.log(response);
-      this.prefixes = response.prefixes;
-      
-    });
-  }
+      );
 
-  // selectEvent(event):void{
-  //   console.log(event.target);
-  // }
-
-  // searchAutocomplete(){
-  //   if(this.search_name.length > 3)
-  //   {
-
-  //     this.s_product.searchProduct(this.search_name).subscribe(
-  //       res=>{
-  //         console.log(res);
-  //         this.products = res.products.data;
-  //       }
-  //     )
-  //   }
-  // }
-
-
-  searchBar():void{
-    const pageSize = (this.pageSize)?this.pageSize:10;
-    this.isload = true
-    // console.log(this.pageEvent);
-    this.gotoTop();
     this.s_standartSearch
-      .search(this.productSearch, pageSize, this.selected_state,this.min,this.max,'catalogs/products')
-      .subscribe((response: any) => {
-        this.isload =false;
-        console.log(response);
-        this.products = response.data.data;
-        this.length = response.data.total;
-        this.pageSize = response.data.per_page;
-        this.pageCurrent = response.data.current_page;
-        if(this.products.length < 1){
-          this.hasData = false;
+      .show("catalogs/products/get-data-filter")
+      .subscribe((res) => {
+        console.log(res);
+        if (res.success) {
+          this.prefixes = res.data.prefixes;
+          this.warehouses = res.data.warehouses;
         }
-        else this.hasData =true;
-      },err=>{
-        this.isload =false;
       });
+    // this.s_prefijos.getAll().subscribe((response: any) => {
+    //   console.log(response);
+    //   this.prefixes = response.prefixes;
+    // });
   }
 
-  changedPaginator($event) {
+  getNameWareHouse(id) {
+    const warehouse = this.warehouses.find((x) => x.id == id);
+    // if(warehouse == undefined){
+    //   this.form_filter.get('warehouse_ids').setValue(["all"]);
+    // }
+    return warehouse?warehouse.name:"Todas las bodegas"
+  }
+  removeWarehouse(id) {
+    let warehouses = this.form_filter.get("warehouse_ids").value;
+    // console.log(accounts, id);
+    const index = warehouses.findIndex((x) => x == id);
+    if (index != -1) {
+      warehouses.splice(index, 1);
+      this.form_filter.get("warehouse_ids").setValue(warehouses);
+    }
+  }
+
+  selectAllWarehouse($event){
+    const index = $event.value.findIndex(x =>x =="all");
+    if(index != -1 ){
+      this.form_filter.get("warehouse_ids").setValue(['all']);
+    }
+    if(index != -1 && $event.value.length > 1){
+      let warehouses = this.form_filter.get("warehouse_ids").value;
+      warehouses.splice(index, 1);
+      this.form_filter.get("warehouse_ids").setValue(warehouses);
+      return;
+    }
+    console.log($event,index);
+   
+
+    // this.form_filter.get('warehouse_ids').setValue(["all"]);
+  }
+  searchBar($event = { pageSize: 15, pageIndex: 0 }) {
     this.pageSize = $event.pageSize;
-    this.isload =true;
+    this.isload = true;
     console.log($event);
-    if($event.pageIndex != this.aux_page_next){
-      // window.scrollTo(0,0);
+    this.gotoTop();
+    if (this.suscrition_api) {
+      this.suscrition_api.unsubscribe();
+      console.log("cancelado llamado");
+    }
+    this.suscrition_api = this.s_standartSearch
+      // .search(this.productSearch, pageSize, this.selected_state,this.min,this.max,'catalogs/products')
+      .search2("catalogs/products", {
+        page: $event.pageIndex + 1,
+        pageSize: this.pageSize,
+        ...this.form_filter.value,
+      })
+      .subscribe(
+        (response: any) => {
+          this.isload = false;
+          // console.log(response);
+          this.products = response.data.data;
+          this.length = response.data.total;
+          this.pageSize = response.data.per_page;
+          this.pageCurrent = response.data.current_page;
+          if (this.products.length < 1) {
+            this.hasData = false;
+          } else this.hasData = true;
+        },
+        (err) => {
+          this.isload = false;
+        }
+      );
+  }
+
+  changedPaginator($event = { pageSize: 15, pageIndex: 0 }) {
+    this.pageSize = $event.pageSize;
+    this.isload = true;
+    console.log($event);
+    return;
+    if ($event.pageIndex != this.aux_page_next) {
       this.gotoTop();
-      console.log('scroll');
-      // scrollTo(0,0);
+      console.log("scroll");
       this.aux_page_next = $event.pageIndex;
     }
     this.s_standartSearch
@@ -128,31 +188,42 @@ export class BuscarProductosComponent implements OnInit {
         this.selected_state,
         this.min,
         this.max,
-        'catalogs/products'
+        "catalogs/products"
       )
-      .subscribe((response: any) => {
-        console.log(response);
-        this.products = response.data.data;
-        this.length = response.data.total;
-        this.pageSize = response.data.per_page;
-        this.pageCurrent = response.data.current_page;
-        if(this.products.length < 1){
-          this.hasData = false;
-        } else this.hasData = true;
-        this.isload =false
-      },
-      err=>{
-        this.isload =false;
-      });
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.products = response.data.data;
+          this.length = response.data.total;
+          this.pageSize = response.data.per_page;
+          this.pageCurrent = response.data.current_page;
+          if (this.products.length < 1) {
+            this.hasData = false;
+          } else this.hasData = true;
+          this.isload = false;
+        },
+        (err) => {
+          this.isload = false;
+        }
+      );
   }
   gotoTop() {
-    const main =document.getElementsByClassName("app-body")
+    const main = document.getElementsByClassName("app-body");
     main[0].scrollTop = 0;
+  }
+
+  copyCodigo(code) {
+    this.clipboard.copy(code);
+    // SwalService.swalToast("Codigo: "+code+" copiado","success")
+    this.snack_bar.open("Codigo " + code + " copiado", "OK", {
+      duration: 2000,
+    });
+    return code;
   }
 
   // executeMenu(event ): void {
   //   console.log(event);
-    
+
   //   // active,paused,closed,deleted,relist_forever_on,relist_forever_off
   //   // switch (type) {
   //   //   case "active":
@@ -181,7 +252,7 @@ export class BuscarProductosComponent implements OnInit {
   //       const indice = this.products.findIndex((x) => x.id == event.id);
   //       this.products[indice] = res.ml;
   //       console.log(this.products[indice]);
-        
+
   //     }
   //   },err=>{
   //     snack.dismiss();
@@ -189,25 +260,25 @@ export class BuscarProductosComponent implements OnInit {
   //   });
   // }
 
-  EditPublication(id){
-
-  }
-  deletePublication(id,i){
-
-  }
-  openDescription(i){
+  EditPublication(id) {}
+  deletePublication(id, i) {}
+  openDescription(i) {
     const name = this.products[i].name;
     const info = this.products[i].description;
     // console.log(description);
-    this.s_standartSearch.openDescription(name,'Descripcion',info,false)
+    this.s_standartSearch.openDescription(name, "Descripcion", info, false);
   }
 
-  viewWareHouse(index){
-    this.s_product.viewWareHouse(this.products[index].id).subscribe(res=>{
+  viewWareHouse(index) {
+    this.s_product.viewWareHouse(this.products[index].id).subscribe((res) => {
       console.log(res);
-      this.dialog.open(StockBodegasComponent,{
-        data:{titleOne:"Bodegas Ventas",titleTwo:"Otras Bodegas",data:res}
-      })
-    })
+      this.dialog.open(StockBodegasComponent, {
+        data: {
+          titleOne: "Bodegas Ventas",
+          titleTwo: "Otras Bodegas",
+          data: res,
+        },
+      });
+    });
   }
 }

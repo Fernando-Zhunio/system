@@ -29,8 +29,7 @@ const routes: Routes = [
       },
       {
         path:'group-products/create',
-        component:CreateOrEditGroupProductsComponent,
-        
+        component:CreateOrEditGroupProductsComponent, 
         data: {
           isEdit: false,
           permissions: {

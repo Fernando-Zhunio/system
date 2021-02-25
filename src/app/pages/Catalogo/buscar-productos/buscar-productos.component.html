@@ -1,39 +1,65 @@
 <div>
     <div class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
-        <mat-tab-group class="py-0 col-sm-12 w-100" style="overflow: hidden;">
+        <mat-tab-group [formGroup]="form_filter" class="py-0 col-sm-12 w-100" style="overflow: hidden;">
             <mat-tab label="Busqueda">
                 <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
-                    <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="productSearch">
+                    <!-- <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="productSearch"> -->
+                    <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" formControlName="search" (keyup)="searchBar()">
                     <button class="position-absolute" style="top: 0px;
                 left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
                         <mat-icon style="font-size: 30px;" type="search">search</mat-icon>
                     </button>
                 </div>
             </mat-tab>
-            <mat-tab label="Filtros">
-                <div class="pt-3 bg-gray-200 px-2" style="overflow: hidden;">
-                    <mat-form-field class="mx-2" appearance="outline">
-                        <mat-label>Prefijos</mat-label>
-                        <mat-select (selectionChange)="searchBar()" [(value)]="selected_state">
-                            <mat-option value="all">Todos</mat-option>
-                            <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{prefix.type}}</mat-option>
 
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" style="width: 150px;">
-                        <mat-label>Stock Min</mat-label>
-                        <input matInput [(ngModel)]="min" type="number" class="example-right-align">
-                        <!-- <span matPrefix>$&nbsp;</span>
-                        <span matSuffix>.00</span> -->
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" style="width: 150px;">
-                        <mat-label>Stock Max</mat-label>
-                        <input [(ngModel)]="max" matInput type="number" class="example-right-align">
-                        <!-- <span matPrefix>$&nbsp;</span>
-                        <span matSuffix>.00</span> -->
-                    </mat-form-field>
-                    <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
-                </div>
+            <mat-tab label="Filtros">
+                <mat-card class="my-2">
+                    <!-- <mat-card-header>
+                        <mat-card-title>title</mat-card-title>
+                        <mat-card-subtitle>subtitle</mat-card-subtitle>
+                    </mat-card-header> -->
+                    <mat-card-content>
+                        <div class="pt-3 bg-gray-200 px-2" class="row" style="overflow: hidden;">
+                            <mat-form-field class="col-md-6">
+                                <mat-label>Prefijos</mat-label>
+                                <mat-select (selectionChange)="searchBar()" [(value)]="selected_state">
+                                    <mat-option value="all">Todos</mat-option>
+                                    <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{prefix.type}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="col-md-3">
+                                <mat-label>Stock Min</mat-label>
+                                <!-- <input matInput [(ngModel)]="min" type="number" class="example-right-align"> -->
+                                <input matInput formControlName="min" type="number" class="example-right-align">
+                            </mat-form-field>
+                            <mat-form-field class="col-md-3">
+                                <mat-label>Stock Max</mat-label>
+                                <input formControlName="max" matInput type="number" class="example-right-align">
+                            </mat-form-field>
+                            <mat-form-field class="col-12">
+                                <mat-label>Todas las Bodegas</mat-label>
+                                <mat-select (selectionChange)="selectAllWarehouse($event)" formControlName="warehouse_ids" multiple>
+                                    <mat-select-trigger>
+                                        <mat-chip-list>
+                                            <mat-chip (removed)="removeWarehouse(warehouse_id)" *ngFor="let warehouse_id of form_filter.get('warehouse_ids').value" [removable]="true">
+                                                {{getNameWareHouse(warehouse_id)}}
+                                                <mat-icon matChipRemove>cancel</mat-icon>
+                                            </mat-chip>
+                                        </mat-chip-list>
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+                                        {{warehouse.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <!-- <button mat-button>Ok</button> -->
+                        <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
+                    </mat-card-actions>
+                </mat-card>
+
             </mat-tab>
         </mat-tab-group>
 
@@ -74,15 +100,16 @@
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <small class="text-muted font-sm">
-                    Tipo: <b>{{p.prefix?.type}}</b> -
-                    Código: <b>{{p.code}}</b> -
-                    Código Alternativo: <b>{{p.code_alt}}</b> -
-                    Categoria: <b>{{p.category?.name}}</b> -
-                    Marca: <b>{{p.brand?.name}}</b> -
-                    Secuencia: <b>{{p.sequence?.sequence_number}}</b><br>
+                <small class="font-sm">
+                    Tipo: <strong>{{p.prefix?.type}}</strong> -
+                    Código: <strong class="cursor_copy" (click)="copyCodigo(p.code)" tooltip="Click para copiar codigo"
+                        placement="bottom">{{p.code}} <i class="far fa-copy"></i></strong> -
+                    Código Alternativo: <strong>{{p.code_alt}}</strong> -
+                    Categoria: <strong>{{p.category?.name}}</strong> -
+                    Marca: <strong>{{p.brand?.name}}</strong> -
+                    Secuencia: <strong>{{p.sequence?.sequence_number}}</strong><br>
                 </small>
-                <div>
+                <div class="mt-2">
                     <button mat-raised-button class="mr-1" type="button">Stock para ventas: {{p.available}}</button>
                     <button mat-raised-button class="mr-1" type="button" color="primary" (click)="viewWareHouse(ind)">Stock en bodegas</button>
                     <button *ngIf="p.facebook_posts_count > 0" mat-raised-button class="mr-1" color="warn" type="button">Ver
@@ -205,6 +232,7 @@
         </div>
     </ng-container>
 
-    <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
+    <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [pageIndex]="pageCurrent-1" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="searchBar($event)">
     </mat-paginator>
+    <!-- <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)"> -->
 </div>

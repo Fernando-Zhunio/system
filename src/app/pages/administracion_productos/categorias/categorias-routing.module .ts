@@ -23,7 +23,7 @@ const routes: Routes = [
     data: {
       isEdit: false,
       permissions: {
-        only: ["super-admin", "products-admin.category.index"],
+        only: ["super-admin", "products-admin.categories.index"],
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -38,7 +38,7 @@ const routes: Routes = [
         data: {
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.category.create"],
+            only: ["super-admin", "products-admin.categories.create"],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -51,7 +51,7 @@ const routes: Routes = [
         data: {
           isEdit: true,
           permissions: {
-            only: ["super-admin", "products-admin.category.edit"],
+            only: ["super-admin", "products-admin.categories.edit"],
           },
         },
         canActivate: [NgxPermissionsGuard],

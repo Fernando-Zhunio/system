@@ -12,6 +12,7 @@ import { SwalService } from "../../services/swal.service";
   templateUrl: "login.component.html",
 })
 export class LoginComponent {
+  hide:boolean = true;
   btnLogin: boolean = false;
   constructor(private auth_service: AuthService, private router: Router,public s_storage: StorageService) {}
   formLogin: FormGroup = new FormGroup({
@@ -21,7 +22,6 @@ export class LoginComponent {
 
   login(): void {
     if (this.formLogin.valid) {
-   
       this.btnLogin = !this.btnLogin;
       // this.spinner.show();
       let email = this.formLogin.controls["email"].value;

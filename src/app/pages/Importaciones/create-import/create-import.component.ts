@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileSystemDirectoryEntry, FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { InvoiceItemModalComponent } from '../../../components/modals/invoice-item-modal/invoice-item-modal.component';
+import { EProviderActions } from '../../../enums/eprovider-actions.enum';
 import { Iimportation } from '../../../interfaces/Imports/invoice-item';
 import { StandartSearchService } from '../../../services/standart-search.service';
 
@@ -40,7 +42,7 @@ export class CreateImportComponent implements OnInit {
   isLoadingProvider:boolean = false;
   providers= [];
   state_import:'edit'|'create'='create';
-  constructor(private active_route:ActivatedRoute, private spinner:NgxSpinnerService, private s_standart:StandartSearchService,private bottomSheet:MatBottomSheet,private dialog:MatDialog) { }
+  constructor(private snack_bar:MatSnackBar, private active_route:ActivatedRoute, private spinner:NgxSpinnerService, private s_standart:StandartSearchService,private bottomSheet:MatBottomSheet,private dialog:MatDialog) { }
   products=[];
   form_import:FormGroup = new FormGroup({
     origin:new FormControl("",[Validators.required]),
@@ -62,13 +64,13 @@ export class CreateImportComponent implements OnInit {
   state:"create"|"edit"|"store"="create";
   suscribe_status:Subscription
 
+
   ngOnInit(): void {
-    // this.forms_invoices = [];
     console.log(this.state);
-    
     this.s_standart.create("purchase-department/imports/create").subscribe(res=>{
       console.log(res);
       ({origins:this.origins, providers:this.providers} = res.data)
+      localStorage.setItem('countries',JSON.stringify(res.data.countries))
     });
      this.suscribe_status = this.active_route.data.subscribe(res=>{
       console.log(res);
@@ -118,7 +120,6 @@ export class CreateImportComponent implements OnInit {
 
 
   newInvoice(){
-  
     this.forms_invoices.push("add");
   }
 
@@ -290,7 +291,6 @@ export class CreateImportComponent implements OnInit {
         
         this.spinner.hide();
       })
-      
     }
   }
 
@@ -303,6 +303,143 @@ export class CreateImportComponent implements OnInit {
   //     // console.log(data_req);
   //   }
   // }
+
+  newAction(event:{action:EProviderActions,data:any,id?:number}):void{
+    // switch (event.action) {
+    //   case EProviderActions.create_provider:
+    //     this.snack_bar.open('Creando proveedor');
+    //     this.s_standart.store("purchase-department/providers",event.data).subscribe((res)=>{
+    //       console.log(res);
+    //       if(res.success){
+    //         this.snack_bar.open('Proveedor creado con exito','OK',{duration:2000})
+    //         this.providers = res.data;
+    //       }
+    //     })
+    //     break;
+    //   case EProviderActions.edit_provider:
+    //     this.snack_bar.open('Editando proveedor');
+    //     this.s_standart.updatePut("purchase-department/providers/"+event.id,event.data).subscribe((res)=>{
+    //       console.log(res);
+    //       if(res.success){
+    //         this.snack_bar.open('Proveedor editado con exito','OK',{duration:2000})
+    //         this.providers = res.data;
+    //       }
+    //     })
+    //   break;
+    //   case EProviderActions.create_contact:
+    //     this.snack_bar.open('Creando contacto');
+    //     this.s_standart.store("purchase-department/providers/"+event.id+"/contacts",event.data).subscribe((res)=>{
+    //       console.log(res);
+    //       if(res.success){
+    //         this.snack_bar.open('Contacto creado con exito','OK',{duration:2000})
+    //         this.providers = res.data;
+    //       }
+    //     })
+    //   break;
+    //   case EProviderActions.create_contact:
+    //     this.snack_bar.open('Editanto contacto');
+    //     this.s_standart.store("purchase-department/providers/"+event.id+"/contacts/"+event.data.id,event.data).subscribe((res)=>{
+    //       console.log(res);
+    //       if(res.success){
+    //         this.snack_bar.open('Contacto editado con exito','OK',{duration:2000})
+    //         this.providers = res.data;
+    //       }
+    //     })
+    //   break;
+    //   default:
+    //     break;
+    // }
+    let snack;
+    switch (event.action) {
+      case EProviderActions.create_provider:
+         snack = this.snack_bar.open("Creando proveedor espere...")
+        this.s_standart.store("purchase-department/providers",event.data).subscribe(res=>{
+          if(res.success){
+            snack.dismiss();
+            this.snack_bar.open('Proveedor creado con exito','OK',{duration:2000})
+            console.log(res);
+         
+            this.providers = res.data;
+          }
+        },err=>{
+          console.log(err);  
+          snack.dismiss();
+        })
+        break;
+      case EProviderActions.create_contact:
+        snack = this.snack_bar.open("Creando contacto espere...");
+        this.s_standart.store(`purchase-department/providers/${event.id}/contacts`,event.data).subscribe(res=>{
+          if(res.success){
+            snack.dismiss();
+            this.providers = res.data;
+            this.snack_bar.open('Contacto creado con exito','OK',{duration:2000})
+            console.log(res);
+          }
+        },err=>{
+          console.log(err);  
+          snack.dismiss();
+        })
+      break;
+      case EProviderActions.edit_provider:
+        snack = this.snack_bar.open("Editando proveedor espere...");
+        this.s_standart.updatePut(`purchase-department/providers/${event.id}`,event.data).subscribe(res=>{
+          if(res.success){
+            snack.dismiss();
+            this.providers = res.data;
+            this.snack_bar.open('Proveedor editado con exito','OK',{duration:2000})
+            console.log(res);
+          }
+        },err=>{
+          console.log(err);  
+          snack.dismiss();
+        })
+      break;
+      case EProviderActions.delete_provider:
+        snack = this.snack_bar.open("Eliminando proveedor espere...");
+        this.s_standart.destory(`purchase-department/providers/${event.id}`).subscribe(res=>{
+          if(res.success){
+            snack.dismiss();
+            this.providers = res.data;
+            this.snack_bar.open('Proveedor eliminado con exito','OK',{duration:2000})
+            console.log(res);
+          }
+        },err=>{
+          console.log(err);  
+          snack.dismiss();
+        })
+        break;
+        case EProviderActions.edit_contact:
+        snack = this.snack_bar.open("Editando contacto espere...");
+        this.s_standart.updatePut(`purchase-department/providers/${event.id}/contacts/${event.data.id}`,event.data).subscribe(res=>{
+          if(res.success){
+            snack.dismiss();
+            this.providers = res.data;
+            this.snack_bar.open('Contacto editado con exito','OK',{duration:2000})
+            console.log(res);
+          }
+        },err=>{
+          console.log(err);  
+          snack.dismiss();
+        })
+        break;
+        case EProviderActions.delete_contact:
+          snack = this.snack_bar.open("Eliminando contacto espere...");
+          this.s_standart.destory(`purchase-department/providers/${event.id}/contacts/${event.data.id}`).subscribe(res=>{
+            if(res.success){
+              snack.dismiss();
+              this.providers = res.data;
+              this.snack_bar.open('Contacto eliminado con exito','OK',{duration:2000})
+              console.log(res);
+            }
+          },err=>{
+            console.log(err);  
+            snack.dismiss();
+          })
+          break
+      default:
+        break;
+    }
+  }
 
 
 }

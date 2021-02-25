@@ -24,16 +24,12 @@ export class StandartSearchService {
   }
 
  store(url,params):Observable<Iresponse>{
-
-  // let params = new HttpParams();
-  // if(data.length){
-  // // if(typeof(data)=='object'){
-  //   const countData = data.length;
-  //   for (let i = 0; i < countData; i++) {
-  //     params = params.append(data[i].name,data[i].value);
-  //   }
-  // }
   return this.http.post<Iresponse>(this.end_point+url,{...params})
+  }
+
+  search2(url:string,params){
+    console.log(params);
+    return this.http.get<Iresponse>(this.end_point+url,{params:{...params}})
   }
 
   search(search,pageSize,state,price_min,price_max,url):Observable<any>{

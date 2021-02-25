@@ -64,7 +64,7 @@
 
 
     <div *ngIf="hasData; else elseTemplate" class="mt-4">
-        <mat-card *ngFor="let ml of products" class="example-card my-2">
+        <mat-card *ngFor="let ml of mlInfos" class="example-card my-2">
             <!-- <mat-card-content>
                 <div class="row p-md-2 p-sm-0">
                     <div class="col-md-2">
@@ -168,6 +168,6 @@
             </div>
         </div>
     </ng-template>
-    <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
+    <mat-paginator *ngIf="mlInfos.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
     </mat-paginator>
 </div>

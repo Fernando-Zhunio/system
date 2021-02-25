@@ -19,8 +19,8 @@ export class CreateOrEditGroupProductsComponent implements OnInit {
     }
   )
 
-  @ViewChild('widget') container: ElementRef;
-  spreadsheet:any;
+  // @ViewChild('widget') container: ElementRef;
+  // spreadsheet:any;
   state:string = 'Creando grupo de productos'
   ngOnInit(): void {
   //   this.spreadsheet = new Spreadsheet(this.container.nativeElement, {

@@ -61,7 +61,7 @@ export interface invoiceItemImg {
 }
 
 export interface Iimportation {
-  Counts: {
+  Counts?: {
     product_count: number;
     product_import_count: number;
     product_new_count: number;
@@ -77,8 +77,8 @@ export interface Iimportation {
   id: number;
   import_log_status_id: number;
   import_origin_sequence_id: number;
-  invoices: invoice[];
-  last_status: {
+  invoices?: invoice[];
+  last_status?: {
     created_at: string;
     id: number;
     import_id: number;
@@ -112,7 +112,9 @@ export interface Iimportation {
     updated_at: string;
   };
   updated_at?: string;
+  pivot?: {product_id: number, import_id: number}
 }
+
 
 export interface Iprovider {
   address: string;

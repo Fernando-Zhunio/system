@@ -21,6 +21,12 @@ const routes: Routes = [
       {
         path: "",
         component: MarcasComponent,
+        data: {
+          permissions: {
+            only: ["super-admin", "products-admin.brands.index"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
       },
       {
         path: "create",
