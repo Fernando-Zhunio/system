@@ -81,11 +81,11 @@ export class MercadoLibreComponent implements OnInit {
       .subscribe((response: any) => {
         console.log(response);
         this.isload = false;
-        this.products = response.products.data;
+        this.mlInfos = response.products.data;
         this.length = response.products.total;
         this.pageSize = response.products.per_page;
         this.pageCurrent = response.products.current_page;
-        if (this.products.length < 1) {
+        if (this.mlInfos.length < 1) {
           this.hasData = false;
         } else this.hasData = true;
       },err=>{
@@ -117,11 +117,11 @@ export class MercadoLibreComponent implements OnInit {
       .subscribe((response: any) => {
         console.log(response);
         this.isload = false;
-        this.products = response.products.data;
+        this.mlInfos = response.products.data;
         this.length = response.products.total;
         this.pageSize = response.products.per_page;
         this.pageCurrent = response.products.current_page;
-        if (this.products.length < 1) {
+        if (this.mlInfos.length < 1) {
           this.hasData = false;
         } else this.hasData = true;
         
@@ -138,8 +138,8 @@ export class MercadoLibreComponent implements OnInit {
     this.s_mercado_libre.updateStatus(event.id, event.type).subscribe((res) => {
       console.log(res);
       if (res.success) {
-        const indice = this.products.findIndex((x) => x.id == event.id);
-        this.products[indice] = res.ml;
+        const indice = this.mlInfos.findIndex((x) => x.id == event.id);
+        this.mlInfos[indice] = res.ml;
       }
     });
   }
