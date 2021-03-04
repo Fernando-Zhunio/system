@@ -9,11 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { PromocionesComponent } from '../../components/promociones/promociones.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PublicationComponent } from '../../components/publication/publication.component';
+import { PaginaWebComponent } from '../../components/pagina-web/pagina-web.component';
 
 
 
 @NgModule({
-  declarations: [MlComponent,PromocionesComponent],
+  declarations: [MlComponent,PromocionesComponent,PaginaWebComponent],
   imports: [
     MomentModule,
     MatCardModule,
@@ -23,6 +24,6 @@ import { PublicationComponent } from '../../components/publication/publication.c
     MatButtonModule,
     MatSnackBarModule,
   ],
-  exports: [ MlComponent,PromocionesComponent ]
+  exports: [ MlComponent,PromocionesComponent,PaginaWebComponent ]
 })
 export class MlModule { }

@@ -20,12 +20,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MlModule } from '../../../Modulos/ml/ml.module';
+import { PostModule } from '../../../Modulos/post.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { SwiperModule } from 'swiper/angular';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 @NgModule({
@@ -34,6 +37,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     CommonModule,
     BuscarProductosRoutingModule,
     NgxAutocompleteModule,
+    CarouselModule.forRoot(),
     // FormsModule,
     ReactiveFormsModule,
     BsDropdownModule,
@@ -57,7 +61,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     NgxPermissionsModule,
     MatSelectModule,
     MatChipsModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    MatSidenavModule,
+    SwiperModule,
+    PostModule
     ]
 })
 export class BuscarProductosModule { }

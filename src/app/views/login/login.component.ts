@@ -29,7 +29,7 @@ export class LoginComponent {
       this.auth_service.login(email, password).subscribe(
         (res) => {
           this.btnLogin = !this.btnLogin;
-          if (res.hasOwnProperty("access_token")) {
+          if(res.hasOwnProperty("access_token")) {
             let session:Session = new Session
             session.token = res.access_token
             session.expires_at = res.expires_at;

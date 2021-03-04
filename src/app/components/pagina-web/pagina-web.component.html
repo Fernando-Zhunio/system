@@ -1,80 +1,76 @@
-<mat-card-content class="m-0">
+<mat-card>
     <div class="row p-md-2 p-sm-0">
-        <div class="col-md-12  col-sm-12  position-relative">
-            <a [href]="ml.link" target="_blank">
-                <img style="width: 100%;" [src]="ml.image" alt="">
-            </a>
+        <div class="col-md-12 d-flex align-items-center col-sm-12 ">
+            <a [href]="prestashop_product.self_combination ? prestashop_product.self_combination.link : prestashop_product.link" target="_blank"><img style="width: 100%;max-width: 270px" [src]="(prestashop_product.self_combination && prestashop_product.self_combination.image) ? prestashop_product.self_combination.image : prestashop_product.image" alt=""></a>
             <div style="top: 10px;" class="position-absolute">
-
-                <span class="mb-1 badge font-lg  bg-warning text-white mt-2">MERCADO LIBRE</span><br>
-                <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge font-lg bg-pink text-white">
-                    {{company.name}}</span><br>
-                <span class="mb-1 badge font-lg  bg-green text-white">{{ml.account.city.name}}</span><br>
-                <span class="mb-1 badge font-lg  bg-green text-white">{{ml.account.user_name}}</span>
+                <span class="mb-1 badge font-lg  bg-warning text-white mt-2">PÁGINA WEB</span><br>
+                <!-- <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge font-lg bg-pink text-white">
+                    {{company.name}}</span><br> -->
+                <!-- <span class="mb-1 badge font-lg  bg-green text-white">{{ml.account.city.name}}</span><br> -->
+                <span class="mb-1 badge font-lg  bg-green text-white">{{prestashop_product.prestashop.name}}</span>
             </div>
         </div>
         <div class="col-sm-12 col-md-12 row align-content-center">
             <div class="col-md-12">
-                <mat-card-title *ngIf="withName">{{ml.name}}</mat-card-title>
+                <!-- <mat-card-title>{{prestashop_product.name}}</mat-card-title> -->
+                <!-- <p *ngIf="ml.description" [innerHTML]="ml.description"></p> -->
                 <!-- <p *ngIf="ml.stock" class=" text-muted">
                     <span>Stock Inical: {{ml.stock.initial_quantity}}</span> - <span>Vendido:
                         {{ml.stock.sold_quantity}}</span> - <span class="text-success">Disponible:
                         {{ml.stock.available_quantity}}</span>
                 </p> -->
-                <div class="text-center" style="flex-wrap: wrap;">
-
-                    <div class="mat-button" color="accent">{{ml.price+ml.tax | currency}}</div>
-                    <!-- <a [href]="ml.link" mat-raised-button class="mr-1" target="_blank" color="primary">Ver en Web </a> -->
-                    <button mat-raised-button class="" (click)="openDescription()" color="accent">Ver descripcion</button>
+                <div class="d-flex justify-content-center  align-items-center" style="flex-wrap: wrap;">
+                    <span class="mat-button" color="accent">{{prestashop_product.full_price_formated | currency}}</span>
+                    <!-- <a [href]="prestashop_product.self_combination ? prestashop_product.self_combination.link : prestashop_product.link" mat-raised-button target="_blank" color="primary">Ver en Web </a> -->
+                    <button mat-raised-button (click)="openDescription()" color="accent">Ver descripcion</button>
                 </div>
-                <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
+                <!-- <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
                     <div class="alert alert-warning">
                         <button type="button" class="close"></button>
                         <strong>Atención!</strong> Este item ha sido publicado como <b>"{{ml.listing_type_id
                             }}"</b> pero requiere de pago para ser visible. <b>Páguese en la cuenta
                             {{ml.account.user_name}}</b>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-md-4 text-right">
-                <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
+                <!-- <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
                     <span class="text-uppercase {{ml.listing_type_id}}">
                         <i class="fas fa-coins {{ml.listing_type_id}}"></i>
                         PUBLICACIÓN {{ml.listing_type_id}}
                     </span>
                     <br>
-                </ng-container>
+                </ng-container> -->
 
 
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 info-panel">
                 <div class="text-center">
                     <small class="font-italic font-sm font-weight-bold">Actualizado por última vez:
-                        {{ml.updated_at
+                        {{prestashop_product.updated_at
                         | amLocale:'es' |
                         amTimeAgo}}</small>
                 </div>
-                <div class="d-flex" style="flex-wrap: wrap;">
-                    <span [ngClass]=" ml.status == 'closed'?'badge-danger':'badge-success'" class=" badge-pill badge d-inline-flex align-items-center">
+                <div class="options-bar">
+                    <!-- <span [ngClass]=" ml.status == 'closed'?'list-group-item-dark':'list-group-item-success'" class="mat-button d-inline-flex align-items-center">
                         <mat-icon>{{(ml.status != 'closed') ? 'play_circle_outline' : 'stop'}}</mat-icon>
                         <span class="text-uppercase">{{ml.status }}</span>
-                    </span>
+                    </span> -->
 
 
 
-                    <span class="badge-primary badge badge-pill d-inline-flex align-items-center">
+                    <!-- <span class="mat-button list-group-item-info d-inline-flex align-items-center">
                         <mat-icon>access_alarm</mat-icon>
                         <span>{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
                             amLocale:'es' |
                             amTimeAgo }} </span>
-                    </span>
-                    <span *ngIf="ml.relist_forever == 'on'" class="badge badge-secondary mt-1 badge-pill d-inline-flex align-items-center">
+                    </span> -->
+
+                    <!-- <span *ngIf="ml.relist_forever == 'on'" class="mat-button list-group-item-secondary d-inline-flex align-items-center">
                         <mat-icon>restore</mat-icon><span>Republicación Activada </span>
                     </span>
                     <ng-container *ngIf="ml.menu">
-                        <div class="float-right" style="position: absolute;
-                        bottom: 0;
-                        right: -39px;">
+                        <div class="float-right">
                             <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                 <mat-icon>more_vert</mat-icon>
                             </button>
@@ -86,9 +82,9 @@
                                 </button>
                             </mat-menu>
                         </div>
-                    </ng-container>
+                    </ng-container> -->
                 </div>
             </div>
         </div>
     </div>
-</mat-card-content>
+</mat-card>

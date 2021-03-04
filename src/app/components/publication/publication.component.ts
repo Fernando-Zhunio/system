@@ -22,6 +22,27 @@ export class PublicationComponent implements OnInit {
   permission_destroy = ["super-admin", "catalogs.publications.destroy"];
   @Input() publication:Ipublication;
   @Output() delete:EventEmitter<any> = new EventEmitter();
+  breakpoints = {
+    // when window width is >= 320px
+    320: {
+      slidesPerView: 1,
+      spaceBetween: 5
+    },
+    // when window width is >= 480px
+    480: {
+      slidesPerView: 1,
+      spaceBetween: 5
+    },
+    // when window width is >= 640px
+    640: {
+      slidesPerView: 2,
+      spaceBetween: 10
+    },
+    800: {
+      slidesPerView: 4,
+      spaceBetween: 10
+    }
+  }
 
   ngOnInit(): void {}
 

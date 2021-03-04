@@ -87,6 +87,11 @@ import { CreateProviderOrContactComponent } from './components/modals/create-pro
 import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
 import { PublicationComponent } from './components/publication/publication.component';
 import { InConstructionComponent } from './views/in-construction/in-construction.component';
+import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
+import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
+// import { PostInstagramComponent } from './components/post-instagram/post-instagram.component';
+// import { OrganizationChartComponent } from './pages/information-user/organization-chart/organization-chart.component';
+// import { PostComponent } from './components/post/post-facebook.component';
 
 // import {EchoConfig, EchoService, NgxLaravelEchoModule} from 'ngx-laravel-echo';
 // import { environment } from "../environments/environment";
@@ -165,6 +170,11 @@ import { InConstructionComponent } from './views/in-construction/in-construction
     CreateProviderOrContactComponent,
     SearchProductModalComponent,
     InConstructionComponent,
+    RedirectToComponent,
+    // PostInstagramComponent,
+    // OrganizationChartComponent,
+    // PostComponent,
+    // PaginaWebComponent,
     // PublicationComponent,
     // InvoiceCreateOrEditComponent,
     // HeaderSearchComponent,

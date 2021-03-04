@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MlModule } from '../../Modulos/ml/ml.module';
 import { InvoiceCreateOrEditComponent } from '../../components/invoice-create-or-edit/invoice-create-or-edit.component';
+// import { OrgchartModule } from '@dabeng/ng-orgchart';
 
 
 @NgModule({
@@ -52,7 +53,9 @@ import { InvoiceCreateOrEditComponent } from '../../components/invoice-create-or
     MatProgressSpinnerModule,
     MatTableModule,
     MatSidenavModule,
-    MlModule
+    MlModule,
+    // OrgchartModule,
+
   ]
 })
 export class ImportacionesModule { }

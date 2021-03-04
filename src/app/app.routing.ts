@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
@@ -46,7 +47,6 @@ export const routes: Routes = [
       title: 'Login Page'
     },
     canActivate:[AuthReverseGuard]
-    
   },
   {
     path: 'register',
@@ -55,6 +55,14 @@ export const routes: Routes = [
       title: 'Register Page'
     },
     canActivate:[AuthReverseGuard]
+  },
+  {
+    path: 'redirect-to',
+    component: RedirectToComponent,
+    data: {
+      title: 'pageRedirect'
+    },
+    // canActivate:[AuthGuard]
   },
   {
     path: '',
@@ -111,6 +119,10 @@ export const routes: Routes = [
       {
         path: 'reports',
         loadChildren: () => import('./pages/reportes/reportes.module').then(m => m.ReportesModule)
+      },
+      {
+        path: 'information-general',
+        loadChildren: () => import('./pages/information-user/information-user.module').then(m => m.InformationUserModule)
       },
 
       // mercado-libre

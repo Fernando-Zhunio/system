@@ -1,0 +1,15 @@
+.parpadeo {
+    animation: 3s anim_parpadeo infinite;
+}
+
+@keyframes anim_parpadeo {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .3;
+    }
+    100% {
+        opacity: 1;
+    }
+}

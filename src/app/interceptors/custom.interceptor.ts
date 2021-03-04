@@ -25,8 +25,7 @@ export class CustomInterceptor implements HttpInterceptor {
       headers = this.createHeader();
     } else {
       headers = new HttpHeaders({
-        accept: "application/json",
-        // "Content-Type": ["application/json", "multipart/form-data"],
+        "accept": "application/json",
         "Access-Control-Allow-Origin": "*",
       });
     }
@@ -69,19 +68,19 @@ export class CustomInterceptor implements HttpInterceptor {
             break;
           case 404:
             SwalService.swalToast(
-              "El servidor no pudo encontrar el contenido solicitado.",
+              "El servidor no pudo encontrar el contenido solicitado. 404",
               "warning"
             );
             break;
           case 500:
             SwalService.swalToast(
-              "Error del servidor, intentolo otra vez",
+              "Error del servidor, intentalo otra vez,500",
               "warning"
             );
             break;
           default:
             SwalService.swalToast(
-              "Error desconocido, intentolo otra vez",
+              "Error desconocido, intentalo otra vez",
               "warning"
             );
             break;
@@ -95,10 +94,7 @@ export class CustomInterceptor implements HttpInterceptor {
     const token = this.s_storage.getCurrentToken();
     const Header = new HttpHeaders({
       accept: "application/json",
-      // "Content-Type":
-      // 'multipart/form-data',
       Authorization: "Bearer " + token,
-
     });
     return Header;
   }

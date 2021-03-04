@@ -1,4 +1,4 @@
-<div style="background-image: url('assets/img/login.svg');" class="pt-sm-0 pt-4 vh-100 bg-login">
+<div style="background-image: url('assets/img/login.svg');background-size: cover;" class="pt-sm-0 pt-4 vh-100 bg-login">
     <main class="main h-100  d-flex align-items-center justify-content-center p-md-3">
         <div class="row m-0 p-0">
             <form [formGroup]="formLogin" (ngSubmit)="login()" class="col-md-6 col-12 d-flex align-items-center justify-content-center">
@@ -10,12 +10,12 @@
                     <mat-card-content>
                         <mat-form-field appearance="fill" class="d-block">
                             <mat-label>Correo</mat-label>
-                            <input matInput type="email" formControlName="email">
+                            <input matInput autocomplete type="email" formControlName="email">
                             <mat-error *ngIf="formLogin.get('email').invalid">Ingrese un correo valido</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="d-block">
                             <mat-label>Contraseña</mat-label>
-                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                            <input autocomplete matInput [type]="hide ? 'password' : 'text'" formControlName="password">
                             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                             </button>

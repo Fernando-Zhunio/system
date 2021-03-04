@@ -3,6 +3,7 @@ import { Icategory } from "./icategory";
 import { ImlInfo } from "./iml-info";
 import { Iimportation } from "./Imports/invoice-item";
 import { Iprefix } from "./iprefix";
+import { IprestashopProduct } from "./iprestashop-product";
 
 export interface IProducts {
   current_page: number;
@@ -61,7 +62,7 @@ export interface Iproduct2 {
   old_code: string;
   prefix: Iprefix;
   prefix_id: number;
-  prestashop_products: [];
+  prestashop_products: IprestashopProduct[];
   promotions: [];
   sequence: {
     category_id: number;

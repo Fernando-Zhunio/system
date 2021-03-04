@@ -1,0 +1,36 @@
+<mat-card>
+    <mat-card-content>
+        <div #image [ngStyle]="{'height': size}" style="overflow-y: auto;overflow-x: hidden;">
+            <div [ngClass]="{'d-none': !isTextTruncate}">
+                <carousel [interval]="false">
+                    <ng-container *ngIf="post_ig.children.length < 1;else outSubattachments ">
+                        <slide>
+                            <a [href]="post_ig.permalink" target="_blank">
+                                <img [src]="post_ig.media_url" alt="imagen_post_instragram">
+                                <!-- <img [src]="subattach.media.image.src " class="d-block w-100 " alt="... " /> -->
+                            </a>
+                        </slide>
+                    </ng-container>
+                    <ng-template #outSubattachments>
+                        <slide *ngFor="let child of post_ig.children ">
+                            <a target="_blank " class="carousel-inner " style="display:block " [href]="post_ig.permalink ">
+                                <img class="d-block w-100 " [src]="child.media_url " alt="... " />
+                            </a>
+                        </slide>
+                    </ng-template>
+                </carousel>
+            </div>
+            <p [ngClass]="{ 'text-truncate': isTextTruncate} " class="text-truncate ">{{ post_ig.caption ? post_ig.caption + " " : "Sin Mensaje " }}
+            </p>
+        </div>
+        <button *ngIf="post_ig.caption " mat-button (click)="verMas() ">{{state_look}}</button>
+    </mat-card-content>
+    <mat-card-actions>
+        <!-- <button mat-button>Ok</button> -->
+        <div class="d-flex justify-content-around font-2xl ">
+            <div><i class="far fa-thumbs-up "></i>{{ post_ig.like_count }}</div>
+            <div><i class="far fa-comment-alt "></i>{{post_ig.comments_count}}</div>
+            <!-- <div><i class="fas fa-share "></i>{{post.shares_count}}</div> -->
+        </div>
+    </mat-card-actions>
+</mat-card>

@@ -3,6 +3,8 @@ import { MercadoLibreService } from "../../../services/mercado-libre.service";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { StandartSearchService } from "../../../services/standart-search.service";
 import { ImlInfo } from "../../../interfaces/iml-info";
+import { Subscription } from "rxjs";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-mercado-libre",
@@ -28,6 +30,15 @@ export class MercadoLibreComponent implements OnInit {
   aux_page_next = 0;
   hasData: boolean = true;
   isload: boolean = false;
+  suscrition_api: Subscription;
+  form_filter: FormGroup = new FormGroup({
+    // prefix_id: new FormControl(null),
+    min: new FormControl(''),
+    max: new FormControl(''),
+    state: new FormControl('all'),
+    // warehouse_ids: new FormControl(['all']),
+    search: new FormControl(''),
+  });
 
   constructor(
     private s_mercado_libre: MercadoLibreService,
@@ -42,10 +53,10 @@ export class MercadoLibreComponent implements OnInit {
       console.log(res);
       this.isload = false;
       // this.products = res.products.data;
-      this.mlInfos = res.products.data;
-      this.length = res.products.total;
-      this.pageSize = res.products.per_page;
-      this.pageCurrent = res.products.current_page;
+      this.mlInfos = res.data.data;
+      this.length = res.data.total;
+      this.pageSize = res.data.per_page;
+      this.pageCurrent = res.data.current_page;
       if (this.mlInfos.length < 1) {
         this.hasData = false;
       } else this.hasData = true;
@@ -58,33 +69,43 @@ export class MercadoLibreComponent implements OnInit {
       
   }
 
-  searchBar() {
-    // const pageSize = this.paginator.pageSize;
-    console.log(this.pageEvent);
+  searchBar($event = { pageSize: 15, pageIndex: 0 }) {
+    this.pageSize = this.paginator.pageSize;
+    console.log($event);
     this.isload =true;
     // if($event.pageIndex != this.aux_page_next){
     // window.scrollTo(0,0);
     this.gotoTop();
-    console.log("scroll");
+    // console.log("scroll");
     // scrollTo(0,0);
     // this.aux_page_next = $event.pageIndex;
     // }
-    this.s_standart
-      .search(
-        this.productSearch,
-        this.pageSize,
-        this.selected_state,
-        this.price_min,
-        this.price_max,
-        'catalogs/ml-products'
-      )
+    // this.s_standart
+    //   .search(
+    //     this.productSearch,
+    //     this.pageSize,
+    //     this.selected_state,
+    //     this.price_min,
+    //     this.price_max,
+    //     'catalogs/ml-products'
+    //   )
+    if (this.suscrition_api) {
+      this.suscrition_api.unsubscribe();
+      console.log("cancelado llamado");
+    }
+    this.suscrition_api = this.s_standart
+      .search2("catalogs/ml-products", {
+        page: $event.pageIndex + 1,
+        pageSize: this.pageSize,
+        ...this.form_filter.value,
+      })
       .subscribe((response: any) => {
         console.log(response);
         this.isload = false;
-        this.mlInfos = response.products.data;
-        this.length = response.products.total;
-        this.pageSize = response.products.per_page;
-        this.pageCurrent = response.products.current_page;
+        this.mlInfos = response.data.data;
+        this.length = response.data.total;
+        this.pageSize = response.data.per_page;
+        this.pageCurrent = response.data.current_page;
         if (this.mlInfos.length < 1) {
           this.hasData = false;
         } else this.hasData = true;

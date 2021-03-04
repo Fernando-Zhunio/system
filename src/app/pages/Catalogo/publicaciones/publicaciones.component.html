@@ -3,11 +3,11 @@
     z-index: 10;
     right: 25px;
     bottom: 113px;" [routerLink]="['./create']"><mat-icon>add</mat-icon></button>
-    <div class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
+    <div [formGroup]="form_filter" class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
         <mat-tab-group class="py-0 col" style="overflow: hidden;">
             <mat-tab label="Busqueda">
                 <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
-                    <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" [(ngModel)]="productSearch">
+                    <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" placeholder="Escriba el nombre del producto" (keyup)="searchBar()" formControlName="search">
                     <button class="position-absolute" style="top: 0px;
                     left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
                         <mat-icon style="font-size: 30px;" type="search">search</mat-icon>
@@ -15,30 +15,37 @@
                 </div>
             </mat-tab>
             <mat-tab label="Filtros">
-                <div class="pt-3 bg-gray-200 px-2" style="overflow: hidden;">
-                    <mat-form-field class="mx-2" appearance="outline">
-                        <mat-label>Estados</mat-label>
-                        <mat-select (selectionChange)="searchBar()" [(value)]="selected_state">
-                            <mat-option value="all">Todos</mat-option>
-                            <mat-option value="active">Activo</mat-option>
-                            <mat-option value="closed">Inactivo</mat-option>
-                            <mat-option value="payment_required">Pago requerido</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" style="width: 150px;">
-                        <mat-label>Precio Min</mat-label>
-                        <input matInput [(ngModel)]="price_min" type="number" class="example-right-align">
-                        <span matPrefix>$&nbsp;</span>
-                        <span matSuffix>.00</span>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" style="width: 150px;">
-                        <mat-label>Precio Max</mat-label>
-                        <input [(ngModel)]="price_max" matInput type="number" class="example-right-align">
-                        <span matPrefix>$&nbsp;</span>
-                        <span matSuffix>.00</span>
-                    </mat-form-field>
-                    <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
-                </div>
+                <mat-card>
+                    <mat-card-content>
+                        <div class="pt-3 px-2 row" style="overflow: hidden;">
+                            <mat-form-field class="col-md-6">
+                                <mat-label>Estados</mat-label>
+                                <mat-select (selectionChange)="searchBar()" formControlName="state">
+                                    <mat-option value="all">Todos</mat-option>
+                                    <mat-option value="active">Activo</mat-option>
+                                    <mat-option value="closed">Inactivo</mat-option>
+                                    <mat-option value="payment_required">Pago requerido</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="col-md-3">
+                                <mat-label>Precio Min</mat-label>
+                                <input matInput formControlName="min" type="number" class="example-right-align">
+                                <span matPrefix>$&nbsp;</span>
+                                <span matSuffix>.00</span>
+                            </mat-form-field>
+                            <mat-form-field class="col-md-3">
+                                <mat-label>Precio Max</mat-label>
+                                <input formControlName="max" matInput type="number" class="example-right-align">
+                                <span matPrefix>$&nbsp;</span>
+                                <span matSuffix>.00</span>
+                            </mat-form-field>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)="searchBar()" color="primary">Aplicar Filtro</button>
+                        <!-- <button mat-button>Ok</button> -->
+                    </mat-card-actions>
+                </mat-card>
             </mat-tab>
             <!-- <mat-tab label="Paginacion">     
             </mat-tab> -->
@@ -79,7 +86,7 @@
             </div>
         </div>
     </ng-template>
-    <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)">
+    <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="searchBar($event)">
     </mat-paginator>
 </div>
 <!-- <div class="card" id="publication-content" product_id="{{$p->id}}">

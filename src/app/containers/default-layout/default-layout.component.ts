@@ -59,20 +59,15 @@ export class DefaultLayoutComponent implements OnInit {
     let token = "Bearer " + this.s_storage.getCurrentToken();
     const echo = new Echo({
       broadcaster: "pusher",
-      // key: '1564856898',
       cluster: "mt1",
       key: "03045e5e16a02b690e4c",
-      // host: 'sistema-codificacion.test',
-      //host: window.location.hostname,
       authEndpoint: endpoint+"broadcasting/auth",
-      // wsHost: "sistema-codificacion.test",
       wsHost: domain_serve,
-      // wsHost: '//sistema-codificacion.test',
       disableStats: true,
       encrypted: false,
       wsPort: 6001,
-      //wssPort: 6001,
-      enabledTransports: ["ws"],
+      wssPort: 6001,
+      enabledTransports: ["ws","wss"],
       forceTLS: false,
       auth: {
         headers: {
@@ -296,6 +291,17 @@ const navItems_: INavData[] = [
     icon: "icon-briefcase",
     permission: "purchase-department.imports.index",
   },
+  {
+    title: true,
+    name: 'Informacion general'
+  },
+  {
+    name: "Organizacion ",
+    url: "/information-general/organizacion",
+    icon: "icon-briefcase",
+    // permission: "purchase-department.imports.index",
+  },
+  
   
 ];
 

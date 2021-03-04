@@ -1,8 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
@@ -43,6 +45,7 @@ export class PublicacionesComponent implements OnInit {
   pageEvent: PageEvent;
   isload:boolean = true;
   aux_page_next:number;
+  suscrition_api: Subscription;
 
   // selected_state: string = "all";
   constructor(private snack_bar:MatSnackBar, private s_standart:StandartSearchService, public dialog: MatDialog,private s_catalogo: CatalogoService,private s_mercado_libre:MercadoLibreService) { }
@@ -55,20 +58,40 @@ export class PublicacionesComponent implements OnInit {
     // return permissions;
   }
 
-  searchBar():void{
-    // const pageSize = this.paginator.pageSize;
+  form_filter: FormGroup = new FormGroup({
+    // prefix_id: new FormControl(null),
+    min: new FormControl(''),
+    max: new FormControl(''),
+    state: new FormControl(['all']),
+    search: new FormControl(''),
+  });
+
+  searchBar($event = { pageSize: 15, pageIndex: 0 }):void{
+    this.pageSize = $event.pageSize;
     this.isload =true;
     console.log(this.pageEvent);
     this.gotoTop();
-    this.s_standart
-      .search(this.productSearch, this.pageSize, this.selected_state,this.price_min,this.price_max,'catalogs/publications')
+    if (this.suscrition_api) {
+      this.suscrition_api.unsubscribe();
+      console.log("cancelado llamado");
+    }
+    // this.s_standart
+      // .search(this.productSearch, this.pageSize, this.selected_state,this.price_min,this.price_max,'catalogs/publications')
+
+      this.suscrition_api = this.s_standart
+      // .search(this.productSearch, pageSize, this.selected_state,this.min,this.max,'catalogs/products')
+      .search2("catalogs/publications", {
+        page: $event.pageIndex + 1,
+        pageSize: this.pageSize,
+        ...this.form_filter.value,
+      })
       .subscribe((response: any) => {
         console.log(response);
         this.isload = false;
-        this.products = response.publications.data;
-        this.length = response.publications.total;
-        this.pageSize = response.publications.per_page;
-        this.pageCurrent = response.publications.current_page;
+        this.products = response.data.data;
+        this.length = response.data.total;
+        this.pageSize = response.data.per_page;
+        this.pageCurrent = response.data.current_page;
         if(this.products.length < 1){
           this.hasData = false;
         }
@@ -80,43 +103,45 @@ export class PublicacionesComponent implements OnInit {
   }
 
   gotoTop() {
-    const main =document.getElementsByClassName("app-body")
+    const main =document.getElementsByClassName("app-body");
+  console.log('hacia arriba');
+  
     main[0].scrollTop = 0;
   }
 
-  changedPaginator($event):void{
-    this.pageSize = $event.pageSize;
-    this.isload = true;
-    console.log($event);
-    if ($event.pageIndex != this.aux_page_next) {
-      this.gotoTop();
-      this.aux_page_next = $event.pageIndex;
-    }
-    this.s_standart
-      .nextPageSearch(
-        $event.pageIndex + 1,
-        this.productSearch,
-        $event.pageSize,
-        this.selected_state,
-        this.price_min,
-        this.price_max,
-        'catalogs/publications'
-      )
-      .subscribe((response: any) => {
-        console.log(response);
-        this.isload = false;
-        this.products = response.publications.data;
-        this.length = response.publications.total;
-        this.pageSize = response.publications.per_page;
-        this.pageCurrent = response.publications.current_page;
-        if (this.products.length < 1) {
-          this.hasData = false;
-        } else this.hasData = true;
+  // changedPaginator($event):void{
+  //   this.pageSize = $event.pageSize;
+  //   this.isload = true;
+  //   console.log($event);
+  //   if ($event.pageIndex != this.aux_page_next) {
+  //     this.gotoTop();
+  //     this.aux_page_next = $event.pageIndex;
+  //   }
+  //   this.s_standart
+  //     .nextPageSearch(
+  //       $event.pageIndex + 1,
+  //       this.productSearch,
+  //       $event.pageSize,
+  //       this.selected_state,
+  //       this.price_min,
+  //       this.price_max,
+  //       'catalogs/publications'
+  //     )
+  //     .subscribe((response: any) => {
+  //       console.log(response);
+  //       this.isload = false;
+  //       this.products = response.publications.data;
+  //       this.length = response.publications.total;
+  //       this.pageSize = response.publications.per_page;
+  //       this.pageCurrent = response.publications.current_page;
+  //       if (this.products.length < 1) {
+  //         this.hasData = false;
+  //       } else this.hasData = true;
         
-      },err=>{
-        this.isload = false;
-      });
-  }
+  //     },err=>{
+  //       this.isload = false;
+  //     });
+  // }
 
   EditPublication(idPublication):void{
 

@@ -1,4 +1,4 @@
-<mat-card style="background-color: beige;" class="my-4 position-relative">
+<mat-card class="my-4 position-relative">
     <div class="position-absolute" style="top: -17px;right: 0;z-index: 2;">
         <button [routerLink]="['/catalogo/publicaciones/show',publication.id]" [disabled]="isLoader" color="accent" *ngxPermissionsOnly="permission_show" mat-mini-fab>
             <mat-icon>visibility</mat-icon>
@@ -59,14 +59,15 @@
                             </div>
                         </div>
                         <div>
-                            <mat-card class="my-3" *ngFor="let ml of publication.ml_infos">
-                                <app-ml [ml]="ml"></app-ml>
-                            </mat-card>
+
+                            <swiper [breakpoints]="breakpoints">
+                                <ng-template swiperSlide *ngFor="let ml of publication.ml_infos" class="card border-0">
+                                    <mat-card class="my-3">
+                                        <app-ml [ml]="ml"></app-ml>
+                                    </mat-card>
+                                </ng-template>
+                            </swiper>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>

@@ -64,7 +64,7 @@ export class StorageService  {
   setCurrentSession(session): void {
     this.currentSession = session;
     this.secureStorage.setItem('currentUser',session);
-    console.log(this.getCurrentSession());  
+    console.log("Session creada");  
     this.setRolAndPermission();
   }
 
