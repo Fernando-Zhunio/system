@@ -109,7 +109,7 @@ export class StorageService  {
     // }
   }
 
-  getRolAndPermissionUser(): {'rol':[],'permission':[]} {
+  getRolAndPermissionUser(): {'rol':string[],'permission':string[]} {
     var user: User = this.getCurrentUser();
     return (user) ? {rol:user.rol,permission:user.permission} : null;
   }

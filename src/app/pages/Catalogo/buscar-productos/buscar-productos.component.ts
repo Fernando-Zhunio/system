@@ -6,18 +6,17 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatDrawer, MatSidenav } from "@angular/material/sidenav";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Subscription } from "rxjs";
-// import { NgxPermissionsService } from 'ngx-permissions';
-// import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
+
 import { StockBodegasComponent } from "../../../components/modals/stock-bodegas/stock-bodegas.component";
 import { IpostProduct } from "../../../interfaces/ipost-product";
 import { Iprefix } from "../../../interfaces/iprefix";
 import { Iproduct2 } from "../../../interfaces/iproducts";
 import { Iwarehouse } from "../../../interfaces/iwarehouse";
-// import { MercadoLibreService } from '../../../services/mercado-libre.service';
-import { PrefijoService } from "../../../services/prefijo.service";
 import { ProductsService } from "../../../services/products.service";
 import { StandartSearchService } from "../../../services/standart-search.service";
 import { SwalService } from "../../../services/swal.service";
+// import Swiper from 'swiper';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: "app-buscar-productos",
@@ -55,36 +54,70 @@ export class BuscarProductosComponent implements OnInit {
   isload: boolean = false;
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
+
   form_filter: FormGroup = new FormGroup({
     prefix_id: new FormControl('all'),
     min: new FormControl(''),
     max: new FormControl(''),
-    warehouse_ids: new FormControl(['all']),
+    "warehouse_ids[]": new FormControl(''),
     search: new FormControl(''),
   });
+
   // wordSearch:string="";
 
-  breakpoints = {
-    // when window width is >= 320px
-    320: {
-      slidesPerView: 1,
-      spaceBetween: 5
+  // breakpoints = {
+  //   // when window width is >= 320px
+  //   320: {
+  //     slidesPerView: 1,
+  //     spaceBetween: 5
+  //   },
+  //   // when window width is >= 480px
+  //   480: {
+  //     slidesPerView: 1,
+  //     spaceBetween: 5
+  //   },
+  //   // when window width is >= 640px
+  //   600: {
+  //     slidesPerView: 3,
+  //     spaceBetween: 10
+  //   },
+  //   800: {
+  //     slidesPerView: 4,
+  //     spaceBetween: 10
+  //   }
+  // }
+
+  public config: SwiperOptions = {
+    // a11y: { enabled: true },
+    direction: 'horizontal',
+    // slidesPerView: 4,
+    breakpoints : {
+      // when window width is >= 320px
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 5
+      },
+      // when window width is >= 480px
+      480: {
+        slidesPerView: 1,
+        spaceBetween: 5
+      },
+      // when window width is >= 640px
+      600: {
+        slidesPerView: 3,
+        spaceBetween: 10
+      },
+      800: {
+        slidesPerView: 4,
+        spaceBetween: 10
+      }
     },
-    // when window width is >= 480px
-    480: {
-      slidesPerView: 1,
-      spaceBetween: 5
-    },
-    // when window width is >= 640px
-    600: {
-      slidesPerView: 3,
-      spaceBetween: 10
-    },
-    800: {
-      slidesPerView: 4,
-      spaceBetween: 10
-    }
-  }
+    // keyboard: true,
+    // mousewheel: true,
+    scrollbar: true,
+    // navigation: true,
+    pagination: false
+  };
   ngOnInit(): void {
     this.gotoTop();
     this.isload = true;
@@ -135,30 +168,30 @@ export class BuscarProductosComponent implements OnInit {
     // }
     return warehouse?warehouse.name:"Todas las bodegas"
   }
-  
+
   removeWarehouse(id) {
-    let warehouses = this.form_filter.get("warehouse_ids").value;
+    let warehouses = this.form_filter.get("warehouse_ids[]").value;
     // console.log(accounts, id);
     const index = warehouses.findIndex((x) => x == id);
     if (index != -1) {
       warehouses.splice(index, 1);
-      this.form_filter.get("warehouse_ids").setValue(warehouses);
+      this.form_filter.get("warehouse_ids[]").setValue(warehouses);
     }
   }
 
   selectAllWarehouse($event){
     const index = $event.value.findIndex(x =>x =="all");
     if(index != -1 ){
-      this.form_filter.get("warehouse_ids").setValue(['all']);
+      this.form_filter.get("warehouse_ids[]").setValue(['all']);
     }
     if(index != -1 && $event.value.length > 1){
-      let warehouses = this.form_filter.get("warehouse_ids").value;
+      let warehouses = this.form_filter.get("warehouse_ids[]").value;
       warehouses.splice(index, 1);
-      this.form_filter.get("warehouse_ids").setValue(warehouses);
+      this.form_filter.get("warehouse_ids[]").setValue(warehouses);
       return;
     }
     console.log($event,index);
-    // this.form_filter.get('warehouse_ids').setValue(["all"]);
+    // this.form_filter.get('warehouse_ids[]').setValue(["all"]);
   }
   searchBar($event = { pageSize: 15, pageIndex: 0 }) {
     this.pageSize = $event.pageSize;
@@ -322,13 +355,13 @@ export class BuscarProductosComponent implements OnInit {
           this.isLoadPost = true;
         })
       }
-      
+
     },err=>{
       this.messagePost = "Ups! ocurrio un problema al cargar el post intentalo otra vez"
     });
   }
 
   verMas():void{
-    
+
   }
 }

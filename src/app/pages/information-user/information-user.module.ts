@@ -5,7 +5,7 @@ import { InformationUserMainComponents, InformationUserRoutingModule } from './i
 
 import { MlModule } from '../../Modulos/ml/ml.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import { OrgchartModule } from '@dabeng/ng-orgchart';
+import { OrgchartModule } from '@dabeng/ng-orgchart';
 // import { NgxPaginationModule } from 'ngx-pagination';
 
 
@@ -15,7 +15,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CommonModule,
     InformationUserRoutingModule,
     // NgxOrgChartModule,/
-    // OrgchartModule,
+    OrgchartModule,
     MatAutocompleteModule,
     // NgxPaginationModule,
     MlModule

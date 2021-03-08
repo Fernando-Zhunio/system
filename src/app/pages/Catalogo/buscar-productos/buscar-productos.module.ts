@@ -27,9 +27,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { SwiperModule } from 'swiper/angular';
+// import { SwiperModule } from 'swiper/angular';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-
+import { SwiperModule } from 'ngx-swiper-wrapper';
 
 @NgModule({
   declarations: [BuscarProductosComponent],
@@ -63,8 +63,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     MatChipsModule,
     TooltipModule.forRoot(),
     MatSidenavModule,
+    PostModule,
     SwiperModule,
-    PostModule
     ]
 })
 export class BuscarProductosModule { }

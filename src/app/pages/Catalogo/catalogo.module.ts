@@ -30,7 +30,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
-import { SwiperModule } from 'swiper/angular';
+// import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   declarations: [CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent],
@@ -60,7 +60,7 @@ import { SwiperModule } from 'swiper/angular';
     NgxSkeletonLoaderModule,
     MatChipsModule,
     NgxSpinnerModule,
-    SwiperModule,
+    // SwiperModule,
     SortablejsModule.forRoot({ animation: 150 }),
     
     // MomentModule,

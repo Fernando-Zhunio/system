@@ -11,7 +11,11 @@
                     <ng-template #outSubattachments>
                         <slide *ngFor="let attach of post.attachments">
                             <a target="_blank" class="carousel-inner" style="display:block" [href]="post.permalink_url">
-                                <img class="d-block w-100" [src]="attach.media.image.src" alt="..." />
+                                <img *ngIf="attach.type == 'native_templates';else imageOk" class="w-100" src="/assets/img/img_not_available.png" alt="error de data">
+                                <ng-template #imageOk>
+                                    <img class="d-block w-100" [src]="attach.media.image.src" alt="..." />
+                                </ng-template>
+
                             </a>
                         </slide>
 
@@ -21,7 +25,7 @@
             <p [ngClass]="{'text-truncate': isTextTruncate}" class="text-truncate">{{post.message}}
             </p>
         </div>
-        <button mat-button (click)="verMas()">{{state_look}}</button>
+        <button mat-button color="primary" (click)="verMas()">{{state_look}}</button>
     </mat-card-content>
     <mat-card-actions>
         <!-- <button mat-button>Ok</button> -->

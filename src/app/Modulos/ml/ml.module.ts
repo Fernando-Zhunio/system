@@ -10,6 +10,7 @@ import { PromocionesComponent } from '../../components/promociones/promociones.c
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PublicationComponent } from '../../components/publication/publication.component';
 import { PaginaWebComponent } from '../../components/pagina-web/pagina-web.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 
@@ -23,6 +24,7 @@ import { PaginaWebComponent } from '../../components/pagina-web/pagina-web.compo
     MatMenuModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatChipsModule,
   ],
   exports: [ MlComponent,PromocionesComponent,PaginaWebComponent ]
 })

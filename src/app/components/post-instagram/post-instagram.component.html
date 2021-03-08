@@ -6,7 +6,7 @@
                     <ng-container *ngIf="post_ig.children.length < 1;else outSubattachments ">
                         <slide>
                             <a [href]="post_ig.permalink" target="_blank">
-                                <img [src]="post_ig.media_url" alt="imagen_post_instragram">
+                                <img [src]="post_ig.media_url" class="w-100" alt="imagen_post_instragram">
                                 <!-- <img [src]="subattach.media.image.src " class="d-block w-100 " alt="... " /> -->
                             </a>
                         </slide>
@@ -23,7 +23,7 @@
             <p [ngClass]="{ 'text-truncate': isTextTruncate} " class="text-truncate ">{{ post_ig.caption ? post_ig.caption + " " : "Sin Mensaje " }}
             </p>
         </div>
-        <button *ngIf="post_ig.caption " mat-button (click)="verMas() ">{{state_look}}</button>
+        <button *ngIf="post_ig.caption" mat-button color="primary" (click)="verMas() ">{{state_look}}</button>
     </mat-card-content>
     <mat-card-actions>
         <!-- <button mat-button>Ok</button> -->

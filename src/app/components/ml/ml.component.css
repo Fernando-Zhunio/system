@@ -1,0 +1,14 @@
+.paused {
+    background-color: #b9b5b5;
+}
+
+.active {
+    background-color: #07da07;
+}
+
+.logo-mercado-libre {
+    width: 40px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}

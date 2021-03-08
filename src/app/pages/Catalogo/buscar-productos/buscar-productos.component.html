@@ -1,28 +1,27 @@
 <mat-drawer-container style="overflow: inherit;" class="example-container" autosize>
-    <mat-drawer style="position: fixed;top: auto;bottom: auto;" #drawer class="col-md-8 col-11 vh-100" mode="over" position="end" fixedInViewport="true">
+    <mat-drawer style="position: fixed;top: auto;bottom: auto;height: calc(100vh - 55px);border-radius: 20px 0 0 20px;" #drawer class="col-md-8 col-11 p-2" mode="over" position="end" fixedInViewport="true">
         <div *ngIf="isLoadPost;else loadPost" class="position-relative">
-            <div class="font-2xl font-facebook">Post {{post_current.name}}</div>
-            <div><button mat-mini-fab class="position-absolute" style="top: 10px;right: 10px;" (click)="viewPost()">
-                    <mat-icon>close</mat-icon>
-                </button></div>
+            <div style="    position: sticky;
+          top: 0;
+          z-index: 10;"><button mat-mini-fab class="position-absolute bg-gray" style="top: 10px;right: 10px;" (click)="viewPost()">
+                  <mat-icon>close</mat-icon>
+              </button></div>
+            <div class="font-2xl font-facebook text-muted m-2">{{post_current.name}}</div>
             <div class="my-2 px-2">
-                <div class="font-3xl font-facebook">Facebook</div>
-                <swiper [breakpoints]="breakpoints">
-                    <ng-template swiperSlide *ngFor="let post of post_current.facebook_posts">
-
-                        <app-facebook-post [post]="post"></app-facebook-post>
-                    </ng-template>
+                <div class="font-5xl mb-2 font-facebook">Facebook</div>
+                <swiper [config]="config">
+                    <div *ngFor="let post of post_current.facebook_posts">
+                        <app-facebook-post class="w-100 p-1" [post]="post"></app-facebook-post>
+                    </div>
                 </swiper>
             </div>
 
             <div class="my-2 px-2">
-                <div class="font-3xl font-facebook">Instagram</div>
-                <swiper [breakpoints]="breakpoints">
-                    <ng-template swiperSlide *ngFor="let post of post_current.instagram_posts">
-                        <!-- {{post | json}} -->
-
-                        <app-post-instagram [post_ig]="post"></app-post-instagram>
-                    </ng-template>
+                <div class="font-5xl mb-2 font-facebook">Instagram</div>
+                <swiper [config]="config">
+                    <div *ngFor="let post of post_current.instagram_posts">
+                        <app-post-instagram class="w-100 p-1" [post_ig]="post"></app-post-instagram>
+                    </div>
                 </swiper>
             </div>
         </div>
@@ -33,6 +32,16 @@
         </ng-template>
     </mat-drawer>
     <mat-drawer-content style="overflow: inherit;">
+        <!-- <div class="swiper-container w-100 h-100">
+            <div class="swiper-wrapper w-100">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-scrollbar"></div>
+        </div> -->
         <div class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
             <mat-tab-group [formGroup]="form_filter" class="py-0 col-sm-12 w-100" style="overflow: hidden;">
                 <mat-tab label="Busqueda">
@@ -59,7 +68,6 @@
                                 </mat-form-field>
                                 <mat-form-field class="col-md-3">
                                     <mat-label>Stock Min</mat-label>
-                                    <!-- <input matInput [(ngModel)]="min" type="number" class="example-right-align"> -->
                                     <input matInput formControlName="min" type="number" class="example-right-align">
                                 </mat-form-field>
                                 <mat-form-field class="col-md-3">
@@ -68,10 +76,10 @@
                                 </mat-form-field>
                                 <mat-form-field class="col-12">
                                     <mat-label>Todas las Bodegas</mat-label>
-                                    <mat-select (selectionChange)="selectAllWarehouse($event)" formControlName="warehouse_ids" multiple>
+                                    <mat-select (selectionChange)="selectAllWarehouse($event)" formControlName="warehouse_ids[]" multiple>
                                         <mat-select-trigger>
                                             <mat-chip-list>
-                                                <mat-chip (removed)="removeWarehouse(warehouse_id)" *ngFor="let warehouse_id of form_filter.get('warehouse_ids').value" [removable]="true">
+                                                <mat-chip (removed)="removeWarehouse(warehouse_id)" *ngFor="let warehouse_id of form_filter.get('warehouse_ids[]').value" [removable]="true">
                                                     {{getNameWareHouse(warehouse_id)}}
                                                     <mat-icon matChipRemove>cancel</mat-icon>
                                                 </mat-chip>
@@ -100,15 +108,15 @@
         </div>
         <div *ngIf="isload">
             <mat-card *ngFor="let item of [1,2,3]" class="my-1">
-                <ngx-skeleton-loader count="1" [theme]="{ 
+                <ngx-skeleton-loader count="1" [theme]="{
               'border-radius': '5px',
               height: '50px'
             }"></ngx-skeleton-loader>
-                <ngx-skeleton-loader count="1" [theme]="{ 
+                <ngx-skeleton-loader count="1" [theme]="{
                 'border-radius': '5px',
                 height: '30px'
               }"></ngx-skeleton-loader>
-                <ngx-skeleton-loader count="3" [theme]="{ 
+                <ngx-skeleton-loader count="3" [theme]="{
                 'border-radius': '5px',
                 height: '40px',
                 width:'150px',
@@ -180,7 +188,6 @@
                                     <mat-chip *ngFor="let imports of p.imports">
                                         {{imports.sequence.origin.name}} #{{imports.sequence.sequence_number}}
                                     </mat-chip>
-
                                 </mat-chip-list>
                             </div>
                         </div>
@@ -191,27 +198,45 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <swiper [breakpoints]="breakpoints">
-                                    <ng-template swiperSlide *ngFor="let i of p.prestashop_products">
+                                <swiper [config]="config">
+                                    <div class="p-1" *ngFor="let i of p.prestashop_products">
                                         <app-pagina-web [prestashop_product]="i"></app-pagina-web>
-                                        <!-- <app-ml [ml]="ml"></app-ml> -->
-
-                                    </ng-template>
+                                    </div>
                                 </swiper>
+                                <!-- <div class="swiper-container">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide" *ngFor="let i of p.prestashop_products">
+                                            <app-pagina-web [prestashop_product]="i"></app-pagina-web>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                </div> -->
                             </div>
                         </ng-container>
                         <div *ngIf="p.ml_infos.length > 0">
                             <div class="font-faccebook font-3xl my-4">Mercado Libre</div>
-                            <!-- <div class="row"> -->
-                            <swiper [breakpoints]="breakpoints">
+                            <!-- <swiper [breakpoints]="breakpoints">
                                 <ng-template swiperSlide *ngFor="let ml of p.ml_infos">
                                     <mat-card>
-                                        <!-- <mat-card class="m-2 col-md-3" *ngFor="let ml of p.ml_infos"> -->
                                         <app-ml [ml]="ml"></app-ml>
                                     </mat-card>
                                 </ng-template>
+                            </swiper> -->
+                            <!-- <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" *ngFor="let ml of p.ml_infos">
+                                        <app-ml [ml]="ml"></app-ml>
+                                    </div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div> -->
+                            <swiper [config]="config">
+                                <div class="p-1" *ngFor="let ml of p.ml_infos">
+                                    <mat-card>
+                                        <app-ml [ml]="ml"></app-ml>
+                                    </mat-card>
+                                </div>
                             </swiper>
-                            <!-- </div> -->
                         </div>
                     </div>
                 </mat-card-content>

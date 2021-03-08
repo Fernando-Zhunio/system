@@ -10,6 +10,7 @@ import { CatalogoService } from '../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
+// import SwiperCore from 'swiper/core';
 
 @Component({
   selector: 'app-publicaciones',
