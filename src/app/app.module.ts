@@ -89,6 +89,7 @@ import { PublicationComponent } from './components/publication/publication.compo
 import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
+// import { CreateOrEditComponent } from './pages/administracion-sistema/usuarios/create-or-edit/create-or-edit.component';
 // import { PostInstagramComponent } from './components/post-instagram/post-instagram.component';
 // import { OrganizationChartComponent } from './pages/information-user/organization-chart/organization-chart.component';
 // import { PostComponent } from './components/post/post-facebook.component';
@@ -150,8 +151,8 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
     HeaderSearchModule,
     NgxGalleryModule
     // MatTabsModule
-    
- 
+
+
 
   ],
   declarations: [
@@ -171,6 +172,7 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
     SearchProductModalComponent,
     InConstructionComponent,
     RedirectToComponent,
+    // CreateOrEditComponent,
     // PostInstagramComponent,
     // OrganizationChartComponent,
     // PostComponent,
@@ -194,8 +196,8 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
-  
-    
+
+
     {
       provide:LOCALE_ID, useValue:'es'
     },

@@ -22,6 +22,28 @@ export class SwalService {
     });
   }
 
+  public static swalConfirmation(title,text,icon="success",confirmTexBtnt="Si, desea eliminar",cancelTextBtn="No, deseo eliminar"){
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mr-1',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    return swalWithBootstrapButtons.fire({
+      title,
+      text,
+      icon,
+      showCancelButton: true,
+      confirmButtonText: confirmTexBtnt,
+      cancelButtonText: cancelTextBtn,
+      reverseButtons: false,
+      // customClass: {
+      //   confirmButton: 'btn btn-success',
+      //   cancelButton: 'btn btn-danger'
+      // },
+    });
+  }
   public static swalFireWitButton(
     title,
     icon = "success",
@@ -42,7 +64,7 @@ export class SwalService {
       position,
       showConfirmButton: false,
       timer: 3000,
-      
+
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -62,7 +84,7 @@ export class SwalService {
       position,
       showConfirmButton: false,
       timer: 3000,
-      
+
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -74,7 +96,7 @@ export class SwalService {
     let fire:any={};
 
     fire.title = title;
-    
+
 
     // =
     // {
@@ -86,7 +108,7 @@ export class SwalService {
       // imageHeight:'100px'
     // }
     if(url_img){
-      
+
       fire.imageUrl = url_img;
       fire.imageWidth= '50px';
       fire.imageHeight= '50px';

@@ -1,0 +1,11 @@
+/* .mat-cell {
+    padding: 8px 8px 8px 0;
+} */
+
+.mat-column-email {
+    flex: 2;
+}
+
+.mat-column-id {
+    flex: .5;
+}

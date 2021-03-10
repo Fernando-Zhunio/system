@@ -37,7 +37,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.url_img = "https://ui-avatars.com/api/?name=" + username;
     this.companies = user.companies;
     console.log(this.companies);
-    
+
     const id_company = user.company_company_id;
     const index = this.companies.findIndex((x) => x.id == id_company);
     if (index == -1) {
@@ -141,6 +141,12 @@ export class DefaultLayoutComponent implements OnInit {
       name: "Importaciones",
     },
   ];
+  section_admin_sistem: INavData[] = [
+    {
+      title: true,
+      name: "Administracion del sistema",
+    },
+  ];
 
   generateSideBarItems():INavData[] {
     const permissionAndRol = this.s_storage.getRolAndPermissionUser();
@@ -159,7 +165,7 @@ export class DefaultLayoutComponent implements OnInit {
     for (let j = 0; j < sizePermissionAndRol; j++) {
       let is_index = mergePermissionAndRol[j].includes(".index");
       if (is_index) {
-        console.log(mergePermissionAndRol[j]);   
+        console.log(mergePermissionAndRol[j]);
         let item = navItems_.find(x=>x.permission == mergePermissionAndRol[j]);
         if(item != undefined){
           let is_admin_products = item.permission.includes("products-admin");
@@ -184,7 +190,7 @@ export class DefaultLayoutComponent implements OnInit {
     console.log(custom_bar);
 
     return custom_bar
-    
+
   }
 }
 
@@ -301,8 +307,19 @@ const navItems_: INavData[] = [
     icon: "icon-briefcase",
     // permission: "purchase-department.imports.index",
   },
-  
-  
+  {
+    title: true,
+    name: 'Administracion del sistema'
+  },
+  {
+    name: "Usuarios ",
+    url: "/administracion-sistema/usuarios",
+    icon: "icon-briefcase",
+    permission: "admin.users.index",
+  },
+
+
+
 ];
 
 

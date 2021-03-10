@@ -115,7 +115,7 @@ export const routes: Routes = [
       // {
       //   path: 'importaciones',
       //   loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
-      // }, 
+      // },
       {
         path: 'reports',
         loadChildren: () => import('./pages/reportes/reportes.module').then(m => m.ReportesModule)
@@ -123,6 +123,10 @@ export const routes: Routes = [
       {
         path: 'information-general',
         loadChildren: () => import('./pages/information-user/information-user.module').then(m => m.InformationUserModule)
+      },
+      {
+        path: 'administracion-sistema',
+        loadChildren: () => import('./pages/administracion-sistema/administracion-sistema.module').then(m => m.AdministracionSistemaModule)
       },
 
       // mercado-libre
