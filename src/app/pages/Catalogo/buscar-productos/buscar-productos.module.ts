@@ -3,12 +3,9 @@ import { CommonModule } from '@angular/common';
 import { BuscarProductosRoutingModule } from './buscar_productos-routing.module';
 import { BuscarProductosComponent } from './buscar-productos.component';
 import { NgxAutocompleteModule } from 'ngx-angular-autocomplete';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
-// import { PromocionesComponent } from '../../../components/promociones/promociones.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-// import { PromocionesComponent } from '../../components/promociones/promociones.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,7 +24,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
-// import { SwiperModule } from 'swiper/angular';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 
@@ -48,7 +44,6 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
     MatButtonModule,
     MatCardModule,
     MatMenuModule,
-    MatButtonModule,
     NgxPermissionsModule,
     MatTabsModule,
     MatSelectModule,
@@ -58,9 +53,6 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
     NgxSkeletonLoaderModule,
     MatSnackBarModule,
     ClipboardModule,
-    NgxPermissionsModule,
-    MatSelectModule,
-    MatChipsModule,
     TooltipModule.forRoot(),
     MatSidenavModule,
     PostModule,

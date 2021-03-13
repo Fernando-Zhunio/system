@@ -11,7 +11,7 @@
         <!-- Position Column -->
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
         </ng-container>
 
         <!-- Position Column -->
@@ -23,7 +23,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="companies">
             <mat-header-cell *matHeaderCellDef> Empresa </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.companies[0].name}}
+            <mat-cell *matCellDef="let element"> {{element.companies[0]?.name}}
             </mat-cell>
         </ng-container>
 

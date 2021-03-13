@@ -2,7 +2,6 @@ import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Ipublication } from "../../interfaces/ipublication";
-import { CatalogoService } from "../../services/catalogo.service";
 import { MercadoLibreService } from "../../services/mercado-libre.service";
 import { StandartSearchService } from "../../services/standart-search.service";
 import { InfoViewComponent } from "../modals/info-view/info-view.component";
@@ -83,9 +82,9 @@ export class PublicationComponent implements OnInit {
     )
   }
 
-  executeMenu(event ): void {
-    console.log(event);
-    this.s_mercado_libre.updateStatus(event.id, event.type).subscribe((res) => {
+  executeMenu(type,id ): void {
+    // console.log(event);
+    this.s_mercado_libre.updateStatus(id,type).subscribe((res) => {
       console.log(res);
       if (res.success) {
         // const indice = this.products.findIndex((x) => x.id == event.id);

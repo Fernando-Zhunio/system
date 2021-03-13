@@ -277,13 +277,13 @@ const navItems_: INavData[] = [
   },
   {
     name: "Codificar importaciones",
-    url: "/section-construction",
+    url: "/importaciones/codificar-importaciones",
     icon: "far fa-handshake",
     permission: "purchase-department.imports.index",
   },
   {
     name: "Precios y promociones",
-    url: "/section-construction",
+    url: "/importaciones/precios-promociones",
     icon: "icon-briefcase",
     permission: "purchase-department.imports.index",
   },
@@ -302,7 +302,7 @@ const navItems_: INavData[] = [
     name: 'Informacion general'
   },
   {
-    name: "Organizacion ",
+    name: "Organizacion",
     url: "/information-general/organizacion",
     icon: "icon-briefcase",
     // permission: "purchase-department.imports.index",
@@ -312,8 +312,14 @@ const navItems_: INavData[] = [
     name: 'Administracion del sistema'
   },
   {
-    name: "Usuarios ",
+    name: "Usuarios",
     url: "/administracion-sistema/usuarios",
+    icon: "icon-user-following",
+    permission: "admin.users.index",
+  },
+  {
+    name: "Roles",
+    url: "/administracion-sistema/roles",
     icon: "icon-briefcase",
     permission: "admin.users.index",
   },

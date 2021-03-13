@@ -41,13 +41,12 @@ export class UsuariosComponent implements OnInit {
   }
 
   users:IuserSystem[];
-  getUserServer():void{
-    this.s_standart.show('admin/users').subscribe((res:{success:boolean,data:Ipagination<IuserSystem>})=>{
-      // console.log(res);
-      // this.refreshDataTable(res.data.data);
-
-    })
-  }
+  // getUserServer():void{
+  //   this.s_standart.show('admin/users').subscribe((res:{success:boolean,data:Ipagination<IuserSystem>})=>{
+  //     // console.log(res);
+  //     // this.refreshDataTable(res.data.data);
+  //   })
+  // }
 
   refreshDataTable(data) {
     let row: IuserSystem[] = data as IuserSystem[];
@@ -62,14 +61,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   deleteItem(id):void{
-    // const swalWithBootstrapButtons = Swal.mixin({
-    //   customClass: {
-    //     confirmButton: 'btn btn-success mr-1',
-    //     cancelButton: 'btn btn-danger'
-    //   },
-    //   buttonsStyling: false
-    // })
-    SwalService.swalConfirmation("Eliminar","Esta seguro de que desea eliminar este usuario","warning").then((result) => {
+    SwalService.swalConfirmation("Eliminar","Esta seguro de eliminar este usuario","warning").then((result) => {
       if (result.isConfirmed) {
         this.snack_bar.open("Eliminando usuario espere ...")
         this.s_standart.destory("admin/users/"+id).subscribe(res=>{
@@ -88,18 +80,12 @@ export class UsuariosComponent implements OnInit {
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
       ) {
-
-        // swalWithBootstrapButtons.fire(
-        //   'Cancelled',
-        //   'Your imaginary file is safe :)',
-        //   'error'
-        // )
       }
     })
   }
 
   removeItemTable(id):void{
-      let index = this.ELEMENT_DATA.findIndex(x=>x.id);
+      let index = this.ELEMENT_DATA.findIndex(x=>x.id == id);
       this.ELEMENT_DATA.splice(index,1);
       // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
       this.dataSource = new MatTableDataSource<IuserSystem>(this.ELEMENT_DATA);
@@ -115,7 +101,6 @@ export class UsuariosComponent implements OnInit {
   changePaginator(event):void{
     this.headerComponent.searchBar(event);
     console.log(event);
-
   }
 
 }

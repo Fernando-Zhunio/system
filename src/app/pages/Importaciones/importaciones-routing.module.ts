@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { CreateImportComponent } from './create-import/create-import.component';
 import { EditImportComponent } from './edit-import/edit-import.component';
+import { InConstructionComponent } from '../../views/in-construction/in-construction.component';
 
 @Component({
   selector: 'app-importaciones',
@@ -23,8 +24,8 @@ const routes: Routes = [
     children: [
       {
         path: 'proveedores',
-        component:ProveedoresComponent,    
-      }, 
+        component:ProveedoresComponent,
+      },
       {
         path:'import/create',
         component:CreateImportComponent,
@@ -36,16 +37,24 @@ const routes: Routes = [
         component:EditImportComponent,
         data:{state:"edit"}
       },
+      {
+        path: 'codificar-importaciones',
+        component:InConstructionComponent,
+      },
+      {
+        path: 'precios-promociones',
+        component:InConstructionComponent,
+      }
       // {
       //   path: 'buscar_productos',
       //   // component:MarcasMainComponents,
       //   loadChildren: () => import('../Catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      // }, 
+      // },
       // {
       //   path: 'publicaciones',
       //   component:PublicacionesComponent,
       //   // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      // },     
+      // },
     ]
   }
 ];

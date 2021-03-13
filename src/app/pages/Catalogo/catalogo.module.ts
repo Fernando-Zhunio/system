@@ -60,11 +60,7 @@ import { ShowPublicationComponent } from './publicaciones/show-publication/show-
     NgxSkeletonLoaderModule,
     MatChipsModule,
     NgxSpinnerModule,
-    // SwiperModule,
     SortablejsModule.forRoot({ animation: 150 }),
-    
-    // MomentModule,
-    
   ]
 })
 export class CatalogoModule { }

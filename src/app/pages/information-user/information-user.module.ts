@@ -15,7 +15,7 @@ import { OrgchartModule } from '@dabeng/ng-orgchart';
     CommonModule,
     InformationUserRoutingModule,
     // NgxOrgChartModule,/
-    OrgchartModule,
+    // OrgchartModule,
     MatAutocompleteModule,
     // NgxPaginationModule,
     MlModule

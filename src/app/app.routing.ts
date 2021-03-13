@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 
@@ -6,12 +6,21 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
 import { DefaultLayoutComponent } from './containers';
 import { AuthReverseGuard } from './guards/auth-reverse.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { CapturePasswordComponent } from './pages/authenticate/capture-password/capture-password.component';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
+
+// @Component({
+//   selector: 'app-authentication',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class AutheticationMainDefaultComponents  {
+// }
+
 
 export const routes: Routes = [
   {
@@ -65,6 +74,11 @@ export const routes: Routes = [
     // canActivate:[AuthGuard]
   },
   {
+    path: 'authetication',
+    loadChildren: () => import('./pages/authenticate/authenticate.module').then(m => m.AuthenticateModule),
+    canActivate:[AuthReverseGuard]
+  },
+  {
     path: '',
     component: DefaultLayoutComponent,
     data: {
@@ -72,14 +86,14 @@ export const routes: Routes = [
     },
     canActivate:[AuthGuard],
     children: [
-      {
-        path: 'base',
-        loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
-      },
-      {
-        path: 'buttons',
-        loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
-      },
+      // {
+      //   path: 'base',
+      //   loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
+      // },
+      // {
+      //   path: 'buttons',
+      //   loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
+      // },
       // {
       //   path: 'productos',
       //   loadChildren: () => import('./pages/administracion_productos/productos/producto.module').then(m => m.ProductoModule)
@@ -96,10 +110,10 @@ export const routes: Routes = [
       //   path: 'prefijos',
       //   loadChildren: () => import('./pages/administracion_productos/prefijo/prefijo.module').then(m => m.PrefijoModule)
       // },
-      {
-        path: 'buscar_productos',
-        loadChildren: () => import('./pages/catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      },
+      // {
+      //   path: 'buscar_productos',
+      //   loadChildren: () => import('./pages/catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      // },
       {
         path: 'catalogo',
         loadChildren: () => import('./pages/catalogo/catalogo.module').then(m => m.CatalogoModule)

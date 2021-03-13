@@ -92,7 +92,7 @@ export class CreateOrEditComponent implements OnInit {
       this.state = res.isEdit?"edit":"create";
       console.log(res);
       if (res.isEdit) {
-        this.title = "Editando Producto";
+        this.title = "Editando Usuario";
         const id = Number.parseInt(this.act_router.snapshot.paramMap.get("id"));
         const url = "admin/users/" + id + "/edit";
         this.s_standart.show(url).subscribe((response) => {
@@ -149,7 +149,7 @@ export class CreateOrEditComponent implements OnInit {
 
         });
       } else {
-        this.title = "Creando Producto";
+        this.title = "Creando Usuario";
         this.s_standart.show("admin/users/create").subscribe((response) => {
           this.assignData(response)
           this.ngx_spinner.hide();

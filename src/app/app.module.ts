@@ -89,6 +89,7 @@ import { PublicationComponent } from './components/publication/publication.compo
 import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
+// import { CapturePasswordComponent } from './pages/authenticate/capture-password/capture-password.component';
 // import { CreateOrEditComponent } from './pages/administracion-sistema/usuarios/create-or-edit/create-or-edit.component';
 // import { PostInstagramComponent } from './components/post-instagram/post-instagram.component';
 // import { OrganizationChartComponent } from './pages/information-user/organization-chart/organization-chart.component';
@@ -172,6 +173,7 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
     SearchProductModalComponent,
     InConstructionComponent,
     RedirectToComponent,
+    // CapturePasswordComponent,
     // CreateOrEditComponent,
     // PostInstagramComponent,
     // OrganizationChartComponent,

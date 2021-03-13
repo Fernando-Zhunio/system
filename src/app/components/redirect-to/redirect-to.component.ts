@@ -28,11 +28,21 @@ export class RedirectToComponent implements OnInit {
     const token = this.act_router.snapshot.queryParamMap.get("token");
     // const goto = this.act_router.snapshot.paramMap.get("goto");
     const goto = this.act_router.snapshot.queryParamMap.get("goto");
+    console.log(token,goto);
+
     if (this.s_storage.isAuthenticated()) {
-      if (goto) this.router.navigate([goto]);
-      else this.router.navigate["/"];
+      if (goto){
+
+        console.log('paso goto');
+        this.router.navigate([goto]);
+      }
+      else {
+        this.router.navigate(["dashboard"]);
+        console.log('paso no goto');
+      }
       return;
     }
+
     // this.route.snapshot.queryParamMap.get
     if (token) {
       const headers = new HttpHeaders({

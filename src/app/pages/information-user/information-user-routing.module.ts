@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 // import { CategoriasMainComponent } from './categorias-main.component';
 import { Component } from '@angular/core';
 import { OrganizationChartSystemComponent } from './organization-chart/organization-chart.component';
+import { InConstructionComponent } from '../../views/in-construction/in-construction.component';
 
 @Component({
   selector: 'app-importaciones',
@@ -20,8 +21,9 @@ const routes: Routes = [
     children: [
       {
         path: 'organizacion',
-        component:OrganizationChartSystemComponent,    
-      }, 
+        // component:OrganizationChartSystemComponent,
+        component:InConstructionComponent,
+      },
       // {
       //   path:'import/create',
       //   component:CreateImportComponent,
@@ -37,12 +39,12 @@ const routes: Routes = [
       //   path: 'buscar_productos',
       //   // component:MarcasMainComponents,
       //   loadChildren: () => import('../Catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      // }, 
+      // },
       // {
       //   path: 'publicaciones',
       //   component:PublicacionesComponent,
       //   // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      // },     
+      // },
     ]
   }
 ];

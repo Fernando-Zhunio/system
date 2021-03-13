@@ -1,0 +1,81 @@
+<div class="mt-4">
+    <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning d-inline-block">
+        {{title}}
+    </h2>
+    <button mat-mini-fab (click)="goBack()" class="mb-2">
+    <mat-icon>keyboard_return</mat-icon>
+  </button>
+    <mat-card>
+        <mat-card-content>
+            <form [formGroup]="form_rol">
+                <div class="row">
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Nombres</mat-label>
+                        <input matInput formControlName="title" type="text" required>
+                        <mat-error *ngIf="form_rol.controls['title'].invalid">Nombre Requerido</mat-error>
+
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Slug</mat-label>
+                        <input type="text" matInput formControlName="name" required>
+                        <mat-error *ngIf="form_rol.controls['name'].invalid">Slug Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Descripcion</mat-label>
+                        <input matInput formControlName="description">
+                        <!-- <mat-error *ngIf="form_rol.controls['description'].invalid">La contraseña debe contener minusculas y al menos
+              una mayuscula, numero y simbolo</mat-error> -->
+                    </mat-form-field>
+                </div>
+            </form>
+            <!-- fin del form -->
+
+            <div>
+                <div class="example-container border-right">
+                    <h2 class="font-facebook font-2xl">Permisos</h2>
+                    <!-- <mat-form-field class="col-12">
+                        <mat-label>Buscar Permiso</mat-label>
+                      </mat-form-field> -->
+                    <div class="col-12 d-flex align-items-center justify-content-end">
+                        <input class="form-control" placeholder="Escriba el permiso a buscar" [(ngModel)]="search_permission" (keyup)="permissionsFilter()">
+                        <mat-icon class="position-absolute">search</mat-icon>
+                    </div>
+                    <div class="example-list">
+                        <!-- <div cdkDropList [cdkDropListData]="permissions" class="example-list" (cdkDropListDropped)="drop($event)"> -->
+                        <div *ngFor="let item of permission_filter" class="font-weight-bolder example-box shadow-sm"><span>{{item.title}}. <small>({{item?.description}})</small></span><span class="badge badge-success" (click)="transferDataItem(item.id)"><mat-icon class="mat-18">add</mat-icon></span></div>
+                    </div>
+                </div>
+                <div style="z-index: 10;" class="example-container sticky-top">
+                    <h2 class="font-facebook font-2xl">Permisos otorgados</h2>
+
+                    <div class="example-list">
+                        <!-- <div cdkDropList [cdkDropListData]="permission_otorgados" class="example-list " (cdkDropListDropped)="drop($event)"> -->
+                        <div class="example-box shadow-sm" *ngFor="let item of role?.permissions"><span>{{item.title}}.<small>({{item?.description}})</small></span> <span class="badge badge-info" (click)="returnItem(item.id)"><mat-icon class="mat-18">reply</mat-icon></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-12">
+                    <h2 class="col-12 font-facebook font-4xl m-0">Roles <small>*</small></h2>
+                    <section class="example-section col-12">
+                        <span class="example-list-section">
+                <ul style="list-style: none;">
+                  <li *ngFor="let permission of permissions">
+                    <mat-checkbox [(ngModel)]="permission.active">
+                      {{permission.title}}({{permission?.description}})
+                    </mat-checkbox>
+                  </li>
+                </ul>
+              </span>
+                    </section>
+                </div>
+            </div> -->
+
+            <button mat-raised-button (click)="saveInServer()">Guardar</button>
+
+        </mat-card-content>
+    </mat-card>
+</div>
