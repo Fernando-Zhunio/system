@@ -21,8 +21,8 @@ const routes: Routes = [
     children: [
       {
         path: 'organizacion',
-        // component:OrganizationChartSystemComponent,
-        component:InConstructionComponent,
+        component:OrganizationChartSystemComponent,
+        // component:InConstructionComponent,
       },
       // {
       //   path:'import/create',

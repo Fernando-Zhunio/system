@@ -57,9 +57,9 @@ export class BuscarProductosComponent implements OnInit {
 
   form_filter: FormGroup = new FormGroup({
     prefix_id: new FormControl('all'),
-    min: new FormControl(''),
-    max: new FormControl(''),
-    "warehouse_ids[]": new FormControl(''),
+    min: new FormControl(null),
+    max: new FormControl(null),
+    "warehouse_ids[]": new FormControl(null),
     search: new FormControl(''),
   });
 
@@ -104,13 +104,18 @@ export class BuscarProductosComponent implements OnInit {
       },
       // when window width is >= 640px
       600: {
-        slidesPerView: 3,
+        slidesPerView: 2,
         spaceBetween: 10
       },
       800: {
+        slidesPerView: 3,
+        spaceBetween: 10
+      },
+      1200: {
         slidesPerView: 4,
         spaceBetween: 10
       }
+
     },
     // keyboard: true,
     // mousewheel: true,

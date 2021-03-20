@@ -1,0 +1,81 @@
+<div class="mt-4">
+    <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning d-inline-block">
+        {{title}}
+    </h2>
+    <button mat-mini-fab (click)="goBack()" class="mb-2">
+    <mat-icon>keyboard_return</mat-icon>
+  </button>
+    <mat-card>
+        <mat-card-content>
+            <form [formGroup]="form_location">
+                <div class="row">
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="name" type="text" required>
+                        <mat-error *ngIf="form_location.controls['name'].invalid">Nombre Requerido</mat-error>
+
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Direccion</mat-label>
+                        <input type="address" matInput formControlName="address" required>
+                        <mat-error *ngIf="form_location.controls['address'].invalid">Direccion requerida</mat-error>
+
+                    </mat-form-field>
+
+                    <!-- <mat-form-field class="col-md-6">
+                        <mat-label>Tipo</mat-label>
+                        <input matInput formControlName="type">
+                        <mat-error *ngIf="form_location.controls['type'].invalid">Tipo requerido</mat-error>
+                    </mat-form-field> -->
+                </div>
+                <div class="row">
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Seleccione una Compañia</mat-label>
+                        <mat-select formControlName="company" required>
+                            <mat-option *ngFor="let company of companies" [value]="company.id">{{company.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_location.controls['company'].invalid">Compañia requerida</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Seleccione una ciudad</mat-label>
+                        <mat-select formControlName="city" required>
+                            <mat-option *ngFor="let keyCity of keyCities" [value]="keyCity">{{cities[keyCity]}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_location.controls['city'].invalid">Cuidad Requerido</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Seleccione un tipo</mat-label>
+                        <mat-select formControlName="type" required>
+                            <mat-option *ngFor="let keyType of keyTypes" [value]="keyType">{{types[keyType]}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_location.controls['type'].invalid">Tipo Requerido</mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+            <div>
+                <h2 class="col-12 font-facebook font-4xl m-0 mb-3">Latitud y Longitud</h2>
+                <div class="col-12">
+                    <mat-checkbox (change)="enableAndDesableMap($event)" [(ngModel)]="isEnabledMap" class="example-margin">Habilitar mapa</mat-checkbox>
+                    <!-- <mat-slide-toggle>Slide me!</mat-slide-toggle> -->
+
+                </div>
+                <div class="position-relative w-100 container p-0 shadow-lg rounded-lg mb-3">
+                    <div *ngIf="!isEnabledMap" class="w-100 h-100 position-absolute block-map  shadow-lg rounded-lg"></div>
+                    <div id="map" class=" "></div>
+                    <div class="coordinate px-md-5 px-1">
+                        Longitud : {{coordinate?.longitud}} <br> Latitud : {{coordinate?.latitud}}
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-12 "> -->
+
+            <!-- </div> -->
+            <!-- fin del form -->
+
+            <button mat-raised-button [disabled]="isLoadServer" (click)="saveInServer()">Guardar</button>
+
+        </mat-card-content>
+    </mat-card>
+</div>

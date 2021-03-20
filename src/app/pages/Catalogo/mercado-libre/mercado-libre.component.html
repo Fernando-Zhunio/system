@@ -8,6 +8,41 @@
                     left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
                         <mat-icon style="font-size: 30px;" type="search">search</mat-icon>
                     </button>
+                    <button [matMenuTriggerFor]="menu" class="position-absolute" style="top: 0px;
+                    right: 32px;height: 100%;" mat-icon-button>
+                        <mat-icon style="font-size: 30px;" type="search">menu</mat-icon>
+                    </button>
+
+                    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                        <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                            <mat-form-field class="w-100">
+                                <mat-label>Estados</mat-label>
+                                <mat-select (selectionChange)="searchBar()" formControlName="state">
+                                    <mat-option value="all">Todos</mat-option>
+                                    <mat-option value="active">Activo</mat-option>
+                                    <mat-option value="closed">Inactivo</mat-option>
+                                    <mat-option value="payment_required">Pago requerido</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                            <mat-form-field>
+                                <mat-label>Precio Min</mat-label>
+                                <input matInput formControlName="min" class="example-right-align">
+                                <span matPrefix>$&nbsp;</span>
+                                <span matSuffix>.00</span>
+                            </mat-form-field>
+                        </div>
+                        <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                            <mat-form-field>
+                                <mat-label>Precio Max</mat-label>
+                                <input formControlName="max" matInput class="example-right-align">
+                                <span matPrefix>$&nbsp;</span>
+                                <span matSuffix>.00</span>
+                            </mat-form-field>
+                        </div>
+                        <button mat-raised-button (click)="searchBar()" class="ml-3" color="primary">Aplicar Filtro</button>
+                    </mat-menu>
                 </div>
             </mat-tab>
             <mat-tab label="Filtros">
@@ -44,7 +79,7 @@
                 </mat-card>
             </mat-tab>
             <!-- <mat-tab label="Paginacion">
-               
+
             </mat-tab> -->
         </mat-tab-group>
     </div>
@@ -52,15 +87,15 @@
 
     <div *ngIf="isload" class="mt-4">
         <mat-card *ngFor="let item of [1,2,3]" class="my-1">
-            <ngx-skeleton-loader count="1" [theme]="{ 
+            <ngx-skeleton-loader count="1" [theme]="{
               'border-radius': '5px',
               height: '50px'
             }"></ngx-skeleton-loader>
-            <ngx-skeleton-loader count="1" [theme]="{ 
+            <ngx-skeleton-loader count="1" [theme]="{
                 'border-radius': '5px',
                 height: '30px'
               }"></ngx-skeleton-loader>
-            <ngx-skeleton-loader count="3" [theme]="{ 
+            <ngx-skeleton-loader count="3" [theme]="{
                 'border-radius': '5px',
                 height: '40px',
                 width:'150px',
@@ -71,10 +106,10 @@
 
 
     <div *ngIf="hasData; else elseTemplate" class="mt-4 card-columns">
-        <div *ngFor="let ml of mlInfos" class="card border-0">
-            <mat-card class=" ">
-                <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
-            </mat-card>
+        <div *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
+            <!-- <mat-card class=" "> -->
+            <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
+            <!-- </mat-card> -->
         </div>
 
     </div>

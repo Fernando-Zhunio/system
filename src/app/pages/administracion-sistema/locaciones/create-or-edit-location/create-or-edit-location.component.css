@@ -1,0 +1,20 @@
+#map {
+    /* position: absolute; */
+    /* top: 0;
+    bottom: 0; */
+    width: 100% !important;
+    height: 400px !important;
+    /* text-align: end */
+}
+
+.coordinate {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.block-map {
+  left: 0;
+  z-index: 1;
+    background-color: rgba(144, 145, 147, 0.442);
+}

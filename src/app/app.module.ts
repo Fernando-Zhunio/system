@@ -89,6 +89,9 @@ import { PublicationComponent } from './components/publication/publication.compo
 import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
+import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+// import { ConvertObjectToArrayPipe } from './pipes/convert-object-to-array.pipe';
 // import { CapturePasswordComponent } from './pages/authenticate/capture-password/capture-password.component';
 // import { CreateOrEditComponent } from './pages/administracion-sistema/usuarios/create-or-edit/create-or-edit.component';
 // import { PostInstagramComponent } from './components/post-instagram/post-instagram.component';
@@ -150,7 +153,9 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
     MatInputModule,
     MatSidenavModule,
     HeaderSearchModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    MatSnackBarModule,
+
     // MatTabsModule
 
 
@@ -173,6 +178,8 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
     SearchProductModalComponent,
     InConstructionComponent,
     RedirectToComponent,
+    SnackBarLoaderComponent,
+    // ConvertObjectToArrayPipe,
     // CapturePasswordComponent,
     // CreateOrEditComponent,
     // PostInstagramComponent,

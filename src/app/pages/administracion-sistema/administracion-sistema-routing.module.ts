@@ -9,6 +9,9 @@ import { CreateOrEditComponent } from "./usuarios/create-or-edit/create-or-edit.
 import { RolesComponent } from "./roles/roles.component";
 import { CreateOrEditRolesComponent } from "./roles/create-or-edit-roles/create-or-edit-roles.component";
 import { IpermissionStandart } from "../../interfaces/ipermission-standart";
+import { PaisesComponent } from "./paises/paises.component";
+import { LocacionesComponent } from "./locaciones/locaciones.component";
+import { CreateOrEditLocationComponent } from "./locaciones/create-or-edit-location/create-or-edit-location.component";
 // import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
 
 @Component({
@@ -23,6 +26,20 @@ export class ADUsersMainComponents  {
   template: '<router-outlet></router-outlet>',
 })
 export class ADRolesMainComponents  {
+}
+
+@Component({
+  selector: 'app-as-paises',
+  template: '<router-outlet></router-outlet>',
+})
+export class ADPaisesMainComponents  {
+}
+
+@Component({
+  selector: 'app-as-locaciones',
+  template: '<router-outlet></router-outlet>',
+})
+export class ADLocationsMainComponents  {
 }
 
 const permission_module_AD = {
@@ -137,7 +154,99 @@ const routes: Routes = [
       },
     },
     canActivate: [NgxPermissionsGuard],
-  }
+  },
+
+   // roles
+   {
+    path:'paises',
+    component:ADPaisesMainComponents,
+    children:[
+      {
+        path:'',
+        component:PaisesComponent,
+        data: {
+          permissions: {
+            only: permission_module_AD.roles.show,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path:'create',
+        component:CreateOrEditRolesComponent,
+        data: {
+          isEdit:false,
+          permissions: {
+            only: permission_module_AD.roles.create,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path:'edit/:id',
+        component:CreateOrEditRolesComponent,
+        data: {
+          isEdit:true,
+          permissions: {
+            only: permission_module_AD.roles.edit,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+    ],
+    data: {
+      permissions: {
+        only: permission_module_AD.roles.show
+      },
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+
+    // locaciones
+    {
+      path:'locaciones',
+      component:ADLocationsMainComponents,
+      children:[
+        {
+          path:'',
+          component:LocacionesComponent,
+          data: {
+            permissions: {
+              only: permission_module_AD.roles.show,
+            },
+          },
+          canActivate: [NgxPermissionsGuard],
+        },
+        {
+          path:'create',
+          component:CreateOrEditLocationComponent,
+          data: {
+            isEdit:false,
+            permissions: {
+              only: permission_module_AD.roles.create,
+            },
+          },
+          canActivate: [NgxPermissionsGuard],
+        },
+        {
+          path:'edit/:id',
+          component:CreateOrEditLocationComponent,
+          data: {
+            isEdit:true,
+            permissions: {
+              only: permission_module_AD.roles.edit,
+            },
+          },
+          canActivate: [NgxPermissionsGuard],
+        },
+      ],
+      data: {
+        permissions: {
+          only: permission_module_AD.roles.show
+        },
+      },
+      canActivate: [NgxPermissionsGuard],
+    }
 ];
 
 @NgModule({

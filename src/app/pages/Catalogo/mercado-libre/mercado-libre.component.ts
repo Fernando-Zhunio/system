@@ -33,8 +33,8 @@ export class MercadoLibreComponent implements OnInit {
   suscrition_api: Subscription;
   form_filter: FormGroup = new FormGroup({
     // prefix_id: new FormControl(null),
-    min: new FormControl(''),
-    max: new FormControl(''),
+    min: new FormControl(null),
+    max: new FormControl(null),
     state: new FormControl('all'),
     // warehouse_ids: new FormControl(['all']),
     search: new FormControl(''),
@@ -66,11 +66,11 @@ export class MercadoLibreComponent implements OnInit {
     },err => {
       this.isload = false;
     })
-      
+
   }
 
   searchBar($event = { pageSize: 15, pageIndex: 0 }) {
-    this.pageSize = this.paginator.pageSize;
+    this.pageSize = $event.pageSize;
     console.log($event);
     this.isload =true;
     // if($event.pageIndex != this.aux_page_next){
@@ -145,7 +145,7 @@ export class MercadoLibreComponent implements OnInit {
         if (this.mlInfos.length < 1) {
           this.hasData = false;
         } else this.hasData = true;
-        
+
       },err=>{
         this.isload = false;
       });

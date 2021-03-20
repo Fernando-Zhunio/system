@@ -323,6 +323,18 @@ const navItems_: INavData[] = [
     icon: "icon-briefcase",
     permission: "admin.users.index",
   },
+  {
+    name: "Paises",
+    url: "/administracion-sistema/paises",
+    icon: "icon-globe",
+    permission: "admin.countries.index",
+  },
+  {
+    name: "Locaciones",
+    url: "/administracion-sistema/locaciones",
+    icon: "icon-directions",
+    permission: "admin.locations.index",
+  },
 
 
 

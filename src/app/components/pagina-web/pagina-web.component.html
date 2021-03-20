@@ -1,17 +1,20 @@
-<mat-card>
-    <div class="row p-md-2 p-sm-0">
-        <div class="col-md-12 d-flex align-items-center col-sm-12 ">
-            <a [href]="prestashop_product.self_combination ? prestashop_product.self_combination.link : prestashop_product.link" target="_blank"><img style="width: 100%;max-width: 270px" [src]="(prestashop_product.self_combination && prestashop_product.self_combination.image) ? prestashop_product.self_combination.image : prestashop_product.image" alt=""></a>
-            <div style="top: 10px;" class="position-absolute">
-                <span class="mb-1 badge font-lg  bg-warning text-white mt-2">PÁGINA WEB</span><br>
+<div class="">
+    <div>
+        <div class="">
+            <a [href]="prestashop_product.self_combination ? prestashop_product.self_combination.link : prestashop_product.link" target="_blank"><img class="rounded-fz w-100" [src]="(prestashop_product.self_combination && prestashop_product.self_combination.image) ? prestashop_product.self_combination.image : prestashop_product.image" alt=""></a>
+            <div style="top: 10px;left: 10px;" class="position-absolute text-left">
+                <span class="mb-1 badge  bg-warning text-white mt-2">PÁGINA WEB</span><br>
                 <!-- <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge font-lg bg-pink text-white">
                     {{company.name}}</span><br> -->
                 <!-- <span class="mb-1 badge font-lg  bg-green text-white">{{ml.account.city.name}}</span><br> -->
-                <span class="mb-1 badge font-lg  bg-green text-white">{{prestashop_product.prestashop.name}}</span>
+                <span class="mb-1 badge  bg-green text-white">{{prestashop_product.prestashop.name}}</span>
             </div>
         </div>
-        <div class="col-sm-12 col-md-12 row align-content-center">
-            <div class="col-md-12">
+        <button mat-mini-fab (click)="openDescription()">
+            <mat-icon class="mat-18">read_more</mat-icon>
+        </button>
+        <div class="card-body pt-1">
+            <div class="w-100">
                 <!-- <mat-card-title>{{prestashop_product.name}}</mat-card-title> -->
                 <!-- <p *ngIf="ml.description" [innerHTML]="ml.description"></p> -->
                 <!-- <p *ngIf="ml.stock" class=" text-muted">
@@ -19,10 +22,11 @@
                         {{ml.stock.sold_quantity}}</span> - <span class="text-success">Disponible:
                         {{ml.stock.available_quantity}}</span>
                 </p> -->
-                <div class="d-flex justify-content-center  align-items-center" style="flex-wrap: wrap;">
-                    <span class="mat-button" color="accent">{{prestashop_product.full_price_formated | currency}}</span>
+                <div>
                     <!-- <a [href]="prestashop_product.self_combination ? prestashop_product.self_combination.link : prestashop_product.link" mat-raised-button target="_blank" color="primary">Ver en Web </a> -->
-                    <button mat-raised-button (click)="openDescription()" color="accent">Ver descripcion</button>
+                    <span style="font-family: SEGOE UI;" class="mat-button text-value text-success" color="accent">{{prestashop_product.full_price_formated | currency}}</span>
+
+                    <!-- <button mat-raised-button (click)="openDescription()" color="accent">Ver descripcion</button> -->
                 </div>
                 <!-- <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
                     <div class="alert alert-warning">
@@ -87,4 +91,4 @@
             </div>
         </div>
     </div>
-</mat-card>
+</div>

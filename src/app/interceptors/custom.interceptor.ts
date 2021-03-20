@@ -7,10 +7,12 @@ import {
   HttpHeaders,
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, tap } from "rxjs/operators";
 import { SwalService } from "../services/swal.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../services/storage.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { SnackBarLoaderComponent } from "../components/snack-bar-loader/snack-bar-loader.component";
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
@@ -32,9 +34,16 @@ export class CustomInterceptor implements HttpInterceptor {
     const newResquest = request.clone({
       headers,
     });
+    // this.snack_bar.openFromComponent(SnackBarLoaderComponent);
 
     return next.handle(newResquest).pipe(
+      // tap(data => {
+      //   this.snack_bar.dismiss();
+      //   // Do your success stuff in here
+      // }),
       catchError((err) => {
+        // this.snack_bar.dismiss();
+
         switch (err.status) {
           case 401:
             if (this.s_storage.isAuthenticated()) this.s_storage.logout();
@@ -53,7 +62,7 @@ export class CustomInterceptor implements HttpInterceptor {
             break;
           case 422:
             // console.log(err);
-            
+
             if(err.error.hasOwnProperty('message')){
               SwalService.swalToast(
                 err.error.message,

@@ -1,0 +1,24 @@
+<!-- <h3 class="m-0 text-muted">{{data.action.title}}</h3> -->
+<div mat-dialog-content>
+    <div class="font-5xl font-facebook list-group-item-accent-warning pl-2" mat-dialog-title> {{data.action.title}}</div>
+    <form [formGroup]="form_country">
+        <div class="row">
+            <mat-form-field class="col-md-12">
+                <mat-label>Nombres</mat-label>
+                <input matInput formControlName="name" type="text" required>
+                <mat-error *ngIf="form_country.controls['name'].invalid">Nombre Requerido</mat-error>
+
+            </mat-form-field>
+
+            <mat-form-field class="col-md-12">
+                <mat-label>Codigo</mat-label>
+                <input type="text" matInput formControlName="code" required>
+                <mat-error *ngIf="form_country.controls['code'].invalid">Codigo Requerido</mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button cdkFocusInitial [disabled]="form_country.invalid" color="primary" (click)="saveInServer()">Guardar</button>
+    <button mat-button mat-dialog-close color="warn">Cancelar</button>
+</div>

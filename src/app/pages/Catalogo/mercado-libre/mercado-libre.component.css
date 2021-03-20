@@ -15,7 +15,7 @@ button {
     outline: none;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 1200px) {
     .card-columns {
         column-count: 4;
     }
