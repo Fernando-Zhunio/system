@@ -9,7 +9,7 @@ import { PrefijosCreateOrEditComponent } from './prefijos-create-or-edit/prefijo
 @Component({
   selector: 'app-prefijos',
   template: '<router-outlet></router-outlet>',
-  
+
 })
 export class PrefijoMainComponents  {
 }
@@ -19,10 +19,13 @@ const routes: Routes = [
   {
     path: '',
     component:PrefijoMainComponents,
+    data: {name: 'prefijos_main'},
     children: [
       {
         path: '',
         component: PrefijoComponent,
+        data: {reuse:true,name:'prefijos'}
+
       },
       {
         path: 'create',
@@ -45,7 +48,7 @@ const routes: Routes = [
           },
         },
         // data:{isEdit:true}
-      },     
+      },
     ]
   }
 ];

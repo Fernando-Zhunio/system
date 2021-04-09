@@ -22,7 +22,6 @@ import { CreateProviderOrContactComponent } from "../modals/create-provider-or-c
 import { InvoiceItemModalComponent } from "../modals/invoice-item-modal/invoice-item-modal.component";
 import { ActionProviderComponent } from "../Sheet/action-provider/action-provider.component";
 
-
 @Component({
   selector: "app-invoice-create-or-edit",
   templateUrl: "./invoice-create-or-edit.component.html",
@@ -36,16 +35,20 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  @Input() providers=[];
+  @Input() providers = [];
   @Input() id_import;
   @Input() product_relationship = null;
   @Output() close: EventEmitter<object> = new EventEmitter();
-  @Output() new_action:EventEmitter<{action:EProviderActions,data:any,id?:number}> = new EventEmitter();
+  @Output() new_action: EventEmitter<{
+    action: EProviderActions;
+    data: any;
+    id?: number;
+  }> = new EventEmitter();
   // @Output() openSide:EventEmitter<object> = new EventEmitter();
 
   isLoadInvoice: boolean = false;
-  // ELEMENT_DATA : TableItemInvoice[] = [];
   @Input() ELEMENT_DATA: invoiceItem[] = [];
+  invoice_data:any[] = [];
   displayedColumns: string[] = [
     "new",
     "code",
@@ -56,12 +59,11 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     "tariff",
     "id",
   ];
-  // dataSource = new MatTableDataSource<TableItemInvoice>(this.ELEMENT_DATA);
   dataSource = new MatTableDataSource<invoiceItem>(this.ELEMENT_DATA);
-  // @Output() click_menu:EventEmitter<object> = new EventEmitter();
+
   ngOnInit(): void {
     console.log(this.providers);
-    
+
     console.log(this.state);
     if (this.invoice) {
       const {
@@ -79,12 +81,6 @@ export class InvoiceCreateOrEditComponent implements OnInit {
         provider_id,
       });
       this.refreshDataTable(this.ELEMENT_DATA);
-      // setTimeout(() => {
-      //   console.log(this.ELEMENT_DATA);
-
-      //   console.log(this.dataSource.data);
-
-      // }, 3000);
     }
   }
 
@@ -98,6 +94,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     id: new FormControl(null),
     // state:new FormControl('create'),
   });
+
   saveInvoice(): void {
     if (this.formInvoice.valid) {
       this.isLoadInvoice = true;
@@ -143,7 +140,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
           )
           .subscribe(
             (res) => {
-              if (res.success) {
+              if (res.hasOwnProperty('success') && res.success) {
                 console.log(res);
                 this.invoice = res.data;
                 this.formInvoice.controls["id"].setValue(res.data.id);
@@ -174,52 +171,111 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   openActionProvider() {
     let id = this.formInvoice.controls["provider_id"].value;
     const indexProvider = this.providers.findIndex((x) => x.id == id);
-    let data:Iprovider = null;
+    let data: Iprovider = null;
     if (indexProvider != -1) {
-      data = this.providers[indexProvider] ;
+      data = this.providers[indexProvider];
     }
-    this.bottomSheet.open(ActionProviderComponent, {
-      data,
-    }).afterDismissed().subscribe((res:EProviderActions)=>{
-      switch (res) {
-        case EProviderActions.create_provider:
-          this.dialog.open(CreateProviderOrContactComponent,{data:{title:"Crear Proveedor",isProvider:true}}).beforeClosed().subscribe(res=>{
-            if(res && res.success){
-                  this.new_action.emit({action:EProviderActions.create_provider,data:res.data});
-                }
+    this.bottomSheet
+      .open(ActionProviderComponent, {
+        data,
+      })
+      .afterDismissed()
+      .subscribe((res: EProviderActions) => {
+        switch (res) {
+          case EProviderActions.create_provider:
+            this.dialog
+              .open(CreateProviderOrContactComponent, {
+                data: { title: "Crear Proveedor", isProvider: true },
               })
-          break;
+              .beforeClosed()
+              .subscribe((res) => {
+                if (res && res.success) {
+                  this.new_action.emit({
+                    action: EProviderActions.create_provider,
+                    data: res.data,
+                  });
+                }
+              });
+            break;
 
           case EProviderActions.create_contact:
-          this.dialog.open(CreateProviderOrContactComponent,{data:{title:"Crear Contacto",isProvider:false,state:EProviderActions.create_contact}}).beforeClosed().subscribe(res=>{
-            if(res && res.success){
-                  this.new_action.emit({action:EProviderActions.create_contact,data: res.data,id:data.id});
-                }
+            this.dialog
+              .open(CreateProviderOrContactComponent, {
+                data: {
+                  title: "Crear Contacto",
+                  isProvider: false,
+                  state: EProviderActions.create_contact,
+                },
               })
-          break;
+              .beforeClosed()
+              .subscribe((res) => {
+                if (res && res.success) {
+                  this.new_action.emit({
+                    action: EProviderActions.create_contact,
+                    data: res.data,
+                    id: data.id,
+                  });
+                }
+              });
+            break;
           case EProviderActions.view_contact:
             console.log(data.contacts);
-            this.dialog.open(CreateProviderOrContactComponent,{data:{title:"Contactos",isProvider:false,state:EProviderActions.view_contact,form_data:{name_provider:data.name,contacts: data.contacts}}}).beforeClosed().subscribe(res=>{
-              console.log(res);
-              if(res && res.success){
-                    this.new_action.emit({action:res.action,data: res.data,id:data.id});
-                  }
-                })
-          break;
+            this.dialog
+              .open(CreateProviderOrContactComponent, {
+                data: {
+                  title: "Contactos",
+                  isProvider: false,
+                  state: EProviderActions.view_contact,
+                  form_data: {
+                    name_provider: data.name,
+                    contacts: data.contacts,
+                  },
+                },
+              })
+              .beforeClosed()
+              .subscribe((res) => {
+                console.log(res);
+                if (res && res.success) {
+                  this.new_action.emit({
+                    action: res.action,
+                    data: res.data,
+                    id: data.id,
+                  });
+                }
+              });
+            break;
           case EProviderActions.delete_provider:
-            this.new_action.emit({action:EProviderActions.delete_provider,data: null,id:data.id});
-          break;
+            this.new_action.emit({
+              action: EProviderActions.delete_provider,
+              data: null,
+              id: data.id,
+            });
+            break;
           case EProviderActions.edit_provider:
-            this.dialog.open(CreateProviderOrContactComponent,{data:{title:"Editar Proveedor",isProvider:true,form_data:data,state:EProviderActions.edit_provider}}).beforeClosed().subscribe(res=>{
-              if(res && res.success){
-                    this.new_action.emit({action:EProviderActions.edit_provider,data: res.data,id:data.id});
-                  }
-                }) 
-          break;
-        default:
-          break;
-      }
-    });
+            this.dialog
+              .open(CreateProviderOrContactComponent, {
+                data: {
+                  title: "Editar Proveedor",
+                  isProvider: true,
+                  form_data: data,
+                  state: EProviderActions.edit_provider,
+                },
+              })
+              .beforeClosed()
+              .subscribe((res) => {
+                if (res && res.success) {
+                  this.new_action.emit({
+                    action: EProviderActions.edit_provider,
+                    data: res.data,
+                    id: data.id,
+                  });
+                }
+              });
+            break;
+          default:
+            break;
+        }
+      });
   }
 
   addRowTableItem() {
@@ -233,8 +289,8 @@ export class InvoiceCreateOrEditComponent implements OnInit {
         disableClose: true,
       })
       .beforeClosed()
-      .subscribe((res: { success: boolean; data: InvoiceItemFull }) => {
-        if (res.hasOwnProperty("success") && res.success) {
+      .subscribe((res) => {
+        if (res && res.hasOwnProperty("success") && res.success) {
           this.refreshDataTable(res.data);
         } else console.log("no tiene data");
       });
@@ -258,7 +314,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
           console.log(res);
           snack1.dismiss();
 
-          if (res.hasOwnProperty("success") && res.success) {
+          if (res && res.hasOwnProperty("success") && res.success) {
             this.snack.open("Eliminado con exito", "Ok", { duration: 2500 });
             this.refreshDataTable(res.data.invoice.items);
           } else {
@@ -280,9 +336,10 @@ export class InvoiceCreateOrEditComponent implements OnInit {
       );
   }
 
-  refreshDataTable(data) {
-    let row: invoiceItem[] = data as invoiceItem[];
+  refreshDataTable(data:any) {
+    let row = data;
     console.log(row);
+    this.invoice_data = Object.assign(row,[]);
     this.ELEMENT_DATA = row;
     this.dataSource = new MatTableDataSource<invoiceItem>(this.ELEMENT_DATA);
   }
@@ -290,24 +347,26 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     this.close.emit();
   }
 
-  editItem(index) {
-    this.dialog
-      .open(InvoiceItemModalComponent, {
+  editItem(id) {
+    // console.log( this.ELEMENT_DATA,index);
+    const invoice_item = this.invoice_data.find(x=>x.id == id);
+    console.log(invoice_item);
+    if(!invoice_item){
+      SwalService.swalToast("Error a tratar de editar","error");
+      return;
+    }
+    this.dialog.open(InvoiceItemModalComponent, {
         data: {
           id_import: this.id_import,
           id_invoice: this.formInvoice.controls["id"].value,
           state: "edit",
-          formData: this.ELEMENT_DATA[index],
+          formData: invoice_item,
         },
+        disableClose: true,
       })
-      .beforeClosed()
-      .subscribe((res) => {
-        if (res.hasOwnProperty("success") && res.success) {
+      .beforeClosed().subscribe((res) => {
+        if (res && res.hasOwnProperty("success") && res.success) {
           this.refreshDataTable(res.data);
-          // let row:TableItemInvoice[] =  as TableItemInvoice[]
-          // console.log(row);
-          // this.ELEMENT_DATA = row;
-          // this.dataSource =  new MatTableDataSource<TableItemInvoice>(this.ELEMENT_DATA);
         } else console.log("no tiene data");
       });
   }
@@ -394,6 +453,6 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   }
 
   getProvider(): string {
-    return this.providers.find(x=>x.id==this.invoice.provider_id).name;
+    return this.providers.find((x) => x.id == this.invoice.provider_id).name;
   }
 }

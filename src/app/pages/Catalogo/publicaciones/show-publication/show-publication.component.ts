@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
+import { IpermissionStandart } from '../../../../interfaces/ipermission-standart';
 import { Ipublication } from '../../../../interfaces/ipublication';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
@@ -15,7 +16,12 @@ export class ShowPublicationComponent implements OnInit {
 
   publication:Ipublication = {} as Ipublication;
   isLoadPublication:boolean = false;
+  permission_page:IpermissionStandart;
+
   ngOnInit(): void {
+    this.active_router.data.subscribe(res=>{
+      this.permission_page = res.permissions.all;
+    })
     const id = Number.parseInt(this.active_router.snapshot.paramMap.get("id"));
     this.publication.id = id;
     this.changePublication();
@@ -34,7 +40,7 @@ export class ShowPublicationComponent implements OnInit {
 
   destroyPublication(event):void{
     console.log(event);
-    
+
   }
 
 }

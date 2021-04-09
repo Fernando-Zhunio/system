@@ -6,9 +6,32 @@
     background-color: #07da07;
 }
 
+.closed {
+    background-color: red;
+}
+
+.payment_required {
+    background-color: aqua;
+}
+
 .logo-mercado-libre {
     width: 40px;
     position: absolute;
     top: 10px;
+    right: 10px;
+}
+
+.gold {
+    background-color: goldenrod;
+}
+
+.menu-item {
+    bottom: -3px;
+    position: absolute;
+    right: -10px;
+}
+
+.style-status {
+    top: 42px;
     right: 10px;
 }

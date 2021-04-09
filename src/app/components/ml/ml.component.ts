@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { STATE_ML_INFO } from '../../Objects/ObjectMatchs';
 import { MercadoLibreService } from '../../services/mercado-libre.service';
 import { InfoViewComponent } from '../modals/info-view/info-view.component';
 import { SearchProductModalComponent } from '../modals/search-product-modal/search-product-modal.component';
@@ -13,15 +14,17 @@ import { SearchProductModalComponent } from '../modals/search-product-modal/sear
 export class MlComponent implements OnInit {
 
   constructor(private s_mercado_libre:MercadoLibreService, public dialog: MatDialog,private snack_bar:MatSnackBar) { }
+
+  ml_state = STATE_ML_INFO
   @Input() ml;
   @Input() withName:boolean = false;
   ngOnInit(): void {
   }
 
- 
+
 
   openDescription(): void {
-     this.dialog.open(InfoViewComponent, { 
+     this.dialog.open(InfoViewComponent, {
       data: {name: this.ml.name, title:"Descripcion",info:this.ml.description,isHtml:true},
     });
   }
@@ -78,11 +81,11 @@ export class MlComponent implements OnInit {
             this.ml = res.ml;
             // this.products[indice] = res.ml;
             // console.log(this.products[indice]);
-            
+
           }
           else{
             this.snack_bar.open("Ups! Ocurrio un error","Error",{duration :2000})
-    
+
           }
         },err=>{
           snack.dismiss();

@@ -30,10 +30,19 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
+import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 // import { SwiperModule } from 'swiper/angular';
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { RepublicarCuentasModalComponent } from '../../components/modals/republicar-cuentas-modal/republicar-cuentas-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomReusingStrategy } from '../../class/custom-reusing-strategy';
+import { ConvertObjectToArrayPipe } from '../../pipes/convert-object-to-array.pipe';
+import { KeysObjectToArrayPipe } from '../../pipes/keys-object-to-array.pipe';
+import { ConvertsModule } from '../../Modulos/converts/converts.module';
 
 @NgModule({
-  declarations: [CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent],
+  declarations: [ RepublicarCuentasModalComponent, CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent],
   imports: [
     CommonModule,
     CatalogoRoutingModule,
@@ -60,7 +69,13 @@ import { ShowPublicationComponent } from './publicaciones/show-publication/show-
     NgxSkeletonLoaderModule,
     MatChipsModule,
     NgxSpinnerModule,
+    HeaderSearchModule,
+    SwiperModule,
+    MatDialogModule,
+    ConvertsModule,
     SortablejsModule.forRoot({ animation: 150 }),
-  ]
+  ],
+  // providers: [{ provide: RouteReuseStrategy, useClass: CustomReusingStrategy }]
+  // entryComponents:[RepublicarCuentasModalComponent]
 })
 export class CatalogoModule { }

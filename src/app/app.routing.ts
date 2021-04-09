@@ -116,11 +116,13 @@ export const routes: Routes = [
       // },
       {
         path: 'catalogo',
-        loadChildren: () => import('./pages/catalogo/catalogo.module').then(m => m.CatalogoModule)
+        loadChildren: () => import('./pages/catalogo/catalogo.module').then(m => m.CatalogoModule),
       },
       {
         path: 'admin-products',
-        loadChildren: () => import('./pages/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule)
+        loadChildren: () => import('./pages/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule),
+
+
       },
       {
         path: 'importaciones',

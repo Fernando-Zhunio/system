@@ -1,0 +1,63 @@
+<div mat-dialog-title>Republicar en todas las cuentas</div>
+<div mat-dialog-content>
+    <div mat-dialog-container class="example-container">
+        <div *ngIf="isLoad;else form_republicacion" class="parpadeo">
+            <h2 class="font-3xl font-facebook">
+                Cargando espere ...
+            </h2>
+        </div>
+        <ng-template #form_republicacion>
+            <div *ngIf="ml_info;else template_null" class="row">
+                <div class="col-md-2 col-12">
+                    <img [src]="ml_info.image" class="img-responsive w-100" alt="imagen de producto ml">
+                </div>
+                <div class="col-md-10 col-12 d-flex align-items-center">
+                    <div>
+                        <h3 class="font-facebook font-2xl m-0">{{ml_info.name}}</h3>
+                        <span *ngFor="let ml of companies_access" class="badge font-sm badge-pill badge-warning">{{ml.name}}</span>
+                    </div>
+                </div>
+                <form [formGroup]="form_republicar" class="row m-0 w-100">
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Precio</mat-label>
+                        <input matInput formControlName="price">
+                        <mat-error type="number" *ngIf="form_republicar.get('price').hasError('required')">
+                            El precio es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Cantidad</mat-label>
+                        <input matInput formControlName="quantity">
+                        <mat-error type="number" *ngIf="form_republicar.get('quantity').hasError('required')">
+                            La cantidad es requerida
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Tipo de publicación</mat-label>
+                        <mat-select formControlName="listing_type_id">
+                            <mat-option *ngFor="let item of listingTypes | keysObjectToArray" [value]="item">
+                                {{listingTypes[item]}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_republicar.get('listing_type_id').hasError('required')">
+                            El tipo es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+            </div>
+            <ng-template #template_null>
+                <div>
+                    <h2 class="font-3xl font-facebook">
+                        Sin resultados
+                    </h2>
+                </div>
+            </ng-template>
+        </ng-template>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="saveInServer()" [disabled]="isLoad || !ml_info" cdkFocusInitial color="primary">Guardar</button>
+    <button mat-raised-button mat-dialog-close [disabled]="isLoad" color="warn">Cancelar</button>
+</div>

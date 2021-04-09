@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents } from './administracion-sistema-routing.module';
+import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents } from './administracion-sistema-routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -25,12 +25,45 @@ import { CreateOrEditCountryComponent } from './paises/create-or-edit-country/cr
 import { LocacionesComponent } from './locaciones/locaciones.component';
 import { CreateOrEditLocationComponent } from './locaciones/create-or-edit-location/create-or-edit-location.component';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
+import { PersonasComponent } from './personas/personas.component';
+import { PersonComponent } from '../../components/person/person.component';
+import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/create-or-edit-person.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CreateEmailModalComponent } from '../../components/modals/create-email-modal/create-email-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';
+import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado-libre-create-or-edit/mercado-libre-create-or-edit.component';
+
 // import { ConvertObjectToArrayPipe } from '../../pipes/convert-object-to-array.pipe';
 
 
 
 @NgModule({
-  declarations: [UsuariosComponent,ADUsersMainComponents,ADRolesMainComponents,CreateOrEditComponent, RolesComponent, CreateOrEditRolesComponent, PaisesComponent, ADPaisesMainComponents,CreateOrEditCountryComponent, LocacionesComponent, CreateOrEditLocationComponent,ADLocationsMainComponents],
+  declarations: [
+    CreateEmailModalComponent,
+    UsuariosComponent,
+    ADUsersMainComponents,
+    ADRolesMainComponents,
+    CreateOrEditComponent,
+    RolesComponent,
+    CreateOrEditRolesComponent,
+    PaisesComponent,
+    ADPaisesMainComponents,
+    CreateOrEditCountryComponent,
+    LocacionesComponent,
+    CreateOrEditLocationComponent,
+    ADLocationsMainComponents,
+    PersonasComponent,
+    ADPersonasMainComponents,
+    PersonComponent,
+    CreateOrEditPersonComponent,
+    MercadoLibreAdminComponent,
+    ADMercadoLibreAdminMainComponents,
+    MercadoLibreCreateOrEditComponent],
   imports: [
     CommonModule,
     AdminSystemRoutingModule,
@@ -52,9 +85,18 @@ import { ConvertsModule } from '../../Modulos/converts/converts.module';
     MatSnackBarModule,
     DragDropModule,
     FormsModule,
+    ConvertsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatDialogModule
+
   ],
 
   entryComponents: [
+    CreateEmailModalComponent,
     CreateOrEditCountryComponent,
   ]
 })

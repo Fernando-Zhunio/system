@@ -16,7 +16,12 @@ import { ProductsService } from "../../../services/products.service";
 import { StandartSearchService } from "../../../services/standart-search.service";
 import { SwalService } from "../../../services/swal.service";
 // import Swiper from 'swiper';
-import { SwiperOptions } from 'swiper';
+import { SwiperOptions } from "swiper";
+import { MatSelect } from "@angular/material/select";
+import { Ipagination } from "../../../interfaces/ipagination";
+import { HeaderSearchComponent } from "../../../components/header-search/header-search.component";
+import { IpermissionStandart } from "../../../interfaces/ipermission-standart";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-buscar-productos",
@@ -29,9 +34,12 @@ export class BuscarProductosComponent implements OnInit {
     private snack_bar: MatSnackBar,
     private s_standartSearch: StandartSearchService,
     private dialog: MatDialog,
-    private s_product: ProductsService
+    private s_product: ProductsService,
+    private actived_router: ActivatedRoute
   ) {}
-  @ViewChild("paginator") paginator: MatPaginator;
+  @ViewChild("select_warehouse") select_warehouse: MatSelect;
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+
   permission_edit = ["super-admin", "products-admin.products.edit"];
   length = 100;
   pageSize = 10;
@@ -48,108 +56,59 @@ export class BuscarProductosComponent implements OnInit {
   max: number = null;
   aux_page_next = 0;
 
-  post_current:IpostProduct;
+  post_current: IpostProduct;
 
   suscrition_api: Subscription;
   isload: boolean = false;
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
 
-  form_filter: FormGroup = new FormGroup({
-    prefix_id: new FormControl('all'),
-    min: new FormControl(null),
-    max: new FormControl(null),
-    "warehouse_ids[]": new FormControl(null),
-    search: new FormControl(''),
-  });
-
-  // wordSearch:string="";
-
-  // breakpoints = {
-  //   // when window width is >= 320px
-  //   320: {
-  //     slidesPerView: 1,
-  //     spaceBetween: 5
-  //   },
-  //   // when window width is >= 480px
-  //   480: {
-  //     slidesPerView: 1,
-  //     spaceBetween: 5
-  //   },
-  //   // when window width is >= 640px
-  //   600: {
-  //     slidesPerView: 3,
-  //     spaceBetween: 10
-  //   },
-  //   800: {
-  //     slidesPerView: 4,
-  //     spaceBetween: 10
-  //   }
-  // }
+  paginator: Ipagination<Iproduct2>;
+  prefix_id: string = "all";
+  warehouse_ids = [];
+  search: string;
 
   public config: SwiperOptions = {
     // a11y: { enabled: true },
-    direction: 'horizontal',
+    direction: "horizontal",
+    spaceBetween: 10,
     // slidesPerView: 4,
-    breakpoints : {
+    breakpoints: {
       // when window width is >= 320px
       320: {
         slidesPerView: 1,
-        spaceBetween: 5
+        spaceBetween: 5,
       },
       // when window width is >= 480px
       480: {
         slidesPerView: 1,
-        spaceBetween: 5
+        spaceBetween: 5,
       },
       // when window width is >= 640px
       600: {
         slidesPerView: 2,
-        spaceBetween: 10
+        spaceBetween: 10,
       },
       800: {
         slidesPerView: 3,
-        spaceBetween: 10
+        spaceBetween: 10,
       },
       1200: {
         slidesPerView: 4,
-        spaceBetween: 10
-      }
-
+        spaceBetween: 10,
+      },
     },
     // keyboard: true,
     // mousewheel: true,
     scrollbar: true,
     // navigation: true,
-    pagination: false
+    pagination: false,
   };
+  permission_page: IpermissionStandart;
   ngOnInit(): void {
-    this.gotoTop();
-    this.isload = true;
-    if (this.suscrition_api) {
-      this.suscrition_api.unsubscribe();
-    }
-    this.suscrition_api = this.s_product
-      .searchProduct(this.search_name)
-      .subscribe(
-        (res) => {
-          this.isload = false;
-          if (res.success) {
-            console.log(res);
-            // this.products = res.data.data;
-            this.products = res.data.data;
-            this.length = res.data.total;
-            this.pageSize = res.data.per_page;
-            this.pageCurrent = res.data.current_page;
-            if (this.products.length < 1) {
-              this.hasData = false;
-            } else this.hasData = true;
-          }
-        },
-        (err) => {
-          this.isload = false;
-        }
-      );
+    this.actived_router.data.subscribe((res) => {
+      this.permission_page = res.permissions.all;
+    });
 
     this.s_standartSearch
       .show("catalogs/products/get-data-filter")
@@ -160,10 +119,6 @@ export class BuscarProductosComponent implements OnInit {
           this.warehouses = res.data.warehouses;
         }
       });
-    // this.s_prefijos.getAll().subscribe((response: any) => {
-    //   console.log(response);
-    //   this.prefixes = response.prefixes;
-    // });
   }
 
   getNameWareHouse(id) {
@@ -171,90 +126,59 @@ export class BuscarProductosComponent implements OnInit {
     // if(warehouse == undefined){
     //   this.form_filter.get('warehouse_ids').setValue(["all"]);
     // }
-    return warehouse?warehouse.name:"Todas las bodegas"
+    return warehouse ? warehouse.name : "Todas las bodegas";
   }
 
   removeWarehouse(id) {
-    let warehouses = this.form_filter.get("warehouse_ids[]").value;
+    // let warehouses = this.form_filter.get("warehouse_ids[]").value;
     // console.log(accounts, id);
-    const index = warehouses.findIndex((x) => x == id);
+    const index = this.warehouse_ids.findIndex((x) => x == id);
     if (index != -1) {
-      warehouses.splice(index, 1);
-      this.form_filter.get("warehouse_ids[]").setValue(warehouses);
+      this.warehouse_ids.splice(index, 1);
+      this.select_warehouse.writeValue(this.warehouse_ids);
+      // this.warehouse_ids = this.warehouse_ids;
+      // this.form_filter.get("warehouse_ids[]").setValue(warehouses);
     }
+    console.log(this.warehouse_ids);
   }
 
-  selectAllWarehouse($event){
-    const index = $event.value.findIndex(x =>x =="all");
-    if(index != -1 ){
-      this.form_filter.get("warehouse_ids[]").setValue(['all']);
-    }
-    if(index != -1 && $event.value.length > 1){
-      let warehouses = this.form_filter.get("warehouse_ids[]").value;
-      warehouses.splice(index, 1);
-      this.form_filter.get("warehouse_ids[]").setValue(warehouses);
-      return;
-    }
-    console.log($event,index);
+  selectAllWarehouse($event) {
+    const index = $event.value.findIndex((x) => x == "all");
+    // if(index != -1 ){
+    // this.warehouse_ids.length
+    //   this.form_filter.get("warehouse_ids[]").setValue(['all']);
+    // }
+    // if(index != -1 && $event.value.length > 1){
+    //   let warehouses = this.form_filter.get("warehouse_ids[]").value;
+    //   warehouses.splice(index, 1);
+    //   this.form_filter.get("warehouse_ids[]").setValue(warehouses);
+    //   return;
+    // }
+    console.log($event, index);
     // this.form_filter.get('warehouse_ids[]').setValue(["all"]);
   }
-  searchBar($event = { pageSize: 15, pageIndex: 0 }) {
-    this.pageSize = $event.pageSize;
-    this.isload = true;
-    console.log($event);
-    this.gotoTop();
-    if (this.suscrition_api) {
-      this.suscrition_api.unsubscribe();
-      console.log("cancelado llamado");
-    }
-    this.suscrition_api = this.s_standartSearch
-      // .search(this.productSearch, pageSize, this.selected_state,this.min,this.max,'catalogs/products')
-      .search2("catalogs/products", {
-        page: $event.pageIndex + 1,
-        pageSize: this.pageSize,
-        ...this.form_filter.value,
-      })
-      .subscribe(
-        (response: any) => {
-          this.isload = false;
-          // console.log(response);
-          this.products = response.data.data;
-          this.length = response.data.total;
-          this.pageSize = response.data.per_page;
-          this.pageCurrent = response.data.current_page;
-          if (this.products.length < 1) {
-            this.hasData = false;
-          } else this.hasData = true;
-        },
-        (err) => {
-          this.isload = false;
-        }
-      );
-  }
-
-  // changedPaginator($event = { pageSize: 15, pageIndex: 0 }) {
+  // searchBar($event = { pageSize: 15, pageIndex: 0 }) {
   //   this.pageSize = $event.pageSize;
   //   this.isload = true;
   //   console.log($event);
-  //   return;
-  //   if ($event.pageIndex != this.aux_page_next) {
-  //     this.gotoTop();
-  //     console.log("scroll");
-  //     this.aux_page_next = $event.pageIndex;
+  //   this.gotoTop();
+  //   if (this.suscrition_api) {
+  //     this.suscrition_api.unsubscribe();
+  //     console.log("cancelado llamado");
   //   }
-  //   this.s_standartSearch
-  //     .nextPageSearch(
-  //       $event.pageIndex + 1,
-  //       this.productSearch,
-  //       $event.pageSize,
-  //       this.selected_state,
-  //       this.min,
-  //       this.max,
-  //       "catalogs/products"
-  //     )
+  //   let data_send = {warehouse_ids:this.warehouse_ids,min:this.min,max:this.max,prefix_id:this.prefix_id}
+  //   this.suscrition_api = this.s_standartSearch
+  //     // .search(this.productSearch, pageSize, this.selected_state,this.min,this.max,'catalogs/products')
+  //     .search2("catalogs/products", {
+  //       page: $event.pageIndex + 1,
+  //       pageSize: this.pageSize,
+  //       // ...this.form_filter.value,
+  //       ...data_send,
+  //     })
   //     .subscribe(
   //       (response: any) => {
-  //         console.log(response);
+  //         this.isload = false;
+  //         // console.log(response);
   //         this.products = response.data.data;
   //         this.length = response.data.total;
   //         this.pageSize = response.data.per_page;
@@ -262,17 +186,17 @@ export class BuscarProductosComponent implements OnInit {
   //         if (this.products.length < 1) {
   //           this.hasData = false;
   //         } else this.hasData = true;
-  //         this.isload = false;
   //       },
   //       (err) => {
   //         this.isload = false;
   //       }
   //     );
   // }
-  gotoTop() {
-    const main = document.getElementsByClassName("app-body");
-    main[0].scrollTop = 0;
-  }
+
+  // gotoTop() {
+  //   const main = document.getElementsByClassName("app-body");
+  //   main[0].scrollTop = 0;
+  // }
 
   copyCodigo(code) {
     this.clipboard.copy(code);
@@ -283,47 +207,12 @@ export class BuscarProductosComponent implements OnInit {
     return code;
   }
 
-  // executeMenu(event ): void {
-  //   console.log(event);
+  loadData($event): void {
+    this.paginator = $event.data;
+    this.products = this.paginator.data;
+    console.log(this.paginator);
+  }
 
-  //   // active,paused,closed,deleted,relist_forever_on,relist_forever_off
-  //   // switch (type) {
-  //   //   case "active":
-  //   //     break;
-  //   //   case "paused":
-  //   //     break;
-  //   //   case "closed":
-  //   //     break;
-  //   //   case "deleted":
-  //   //     break;
-  //   //   case "relist_forever_on":
-  //   //     break;
-  //   //   case "relist_forever_off":
-  //   //     break;
-
-  //   //   default:
-  //   //     break;
-  //   // }
-
-  //   const snack = this.snack_bar.open("Cambiando estado espere...")
-  //   this.s_mercado_libre.updateStatus(event.id, event.type).subscribe((res) => {
-  //     console.log(res);
-  //     if (res.success) {
-  //       snack.dismiss();
-  //       this.snack_bar.open("Estado cambiado con exito","Exito",{duration :2000})
-  //       const indice = this.products.findIndex((x) => x.id == event.id);
-  //       this.products[indice] = res.ml;
-  //       console.log(this.products[indice]);
-
-  //     }
-  //   },err=>{
-  //     snack.dismiss();
-  //     this.snack_bar.open("Ups! Ocurrio un error","Error",{duration :2000})
-  //   });
-  // }
-
-  EditPublication(id) {}
-  deletePublication(id, i) {}
   openDescription(i) {
     const name = this.products[i].name;
     const info = this.products[i].description;
@@ -344,29 +233,69 @@ export class BuscarProductosComponent implements OnInit {
     });
   }
 
-  @ViewChild(MatDrawer) drawer:MatDrawer
-  messagePost:string = "Cargando post espere por favor..."
-  isLoadPost:boolean = false;
-  viewPost(id=null):void{
+  @ViewChild(MatDrawer) drawer: MatDrawer;
+  messagePost: string = "Cargando post espere por favor...";
+  isLoadPost: boolean = false;
+  viewPost(id = null): void {
     this.isLoadPost = false;
-    this.messagePost = "Cargando post espere por favor..."
+    this.messagePost = "Cargando post espere por favor...";
 
-    this.drawer.toggle().then(res=>{
-      console.log(res);
-      if(res == "open"){
-        this.s_standartSearch.show("catalogs/products/"+id+"/social-post").subscribe((res2:{success:boolean,data:IpostProduct})=>{
-          this.post_current = res2.data;
-          console.log(this.post_current);
-          this.isLoadPost = true;
-        })
+    this.drawer.toggle().then(
+      (res) => {
+        console.log(res);
+        if (res == "open") {
+          this.s_standartSearch
+            .show("catalogs/products/" + id + "/social-post")
+            .subscribe((res2: { success: boolean; data: IpostProduct }) => {
+              this.post_current = res2.data;
+              console.log(this.post_current);
+              this.isLoadPost = true;
+            });
+        }
+      },
+      (err) => {
+        this.messagePost =
+          "Ups! ocurrio un problema al cargar el post intentalo otra vez";
       }
-
-    },err=>{
-      this.messagePost = "Ups! ocurrio un problema al cargar el post intentalo otra vez"
-    });
+    );
   }
 
-  verMas():void{
+  changePaginator(event): void {
+    this.headerComponent.searchBar(event);
+    console.log(event);
+  }
 
+  applyFilter() {
+    this.headerComponent.searchBar();
+  }
+
+  current_go:number;
+  is_open_go:boolean = false;
+  icon_go:'segment'|'close'= 'segment';
+
+  goSpy(id) {
+    if(this.current_go == id) return;
+    let element = document.getElementById(id);
+    element.classList.remove("anim-go");
+
+    this.current_go = id;
+    const forScroll =document.getElementsByClassName("app-body")
+    const dist = element.getBoundingClientRect().y;
+    const current_position = forScroll[0].scrollTop;
+    const viewHeigth = window.screen.height;
+    const go = dist +current_position-(viewHeigth/2);
+    forScroll[0].scrollTop = go;
+    element.classList.add("anim-go");
+    console.log(go,current_position,dist);
+  }
+
+  openOrCloseGo(){
+    this.is_open_go = !this.is_open_go;
+    if(this.is_open_go){
+      this.icon_go = "close"
+    }
+    else{
+      this.icon_go = "segment";
+    }
   }
 }

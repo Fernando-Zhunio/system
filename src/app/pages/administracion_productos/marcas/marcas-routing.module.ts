@@ -17,11 +17,14 @@ const routes: Routes = [
   {
     path: "",
     component: MarcasMainComponents,
+    data: {name: "marcas_main"},
     children: [
       {
         path: "",
         component: MarcasComponent,
         data: {
+          name:'marcas',
+          reuse: true,
           permissions: {
             only: ["super-admin", "products-admin.brands.index"],
           },

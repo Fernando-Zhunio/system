@@ -138,7 +138,7 @@
                         </button>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element;let ind = index">
-                        <button mat-icon-button (click)="editItem(ind)">
+                        <button mat-icon-button (click)="editItem(element.id)">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <!-- <button mat-icon-button (click)="removeItem(ind)"> -->

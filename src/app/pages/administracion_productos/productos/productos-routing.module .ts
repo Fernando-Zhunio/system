@@ -11,10 +11,12 @@ const routes: Routes = [
   {
     path: '',
     component:ProductosMainComponent,
+    data:{name: 'productosMain'},
     children: [
       {
         path: '',
         component: ProductosComponent,
+        data: {reuse:true,name:'productos'}
       },
       {
         path: 'create',
@@ -43,7 +45,7 @@ const routes: Routes = [
 
       },
 
-     
+
     ]
   }
 ];

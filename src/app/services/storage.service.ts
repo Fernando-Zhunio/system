@@ -22,12 +22,12 @@ export class StorageService  {
   constructor(private router: Router,private s_permissionsService: NgxPermissionsService) {
     this.localStorageService = this.secureStorage;
     this.currentSession = this.loadSessionData();
-    console.log('ccc');
+    // console.log('ccc');
     const rolAndPermission = this.getRolAndPermissionUser();
     let mergeRolAndPermission = [];
     if(rolAndPermission)
       mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
-      console.log(rolAndPermission);
+      // console.log(rolAndPermission);
      this.s_permissionsService.loadPermissions(mergeRolAndPermission);
 
   }
@@ -41,30 +41,30 @@ export class StorageService  {
   secureStorage = new SecureStorage(localStorage, {
     hash: function hash(key) {
         key = CryptoJS.SHA256(key, SECRET_KEY);
- 
+
         return key.toString();
     },
     encrypt: function encrypt(data) {
         data = CryptoJS.AES.encrypt(data, SECRET_KEY);
- 
+
         data = data.toString();
- 
+
         return data;
     },
     decrypt: function decrypt(data) {
         data = CryptoJS.AES.decrypt(data, SECRET_KEY);
- 
+
         data = data.toString(CryptoJS.enc.Utf8);
- 
+
         return data;
     }
 });
-    
+
 
   setCurrentSession(session): void {
     this.currentSession = session;
     this.secureStorage.setItem('currentUser',session);
-    console.log("Session creada");  
+    // console.log("Session creada");
     this.setRolAndPermission();
   }
 
@@ -77,8 +77,8 @@ export class StorageService  {
     let sessionStr = null;
     // if(localStorage.getItem('currentUser')){
        sessionStr = this.secureStorage.getItem('currentUser');
-       console.log(sessionStr);
-       
+      //  console.log(sessionStr);
+
     // }/
     return (sessionStr) ? <Session>sessionStr : null;
   }
@@ -104,7 +104,7 @@ export class StorageService  {
       let mergeRolAndPermission = [];
       if(rolAndPermission)
         mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
-        console.log(rolAndPermission);
+        // console.log(rolAndPermission);
        this.s_permissionsService.loadPermissions(mergeRolAndPermission);
     // }
   }
@@ -121,7 +121,7 @@ export class StorageService  {
   getCurrentToken(): string {
     var session = this.getCurrentSession();
     // console.log(session);
-    
+
     return (session && session.token) ? session.token : null;
   }
 

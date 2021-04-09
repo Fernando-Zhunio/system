@@ -52,6 +52,10 @@ export class MercadoLibreService {
     return this.http.put(`${this.end_point}catalogs/ml-products/${idproduct}/status`,{status});
   }
 
+  getRealistProduct(id):Observable<any>{
+    return this.http.get(`${this.end_point}catalogs/publications/${id}/relist`);
+  }
+
   assingProduct(url,params):Observable<any>{
     return this.http.put(this.end_point+url,{...params});
   }

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -65,7 +66,7 @@ export class StandartSearchService {
   }
 
  public  openDescription(name,title,info,isHtml=true){
-    this.dialog.open(InfoViewComponent, { 
+    this.dialog.open(InfoViewComponent, {
            data: {name, title,info,isHtml},
          });
   }
@@ -79,15 +80,15 @@ export class StandartSearchService {
   show(url):Observable<Iresponse>{
     return this.http.get<Iresponse>(this.end_point+url);
   }
-  destory(url):Observable<any>{
-    return this.http.delete(this.end_point+url)
+  destory(url):Observable<Iresponse>{
+    return this.http.delete<Iresponse>(this.end_point+url)
     }
 
-  updatePut(url,params,with_descomposition=true):Observable<any>{
+  updatePut(url,params,with_descomposition=true):Observable<Iresponse>{
     if(with_descomposition){
       params = {...params}
     }
-    return this.http.put(this.end_point+url,params)
+    return this.http.put<Iresponse>(this.end_point+url,params)
   }
 
   uploadImg(url,img,name="image"):Observable<any>{
@@ -96,7 +97,25 @@ export class StandartSearchService {
     return this.http.post(this.end_point+url,form);
   }
 
-  uploadFormData(url,form:FormData){
-    return this.http.post(this.end_point+url,form);
+  uploadFormData(url,form:FormData):Observable<Iresponse>{
+    return this.http.post<Iresponse>(this.end_point+url,form);
   }
+
+  // uploadFormDataPut(url,form:FormData):Observable<Iresponse>{
+  //   return this.http.put<Iresponse>(this.end_point+url,form);
+  // }
+
+
+
+  //#region  convert date
+  public formatDate(date):any{
+    return  formatDate(
+        new Date(date),
+        "yyyy/MM/dd",
+        "en"
+      );
+  }
+
+  //#endregion
+
 }

@@ -5,6 +5,11 @@ import { Ipublication } from "../../interfaces/ipublication";
 import { MercadoLibreService } from "../../services/mercado-libre.service";
 import { StandartSearchService } from "../../services/standart-search.service";
 import { InfoViewComponent } from "../modals/info-view/info-view.component";
+import { SwiperOptions } from 'swiper';
+import { IpermissionStandart } from "../../interfaces/ipermission-standart";
+import { Subscription } from "rxjs";
+import { RepublicarCuentasModalComponent } from "../modals/republicar-cuentas-modal/republicar-cuentas-modal.component";
+import { STATES_PUBLICATION } from "../../Objects/ObjectMatchs";
 
 @Component({
   selector: "app-publication",
@@ -15,33 +20,51 @@ export class PublicationComponent implements OnInit {
   constructor(private s_standart:StandartSearchService, private s_mercado_libre:MercadoLibreService, private dialog: MatDialog,private snack_bar:MatSnackBar) {}
 
   isLoader: boolean = false;
-  permission_show = ["super-admin", "catalogs.publications.show"];
-  permission_create = ["super-admin", "catalogs.publications.create"];
-  permission_edit = ["super-admin", "catalogs.publications.edit"];
-  permission_destroy = ["super-admin", "catalogs.publications.destroy"];
+  suscription_ml:Subscription;
+  matchs_state = STATES_PUBLICATION;
+  // permission_show = ["super-admin", "catalogs.publications.show"];
+  // permission_create = ["super-admin", "catalogs.publications.create"];
+  // permission_edit = ["super-admin", "catalogs.publications.edit"];
+  // permission_destroy = ["super-admin", "catalogs.publications.destroy"];
+  @Input() permission_page:IpermissionStandart;
   @Input() publication:Ipublication;
   @Output() delete:EventEmitter<any> = new EventEmitter();
-  breakpoints = {
-    // when window width is >= 320px
-    320: {
-      slidesPerView: 1,
-      spaceBetween: 5
+  public config: SwiperOptions = {
+    // a11y: { enabled: true },
+    direction: 'horizontal',
+    // slidesPerView: 4,
+    breakpoints : {
+      // when window width is >= 320px
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 5
+      },
+      // when window width is >= 480px
+      480: {
+        slidesPerView: 1,
+        spaceBetween: 5
+      },
+      // when window width is >= 640px
+      600: {
+        slidesPerView: 2,
+        spaceBetween: 10
+      },
+      800: {
+        slidesPerView: 3,
+        spaceBetween: 10
+      },
+      1200: {
+        slidesPerView: 4,
+        spaceBetween: 10
+      }
+
     },
-    // when window width is >= 480px
-    480: {
-      slidesPerView: 1,
-      spaceBetween: 5
-    },
-    // when window width is >= 640px
-    640: {
-      slidesPerView: 2,
-      spaceBetween: 10
-    },
-    800: {
-      slidesPerView: 4,
-      spaceBetween: 10
-    }
-  }
+    // keyboard: true,
+    // mousewheel: true,
+    scrollbar: true,
+    // navigation: true,
+    pagination: false
+  };
 
   ngOnInit(): void {}
 
@@ -84,12 +107,18 @@ export class PublicationComponent implements OnInit {
 
   executeMenu(type,id ): void {
     // console.log(event);
-    this.s_mercado_libre.updateStatus(id,type).subscribe((res) => {
-      console.log(res);
-      if (res.success) {
-        // const indice = this.products.findIndex((x) => x.id == event.id);
-        this.publication = res.ml;
-      }
-    });
+    if(this.suscription_ml)
+      this.suscription_ml.unsubscribe();
+    if(type == 'relist'){
+      this.dialog.open(RepublicarCuentasModalComponent,{data:{id:this.publication.id},disableClose: true})
+    }
+    else{
+      this.suscription_ml = this.s_mercado_libre.updateStatus(id,type).subscribe((res) => {
+        console.log(res);
+        if (res.success) {
+          this.publication = res.ml;
+        }
+      });
+    }
   }
 }

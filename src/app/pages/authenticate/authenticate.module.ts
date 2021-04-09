@@ -8,10 +8,11 @@ import { AutheticationRoutingModule, AutheticationMainComponents} from './authet
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { TwoFAComponent } from './two-fa/two-fa.component';
 
 
 @NgModule({
-  declarations: [CapturePasswordComponent,AutheticationMainComponents],
+  declarations: [CapturePasswordComponent,AutheticationMainComponents, TwoFAComponent],
   imports: [
     AutheticationRoutingModule,
     CommonModule,

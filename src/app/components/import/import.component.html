@@ -1,21 +1,12 @@
 <mat-card-content class="header position-relative" style="padding-bottom: 5px;text-transform: uppercase;">
-    <!-- <h2>
-
-        Importación <span style="color:#f44336; font-weight: bold;">{{import.sequence.origin.name}} #{{import.sequence.sequence_number}}</span>
-        <small>
-            Código: <b>{{import.code}}</b>
-           
-        </small>
-    </h2> -->
-
     <div class="position-absolute" style="top: -37px;right: 0;">
         <button [disabled]="isLoad" color="accent" *ngxPermissionsOnly="['super-admin',permissions_component.show]" (click)="showImport()" mat-mini-fab>
             <mat-icon>visibility</mat-icon>
-            
+
         </button>
         <button (click)="goEdit()" [disabled]="isLoad" color="primary" *ngxPermissionsOnly="['super-admin',permissions_component.edit]" mat-mini-fab>
             <mat-icon>create</mat-icon>
-            
+
         </button>
         <button [disabled]="isLoad" color="warn" *ngxPermissionsOnly="['super-admin',permissions_component.destroy]" (click)="destroyImport()" mat-mini-fab>
             <mat-icon>delete</mat-icon>

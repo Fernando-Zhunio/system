@@ -22,7 +22,16 @@ export class SwalService {
     });
   }
 
-  public static swalConfirmation(title,text,icon="success",confirmTexBtnt="Si, desea eliminar",cancelTextBtn="No, deseo eliminar"){
+  /**
+   *
+   * @param title
+   * @param text
+   * @param icon
+   * @param confirmTexBtnt
+   * @param cancelTextBtn
+   * @returns retorna una promesa con isConfirmed como boolean
+   */
+  public static swalConfirmation(title,text,icon="success",confirmTexBtnt="Si, deseo eliminar",cancelTextBtn="No, deseo eliminar"):Promise<any>{
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mr-1',
@@ -38,12 +47,11 @@ export class SwalService {
       confirmButtonText: confirmTexBtnt,
       cancelButtonText: cancelTextBtn,
       reverseButtons: false,
-      // customClass: {
-      //   confirmButton: 'btn btn-success',
-      //   cancelButton: 'btn btn-danger'
-      // },
     });
   }
+
+
+
   public static swalFireWitButton(
     title,
     icon = "success",

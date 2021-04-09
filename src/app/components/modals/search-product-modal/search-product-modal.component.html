@@ -4,7 +4,7 @@
         <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{data.ml.id}}</span>{{data.ml.name}}
     </div>
 </mat-card-title>
-<app-header-search [with_filter]="false" [onTabs]="false" [url]="'catalogs/products'" (products)="getProducts($event)"></app-header-search>
+<app-header-search [url]="'catalogs/products'" (products)="getProducts($event)"></app-header-search>
 <mat-dialog-content>
     <mat-card class="my-2" *ngFor="let p of products;index as ind">
         <mat-card-header class="d-block mat-card-header-m-0">

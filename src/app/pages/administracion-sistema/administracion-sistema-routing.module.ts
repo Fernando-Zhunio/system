@@ -12,6 +12,10 @@ import { IpermissionStandart } from "../../interfaces/ipermission-standart";
 import { PaisesComponent } from "./paises/paises.component";
 import { LocacionesComponent } from "./locaciones/locaciones.component";
 import { CreateOrEditLocationComponent } from "./locaciones/create-or-edit-location/create-or-edit-location.component";
+import { PersonasComponent } from "./personas/personas.component";
+import { CreateOrEditPersonComponent } from "./personas/create-or-edit-person/create-or-edit-person.component";
+import { MercadoLibreAdminComponent } from "./mercado-libre-admin/mercado-libre-admin.component";
+import { MercadoLibreCreateOrEditComponent } from "./mercado-libre-admin/mercado-libre-create-or-edit/mercado-libre-create-or-edit.component";
 // import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
 
 @Component({
@@ -42,23 +46,69 @@ export class ADPaisesMainComponents  {
 export class ADLocationsMainComponents  {
 }
 
+@Component({
+  selector: 'app-as-personas',
+  template: '<router-outlet></router-outlet>',
+})
+export class ADPersonasMainComponents  {
+}
+
+@Component({
+  selector: 'app-as-mercado-libre-admin',
+  template: '<router-outlet></router-outlet>',
+})
+export class ADMercadoLibreAdminMainComponents  {
+}
+
 const permission_module_AD = {
   usuarios:{
     show:["super-admin", "admin.users.index"],
     create:["super-admin", "admin.users.create"],
     edit:["super-admin", "admin.users.edit"],
-    delete:["super-admin", "admin.users.index"]
+    delete:["super-admin", "admin.users.destroy"]
   },
+
   roles:{
     show:["super-admin", "admin.roles.index"],
     create:["super-admin", "admin.roles.create"],
     edit:["super-admin", "admin.roles.edit"],
-    delete:["super-admin", "admin.roles.index"]
+    delete:["super-admin", "admin.roles.destroy"]
+  },
+
+  paises:{
+    show:["super-admin", "admin.countries.index"],
+    create:["super-admin", "admin.countries.create"],
+    edit:["super-admin", "admin.countries.edit"],
+    delete:["super-admin", "admin.countries.destroy"]
+  },
+
+  location:{
+    index:["super-admin", "admin.locations.index"],
+    show:["super-admin", "admin.locations.shiw"],
+    create:["super-admin", "admin.locations.create"],
+    edit:["super-admin", "admin.locations.edit"],
+    delete:["super-admin", "admin.locations.destroy"]
+  },
+
+  personas:{
+    index:["super-admin", "admin.peoples.index"],
+    show:["super-admin", "admin.peoples.show"],
+    create:["super-admin", "admin.peoples.create"],
+    edit:["super-admin", "admin.peoples.edit"],
+    delete:["super-admin", "admin.peoples.destroy"]
+  },
+
+  mercado_libre:{
+    index:["super-admin", "ml.accounts.index"],
+    show:["super-admin", "ml.accounts.show"],
+    create:["super-admin", "ml.accounts.create"],
+    edit:["super-admin", "ml.accounts.edit"],
+    delete:["super-admin", "ml.accounts.destroy"]
   }
 }
 
-export const permission_usuarios_AD:IpermissionStandart = permission_module_AD.usuarios;
-export const PERMISSION_ROLES_AD:IpermissionStandart = permission_module_AD.roles;
+// export const permission_usuarios_AD:IpermissionStandart = permission_module_AD.usuarios;
+// export const PERMISSION_ROLES_AD:IpermissionStandart = permission_module_AD.roles;
 
 const routes: Routes = [
   // usuarios
@@ -109,6 +159,54 @@ const routes: Routes = [
     },
     canActivate: [NgxPermissionsGuard],
   },
+   // personas
+   {
+    path:'personas',
+    component:ADPersonasMainComponents,
+    children:[
+      {
+        path:'',
+        component:PersonasComponent,
+
+        data: {
+          permissions: {
+            only: permission_module_AD.usuarios.show,
+            all:permission_module_AD.personas
+          },
+
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path:'create',
+        component:CreateOrEditPersonComponent,
+        data: {
+          isEdit: false,
+          permissions: {
+            only: permission_module_AD.personas.create,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path:'edit/:id',
+        component:CreateOrEditPersonComponent,
+        data: {
+          isEdit: true,
+          permissions: {
+            only: permission_module_AD.personas.edit,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      }
+    ],
+    data: {
+      permissions: {
+        only: permission_module_AD.usuarios.show,
+      },
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
 
   // roles
   {
@@ -120,6 +218,7 @@ const routes: Routes = [
         component:RolesComponent,
         data: {
           permissions: {
+            all:permission_module_AD.roles,
             only: permission_module_AD.roles.show,
           },
         },
@@ -156,7 +255,7 @@ const routes: Routes = [
     canActivate: [NgxPermissionsGuard],
   },
 
-   // roles
+   // paises
    {
     path:'paises',
     component:ADPaisesMainComponents,
@@ -166,7 +265,7 @@ const routes: Routes = [
         component:PaisesComponent,
         data: {
           permissions: {
-            only: permission_module_AD.roles.show,
+            only: permission_module_AD.paises.show,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -177,7 +276,7 @@ const routes: Routes = [
         data: {
           isEdit:false,
           permissions: {
-            only: permission_module_AD.roles.create,
+            only: permission_module_AD.paises.create,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -188,7 +287,7 @@ const routes: Routes = [
         data: {
           isEdit:true,
           permissions: {
-            only: permission_module_AD.roles.edit,
+            only: permission_module_AD.paises.edit,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -196,7 +295,7 @@ const routes: Routes = [
     ],
     data: {
       permissions: {
-        only: permission_module_AD.roles.show
+        only: permission_module_AD.paises.show
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -212,7 +311,7 @@ const routes: Routes = [
           component:LocacionesComponent,
           data: {
             permissions: {
-              only: permission_module_AD.roles.show,
+              only: permission_module_AD.location.show,
             },
           },
           canActivate: [NgxPermissionsGuard],
@@ -223,7 +322,7 @@ const routes: Routes = [
           data: {
             isEdit:false,
             permissions: {
-              only: permission_module_AD.roles.create,
+              only: permission_module_AD.location.create,
             },
           },
           canActivate: [NgxPermissionsGuard],
@@ -234,7 +333,7 @@ const routes: Routes = [
           data: {
             isEdit:true,
             permissions: {
-              only: permission_module_AD.roles.edit,
+              only: permission_module_AD.location.edit,
             },
           },
           canActivate: [NgxPermissionsGuard],
@@ -242,7 +341,54 @@ const routes: Routes = [
       ],
       data: {
         permissions: {
-          only: permission_module_AD.roles.show
+          only: permission_module_AD.location.index
+        },
+      },
+      canActivate: [NgxPermissionsGuard],
+    },
+
+    // mercado libre admin
+    {
+      path:'mercado-libre/cuentas',
+      component:ADMercadoLibreAdminMainComponents,
+      children:[
+        {
+          path:'',
+          component:MercadoLibreAdminComponent,
+          data: {
+            permissions: {
+              all:permission_module_AD.mercado_libre,
+              only: permission_module_AD.mercado_libre.index,
+            },
+          },
+          canActivate: [NgxPermissionsGuard],
+        },
+        {
+          path:'create',
+          component:MercadoLibreCreateOrEditComponent,
+          data: {
+            isEdit:false,
+            permissions: {
+              only: permission_module_AD.mercado_libre.create,
+            },
+          },
+          canActivate: [NgxPermissionsGuard],
+        },
+      //   {
+      //     path:'edit/:id',
+      //     component:CreateOrEditLocationComponent,
+      //     data: {
+      //       isEdit:true,
+      //       permissions: {
+      //         only: permission_module_AD.roles.edit,
+      //       },
+      //     },
+      //     canActivate: [NgxPermissionsGuard],
+      //   },
+      ],
+      data: {
+        permissions: {
+          only: permission_module_AD.mercado_libre.index
         },
       },
       canActivate: [NgxPermissionsGuard],

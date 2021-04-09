@@ -10,7 +10,7 @@ import { MercadoLibreComponent } from './mercado-libre.component';
 @Component({
   selector: 'app-mercado-libre',
   template: '<router-outlet></router-outlet>',
-  
+
 })
 export class MercadoLibreMainComponents  {
 }
@@ -20,10 +20,13 @@ const routes: Routes = [
   {
     path: '',
     component:MercadoLibreMainComponents,
+    data:{name: 'mercado_libre_main'},
     children: [
       {
         path: '',
         component: MercadoLibreComponent,
+        data: {reuse:true,name: 'mercado_libre'},
+
       },
       // {
       //   path: 'create',
@@ -34,7 +37,7 @@ const routes: Routes = [
       //   path: 'edit/:id',
       //   component: PrefijosCreateOrEditComponent,
       //   data:{isEdit:true}
-      // },     
+      // },
     ]
   }
 ];

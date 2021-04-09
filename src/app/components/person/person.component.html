@@ -1,0 +1,37 @@
+<div>
+    <div class="text-center pt-3">
+        <img class="rounded-circle w-50 shadow" [src]="person.photo?.permalink?person.photo.permalink:'assets/img/avatars/profile-user.svg'" alt="image user">
+        <!-- <img class="rounded-circle  w-75 shadow" style="object-fit: contain;" src="https://campusvirtual.ug.edu.ec/pluginfile.php/1/core_admin/logo/0x200/1616267892/icono_Image.jpg" alt="image user"> -->
+    </div>
+    <div class="text-center mt-2 badge-success lead">
+        {{person.position.name}}
+    </div>
+    <div class="card-body pt-2">
+        <h2 class="font-facebook m-0">{{person.first_name | uppercase}} {{person.last_name | uppercase}}</h2>
+        <span class="text-muted">{{person.city.name}}</span>
+        <div>
+
+            <div class="font-lg mt-2 text-capitalize lead">
+                <i class="fas fa-birthday-cake"></i> {{person.birthday | date}}
+                <br><i class="fas fa-map-marked-alt"></i> {{person.location.name}}
+                <ng-container *ngIf="person.user">
+                    <span class="text-lowercase lead">
+                    <br><i class="far fa-envelope"></i> {{person.user.email}}
+                  </span>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+    <div class="text-right px-1 pb-1">
+        <div>
+            <button mat-mini-fab [routerLink]="['./edit',person.id]" *ngxPermissionsOnly="permission.edit" color="primary">
+            <mat-icon>edit</mat-icon>
+        </button>
+            <button mat-mini-fab color="warn" *ngxPermissionsOnly="permission.delete" (click)="emitDelete()">
+          <mat-icon>delete</mat-icon>
+      </button>
+        </div>
+    </div>
+
+</div>

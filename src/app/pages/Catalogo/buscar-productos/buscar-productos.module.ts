@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BuscarProductosRoutingModule } from './buscar_productos-routing.module';
 import { BuscarProductosComponent } from './buscar-productos.component';
 import { NgxAutocompleteModule } from 'ngx-angular-autocomplete';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -26,6 +26,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SwiperModule } from 'ngx-swiper-wrapper';
+import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
+// import { SimpleScrollSpyModule } from "angular-simple-scroll-spy";
 
 @NgModule({
   declarations: [BuscarProductosComponent],
@@ -34,7 +36,7 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
     BuscarProductosRoutingModule,
     NgxAutocompleteModule,
     CarouselModule.forRoot(),
-    // FormsModule,
+    FormsModule,
     ReactiveFormsModule,
     BsDropdownModule,
     MatFormFieldModule,
@@ -57,6 +59,8 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
     MatSidenavModule,
     PostModule,
     SwiperModule,
+    HeaderSearchModule,
+    // SimpleScrollSpyModule,
     ]
 })
 export class BuscarProductosModule { }

@@ -1,5 +1,5 @@
 <div class=" d-flex justify-content-between">
-    <div class="font-4xl font-weight-bold">{{title}} <span class="text-info">{{product_name}}</span></div> <button mat-mini-fab [routerLink]="['/categorias']" class="mb-2"><mat-icon>keyboard_return</mat-icon></button>
+    <div class="font-4xl font-weight-bold">{{title}} <span class="text-info">{{product_name}}</span></div> <button mat-mini-fab (click)="goBack()" class="mb-2"><mat-icon>keyboard_return</mat-icon></button>
 </div>
 <form class="card" [formGroup]="formCreateOrEdit" (ngSubmit)="sendData()">
     <div class="card-body">

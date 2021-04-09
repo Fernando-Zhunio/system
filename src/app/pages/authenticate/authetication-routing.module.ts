@@ -4,6 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 // import { CategoriasMainComponent } from './categorias-main.component';
 import { Component } from '@angular/core';
 import { CapturePasswordComponent } from './capture-password/capture-password.component';
+import { NewPasswordGuard } from '../../guards/new-password.guard';
+import { TwoFAComponent } from './two-fa/two-fa.component';
+import { ConfirmCodeGuard } from '../../guards/confirm-code.guard';
 
 @Component({
   selector: 'app-authetication',
@@ -19,8 +22,16 @@ const routes: Routes = [
     component:AutheticationMainComponents,
     children: [
       {
-        path: 'capturar-password',
+        path: 'capture-password',
         component:CapturePasswordComponent,
+        canLoad:[NewPasswordGuard],
+        resolve:{person:NewPasswordGuard}
+      },
+      {
+        path: 'codigo-confirmacion/:token',
+        component:TwoFAComponent,
+        resolve:{response:ConfirmCodeGuard},
+        // resolve:{person:NewPasswordGuard}
       },
       // {
       //   path: 'buscar_productos',

@@ -1,0 +1,24 @@
+<div mat-dialog-title>
+    <h3 class="m-0 text-muted">Creando Correo Coorporativo <br> {{data.person.identification_number}} - {{data.person.city.name}}
+    </h3>
+    <div class="font-5xl font-facebook list-group-item-accent-warning text-uppercase" mat-dialog-title>
+        {{data.person.first_name}} {{data.person.last_name}}
+    </div>
+</div>
+<div mat-dialog-content>
+    <div mat-dialog-container class="example-container">
+        <div class="mb-3">
+            <mat-form-field class="w-100">
+                <mat-label>Ingrese un email</mat-label>
+                <input type="email" matInput [formControl]="form_email">
+                <mat-error type="email" *ngIf="form_email.hasError('required')">
+                    El Email es requerido
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="saveInServer()" [disabled]="isLoad || form_email.invalid" cdkFocusInitial color="primary">Guardar</button>
+    <button mat-raised-button mat-dialog-close [disabled]="isLoad" color="warn">Cancelar</button>
+</div>

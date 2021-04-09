@@ -1,6 +1,6 @@
 <div class="mt-4">
     <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">Paises</h2>
-    <app-header-search [onTabs]="false" [placeholder]="'Escriba el pais a buscar'" [with_filter]="true" (isload)="isload = $event" [url]="'admin/countries'" (products)="loadData($event)">
+    <app-header-search [placeholder]="'Escriba el pais a buscar'" (isload)="isload = $event" [url]="'admin/countries'" (products)="loadData($event)">
     </app-header-search>
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="id">

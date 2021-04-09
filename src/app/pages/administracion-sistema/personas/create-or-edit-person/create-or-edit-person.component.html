@@ -1,0 +1,170 @@
+<div class="mt-4">
+    <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">{{title}} <button mat-mini-fab (click)="goBack()">
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button></h2>
+
+    <mat-horizontal-stepper linear #stepper>
+        <mat-step [completed]="isCompletedFormPerson" [editable]="false">
+            <form [formGroup]="form_person" class="card rounded-fz border-0 card-body">
+                <ng-template matStepLabel>Formulario de persona</ng-template>
+                <div class="row">
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Nombres</mat-label>
+                        <input matInput formControlName="first_name" type="text" required>
+                        <mat-error *ngIf="form_person.controls['first_name'].invalid">Nombres Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Apellidos</mat-label>
+                        <input matInput formControlName="last_name" type="text" required>
+                        <mat-error *ngIf="form_person.controls['last_name'].invalid">Apellidos Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Tipo de identificación</mat-label>
+                        <mat-select formControlName="identification_type" required>
+                            <mat-option *ngFor="let keyType of id_types | keysObjectToArray" [value]="keyType">{{id_types[keyType]}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_person.controls['identification_type'].invalid">Tipo de identificación Requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Número de identificación</mat-label>
+                        <input matInput formControlName="identification_number" type="text" required>
+                        <mat-error *ngIf="form_person.controls['identification_number'].invalid">Número de identificación Requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Fecha de nacimiento <small>(d/m/yyyy)</small></mat-label>
+                        <input matInput formControlName="birthday" [matDatepicker]="dp4">
+                        <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                        <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+                        <mat-error *ngIf="form_person.controls['birthday'].invalid">Fecha de nacimiento Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Sexo</mat-label>
+                        <mat-select formControlName="sex" required>
+                            <mat-option *ngFor="let keySex of sexes | keysObjectToArray" [value]="keySex">{{sexes[keySex]}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_person.controls['sex'].invalid">Sexo Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Fecha de inicio laboral <small>(d/m/yyy)</small> </mat-label>
+                        <input matInput formControlName="start_date" [matDatepicker]="dp3">
+                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        <mat-error *ngIf="form_person.controls['start_date'].invalid">Fecha de inicio laboral Requerido</mat-error>
+                    </mat-form-field>
+
+                    <div class="col-12 font-2xl mt-2 mb-4">Información</div>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Seleccione una ciudad</mat-label>
+                        <mat-select formControlName="city_id" required>
+                            <mat-option *ngFor="let keyCity of cities | keysObjectToArray" [value]="keyCity">{{cities[keyCity]}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_person.controls['city_id'].invalid">Cuidad Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Seleccione un departamento</mat-label>
+                        <mat-select formControlName="department_position_id" required>
+                            <mat-option *ngFor="let keyPosition of positions | keysObjectToArray" [value]="keyPosition">
+                                {{positions[keyPosition]}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_person.controls['department_position_id'].invalid">Departamento Requerido</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Seleccione una oficina / local</mat-label>
+                        <mat-select formControlName="location_id" required>
+                            <mat-option *ngFor="let keyLocation of locations | keysObjectToArray" [value]="keyLocation">
+                                {{locations[keyLocation]}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form_person.controls['location_id'].invalid">Departamento Requerido</mat-error>
+                    </mat-form-field>
+
+                    <div class="form-group col-12">
+                        <label for="foto">Foto</label>
+                        <input #photoUserInput id="foto" accept=".png,.jpeg,.jpg" (change)="uploadImg($event)" class="form-control-file" type="file" name="">
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <ng-container *ngIf="photo">
+                            <button mat-mini-fab class="position-absolute m-1" (click)="clearPhoto()">
+                <mat-icon class="mat-18">close</mat-icon>
+              </button>
+                            <img class="w-100" [src]="photo" alt="imagen de usuario">
+                        </ng-container>
+                    </div>
+                </div>
+                <div>
+                    <button mat-raised-button [disabled]="isloadperson" type="button" (click)="saveInServerPerson()">Guardar</button>
+                    <button *ngIf="state=='edit'" [disabled]="isloadperson" mat-raised-button color="accent" (click)="goInfo()" type="button">Gestionar datos de la persona</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [editable]="false">
+            <ng-template matStepLabel>Datos de persona</ng-template>
+            <form [formGroup]="form_data_person" (ngSubmit)="saveInServerInfo()">
+                <div class="col-12">
+                    <h2 class="m-0">Información de contacto {{person.first_name}} {{person.last_name}}</h2>
+                    <mat-chip-list *ngIf="stateInfoAndContact =='edit'">
+                        <mat-chip class="bg-blue parpadeo text-white" [removable]="true" (removed)="asCreateInfo()">
+                            Editando #{{itemCurrentForEdit?.id}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+                <mat-form-field class="col-md-6">
+                    <mat-label>Seleccione un Tipo de dato</mat-label>
+                    <mat-select formControlName="type" required>
+                        <mat-option *ngFor="let keyType of types | keysObjectToArray" [value]="keyType">
+                            {{types[keyType]}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form_data_person.controls['type'].invalid">Tipo Requerido</mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-12">
+                    <mat-label>Información</mat-label>
+                    <textarea matInput formControlName="value" type="text" required></textarea>
+                    <mat-error *ngIf="form_data_person.controls['value'].invalid">Valor Requerido</mat-error>
+                </mat-form-field>
+
+                <div class="my-3">
+                    <button mat-raised-button [disabled]="isloadContact" type="submit">Guardar</button>
+                </div>
+            </form>
+            <table class="table table-light">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Tipo</th>
+                        <th>Info</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of infoAndContact">
+                        <td>{{item.id}}</td>
+                        <td>{{item.type}}</td>
+                        <td>{{item.value}}</td>
+                        <td><button mat-mini-fab (click)="editItemCurrent(item.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+                            <button mat-mini-fab color="accent" color="warn" (click)="deleteItem(item.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

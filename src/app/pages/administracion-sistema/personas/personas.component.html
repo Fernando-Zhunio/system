@@ -1,0 +1,18 @@
+<div>
+    <app-header-search [placeholder]="'Escriba la persona a buscar'" (isload)="isload = $event" [url]="'admin/people'" (products)="loadData($event)">
+    </app-header-search>
+    <div>
+        <div style="margin-bottom: 58px;" class="card-columns">
+            <div *ngFor="let person of peoples" class="card border-0 rounded-fz">
+                <app-person (delete)="deletePerson($event)" [permission]="permissions" [person]="person"></app-person>
+            </div>
+        </div>
+
+        <mat-paginator style="position: absolute; bottom: 0;" [hidden]="isload" *ngIf="peoples.length > 0" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1">
+        </mat-paginator>
+    </div>
+
+    <button *ngxPermissionsOnly="permissions.create" mat-fab style="position: fixed;bottom: 10px;right: 10px;" [routerLink]="['./create']" routerLinkActive="router-link-active">
+      <mat-icon>add</mat-icon>
+    </button>
+</div>

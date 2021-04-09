@@ -10,7 +10,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 @Component({
   selector: 'app-productos',
   template: '<router-outlet></router-outlet>',
-  
+
 })
 export class CategoriasMainComponents  {
 }
@@ -21,6 +21,7 @@ const routes: Routes = [
     path: '',
     component:CategoriasMainComponents,
     data: {
+      name: 'categorias_main',
       isEdit: false,
       permissions: {
         only: ["super-admin", "products-admin.categories.index"],
@@ -31,6 +32,7 @@ const routes: Routes = [
       {
         path: '',
         component: CategoriasComponent,
+        data: {name: 'categorias', reuse: true,}
       },
       {
         path: 'create',
@@ -57,7 +59,7 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
       },
 
-     
+
     ]
   }
 ];

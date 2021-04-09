@@ -1,3 +1,5 @@
+import { Cperson } from "../class/cperson";
+
 export interface IuserSystem {
   id: number,
   name: string,
@@ -21,6 +23,7 @@ export interface IuserSystem {
   },
   companies?: Icompany[]
   roles?: Irole[]
+  person?:Cperson
 }
 
 interface Irole{

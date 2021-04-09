@@ -22,6 +22,7 @@ import { MlModule } from '../../../Modulos/ml/ml.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
 // import { MlComponent } from '../../../components/ml/ml.component';
 
 
@@ -49,7 +50,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatTabsModule,
     MlModule,
     MatSnackBarModule,
-    MatToolbarModule
+    MatToolbarModule,
+    HeaderSearchModule,
     // TranslateModule
 
   ]

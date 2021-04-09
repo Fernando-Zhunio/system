@@ -2,6 +2,7 @@
 import { HttpParams } from "@angular/common/http";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ValidationErrors,
@@ -15,6 +16,7 @@ import {
   NgxFileDropEntry,
 } from "ngx-file-drop";
 import { NgxSpinnerService } from "ngx-spinner";
+import { Subscription } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 import { Iaccount } from "../../../../interfaces/iml-info";
 import { Iresponse } from "../../../../interfaces/Imports/invoice-item";
@@ -42,7 +44,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     name: new FormControl(null, Validators.required),
   });
 
-  // detectChangedDragAndDrop:Observable<Iimages[]> = new Observable ;
   optionsTitle = [];
   public files: NgxFileDropEntry[] = [];
   constructor(
@@ -51,11 +52,9 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     private s_catalogo: CatalogoService,
     private spinner_ngx: NgxSpinnerService,
     private router: Router
-  ) // private fb: FormBuilder
-  {}
+  ) {}
 
   url_server: string = environment.server_img;
-  // formData = new FormData();
   formPublication: FormGroup = new FormGroup({
     title: new FormControl(null, Validators.required),
     category: new FormControl(null, Validators.required),
@@ -80,9 +79,12 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   isLoadPublication: boolean = false;
   isSelectCategory: boolean;
   isEditNamePublication: boolean = true;
+  suscription_predictor: Subscription;
+  suscription_attribute: Subscription;
+  // aditional_data:any;
   ngOnInit(): void {
     this.s_catalogo.create_publications().subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.ml_accounts = res.ml_accounts;
       this.listing_types = res.listing_types;
       this.options = {
@@ -92,7 +94,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       };
     });
     this.act_router.data.subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.isEdit) {
         this.state = "edit";
         this.spinner_ngx.show();
@@ -102,11 +104,13 @@ export class CreateOrEditPublicacionComponent implements OnInit {
         this.s_standart
           .show("catalogs/publications/" + this.id + "/edit")
           .subscribe((response) => {
-            if (response.success) {
+            if (
+              response &&
+              response.hasOwnProperty("success") &&
+              response.success
+            ) {
               this.isEditNamePublication = false;
               this.publication = response.data.publication as Ipublication;
-              console.log(response);
-              console.log(this.publication);
               this.setDataFormPublication();
               this.spinner_ngx.hide();
             }
@@ -131,17 +135,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     this.formPublication.get("type").setValue(this.publication.listing_type);
     this.formPublication.get("mlaccounts").setValue(idsAccounts);
     const title = { target: { value: this.publication.name } };
-    
-    this.predictorMl(title);
-    const exist_cat = this.optionsTitle.findIndex(x=>x.category_id == this.publication.category);
-    console.log(exist_cat);
-    if (
-      this.publication.category != null &&
-      exist_cat != -1
-    ) {
-     
-      this.getAttributes(this.publication.category);
-    }
+    this.predictorMl(title, true);
   }
   movePositionArrayImages(): void {
     let form_params: HttpParams = new HttpParams();
@@ -165,7 +159,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
           this.isLoadPosition = false;
         }
       );
-    console.log("fer move");
+    // console.log("fer move");
   }
 
   getIdMlAccounts(mlaccounts: Iaccount[]) {
@@ -183,6 +177,8 @@ export class CreateOrEditPublicacionComponent implements OnInit {
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
+    console.log("drop");
+
     for (const droppedFile of files) {
       // Is it a file?
       if (droppedFile.fileEntry.isFile) {
@@ -208,19 +204,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
                   //  = res.data;
                 }
               });
-            // reader.readAsDataURL(file);
-            // reader.onload = () => {
-            //   this.src1 = reader.result;
-            //   this.arrayImagen.push({
-            //     file,
-            //     id: this.id,
-            //     base64: this.src1,
-            //     relativePath: droppedFile.relativePath,
-            //   });
-            // };
-            // console.log(file);
-            // this.id++;
-            // console.log(this.arrayImagen);
           } else {
             SwalService.swalToast(
               "Este tipo de archivo no es una imagen valida",
@@ -309,29 +292,38 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     }
   }
 
-  predictorMl(event) {
-    // let url = `${globalData.base_url}/catalogs/publications/category-predictor`;
-    // let body =  JSON.stringify({ title: this.publication.name, _token: token });
-    console.log("es changed category :",this.isSelectCategory);
-    
+  predictorMl(event, isEdit = false) {
     let title = event.target.value;
     this.isLoadCategory = true;
+    if (this.suscription_predictor) {
+      this.suscription_predictor.unsubscribe();
+    }
     // this.s_catalogo.categoriesMl(title).subscribe(
-    this.s_catalogo.predictor_keyup(title).subscribe(
-      (res) => {
-        console.log(res);
-        this.optionsTitle = res;
-        this.isLoadCategory = false;
-        const exist_cat = this.optionsTitle.findIndex(x=>x.category_id == this.publication.category);
-        console.log(exist_cat);
-        if (exist_cat != -1) {
-          this.getAttributes(this.publication.category);
+    this.suscription_predictor = this.s_catalogo
+      .predictor_keyup(title)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.optionsTitle = res;
+          this.isLoadCategory = false;
+          const exist_cat = this.optionsTitle.findIndex(
+            (x) => x.category_id == this.publication.category
+          );
+          console.log(exist_cat);
+          if (exist_cat != -1) {
+            this.getAttributes(this.publication.category, isEdit);
+          }
+        },
+        (err) => {
+          this.isLoadCategory = false;
         }
-      },
-      (err) => {
-        this.isLoadCategory = false;
-      }
-    );
+      );
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    if (this.suscription_predictor) this.suscription_predictor.unsubscribe();
+    if (this.suscription_attribute) this.suscription_attribute.unsubscribe();
   }
 
   alternativePredictor(event) {
@@ -350,15 +342,14 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   }
 
   publicationNow() {
-    this.getFormValidationErrors();
-
+    // this.getFormValidationErrors();
     if (this.publication.images.length < 1) {
       SwalService.swalToast("Se necesita por lo menos una imagen", "warning");
       return;
     }
     console.log(this.formPublication.errors);
     if (this.formPublication.valid) {
-      console.log(this.formPublication.get("attribute").value);
+      // console.log(this.formPublication.get("attribute").value);
       this.spinner_ngx.show();
       let data = {
         name: this.publication.name,
@@ -386,9 +377,13 @@ export class CreateOrEditPublicacionComponent implements OnInit {
           },
           (err) => {
             console.log(err);
+            this.formPublication.markAllAsTouched();
             this.spinner_ngx.hide();
           }
         );
+    }
+    else{
+      SwalService.swalToast('Complete todos los campos requeridos (en rojo)','error')
     }
   }
 
@@ -396,101 +391,131 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     this.isEditNamePublication = true;
   }
 
-  getAttributes(id): void {
+  getAttributes(id, isEdit = false) {
     this.alturaAttribute = this.formMain.nativeElement.offsetHeight + "px";
     console.log(this.alturaAttribute);
     this.formPublication.controls["attribute"] = new FormGroup({});
     this.attributes.length = 0;
-    this.s_catalogo.getAttributes(id).subscribe((res) => {
-      console.log(res);
-      if (res.success) {
-        let attribute_copy = res.data;
-        this.formPublication.controls["attribute"] = new FormGroup({});
-        const count_attribute = attribute_copy.length;
-        for (let i = 0; i < count_attribute; i++) {
-          if (attribute_copy[i].hasOwnProperty("values")) {
-            if (attribute_copy[i].tags.catalog_required) {
-              let control_select = new FormControl(null, Validators.required);
-              let control_input = new FormControl(null, Validators.required);
-              // let  newFormGroup = new FormGroup({})
-              let newFormGroup: FormGroup = this.formPublication.controls[
-                "attribute"
-              ] as FormGroup;
-              newFormGroup.addControl(
-                "attribute_manually_" + attribute_copy[i].id,
-                control_input
-              );
-              newFormGroup.addControl(
-                "attribute_suggest_" + attribute_copy[i].id,
-                control_select
-              );
-              // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
-              // this.formPublication.controls['attribute'].push(newFormGroup);
+    if (this.suscription_attribute) this.suscription_attribute.unsubscribe();
+    this.suscription_attribute = this.s_catalogo
+      .getAttributes(id)
+      .subscribe((res) => {
+        // console.log(res);
+        if (res && res.hasOwnProperty("success") && res.success) {
+          let attribute_copy = res.data;
+          this.formPublication.controls["attribute"] = new FormGroup({});
+          const count_attribute = attribute_copy.length;
+          for (let i = 0; i < count_attribute; i++) {
+            if (attribute_copy[i].hasOwnProperty("values")) {
+              if (attribute_copy[i].tags.catalog_required) {
+                let control_select = new FormControl(null);
+                let control_input = new FormControl(null);
+                let newFormGroup: FormGroup = this.formPublication.controls[
+                  "attribute"
+                ] as FormGroup;
+                newFormGroup.addControl(
+                  "attribute_manually_" + attribute_copy[i].id,
+                  control_input
+                );
+                newFormGroup.addControl(
+                  "attribute_suggest_" + attribute_copy[i].id,
+                  control_select
+                );
+              } else {
+                let control_select = new FormControl();
+                let control_input = new FormControl();
+                // let  newFormGroup = new FormGroup({})
+                let newFormGroup = this.formPublication.controls[
+                  "attribute"
+                ] as FormGroup;
+                newFormGroup.addControl(
+                  "attribute_suggest_" + attribute_copy[i].id,
+                  control_select
+                );
+                newFormGroup.addControl(
+                  "attribute_manually_" + attribute_copy[i].id,
+                  control_input
+                );
+              }
             } else {
-              let control_select = new FormControl();
-              let control_input = new FormControl();
-              // let  newFormGroup = new FormGroup({})
-              let newFormGroup = this.formPublication.controls[
-                "attribute"
-              ] as FormGroup;
-              // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
-              newFormGroup.addControl(
-                "attribute_suggest_" + attribute_copy[i].id,
-                control_select
-              );
-              newFormGroup.addControl(
-                "attribute_manually_" + attribute_copy[i].id,
-                control_input
-              );
-              // this.formPublication.controls['attribute'].push(newFormGroup);
-            }
-          } else {
-            if (attribute_copy[i].tags.catalog_required) {
-              let control_input = new FormControl(null, Validators.required);
-              // let  newFormGroup = new FormGroup({})
-              let newFormGroup = this.formPublication.controls[
-                "attribute"
-              ] as FormGroup;
-              // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
-              newFormGroup.addControl(
-                "attribute_manually_" + attribute_copy[i].id,
-                control_input
-              );
-              // this.formPublication.controls['attribute'].push(newFormGroup);
-            } else {
-              let control_input = new FormControl();
-              // let  newFormGroup = new FormGroup({})
-              let newFormGroup = this.formPublication.controls[
-                "attribute"
-              ] as FormGroup;
+              if (attribute_copy[i].tags.catalog_required) {
+                let control_input = new FormControl(null);
+                // let  newFormGroup = new FormGroup({})
+                let newFormGroup = this.formPublication.controls[
+                  "attribute"
+                ] as FormGroup;
+                // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
+                newFormGroup.addControl(
+                  "attribute_manually_" + attribute_copy[i].id,
+                  control_input
+                );
+                // this.formPublication.controls['attribute'].push(newFormGroup);
+              } else {
+                let control_input = new FormControl(null);
+                // let  newFormGroup = new FormGroup({})
+                let newFormGroup = this.formPublication.controls[
+                  "attribute"
+                ] as FormGroup;
 
-              // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
-              newFormGroup.addControl(
-                "attribute_manually_" + attribute_copy[i].id,
-                control_input
-              );
-              // this.formPublication.controls['attribute'].push(newFormGroup);
+                // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
+                newFormGroup.addControl(
+                  "attribute_manually_" + attribute_copy[i].id,
+                  control_input
+                );
+                // this.formPublication.controls['attribute'].push(newFormGroup);
+              }
             }
           }
+          this.attributes = attribute_copy;
+          // console.log(this.formPublication.value);
+          if (isEdit) {
+            console.log(this.publication);
+
+            this.setDataAttribute();
+          }
         }
-        this.attributes = attribute_copy;
-        console.log(this.formPublication.value);
-      }
-    });
+      });
   }
 
-  getFormValidationErrors() {
-    Object.keys(this.formPublication.controls).forEach((key) => {
-      const controlErrors: ValidationErrors = this.formPublication.get(key)
-        .errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach((keyError) => {
-          console.log(
-            "Key control: " + key + ", keyError: " + keyError + ", err value: ",
-            controlErrors[keyError]
+  setDataAttribute(): void {
+    if (
+      this.publication.aditional_data &&
+      this.publication.aditional_data?.attributes
+    ) {
+      let form_attribute: FormGroup = this.formPublication.controls[
+        "attribute"
+      ] as FormGroup;
+      this.publication.aditional_data.attributes.forEach((attribute) => {
+        console.log(attribute);
+        if (form_attribute.contains("attribute_manually_" + attribute.id)) {
+          form_attribute.controls[
+            "attribute_manually_" + attribute.id
+          ].setValue(attribute.value_name);
+        }
+        if (form_attribute.contains("attribute_suggest_" + attribute.id)) {
+          console.log("si existe");
+
+          form_attribute.controls["attribute_suggest_" + attribute.id].setValue(
+            attribute.value_id
           );
-        });
-      }
-    });
+        }
+      });
+    }
   }
+
+
+  // getFormValidationErrors() {
+  //   Object.keys(this.formPublication.controls).forEach((key) => {
+  //     const controlErrors: ValidationErrors = this.formPublication.get(key)
+  //       .errors;
+  //     if (controlErrors != null) {
+  //       Object.keys(controlErrors).forEach((keyError) => {
+  //         console.log(
+  //           "Key control: " + key + ", keyError: " + keyError + ", err value: ",
+  //           controlErrors[keyError]
+  //         );
+  //       });
+  //     }
+  //   });
+  // }
 }

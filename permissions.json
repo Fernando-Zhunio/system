@@ -1,0 +1,90 @@
+{
+	"table": "permissions",
+	"rows":
+	[
+		{
+			"NAME": "reports.group-products.index"
+		},
+		{
+			"NAME": "purchase-department.imports.index"
+		},
+		{
+			"NAME": "products-admin.products.index"
+		},
+		{
+			"NAME": "products-admin.prefixes.index"
+		},
+		{
+			"NAME": "products-admin.imports.index"
+		},
+		{
+			"NAME": "products-admin.categories.index"
+		},
+		{
+			"NAME": "products-admin.brands.index"
+		},
+		{
+			"NAME": "prices-and-promotions.promotions.index"
+		},
+		{
+			"NAME": "prices-and-promotions.prices.index"
+		},
+		{
+			"NAME": "prices-and-promotions.imports.index"
+		},
+		{
+			"NAME": "ml.accounts.index"
+		},
+		{
+			"NAME": "general.promotions.index"
+		},
+		{
+			"NAME": "general.products.index"
+		},
+		{
+			"NAME": "general.imports.index"
+		},
+		{
+			"NAME": "catalogs.publications.index"
+		},
+		{
+			"NAME": "catalogs.products.index"
+		},
+		{
+			"NAME": "catalogs.ml-products.index"
+		},
+		{
+			"NAME": "admin.users.index"
+		},
+		{
+			"NAME": "admin.roles.index"
+		},
+		{
+			"NAME": "admin.locations.index"
+		},
+		{
+			"NAME": "admin.facebook-ads.campaigns.index"
+		},
+		{
+			"NAME": "admin.facebook-ads.adsets.index"
+		},
+		{
+			"NAME": "admin.facebook-ads.ads.index"
+		},
+		{
+			"NAME": "admin.countries.index"
+		},
+		{
+			"NAME": "admin.countries.cities.index"
+		},
+		{
+			"NAME": "admin.companies.index"
+		},
+		{
+			"NAME": "admin.companies.departments.positions.index"
+		},
+		{
+			"NAME": "admin.companies.departments.index"
+		}
+	]
+}

@@ -10,7 +10,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 @Component({
   selector: 'app-admin-products',
   template: '<router-outlet></router-outlet>',
-  
+
 })
 export class AdminProductsMainComponents  {
 }
@@ -20,12 +20,14 @@ const routes: Routes = [
   {
     path: '',
     component:AdminProductsMainComponents,
+    data:{name:'products_admin'},
     children: [
       {
         path: 'categorias',
         loadChildren:()=>import('./categorias/categorias.module').then(m => m.CategoriasModule),
         data: {
           isEdit: false,
+          name: 'categorias',
           permissions: {
             only: ["super-admin", "products-admin.categories.index"],
           },
@@ -37,6 +39,7 @@ const routes: Routes = [
         loadChildren:()=>import('./marcas/marcas.module').then(m => m.MarcasModule),
         data: {
           isEdit: false,
+          name:'marcas',
           permissions: {
             only: ["super-admin", "products-admin.brands.index"],
           },
@@ -48,6 +51,7 @@ const routes: Routes = [
         loadChildren: () => import('./productos/producto.module').then(m => m.ProductoModule),
         data: {
           isEdit: false,
+          name:'productos',
           permissions: {
             only: ["super-admin", "products-admin.products.index"],
           },
@@ -58,6 +62,7 @@ const routes: Routes = [
         path: 'prefijos',
         loadChildren: () => import('./prefijo/prefijo.module').then(m => m.PrefijoModule),
         data: {
+          name:'prefijos',
           isEdit: false,
           permissions: {
             only: ["super-admin", "products-admin.prefixes.index"],
@@ -65,7 +70,7 @@ const routes: Routes = [
         },
         canActivate: [NgxPermissionsGuard],
       },
-     
+
     ]
   }
 ];

@@ -40,6 +40,8 @@ export class UsuariosComponent implements OnInit {
     // this.getUserServer();
   }
 
+
+
   users:IuserSystem[];
   // getUserServer():void{
   //   this.s_standart.show('admin/users').subscribe((res:{success:boolean,data:Ipagination<IuserSystem>})=>{
@@ -56,9 +58,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   //#region botones de acciones de usuario
-  editItem(i):void{
-
-  }
 
   deleteItem(id):void{
     SwalService.swalConfirmation("Eliminar","Esta seguro de eliminar este usuario","warning").then((result) => {

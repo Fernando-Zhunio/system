@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { LOCALE_ID, NgModule } from "@angular/core";
-import { LocationStrategy, HashLocationStrategy } from "@angular/common";
+import { LocationStrategy, HashLocationStrategy, PathLocationStrategy } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
@@ -91,6 +91,14 @@ import { PaginaWebComponent } from './components/pagina-web/pagina-web.component
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { RouteReuseStrategy } from "@angular/router";
+import { CustomReusingStrategy } from "./class/custom-reusing-strategy";
+// import { CreateEmailModalComponent } from './components/modals/create-email-modal/create-email-modal.component';
+// import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
+
+// import { CreateOrEditPersonComponent } from './components/person/create-or-edit-person/create-or-edit-person.component';
+// import { PersonComponent } from './components/person/person.component';
 // import { ConvertObjectToArrayPipe } from './pipes/convert-object-to-array.pipe';
 // import { CapturePasswordComponent } from './pages/authenticate/capture-password/capture-password.component';
 // import { CreateOrEditComponent } from './pages/administracion-sistema/usuarios/create-or-edit/create-or-edit.component';
@@ -155,6 +163,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     HeaderSearchModule,
     NgxGalleryModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
 
     // MatTabsModule
 
@@ -179,6 +188,12 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     InConstructionComponent,
     RedirectToComponent,
     SnackBarLoaderComponent,
+    // CreateEmailModalComponent,
+
+
+    // KeysObjectToArrayPipe,
+    // CreateOrEditPersonComponent,
+    // PersonComponent,
     // ConvertObjectToArrayPipe,
     // CapturePasswordComponent,
     // CreateOrEditComponent,
@@ -204,6 +219,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
+      // useClass: PathLocationStrategy,
     },
 
 
@@ -215,6 +231,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
       useClass:CustomInterceptor,
       multi:true
     },
+    { provide: RouteReuseStrategy, useClass: CustomReusingStrategy }
   ],
   entryComponents: [
     InfoViewComponent,

@@ -14,7 +14,7 @@ export class SearchProductModalComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     console.log(this.data);
-    
+
   }
 
   products:any[] = []
@@ -25,18 +25,17 @@ export class SearchProductModalComponent implements OnInit {
 
   changeProduct(ind):void{
     console.log(this.products[ind].id);
-    
+
     this.dialogRef.close({id_product:this.products[ind].id})
   }
 
   captureImagenProduct(i): string | boolean {
     if (this.products[i]?.prestashop_products.length > 0) {
-      return this.products[i].prestashop_product[0].image;
+      return this.products[i].prestashop_products[0].image;
     }
     if (this.products[i].ml_infos.length > 0) {
       return this.products[i].ml_infos[0].image;
     }
-
     return "assets/img/img_default_null.jpg";
   }
 

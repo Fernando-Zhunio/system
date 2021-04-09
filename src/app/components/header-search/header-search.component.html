@@ -1,5 +1,29 @@
-<div class="mb-4 sticky-top p-0 card-body  row" style="z-index: 10;">
-    <div *ngIf="!onTabs;else tabs" class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
+<div class="mb-4 p-0 card-body row" [ngClass]="{'sticky-top': isSticky}" style="z-index: 10;">
+    <div class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
+        <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" [placeholder]="placeholder" (keyup.enter)="searchBar()" [(ngModel)]="productSearch">
+        <button class="position-absolute" style="top: 0px;
+    left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
+            <mat-icon style="font-size: 30px;" class="text-black-50" type="search">search</mat-icon>
+        </button>
+        <!-- <button class="position-absolute" style="top: 0px;
+          right: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
+          <mat-icon style="font-size: 30px;" type="search">loop</mat-icon>
+        </button> -->
+        <div class="position-absolute d-flex align-items-center" style="top: 0px;
+        right: 22px;height: 100%;">
+
+            <mat-chip-list>
+                <mat-chip (click)="paste()" class="text-truncate">
+                    <mat-icon class="text-black-50" type="search">content_paste</mat-icon>
+                </mat-chip>
+                <!-- <mat-chip (select)="onSelect2">Chip 2</mat-chip> -->
+            </mat-chip-list>
+            <ng-content></ng-content>
+
+        </div>
+
+    </div>
+    <!-- <div *ngIf="!onTabs;else tabs" class="position-relative col-12  w-100 p-3" style="overflow: hidden;">
         <input style="padding-left: 45px;height: 50px;" class="form-control font-2xl shadow rounded-pill font-facebook" [placeholder]="placeholder" (keyup)="searchBar()" [(ngModel)]="productSearch">
         <button class="position-absolute" style="top: 0px;
     left: 22px;height: 100%;" mat-icon-button (click)="searchBar()">
@@ -26,11 +50,7 @@
                 <ng-content></ng-content>
             </mat-tab>
         </mat-tab-group>
-    </ng-template>
+    </ng-template> -->
 
-
-    <!-- <div class="col-md-2">
-        <button mat-raised-button color="accent" [routerLink]="['./create']" routerLinkActive="router-link-active">Crear publicacion</button>
-    </div> -->
 
 </div>

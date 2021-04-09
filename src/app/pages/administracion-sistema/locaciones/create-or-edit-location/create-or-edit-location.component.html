@@ -13,21 +13,13 @@
                         <mat-label>Nombre</mat-label>
                         <input matInput formControlName="name" type="text" required>
                         <mat-error *ngIf="form_location.controls['name'].invalid">Nombre Requerido</mat-error>
-
                     </mat-form-field>
 
                     <mat-form-field class="col-md-6">
                         <mat-label>Direccion</mat-label>
                         <input type="address" matInput formControlName="address" required>
                         <mat-error *ngIf="form_location.controls['address'].invalid">Direccion requerida</mat-error>
-
                     </mat-form-field>
-
-                    <!-- <mat-form-field class="col-md-6">
-                        <mat-label>Tipo</mat-label>
-                        <input matInput formControlName="type">
-                        <mat-error *ngIf="form_location.controls['type'].invalid">Tipo requerido</mat-error>
-                    </mat-form-field> -->
                 </div>
                 <div class="row">
                     <mat-form-field class="col-md-6">

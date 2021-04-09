@@ -15,41 +15,76 @@ button {
     outline: none;
 }
 
-.swiper-container {
-    padding: 10px;
+// .swiper-container {
+//     padding: 10px;
+// }
+a img {
+    object-fit: contain;
+    height: 200px;
+}
+
+.navbar-brand-full,
+.navbar-brand,
+.navbar-brand-minimized {
+    height: auto !important;
+}
+
+.custom-snack-bar-loader-data {
+    max-width: inherit !important;
+    min-width: auto !important;
+    opacity: .7 !important;
+}
+
+.dark-super {
+    background-color: #2f353a !important;
+    color: white !important;
+    // transition: all 2s;
+    mat-card,
+    mat-paginator,
+    mat-table,
+    mat-horizontal-stepper,
+    .card,
+    .table {
+        background-color: #343739 !important;
+        color: white !important;
+        transition: all 2s;
+        svg,
+        mat-cell,
+        mat-header-cell,
+        .mat-step-label {
+            color: white !important;
+        }
+    }
+    .rounded-fz,
+    .swiper-slide {
+        background-color: darkslategray !important;
+    }
+    mat-form-field {
+        .mat-form-field-label,
+        .mat-select-value {
+            color: white;
+        }
+        .mat-form-field-underline {
+            background-color: white;
+        }
+    }
+    .mat-stepper-horizontal-line {
+        background-color: #fff !important;
+    }
+    .img-product {
+        border-radius: 20px 20px 0 0;
+        background-color: #fff !important;
+    }
+}
+
+.not-dark-super {
+    transition: all 2s im !important;
 }
 
 canvas {
     outline: none;
 }
 
-// .dropdown-menu .header {
-//     font-size: 13px;
-//     font-weight: bold;
-//     min-width: 270px;
-//     border-bottom: 1px solid #eee;
-//     text-align: center;
-//     padding: 4px 0 6px 0;
-// }
-// .dropdown-menu>li>a {
-//     display: block;
-//     padding: 3px 20px;
-//     clear: both;
-//     font-weight: normal;
-//     line-height: 1.42857143;
-//     color: #333;
-//     white-space: nowrap;
-// }
-// .dropdown-menu>li>a {
-//     padding: 7px 18px;
-//     color: #666;
-//     -moz-transition: all 0.5s;
-//     -o-transition: all 0.5s;
-//     -webkit-transition: all 0.5s;
-//     transition: all 0.5s;
-//     font-size: 14px;
-//     line-height: 25px;
-// }
 .mat-card-header-m-0 div {
     margin: 0;
 }
@@ -98,3 +133,44 @@ canvas {
 button {
     outline: none !important;
 }
+
+.parpadeo {
+    animation: parpadeo 2s infinite;
+}
+
+@keyframes parpadeo {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+// region table
+@media (max-width: 768px) {
+    .mat-table {
+        overflow-x: auto;
+    }
+    .mat-cell,
+    .mat-header-cell {
+        word-wrap: initial;
+        display: table-cell;
+        padding: 0px 10px;
+        line-break: unset;
+        width: 100%;
+        white-space: inherit;
+        overflow: hidden;
+        vertical-align: middle;
+        max-width: 200px;
+    }
+    .mat-row,
+    .mat-header-row {
+        display: table-row;
+    }
+}
+
+// fin de region table

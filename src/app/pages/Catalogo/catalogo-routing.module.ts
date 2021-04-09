@@ -15,37 +15,67 @@ import { ShowPublicationComponent } from './publicaciones/show-publication/show-
 export class CatalogoMainComponents  {
 }
 
+const permission_module = {
+  publicaciones:{
+    index:["super-admin", "catalogs.publications.index"],
+    show:["super-admin", "catalogs.publications.show"],
+    create:["super-admin", "catalogs.publications.create"],
+    edit:["super-admin", "catalogs.publications.edit"],
+    delete:["super-admin", "catalogs.publications.destroy"]
+  },
+  // roles:{
+  //   show:["super-admin", "admin.roles.index"],
+  //   create:["super-admin", "admin.roles.create"],
+  //   edit:["super-admin", "admin.roles.edit"],
+  //   delete:["super-admin", "admin.roles.destroy"]
+  // },
+  // paises:{
+  //   show:["super-admin", "admin.countries.index"],
+  //   create:["super-admin", "admin.countries.create"],
+  //   edit:["super-admin", "admin.countries.edit"],
+  //   delete:["super-admin", "admin.countries.destroy"]
+  // },
+  // personas:{
+  //   show:["super-admin", "admin.peoples.index"],
+  //   create:["super-admin", "admin.peoples.create"],
+  //   edit:["super-admin", "admin.peoples.edit"],
+  //   delete:["super-admin", "admin.peoples.destroy"]
+  // }
+}
 
 const routes: Routes = [
   {
     path: '',
     component:CatalogoMainComponents,
+    data:{name:'catalogo_main'},
     children: [
       {
         path: 'mercado-libre',
+        data: {name:'mercado_libre_ll'},
         // component:MarcasMainComponents,
-        loadChildren: () => import('./mercado-libre/mercado-libre.module').then(m => m.MercadoLibreModule)
-      }, 
+        loadChildren: () => import('./mercado-libre/mercado-libre.module').then(m => m.MercadoLibreModule),
+        // data: {  reuse:true,}
+      },
       {
         path: 'buscar_productos',
+        data: {name: 'bucar_products_ll'},
         // component:MarcasMainComponents,
-        loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      }, 
+        loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule),
+        // data: {  reuse:true,}
+
+      },
       {
         path: 'publicaciones',
         component:PublicacionesComponent,
-        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      },
-      {
-        path: 'publicaciones/create',
-        component:CreateOrEditPublicacionComponent,
         data: {
-          isEdit: false,
+          // isEdit: false,
+          name: 'publicaciones',
+          reuse:true,
           permissions: {
-            only: ["super-admin", "catalogs.publications.create"],
+            only: ["super-admin", permission_module.publicaciones.index],
+            all:permission_module.publicaciones
           },
         },
-        canActivate: [NgxPermissionsGuard],
         // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       },
       {
@@ -61,17 +91,30 @@ const routes: Routes = [
         // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       },
       {
-        path: 'publicaciones/show/:id',
-        component:ShowPublicationComponent,
+        path: 'publicaciones/create',
+        component:CreateOrEditPublicacionComponent,
         data: {
+          isEdit: false,
           permissions: {
-            only: ["super-admin", "catalogs.publications.show"],
+            only: ["super-admin", "catalogs.publications.create"],
           },
         },
         canActivate: [NgxPermissionsGuard],
         // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       },
 
+      {
+        path: 'publicaciones/show/:id',
+        component:ShowPublicationComponent,
+        data: {
+          permissions: {
+            only: permission_module.publicaciones.show,
+            all:permission_module.publicaciones
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
     ]
   }
 ];

@@ -1,18 +1,18 @@
 <div>
     <button mat-fab [routerLink]="['/importaciones/import/create']" style="position: fixed;z-index: 10;bottom: 100px;right: 20px;"><mat-icon>add</mat-icon></button>
-    <app-header-search [onTabs]="false" [placeholder]="'Escriba codigo de la importacion'" [with_filter]="true" (isload)="isload = $event" [url]="'purchase-department/imports'" (products)="loadData($event)">
+    <app-header-search [placeholder]="'Escriba codigo de la importacion'" (isload)="isload = $event" [url]="'purchase-department/imports'" (products)="loadData($event)">
     </app-header-search>
     <div *ngIf="isload" class="mt-4">
         <mat-card *ngFor="let item of [1,2,3]" class="my-4">
-            <ngx-skeleton-loader count="1" [theme]="{ 
+            <ngx-skeleton-loader count="1" [theme]="{
               'border-radius': '5px',
               height: '50px'
             }"></ngx-skeleton-loader>
-            <ngx-skeleton-loader count="1" [theme]="{ 
+            <ngx-skeleton-loader count="1" [theme]="{
                 'border-radius': '5px',
                 height: '30px'
               }"></ngx-skeleton-loader>
-            <ngx-skeleton-loader count="3" [theme]="{ 
+            <ngx-skeleton-loader count="3" [theme]="{
                 'border-radius': '5px',
                 height: '40px',
                 width:'150px',
@@ -31,7 +31,7 @@
                 <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
             </div>
             <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
-                Ups! Lo que Buscaste no lo encontramos mejorar el criterio de Busqueda
+                Ups! Sin resultados en tu búsqueda
             </div>
         </div>
     </ng-template>

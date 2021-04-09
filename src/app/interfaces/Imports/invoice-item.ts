@@ -38,7 +38,7 @@ export interface invoiceItem {
   created_at: string;
   description: string;
   id: number;
-  images: invoiceItemImg[];
+  images: any[];
   import_invoice_id: number;
   new: boolean;
   note: string;

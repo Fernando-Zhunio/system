@@ -10,16 +10,34 @@ import { BuscarProductosComponent } from './buscar-productos.component';
 // @Component({
 //   selector: 'app-productos',
 //   template: '<router-outlet></router-outlet>',
-  
+
 // })
 // export class BuscarProductosMainComponents  {
 // }
 
+const permission_module = {
+  buscar_producto:{
+    index:["super-admin", "catalogs.products.index"],
+    show:["super-admin", "catalogs.products.show"],
+    create:["super-admin", "catalogs.products.create"],
+    edit:["super-admin", "catalogs.products.edit"],
+    delete:["super-admin", "catalogs.products.destroy"]
+  },
 
+}
 const routes: Routes = [
   {
     path: '',
     component:BuscarProductosComponent,
+    data: {
+      // isEdit: false,
+      name:'buscar_productos',
+      reuse: true,
+      permissions: {
+        only: ["super-admin", permission_module.buscar_producto.index],
+        all:permission_module.buscar_producto
+      },
+    },
     // children: [
     //   {
     //     path: '',
@@ -36,7 +54,7 @@ const routes: Routes = [
     //     data:{isEdit:true}
     //   },
 
-     
+
     // ]
   }
 ];
