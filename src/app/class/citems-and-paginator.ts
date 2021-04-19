@@ -8,40 +8,39 @@ import { SwalService } from "../services/swal.service";
 
 declare let Swal: any;
 
-export class CtableAndPaginator<T> {
+export class CitemsAndPaginator<T> {
   // @ViewChild(HeaderSearchComponent) headerComponent:HeaderSearchComponent;
 
   ELEMENT_DATA: T[] = [];
-  dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
+  // dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
   paginator: Ipagination<T>;
   isload: boolean;
-  displayedColumns: string[];
+  // displayedColumns: string[];
   snack_bar: MatSnackBar;
   s_standart: StandartSearchService;
 
   headerComponent:HeaderSearchComponent;
   urlDelete:string;
   wordMain:string;
-  ngx_spinner:any;
-  name_spinner:string = "Spinner_table";
-  public refreshDataTable(data) {
-    let row: T[] = data as T[];
-    console.log(row);
-    this.ELEMENT_DATA = row;
-    this.dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
-  }
+
+  // public refreshDataTable(data) {
+  //   let row: T[] = data as T[];
+  //   console.log(row);
+  //   this.ELEMENT_DATA = row;
+  //   this.dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
+  // }
 
   loadData($event): void {
     this.paginator = $event.data;
-    console.log(this.paginator);
-    this.refreshDataTable(this.paginator.data);
+    // console.log(this.paginator);
+    // this.refreshDataTable(this.paginator.data);
   }
 
   removeItemTable(id): void {
     let index = this.ELEMENT_DATA.findIndex((x) => x['id'] == id);
     this.ELEMENT_DATA.splice(index, 1);
     // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
-    this.dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
+    // this.dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
   }
 
   deleteItem(id): void {
@@ -83,10 +82,5 @@ export class CtableAndPaginator<T> {
   changePaginator(event): void {
     this.headerComponent.searchBar(event);
     console.log(event);
-  }
-
-  loaderTable(state):void{
-    console.log({state});
-  state ? this.ngx_spinner.show(this.name_spinner):this.ngx_spinner.hide(this.name_spinner);
   }
 }

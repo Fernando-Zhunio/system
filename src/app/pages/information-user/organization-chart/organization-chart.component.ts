@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
 import OrgChart from "@balkangraph/orgchart.js";
+import { StandartSearchService } from "../../../services/standart-search.service";
 
 @Component({
   selector: "app-organization-chart",
@@ -8,7 +9,7 @@ import OrgChart from "@balkangraph/orgchart.js";
   styleUrls: ["./organization-chart.component.css"],
 })
 export class OrganizationChartSystemComponent implements OnInit {
-  constructor() {}
+  constructor(private s_standart:StandartSearchService) {}
 
   data = [
     {
@@ -44,15 +45,22 @@ export class OrganizationChartSystemComponent implements OnInit {
     },
   ];
   ngOnInit(): void {
+
     var chart = new OrgChart(document.getElementById("tree"), {
       nodeBinding: {
-        field_0: "name",
-        field_1: "title",
+        field_0: "Nombre",
+        field_1: "Cargo",
         img_0: "img",
       },
     });
+    this.s_standart.show('admin/people/orgchart').subscribe(res=>{
+      console.log(res);
+      if(res && res.hasOwnProperty('success') && res.success)
+      chart.load(res.data);
+    })
 
-    chart.load(this.data);
+
+
 
     // chart.load([
     //   {

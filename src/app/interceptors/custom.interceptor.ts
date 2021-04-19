@@ -48,18 +48,14 @@ export class CustomInterceptor implements HttpInterceptor {
       position : "bottom-end",
       toast:true,
       showConfirmButton: false,
-      allowOutsideClick:false,
-      allowEnterKey:false,
+      // allowOutsideClick:false,
+      // allowEnterKey:false,
       onBeforeOpen: () => {
           Swal.showLoading()
       },
   });
 
-    // this.snack_bar.openFromComponent(SnackBarLoaderComponent,{
-    //   panelClass:'custom-snack-bar-loader-data',
-    //   horizontalPosition: "end",
-    //   verticalPosition:"bottom"
-    // });
+
 
     return next.handle(newResquest).pipe(
       finalize(() => {

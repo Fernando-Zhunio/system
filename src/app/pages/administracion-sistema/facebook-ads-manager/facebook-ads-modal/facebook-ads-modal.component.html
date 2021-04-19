@@ -1,0 +1,52 @@
+<div mat-dialog-title>
+    <h3 class="m-0 text-muted">Productos <br>
+        <!-- {{data.person.identification_number}} - {{data.person.city.name}} -->
+    </h3>
+    <div class="font-5xl font-facebook list-group-item-accent-warning text-uppercase" mat-dialog-title>
+        <!-- {{data.person.first_name}} {{data.person.last_name}} -->
+        Productos de ADS
+    </div>
+</div>
+<div mat-dialog-content>
+    <div mat-dialog-container class="example-container">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="d-block">
+                    {{element.id}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell class="name-item" *matHeaderCellDef> Nombre </mat-header-cell>
+                <mat-cell class="name-item" *matCellDef="let element"> {{element.name}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="code">
+                <mat-header-cell *matHeaderCellDef> Codigo </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.code}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="stock">
+                <mat-header-cell *matHeaderCellDef> Stock </mat-header-cell>
+                <mat-cell *matCellDef="let element;let ind = index">
+                    {{element.available}}
+                </mat-cell>
+            </ng-container>
+            <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+    </div>
+</div>
+<div mat-dialog-actions>
+
+    <button mat-raised-button mat-dialog-close color="warn">Cerrar</button>
+</div>

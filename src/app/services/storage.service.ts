@@ -22,12 +22,11 @@ export class StorageService  {
   constructor(private router: Router,private s_permissionsService: NgxPermissionsService) {
     this.localStorageService = this.secureStorage;
     this.currentSession = this.loadSessionData();
-    // console.log('ccc');
+
     const rolAndPermission = this.getRolAndPermissionUser();
     let mergeRolAndPermission = [];
     if(rolAndPermission)
       mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
-      // console.log(rolAndPermission);
      this.s_permissionsService.loadPermissions(mergeRolAndPermission);
 
   }

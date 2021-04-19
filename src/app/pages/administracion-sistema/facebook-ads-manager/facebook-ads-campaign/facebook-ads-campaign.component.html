@@ -1,0 +1,148 @@
+<div>
+    <ngx-spinner [name]="name_spinner" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
+    <app-header-search [init]="false" [filter_data]="{'status':status,'min':min,'max':max}" [placeholder]="'Buscador de Campañas'" (isload)="loaderTable($event)" [url]="'admin/facebook-ads/' + account_id + '/campaigns'" (products)="loadData($event)">
+        <mat-chip-list class="ml-1">
+            <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
+                <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+            <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                <mat-form-field class="w-100">
+                    <mat-label>Estados</mat-label>
+                    <mat-select [value]="3" [(ngModel)]="status">
+                        <mat-option value="3">Todos</mat-option>
+                        <mat-option value="2">
+                            Activo
+                        </mat-option>
+                        <mat-option value="1">
+                            Inactivo
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row m-0 p-0" style="text-overflow: initial;" mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                <mat-form-field class="col-6">
+                    <mat-label>Stock Min</mat-label>
+                    <input matInput type="number" [(ngModel)]="min" type="number" class="" />
+                </mat-form-field>
+                <mat-form-field class="col-6">
+                    <mat-label>Stock Max</mat-label>
+                    <input [(ngModel)]="max" type="number" matInput class="" />
+                </mat-form-field>
+            </div>
+            <div mat-menu-item [disableRipple]="true" class="h-100">
+                <button mat-raised-button (click)="applyFilter()">Aplicar filtros</button>
+            </div>
+        </mat-menu>
+    </app-header-search>
+
+    <div class="card-columns">
+        <div class="card border-0 text-muted" *ngFor="let item of searchItems">
+            <div class="p-2">
+                <span (click)="removeSearchCampaign(item.id)" class=" position-absolute btn-close "><i
+            class="fas fa-times-circle btn-ghost-danger"></i></span>
+                <h4 class="text-truncate m-0">{{item.name}}</h4>
+            </div>
+        </div>
+    </div>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="add">
+            <mat-header-cell class="add-item" *matHeaderCellDef>+</mat-header-cell>
+            <mat-cell class="add-item" *matCellDef="let element">
+                <button (click)="addSearchCampaign(element.id)" mat-icon-button color="primary">
+          <mat-icon>add</mat-icon>
+        </button>
+            </mat-cell>
+        </ng-container>
+        <!-- Position Column -->
+        <ng-container matColumnDef="state">
+            <mat-header-cell class="state-item" *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell class="state-item" *matCellDef="let element">
+                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+          <input (change)="changeState(element.id,$event)" type="checkbox" class="switch-input"
+            [checked]="(element?.status=='ACTIVE')?true:false">
+          <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+        </label>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="riesgo">
+            <mat-header-cell *matHeaderCellDef>Riesgo</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="d-block">
+                <div class="badge badge-success m-1">GOOD:{{element?.ads_by_stock_status_count.GOOD}}</div>
+                <div class="badge badge-warning m-1">WARNING:{{element?.ads_by_stock_status_count.WARNING}}</div>
+                <div class="badge badge-danger m-1">DANGER:{{element?.ads_by_stock_status_count.DANGER}}</div>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <mat-header-cell class="name-item" *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell class="name-item" *matCellDef="let element"> {{element.name}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="start">
+            <mat-header-cell *matHeaderCellDef> Iniciado </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.start_time | date}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="stop">
+            <mat-header-cell *matHeaderCellDef> Detenido </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.stop_time | amLocale:'es' | amTimeAgo}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let element;let ind = index">
+                <button [disabled]="element.products.products.length < 1" (click)="viewProduct(element.id)" mat-icon-button color="primary">
+          <mat-icon [matBadge]="element.products.products.length" matBadgeColor="accent" matBadgePosition="above after">
+            visibility</mat-icon>
+        </button>
+                <!-- <button mat-icon-button color="warn" *ngxPermissionsOnly="permissions.delete" (click)="deleteItem(element.id)">
+  <mat-icon>delete</mat-icon>
+</button> -->
+            </mat-cell>
+        </ng-container>
+
+
+
+        <!-- <ng-container matColumnDef="id">
+<mat-header-cell *matHeaderCellDef>
+<button mat-icon-button color="accent" (click)="addRowTableItem()">
+  <mat-icon>post_add</mat-icon>
+</button>
+
+<button mat-icon-button color="accent">
+  <mat-icon>backup</mat-icon>
+  <label class="m-0 h-100 w-100 position-absolute" for="file-excel" style="    top: 0;
+        right: 0;">
+  </label>
+  <input [disabled]="isLoadFile" type="file" (change)="addFile($event)" class="d-none" id="file-excel"
+    accept=".xlsx">
+</button>
+</mat-header-cell>
+<mat-cell *matCellDef="let element;let ind = index">
+<button mat-icon-button (click)="editItem(ind)">
+  <mat-icon>edit</mat-icon>
+</button>
+<button mat-icon-button (click)="deleteItem(ind)">
+  <mat-icon>delete</mat-icon>
+</button>
+</mat-cell>
+</ng-container> -->
+        <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <!-- <mat-paginator #matPaginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator> -->
+    <mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1"></mat-paginator>
+
+
+    <!-- <mat-paginator *ngIf="products.length > 0" class="float-right" #paginator [pageIndex]="pageCurrent-1" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="searchBar($event)">
+</mat-paginator> -->
+    <!-- <button *ngxPermissionsOnly="permissions.create" mat-fab style="position: fixed;bottom: 10px;right: 10px;" [routerLink]="['./create']">
+<mat-icon>add</mat-icon>
+  </button>-->
+
+</div>

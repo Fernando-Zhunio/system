@@ -6,29 +6,29 @@
             </div>
             <button type="button" *ngxPermissionsOnly="permission_create" [routerLink]="['create']" class="btn btn-pill btn-warning">Crear Producto</button>
         </div>
-        <div class="card-body">
+        <div class="card-body" [formGroup]="formProducts">
             <table class="table table-responsive table-striped">
                 <caption>Resultados de {{products?.total}} productos</caption>
                 <thead>
                     <tr>
-                        <th scope="col"># <br><input class="form-control" type="text"></th>
-                        <th scope="col">Código <br><input class="form-control" type="text"></th>
-                        <th scope="col">Alt. <br><input class="form-control" type="text"></th>
-                        <th scope="col" colspan="2">Nombre <br><input class="form-control" type="text"></th>
-                        <th scope="col" colspan="2">Descripcion <br><input class="form-control" type="text">
+                        <th scope="col"># <br><input required formControlName="id" class="form-control"></th>
+                        <th scope="col">Código <br><input formControlName="code" class="form-control" type="text"></th>
+                        <th scope="col">Alt. <br><input formControlName="code_alt" class="form-control" type="text"></th>
+                        <th scope="col" colspan="2">Nombre <br><input formControlName="name" class="form-control" type="text"></th>
+                        <th scope="col" colspan="2">Descripcion <br><input formControlName="description" class="form-control" type="text">
                         </th>
-                        <th scope="col">Tipo <br><input class="form-control" type="text"></th>
-                        <th scope="col">Categoria <br><input class="form-control" type="text"></th>
-                        <th scope="col">Secuencia <br><input class="form-control" type="text"></th>
-                        <th scope="col">Marca <br><input class="form-control" type="text"></th>
-                        <th scope="col"></th>
+                        <th scope="col">Tipo <br><input formControlName="prefix" class="form-control" type="text"></th>
+                        <th scope="col">Categoria <br><input formControlName="category" class="form-control" type="text"></th>
+                        <th scope="col">Secuencia <br><input formControlName="sequence" class="form-control" type="text"></th>
+                        <th scope="col">Marca <br><input formControlName="brand" class="form-control" type="text"></th>
+                        <th scope="col"><button class="btn btn-primary" (click)="nextPage()" type="button">Buscar</button></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of products?.data | paginate: {
                     itemsPerPage: perPage,
                     currentPage: pageCurrent,
-                    totalItems: totalItem 
+                    totalItems: totalItem
                 }">
                         <td>{{item.id}}</td>
                         <td>{{item.code}}</td>

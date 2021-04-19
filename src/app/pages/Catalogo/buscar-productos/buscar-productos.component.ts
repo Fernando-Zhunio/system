@@ -1,5 +1,5 @@
 import { Clipboard } from "@angular/cdk/clipboard";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, DoCheck, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
@@ -21,7 +21,7 @@ import { MatSelect } from "@angular/material/select";
 import { Ipagination } from "../../../interfaces/ipagination";
 import { HeaderSearchComponent } from "../../../components/header-search/header-search.component";
 import { IpermissionStandart } from "../../../interfaces/ipermission-standart";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: "app-buscar-productos",
@@ -35,8 +35,12 @@ export class BuscarProductosComponent implements OnInit {
     private s_standartSearch: StandartSearchService,
     private dialog: MatDialog,
     private s_product: ProductsService,
-    private actived_router: ActivatedRoute
-  ) {}
+    private actived_router: ActivatedRoute,
+    private router:Router
+  ) {
+
+
+  }
   @ViewChild("select_warehouse") select_warehouse: MatSelect;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
@@ -113,10 +117,13 @@ export class BuscarProductosComponent implements OnInit {
     this.s_standartSearch
       .show("catalogs/products/get-data-filter")
       .subscribe((res) => {
-        console.log(res);
-        if (res.success) {
+        // console.log(res);
+        if (res.success && res.hasOwnProperty("success") && res.success) {
           this.prefixes = res.data.prefixes;
           this.warehouses = res.data.warehouses;
+        }
+        else {
+
         }
       });
   }
@@ -144,59 +151,9 @@ export class BuscarProductosComponent implements OnInit {
 
   selectAllWarehouse($event) {
     const index = $event.value.findIndex((x) => x == "all");
-    // if(index != -1 ){
-    // this.warehouse_ids.length
-    //   this.form_filter.get("warehouse_ids[]").setValue(['all']);
-    // }
-    // if(index != -1 && $event.value.length > 1){
-    //   let warehouses = this.form_filter.get("warehouse_ids[]").value;
-    //   warehouses.splice(index, 1);
-    //   this.form_filter.get("warehouse_ids[]").setValue(warehouses);
-    //   return;
-    // }
-    console.log($event, index);
-    // this.form_filter.get('warehouse_ids[]').setValue(["all"]);
-  }
-  // searchBar($event = { pageSize: 15, pageIndex: 0 }) {
-  //   this.pageSize = $event.pageSize;
-  //   this.isload = true;
-  //   console.log($event);
-  //   this.gotoTop();
-  //   if (this.suscrition_api) {
-  //     this.suscrition_api.unsubscribe();
-  //     console.log("cancelado llamado");
-  //   }
-  //   let data_send = {warehouse_ids:this.warehouse_ids,min:this.min,max:this.max,prefix_id:this.prefix_id}
-  //   this.suscrition_api = this.s_standartSearch
-  //     // .search(this.productSearch, pageSize, this.selected_state,this.min,this.max,'catalogs/products')
-  //     .search2("catalogs/products", {
-  //       page: $event.pageIndex + 1,
-  //       pageSize: this.pageSize,
-  //       // ...this.form_filter.value,
-  //       ...data_send,
-  //     })
-  //     .subscribe(
-  //       (response: any) => {
-  //         this.isload = false;
-  //         // console.log(response);
-  //         this.products = response.data.data;
-  //         this.length = response.data.total;
-  //         this.pageSize = response.data.per_page;
-  //         this.pageCurrent = response.data.current_page;
-  //         if (this.products.length < 1) {
-  //           this.hasData = false;
-  //         } else this.hasData = true;
-  //       },
-  //       (err) => {
-  //         this.isload = false;
-  //       }
-  //     );
-  // }
 
-  // gotoTop() {
-  //   const main = document.getElementsByClassName("app-body");
-  //   main[0].scrollTop = 0;
-  // }
+    console.log($event, index);
+  }
 
   copyCodigo(code) {
     this.clipboard.copy(code);
@@ -297,5 +254,17 @@ export class BuscarProductosComponent implements OnInit {
     else{
       this.icon_go = "segment";
     }
+  }
+
+  // ngDoCheck(){
+  //   console.log(" do check called");
+  // }
+
+  // ngAfterViewChecked(){
+  //   console.log("soy after view check called");
+  // }
+
+  ngAfterContentInit(){
+    console.log('soy el after view init')
   }
 }

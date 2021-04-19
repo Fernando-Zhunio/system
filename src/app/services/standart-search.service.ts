@@ -16,8 +16,8 @@ export class StandartSearchService {
 
   constructor(private http: HttpClient,private dialog:MatDialog) { }
 
-  index(url,page='10',pageSize='10'):Observable<any>{
-    return this.http.get<any>(this.end_point+url,{params:{page,pageSize}});
+  index(url,page='10',pageSize='10'):Observable<Iresponse> {
+    return this.http.get<Iresponse>(this.end_point+url,{params:{page,pageSize}});
   }
 
   create(url):Observable<Iresponse>{

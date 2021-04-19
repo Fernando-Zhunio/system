@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents } from './administracion-sistema-routing.module';
+import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents, ADFacebookAdsManagerMainComponents } from './administracion-sistema-routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatTabsModule} from '@angular/material/tabs';
+
 import { RolesComponent } from './roles/roles.component';
 import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -37,6 +39,15 @@ import { CreateEmailModalComponent } from '../../components/modals/create-email-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';
 import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado-libre-create-or-edit/mercado-libre-create-or-edit.component';
+import { FacebookAdsManagerComponent } from './facebook-ads-manager/facebook-ads-manager.component';
+import { MatBadgeModule} from '@angular/material/badge';
+import { MatMenuModule } from '@angular/material/menu';
+import { FacebookAdsSetComponent } from './facebook-ads-manager/facebook-ads-set/facebook-ads-set.component';
+import { FacebookAdsModalComponent } from './facebook-ads-manager/facebook-ads-modal/facebook-ads-modal.component';
+import { FacebookAdsCampaignComponent } from './facebook-ads-manager/facebook-ads-campaign/facebook-ads-campaign.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
+// import { ComprasAutomaticasComponent } from './compras-automaticas/compras-automaticas.component';
 
 // import { ConvertObjectToArrayPipe } from '../../pipes/convert-object-to-array.pipe';
 
@@ -63,7 +74,13 @@ import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado
     CreateOrEditPersonComponent,
     MercadoLibreAdminComponent,
     ADMercadoLibreAdminMainComponents,
-    MercadoLibreCreateOrEditComponent],
+    MercadoLibreCreateOrEditComponent,
+    ADFacebookAdsManagerMainComponents,
+    FacebookAdsManagerComponent,
+    FacebookAdsModalComponent,
+    FacebookAdsCampaignComponent,
+    FacebookAdsSetComponent,
+    ],
   imports: [
     CommonModule,
     AdminSystemRoutingModule,
@@ -91,13 +108,19 @@ import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado
     MatStepperModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule,
+    MatMenuModule,
+    MatBadgeModule,
+    NgxSpinnerModule,
+    // MatSlideToggle,
 
   ],
 
   entryComponents: [
     CreateEmailModalComponent,
     CreateOrEditCountryComponent,
+    FacebookAdsModalComponent,
   ]
 })
 export class AdministracionSistemaModule { }

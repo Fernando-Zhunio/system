@@ -1,5 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NgxPermissionsGuard } from 'ngx-permissions';
+import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 
 // Import Containers
@@ -74,6 +76,12 @@ export const routes: Routes = [
     // canActivate:[AuthGuard]
   },
   {
+    path:'sesion-ml',
+    component:OkLoginComponent,
+
+    // canActivate: [NgxPermissionsGuard],
+  },
+  {
     path: 'authetication',
     loadChildren: () => import('./pages/authenticate/authenticate.module').then(m => m.AuthenticateModule),
     canActivate:[AuthReverseGuard]
@@ -121,8 +129,6 @@ export const routes: Routes = [
       {
         path: 'admin-products',
         loadChildren: () => import('./pages/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule),
-
-
       },
       {
         path: 'importaciones',

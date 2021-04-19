@@ -29,6 +29,8 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
     if (!route.routeConfig || route.routeConfig.loadChildren) {
       return null;
     }
+    console.log(this.cache);
+
     return this.cache[this.getUrl(route)];
   }
 

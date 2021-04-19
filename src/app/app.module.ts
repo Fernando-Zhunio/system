@@ -94,6 +94,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { RouteReuseStrategy } from "@angular/router";
 import { CustomReusingStrategy } from "./class/custom-reusing-strategy";
+import { OkLoginComponent } from './components/ok-login/ok-login.component';
 // import { CreateEmailModalComponent } from './components/modals/create-email-modal/create-email-modal.component';
 // import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
 
@@ -188,6 +189,7 @@ import { CustomReusingStrategy } from "./class/custom-reusing-strategy";
     InConstructionComponent,
     RedirectToComponent,
     SnackBarLoaderComponent,
+    OkLoginComponent,
     // CreateEmailModalComponent,
 
 

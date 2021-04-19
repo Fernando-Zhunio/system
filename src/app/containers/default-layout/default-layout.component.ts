@@ -6,6 +6,7 @@ import { NgxPermissionsService } from "ngx-permissions";
 import { environment } from "../../../environments/environment";
 import { Inotification } from "../../interfaces/inotification";
 import { AuthService } from "../../services/auth.service";
+import { StandartSearchService } from "../../services/standart-search.service";
 import { StorageService } from "../../services/storage.service";
 import { SwalService } from "../../services/swal.service";
 import { navItems } from "../../_nav";
@@ -32,6 +33,7 @@ export class DefaultLayoutComponent implements OnInit {
     private s_auth: AuthService,
     private route: Router,
     private s_storage: StorageService,
+    private s_standart: StandartSearchService
     // private s_permission: NgxPermissionsService
   ) {}
 
@@ -112,6 +114,13 @@ export class DefaultLayoutComponent implements OnInit {
       // if(localStorage.getItem('token'))localStorage.removeItem('token');
       // this.route.navigate(['/login'])
     });
+  }
+
+  downloadStock(): void {
+    this.s_standart.create('reports/general-stock').subscribe(res => {
+      console.log(res);
+
+    })
   }
 
   changeCompany(idCompany, index): void {
@@ -550,10 +559,17 @@ export class DefaultLayoutComponent implements OnInit {
       tag: this.tags.admin_system,
     },
     {
-      name: "Mercado Libre Admin",
+      name: "Mercado Libre",
       url: "/administracion-sistema/mercado-libre/cuentas",
       icon: "far fa-handshake",
       permission: "ml.accounts.index",
+      tag: this.tags.admin_system,
+    },
+    {
+      name: "Facebook Ads Manager",
+      url: "/administracion-sistema/facebook-ads-manager",
+      icon: "icon-bag",
+      permission: "ml.purchases.index",
       tag: this.tags.admin_system,
     },
     //#endregion

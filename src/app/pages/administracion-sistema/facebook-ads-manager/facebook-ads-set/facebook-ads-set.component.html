@@ -1,0 +1,102 @@
+<div>
+    <ngx-spinner [name]="name_spinner" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
+    <app-header-search [init]="false" [filter_data]="{'status':status,'min':min,'max':max}" [placeholder]="'Buscador de Conjunto de anuncios'" (isload)="loaderTable($event)" [url]="urlData" (products)="loadData($event)">
+        <mat-chip-list class="ml-1">
+            <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
+                <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+            <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                <mat-form-field class="w-100">
+                    <mat-label>Estados</mat-label>
+                    <mat-select [value]="3" [(ngModel)]="status">
+                        <mat-option value="3">Todos</mat-option>
+                        <mat-option value="2">
+                            Activo
+                        </mat-option>
+                        <mat-option value="1">
+                            Inactivo
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row m-0 p-0" style="text-overflow: initial;" mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                <mat-form-field class="col-6">
+                    <mat-label>Stock Min</mat-label>
+                    <input matInput type="number" [(ngModel)]="min" type="number" class="" />
+                </mat-form-field>
+                <mat-form-field class="col-6">
+                    <mat-label>Stock Max</mat-label>
+                    <input [(ngModel)]="max" type="number" matInput class="" />
+                </mat-form-field>
+            </div>
+            <div mat-menu-item [disableRipple]="true" class="h-100">
+                <button mat-raised-button (click)="applyFilter()">Aplicar filtros</button>
+            </div>
+        </mat-menu>
+    </app-header-search>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="state">
+            <mat-header-cell class="state-item" *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell class="state-item" *matCellDef="let element">
+                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+          <input (change)="changeState(element.id,$event)" type="checkbox" class="switch-input"
+            [checked]="(element?.status=='ACTIVE')?true:false">
+          <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+        </label>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="image">
+            <mat-header-cell *matHeaderCellDef>Imagen</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="d-block">
+                <img class="img-fluid" width="100" height="100" [src]="element.thumbnail_url + '&w=100&h=100'" alt="img">
+                <!-- <div [ngStyle]="status_object[element.stock_status]?.css" class="font-sm badge">{{element.stock_status}}</div> -->
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="riesgo">
+            <mat-header-cell *matHeaderCellDef>Riesgo</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="d-block">
+                <div [ngStyle]="status_object[element.stock_status]?.css" class="font-sm badge">{{status_object[element.stock_status].value}}</div>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <mat-header-cell class="name-item" *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell class="name-item" *matCellDef="let element"> {{element.name}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="min_stock">
+            <mat-header-cell *matHeaderCellDef> Stop min </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.min_stock}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="start">
+            <mat-header-cell *matHeaderCellDef> Iniciado </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.created_time | date}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status_effective">
+            <mat-header-cell *matHeaderCellDef> Estado efectivo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.effective_status}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let element;let ind = index">
+                <button mat-icon-button [disabled]="element.products_set.products.length < 1" (click)="viewProduct(element.id)" color="primary">
+          <mat-icon [matBadge]="element.products_set.products.length" matBadgeColor="accent"
+            matBadgePosition="above after">visibility</mat-icon>
+        </button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1"></mat-paginator>
+</div>

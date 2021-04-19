@@ -1,0 +1,17 @@
+.add-item {
+    flex: .3;
+}
+
+.state-item {
+    flex: .5;
+}
+
+.name-item {
+    flex: 2;
+    padding: 5px;
+}
+
+.btn-close {
+    right: 4px;
+    top: -1px;
+}
