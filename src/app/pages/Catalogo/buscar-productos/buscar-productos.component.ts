@@ -89,16 +89,16 @@ export class BuscarProductosComponent implements OnInit {
         spaceBetween: 5,
       },
       // when window width is >= 640px
-      600: {
+      601: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      950: {
         slidesPerView: 2,
         spaceBetween: 10,
       },
-      800: {
-        slidesPerView: 3,
-        spaceBetween: 10,
-      },
       1200: {
-        slidesPerView: 4,
+        slidesPerView: 2,
         spaceBetween: 10,
       },
     },

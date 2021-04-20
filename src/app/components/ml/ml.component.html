@@ -24,7 +24,8 @@
         <button mat-mini-fab (click)="openDescription()">
       <mat-icon class="mat-18">read_more</mat-icon>
     </button>
-        <div [ngStyle]="ml_state[ml.status]?.css" class="text-uppercase style-status badge  position-absolute mb-1 ">{{ml_state[ml.status]?.value }}
+        <div [ngStyle]="ml_state[ml.status]?.css" class="text-uppercase style-status badge  position-absolute mb-1 ">
+            {{ml_state[ml.status]?.value }}
         </div>
         <div class="card-body pt-1">
             <div class="w-100">

@@ -28,26 +28,16 @@ export class DefaultLayoutComponent implements OnInit {
   public companies = [];
   public company_select = null;
   public isDark: boolean = false;
+  public TYPE_NOTY_SOUND = "general_notification_sound";
+  public TYPE_NOTY_WEBPUSH = "general_notification_webpush";
+  public TYPE_NOTY_EMAIL = "general_notification_email";
 
   constructor(
     private s_auth: AuthService,
     private route: Router,
     private s_storage: StorageService,
-    private s_standart: StandartSearchService
-    // private s_permission: NgxPermissionsService
+    private s_standart: StandartSearchService // private s_permission: NgxPermissionsService
   ) {}
-
-  getValueDark(): void {
-    if (!localStorage.getItem("isDark"))
-      localStorage.setItem("isDark", JSON.stringify(this.isDark));
-    else this.isDark = JSON.parse(localStorage.getItem("isDark"));
-  }
-
-  changeDark(value) {
-    console.log(value.target.checked);
-    this.isDark = value.target.checked;
-    localStorage.setItem("isDark", JSON.stringify(this.isDark));
-  }
 
   ngOnInit(): void {
     this.getValueDark();
@@ -55,7 +45,6 @@ export class DefaultLayoutComponent implements OnInit {
     let username = user.name.replace(" ", "+");
     this.url_img = "https://ui-avatars.com/api/?name=" + username;
     this.companies = user.companies;
-    console.log(this.companies);
     const id_company = user.company_company_id;
     const index = this.companies.findIndex((x) => x.id == id_company);
     if (index == -1) {
@@ -70,38 +59,90 @@ export class DefaultLayoutComponent implements OnInit {
     }
 
     const endpoint = environment.server;
-    const domain_serve = environment.domain_serve;
+    // const domain_serve = environment.domain_serve;
+    const domain_serve = "192.168.1.74";
+    const port_ = "6001";
+    // const domain_serve = '0.tcp.ngrok.io';
+    // const endpoint = 'http://'+domain_serve +'/api/';
     this.navItems = this.generateSideBarItems();
     let token = "Bearer " + this.s_storage.getCurrentToken();
 
     // descomentar para notificaciones ------------------------------------------------------------------------------
 
-    // const echo = new Echo({
-    //   broadcaster: "pusher",
-    //   cluster: "mt1",
-    //   key: "03045e5e16a02b690e4c",
-    //   authEndpoint: endpoint + "broadcasting/auth",
-    //   wsHost: domain_serve,
-    //   disableStats: true,
-    //   encrypted: false,
-    //   wsPort: 6001,
-    //   wssPort: 6001,
-    //   enabledTransports: ["ws", "wss"],
-    //   forceTLS: false,
-    //   auth: {
-    //     headers: {
-    //       Authorization: token,
-    //       "Access-Control-Allow-Origin": "*",
-    //     },
-    //   },
-    // });
-    // echo.private("App.User." + user.id).notification((notify) => {
-    //   console.log(notify);
-    //   const dataNoty: Inotification = notify.data_rendered;
-    //   console.log(dataNoty);
-    //   SwalService.swalToastNotification(dataNoty.text, dataNoty.image);
-    // });
+    const echo = new Echo({
+      broadcaster: "pusher",
+      cluster: "mt1",
+      // key: "03045e5e16a02b690e4c",
+      key: "1564856898",
+      authEndpoint: endpoint + "broadcasting/auth",
+      wsHost: domain_serve,
+      disableStats: true,
+      encrypted: false,
+      wsPort: port_,
+      wssPort: port_,
+      enabledTransports: ["ws", "wss"],
+      forceTLS: false,
+      auth: {
+        headers: {
+          Authorization: token,
+          // "Access-Control-Allow-Origin": "*",
+        },
+      },
+    });
+    echo.private("App.User." + user.id).notification((notify) => {
+      console.log(notify);
+      const dataNoty: Inotification = notify.data_rendered;
+      console.log({dataNoty});
+      SwalService.swalToastNotification(dataNoty.text, dataNoty.image);
+    });
   }
+
+  getValueDark(): void {
+    if (!localStorage.getItem("isDark"))
+      localStorage.setItem("isDark", JSON.stringify(this.isDark));
+    else this.isDark = JSON.parse(localStorage.getItem("isDark"));
+  }
+
+  changeDark(value) {
+    this.isDark = value.target.checked;
+    localStorage.setItem("isDark", JSON.stringify(this.isDark));
+  }
+
+  changeWebPush(type_notify, value): void {
+    // this.pushStateChange(id);
+    value.target.disabled = true;
+    const data_send = {
+      preference: "general_notification_email",
+      value: value.target.checked ? "on" : "off",
+    };
+    const url = "user/preferences/" + type_notify;
+    this.s_standart.updatePut(url, data_send).subscribe(
+      (res) => {
+        if (res && res.hasOwnProperty("success") && res.success) {
+          SwalService.swalToast((value.target.checked ? "Activadas" : "Desactivada"));
+        } else {
+          value.target.checked = !value.target.checked;
+        }
+        value.target.disabled = false;
+      },
+      (err) => {
+        value.target.checked = !value.target.checked;
+        value.target.disabled = false;
+      }
+    );
+  }
+
+  // pushStateChange(id): void {
+  //   var node = document.createElement("DIV");
+  //   var textnode = document.createTextNode("Espere...");
+  //   node.appendChild(textnode);
+  //   node.classList.add('parpadeo');
+  //   document.getElementById(id).appendChild(node);
+  // }
+  // delete(id):void{
+
+  // }
+
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
@@ -117,10 +158,9 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   downloadStock(): void {
-    this.s_standart.create('reports/general-stock').subscribe(res => {
+    this.s_standart.create("reports/general-stock").subscribe((res) => {
       console.log(res);
-
-    })
+    });
   }
 
   changeCompany(idCompany, index): void {
@@ -195,8 +235,6 @@ export class DefaultLayoutComponent implements OnInit {
     admin_system: "section_admin_system",
   };
 
-
-
   generateSideBarItems(): INavData[] {
     const permissionAndRol = this.s_storage.getRolAndPermissionUser();
     const mergePermissionAndRol: string[] = [
@@ -217,7 +255,6 @@ export class DefaultLayoutComponent implements OnInit {
         (x) => x.permission == mergePermissionAndRol[j]
       );
       if (item != undefined) {
-        console.log(item.tag);
         this.new_Item_data[item.tag].push(item);
       }
     }
@@ -227,8 +264,8 @@ export class DefaultLayoutComponent implements OnInit {
     const keysTags = Object.keys(this.new_Item_data);
     for (let i = 0; i < keysTags.length; i++) {
       // const element = array[i];
-      if(this.new_Item_data[keysTags[i]].length > 1){
-        data_return.push(...this.new_Item_data[keysTags[i]])
+      if (this.new_Item_data[keysTags[i]].length > 1) {
+        data_return.push(...this.new_Item_data[keysTags[i]]);
       }
     }
     return data_return;

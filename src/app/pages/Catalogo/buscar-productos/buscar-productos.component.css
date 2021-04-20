@@ -87,6 +87,16 @@
     animation: go_animation 1s normal;
 }
 
+.card-columns {
+    column-count: 2;
+}
+
+@media (max-width:600px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
 @keyframes go_animation {
     0% {
         transform: scale(1);

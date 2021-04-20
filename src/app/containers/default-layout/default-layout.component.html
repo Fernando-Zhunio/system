@@ -8,8 +8,8 @@
         <li class="nav-item ">
             <a (click)="downloadStock()" class="d-flex align-items-center nav-link" href="javascript:void(0)">
                 <span class="material-icons">
-            download_for_offline
-            </span> Descagar stock
+          download_for_offline
+        </span> Descagar stock
             </a>
         </li>
     </ul>
@@ -304,7 +304,7 @@
               <i class="fas fa-cloud-moon fa-2x" [ngClass]="[!isDark?'dark':'not-dark']"></i> -->
 
                             <label class="switch switch-label switch-pill switch-success switch-sm float-right">
-                <input (change)="changeDark($event)"  [(ngModel)]="isDark" type="checkbox" class="switch-input" checked>
+                <input (change)="changeDark($event)" [(ngModel)]="isDark" type="checkbox" class="switch-input" checked>
                 <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
               </label>
                         </div>
@@ -312,19 +312,30 @@
                             <small class="text-muted">Cambia la interfaz de modo claro a oscuro y viceversa</small>
                         </div>
                     </div>
-                    <!-- <div class="aside-options">
-            <div class="clearfix mt-3">
-              <small><b>Option 2</b></small>
-              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
-                <input type="checkbox" class="switch-input">
-                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
-              </label>
-            </div>
-            <div>
-              <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua.</small>
-            </div>
-          </div> -->
+                    <hr>
+                    <div class="aside-options">
+                        <div class="clearfix mt-3">
+                            <small><b>Notificaciones</b></small><br>
+                            <div>
+                                <small>Web push Notificaciones</small>
+                                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                  <input type="checkbox" (change)="changeWebPush(TYPE_NOTY_WEBPUSH,$event)" class="switch-input">
+                  <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                </label>
+                            </div>
+                            <div class="d-flex justify-content-between w-100">
+                                <small>Notificacion por email</small>
+                                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                  <input type="checkbox" (change)="changeWebPush(TYPE_NOTY_EMAIL,$event)" class="switch-input">
+                  <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <small class="text-muted">Activa o desactiva las notificaciones tan via correo electronico con web
+                push</small>
+                        </div>
+                    </div>
                     <!-- <div class="aside-options">
             <div class="clearfix mt-3">
               <small><b>Option 3</b></small>
