@@ -43,19 +43,39 @@ export class CustomInterceptor implements HttpInterceptor {
     //   title: "Loading cars from data base",
     // });
     // Swal.showLoading();
-     const swal = Swal.fire({
-      title: 'Cargando espere ...',
-      position : "bottom-end",
-      toast:true,
+    const swal = Swal.fire({
+      // title: ,
+      position: "bottom-end",
+      toast: true,
       showConfirmButton: false,
+      title: '<div class="d-flex font-weight-bold">Cargando <div style="display:block;margin:0 0 0 15px" class="swal2-loader d-block ml-2 mr-1"></div></div>',
+      customClass: {
+        // container: "p-2",
+        popup: "p-2",
+        // header: "p-2",
+        // title: "p-2",
+        // closeButton: "p-2",
+        // icon: "p-2",
+        // image: "p-2",
+        // content: "p-2",
+        // htmlContainer: "p-2",
+        // input: "p-2",
+        // inputLabel: "p-2",
+        // validationMessage: "p-2",
+        // actions: "p-2",
+        // confirmButton: "p-2",
+        // denyButton: "p-2",
+        // cancelButton: "p-2",
+        // loader: "p-2",
+        // footer: "p-2.",
+      },
+      // timer:5000,
       // allowOutsideClick:false,
       // allowEnterKey:false,
-      onBeforeOpen: () => {
-          Swal.showLoading()
-      },
-  });
-
-
+      // onBeforeOpen: () => {
+      //     Swal.showLoading()
+      // },
+    });
 
     return next.handle(newResquest).pipe(
       finalize(() => {
@@ -82,10 +102,7 @@ export class CustomInterceptor implements HttpInterceptor {
             break;
           case 422:
             if (err.error.hasOwnProperty("success")) {
-              SwalService.swalToast(
-                err.error.data,
-                "warning"
-              );
+              SwalService.swalToast(err.error.data, "warning");
             } else {
               SwalService.swalToast(
                 "Contenido improcesable codigo 422",
@@ -108,10 +125,7 @@ export class CustomInterceptor implements HttpInterceptor {
 
           default:
             if (err.error.hasOwnProperty("success")) {
-              SwalService.swalToast(
-                err.error.data,
-                "warning"
-              );
+              SwalService.swalToast(err.error.data, "warning");
             } else {
               SwalService.swalToast(
                 "Ups! Ocurrio un problema intentalo de nuevo,code: 500",

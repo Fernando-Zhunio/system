@@ -16,7 +16,7 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
 
   store(route: ActivatedRouteSnapshot, handler: DetachedRouteHandle): void {
     if (handler) {
-      console.log(this.getUrl(route));
+      // console.log(this.getUrl(route));
       this.cache[this.getUrl(route)] = handler;
     }
   }
@@ -29,14 +29,14 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
     if (!route.routeConfig || route.routeConfig.loadChildren) {
       return null;
     }
-    console.log(this.cache);
+    // console.log(this.cache);
 
     return this.cache[this.getUrl(route)];
   }
 
   shouldReuseRoute(future: ActivatedRouteSnapshot,current: ActivatedRouteSnapshot): boolean {
     if (future.routeConfig &&future.routeConfig?.data && future.routeConfig?.data?.reuse !== undefined) {
-      console.log(future.routeConfig.data.reuse);
+      // console.log(future.routeConfig.data.reuse);
       return future.routeConfig.data?.reuse;
     }
     return future.routeConfig === current.routeConfig;

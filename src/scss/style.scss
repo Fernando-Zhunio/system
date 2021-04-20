@@ -4,10 +4,7 @@
 @import "~@coreui/coreui/scss/coreui";
 // If you want to add something do it here
 @import "custom";
-// @import '~swiper/swiper-bundle';
-// @import '~ngx-org-chart/_theming.scss';
 .justify-end>div {
-    // justify-content: flex-end;
     display: block;
 }
 
@@ -15,9 +12,6 @@ button {
     outline: none;
 }
 
-// .swiper-container {
-//     padding: 10px;
-// }
 a img {
     object-fit: contain;
     height: 200px;
@@ -38,7 +32,6 @@ a img {
 .dark-super {
     background-color: #2f353a !important;
     color: white !important;
-    // transition: all 2s;
     mat-card,
     mat-paginator,
     mat-table,
@@ -93,9 +86,6 @@ canvas {
     background-color: #e4e7ea !important;
 }
 
-// .mat-tab-body-content {
-//     background-color: #e4e7ea !important;
-// }
 .font-facebook {
     font-family: Segoe ui !important;
     font-weight: 700 !important;
@@ -108,7 +98,6 @@ canvas {
 
 * {
     font-family: Segoe ui;
-    font-weight: 700;
 }
 
 .border-dot {
@@ -150,7 +139,6 @@ button {
     }
 }
 
-// region table
 @media (max-width: 768px) {
     .mat-table {
         overflow-x: auto;
@@ -172,5 +160,3 @@ button {
         display: table-row;
     }
 }
-
-// fin de region table

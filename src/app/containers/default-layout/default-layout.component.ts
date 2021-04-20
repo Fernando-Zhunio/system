@@ -42,6 +42,8 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.getValueDark();
     let user = this.s_storage.getCurrentUser();
+    console.log(user);
+
     let username = user.name.replace(" ", "+");
     this.url_img = "https://ui-avatars.com/api/?name=" + username;
     this.companies = user.companies;
@@ -58,22 +60,23 @@ export class DefaultLayoutComponent implements OnInit {
       }
     }
 
-    const endpoint = environment.server;
-    // const domain_serve = environment.domain_serve;
-    const domain_serve = "192.168.1.74";
-    const port_ = "6001";
-    // const domain_serve = '0.tcp.ngrok.io';
-    // const endpoint = 'http://'+domain_serve +'/api/';
     this.navItems = this.generateSideBarItems();
     let token = "Bearer " + this.s_storage.getCurrentToken();
+
+    const endpoint = environment.server;
+    const domain_serve = environment.domain_serve;
+    // const domain_serve = "192.168.1.74";
+    const port_ = 6001;
+    // const domain_serve = '0.tcp.ngrok.io';
+    // const endpoint = 'http://'+domain_serve +'/api/';
 
     // descomentar para notificaciones ------------------------------------------------------------------------------
 
     const echo = new Echo({
       broadcaster: "pusher",
       cluster: "mt1",
-      // key: "03045e5e16a02b690e4c",
-      key: "1564856898",
+      key: "03045e5e16a02b690e4c",
+      // key: "1564856898",
       authEndpoint: endpoint + "broadcasting/auth",
       wsHost: domain_serve,
       disableStats: true,
@@ -89,11 +92,12 @@ export class DefaultLayoutComponent implements OnInit {
         },
       },
     });
+
     echo.private("App.User." + user.id).notification((notify) => {
       console.log(notify);
       const dataNoty: Inotification = notify.data_rendered;
-      console.log({dataNoty});
-      SwalService.swalToastNotification(dataNoty.text, dataNoty.image);
+      console.log({ dataNoty });
+      SwalService.swalToastNotification(dataNoty.text,dataNoty.type, dataNoty.image);
     });
   }
 
@@ -101,6 +105,39 @@ export class DefaultLayoutComponent implements OnInit {
     if (!localStorage.getItem("isDark"))
       localStorage.setItem("isDark", JSON.stringify(this.isDark));
     else this.isDark = JSON.parse(localStorage.getItem("isDark"));
+  }
+
+  testNotification(): void {
+    const notify = {
+      // title:
+      //   "Notificacion de test - Anuncio pausado por que esta es una notificacion de test para implementarlo en el nuevo front-end",
+      // imageUrl:
+      //   "https://www.novicompu.com/12921-large_default/google-smart-light-home-mini-mas-foco-inteligente.jpg",
+      // imageWidth: "50px",
+      // imageHeight: "50px",
+
+      type: "warning",
+      text:
+        "Notificacion de test - Anuncio pausado por que esta es una notificacion de test para implementarlo en el nuevo front-end",
+      icon: "notifications",
+      image:
+        "https://www.novicompu.com/12921-large_default/google-smart-light-home-mini-mas-foco-inteligente.jpg",
+      user: {
+        id: 32,
+        name: "System",
+        email: "system@novicompu.com",
+        api_token: null,
+        admin: 0,
+        last_activity: "2020-01-29T00:08:04.000000Z",
+        created_at: "2020-01-28T19:08:04.000000Z",
+        updated_at: "2020-01-28T19:08:04.000000Z",
+        deleted_at: null,
+      },
+      url:
+        "https://www.novicompu.com/12921-large_default/google-smart-light-home-mini-mas-foco-inteligente.jpg",
+    };
+
+    SwalService.swalToastNotification(notify.text,notify.type, notify.image);
   }
 
   changeDark(value) {
@@ -119,7 +156,9 @@ export class DefaultLayoutComponent implements OnInit {
     this.s_standart.updatePut(url, data_send).subscribe(
       (res) => {
         if (res && res.hasOwnProperty("success") && res.success) {
-          SwalService.swalToast((value.target.checked ? "Activadas" : "Desactivada"));
+          SwalService.swalToast(
+            value.target.checked ? "Activadas" : "Desactivada"
+          );
         } else {
           value.target.checked = !value.target.checked;
         }

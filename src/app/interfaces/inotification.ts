@@ -4,7 +4,7 @@ export interface Inotification {
     type: string;
     url: string;
     user:Iuser;
-    image:string;
+    image?:string;
 }
 
 export interface Iuser {

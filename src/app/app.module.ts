@@ -95,6 +95,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { RouteReuseStrategy } from "@angular/router";
 import { CustomReusingStrategy } from "./class/custom-reusing-strategy";
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 // import { CreateEmailModalComponent } from './components/modals/create-email-modal/create-email-modal.component';
 // import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
 
@@ -165,6 +167,7 @@ import { OkLoginComponent } from './components/ok-login/ok-login.component';
     NgxGalleryModule,
     MatSnackBarModule,
     MatSlideToggleModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
     // MatTabsModule
 

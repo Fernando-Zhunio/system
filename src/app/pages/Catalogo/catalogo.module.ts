@@ -76,6 +76,6 @@ import { ConvertsModule } from '../../Modulos/converts/converts.module';
     SortablejsModule.forRoot({ animation: 150 }),
   ],
   // providers: [{ provide: RouteReuseStrategy, useClass: CustomReusingStrategy }]
-  // entryComponents:[RepublicarCuentasModalComponent]
+  entryComponents:[RepublicarCuentasModalComponent]
 })
 export class CatalogoModule { }
