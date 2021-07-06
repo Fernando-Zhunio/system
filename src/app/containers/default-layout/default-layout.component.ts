@@ -1,11 +1,15 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+// import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
+import { Router, RouteReuseStrategy } from "@angular/router";
 import { INavData } from "@coreui/angular";
 import Echo from "laravel-echo";
 import { NgxPermissionsService } from "ngx-permissions";
+import { Subscription } from "rxjs";
 import { environment } from "../../../environments/environment";
+import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
 import { Inotification } from "../../interfaces/inotification";
 import { AuthService } from "../../services/auth.service";
+import { SharedService } from "../../services/shared/shared.service";
 import { StandartSearchService } from "../../services/standart-search.service";
 import { StorageService } from "../../services/storage.service";
 import { SwalService } from "../../services/swal.service";
@@ -17,6 +21,7 @@ import { navItems } from "../../_nav";
     "button {outline: none;}",
     ".dark{color:gray}",
     ".not-dark{color:goldenrod}",
+    ".disabled {pointer-events: none;cursor: default;}"
   ],
   templateUrl: "./default-layout.component.html",
 })
@@ -29,24 +34,58 @@ export class DefaultLayoutComponent implements OnInit {
   public company_select = null;
   public isDark: boolean = false;
   public TYPE_NOTY_SOUND = "general_notification_sound";
-  public TYPE_NOTY_WEBPUSH = "general_notification_webpush";
-  public TYPE_NOTY_EMAIL = "general_notification_email";
-
+  public TYPE_NOTY_WEBPUSH = {
+    value: "general_notification_webpush",
+    state: false,
+  };
+  public TYPE_NOTY_EMAIL = {
+    value: "general_notification_email",
+    state: false,
+  };
+  public isDownloadStock: boolean = false;
+  private suscriptionNotifaction :Subscription;
+  public notifications: Inotification[] = [];
+  colorSidebarLeft:string;
   constructor(
     private s_auth: AuthService,
     private route: Router,
     private s_storage: StorageService,
-    private s_standart: StandartSearchService // private s_permission: NgxPermissionsService
-  ) {}
+    private s_standart: StandartSearchService ,
+    public s_shared: SharedService,
+    private s_custom_reusing: RouteReuseStrategy ,
+  ) {
+    // s_custom_reusing ;
+  }
 
   ngOnInit(): void {
+    if(localStorage.getItem('color_sidebar_left')){
+      this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
+    } else this.colorSidebarLeft = '#054372';
     this.getValueDark();
     let user = this.s_storage.getCurrentUser();
-    console.log(user);
+    this.s_standart.index("user/preferences/ajax").subscribe((res) => {
+      if (res && res.hasOwnProperty("success") && res.success) {
+        this.TYPE_NOTY_EMAIL.state =
+          res.data[this.TYPE_NOTY_EMAIL.value] == "on" ? true : false;
+        this.TYPE_NOTY_WEBPUSH.state =
+          res.data[this.TYPE_NOTY_WEBPUSH.value] == "on" ? true : false;
+      }
+    });
+
+    this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(res=>{
+      this.notifications = res;
+    });
+
+    this.s_standart.index("notifications/ajax").subscribe((res) => {
+      if (res && res.hasOwnProperty("success") && res.success) {
+        this.s_shared.changeNotifications(res.data)
+      }
+    });
 
     let username = user.name.replace(" ", "+");
     this.url_img = "https://ui-avatars.com/api/?name=" + username;
     this.companies = user.companies;
+    localStorage.setItem('companies',JSON.stringify(this.companies));
     const id_company = user.company_company_id;
     const index = this.companies.findIndex((x) => x.id == id_company);
     if (index == -1) {
@@ -62,12 +101,10 @@ export class DefaultLayoutComponent implements OnInit {
 
     this.navItems = this.generateSideBarItems();
     let token = "Bearer " + this.s_storage.getCurrentToken();
-
     const endpoint = environment.server;
     const domain_serve = environment.domain_serve;
     // const domain_serve = "192.168.1.74";
     const port_ = 6001;
-    // const domain_serve = '0.tcp.ngrok.io';
     // const endpoint = 'http://'+domain_serve +'/api/';
 
     // descomentar para notificaciones ------------------------------------------------------------------------------
@@ -93,12 +130,44 @@ export class DefaultLayoutComponent implements OnInit {
       },
     });
 
-    echo.private("App.User." + user.id).notification((notify) => {
+    echo.private("App.User." + user.id).notification((notify:Inotification) => {
       console.log(notify);
-      const dataNoty: Inotification = notify.data_rendered;
-      console.log({ dataNoty });
-      SwalService.swalToastNotification(dataNoty.text,dataNoty.type, dataNoty.image);
+      this.s_shared.addNotification(notify);
+      const data_rendered = notify.data;
+      console.log({ data_rendered });
+      let name_user: string = "System";
+      if (data_rendered.user.hasOwnProperty("person") && data_rendered.user.person) {
+        name_user = `${data_rendered.user.person.first_name} ${data_rendered.user.person.last_name}`;
+      } else {
+        name_user = data_rendered.user.name;
+      }
+      SwalService.swalToastNotification(
+        this.route,
+        name_user,
+        data_rendered.text,
+        data_rendered.type,
+        data_rendered.image,
+        data_rendered.url
+      );
     });
+  }
+
+  ngOnDestroy(): void {
+    if(this.suscriptionNotifaction){
+      this.suscriptionNotifaction.unsubscribe();
+    }
+  }
+
+  changeColor(event):void{
+    console.log(event);
+    this.colorSidebarLeft = event.target.value
+    localStorage.setItem('color_sidebar_left',event.target.value)
+  }
+
+  goRouteNotification(url:any):void{
+    // console.log(url);
+    if(url)
+    this.route.navigate([url.path])
   }
 
   getValueDark(): void {
@@ -107,38 +176,6 @@ export class DefaultLayoutComponent implements OnInit {
     else this.isDark = JSON.parse(localStorage.getItem("isDark"));
   }
 
-  testNotification(): void {
-    const notify = {
-      // title:
-      //   "Notificacion de test - Anuncio pausado por que esta es una notificacion de test para implementarlo en el nuevo front-end",
-      // imageUrl:
-      //   "https://www.novicompu.com/12921-large_default/google-smart-light-home-mini-mas-foco-inteligente.jpg",
-      // imageWidth: "50px",
-      // imageHeight: "50px",
-
-      type: "warning",
-      text:
-        "Notificacion de test - Anuncio pausado por que esta es una notificacion de test para implementarlo en el nuevo front-end",
-      icon: "notifications",
-      image:
-        "https://www.novicompu.com/12921-large_default/google-smart-light-home-mini-mas-foco-inteligente.jpg",
-      user: {
-        id: 32,
-        name: "System",
-        email: "system@novicompu.com",
-        api_token: null,
-        admin: 0,
-        last_activity: "2020-01-29T00:08:04.000000Z",
-        created_at: "2020-01-28T19:08:04.000000Z",
-        updated_at: "2020-01-28T19:08:04.000000Z",
-        deleted_at: null,
-      },
-      url:
-        "https://www.novicompu.com/12921-large_default/google-smart-light-home-mini-mas-foco-inteligente.jpg",
-    };
-
-    SwalService.swalToastNotification(notify.text,notify.type, notify.image);
-  }
 
   changeDark(value) {
     this.isDark = value.target.checked;
@@ -149,7 +186,7 @@ export class DefaultLayoutComponent implements OnInit {
     // this.pushStateChange(id);
     value.target.disabled = true;
     const data_send = {
-      preference: "general_notification_email",
+      preference: type_notify,
       value: value.target.checked ? "on" : "off",
     };
     const url = "user/preferences/" + type_notify;
@@ -171,17 +208,6 @@ export class DefaultLayoutComponent implements OnInit {
     );
   }
 
-  // pushStateChange(id): void {
-  //   var node = document.createElement("DIV");
-  //   var textnode = document.createTextNode("Espere...");
-  //   node.appendChild(textnode);
-  //   node.classList.add('parpadeo');
-  //   document.getElementById(id).appendChild(node);
-  // }
-  // delete(id):void{
-
-  // }
-
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
@@ -191,14 +217,15 @@ export class DefaultLayoutComponent implements OnInit {
       if (res.success) {
         this.s_storage.logout();
       }
-      // if(localStorage.getItem('token'))localStorage.removeItem('token');
-      // this.route.navigate(['/login'])
     });
   }
 
   downloadStock(): void {
+    this.isDownloadStock = true;
     this.s_standart.create("reports/general-stock").subscribe((res) => {
       console.log(res);
+      this.isDownloadStock = false;
+      SwalService.swalToast(res.data,'success','bottom-end')
     });
   }
 
@@ -210,9 +237,18 @@ export class DefaultLayoutComponent implements OnInit {
         // const aux_company = this.company_select;
         this.company_select = this.companies[index].name;
         this.s_storage.setCompanyUser(idCompany);
-        this.route.navigateByUrl(`/`).then(() => {
-          this.route.navigateByUrl(this.route.url);
-        });
+        // console.log(this.s_custom_reusing['cache']);
+        // console.log(this.s_custom_reusing['cache']);
+
+        // this.route.navigateByUrl(`/`).then(() => {
+        //   this.route.navigateByUrl(this.route.url);
+        // });
+        this.route.navigate(['/']).then(()=>{
+          this.s_custom_reusing['cache'] = {};
+
+        })
+        // const custon = this.s_custom_reusing as CustomReusingStrategy;
+        // custon.clearCache()
         // this.companies[index].name = aux_company;
       }
       // SwalService.swalToast('Up! a ocu');
@@ -285,7 +321,7 @@ export class DefaultLayoutComponent implements OnInit {
       return this.navItems_;
     }
 
-    console.log(mergePermissionAndRol);
+    // console.log(mergePermissionAndRol);
 
     const sizePermissionAndRol = mergePermissionAndRol.length;
 
@@ -307,16 +343,21 @@ export class DefaultLayoutComponent implements OnInit {
         data_return.push(...this.new_Item_data[keysTags[i]]);
       }
     }
+    data_return = [
+      {
+        title: true,
+        name: "Home",
+      },
+      {
+        name: "Inicio",
+        url: "/inicio",
+        icon: "icon-home",
+        // permission: "products-admin.products.index",
+        // tag: this.tags.admin_products,
+      },
+      ...data_return
+    ];
     return data_return;
-
-    // return [
-    //   ...this.new_Item_data.section_admin_products,
-    //   ...this.new_Item_data.section_catalogo,
-    //   ...this.new_Item_data.section_imports,
-    //   ...this.new_Item_data.section_info_general,
-    //   ...this.new_Item_data.section_report,
-    //   ...this.new_Item_data.section_admin_system,
-    // ];
   }
 
   navItemsForCategories = {
@@ -328,6 +369,12 @@ export class DefaultLayoutComponent implements OnInit {
       {
         name: "Productos",
         url: "/admin-products/productos",
+        icon: "icon-basket",
+        permission: "products-admin.products.index",
+      },
+      {
+        name: "Vtex Productos",
+        url: "/admin-products/vtex-products",
         icon: "icon-basket",
         permission: "products-admin.products.index",
       },
@@ -470,6 +517,24 @@ export class DefaultLayoutComponent implements OnInit {
   };
 
   navItems_: INavData[] = [
+    {
+      title: true,
+      name: "Home",
+    },
+    {
+      name: "Inicio",
+      url: "/home/inicio",
+      icon: "icon-home",
+      // permission: "products-admin.products.index",
+      // tag: this.tags.admin_products,
+    },
+    {
+      name: "Dashboard",
+      url: "/home/dashboard",
+      icon: "icon-speedometer",
+      // permission: "products-admin.products.index",
+      // tag: this.tags.admin_products,
+    },
     //#region admin products
     {
       title: true,
@@ -478,6 +543,13 @@ export class DefaultLayoutComponent implements OnInit {
     {
       name: "Productos",
       url: "/admin-products/productos",
+      icon: "icon-basket",
+      permission: "products-admin.products.index",
+      tag: this.tags.admin_products,
+    },
+    {
+      name: "Vtex Productos",
+      url: "/admin-products/vtex-products",
       icon: "icon-basket",
       permission: "products-admin.products.index",
       tag: this.tags.admin_products,
@@ -645,7 +717,7 @@ export class DefaultLayoutComponent implements OnInit {
       name: "Facebook Ads Manager",
       url: "/administracion-sistema/facebook-ads-manager",
       icon: "icon-bag",
-      permission: "ml.purchases.index",
+      permission: "admin.facebook-ads.campaigns.index",
       tag: this.tags.admin_system,
     },
     //#endregion
@@ -802,4 +874,6 @@ export class DefaultLayoutComponent implements OnInit {
     //   permission: "admin.locations.index",
     // },
   ];
+
+
 }

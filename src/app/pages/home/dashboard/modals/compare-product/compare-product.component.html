@@ -1,0 +1,61 @@
+<button color="warn" mat-icon-button class="btn-close-compare float-right" (click)="closeCompare()">
+  <mat-icon>close</mat-icon>
+</button>
+<div class="container">
+  <h2 class="font-facebook font-5xl">Comparador de {{currentCompare}}</h2>
+  <div>
+    <app-header-search (products)="getItems($event)" [init]="false" [url]="url"
+      [placeholder]="'Buscador de '+currentCompare">
+
+      <mat-chip-list class="ml-1">
+        <mat-chip class="text-truncate bg-warning" (click)="compareNow()">
+          <!-- <mat-icon class="text-black-50" type="search">filter_alt</mat-icon> -->
+          Comparar!
+        </mat-chip>
+      </mat-chip-list>
+      <div class="selections-back">
+        <small>Maximo 4 item</small>
+        <div class="d-flex">
+          <div *ngFor="let item of itemsCompare" class="border-bottom bg-dark shadow-fz m-1 position-relative">
+            <button color="warn" mat-icon-button class="btn-remove-compare" (click)="removeItemCompare(item.id)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div class="d-flex align-items-center">
+              <span class="p-3 text-truncate">{{item.name}}</span><span><img class="img-select" [src]="item.image"
+                  alt=""></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-header-search>
+    <!-- <div class=" row" *ngIf="currentCompare == _Ecompares.productos"> -->
+      <div class=" row">
+      <ng-container>
+        <div *ngFor="let p of items;index as ind" class="col-md-6 my-2">
+          <div class="d-flex justify-content-between align-items-center border-bottom pb-">
+            <div class="d-flex align-items-center font-weight-light">
+              <img class=" img-item" [src]="captureImagenProduct(ind)" alt="">
+              <div class="mr-1 p-1" style="color:#f44336; font-weight: bold;">#{{p.id}}</div>{{p.name}}
+            </div>
+            <button (click)="selectItemCompare(p.id)" class="btn btn-outline-dark btn-sm btn-vs" type="button">+
+              vs</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div [hidden]="!isCompare" class="compare-fz  py-3">
+      <div class="container">
+        <button color="warn" mat-icon-button class="btn-close-compare float-right" (click)="isCompare=false">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="font-facebook"><h3 class="font-weight-light position-absolute font-opacity"><ng-container *ngFor="let item of itemsCompare">{{item.name}} <br> </ng-container>
+        </h3></div>
+        <div>
+          <canvas id="chart-items"></canvas>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

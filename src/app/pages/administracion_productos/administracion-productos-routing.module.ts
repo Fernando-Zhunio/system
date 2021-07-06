@@ -51,7 +51,6 @@ const routes: Routes = [
         loadChildren: () => import('./productos/producto.module').then(m => m.ProductoModule),
         data: {
           isEdit: false,
-          name:'productos',
           permissions: {
             only: ["super-admin", "products-admin.products.index"],
           },
@@ -69,6 +68,10 @@ const routes: Routes = [
           },
         },
         canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path: 'vtex-products',
+        loadChildren: () => import('./vtex-productos/vtex-productos.module').then(m => m.VtexProductosModule),
       },
 
     ]

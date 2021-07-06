@@ -1,13 +1,15 @@
 <div class="">
     <div>
         <div class="">
-            <a [href]="prestashop_product.self_combination ? prestashop_product.self_combination.link : prestashop_product.link" target="_blank"><img class="rounded-fz img-product w-100" [src]="(prestashop_product.self_combination && prestashop_product.self_combination.image) ? prestashop_product.self_combination.image : prestashop_product.image" alt=""></a>
+            <a [href]="prestashop_product.vtex_product.link_id" target="_blank">
+              <!-- <img class="rounded-fz img-product w-100" [src]="(prestashop_product.self_combination && prestashop_product.self_combination.image) ? prestashop_product.self_combination.image : prestashop_product.image" alt=""></a> -->
+              <img class="rounded-fz img-product w-100" [src]="prestashop_product.images[0].ImageUrl" alt=""></a>
             <div style="top: 10px;left: 10px;" class="position-absolute text-left">
                 <span class="mb-1 badge  bg-warning text-white mt-2">PÁGINA WEB</span><br>
                 <!-- <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge font-lg bg-pink text-white">
                     {{company.name}}</span><br> -->
                 <!-- <span class="mb-1 badge font-lg  bg-green text-white">{{ml.account.city.name}}</span><br> -->
-                <span class="mb-1 badge  bg-green text-white">{{prestashop_product.prestashop.name}}</span>
+                <!-- <span class="mb-1 badge  bg-green text-white">{{prestashop_product.name}}</span> -->
             </div>
         </div>
         <button mat-mini-fab (click)="openDescription()">

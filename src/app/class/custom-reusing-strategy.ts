@@ -10,13 +10,16 @@ import {
 export class CustomReusingStrategy implements RouteReuseStrategy {
   private cache: { [key: string]: DetachedRouteHandle } = {};
 
+  public clearCache():void{
+    this.cache = {};
+  }
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     return route.routeConfig.data && route.routeConfig.data.reuse;
   }
 
   store(route: ActivatedRouteSnapshot, handler: DetachedRouteHandle): void {
-    if (handler) {
-      // console.log(this.getUrl(route));
+    if (handler && this.cache) {
+      console.log({route:this.getUrl(route)});
       this.cache[this.getUrl(route)] = handler;
     }
   }
@@ -26,23 +29,24 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
   }
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-    if (!route.routeConfig || route.routeConfig.loadChildren) {
+    if (!route.routeConfig || route.routeConfig.loadChildren || !this.cache) {
       return null;
     }
-    // console.log(this.cache);
-
-    return this.cache[this.getUrl(route)];
+    console.log(this.getUrl(route));
+    return this.cache[this.getUrl(route)] || null;
   }
 
   shouldReuseRoute(future: ActivatedRouteSnapshot,current: ActivatedRouteSnapshot): boolean {
-    if (future.routeConfig &&future.routeConfig?.data && future.routeConfig?.data?.reuse !== undefined) {
-      // console.log(future.routeConfig.data.reuse);
+    if (future.routeConfig &&future.routeConfig?.data && future.routeConfig?.data?.reuse) {
+      console.log({'name': future.routeConfig.data.name});
       return future.routeConfig.data?.reuse;
     }
     return future.routeConfig === current.routeConfig;
   }
 
   getUrl(route: ActivatedRouteSnapshot): string {
-      return route.routeConfig?.data?.name;
+    console.log(route.routeConfig.component.name);
+      // return route.routeConfig?.data?.name;
+      return route.routeConfig.component.name;
   }
 }

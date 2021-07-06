@@ -100,7 +100,7 @@ export class TwoFAComponent implements OnInit {
             );
             session.user = user;
             this.s_storage.setCurrentSession(session);
-            this.router.navigate(["/dashboard"]);
+            this.router.navigate(["/home/inicio"]);
           } else {
             SwalService.swalToast(
               "Error de autenticacion verifique su contraseña o email",

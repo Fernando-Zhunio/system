@@ -1,10 +1,9 @@
 <div class="mt-4">
     <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">Facebook Ads Manager</h2>
-    <mat-form-field class="position-absolute account-position">
+    <mat-form-field class=" account-position">
         <mat-label>Cuentas</mat-label>
         <mat-select [(value)]="currentAccount" [(ngModel)]="currentAccount">
             <mat-option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</mat-option>
-
         </mat-select>
     </mat-form-field>
     <mat-tab-group (selectedTabChange)="changedTag($event)" mat-align-tabs="center">

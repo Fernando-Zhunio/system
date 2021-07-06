@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ProductCreateOrEditComponent } from './product-create-or-edit/product-create-or-edit.component';
-import { ProductosMainComponent } from './productos-main.component';
-
-
+// import { ProductosMainComponent } from './productos-main.component';
 import { ProductosComponent } from './productos.component';
+import { Component } from '@angular/core';
 
+@Component({
+  selector: 'app-productos',
+  template: '<router-outlet></router-outlet>',
+})
+export class ProductosMainComponent  {
+
+}
 const routes: Routes = [
   {
     path: '',
@@ -21,7 +27,6 @@ const routes: Routes = [
       {
         path: 'create',
         component: ProductCreateOrEditComponent,
-        // data:{isEdit:false}
         data: {
           isEdit: false,
           permissions: {
@@ -34,7 +39,6 @@ const routes: Routes = [
       {
         path: 'edit/:id',
         component: ProductCreateOrEditComponent,
-        // data:{isEdit:true}
         data: {
           isEdit: true,
           permissions: {

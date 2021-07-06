@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 
 declare let Swal: any;
 @Injectable({
   providedIn: "root",
 })
 export class SwalService {
-  constructor() {}
+  constructor(private  router:Router) {}
 
   public static swalFire(
     title,
@@ -91,7 +92,8 @@ export class SwalService {
     });
   }
 
-  public static swalToastNotification(title,icon="info",url_img=null,position="top-end"){
+  public static swalToastNotification(router, name_user,title,icon="info",url_img=null,url,position="top-end"){
+    if(icon == "default") icon ="success";
     const Toast = Swal.mixin({
       toast: true,
       position,
@@ -104,15 +106,21 @@ export class SwalService {
         image: "m-0 rounded-fz",
       },
 
+
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
         toast.addEventListener("mouseleave", Swal.resumeTimer);
+        toast.addEventListener("click",()=>{
+            router.navigate([url])
+
+        })
       },
     });
 
+
     let fire:any={};
-    fire.title =`<div style="max-width: 200px;line-height: 1.5;" class="font-xs font-weight-light">${title}</div>` ;
+    fire.title =`<div style="max-width: 200px;line-height: 1.5;" class="font-xs font-weight-light"><strong>${name_user}</strong><br>${title}</div>` ;
     if(url_img){
       fire.imageUrl = url_img;
       fire.imageWidth= '50px';

@@ -1,10 +1,24 @@
+import { Cperson } from "../class/cperson";
+
 export interface Inotification {
-    icon: string;
-    text: string;
-    type: string;
-    url: string;
+  created_at: string;
+  data: {
+    // icon: string;
+    // text: string;
+    // type: string;
+    // url: string;
+    // image?:string;
+    body: string,
+    icon: string,
+    image: string,
+    route: string,
+    text: string,
+    title: string,
+    type: string,
+    url: string,
     user:Iuser;
-    image?:string;
+  };
+  read_at: string;
 }
 
 export interface Iuser {
@@ -17,4 +31,5 @@ export interface Iuser {
   last_activity: string;
   name: string;
   updated_at: string;
+  person?: Cperson;
 }

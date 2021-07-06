@@ -10,7 +10,7 @@ import { Subscription } from "rxjs";
 import { StockBodegasComponent } from "../../../components/modals/stock-bodegas/stock-bodegas.component";
 import { IpostProduct } from "../../../interfaces/ipost-product";
 import { Iprefix } from "../../../interfaces/iprefix";
-import { Iproduct2 } from "../../../interfaces/iproducts";
+import { Iproduct2, IproductWithVtex } from "../../../interfaces/iproducts";
 import { Iwarehouse } from "../../../interfaces/iwarehouse";
 import { ProductsService } from "../../../services/products.service";
 import { StandartSearchService } from "../../../services/standart-search.service";
@@ -21,7 +21,7 @@ import { MatSelect } from "@angular/material/select";
 import { Ipagination } from "../../../interfaces/ipagination";
 import { HeaderSearchComponent } from "../../../components/header-search/header-search.component";
 import { IpermissionStandart } from "../../../interfaces/ipermission-standart";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-buscar-productos",
@@ -49,15 +49,16 @@ export class BuscarProductosComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
-  products: Iproduct2[] = [];
+  // products: Iproduct2[] = [];
+  products: IproductWithVtex[] = [];
   isColumns: boolean = true;
   search_name: string = "";
   productSearch: string = null;
   pageCurrent: number = 1;
   hasData: boolean = true;
   selected_state: string = "all";
-  min: number = null;
-  max: number = null;
+  min: string='';
+  max: string='';
   aux_page_next = 0;
 
   post_current: IpostProduct;
@@ -67,7 +68,7 @@ export class BuscarProductosComponent implements OnInit {
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
 
-  paginator: Ipagination<Iproduct2>;
+  paginator: Ipagination<IproductWithVtex>;
   prefix_id: string = "all";
   warehouse_ids = [];
   search: string;

@@ -1,4 +1,5 @@
 .account-position {
     top: 66px;
     right: 36px;
+    position: inherit;
 }

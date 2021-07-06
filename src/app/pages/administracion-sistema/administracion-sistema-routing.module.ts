@@ -65,21 +65,24 @@ export class ADFacebookAdsManagerMainComponents {}
 
 const permission_module_AD = {
   usuarios: {
-    show: ["super-admin", "admin.users.index"],
+    index: ["super-admin", "admin.users.index"],
+    show: ["super-admin", "admin.roles.show"],
     create: ["super-admin", "admin.users.create"],
     edit: ["super-admin", "admin.users.edit"],
     delete: ["super-admin", "admin.users.destroy"],
   },
 
   roles: {
-    show: ["super-admin", "admin.roles.index"],
+    index: ["super-admin", "admin.roles.index"],
+    show: ["super-admin", "admin.roles.show"],
     create: ["super-admin", "admin.roles.create"],
     edit: ["super-admin", "admin.roles.edit"],
     delete: ["super-admin", "admin.roles.destroy"],
   },
 
   paises: {
-    show: ["super-admin", "admin.countries.index"],
+    index: ["super-admin", "admin.countries.index"],
+    show: ["super-admin", "admin.countries.show"],
     create: ["super-admin", "admin.countries.create"],
     edit: ["super-admin", "admin.countries.edit"],
     delete: ["super-admin", "admin.countries.destroy"],
@@ -110,11 +113,11 @@ const permission_module_AD = {
   },
 
   facebook_ads_manager: {
-    index: ["super-admin", "admin.facebook-ads.index"],
-    show: ["super-admin", "admin.facebook-ads.show"],
-    create: ["super-admin", "admin.facebook-ads.create"],
-    edit: ["super-admin", "admin.facebook-ads.edit"],
-    delete: ["super-admin", "admin.facebook-ads.destroy"],
+    index: ["super-admin", "admin.facebook-ads.ads.index"],
+    show: ["super-admin", "admin.facebook-ads.ads.show"],
+    create: ["super-admin", "admin.facebook-ads.ads.create"],
+    edit: ["super-admin", "admin.facebook-ads.ads.edit"],
+    delete: ["super-admin", "admin.facebook-ads.ads.destroy"],
   },
 };
 
@@ -133,7 +136,7 @@ const routes: Routes = [
 
         data: {
           permissions: {
-            only: permission_module_AD.usuarios.show,
+            only: permission_module_AD.usuarios.index,
             all: permission_module_AD.usuarios,
           },
         },
@@ -164,7 +167,7 @@ const routes: Routes = [
     ],
     data: {
       permissions: {
-        only: permission_module_AD.usuarios.show,
+        only: permission_module_AD.usuarios.index,
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -180,7 +183,7 @@ const routes: Routes = [
 
         data: {
           permissions: {
-            only: permission_module_AD.usuarios.show,
+            only: permission_module_AD.personas.index,
             all: permission_module_AD.personas,
           },
         },
@@ -211,7 +214,7 @@ const routes: Routes = [
     ],
     data: {
       permissions: {
-        only: permission_module_AD.usuarios.show,
+        only: permission_module_AD.personas.index,
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -228,7 +231,7 @@ const routes: Routes = [
         data: {
           permissions: {
             all: permission_module_AD.roles,
-            only: permission_module_AD.roles.show,
+            only: permission_module_AD.roles.index,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -258,7 +261,7 @@ const routes: Routes = [
     ],
     data: {
       permissions: {
-        only: permission_module_AD.roles.show,
+        only: permission_module_AD.roles.index,
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -274,7 +277,7 @@ const routes: Routes = [
         component: PaisesComponent,
         data: {
           permissions: {
-            only: permission_module_AD.paises.show,
+            only: permission_module_AD.paises.index,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -304,7 +307,7 @@ const routes: Routes = [
     ],
     data: {
       permissions: {
-        only: permission_module_AD.paises.show,
+        only: permission_module_AD.paises.index,
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -320,7 +323,7 @@ const routes: Routes = [
         component: LocacionesComponent,
         data: {
           permissions: {
-            only: permission_module_AD.location.show,
+            only: permission_module_AD.location.index,
           },
         },
         canActivate: [NgxPermissionsGuard],

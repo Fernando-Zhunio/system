@@ -32,7 +32,7 @@ general.imports.index
     admin.users.index
     admin.roles.index
     admin.locations.index
-admin.facebook-ads.campaigns.index
+    admin.facebook-ads.campaigns.index
 admin.facebook-ads.adsets.index
 admin.facebook-ads.ads.index
 admin.countries.index

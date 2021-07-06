@@ -27,7 +27,7 @@ import { RegisterComponent } from './views/register/register.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home/inicio',
     pathMatch: 'full',
   },
   {
@@ -123,6 +123,11 @@ export const routes: Routes = [
       //   loadChildren: () => import('./pages/catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       // },
       {
+        path: 'home',
+        loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
+
+      },
+      {
         path: 'catalogo',
         loadChildren: () => import('./pages/catalogo/catalogo.module').then(m => m.CatalogoModule),
       },
@@ -134,10 +139,7 @@ export const routes: Routes = [
         path: 'importaciones',
         loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
       },
-      // {
-      //   path: 'importaciones',
-      //   loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
-      // },
+
       {
         path: 'reports',
         loadChildren: () => import('./pages/reportes/reportes.module').then(m => m.ReportesModule)

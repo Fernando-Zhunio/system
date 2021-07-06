@@ -97,6 +97,9 @@ import { CustomReusingStrategy } from "./class/custom-reusing-strategy";
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { MatBadgeModule } from "@angular/material/badge";
+// import { CompareProductComponent } from './pages/home/dashboard/modals/compare-product/compare-product.component';
+// import { InicioComponent } from './pages/otros/inicio/inicio.component';
 // import { CreateEmailModalComponent } from './components/modals/create-email-modal/create-email-modal.component';
 // import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
 
@@ -167,11 +170,10 @@ import { environment } from '../environments/environment';
     NgxGalleryModule,
     MatSnackBarModule,
     MatSlideToggleModule,
+    MatBadgeModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
     // MatTabsModule
-
-
 
   ],
   declarations: [
@@ -193,6 +195,8 @@ import { environment } from '../environments/environment';
     RedirectToComponent,
     SnackBarLoaderComponent,
     OkLoginComponent,
+    // CompareProductComponent,
+    // InicioComponent,
     // CreateEmailModalComponent,
 
 
@@ -227,16 +231,18 @@ import { environment } from '../environments/environment';
       // useClass: PathLocationStrategy,
     },
 
-
     {
       provide:LOCALE_ID, useValue:'es'
     },
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass:CustomInterceptor,
       multi:true
     },
-    { provide: RouteReuseStrategy, useClass: CustomReusingStrategy }
+    { provide: RouteReuseStrategy,
+      useClass: CustomReusingStrategy
+     }
   ],
   entryComponents: [
     InfoViewComponent,

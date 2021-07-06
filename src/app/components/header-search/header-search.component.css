@@ -1,0 +1,26 @@
+.input-style{
+  padding-left: 45px;height: 50px;
+}
+
+.btn-find{
+  top: 0px;
+  left: 22px;height: 100%;
+}
+
+.font-header{
+  font-family: Segoe ui !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+}
+
+.shadow-header{
+  box-shadow: 0px 0px 10px 5px rgb(120 118 118 / 75%);
+    -webkit-box-shadow: 0px 0px 10px 5px rgb(183 180 180 / 75%);
+    -moz-box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.75);
+}
+
+@media (max-width:600px) {
+  .font-header{
+    font-size: 1rem !important;
+  }
+}
