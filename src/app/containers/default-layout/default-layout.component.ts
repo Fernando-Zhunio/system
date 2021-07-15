@@ -53,9 +53,7 @@ export class DefaultLayoutComponent implements OnInit {
     private s_standart: StandartSearchService ,
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy ,
-  ) {
-    // s_custom_reusing ;
-  }
+  ) {}
 
   ngOnInit(): void {
     if(localStorage.getItem('color_sidebar_left')){

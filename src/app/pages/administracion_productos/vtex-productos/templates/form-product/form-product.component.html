@@ -1,0 +1,193 @@
+<mat-tab-group (selectedTabChange)="selectedTabChange($event)">
+  <mat-tab label="Producto">
+    <div>
+      <div [ngClass]="{'panel-categories-vtex-visible': isPanelCategoriesVisible}" class="panel-categories-vtex">
+        <div>
+          <button class="btn-close-categories" (click)="closeVtexCategories()" mat-mini-fab>
+            <mat-icon>close</mat-icon>
+          </button>
+          <h3 class="text-capitalize">{{selectionState}}</h3>
+          <div>
+            <ngx-spinner *ngIf="isLoadCategories;else templateCategories" name="spinner-categories"
+              bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+              <p style="color: white"> Cargando {{selectionState}}... </p>
+            </ngx-spinner>
+
+            <ng-template #templateCategories>
+              <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="bg-transparent">
+                <!-- This is the tree node template for leaf nodes -->
+                <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+                  <li class="text-white p list-unstyled">
+                    <!-- use a disabled button to provide padding for tree leaf -->
+                    <!-- <button mat-icon-button disabled></button> -->
+                    <span (click)="add(node.name,node.id)" class="select-category btn btn-dark">
+                      {{node.name}}
+                    </span>
+                  </li>
+                </mat-tree-node>
+                <!-- This is the tree node template for expandable nodes -->
+                <!-- <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"> -->
+                <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                  <li class="text-white l list-unstyled">
+                    <div class="hover-fz">
+                      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror">
+                          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                      </button>
+                      <span (click)="add(node.name,node.id)" class="select-category btn btn-dark">
+                        {{node.name}}
+                      </span>
+                    </div>
+                    <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                      <ng-container matTreeNodeOutlet></ng-container>
+                    </ul>
+                  </li>
+                </mat-nested-tree-node>
+              </mat-tree>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h1 class="font-5xl font-facebook my-4">{{status=='create'?'Creación':'Edición'}} de producto</h1>
+      </div>
+
+      <form [formGroup]="form"  class="row shadow bg-white px-3 py-4 rounded-fz m-0">
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input (keyup)="writingName()" formControlName="Name" matInput required>
+          <mat-error *ngIf="form.get('Name').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-4" appearance="fill">
+          <mat-label>Categoria</mat-label>
+          <input formControlName="CategoryId" matInput required readonly>
+          <button type="button" (click)="addVtexCategory()" mat-icon-button matSuffix>
+            <mat-icon>add</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('CategoryId').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-4" appearance="fill">
+          <mat-label>Marca</mat-label>
+          <input formControlName="BrandId" matInput required readonly>
+          <button type="button" (click)="addVtexBrand()" mat-icon-button matSuffix>
+            <mat-icon>add</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('BrandId').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-4" appearance="fill">
+          <mat-label>Codigo de referencia</mat-label>
+          <input formControlName="RefId" matInput required>
+          <mat-error *ngIf="form.get('RefId').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>TextLink</mat-label>
+          <input formControlName="LinkId" matInput required>
+          <mat-hint>(Utilizado para montar la Url del producto) Utilizar únicamente caracteres alfanuméricos</mat-hint>
+          <mat-error *ngIf="form.get('LinkId').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Título de la página (Metatag Title)</mat-label>
+          <input formControlName="Title" matInput >
+          <!-- <mat-hint></mat-hint> -->
+          <mat-error *ngIf="form.get('Title').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Descripción del producto </mat-label>
+          <textarea formControlName="Description" matInput required></textarea>
+          <mat-error *ngIf="form.get('Description').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Descripción del producto corta </mat-label>
+          <textarea formControlName="DescriptionShort" matInput></textarea>
+          <mat-error *ngIf="form.get('DescriptionShort').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Descripción (Metatag Description)</mat-label>
+          <textarea formControlName="MetaTagDescription" matInput required></textarea>
+          <mat-error *ngIf="form.get('MetaTagDescription').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Fecha de lanzamiento del producto</mat-label>
+          <input formControlName="ReleaseDate" matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Codigo Fiscal del Producto</mat-label>
+          <input formControlName="TaxCode" matInput>
+          <mat-error *ngIf="form.get('TaxCode').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12" appearance="fill">
+          <mat-label>Palabras Sustitutas (utilizar palabras que tengan la misma semantica)</mat-label>
+          <textarea formControlName="KeyWords" matInput required></textarea>
+          <button mat-icon-button matSuffix matTooltip="Palabras relacionadas al producto, que serán utilizadas para la búsqueda. Separe las palabras con comas
+            Ejemplo:
+            Spagetti -> Espagueti;
+            Heladera -> Refrigerador;
+            Calvin Klein -> Calvin Klain;
+            Importante: Estas palabras serán utilizadas para optimizar los resultados de búsqueda internos.">
+            <mat-icon>info</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('KeyWords').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Proveedor de producto</mat-label>
+          <input formControlName="SupplierId" matInput >
+          <mat-error *ngIf="form.get('SupplierId').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Código específico para el remarketing de AdWords</mat-label>
+          <input formControlName="AdWordsRemarketingCode" matInput >
+          <mat-error *ngIf="form.get('AdWordsRemarketingCode').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Código específico para la campaña de Lomadee</mat-label>
+          <input formControlName="LomadeeCampaignCode" matInput >
+          <mat-error *ngIf="form.get('LomadeeCampaignCode').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Valor utilizado para la ordenación de búsqueda de productos</mat-label>
+          <input formControlName="Score" matInput >
+          <mat-error *ngIf="form.get('Score').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-checkbox class="col-12" formControlName="IsActive">Esta Activo?</mat-checkbox>
+        <mat-checkbox class="col-12" appearance="fill" formControlName="IsVisible">Es visible?</mat-checkbox>
+        <mat-checkbox class="col-12" formControlName="ShowWithoutStock">Mostrar si esta agotado?</mat-checkbox>
+
+        <button [disabled]="isLoadProduct" (click)="saveProduct()" type="submit" color="primary" mat-raised-button>Guardar Producto y continuar</button>
+        <!-- <button class="btn btn-primary btn-block my-2" type="button">AGREGAR SKU</button> -->
+      </form>
+    </div>
+  </mat-tab>
+  <mat-tab label="Especificaciones">
+    <div *ngIf="!categorySelect;else especificationTemplate">
+      <div>
+        <h3 class="font-facebook font-3xl">Seleccione una categoria para ver especificaciones</h3>
+      </div>
+    </div>
+    <ng-template #especificationTemplate>
+
+    </ng-template>
+
+  </mat-tab>
+</mat-tab-group>
+
+

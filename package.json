@@ -49,6 +49,7 @@
         "angular-simple-scroll-spy": "0.0.3",
         "bootstrap": "^4.6.0",
         "chart.js": "^2.9.3",
+        "collect.js": "^4.28.6",
         "core-js": "^3.9.1",
         "crypto-js": "^4.0.0",
         "flag-icon-css": "^3.5.0",

@@ -1,0 +1,17 @@
+
+
+.btn-add{
+  position: absolute;
+  top: 0px;
+  z-index: 12;
+  right: -0;
+}
+
+
+
+.hover-fz:hover{
+  /* background: rgba(0,0,0,.5); */
+    /* border-radius: 10px; */
+}
+
+

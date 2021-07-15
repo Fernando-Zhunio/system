@@ -1,0 +1,129 @@
+<div>
+  <div *ngIf="status === 'edit'"><h2 class="font-facebook font-2xl my-3"><span class="text-success">Editando:&nbsp;</span>{{vtexProduct?.Name}}</h2></div>
+  <mat-horizontal-stepper (selectionChange)="onChangeStepper($event)" [linear]="true" #stepper>
+    <mat-step [stepControl]="formValidationOne" [editable]="false">
+      <form [formGroup]="formValidationOne">
+        <ng-template matStepLabel>Buscar Productos</ng-template>
+        <div>
+          <app-header-search [url]="url" (products)="loadData($event)" [placeholder]="'Buscador Productos para vtex'"
+            (isload)="isload = $event"></app-header-search>
+          <div *ngIf="isload" class="mt-4 card-columns">
+            <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
+              <ngx-skeleton-loader count="1" [theme]="{
+                  'border-radius': '20px',
+              height: '200px'
+            }"></ngx-skeleton-loader>
+              <div class="text-center">
+                <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
+              </div>
+              <ngx-skeleton-loader count="1" [theme]="{
+              'border-radius': '5px',
+              height: '35px',
+              width:'150px',
+              'margin-right':'5px'
+            }"></ngx-skeleton-loader>
+              <ngx-skeleton-loader count="1" [theme]="{
+              'border-radius': '5px',
+              height: '25px',
+              width:'150px',
+              'margin-right':'5px'
+            }"></ngx-skeleton-loader>
+            </div>
+          </div>
+          <input type="hidden" formControlName="agregados">
+          <div *ngIf="!isload;">
+            <div class="mt-4 card-columns">
+              <div *ngFor="let p of products" class="card border-0 rounded-fz shadow">
+                <!-- <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml> -->
+                <!-- <app-pagina-web [prestashop_product]="p"></app-pagina-web> -->
+                <div class="card-body">
+                  <div>
+                    <div>
+                      <div class=" text-uppercase vtex-status pill-fz"> Codigo: <span
+                          class="text-success  d-inline-block">{{p.code}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Marca: <span
+                          class="text-success  d-inline-block">{{p.brand.name}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Cantidad: <span
+                          class="text-success  d-inline-block">{{p.available}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Categoria: <span
+                          class="text-success  d-inline-block">{{p.category.name}}</span></div>
+                      <button (click)="agregar(p.id)" color="primary" mat-mini-fab class="btn-add">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                    <hr>
+                    <div>
+                      {{p.name}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="!isload && products.length < 1">
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
+                </div>
+                <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
+                  Ups! Sin resultados en tu búsqueda
+                </div>
+              </div>
+            </ng-container>
+            <!-- <mat-paginator *ngIf="mlInfos.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)"> -->
+            <mat-paginator [hidden]="isload" *ngIf="products.length > 0" [pageSizeOptions]="[10, 20, 30]"
+              (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page"
+              [length]="paginator.total" [pageIndex]="paginator.current_page-1">
+            </mat-paginator>
+            <hr>
+            <div>
+              <div>
+                <h2 class="font-facebook font-4xl font-weight-bold">Agregados</h2>
+              </div>
+              <div class="mt-4 card-columns">
+                <div *ngFor="let p of agregados" class="card border-0 rounded-fz shadow">
+                  <div class="card-body">
+                    <div>
+                      <div>
+                        <div class=" text-uppercase vtex-status pill-fz"> Codigo: <span
+                            class="text-success  d-inline-block">{{p.code}}</span></div>
+                        <div class=" text-uppercase vtex-status pill-fz">Marca: <span
+                            class="text-success  d-inline-block">{{p.brand.name}}</span></div>
+                        <div class=" text-uppercase vtex-status pill-fz">Cantidad: <span
+                            class="text-success  d-inline-block">{{p.available}}</span></div>
+                        <div class=" text-uppercase vtex-status pill-fz">Categoria: <span
+                            class="text-success  d-inline-block">{{p.category.name}}</span></div>
+                        <button (click)="desagregar(p.id)" mat-mini-fab class="btn-add">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                      <hr>
+                      <div>
+                        {{p.name}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button color="primary" [disabled]="!(agregados.length > 0) && status !='edit'" mat-raised-button
+                (click)="goForward()">Continuar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formValidationTwo" [editable]="false">
+      <form [formGroup]="formValidationTwo">
+        <ng-template matStepLabel>{{status=='create'?'Creación':'Edición'}} de Producto</ng-template>
+        <app-form-product [status]="status" (product)="getSkusAfterSaveProduct($event)" [agregados]="agregados" [vtexProduct]="vtexProduct"></app-form-product>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formValidationTwo" [editable]="false">
+      <ng-template matStepLabel>{{status=='create'?'Creación':'Edición'}} de Skus</ng-template>
+      <div *ngIf="skus" class=" shadow bg-white px-3 py-4 rounded-fz">
+        <div *ngFor="let item of skus">
+          <app-form-skus [sku]="item" ></app-form-skus>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

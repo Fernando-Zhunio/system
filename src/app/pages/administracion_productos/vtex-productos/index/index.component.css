@@ -1,0 +1,47 @@
+button {
+    outline: none;
+}
+
+.pill-fz {
+    padding: 2px 5px;
+    border-radius: 10px;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+.vtex-status {
+    margin-bottom: 5px;
+}
+
+.min-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+}
+
+.vtex-btn-edit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+.inactive {
+    background-color: crimson;
+    color: white;
+}
+
+.active {
+    background-color: greenyellow;
+}
+
+.vtex-reference {
+    background-color: aquamarine;
+}
+
+/* @media (min-width: 1200px) {
+    .card-columns {
+        column-count: 4;
+    }
+} */

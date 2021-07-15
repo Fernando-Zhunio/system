@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { IndexComponent } from './index/index.component';
+import { CreateOrEditComponent } from './create-or-edit/create-or-edit.component';
 
 @Component({
   selector: 'app-vtex-products',
@@ -24,10 +25,10 @@ const routes: Routes = [
     data:{name:'products_vtex_admin'},
     children: [
       {
-        path: 'vtex-products',
+        path: '',
         component:IndexComponent,
         data: {
-          name:'prefijos',
+          name:'index-product-vtex',
           isEdit: false,
           permissions: {
             only: ["super-admin", "products-admin.vtex-product.index"],
@@ -35,7 +36,31 @@ const routes: Routes = [
         },
         canActivate: [NgxPermissionsGuard],
       },
+      {
+        path: 'create-product-vtex',
+        component:CreateOrEditComponent,
+        data: {
+          name:'create-product-vtex',
+          isEdit: false,
+          permissions: {
+            only: ["super-admin", "products-admin.vtex-create-product"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
 
+      {
+        path: 'edit-product-vtex/:id',
+        component:CreateOrEditComponent,
+        data: {
+          name:'edit-product-vtex',
+          isEdit: true,
+          permissions: {
+            only: ["super-admin", "products-admin.vtex-edit-product"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
     ]
   }
 ];

@@ -1,7 +1,7 @@
 <div class="mb-4 p-0 card-body row" [ngClass]="{'sticky-top': isSticky}" style="z-index: 10;">
   <div class="position-relative col-12  w-100 p-3 overflow-hidden" >
     <input class="form-control font-header shadow-header  input-style"
-      [placeholder]="placeholder" (keyup.enter)="searchBar()" [(ngModel)]="productSearch">
+      [placeholder]="placeholder" (keyup)="buscarInterval($event)" [(ngModel)]="productSearch">
     <button class="position-absolute btn-find" mat-icon-button (click)="searchBar()">
       <mat-icon style="font-size: 30px;" class="text-black-50" type="search">find_replace</mat-icon>
     </button>

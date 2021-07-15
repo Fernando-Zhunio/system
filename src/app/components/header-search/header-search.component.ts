@@ -65,7 +65,16 @@ export class HeaderSearchComponent implements OnInit {
       return null;
     }
   }
+ intervalSearch:any;
+  buscarInterval(event:Event):void{
+    clearTimeout(this.intervalSearch);
+    // console.log(event.keyCode);
 
+   if(event['keyCode'] == 13){this.searchBar(); return }
+   this.intervalSearch = setTimeout(() => {
+      this.searchBar()
+    }, 1000);
+  }
   searchBar($event = { pageIndex: 0, pageSize: 15, previousPageIndex: 0 }) {
     this.isload.emit(true);
     if (this.suscription) {
