@@ -27,6 +27,15 @@ import { FormSkusComponent } from './templates/form-skus/form-skus.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { FormProductComponent } from './templates/form-product/form-product.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatListModule} from '@angular/material/list';
+import { ModalSkuComponent } from './modal-sku/modal-sku.component';
+import { MatDialogModule } from "@angular/material/dialog";
+import { ModalPricesComponent } from './templates/modal-prices/modal-prices.component';
+import { VtexPricesComponent } from './vtex-prices/vtex-prices.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { NgxPermissionsModule } from "ngx-permissions";
 
 @NgModule({
   declarations: [
@@ -35,6 +44,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     CreateOrEditComponent,
     FormSkusComponent,
     FormProductComponent,
+    ModalSkuComponent,
+    ModalPricesComponent,
+    VtexPricesComponent,
   ],
   imports: [
     CommonModule,
@@ -57,7 +69,14 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatCheckboxModule,
     SwiperModule,
     MatStepperModule,
-    MatTabsModule
+    MatTabsModule,
+    MatRadioModule,
+    MatListModule,
+    MatDialogModule,
+    MatCardModule,
+    MatProgressBarModule,
+    NgxPermissionsModule
+
   ],
 })
 export class VtexProductosModule {}

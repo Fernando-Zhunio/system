@@ -45,17 +45,17 @@ export class BuscarProductosComponent implements OnInit {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
   permission_edit = ["super-admin", "products-admin.products.edit"];
-  length = 100;
-  pageSize = 10;
+  // length = 100;
+  // pageSize = 10;
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
   // products: Iproduct2[] = [];
   products: IproductWithVtex[] = [];
-  isColumns: boolean = true;
-  search_name: string = "";
-  productSearch: string = null;
-  pageCurrent: number = 1;
-  hasData: boolean = true;
+  // isColumns: boolean = true;
+  // search_name: string = "";
+  // productSearch: string = null;
+  // pageCurrent: number = 1;
+  // hasData: boolean = true;
   selected_state: string = "all";
   min: string='';
   max: string='';
@@ -265,7 +265,7 @@ export class BuscarProductosComponent implements OnInit {
   //   console.log("soy after view check called");
   // }
 
-  ngAfterContentInit(){
-    console.log('soy el after view init')
-  }
+  // ngAfterContentInit(){
+  //   console.log('soy el after view init')
+  // }
 }

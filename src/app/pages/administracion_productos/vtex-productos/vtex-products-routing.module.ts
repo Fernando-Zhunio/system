@@ -8,6 +8,8 @@ import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { IndexComponent } from './index/index.component';
 import { CreateOrEditComponent } from './create-or-edit/create-or-edit.component';
+import { VtexPricesComponent } from './vtex-prices/vtex-prices.component';
+import { VtexPriceGuard } from '../../../guards/resolvers/vtex-price.guard';
 
 @Component({
   selector: 'app-vtex-products',
@@ -31,7 +33,7 @@ const routes: Routes = [
           name:'index-product-vtex',
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.vtex-product.index"],
+            only: ["super-admin", "products-admin.vtex.product-vtex.index"],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -43,7 +45,7 @@ const routes: Routes = [
           name:'create-product-vtex',
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.vtex-create-product"],
+            only: ["super-admin", "products-admin.vtex.product-vtex.create"],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -56,17 +58,42 @@ const routes: Routes = [
           name:'edit-product-vtex',
           isEdit: true,
           permissions: {
-            only: ["super-admin", "products-admin.vtex-edit-product"],
+            only: ["super-admin", "products-admin.vtex.product-vtex.edit"],
           },
         },
         canActivate: [NgxPermissionsGuard],
       },
+      // {
+      //   path: 'vtex-price-create/:id',
+      //   component:VtexPricesComponent,
+      //   data: {
+      //     name:'vtex-price-create',
+      //     isEdit: false,
+      //     permissions: {
+      //       only: ["super-admin", "products-admin.vtex-price-create"],
+      //     },
+      //   },
+      //   canActivate: [NgxPermissionsGuard],
+      //   resolve:{data:VtexPriceGuard},
+      // },
+      // {
+      //   path: 'vtex-price-edit/:id',
+      //   component:VtexPricesComponent,
+      //   data: {
+      //     name:'vtex-price-edit',
+      //     isEdit: true,
+      //     permissions: {
+      //       only: ["super-admin", "products-admin.vtex-price-edit"],
+      //     },
+      //   },
+      //   canActivate: [NgxPermissionsGuard],
+      // },
     ]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+exports: [RouterModule]
 })
 export class AdminVtexProductRoutingModule {}

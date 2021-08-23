@@ -1,0 +1,78 @@
+<div>
+  <div *ngIf="goPass == 1">
+    <app-template-for-search-columns (productEmit)="loadData($event)" [url]="url">
+      <div ForItems>
+        <div class="row m-0">
+          <div class="col-md-6 col-12">
+            <div class="card-columns">
+              <div *ngFor="let p of products" class="card border-0 rounded-fz shadow">
+                <!-- <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml> -->
+                <!-- <app-pagina-web [prestashop_product]="p"></app-pagina-web> -->
+                <div class="card-body">
+                  <div>
+                    <div>
+                      <div class=" text-uppercase vtex-status pill-fz"> Codigo: <span
+                          class="text-success  d-inline-block">{{p.code}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Marca: <span
+                          class="text-success  d-inline-block">{{p.brand.name}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Cantidad: <span
+                          class="text-success  d-inline-block">{{p.available}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Categoria: <span
+                          class="text-success  d-inline-block">{{p.category.name}}</span></div>
+                      <button (click)="agregarProducto(p.id)" color="primary" mat-mini-fab class="btn-add">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                    <hr>
+                    <div>
+                      {{p.name}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 border-left">
+            <div class="h3 font-facebook font-2xl">Seleccionados</div>
+            <div class="card-columns">
+              <div *ngFor="let p of productsSelections" class="card border-0 rounded-fz shadow">
+                <div class="card-body">
+                  <div>
+                    <div>
+                      <div class=" text-uppercase vtex-status pill-fz"> Codigo: <span
+                          class="text-success  d-inline-block">{{p.code}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Marca: <span
+                          class="text-success  d-inline-block">{{p.brand.name}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Cantidad: <span
+                          class="text-success  d-inline-block">{{p.available}}</span></div>
+                      <div class=" text-uppercase vtex-status pill-fz">Categoria: <span
+                          class="text-success  d-inline-block">{{p.category.name}}</span></div>
+                      <button (click)="desagregarProducto(p.id)" color="warn" mat-mini-fab class="btn-add">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                    <hr>
+                    <div>
+                      {{p.name}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-template-for-search-columns>
+
+    <button mat-raised-button color="primary" class="mt-3" [disabled]="productsSelections.length < 1">Continuar</button>
+  </div>
+
+  <div *ngIf="goPass == 2">
+    <form [formGroup]="formFirst">
+
+    </form>
+  </div>
+</div>
+
+
+

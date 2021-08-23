@@ -1,0 +1,17 @@
+
+
+<div *ngIf="isLoad; else templateSku">
+  Cargando...
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="closeModal()" >Cerrar</button>
+  </mat-dialog-actions>
+</div>
+<ng-template #templateSku>
+  <mat-dialog-content>
+    <app-form-skus (emitSave)="closeModal($event)" [status]="'update'" [vtexSpecificationsSkus]="vtexSpecificationsSkus"  [sku]="item" ></app-form-skus>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="closeModal()" >Cerrar</button>
+  </mat-dialog-actions>
+</ng-template>
+

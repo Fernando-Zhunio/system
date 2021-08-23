@@ -2,7 +2,7 @@
     <button *ngxPermissionsOnly="permission_page.create" mat-fab color="accent" style="    position: fixed;
     z-index: 10;
     right: 25px;
-    bottom: 113px;" [routerLink]="['./create']">
+    bottom: 113px;" [routerLink]="['./menu-multi-publicaciones']">
     <mat-icon>add</mat-icon>
   </button>
     <app-header-search [filter_data]="{state:filter_state}" [placeholder]="'Escribe la publicacion a buscar'" (isload)="isload = $event" [url]="'catalogs/publications'" (products)="loadData($event)">

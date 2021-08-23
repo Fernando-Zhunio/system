@@ -14,10 +14,14 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
     this.cache = {};
   }
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
+    console.log('shouldDetach');
+
     return route.routeConfig.data && route.routeConfig.data.reuse;
   }
 
   store(route: ActivatedRouteSnapshot, handler: DetachedRouteHandle): void {
+    console.log('store');
+
     if (handler && this.cache) {
       console.log({route:this.getUrl(route)});
       this.cache[this.getUrl(route)] = handler;
@@ -25,10 +29,17 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
   }
 
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
-    return !!this.cache[this.getUrl(route)];
+    console.log('shouldAttach');
+    if(this.getUrl(route) in this.cache){
+      return true;
+    }
+    return false;
+    // return !!this.cache[this.getUrl(route)];
   }
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
+    console.log('retrieve');
+
     if (!route.routeConfig || route.routeConfig.loadChildren || !this.cache) {
       return null;
     }
@@ -37,6 +48,8 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
   }
 
   shouldReuseRoute(future: ActivatedRouteSnapshot,current: ActivatedRouteSnapshot): boolean {
+    console.log( 'shouldReuseRoute');
+
     if (future.routeConfig &&future.routeConfig?.data && future.routeConfig?.data?.reuse) {
       console.log({'name': future.routeConfig.data.name});
       return future.routeConfig.data?.reuse;
@@ -45,8 +58,8 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
   }
 
   getUrl(route: ActivatedRouteSnapshot): string {
-    console.log(route.routeConfig.component.name);
-      // return route.routeConfig?.data?.name;
-      return route.routeConfig.component.name;
+    console.log( route.url);
+      return route.routeConfig?.data?.name || null;
+      // return route.routeConfig.component.name;
   }
 }

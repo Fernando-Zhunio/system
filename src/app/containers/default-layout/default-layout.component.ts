@@ -297,6 +297,12 @@ export class DefaultLayoutComponent implements OnInit {
         name: "Administracion del sistema",
       },
     ],
+    section_rrhh: [
+      {
+        title: true,
+        name: "Administracion del sistema",
+      },
+    ],
   };
 
   tags = {
@@ -306,6 +312,7 @@ export class DefaultLayoutComponent implements OnInit {
     reports: "section_report",
     info_general: "section_info_general",
     admin_system: "section_admin_system",
+    rrhh: "section_rrhh",
   };
 
   generateSideBarItems(): INavData[] {
@@ -533,6 +540,20 @@ export class DefaultLayoutComponent implements OnInit {
       // permission: "products-admin.products.index",
       // tag: this.tags.admin_products,
     },
+
+    // #region rrhh
+    {
+      title: true,
+      name: "Recursos Humanos",
+    },
+    {
+      name: "Dashboard Rrhh",
+      url: "/recursos-humanos/dashboard",
+      icon: "icon-star",
+      // permission: "products-admin.products.index",
+      // tag: this.tags.admin_products,
+    },
+    //#endregion rrhh
     //#region admin products
     {
       title: true,

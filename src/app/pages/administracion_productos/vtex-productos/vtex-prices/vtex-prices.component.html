@@ -1,0 +1,148 @@
+<div>
+  <div *ngIf="is.isLoad" class="loader-prices">
+    <div class="parpadeo">
+      Espere actualizando precios
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </div>
+  <h2 class="font-facebook font-3x1 col-12 font-5xl my-1">Precio <br>
+    <small>{{sku.name}} ({{sku.vtex_api_id}})</small>
+  </h2>
+  <mat-card>
+    <mat-card-content>
+      <!-- <small class="text-info" [ngClass]="is.isErrorThreeCampus?'text-danger parpadeo':''">Debe tener exactamente
+                dos valores entre Precio base, Precio de costo y markup</small> -->
+      <form class="row m-0" [formGroup]="formPrices">
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Markup</mat-label>
+          <input (keyup)="keyUpInputThreePrices()" type="number" formControlName="markup" matInput>
+          <button mat-icon-button matSuffix (click)="activeTwoInputs('markup')" [attr.aria-label]="'enable password'"
+            [attr.aria-pressed]="enablesInput.markup.value">
+            <mat-icon [ngClass]="enablesInput.markup.value ? 'text-info' : 'text-danger'">{{enablesInput.markup.value ?
+              'check_circle' : 'unpublished'}}</mat-icon>
+          </button>
+          <mat-hint>El porcentaje de beneficio que se va a obtener de la venta de esa SKU</mat-hint>
+          <mat-error *ngIf="formPrices.get('markup').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Precio de lista</mat-label>
+          <input type="number" formControlName="listPrice" matInput>
+          <mat-hint>Precio de venta sugerido de SKU</mat-hint>
+          <mat-error *ngIf="formPrices.get('listPrice').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Precio base</mat-label>
+          <input (keyup)="keyUpInputThreePrices()" type="number" formControlName="basePrice" matInput>
+          <button mat-icon-button matSuffix (click)="activeTwoInputs('basePrice')"
+            [attr.aria-label]="'basePrice password'" [attr.aria-pressed]="enablesInput.basePrice.value">
+            <mat-icon [ngClass]="enablesInput.basePrice.value ? 'text-info' : 'text-danger'">
+              {{enablesInput.basePrice.value ? 'check_circle' : 'unpublished'}}</mat-icon>
+          </button>
+          <mat-hint>Precio base de venta de SKU</mat-hint>
+          <mat-error *ngIf="formPrices.get('basePrice').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" appearance="fill">
+          <mat-label>Precio de costo</mat-label>
+          <input (keyup)="keyUpInputThreePrices()" type="number" formControlName="costPrice" matInput>
+          <button mat-icon-button matSuffix (click)="activeTwoInputs('costPrice')"
+            [attr.aria-label]="'costPrice password'" [attr.aria-pressed]="enablesInput.costPrice.value">
+            <mat-icon [ngClass]="enablesInput.costPrice.value ? 'text-info' : 'text-danger'">
+              {{enablesInput.costPrice.value ? 'check_circle' : 'unpublished'}}</mat-icon>
+          </button>
+          <mat-hint>Precio de costo de venta de SKU</mat-hint>
+          <mat-error *ngIf="formPrices.get('costPrice').invalid">Este campo es requerido</mat-error>
+        </mat-form-field>
+
+        <h3 class="font-3xl col-12 font-facebook mb-0">Precios Fijos</h3>
+        <small class="col-12">Lista de precios fijos existentes</small>
+        <ng-container formArrayName="fixedPrices">
+          <ng-container *ngFor="let fixedPrice of fixedPrices.controls; let i = index">
+            <div [formGroup]="fixedPrice" class="position-relative m-0 row shadow mt-4 pt-4 fixedPrice">
+              <button mat-mini-fab (click)="removeFormFixedPrice(i)" class="btns-actions">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-form-field class="col-6" appearance="fill">
+                <mat-label>Identificador de Politica comercial</mat-label>
+                <input formControlName="tradePolicyId" matInput>
+                <mat-hint>Id. de política comercial</mat-hint>
+                <mat-error *ngIf="fixedPrice.get('tradePolicyId').invalid">Este campo es requerido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-6" appearance="fill">
+                <mat-label>Value</mat-label>
+                <input type="number" formControlName="value" matInput>
+                <mat-hint>Valor de precio fijo</mat-hint>
+                <mat-error *ngIf="fixedPrice.get('value').invalid">Este campo es requerido</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-6" appearance="fill">
+                <mat-label>Precio de lista</mat-label>
+                <input type="number" formControlName="listPrice" matInput>
+                <mat-hint>Precio fijo de la lista de SKU</mat-hint>
+                <mat-error *ngIf="fixedPrice.get('listPrice').invalid">Este campo es requerido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-6" appearance="fill">
+                <mat-label>Minima cantidad</mat-label>
+                <input type="number" formControlName="minQuantity" matInput>
+                <mat-hint>Cantidad mínima de la SKU</mat-hint>
+                <mat-error *ngIf="fixedPrice.get('minQuantity').invalid">Este campo es requerido
+                </mat-error>
+              </mat-form-field>
+              <div [formGroup]="fixedPrice.controls['dateRange']" class="row pb-3 m-0 w-100">
+                <h3 class="font-2x1 col-12 font-facebook mb-0">Rango de precios</h3>
+
+                <!--
+                <mat-form-field class="col-6" appearance="fill">
+                  <mat-label>Desde</mat-label>
+                  <input type="number" formControlName="from" matInput>
+                  <mat-hint>Fecha de inicio del precio</mat-hint>
+                  <mat-error *ngIf="fixedPrice.controls['dateRange'].get('from').invalid">Este campo
+                    es requerido
+                  </mat-error>
+                </mat-form-field> -->
+
+                <mat-form-field class="col-6">
+                  <mat-label>Desde</mat-label>
+                  <input matInput formControlName="from" [matDatepicker]="dp1" disabled>
+                  <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                  <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="col-6">
+                  <mat-label>A</mat-label>
+                  <input matInput formControlName="to" [matDatepicker]="dp2" disabled>
+                  <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                  <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                </mat-form-field>
+                <!--
+                <mat-form-field class="col-6" appearance="fill">
+                  <mat-label>A</mat-label>
+                  <input type="number" formControlName="to" matInput>
+                  <mat-hint>Fecha de finalización del precio</mat-hint>
+                  <mat-error *ngIf="fixedPrice.controls['dateRange'].get('to').invalid">Este campo es
+                    requerido
+                  </mat-error>
+                </mat-form-field> -->
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <div class="col-12">
+          <button (click)="addFixedPrices()" color="primary" class="btn-pill btn btn-spotify my-3">Agregar
+            precio
+            fijo</button>
+        </div>
+        <div class="col-12">
+          <button color="primary" (click)="saveInServer()" mat-raised-button>Guardar precio &nbsp;<mat-icon>
+              send</mat-icon></button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

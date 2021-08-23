@@ -20,76 +20,101 @@ export interface IvtexProducts {
   AdWordsRemarketingCode: string;
   LomadeeCampaignCode: string;
   Score: number;
+  Specifications: {
+    FieldGroupId: number;
+    FieldGroupName: string;
+    FieldId: number;
+    FieldName: string;
+    FieldValueIds: number[];
+    FieldValues: string[];
+    IsFilter: boolean;
+  }[];
 }
 
-export interface IvtexSkuStore{
-// ActivateIfPossible: boolean,
-// CommercialConditionId: any,
-// CreationDate: string,
-// CubicWeight: number,
-// EstimatedDateArrival: any,
-// Height: any,
-// Id: number,
-// IsActive: boolean,
-// IsKit: boolean,
-// KitItensSellApart: boolean,
-// Length: any,
-// ManufacturerCode: any,
-// MeasurementUnit: string,
-// ModalType: any,
-// Name: string,
-// PackagedHeight: number,
-// PackagedLength: number,
-// PackagedWeightKg: number,
-// PackagedWidth: number,
-// ProductId: number,
-// RefId: string,
-// RewardValue: any,
-// UnitMultiplier: number,
-// Videos: any[],
-// WeightKg: any,
-// Width: any,
+export interface IvtexSkuStore {
+  // ActivateIfPossible: boolean,
+  // CommercialConditionId: any,
+  // CreationDate: string,
+  // CubicWeight: number,
+  // EstimatedDateArrival: any,
+  // Height: any,
+  // Id: number,
+  // IsActive: boolean,
+  // IsKit: boolean,
+  // KitItensSellApart: boolean,
+  // Length: any,
+  // ManufacturerCode: any,
+  // MeasurementUnit: string,
+  // ModalType: any,
+  // Name: string,
+  // PackagedHeight: number,
+  // PackagedLength: number,
+  // PackagedWeightKg: number,
+  // PackagedWidth: number,
+  // ProductId: number,
+  // RefId: string,
+  // RewardValue: any,
+  // UnitMultiplier: number,
+  // Videos: any[],
+  // WeightKg: any,
+  // Width: any,
 
-ActivateIfPossible: boolean,
-ApprovedAdminId: any,
-CommercialConditionId: number,
-CubicWeight: number,
-DateUpdated: string,
-EditionAdminId: any,
-EditionSkuId: any,
-EstimatedDateArrival: any,
-FlagKitItensSellApart: boolean,
-Height: number,
-Id: number,
-InternalNote: any,
-IsActive: boolean,
-IsDynamicKit: any,
-IsGiftCardRecharge: any,
-IsInventoried: any,
-IsKit: boolean,
-IsPersisted: boolean,
-IsRemoved: boolean,
-IsTransported: any,
-Length: number,
-ManufacturerCode: any,
-MeasurementUnit: string,
-ModalId: number,
-ModalType: any,
-Name: string,
-Position: number,
-ProductId: number,
-RealHeight: any,
-RealLength: any,
-RealWeightKg: any,
-RealWidth: any,
-RefId: string,
-ReferenceStockKeepingUnitId: any,
-RewardValue: any,
-SupplierCode: any,
-UnitMultiplier: number,
-WeightKg: number,
-Width: number,
-isKitOptimized: boolean,
+  ActivateIfPossible: boolean;
+  ApprovedAdminId: any;
+  CommercialConditionId: number;
+  CubicWeight: number;
+  DateUpdated: string;
+  EditionAdminId: any;
+  EditionSkuId: any;
+  EstimatedDateArrival: any;
+  FlagKitItensSellApart: boolean;
+
+  Height: number;
+  Id: number;
+  InternalNote: any;
+  IsActive: boolean;
+  IsDynamicKit: any;
+  IsGiftCardRecharge: any;
+  IsInventoried: any;
+  IsKit: boolean;
+  IsPersisted: boolean;
+  IsRemoved: boolean;
+  IsTransported: any;
+  KitItensSellApart?:boolean,
+  Length: number;
+  ManufacturerCode: any;
+  MeasurementUnit: string;
+  ModalId: number;
+  Specifications: {
+    FieldGroupId: number;
+    FieldGroupName: string;
+    FieldId: number;
+    FieldName: string;
+    FieldValueIds: number[];
+    FieldValues: string[];
+    IsFilter: boolean;
+  }[];
+  ModalType: any;
+  Name: string;
+  Position: number;
+  ProductId: number;
+  RealHeight: any;
+  RealLength: any;
+  RealWeightKg: any;
+  RealWidth: any;
+  RefId: string;
+  ReferenceStockKeepingUnitId: any;
+  RewardValue: any;
+  SupplierCode: any;
+  UnitMultiplier: number;
+  WeightKg: number;
+  Width: number;
+  isKitOptimized: boolean;
+  Images: {
+    FileId: number;
+    ImageName: string;
+    ImageUrl: string;
+  }[];
 }
 
 export interface IvtexResponseProduct {

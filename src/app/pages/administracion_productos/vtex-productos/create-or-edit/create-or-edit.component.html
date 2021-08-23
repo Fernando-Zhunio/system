@@ -114,16 +114,16 @@
     <mat-step [stepControl]="formValidationTwo" [editable]="false">
       <form [formGroup]="formValidationTwo">
         <ng-template matStepLabel>{{status=='create'?'Creación':'Edición'}} de Producto</ng-template>
-        <app-form-product [status]="status" (product)="getSkusAfterSaveProduct($event)" [agregados]="agregados" [vtexProduct]="vtexProduct"></app-form-product>
+        <app-form-product (vtexSpecifications)="getSpecification($event)" [status]="status" (product)="getSkusAfterSaveProduct($event)" [agregados]="agregados" [vtexProduct]="vtexProduct"></app-form-product>
       </form>
     </mat-step>
-    <mat-step [stepControl]="formValidationTwo" [editable]="false">
+    <!-- <mat-step *ngIf="status == 'create'" [stepControl]="formValidationTwo" [editable]="false">
       <ng-template matStepLabel>{{status=='create'?'Creación':'Edición'}} de Skus</ng-template>
-      <div *ngIf="skus" class=" shadow bg-white px-3 py-4 rounded-fz">
+      <div *ngIf="skus" class="shadow bg-white px-3 py-4 rounded-fz">
         <div *ngFor="let item of skus">
-          <app-form-skus [sku]="item" ></app-form-skus>
+          <app-form-skus [vtexSpecificationsSkus]="vtexSpecificationsSkus"  [sku]="item" ></app-form-skus>
         </div>
       </div>
-    </mat-step>
+    </mat-step> -->
   </mat-horizontal-stepper>
 </div>

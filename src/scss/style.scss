@@ -126,7 +126,11 @@ button {
 .bg-default {
     background-color: paleturquoise;
 }
-
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .parpadeo {
     animation: parpadeo 2s infinite;
 }

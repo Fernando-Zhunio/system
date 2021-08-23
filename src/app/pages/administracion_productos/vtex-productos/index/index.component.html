@@ -80,16 +80,16 @@
 
 
 <div *ngIf="!isload;" class="mt-4 card-columns">
-  <div *ngFor="let p of products" class="card border-0 rounded-fz overflow-hidden">
-    <!-- <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml> -->
-    <!-- <app-pagina-web [prestashop_product]="p"></app-pagina-web> -->
+  <div *ngFor="let p of products;let index_product=index" class="card border-0 rounded-fz overflow-hidden">
     <div class="card-body">
       <div>
         <div>
           <span class="{{p.status}} text-uppercase vtex-status pill-fz">{{p.status}}</span><br>
-          <button [routerLink]="[ './edit-product-vtex/', p.vtex_api_id ]" mat-mini-fab class="vtex-btn-edit">
-            <mat-icon>edit</mat-icon>
-          </button>
+          <span class="vtex-btn-edit">
+            <button *ngxPermissionsOnly="permission_page.product_edit" [routerLink]="[ './edit-product-vtex/', p.vtex_api_id ]" color="primary" mat-mini-fab>
+              <mat-icon>edit</mat-icon>
+            </button>
+          </span>
         </div>
         <div>
           {{p.name}}
@@ -104,9 +104,14 @@
             <span class="vtex-reference pill-fz">{{sku.reference_code}}</span>
             <img class="w-100 img-product rounded-fz position-relative"
               [src]="sku?.images && sku.images.length > 0 ? sku.images[0]?.ImageUrl  :img_not" [alt]="p.name">
-            <button mat-icon-button class="vtex-btn-edit bg-gray-200">
-              <mat-icon>edit</mat-icon>
-            </button>
+            <span class="vtex-btn-edit">
+              <button (click)="openModalPrices(sku.vtex_api_id,index_product)" mat-mini-fab>
+                <mat-icon>attach_money</mat-icon>
+              </button>
+              <button *ngxPermissionsOnly="permission_page.sku_edit" (click)="showSku(sku.vtex_api_id)" mat-icon-button class=" bg-gray-200">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </span>
           </div>
         </swiper>
       </div>

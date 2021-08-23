@@ -14,7 +14,7 @@ export class AuthService {
      ) {}
 
     //  createHeader(){
-    //   const token =localStorage.getItem('token'); 
+    //   const token =localStorage.getItem('token');
     //   const Header = new HttpHeaders({
     //     'accept': 'application/json',
     //     'Content-Type':'application/json',
@@ -27,6 +27,10 @@ export class AuthService {
 
   login(email, password): Observable<any> {
     return this.http.post(this.server + "auth/login", { email, password });
+  }
+
+  recuperationPassword(email): Observable<any> {
+    return this.http.post(this.server + "auth/password/email", { email });
   }
 
   saveToken(token) {

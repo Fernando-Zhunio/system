@@ -16,6 +16,9 @@ import { InConstructionComponent } from './views/in-construction/in-construction
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
+import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
+import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
+
 // @Component({
 //   selector: 'app-authentication',
 //   template: '<router-outlet></router-outlet>',
@@ -59,6 +62,17 @@ export const routes: Routes = [
     },
     canActivate:[AuthReverseGuard]
   },
+  {
+    path: 'recuperation-password',
+    component: FormRecuperationPasswordComponent,
+    canLoad:[RecuperatePasswordGuard],
+    resolve:{user:RecuperatePasswordGuard},
+    data: {
+      title: 'Recuperation password Page'
+    },
+    canActivate:[AuthReverseGuard]
+  },
+
   {
     path: 'register',
     component: RegisterComponent,
@@ -152,6 +166,10 @@ export const routes: Routes = [
         path: 'administracion-sistema',
         loadChildren: () => import('./pages/administracion-sistema/administracion-sistema.module').then(m => m.AdministracionSistemaModule)
       },
+      {
+        path: 'recursos-humanos',
+        loadChildren: () => import('./pages/rrhh/rrhh.module').then(m => m.RrhhModule)
+      },
 
       // mercado-libre
       {
@@ -185,6 +203,6 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+exports: [ RouterModule ]
 })
 export class AppRoutingModule {}

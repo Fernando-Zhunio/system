@@ -18,7 +18,7 @@
         </mat-form-field>
 
         <mat-form-field class="col-12" appearance="fill">
-          <mat-label>Sku referencia</mat-label>
+          <mat-label>Referencia</mat-label>
           <input formControlName="RefId" matInput required>
           <mat-error *ngIf="formSku.get('RefId').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
@@ -48,44 +48,44 @@
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
-          <mat-label>Sku altura</mat-label>
+          <mat-label>Altura</mat-label>
           <input formControlName="Height" matInput required>
           <mat-error *ngIf="formSku.get('Height').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
-          <mat-label>Sku longitud</mat-label>
+          <mat-label>Longitud</mat-label>
           <input formControlName="Length" matInput required>
           <mat-error *ngIf="formSku.get('Length').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
-          <mat-label>Sku Ancho</mat-label>
+          <mat-label>Ancho</mat-label>
           <input formControlName="Width" matInput required>
           <mat-error *ngIf="formSku.get('Width').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
-          <mat-label>Sku Ancho en kilos</mat-label>
+          <mat-label>Ancho en kilos</mat-label>
           <input formControlName="WeightKg" matInput required>
           <mat-error *ngIf="formSku.get('WeightKg').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label> Anchura cubica</mat-label>
-          <input formControlName="CubicWeight" matInput required>
+          <input formControlName="CubicWeight" matInput >
           <mat-error *ngIf="formSku.get('CubicWeight').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Unidad de medida</mat-label>
-          <input formControlName="MeasurementUnit" matInput required>
+          <input formControlName="MeasurementUnit" matInput >
           <mat-error *ngIf="formSku.get('MeasurementUnit').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Multiplicador de Unidad</mat-label>
-          <input formControlName="UnitMultiplier" matInput required>
+          <input formControlName="UnitMultiplier" matInput >
           <mat-hint>Multiplica la cantidad de SKU insertadas en el carrito</mat-hint>
           <mat-error *ngIf="formSku.get('UnitMultiplier').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
@@ -98,26 +98,26 @@
         </mat-form-field>
         <mat-form-field class="col-12" appearance="fill">
           <mat-label> Cuánto será recompensado el cliente comprando la SKU</mat-label>
-          <input formControlName="RewardValue" matInput required>
+          <input type="number" formControlName="RewardValue" matInput >
           <mat-error *ngIf="formSku.get('RewardValue').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
 
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Código de fabricante </mat-label>
-          <input formControlName="ManufacturerCode" matInput required>
+          <input formControlName="ManufacturerCode" matInput >
           <mat-error *ngIf="formSku.get('ManufacturerCode').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Condicion comercial </mat-label>
-          <input formControlName="CommercialConditionId" matInput required>
+          <input formControlName="CommercialConditionId" matInput>
           <mat-error *ngIf="formSku.get('CommercialConditionId').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Define el modelo de entrega</mat-label>
-          <input formControlName="ModalType" matInput required>
+          <input formControlName="ModalType" matInput >
           <mat-error *ngIf="formSku.get('ModalType').invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
@@ -125,76 +125,113 @@
 
         <mat-checkbox class="col-12" formControlName="IsActive">Esta Activo?</mat-checkbox>
         <mat-checkbox class="col-12" formControlName="IsKit">Esta Un Kit?</mat-checkbox>
-        <button [disabled]="isLoadSku" mat-raised-button color="primary"
+        <button *ngxPermissionsOnly="permission_page.product_create_or_edit" [disabled]="isLoadSku" mat-raised-button color="primary"
           (click)="saveInServeSku()">{{status=="create"?"Guardar":"Actualizar"}} Sku</button>
       </div>
     </mat-tab>
+
+    <!-- tab de IMAGENES -->
     <mat-tab label="Imagenes">
       <ngx-spinner  name="sku-img"
         bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
         <p style="color: white"> Subiendo imagen espere... </p>
       </ngx-spinner>
-      <div class="form-group">
-        <label>Archivo de imagen</label>
-        <input type="file" accept=".png,.jpeg,.jpg" (change)="loadImgSku($event)" class="form-control-file" type="file"
-          name="">
+      <div class="row my-4 p-4 mx-0 border-bottom">
+        <div class=" col-7 d-flex justify-content-center align-items-center border-right">
+          <form [formGroup]="formFileSku" class="m-0 row">
+            <mat-form-field class="col-12" appearance="fill">
+              <mat-label>Etiqueta</mat-label>
+              <input formControlName="Label" matInput required>
+              <mat-error *ngIf="formFileSku.get('Label').invalid">Este campo es requerido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-12" appearance="fill">
+              <mat-label>Nombre</mat-label>
+              <input formControlName="Name" matInput required>
+              <mat-error *ngIf="formFileSku.get('Name').invalid">Este campo es requerido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-12" appearance="fill">
+              <mat-label>Texto</mat-label>
+              <input formControlName="Text" matInput required>
+              <mat-error *ngIf="formFileSku.get('Text').invalid">Este campo es requerido</mat-error>
+            </mat-form-field>
+            <!--
+              <mat-form-field class="col-6" appearance="fill">
+                <mat-label>Url</mat-label>
+                <input formControlName="Url" matInput required>
+                <mat-error *ngIf="formFileSku.get('Url').invalid">Este campo es requerido</mat-error>
+              </mat-form-field> -->
+
+            <mat-checkbox class="col-12" formControlName="IsMain">Es la imagen principal</mat-checkbox>
+          </form>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label>Archivo de imagen</label>
+            <input type="file" accept=".png,.jpeg,.jpg" (change)="loadImgSku($event)" class="form-control-file">
+          </div>
+          <div *ngIf="currentImgSku" class="text-center">
+            <img [src]="currentImgSku" style="max-height: 200px;" alt="imagen de sku">
+          </div>
+        </div>
+        <button *ngxPermissionsOnly="permission_page.product_create_or_edit" [disabled]="isLoadSku" mat-raised-button color="accent" (click)="saveInServeSkuImg()">Guardar imagen</button>
       </div>
-      <div *ngIf="currentImgSku" class="text-center">
-        <img [src]="currentImgSku" style="max-height: 200px;" alt="imagen de sku">
-      </div>
-      <form [formGroup]="formFileSku" class="m-0 row">
-        <mat-form-field class="col-6" appearance="fill">
-          <mat-label>Etiqueta</mat-label>
-          <input formControlName="Label" matInput required>
-          <mat-error *ngIf="formFileSku.get('Label').invalid">Este campo es requerido</mat-error>
-        </mat-form-field>
 
-        <mat-form-field class="col-6" appearance="fill">
-          <mat-label>Name</mat-label>
-          <input formControlName="Name" matInput required>
-          <mat-error *ngIf="formFileSku.get('Name').invalid">Este campo es requerido</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="col-6" appearance="fill">
-          <mat-label>Texto</mat-label>
-          <input formControlName="Text" matInput required>
-          <mat-error *ngIf="formFileSku.get('Text').invalid">Este campo es requerido</mat-error>
-        </mat-form-field>
-        <!--
-          <mat-form-field class="col-6" appearance="fill">
-            <mat-label>Url</mat-label>
-            <input formControlName="Url" matInput required>
-            <mat-error *ngIf="formFileSku.get('Url').invalid">Este campo es requerido</mat-error>
-          </mat-form-field> -->
-
-        <mat-checkbox class="col-6" formControlName="IsMain">Es la imagen principal</mat-checkbox>
-      </form>
-      <button mat-raised-button color="accent" (click)="saveInServeSkuImg()">Guardar imagen</button>
       <!-- <div *ngFor="let imageSku of imagesSku">
         </div> -->
       <div *ngIf="imagesSku.length > 0">
-        <h3 class="font-facebook font-weight-bold font-2xl">Imagenes</h3>
-        <div>
+        <h3 class="font-facebook font-weight-bold font-2xl mt-4">Imagenes</h3>
+        <div class="position-relative">
+          <div *ngIf="isLoadDestroyImg" class="w-100 h-100 position-absolute d-flex justify-content-center align-items-center load-panel">Eliminando imagen espere...</div>
           <div style="display: grid;grid-template-columns: repeat(4,25%);">
             <div *ngFor="let img of imagesSku" class="position-relative">
-              <button (click)="destroyImg(img.Id)" mat-icon-button style="position: absolute;top:10px; right: 10px;">
+              <button *ngxPermissionsOnly="permission_page.product_create_or_edit" (click)="destroyImg(img.FileId)" mat-icon-button style="position: absolute;top:10px; right: 10px;">
                 <mat-icon>close</mat-icon>
               </button>
-              <img [src]="img.url" alt="" class="w-100">
+              <img [src]="img.ImageUrl" alt="" class="w-100">
               <!-- <div><span>i</span></div> -->
             </div>
           </div>
         </div>
       </div>
       <!-- </ng-template> -->
-
     </mat-tab>
     <mat-tab label="Videos">
 
     </mat-tab>
 
     <mat-tab label="Especificaciones">
+      <div *ngIf="vtexSpecificationsSkus.length < 1;else especificationTemplate">
+        <div>
+          <h3 class="font-facebook font-3xl mt-4">Esta categoria no posee especificaciones</h3>
+        </div>
+      </div>
+      <ng-template #especificationTemplate>
+        <div class="mt-4" [formGroup]="formSpecification">
+          <div  *ngFor="let item of vtexSpecificationsSkus">
+            <!-- {{item.Name}} -->
+            <div class="item-specification">
+              <label>{{item.Name}}:</label>
+              <mat-radio-group *ngIf="item.FieldTypeName == 'Radio'"
+              [required]="item.IsRequired" [formControlName]="item.FieldId"
+              aria-label="Select an option">
+                <mat-radio-button #button *ngFor="let value of item.Values"
+                [value]="value.Value">{{value.Value}}</mat-radio-button>
+                <!-- <mat-radio-button value="2">Option 2</mat-radio-button> -->
+              </mat-radio-group>
 
+              <mat-selection-list *ngIf="item.FieldTypeName == 'CheckBox'"
+              [formControlName]="item.FieldId">
+                <mat-list-option [value]="value.Value" *ngFor="let value of item.Values">
+                  {{value.Value}}
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </div>

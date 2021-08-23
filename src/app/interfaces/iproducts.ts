@@ -275,7 +275,8 @@ export interface IproductVtexSku {
   product_id: number;
   created_at: string;
   updated_at: string;
-  vtex_product?:IproductVtex
+  vtex_product?:IproductVtex,
+  full_price: number;
 }
 
 export interface IproductVtex {

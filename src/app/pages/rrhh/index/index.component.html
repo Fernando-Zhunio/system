@@ -1,0 +1,139 @@
+<div>
+  <div class="content-grid">
+    <div class="container h-100">
+      <div class="parent h-100">
+        <!-- Solicitudes -->
+        <div class="div1 item-grid shadow lead  p-3 bg-white">
+          <div class="h-100">
+            <div class="grid-tag">
+              <span><img src="/assets/img/dashboard_rrhh/resume.svg" class="w-75" alt=""></span>
+              <span class="font-tag">Total de Solicitudes <br> <strong>{{requestCount}}</strong></span>
+            </div>
+          </div>
+        </div>
+        <!-- Empleos -->
+        <div class="div2 item-grid shadow lead  p-3 bg-white">
+          <div class="h-100">
+            <div class="grid-tag">
+              <span><img src="/assets/img/dashboard_rrhh/suitcase.svg" class="w-75" alt=""></span>
+              <span class="font-tag">Total de Empleos<br> <strong>{{workCount}}</strong></span>
+            </div>
+          </div>
+        </div>
+        <!-- Personas -->
+        <div class="div3 item-grid shadow lead p-3 bg-white">
+          <div class="h-100">
+            <div class="grid-tag">
+              <span><img src="/assets/img/dashboard_rrhh/group.svg" class="w-75" alt=""></span>
+              <span class="font-tag">Total de Personas <br> <strong>{{userCount}}</strong></span>
+            </div>
+          </div>
+        </div>
+        <!-- Falta -->
+        <div class="div4 item-grid shadow lead p-3 bg-white">
+          <div class="h-100">
+            <div class="grid-tag">
+              <span><img src="/assets/img/dashboard_rrhh/cv.svg" class="w-75" alt=""></span>
+              <span class="font-tag">Total de HV <br> <strong>{{cvCount}}</strong></span>
+            </div>
+          </div>
+        </div>
+        <!-- Solicitudes -->
+        <div class="div5 item-grid shadow p-3 bg-white position-relative">
+          <div class="font-5xl font-facebook text-left">Ultimas solicitudes</div>
+          <div class="comment-content rounded-fz p-3">
+            <div *ngFor="let request of requests" class="p-1">
+              <div class="rounded-fz bg-light-blue p-3">
+                <div class="header-grid">
+                  <img class="rounded-circle" [src]="request.user.photo.real_permalink || '/assets/img/avatars/profile-user.svg'" alt="image user">
+                  <div class="font-2xl font-facebook">{{request.user.first_name}} {{request.user.last_name}}</div>
+                </div>
+                <div class="font-italic my-1">Solicitud de empleo: <strong>{{request.work.title}}</strong></div>
+                <div *ngIf="request.comment">
+                  <p class="font-italic">Comentario: <strong>{{request.comment}}</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-add-request" mat-fab><mat-icon>visibility</mat-icon></button>
+        </div>
+        <!-- Empleos -->
+        <div class="div6 hp item-grid shadow p-4 bg-white text-center position-relative">
+          <div class="row">
+            <div class="col-md-7 col-12">
+              <div class=" font-4xl w-100 font-facebook text-left">Empleos</div>
+              <table class=" font-2xl lead">
+                <tbody>
+                  <tr>
+                    <td><i class="far fa-paper-plane"></i></td>
+                    <td>Disponibles</td>
+                    <td>{{statesWorkCount[enumStatus.ACTION_WORK_AVAILABLE].count}}</td>
+                  </tr>
+                  <tr>
+                    <td><i class="far fa-thumbs-down"></i></td>
+                    <td>Expirados</td>
+                    <td>{{statesWorkCount[enumStatus.ACTION_WORK_EXPIRED].count}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-5 col-12">
+              <img src="/assets/img/dashboard_rrhh/employee.svg" class="w-75 m-3" alt="">
+            </div>
+          </div>
+
+          <button [routerLink]="['../works']" class="btn-add-job" mat-fab>
+            <mat-icon>construction</mat-icon>
+          </button>
+        </div>
+
+        <div class="div7 item-grid shadow lead p-4 bg-white position-relative">
+          <div class="h-100">
+            <div class="h-100">
+              <div class="row">
+                <div class="col-md-7 col-12">
+                  <div class="header-postulaciones font-3xl font-facebook">Postulaciones</div>
+                  <div class="hp font-2xl ">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td><i class="far fa-paper-plane"></i></td>
+                          <td>Enviados</td>
+                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_SENDED].count}}</td>
+                        </tr>
+                        <tr>
+                          <td><i class="far fa-thumbs-down"></i></td>
+                          <td>Rechazados</td>
+                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_REJECTED].count}}</td>
+                        </tr>
+                        <tr>
+                          <td><i class="far fa-thumbs-up"></i></td>
+                          <td>Aprobados</td>
+                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_ACEPTED].count}}</td>
+                        </tr>
+                        <tr>
+                          <td><i class="far fa-thumbs-up"></i></td>
+                          <td>Solicitud destacada <br></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-5 col-12">
+                  <img src="/assets/img/dashboard_rrhh/team.svg" class="w-75 m-3" alt="">
+                </div>
+                <small class="pl-3 font-sm text-truncate font-italic col-8">{{bestRequestsCount[0]?.title}}</small>
+              </div>
+            </div>
+          </div>
+          <button class="btn-add-request" mat-fab>
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

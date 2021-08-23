@@ -1,0 +1,28 @@
+
+.grid-menu-multi-publication{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+}
+
+.grid-menu-multi-publication .item-menu {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    border-radius: 30px;
+background: #ffffff;
+box-shadow:  16px 16px 32px #d9d9d9,
+             -16px -16px 32px #ffffff;
+             align-items: center;
+
+}
+
+.grid-menu-multi-publication .item-menu:hover {
+  box-shadow:  16px 16px 32px #d9d9d9,
+             -16px -16px 32px #ffffff;
+  cursor: pointer;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+
+
+}

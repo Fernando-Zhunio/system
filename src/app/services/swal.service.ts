@@ -1,26 +1,72 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
+interface Iswal {
+  background?: string; // #fff
+  grow?: "row" | "column" | "fullscreen" | "false";
+  icon?: "warning" | "error" | "success" | "info" | "question";
+  input?:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "tel"
+    | "range"
+    | "textarea"
+    | "select"
+    | "radio"
+    | "checkbox"
+    | "file"
+    | "url";
+  position?:
+    | "top"
+    | "top-start"
+    | "top-end"
+    | "center"
+    | "center-start"
+    | "center-end"
+    | "bottom"
+    | "bottom-start"
+    | "bottom-end";
+  showConfirmButton?: boolean;
+  timer?: number;
+  title?: string;
+  width?: string; //32rem
+  text?:string;
+  html?:string
+}
 declare let Swal: any;
+
 @Injectable({
   providedIn: "root",
 })
 export class SwalService {
-  constructor(private  router:Router) {}
+  constructor(private router: Router) {}
 
   public static swalFire(
-    title,
-    icon = "success",
-    position = "top-end",
-    timer = 1500
-  ) {
-    Swal.fire({
-      position,
-      icon,
-      title,
+    // title,
+    // icon = "success",
+    // position:  "top-end",
+    // timer = 1500
+    iswal: Iswal = {
+      title: "Falta titulo",
+      icon: "success",
+      position: "top-end",
+      timer: 1500,
       showConfirmButton: false,
-      timer,
-    });
+
+    }
+  ) {
+    // Swal.fire({
+    //   position: iswal.position,
+    //   icon: iswal.icon,
+    //   title: iswal.title,
+    //   showConfirmButton: iswal.showConfirmButton,
+    //   timer: iswal.timer,
+    // });
+    console.log(iswal);
+
+    Swal.fire(iswal)
   }
 
   /**
@@ -32,14 +78,20 @@ export class SwalService {
    * @param cancelTextBtn
    * @returns retorna una promesa con isConfirmed como boolean
    */
-  public static swalConfirmation(title,text,icon="success",confirmTexBtnt="Si, deseo eliminar",cancelTextBtn="No, deseo eliminar"):Promise<any>{
+  public static swalConfirmation(
+    title,
+    text,
+    icon = "success",
+    confirmTexBtnt = "Si, deseo eliminar",
+    cancelTextBtn = "No, deseo eliminar"
+  ): Promise<any> {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: 'btn btn-success mr-1',
-        cancelButton: 'btn btn-danger'
+        confirmButton: "btn btn-success mr-1",
+        cancelButton: "btn btn-danger",
       },
-      buttonsStyling: false
-    })
+      buttonsStyling: false,
+    });
     return swalWithBootstrapButtons.fire({
       title,
       text,
@@ -50,8 +102,6 @@ export class SwalService {
       reverseButtons: false,
     });
   }
-
-
 
   public static swalFireWitButton(
     title,
@@ -66,9 +116,8 @@ export class SwalService {
     });
   }
 
-  public static swalToast( title, icon = "success",position = "top-end")
-  {
-   const title_html =`<div class="d-flex font-weight-bold">${title}</div>`;
+  public static swalToast(title, icon = "success", position = "top-end") {
+    const title_html = `<div class="d-flex font-weight-bold">${title}</div>`;
 
     const Toast = Swal.mixin({
       toast: true,
@@ -88,12 +137,21 @@ export class SwalService {
       title: title_html,
       customClass: {
         // container: "p-2",
-        popup: "p-2"}
+        popup: "p-2",
+      },
     });
   }
 
-  public static swalToastNotification(router, name_user,title,icon="info",url_img=null,url,position="top-end"){
-    if(icon == "default") icon ="success";
+  public static swalToastNotification(
+    router,
+    name_user,
+    title,
+    icon = "info",
+    url_img = null,
+    url,
+    position = "top-end"
+  ) {
+    if (icon == "default") icon = "success";
     const Toast = Swal.mixin({
       toast: true,
       position,
@@ -106,27 +164,23 @@ export class SwalService {
         image: "m-0 rounded-fz",
       },
 
-
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
         toast.addEventListener("mouseleave", Swal.resumeTimer);
-        toast.addEventListener("click",()=>{
-            router.navigate([url])
-
-        })
+        toast.addEventListener("click", () => {
+          router.navigate([url]);
+        });
       },
     });
 
-
-    let fire:any={};
-    fire.title =`<div style="max-width: 200px;line-height: 1.5;" class="font-xs font-weight-light"><strong>${name_user}</strong><br>${title}</div>` ;
-    if(url_img){
+    let fire: any = {};
+    fire.title = `<div style="max-width: 200px;line-height: 1.5;" class="font-xs font-weight-light"><strong>${name_user}</strong><br>${title}</div>`;
+    if (url_img) {
       fire.imageUrl = url_img;
-      fire.imageWidth= '50px';
-      fire.imageHeight= '50px';
-    }
-    else fire.icon = icon;
+      fire.imageWidth = "50px";
+      fire.imageHeight = "50px";
+    } else fire.icon = icon;
     console.log(fire);
     Toast.fire(fire);
   }

@@ -40,11 +40,14 @@ import { CustomReusingStrategy } from '../../class/custom-reusing-strategy';
 import { ConvertObjectToArrayPipe } from '../../pipes/convert-object-to-array.pipe';
 import { KeysObjectToArrayPipe } from '../../pipes/keys-object-to-array.pipe';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
+import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
+import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
+import { TemplateSearchModule } from './../../Modulos/template-search/template-search.module';
 
 @NgModule({
-  declarations: [ RepublicarCuentasModalComponent, CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent],
+  declarations: [ RepublicarCuentasModalComponent, CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     CatalogoRoutingModule,
     MatTabsModule,
     NgxFileDropModule,
@@ -74,6 +77,7 @@ import { ConvertsModule } from '../../Modulos/converts/converts.module';
     MatDialogModule,
     ConvertsModule,
     SortablejsModule.forRoot({ animation: 150 }),
+    TemplateSearchModule
   ],
   // providers: [{ provide: RouteReuseStrategy, useClass: CustomReusingStrategy }]
   entryComponents:[RepublicarCuentasModalComponent]

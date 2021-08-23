@@ -7,7 +7,8 @@ import { PublicacionesComponent } from './publicaciones/publicaciones.component'
 import { CreateOrEditPublicacionComponent } from './publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
-
+import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
+import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 @Component({
   selector: 'app-catalogo',
   template: '<router-outlet></router-outlet>',
@@ -79,6 +80,30 @@ const routes: Routes = [
         // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       },
       {
+        path: 'publicaciones/menu-multi-publicaciones',
+        component:MenuMultiPublicationComponent,
+        data: {
+          isEdit: false,
+          permissions: {
+            only: ["super-admin", "catalogs.publications.menu-multi"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
+        {
+        path: 'publicaciones/multi-publicaciones',
+        component:CreateOrEditMultipublicationComponent,
+        data: {
+          isEdit: false,
+          permissions: {
+            only: ["super-admin", "catalogs.publications.multi"],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+      },
+      {
         path: 'publicaciones/edit/:id',
         component:CreateOrEditPublicacionComponent,
         data: {
@@ -121,6 +146,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+exports: [RouterModule]
 })
 export class CatalogoRoutingModule {}

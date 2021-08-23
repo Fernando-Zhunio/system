@@ -1,43 +1,86 @@
 <div style="background-image: url('assets/img/login.svg');background-size: cover;" class="pt-sm-0 pt-4 vh-100 bg-login">
-    <main class="main h-100  d-flex align-items-center justify-content-center p-md-3">
-        <div class="row m-0 p-0">
-            <form [formGroup]="formLogin" (ngSubmit)="login()" class="col-md-6 col-12 d-flex align-items-center justify-content-center">
-                <mat-card class="col-md-8 col-12">
-                    <mat-card-header>
-                        <mat-card-title>LOGIN SYSTEM</mat-card-title>
-                        <mat-card-subtitle>Formulario de inicio de sesión de Novisolutions</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <mat-form-field appearance="fill" class="d-block">
-                            <mat-label>Correo</mat-label>
-                            <input matInput autocomplete type="email" formControlName="email">
-                            <mat-error *ngIf="formLogin.get('email').invalid">Ingrese un correo valido</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="d-block">
-                            <mat-label>Contraseña</mat-label>
-                            <input autocomplete matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-                            <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                            </button>
-                            <mat-error *ngIf="formLogin.get('password').invalid">Ingrese la contraseña</mat-error>
-                        </mat-form-field>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button color="primary" [disabled]="formLogin.invalid || btnLogin" type="submit" mat-raised-button>Iniciar sesion</button>
-                    </mat-card-actions>
-                </mat-card>
-            </form>
-            <div class="text-info col-md-6 d-flex align-items-center">
-                <div>
-                    <div class="font-facebook mb-md-5 mb-3" style="font-size: 5vw;">NOVISOLUTIONS</div>
-                    <p class="lead">Este sistema de información ayuda a administrar, recolectar, recuperar, procesar, almacenar y distribuir información relevante para los procesos fundamentales y las particularidades de la organización.
-                    </p>
-                </div>
-                <!-- <hr class="my-4">
-                <p>Content</p> -->
-            </div>
+  <main class="main h-100  d-flex align-items-center justify-content-center p-md-3">
+    <div class="row m-0 p-0">
+      <form *ngIf="isLoginActive;else templateRecuperarCuenta" [formGroup]="formLogin" (ngSubmit)="login()"
+        class="col-md-6 col-12 d-flex align-items-center justify-content-center">
+        <mat-card class="col-md-8 col-12">
+          <mat-card-header>
+            <mat-card-title>LOGIN SYSTEM</mat-card-title>
+            <mat-card-subtitle>Formulario de inicio de sesión de Novisolutions</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field appearance="fill" class="d-block">
+              <mat-label>Correo institucional</mat-label>
+              <input matInput autocomplete type="email" formControlName="email">
+              <mat-error *ngIf="formLogin.get('email').invalid">Ingrese un correo valido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="d-block">
+              <mat-label>Contraseña</mat-label>
+              <input autocomplete matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+              <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="formLogin.get('password').invalid">Ingrese la contraseña</mat-error>
+            </mat-form-field>
+          </mat-card-content>
+          <mat-card-actions>
+            <button color="primary" [disabled]="formLogin.invalid || btnLogin" type="submit" mat-raised-button>Iniciar
+              sesion</button>
+            <button color="primary" (click)="isLoginActive=false" type="button" mat-raised-button>Recuperar
+              cuenta</button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+      <ng-template #templateRecuperarCuenta>
+        <form [formGroup]="formRecuperacionCuenta"
+          class="col-md-6 col-12 d-flex align-items-center justify-content-center">
+          <mat-card class="col-md-8 col-12">
+            <mat-card-header>
+              <mat-card-title>Recuperación de cuenta</mat-card-title>
+              <mat-card-subtitle>Formulario de recuperación de cuenta de Novisolutions</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field appearance="fill" class="d-block">
+                <mat-label>Correo</mat-label>
+                <input matInput autocomplete type="email" formControlName="email">
+                <mat-error *ngIf="formRecuperacionCuenta.get('email').invalid">Ingrese un correo valido</mat-error>
+              </mat-form-field>
+              <!-- <mat-form-field appearance="fill" class="d-block">
+                          <mat-label>Contraseña</mat-label>
+                          <input autocomplete matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                          <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                          </button>
+                          <mat-error *ngIf="formLogin.get('password').invalid">Ingrese la contraseña</mat-error>
+                      </mat-form-field> -->
+            </mat-card-content>
+            <mat-card-actions>
+              <button (click)="recuperacionCuenta()" color="primary" [disabled]="formRecuperacionCuenta.invalid" type="submit"
+                mat-raised-button>Enviar</button>
+              <button color="primary" (click)="isLoginActive= true" type="button" mat-raised-button>Ir a inicio de
+                sesión</button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+
+      </ng-template>
+
+
+
+      <div class="text-info col-md-6 d-flex align-items-center">
+        <div>
+          <div class="font-facebook mb-md-5 mb-3" style="font-size: 5vw;">NOVISOLUTIONS</div>
+          <p class="lead">Este sistema de información ayuda a administrar, recolectar, recuperar, procesar, almacenar y
+            distribuir información relevante para los procesos fundamentales y las particularidades de la organización.
+          </p>
         </div>
-        <!-- <div class="container">
+        <!-- <hr class="my-4">
+                <p>Content</p> -->
+      </div>
+    </div>
+
+    <!-- <div class="container">
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <div class="card-group">
@@ -85,8 +128,8 @@
                 </div>
             </div>
         </div> -->
-    </main>
+  </main>
 </div>
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
-    <p style="color: white"> Cargando... </p>
+  <p style="color: white"> Cargando... </p>
 </ngx-spinner>

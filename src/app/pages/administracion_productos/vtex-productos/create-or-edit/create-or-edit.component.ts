@@ -18,6 +18,7 @@ import {
   IvtexSkuStore,
 } from "./../../../../interfaces/vtex/iproducts";
 import { ActivatedRoute } from "@angular/router";
+import { Ispecification } from './../../../../interfaces/vtex/ispecification';
 
 @Component({
   selector: "app-create-or-edit",
@@ -57,7 +58,7 @@ export class CreateOrEditComponent implements OnInit {
   formsSku: number[] = [];
   status: "create" | "edit" = "create";
   isload: boolean;
-  url: string = "products-admin/product-simple";
+  url: string = "products-admin/vtex/product-simple";
   paginator: Ipagination<Iproduct3>;
   products: Iproduct3[] = [];
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
@@ -77,11 +78,11 @@ export class CreateOrEditComponent implements OnInit {
         this.status = "edit";
         this.spinner_ngx.show();
         const id = Number.parseInt(this.act_router.snapshot.paramMap.get("id"));
-        this.s_standart.show('products-admin/product-vtex/'+id+'/edit').subscribe((res:{success:boolean,data:IvtexProducts})=>{
+        this.s_standart.show('products-admin/vtex/product-vtex/'+id+'/edit').subscribe((res:{success:boolean,data:IvtexProducts})=>{
           console.log(res);
           if(res &&res.hasOwnProperty('success') && res.success){
             this.vtexProduct = res.data;
-            SwalService.swalConfirmation("Editando\n"+this.vtexProduct.Name,"Vas a agregar un sku a este producto?","question","Si, quiero agreagr un sku","No, continuar")
+            SwalService.swalConfirmation("Editando\n"+this.vtexProduct.Name,"Vas a agregar un sku a este producto?","question","Si, quiero agreagar un sku","No, continuar")
             .then(result=>{
               if(!result.isConfirmed){
                 this.goForward();
@@ -187,5 +188,12 @@ export class CreateOrEditComponent implements OnInit {
   changePaginator(event): void {
     this.headerComponent.searchBar(event);
     console.log(event);
+  }
+
+  vtexSpecificationsSkus:Ispecification[] = []
+  vtexSpecificationsProduct:Ispecification[] = []
+  getSpecification($event):void{
+    this.vtexSpecificationsProduct = $event.specification_products;
+    this.vtexSpecificationsSkus = $event.specification_skus;
   }
 }

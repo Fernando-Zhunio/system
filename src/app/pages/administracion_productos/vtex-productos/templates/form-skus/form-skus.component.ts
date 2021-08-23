@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Sanitizer } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, Sanitizer } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Iproduct3 } from "../../../../../interfaces/iproducts";
 import { SwalService } from "../../../../../services/swal.service";
@@ -13,7 +13,18 @@ import {
 import { DomSanitizer } from "@angular/platform-browser";
 import { environment } from "../../../../../../environments/environment";
 import { NgxSpinnerService } from "ngx-spinner";
-
+import { Ispecification } from "./../../../../../interfaces/vtex/ispecification";
+import { Subscription } from "rxjs";
+import { collect } from "collect.js";
+interface IformatSpecification {
+  FieldId: number;
+  FieldName: string;
+  FieldValueIds: number[];
+  FieldValues: string[];
+  IsFilter: boolean;
+  FieldGroupId: number;
+  FieldGroupName: string;
+}
 @Component({
   selector: "app-form-skus",
   templateUrl: "./form-skus.component.html",
@@ -29,8 +40,10 @@ export class FormSkusComponent implements OnInit {
   // @Input() idProduct: number;
   @Input() sku: IvtexSkuStore = null;
   @Input() vtex_product: IvtexResponseProduct;
+  @Input() vtexSpecificationsSkus: Ispecification[] = [];
+  @Output() emitSave = new EventEmitter<any>();
 
-  status: "create" | "update" = "create";
+  @Input() status: "create" | "update" = "create";
   formSku: FormGroup = new FormGroup({
     ProductId: new FormControl(null, [Validators.required]),
     IsActive: new FormControl(null, []),
@@ -55,8 +68,9 @@ export class FormSkusComponent implements OnInit {
     MeasurementUnit: new FormControl(null, []),
     UnitMultiplier: new FormControl(null, [Validators.required]),
     ModalType: new FormControl(null, []),
-    KitItensSellApart: new FormControl(null, []),
+    KitItensSellApart: new FormControl(false, []),
   });
+
 
   formFileSku: FormGroup = new FormGroup({
     IsMain: new FormControl(false, [Validators.required]),
@@ -65,93 +79,143 @@ export class FormSkusComponent implements OnInit {
     Text: new FormControl("", [Validators.required]),
     // Img:new FormControl(null,[Validators.required]),
   });
-
+  formSpecification: FormGroup = new FormGroup({});
+  permission_page ={product_create_or_edit:['products-admin.vtex.products.skus.edit','products-admin.vtex.products.skus.create']}
   file: File = null;
-  imagesSku: any[] = [];
+  imagesSku: {
+    FileId: number;
+    ImageName: string;
+    ImageUrl: string;
+  }[] = [];
   currentImgSku: any;
   isLoadSku: boolean = false;
+  isLoadDestroyImg:boolean = false;
   server_vtex_file: string = environment.server_vtex_file;
   ngOnInit(): void {
     this.onChangeStepper(null);
   }
 
   onChangeStepper(event): void {
-    const {
-      ActivateIfPossible,
-      CommercialConditionId,
-      // CreationDate,
-      CubicWeight,
-      EstimatedDateArrival,
-      Height,
-      Id,
-      IsActive,
-      IsKit,
-      isKitOptimized,
-      Length,
-      ManufacturerCode,
-      MeasurementUnit,
-      ModalType,
-      Name,
-      RealHeight,
-      RealLength,
-      RealWeightKg,
-      RealWidth,
-      ProductId,
-      RefId,
-      RewardValue,
-      UnitMultiplier,
-      // Videos,
-      WeightKg,
-      Width,
-    } = this.sku;
-    this.formSku.setValue({
-      // ActivateIfPossible,
-      CommercialConditionId,
-      // CreationDate,
-      CubicWeight,
-      EstimatedDateArrival,
-      Height,
-      // Id,
-      IsActive,
-      IsKit,
-      KitItensSellApart:isKitOptimized,
-      Length,
-      ManufacturerCode,
-      MeasurementUnit,
-      ModalType,
-      Name,
-      PackagedHeight:RealHeight,
-      PackagedLength:RealLength,
-      PackagedWeightKg:RealWeightKg,
-      PackagedWidth:RealWidth,
-      ProductId,
-      RefId,
-      RewardValue,
-      UnitMultiplier,
-      // Videos,
-      WeightKg,
-      Width,
-    })
-    // this.formSku.controls["ProductId"].setValue(this.sku.ProductId);
-    // this.formSku.controls["Name"].setValue(this.sku.Name);
-    // this.formSku.controls["RefId"].setValue(this.sku.RefId);
-    // this.formSku.controls["CubicWeight"].setValue(this.sku.CubicWeight);
-    // this.formSku.controls["Height"].setValue(this.sku.Height);
-    // this.formSku.controls["Width"].setValue(this.sku.Width);
-    // // this.imagesSku = this.sku.images ? this.sku.images : [];
+    if (this.status == "update") {
+      this.sku.RewardValue = !this.sku.RewardValue?null:this.sku.RewardValue
+      this.sku.KitItensSellApart = this.sku.KitItensSellApart || false;
+
+      const collect_sku = collect(this.sku);
+      const diff = collect_sku.intersectByKeys(this.formSku.getRawValue());
+      console.log(this.sku, this.formSku.getRawValue(), diff.all());
+      this.formSku.setValue(diff.all());
+      this.imagesSku = Array.isArray(this.sku.Images)? this.sku.Images: [];
+    }
+    else{
+      this.formSku.setValue({
+        CommercialConditionId: this.sku.CommercialConditionId,
+        CubicWeight: this.sku.CubicWeight,
+        EstimatedDateArrival: this.sku.EstimatedDateArrival,
+        Height: this.sku.RealHeight,
+        IsActive: this.sku.IsActive,
+        IsKit: this.sku.IsKit,
+        KitItensSellApart: this.sku.KitItensSellApart || false,
+        Length: this.sku.RealLength,
+        ManufacturerCode: this.sku.ManufacturerCode,
+        MeasurementUnit: this.sku.MeasurementUnit,
+        ModalType: this.sku.ModalType,
+        Name: this.sku.Name,
+        PackagedHeight: this.sku.Height,
+        PackagedLength: this.sku.Length,
+        PackagedWeightKg: this.sku.WeightKg,
+        PackagedWidth: this.sku.Width,
+        ProductId: this.sku.ProductId,
+        RewardValue: this.sku.RewardValue,
+        UnitMultiplier: this.sku.UnitMultiplier,
+        WeightKg: this.sku.RealWeightKg,
+        Width: this.sku.RealWidth,
+        RefId:this.sku.RefId
+      });
+    }
+
+    this.selectedTabChange();
+  }
+  suscriptionProducts: Subscription;
+  // vtexSpecificationProduct:Ispecification[] = [];
+  selectedTabChange(): void {
+    // this.suscriptionProducts = this.s_standart
+    // .index("products-admin/vtex-specification/"+this.categorySelect)
+    // .subscribe(
+    //   (res) => {
+    //     if(res && res.hasOwnProperty('success') && res.success){
+    // this.vtexSpecifications.emit(res.data)
+    // const formGroup: FormGroup = new FormGroup({});
+    // this.formSku.addControl("specifications", formGroup);
+    // this.vtexSpecificationsSkus = res.data.specification_products
+    this.vtexSpecificationsSkus.forEach((element) => {
+      const specification = this.sku?.Specifications ?this.sku?.Specifications.find(
+        (item) => item.FieldId == element.FieldId
+      ):null;
+      let value;
+      if (specification) value = element.FieldTypeName == 'Radio'? specification.FieldValues[0]:specification.FieldValues;
+      let control: FormControl;
+      if (element.IsRequired)
+        control = new FormControl(value, [Validators.required]);
+      else control = new FormControl(value);
+      // formGroup.addControl(element.FieldId, control);
+      this.formSpecification.addControl(element.FieldId, control);
+    });
+    // }
+    //   },
+    //   (err) => {
+    //     // this.isLoadProduct = false;
+    //   }
+    // );
   }
 
+
+  convertDataSpecificationForServer() {
+    let dataSpecification = Object.assign({}, this.formSpecification.value);
+    console.log(dataSpecification);
+    // let specifications = [];
+    const sendSpecifications:IformatSpecification[] = [];
+    for (const specification in dataSpecification) {
+      const itemSpecification = this.vtexSpecificationsSkus.find(
+        (x) => x.FieldId == specification
+      );
+
+      const FieldId = itemSpecification.FieldId;
+      const FieldName = itemSpecification.Name;
+
+      const FieldValueIds = dataSpecification[specification] && (Array.isArray(dataSpecification[specification])) ? dataSpecification[specification].map(value=>{
+        return itemSpecification.Values.find(x=>x.Value == value).FieldValueId
+      }):dataSpecification[specification]?[specification] : []
+      const FieldValues = dataSpecification[specification] && Array.isArray(dataSpecification[specification])?dataSpecification[specification] :dataSpecification[specification]?[dataSpecification[specification]] :[];
+      const IsFilter = itemSpecification.IsFilter;
+      const FieldGroupName = itemSpecification.FieldGroupName;
+      const FieldGroupId = itemSpecification.FieldGroupId;
+       sendSpecifications.push({FieldId,FieldName,FieldValueIds,FieldValues,IsFilter,FieldGroupId,FieldGroupName})
+    }
+    return sendSpecifications;
+  }
+
+
   saveInServeSku(): void {
-    if (this.formSku.valid) {
+    if (this.formSku.valid && this.formSpecification.valid) {
       this.isLoadSku = true;
+      const specifications = this.convertDataSpecificationForServer();
       this.s_standart
-        .store("/products-admin/sku-vtex" + this.sku.Id, this.formSku.value)
+        .updatePut(
+          // "/products-admin/vtex/sku-vtex" + this.sku.Id,
+          `products-admin/vtex/products/${this.sku.ProductId}/skus/${this.sku.Id}`,
+          {specifications, ...this.formSku.getRawValue()}
+        )
         .subscribe((res) => {
           console.log(res);
+          this.emitSave.emit({data:res});
           if (res && res.hasOwnProperty("success") && res.success) {
             this.status = "update";
+            // this.emitSave.emit()
           }
         });
+    }
+    else{
+      SwalService.swalToast('Aun hay campos por completar en este formulario o en especificaciones','error','top-end')
     }
   }
 
@@ -168,23 +232,39 @@ export class FormSkusComponent implements OnInit {
       this.ngx_spinner.show("sku-img");
       this.s_standart
         .uploadFormData(
-          "products-admin/sku-vtex-image/" + this.sku.Id,
+          "products-admin/vtex/sku-vtex-image/" + this.sku.Id,
           formData
         )
         .subscribe(
           (res) => {
             console.log(res);
             if (res && res.hasOwnProperty("success") && res.success) {
-              // this.status = "update";
+              /**
+               * "Id": number,
+               * "ArchiveId": number,
+               * "SkuId": number,
+               * "Name": string,
+               * "IsMain": boolean,
+               * "Label": string
+               **/
               const res_data = res.data;
               this.imagesSku.push({
-                url: `${this.server_vtex_file}ids/${res_data.ArchiveId}/${name}.${this.file.type}`,
+                FileId: res_data.FileId,
+                ImageName: res_data.ImageName,
+                // ImageUrl: `${this.server_vtex_file}ids/${res_data.ArchiveId}/${name}.${this.file.type}`,
+                ImageUrl: res.data.ImageUrl,
               });
             }
             this.ngx_spinner.hide("sku-img");
+            this.formFileSku.reset();
+            this.file = null;
+            this.currentImgSku = null;
           },
           (err) => this.ngx_spinner.hide("sku-img")
         );
+    }
+    else{
+      SwalService.swalToast('Aun hay campos por completar en este formulario o en especificaciones','error','top-end')
     }
   }
 
@@ -199,15 +279,21 @@ export class FormSkusComponent implements OnInit {
   }
 
   destroyImg(id): void {
-    this.s_standart
-      .destory(`/sku-vtex-image/sku/${this.sku.Id}/image/${id}`)
-      .subscribe((res) => {
-        console.log(res);
-        if (res && res.hasOwnProperty("success") && res.success) {
-          const imgIndex = this.imagesSku.findIndex((item) => item.id === id);
-          this.imagesSku.splice(imgIndex, 1);
-          SwalService.swalToast("Eliminado con exito");
-        }
-      });
+    if(!this.isLoadDestroyImg){
+      this.s_standart
+        .destory(
+          `products-admin/vtex/sku-vtex-image/sku/${this.sku.Id}/image/${id}`
+        )
+        .subscribe((res) => {
+          console.log(res);
+          if (res && res.hasOwnProperty("success") && res.success) {
+            const imgIndex = this.imagesSku.findIndex(
+              (item) => item.FileId === id
+            );
+            this.imagesSku.splice(imgIndex, 1);
+            SwalService.swalToast("Eliminado con exito");
+          }
+        });
+    }
   }
 }

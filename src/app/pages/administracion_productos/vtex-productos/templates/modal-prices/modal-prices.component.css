@@ -1,0 +1,13 @@
+.listPrices > div {
+    padding: 5px;
+    font-weight: lighter;
+    font-size: large;
+    border-bottom: 1px solid #dadada;
+}
+.listPrices  div span{
+    
+    font-weight: bolder;
+    font-size: large;
+    color: darkcyan;
+   
+}

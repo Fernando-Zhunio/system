@@ -1,0 +1,58 @@
+<mat-dialog-content class="pb-2" [ngSwitch]="status">
+<!-- esta de carga dde datos -->
+  <div *ngSwitchCase="e_status.loading">
+    <div>
+      Cargando...
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </div>
+
+<!-- estado de no encontrado -->
+  <div *ngSwitchCase="e_status.notFound">
+    Este producto no posee una lista de precios
+  </div>
+
+  <!-- estado de encontrado y mostrado -->
+  <div *ngSwitchCase="e_status.view">
+    <h2 class="font-facebook">{{sku.name}}</h2>
+    <div class="listPrices" role="list">
+      <div role="listitem">Precio de lista : <span>{{vtexPriceSku.listPrice? (vtexPriceSku.listPrice | currency):"sin
+          lista de precio"}}</span> </div>
+      <div role="listitem">Precio de costo : <span>{{vtexPriceSku.costPrice | currency}}</span> </div>
+      <div role="listitem">Markup : <span>{{vtexPriceSku.markup}}</span> </div>
+      <div role="listitem">Precio base : <span>{{vtexPriceSku.basePrice | currency}}</span> </div>
+      <div role="listitem">Precios Fijos <ng-container
+          *ngIf="vtexPriceSku.fixedPrices || vtexPriceSku.fixedPrices.length < 1">: <span>sin precios fijos</span>
+        </ng-container>
+        <div role="list">
+          <div *ngFor="let fixedPrice of vtexPriceSku.fixedPrices" role="listitem">
+            {{fixedPrice | json}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="e_status.create">
+    <!-- <h2 class="font-facebook">{{sku.name}}</h2> -->
+    <app-vtex-prices [sku]="sku"></app-vtex-prices>
+  </div>
+
+  <div *ngSwitchCase="e_status.edit">
+    <!-- <h2 class="font-facebook">{{sku.name}}</h2> -->
+    <app-vtex-prices [sku]="sku" [vtexPriceSku]="vtexPriceSku"></app-vtex-prices>
+  </div>
+
+  
+
+  <p *ngSwitchDefault>
+    
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button *ngIf="status==e_status.notFound" color="primary" (click)="createPrice()">Crear precio</button>
+  <button mat-raised-button *ngIf="status==e_status.edit" color="primary" (click)="viewPrice()">Ver precio</button>
+  <button mat-raised-button *ngIf="status==e_status.view" color="primary" (click)="editPrice()">Editar precio</button>
+  <button mat-raised-button color="warn" (click)="closeModal()" >Cerrar</button>
+</mat-dialog-actions>
+
