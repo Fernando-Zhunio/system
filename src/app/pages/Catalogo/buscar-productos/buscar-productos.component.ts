@@ -152,7 +152,6 @@ export class BuscarProductosComponent implements OnInit {
 
   selectAllWarehouse($event) {
     const index = $event.value.findIndex((x) => x == "all");
-
     console.log($event, index);
   }
 

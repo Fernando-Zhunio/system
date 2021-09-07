@@ -1,0 +1,106 @@
+<div *ngIf="requestWork">
+  <h2 class="font-facebook font-4xl mt-3">{{title}}</h2>
+  <div>
+    <div>
+      <form [formGroup]="formAppointment" (ngSubmit)="saveInServer()">
+        <div class="row m-0 bg-white rounded-fz shadow content-appointment p-4">
+          <div style="border-radius: 10px;" class="justify-content-between center col-12 p-2 lead my-2 font-3xl">
+           <span>Empleo: <strong>{{requestWork.work.title}}</strong></span>
+           <button mat-icon-button type="button"  [routerLink]="['/recursos-humanos/works']"
+           [queryParams]="{search: requestWork.work.id}"><mat-icon>work</mat-icon></button>
+          </div>
+          <div class="col-md-7 col-12">
+            <div class="h-100 p-3 shadow w-100 rounded-fz position-relative">
+              <div class="panel-isload rounded-fz" *ngIf="isLoad"></div>
+              <div class="row m-0">
+                <div class="col-12  lead my-2 border-bottom font-3xl pb-2 ">
+                  Cita
+                 </div>
+                <div class="col-md-6 col-12">
+                  <mat-form-field class="w-100">
+                    <input formControlName="date" matInput type="datetime-local" placeholder="Fecha">
+                  </mat-form-field>
+                </div>
+                <!-- type -->
+                <div class="col-md-6 col-12">
+                  <mat-form-field class="w-100">
+                    <mat-label>Tipo de entrevista</mat-label>
+                    <mat-select formControlName="type" (selectionChange)="changeSelectionType()">
+                      <mat-option *ngFor="let type of TYPES_APPOINTMENTS" [value]="type.value">
+                        {{ type.label}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!-- comment -->
+                <div class="col-12">
+                  <mat-form-field class="w-100">
+                    <mat-label>Comentario</mat-label>
+                    <textarea matInput placeholder="Ingrese un comentario" formControlName="comment" ></textarea>
+                    <!-- <mat-error *ngIf="formWork.get('description').invalid">Este campo es requerido</mat-error> -->
+                  </mat-form-field>
+                </div>
+                <!-- novi_sys_person_id -->
+                <div class="col-md-6 col-12">
+                  <mat-form-field class="w-100">
+                    <mat-label>Persona encargada</mat-label>
+                    <mat-select formControlName="novi_sys_person_id">
+                      <mat-option *ngFor="let person of persons" [value]="person.id">
+                        {{ person.first_name}} {{ person.last_name}}
+                        <img [src]="person.photo.permalink" alt="person">
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                   <!-- novi_sys_location_id -->
+                   <div class="col-md-6 col-12">
+                    <mat-form-field class="w-100">
+                      <mat-label>Ubicacion</mat-label>
+                      <mat-select formControlName="novi_sys_location_id">
+                        <mat-option *ngFor="let location of locations" [value]="location.id">
+                          {{ location.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <button mat-raised-button type="submit">Guardar&nbsp;<mat-icon>save</mat-icon></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 col-12 shadow  rounded-fz">
+            <div class="card-body">
+              <!-- <img [src]="requestWork?.user?.photo.real_permalink" alt="" class="w-75 rounded-circle"> -->
+              <div class="row">
+                <div class="col-12 lead my-2 border-bottom font-3xl pb-2 ">
+                  Solicitante: <strong> {{requestWork?.user.first_name}} {{requestWork.user.last_name}} </strong>
+                 </div>
+                <div class="col-md-7 col-12 center">
+                  <p class="lead font-italic p">
+                    Fecha: <strong> {{requestWork?.created_at |date}} </strong> <br>
+                    Email: <strong> <a href="mailto:{{requestWork?.user.email}}"
+                        class="text-muted">{{requestWork.user.email}}</a> </strong> <br>
+                    Fecha de nacimiento: <strong> {{requestWork?.user?.birthday | date}} </strong> <br>
+                    Cuidad de residencias: <strong> {{requestWork?.user?.resident_city}} </strong> <br>
+                  </p>
+                </div>
+                <div class="col-md-5 col-12 center">
+                  <img class="w-100 rounded-circle shadow" [src]="requestWork.user.photo.real_permalink"
+                    alt="user photo">
+                </div>
+                <div class="col-12">
+
+                  <!-- <mat-chip-list class="ml-1">
+
+                    <mat-chip selected class="text-truncate bg-primary">
+                      <mat-icon class="text-black-50" type="search">work</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

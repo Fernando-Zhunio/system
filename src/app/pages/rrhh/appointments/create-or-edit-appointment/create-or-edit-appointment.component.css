@@ -1,0 +1,15 @@
+.content-appointment{
+  /* min-height: 500px; */
+}
+
+.panel-isload{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ffffff3b;
+  z-index: 99999;
+  backdrop-filter: blur(2px);
+
+}

@@ -88,7 +88,7 @@
 .comment-content {
     overflow-y: auto;
     overflow-x: hidden;
-    box-shadow: inset 20px 20px 60px #b8b8b8, inset -20px -20px 60px #fafafa;
+    box-shadow: inset 0px 0px 2px #b8b8b8, inset -20px -20px 60px #fafafa;
     height: -webkit-fill-available;
     height: -moz-available;
     height: -ms-fill-available;

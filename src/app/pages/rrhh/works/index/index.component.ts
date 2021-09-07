@@ -14,7 +14,7 @@ export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
     super();
   }
 
-  isLoad: boolean;
+  // isLoad: boolean;
   url: string = "rrhh/works";
 
   ngOnInit(): void {}
@@ -23,7 +23,6 @@ export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
     console.log(id);
     const work = this.products.find((x) => x.id === id);
     console.log(work);
-
     SwalService.swalConfirmation(
       'Eliminacion Empleo',
       '¿Está seguro de eliminar este Empleo?',
@@ -33,7 +32,6 @@ export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
     ).then((result) => {
       if (result.isConfirmed) {
     work['isload'] = true;
-
         this.s_serviceStandart
           .destory(`rrhh/works/${work.id}`)
           .subscribe((res) => {

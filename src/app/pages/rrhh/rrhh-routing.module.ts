@@ -30,18 +30,18 @@ const routes: Routes = [
       {
         path: 'works',
         loadChildren: () => import('./works/works.module').then(m => m.WorksModule),
-        // component:,
-        // data: {
-      //   isEdit: false,ro
-        //   permissions: {
-        //     only: ["super-admin", "purchase-department.imports.create"],
-        //   },
-        // },
-        // canActivate: [NgxPermissionsGuard],
       },
       {
-        path:'group-products/edit',
-        component:CreateOrEditGroupProductsComponent,
+        path: 'appointments',
+        loadChildren: () => import('./appointments/appointments.module').then(m => m.AppointmentsModule),
+      },
+      {
+        path: 'requests',
+        loadChildren: () => import('./requests/requests.module').then(m => m.RequestsModule),
+      },
+      {
+        path: 'group-products/edit',
+        component: CreateOrEditGroupProductsComponent,
 
         data: {
           isEdit: true,

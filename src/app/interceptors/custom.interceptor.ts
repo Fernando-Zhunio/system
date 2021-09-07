@@ -50,31 +50,9 @@ export class CustomInterceptor implements HttpInterceptor {
       showConfirmButton: false,
       title: '<div class="d-flex font-weight-bold">Cargando <div style="display:block;margin:0 0 0 15px" class="swal2-loader d-block ml-2 mr-1"></div></div>',
       customClass: {
-        // container: "p-2",
         popup: "p-2",
-        // header: "p-2",
-        // title: "p-2",
-        // closeButton: "p-2",
-        // icon: "p-2",
-        // image: "p-2",
-        // content: "p-2",
-        // htmlContainer: "p-2",
-        // input: "p-2",
-        // inputLabel: "p-2",
-        // validationMessage: "p-2",
-        // actions: "p-2",
-        // confirmButton: "p-2",
-        // denyButton: "p-2",
-        // cancelButton: "p-2",
-        // loader: "p-2",
-        // footer: "p-2.",
       },
-      // timer:5000,
-      // allowOutsideClick:false,
-      // allowEnterKey:false,
-      // onBeforeOpen: () => {
-      //     Swal.showLoading()
-      // },
+
     });
 
     return next.handle(newResquest).pipe(

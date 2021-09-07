@@ -73,7 +73,7 @@ interface Iresume {
   };
 }
 
-interface Iuser {
+export interface Iuser {
   id: number;
   email: string;
   email_verified_at: null;
@@ -111,8 +111,38 @@ export interface Iwork {
   status_last: IstatusLast;
   current_status: IcurrentStatus;
   requests?: Irequest[];
+  is_expired:boolean;
+  expiration_date?: Date;
 }
 
+export interface Iappointment {
+  id: number;
+  date: Date;
+  type: "video_conference" | "face_to_face";
+  comment: string;
+  request_id: 3;
+  novi_sys_person_id?: number;
+  novi_sys_location_id?: number;
+  created_at: string;
+  updated_at: string;
+  assigned_person: any;
+  location: any;
+  zoom_meet: IzoomMeet;
+  request: Irequest;
+}
 
+interface IzoomMeet {
+  id: number;
+  zoom_id: string;
+  topic: string;
+  password: string;
+  join_url: string;
+  start_url: string;
+  start_time: string;
+  status: string;
+  appointment_id: number;
+  created_at: string;
+  updated_at: string;
+}
 
 // :\s".+",

@@ -1,0 +1,15 @@
+<h3 class="m-0 text-muted font-facebook font-2xl">Zoom #{{zoom.id}}</h3>
+<div mat-dialog-content>
+  <p class="lead p-3 font-italic">
+    Id: <span class="font-weight-bold">{{zoom.zoom_id}}</span> <br>
+    Topic : <span class="font-weight-bold">{{zoom.topic}}</span> <br>
+    password: <span class="font-weight-bold">{{zoom.password}}</span> <br>
+    Join Url: <span class="font-weight-bold">{{zoom.join_url}}</span> <br>
+    Start Url: <span class="font-weight-bold">{{zoom.start_url}}</span> <br>
+    Tiempo de inicio: <span class="font-weight-bold">{{zoom.start_time}}</span> <br>
+    Estado: <span class="font-weight-bold">{{zoom.status}}</span> <br>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</div>

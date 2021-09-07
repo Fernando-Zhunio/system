@@ -2,7 +2,7 @@
   <app-header-search [filter_data]="{}"
   [placeholder]="'Buscador de empleos'" (isload)="isload = $event" [url]="url" (products)="loadData($event)">
   <mat-chip-list class="ml-1">
-    <mat-chip [routerLink]="['./create-product-vtex']" class="text-truncate">
+    <mat-chip [routerLink]="['./create']" class="text-truncate">
       <mat-icon class="text-black-50" type="search">add</mat-icon>
     </mat-chip>
   </mat-chip-list>
@@ -38,8 +38,8 @@
     <div *ngIf="p?.isload" class="position-absolute w-100 h-100 opaque-blur"></div>
     <div class="card-body">
       <div class="header-request">
-        <h3>{{p.title}}</h3>
-        <p>{{p.description}}</p>
+        <div class="font-weight-bold h3">{{p.title}}</div>
+        <p class="lead">{{p.description}}</p>
         <mat-chip-list class="ml-1">
           <mat-chip  class="text-truncate text-capitalize {{p.status_last.type_action}}">
             {{p.status_last.name}}

@@ -36,6 +36,17 @@ const routes: Routes = [
           },
         },
         canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path: 'create',
+        component: CreateOrEditWorkComponent,
+        data: {
+          isEdit: false,
+          permissions: {
+            only: ['super-admin', 'rrhh.work.create'],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
       }
     ]
   }
