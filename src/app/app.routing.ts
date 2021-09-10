@@ -171,7 +171,6 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/rrhh/rrhh.module').then(m => m.RrhhModule)
       },
 
-      // mercado-libre
       {
         path: 'charts',
         loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)

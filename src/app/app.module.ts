@@ -3,6 +3,7 @@ import { LOCALE_ID, NgModule } from "@angular/core";
 import {
   LocationStrategy,
   HashLocationStrategy,
+
   PathLocationStrategy,
 } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -45,10 +46,7 @@ import { TabsModule } from "ngx-bootstrap/tabs";
 import { ChartsModule } from "ng2-charts";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-// import { ProductosComponent } from './pages/productos/productos.component';
 
-// mis modulos
-// import { ProductoModule } from "./pages/productos/producto.module";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { CustomInterceptor } from "./interceptors/custom.interceptor";
 
@@ -60,12 +58,7 @@ import { RepricarMlModalComponent } from "./components/repricar-ml-modal/reprica
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { InfoViewComponent } from "./components/modals/info-view/info-view.component";
-// import { PublicacionesComponent } from './pages/importaciones/publicaciones/publicaciones.component';
-// import { ImportacionesComponent } from './Importaciones/importaciones/importaciones.component';
-// import { PrefijosCreateOrEditComponent } from './pages/administracion_productos/prefijo/prefijos-create-or-edit/prefijos-create-or-edit.component';
 
-// import { BuscarProductosComponent } from './pages/buscar-productos/buscar-productos.component';
-// import { MarcasCreateOrEditComponent } from './pages/marcas/marcas-create-or-edit/marcas-create-or-edit.component';
 import { MatDialogModule } from "@angular/material/dialog";
 // import { MlComponent } from './components/ml/ml.component';
 import { MatCardModule } from "@angular/material/card";
@@ -82,10 +75,6 @@ import { InvoiceItemModalComponent } from "./components/modals/invoice-item-moda
 import { MatInputModule } from "@angular/material/input";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { HeaderSearchModule } from "./Modulos/header-search/header-search.module";
-// import { InvoiceCreateOrEditComponent } from './components/invoice-create-or-edit/invoice-create-or-edit.component';
-registerLocaleData(localeEs, "es");
-// import { ImportComponent } from './components/import/import.component';
-// import { HeaderSearchComponent } from './components/header-search/header-search.component';
 import { NgxGalleryModule } from "ngx-gallery-9";
 import { CreateProviderOrContactComponent } from "./components/modals/create-provider-or-contact/create-provider-or-contact.component";
 import { SearchProductModalComponent } from "./components/modals/search-product-modal/search-product-modal.component";
@@ -103,42 +92,8 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
 import { MatBadgeModule } from "@angular/material/badge";
 import { FormRecuperationPasswordComponent } from "./views/form-recuperation-password/form-recuperation-password.component";
-// import { TemplateForSearchColumnsComponent } from './components/template-for-search-columns/template-for-search-columns.component';
-// import { CompareProductComponent } from './pages/home/dashboard/modals/compare-product/compare-product.component';
-// import { InicioComponent } from './pages/otros/inicio/inicio.component';
-// import { CreateEmailModalComponent } from './components/modals/create-email-modal/create-email-modal.component';
-// import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
 
-// import { CreateOrEditPersonComponent } from './components/person/create-or-edit-person/create-or-edit-person.component';
-// import { PersonComponent } from './components/person/person.component';
-// import { ConvertObjectToArrayPipe } from './pipes/convert-object-to-array.pipe';
-// import { CapturePasswordComponent } from './pages/authenticate/capture-password/capture-password.component';
-// import { CreateOrEditComponent } from './pages/administracion-sistema/usuarios/create-or-edit/create-or-edit.component';
-// import { PostInstagramComponent } from './components/post-instagram/post-instagram.component';
-// import { OrganizationChartComponent } from './pages/information-user/organization-chart/organization-chart.component';
-// import { PostComponent } from './components/post/post-facebook.component';
-
-// import {EchoConfig, EchoService, NgxLaravelEchoModule} from 'ngx-laravel-echo';
-// import { environment } from "../environments/environment";
-// import Pusher from 'pusher-js';  //No curly braces around Pusher!
-
-// export const echoConfig: EchoConfig = {
-//     userModel: 'users',
-//     notificationNamespace: 'App\\Notifications',
-//     options: {
-//         broadcaster: 'pusher',
-//         key: '03045e5e16a02b690e4c',
-//         // wsHost: 'http://sistema-codificacion.test',
-//         // authEndpoint: 'http://api.test/broadcasting/auth',
-//         // authEndpoint: 'http://sistema-codificacion.test',
-//         // host: 'http://sistema-codificacion.test',
-//         host: window.location.hostname,
-//         wsPort: 6001,
-//         wssPort: 6001,
-//         disableStats: true,
-//         namespace: ''
-//     }
-// };
+registerLocaleData(localeEs, "es");
 @NgModule({
   imports: [
     BrowserModule,
@@ -177,6 +132,7 @@ import { FormRecuperationPasswordComponent } from "./views/form-recuperation-pas
     MatSnackBarModule,
     MatSlideToggleModule,
     MatBadgeModule,
+
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
     }),
@@ -203,45 +159,17 @@ import { FormRecuperationPasswordComponent } from "./views/form-recuperation-pas
     SnackBarLoaderComponent,
     OkLoginComponent,
     FormRecuperationPasswordComponent,
-    // TemplateForSearchColumnsComponent,
-    // CompareProductComponent,
-    // InicioComponent,
-    // CreateEmailModalComponent,
-
-    // KeysObjectToArrayPipe,
-    // CreateOrEditPersonComponent,
-    // PersonComponent,
-    // ConvertObjectToArrayPipe,
-    // CapturePasswordComponent,
-    // CreateOrEditComponent,
-    // PostInstagramComponent,
-    // OrganizationChartComponent,
-    // PostComponent,
-    // PaginaWebComponent,
-    // PublicationComponent,
-    // InvoiceCreateOrEditComponent,
-    // HeaderSearchComponent,
-    // ImportComponent,
-    // HeaderSearchComponent,
-    // MlComponent,
-    // PublicacionesComponent,
-    // ImportacionesComponent,
-    // PrefijosCreateOrEditComponent,
-    // PromocionesComponent,
-    // BuscarProductosComponent,
-    // MarcasCreateOrEditComponent,
-    // ProductosComponent,
   ],
   providers: [
     {
       provide: LocationStrategy,
-      // useClass: HashLocationStrategy,
-      useClass: PathLocationStrategy,
+      useClass: HashLocationStrategy,
+      // useClass: PathLocationStrategy,
     },
 
     {
       provide: LOCALE_ID,
-      useValue: "es",
+      useValue: 'es',
     },
 
     {
@@ -249,6 +177,7 @@ import { FormRecuperationPasswordComponent } from "./views/form-recuperation-pas
       useClass: CustomInterceptor,
       multi: true,
     },
+    // { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
     { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
   ],
   entryComponents: [

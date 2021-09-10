@@ -32,7 +32,7 @@ export class IndexComponent  extends CTemplateSearch<Irequest> implements OnInit
   openCv(id: number) {
     this.isOpenCv = true;
     const url = `rrhh/requests/${id}/statuses`
-    this.s_standart.store(url,{status_id:4}).subscribe(res=>{
+    this.s_standart.store(url,{status:'request_cv_viewed'}).subscribe(res=>{
       if(res.hasOwnProperty('success') && res.success){
         console.log(res);
       }
