@@ -9,11 +9,6 @@ import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces
 })
 export class SharedService {
 
-  private notifications = new BehaviorSubject<Inotification[]>([]);
-  public currentNotifications = this.notifications.asObservable();
-  private _requestWork: Irequest = null;
-  private _appointmentWork: Iappointment = null;
-
 
 
   public get requestWork() {
@@ -34,6 +29,23 @@ export class SharedService {
 
   constructor() { }
 
+  private notifications = new BehaviorSubject<Inotification[]>([]);
+  public currentNotifications = this.notifications.asObservable();
+  private _requestWork: Irequest = null;
+  private _appointmentWork: Iappointment = null;
+
+  // tslint:disable-next-line: member-ordering
+  public static convertDateForLaravelOfDataPicker(valueDate, format='yyyy/MM/dd'): string {
+    return formatDate(new Date(valueDate), format, 'en');
+  }
+
+  public static rediredImageNull(image: string): string {
+    if (image === null) {
+      return 'assets/img/img_not_available.png';
+    }
+    return image;
+  }
+
   changeNotifications(notify: Inotification[]) {
     this.notifications.next(notify);
   }
@@ -43,11 +55,5 @@ export class SharedService {
     notifications_.unshift(notify);
     this.changeNotifications(notifications_);
   }
-
-  // tslint:disable-next-line: member-ordering
-  public static convertDateForLaravelOfDataPicker(valueDate, format='yyyy/MM/dd'): string {
-    return formatDate(new Date(valueDate), format, 'en');
-  }
-
 
 }

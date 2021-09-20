@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { IprestashopProduct } from '../../interfaces/iprestashop-product';
 import { IproductVtex, IproductVtexSku } from '../../interfaces/iproducts';
 import { InfoViewComponent } from '../modals/info-view/info-view.component';
+import { SharedService } from './../../services/shared/shared.service';
 
 @Component({
   selector: 'app-pagina-web',
@@ -22,5 +23,11 @@ export class PaginaWebComponent implements OnInit {
       data: {name: this.prestashop_product.name, title:"Descripcion",info:this.prestashop_product.vtex_product.description,isHtml:false},
     });
   }
+
+  rediredImgBag(img: string): string {
+    return SharedService.rediredImageNull(img);
+  }
+
+
 
 }

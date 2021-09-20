@@ -1,5 +1,5 @@
 <!-- <app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true" [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 89, height: 25, alt: 'CoreUI Logo'}" [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}" -->
-<app-header class="border-0 shadow-sm" [ngClass]="{'dark-super': isDark}" [navbarBrandRouterLink]="['/dashboard']"
+<app-header class="border-0 shadow-sm" [ngClass]="{'dark-super': isDark}" [navbarBrandRouterLink]="['/home/dashboard']"
   [fixed]="true"
   [navbarBrandFull]="{src: 'assets/icons_custom/novisolutions.svg', width: '100%', height: '100%', alt: 'Novisolutions'}"
   [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
@@ -23,25 +23,6 @@
         </li> -->
   </ul>
   <ul class="nav navbar-nav ml-auto">
-
-    <!-- <li>
-      <mat-slide-toggle (change)="changeDark($event)" [color]="" [(ngModel)]="isDark"></mat-slide-toggle>
-      <i class="fas fa-cloud-moon fa-2x" [ngClass]="[!isDark?'dark':'not-dark']"></i>
-    </li> -->
-    <!-- <li>
-            <label class="switch switch-icon switch-pill switch-primary">
-            <input type="checkbox" class="switch-input" checked>
-            <span data-checked="On" data-unchecked="Off" class="switch-slider"></span>
-            <span class="switch-label" data-on="fas fa-cloud-moon" data-off="fas fa-cloud-moon"></span>
-            <span class="switch-handle"></span>
-        </label>
-        </li>
-        <li>
-            <label class="switch switch-label switch-pill switch-success switch-sm float-right">
-            <input type="checkbox" checked="" class="switch-input">
-            <span data-checked="On" data-unchecked="Off" class="switch-slider"></span>
-          </label>
-        </li> -->
     <li class="nav-item d-md-down-none">
       <!-- <a class="nav-link" href="#"><i class="icon-list"></i></a> -->
       <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">

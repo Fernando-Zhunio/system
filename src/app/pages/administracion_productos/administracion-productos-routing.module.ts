@@ -12,15 +12,14 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
   template: '<router-outlet></router-outlet>',
 
 })
-export class AdminProductsMainComponents  {
-}
+export class AdminProductsMainComponents  {}
 
 
 const routes: Routes = [
   {
     path: '',
-    component:AdminProductsMainComponents,
-    data:{name:'products_admin'},
+    component: AdminProductsMainComponents,
+    data: {name: 'products_admin'},
     children: [
       {
         path: 'categorias',
@@ -29,19 +28,19 @@ const routes: Routes = [
           isEdit: false,
           name: 'categorias',
           permissions: {
-            only: ["super-admin", "products-admin.categories.index"],
+            only: ['super-admin', 'products-admin.categories.index'],
           },
         },
         canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'marcas',
-        loadChildren:()=>import('./marcas/marcas.module').then(m => m.MarcasModule),
+        loadChildren: () => import('./marcas/marcas.module').then(m => m.MarcasModule),
         data: {
           isEdit: false,
-          name:'marcas',
+          name: 'marcas',
           permissions: {
-            only: ["super-admin", "products-admin.brands.index"],
+            only: ['super-admin', 'products-admin.brands.index'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -52,7 +51,7 @@ const routes: Routes = [
         data: {
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.products.index"],
+            only: ['super-admin', 'products-admin.products.index'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -64,7 +63,7 @@ const routes: Routes = [
           name:'prefijos',
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.prefixes.index"],
+            only: ['super-admin', 'products-admin.prefixes.index'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -72,6 +71,14 @@ const routes: Routes = [
       {
         path: 'vtex-products',
         loadChildren: () => import('./vtex-productos/vtex-productos.module').then(m => m.VtexProductosModule),
+        data: {
+          name:'vtex',
+          isEdit: false,
+          permissions: {
+            only: ['super-admin', 'product-admin.vtex.product-vtex'],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
       },
 
     ]

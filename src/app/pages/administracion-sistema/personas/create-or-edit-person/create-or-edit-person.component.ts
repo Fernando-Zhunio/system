@@ -1,16 +1,16 @@
-import { formatDate, Location } from "@angular/common";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatHorizontalStepper, MatStepper } from "@angular/material/stepper";
-import { ActivatedRoute } from "@angular/router";
-import { Cperson } from "../../../../class/cperson";
-import { StandartSearchService } from "../../../../services/standart-search.service";
-import { SwalService } from "../../../../services/swal.service";
+import { formatDate, Location } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatHorizontalStepper, MatStepper } from '@angular/material/stepper';
+import { ActivatedRoute } from '@angular/router';
+import { Cperson } from '../../../../class/cperson';
+import { StandartSearchService } from '../../../../services/standart-search.service';
+import { SwalService } from '../../../../services/swal.service';
 
 @Component({
-  selector: "app-create-or-edit-person",
-  templateUrl: "./create-or-edit-person.component.html",
-  styleUrls: ["./create-or-edit-person.component.css"],
+  selector: 'app-create-or-edit-person',
+  templateUrl: './create-or-edit-person.component.html',
+  styleUrls: ['./create-or-edit-person.component.css'],
 })
 export class CreateOrEditPersonComponent implements OnInit {
   constructor(
@@ -19,10 +19,10 @@ export class CreateOrEditPersonComponent implements OnInit {
     private location: Location
   ) {}
 
-  @ViewChild("photoUserInput") photoUserInput: ElementRef;
-  @ViewChild("stepper") stepper: MatHorizontalStepper;
-  title: string = "Creando nueva Persona";
-  state: "create" | "edit" = "create";
+  @ViewChild('photoUserInput') photoUserInput: ElementRef;
+  @ViewChild('stepper') stepper: MatHorizontalStepper;
+  title: string = 'Creando nueva Persona';
+  state: 'create' | 'edit' = 'create';
   cities: any = {};
   positions: any = {};
   locations: any = {};
@@ -37,7 +37,7 @@ export class CreateOrEditPersonComponent implements OnInit {
   infoAndContact = [];
   photo: any;
   file_img: File;
-  stateInfoAndContact: "create" | "edit" = "create";
+  stateInfoAndContact: 'create' | 'edit' = 'create';
   itemCurrentForEdit: { id: number; type: string; value: string };
 
   form_person: FormGroup = new FormGroup({
@@ -61,22 +61,22 @@ export class CreateOrEditPersonComponent implements OnInit {
   ngOnInit(): void {
     this.router_active.data.subscribe((res) => {
       if (res.isEdit) {
-        this.state = "edit";
-        this.title = "Editando Persona";
+        this.state = 'edit';
+        this.title = 'Editando Persona';
         const id = Number.parseInt(
-          this.router_active.snapshot.paramMap.get("id")
+          this.router_active.snapshot.paramMap.get('id')
         );
-        const url = "admin/people/" + id + "/edit";
+        const url = 'admin/people/' + id + '/edit';
         this.s_standart.show(url).subscribe((response) => {
           console.log(response);
-          if (response.hasOwnProperty("success") && response.success) {
+          if (response.hasOwnProperty('success') && response.success) {
             this.setDataDefault(response.data);
           }
         });
       } else {
-        this.s_standart.show("admin/people/create").subscribe((response) => {
+        this.s_standart.show('admin/people/create').subscribe((response) => {
           console.log(response);
-          if (response.hasOwnProperty("success") && response.success) {
+          if (response.hasOwnProperty('success') && response.success) {
             this.setDataDefault(response.data);
           }
         });
@@ -89,9 +89,9 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.stepper.selected.completed = true;
     this.stepper.next();
     this.s_standart
-      .show("admin/people/" + this.person.id + "/contact-info")
+      .show('admin/people/' + this.person.id + '/contact-info')
       .subscribe((res) => {
-        if (res.hasOwnProperty("success") && res.success) {
+        if (res.hasOwnProperty('success') && res.success) {
           this.infoAndContact = res.data.info;
           this.person = res.data.person;
           this.types = res.data.types;
@@ -104,24 +104,24 @@ export class CreateOrEditPersonComponent implements OnInit {
     data_send.start_date = this.s_standart.formatDate(data_send.start_date);
     data_send.birthday = this.s_standart.formatDate(data_send.birthday);
     let form_data_send = new FormData();
-    form_data_send.append("first_name", data_send.first_name);
-    form_data_send.append("last_name", data_send.last_name);
-    form_data_send.append("identification_type", data_send.identification_type);
+    form_data_send.append('first_name', data_send.first_name);
+    form_data_send.append('last_name', data_send.last_name);
+    form_data_send.append('identification_type', data_send.identification_type);
     form_data_send.append(
-      "identification_number",
+      'identification_number',
       data_send.identification_number
     );
-    form_data_send.append("birthday", data_send.birthday);
-    form_data_send.append("sex", data_send.sex);
-    form_data_send.append("start_date", data_send.start_date);
-    form_data_send.append("city_id", data_send.city_id);
+    form_data_send.append('birthday', data_send.birthday);
+    form_data_send.append('sex', data_send.sex);
+    form_data_send.append('start_date', data_send.start_date);
+    form_data_send.append('city_id', data_send.city_id);
     form_data_send.append(
-      "department_position_id",
+      'department_position_id',
       data_send.department_position_id
     );
-    form_data_send.append("location_id", data_send.location_id);
-    if (this.photo) {
-      form_data_send.append("file", this.file_img);
+    form_data_send.append('location_id', data_send.location_id);
+    if (this.photo && this.file_img) {
+      form_data_send.append('file', this.file_img);
       // data_send.file = this.file_img;
     }
 
@@ -134,8 +134,8 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.locations = data.locations;
     this.sexes = data.sexes;
     this.id_types = data.id_types;
-    if (this.state == "edit") {
-      console.log("is Edit");
+    if (this.state == 'edit') {
+      console.log('is Edit');
       const {
         first_name,
         last_name,
@@ -168,15 +168,15 @@ export class CreateOrEditPersonComponent implements OnInit {
   }
 
   saveInServerPerson(): void {
-    if (this.state == "create") {
+    if (this.state == 'create') {
       if (this.form_person.valid) {
         this.isloadperson = true;
         const form_data_send = this.createFormData();
         this.s_standart
-          .uploadFormData("admin/people", form_data_send)
+          .uploadFormData('admin/people', form_data_send)
           .subscribe(
             (res) => {
-              if (res.hasOwnProperty("success") && res.success) {
+              if (res.hasOwnProperty('success') && res.success) {
                 this.person = res.data.person;
                 this.types = res.data.types;
                 console.log(this.person);
@@ -193,20 +193,20 @@ export class CreateOrEditPersonComponent implements OnInit {
       } else {
         this.form_person.markAllAsTouched();
       }
-    } else if (this.state == "edit") {
+    } else if (this.state == 'edit') {
       if (this.form_person.valid) {
         this.isloadperson = true;
         let form_data_send: FormData = this.createFormData();
-        form_data_send.append("_method", "put");
-        console.log("sen put");
+        form_data_send.append('_method', 'put');
+        // console.log("sen put");
 
         this.s_standart
-          .uploadFormData("admin/people/" + this.person.id, form_data_send)
+          .uploadFormData('admin/people/' + this.person.id, form_data_send)
           .subscribe(
             (res) => {
               console.log(res);
 
-              if (res.hasOwnProperty("success") && res.success) {
+              if (res.hasOwnProperty('success') && res.success) {
                 this.person = res.data.person;
                 this.types = res.data.types;
                 this.infoAndContact = res.data.info;
@@ -228,17 +228,17 @@ export class CreateOrEditPersonComponent implements OnInit {
   }
 
   saveInServerInfo(): void {
-    if (this.stateInfoAndContact == "create") {
+    if (this.stateInfoAndContact == 'create') {
       if (this.form_data_person.valid) {
         this.isloadContact = true;
         this.s_standart
-          .store("admin/people/" + this.person.id + "/contact-info", {
+          .store('admin/people/' + this.person.id + '/contact-info', {
             ...this.form_data_person.value,
           })
           .subscribe(
             (res) => {
               console.log(res);
-              if(res && res.hasOwnProperty("success") && res.success){
+              if(res && res.hasOwnProperty('success') && res.success){
                 this.infoAndContact.push(res.data);
                 this.asCreateInfo();
               }
@@ -252,14 +252,14 @@ export class CreateOrEditPersonComponent implements OnInit {
             }
           );
       }
-    } else if (this.stateInfoAndContact == "edit") {
+    } else if (this.stateInfoAndContact == 'edit') {
       if (this.form_data_person.valid) {
         this.isloadContact = true;
         this.s_standart
           .updatePut(
-            "admin/people/" +
+            'admin/people/' +
               this.person.id +
-              "/contact-info/" +
+              '/contact-info/' +
               this.itemCurrentForEdit.id,
             { ...this.form_data_person.value }
           )
@@ -285,7 +285,7 @@ export class CreateOrEditPersonComponent implements OnInit {
 
   getBase64FromFile(img, callback):void {
     let fileReader = new FileReader();
-    fileReader.addEventListener("load", (evt) => {
+    fileReader.addEventListener('load', (evt) => {
       callback(fileReader.result);
     });
     fileReader.readAsDataURL(img);
@@ -309,21 +309,21 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.itemCurrentForEdit = this.infoAndContact.find((x) => x.id == id);
     const { type, value } = this.itemCurrentForEdit;
     this.form_data_person.setValue({ type, value });
-    this.stateInfoAndContact = "edit";
+    this.stateInfoAndContact = 'edit';
     // }
   }
 
   deleteItem(id): void {
     SwalService.swalConfirmation(
-      "Eliminar Item",
-      "Seguro que desea eliminar este item",
-      "warning"
+      'Eliminar Item',
+      'Seguro que desea eliminar este item',
+      'warning'
     ).then((res) => {
       if (res.isConfirmed) {
         this.s_standart
-          .destory("admin/people/" + this.person.id + "/contact-info/" + id)
+          .destory('admin/people/' + this.person.id + '/contact-info/' + id)
           .subscribe((res) => {
-            if (res.hasOwnProperty("success") && res.success) {
+            if (res.hasOwnProperty('success') && res.success) {
               const index_for_delete = this.infoAndContact.findIndex(
                 (x) => x.id == id
               );
@@ -337,12 +337,12 @@ export class CreateOrEditPersonComponent implements OnInit {
   }
 
   asCreateInfo() {
-    this.stateInfoAndContact = "create";
+    this.stateInfoAndContact = 'create';
     this.form_data_person.reset();
   }
 
   clearPhoto(): void {
-    this.photoUserInput.nativeElement.value = "";
+    this.photoUserInput.nativeElement.value = '';
     this.photo = null;
     this.file_img = null;
   }

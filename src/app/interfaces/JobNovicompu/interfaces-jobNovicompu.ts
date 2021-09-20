@@ -120,6 +120,7 @@ export interface Iappointment {
   date: Date;
   type: "video_conference" | "face_to_face";
   comment: string;
+  available: boolean;
   request_id: 3;
   novi_sys_person_id?: number;
   novi_sys_location_id?: number;

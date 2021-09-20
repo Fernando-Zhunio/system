@@ -45,9 +45,16 @@
                 Solicitante: <span class="font-weight-bold ">{{p.request.user.first_name}} {{p.request.user.last_name}}
                   <br></span>
                 Tipo : <span class="font-weight-bold ">{{p.type}} <br></span>
-                Comentario: <span class="font-weight-bold d-flex">{{p.comment?p.comment:'Sin comentario'}}</span>
                 Fecha:<span class="font-weight-bold "> {{p.date | date:'dd/MM/yyyy'}} </span><br>
-                Hora: <span class="font-weight-bold ">{{p.date | date:'hh:mm'}}</span>
+                Hora: <span class="font-weight-bold ">{{p.date | date:'hh:mm'}}</span> <br>
+                Persona asignada: <span class="font-weight-bold ">
+                    <ng-container *ngIf="p.assigned_person;else  notAssignedPerson">
+                   {{p.assigned_person.first_name }}{{p.assigned_person.last_name}}
+                </ng-container>
+                <ng-template #notAssignedPerson>
+                  Sin persona asignada
+                </ng-template>
+              </span>
               </p>
             </div>
           </div>
@@ -55,6 +62,10 @@
             <img [src]="p.request.user.photo.real_permalink" class="rounded-fz shadow w-100" alt="">
           </div>
           <div class="col-12">
+            Comentario: <span class="font-weight-bold d-flex">{{p.comment?p.comment:'Sin comentario'}}</span>
+          </div>
+          <div class="col-12">
+
             <mat-chip-list class="ml-1">
               <mat-chip selected (click)="goWork(p.request.work.id)" class="text-truncate">
                 <mat-icon>description</mat-icon> Empleo

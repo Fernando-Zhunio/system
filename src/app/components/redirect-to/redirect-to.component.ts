@@ -37,7 +37,7 @@ export class RedirectToComponent implements OnInit {
         this.router.navigate([goto]);
       }
       else {
-        this.router.navigate(["dashboard"]);
+        this.router.navigate(["/home/dashboard"]);
         console.log('paso no goto');
       }
       return;

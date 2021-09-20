@@ -11,11 +11,17 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PublicationComponent } from '../../components/publication/publication.component';
 import { PaginaWebComponent } from '../../components/pagina-web/pagina-web.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { ModalRealistComponent } from '../../components/ml/tools/modal-realist/modal-realist.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
 @NgModule({
-  declarations: [MlComponent,PromocionesComponent,PaginaWebComponent],
+  declarations: [MlComponent, PromocionesComponent, PaginaWebComponent, ModalRealistComponent],
   imports: [
     MomentModule,
     MatCardModule,
@@ -25,7 +31,17 @@ import { MatChipsModule } from '@angular/material/chips';
     MatButtonModule,
     MatSnackBarModule,
     MatChipsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
-  exports: [ MlComponent,PromocionesComponent,PaginaWebComponent ]
+  exports: [
+    MlComponent,
+    PromocionesComponent,
+    PaginaWebComponent,
+    ModalRealistComponent
+   ]
 })
 export class MlModule { }

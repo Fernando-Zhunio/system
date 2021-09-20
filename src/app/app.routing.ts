@@ -60,17 +60,17 @@ export const routes: Routes = [
     data: {
       title: 'Login Page'
     },
-    canActivate:[AuthReverseGuard]
+    canActivate: [AuthReverseGuard]
   },
   {
     path: 'recuperation-password',
     component: FormRecuperationPasswordComponent,
-    canLoad:[RecuperatePasswordGuard],
-    resolve:{user:RecuperatePasswordGuard},
+    canLoad: [RecuperatePasswordGuard],
+    resolve: {user: RecuperatePasswordGuard},
     data: {
       title: 'Recuperation password Page'
     },
-    canActivate:[AuthReverseGuard]
+    canActivate: [AuthReverseGuard]
   },
 
   {
@@ -90,8 +90,8 @@ export const routes: Routes = [
     // canActivate:[AuthGuard]
   },
   {
-    path:'sesion-ml',
-    component:OkLoginComponent,
+    path: 'sesion-ml',
+    component: OkLoginComponent,
 
     // canActivate: [NgxPermissionsGuard],
   },
@@ -108,34 +108,6 @@ export const routes: Routes = [
     },
     canActivate:[AuthGuard],
     children: [
-      // {
-      //   path: 'base',
-      //   loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
-      // },
-      // {
-      //   path: 'buttons',
-      //   loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
-      // },
-      // {
-      //   path: 'productos',
-      //   loadChildren: () => import('./pages/administracion_productos/productos/producto.module').then(m => m.ProductoModule)
-      // },
-      // {
-      //   path: 'categorias',
-      //   loadChildren: () => import('./pages/administracion_productos/categorias/categorias.module').then(m => m.CategoriasModule)
-      // },
-      // {
-      //   path: 'marcas',
-      //   loadChildren: () => import('./pages/administracion_productos/marcas/marcas.module').then(m => m.MarcasModule)
-      // },
-      // {
-      //   path: 'prefijos',
-      //   loadChildren: () => import('./pages/administracion_productos/prefijo/prefijo.module').then(m => m.PrefijoModule)
-      // },
-      // {
-      //   path: 'buscar_productos',
-      //   loadChildren: () => import('./pages/catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      // },
       {
         path: 'home',
         loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
@@ -168,33 +140,40 @@ export const routes: Routes = [
       },
       {
         path: 'recursos-humanos',
-        loadChildren: () => import('./pages/rrhh/rrhh.module').then(m => m.RrhhModule)
+        loadChildren: () => import('./pages/rrhh/rrhh.module').then(m => m.RrhhModule),
+        data: {
+          isEdit: true,
+          permissions: {
+            only: ['super-admin','rrhh'],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
       },
 
-      {
-        path: 'charts',
-        loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
-      },
-      {
-        path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
-      },
-      {
-        path: 'icons',
-        loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
-      },
-      {
-        path: 'notifications',
-        loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
-      },
-      {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
-      }
+      // {
+      //   path: 'charts',
+      //   loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
+      // },
+      // {
+      //   path: 'dashboard',
+      //   loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+      // },
+      // {
+      //   path: 'icons',
+      //   loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
+      // },
+      // {
+      //   path: 'notifications',
+      //   loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
+      // },
+      // {
+      //   path: 'theme',
+      //   loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
+      // },
+      // {
+      //   path: 'widgets',
+      //   loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
+      // }
     ]
   },
   { path: '**', component: P404Component }

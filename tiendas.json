@@ -1,0 +1,361 @@
+[
+  {
+    "Guayaquil": [
+      {
+        "name": "HIPER NOVICOMPU",
+        "address": "KENNEDY NORTE AV. FRANCISCO DE ORELLANA N.30 Y NAHIN ISAIAS  MZ 71 (ALADO DE LA PARRILLADA DEL ÑATO)",
+        "telefono": "0999116640",
+        "days": [
+          { "day": "LUNES A SÁBADO", "hour": "08:30AM A 7:30PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU FRANCISCO DE ORELLANA",
+        "address": "CIUDADELA KENNEDY NORTE AV. FRANCISCO ORELLANA SOLAR 5 Y EUGENIO ALMAZAN (JUNTO A JUAN MARCET)",
+        "telefono": "0980526388",
+        "days": [
+          { "day": "LUNES A SÁBADO", "hour": "08:30AM A 7:30PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU CITY MALL",
+        "address": "C.C. CITY MALL: FELIPE PESO S/N BENJAMIN CARRION LOCAL 5",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 9:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 8:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU URDESA",
+        "address": "VICTOR EMILIO ESTRADA 612A MONJAS Y FICUS JUNTO A PHARMACYS.",
+        "telefono": "0997879073",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU MALL DEL SUR",
+        "address": "C.C. MALL DEL SUR: AV 25 DE JULIO JOSE DE LA CUADRA LOCAL 26.",
+        "telefono": "0994869809",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 9:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 8:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU ESCOBEDO",
+        "address": "09 DE OCTUBRE 515 Y ESCOBEDO LOCAL 2B.",
+        "telefono": "0990631232",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 7:30PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 4:00PM" }
+        ]
+      },
+      {
+        "name": "AV. 9 DE OCTUBRE 910 Y RUMICHACA",
+        "address": "EDIF KFC: 09 DE OCTUBRE 910 Y RUMICHACA JUNTO A EDIF MILITARES.",
+        "telefono": "0997274165",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 7:30PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU CORDOVA",
+        "address": "09 DE OCT PEDRO CARBO Y GENERAL CORDOVA SAN FRANCISCO 300 LOCAL 8 FRENTE A IGLESIA",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 7:30PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 4:00PM" }
+        ]
+      }
+    ]
+  },
+  {
+    "Manta": [
+      {
+        "name": "NOVICOMPU MANTA",
+        "address": "Manta calle TRECE SN avenida 12/13",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 3:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU MANTA 2",
+        "address": "MANTA CALLE AV 2 #1175 JUNTO A BCO PICHINCHA.",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 3:00PM" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "Portoviejo": [
+      {
+        "name": "NOVICOMPU PORTOVIEJO",
+        "address": "PORTOVIEJO: P GUAL 921 Y GARCIA MORENO EDIF ALVERTO GILER DIAGONAL A ORVE HOGAR",
+        "telefono": "0988153459",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 3:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU PORTOVIEJO 2",
+        "address": "AV MANABI ENTRE PIO MONTUFAR Y ATAHUALPA (DIAGONAL KILON COMIDAS CHINAS)",
+        "telefono": "0981361177",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 3:00PM" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "Quito": [
+      {
+        "name": "NOVICOMPU SHYRIS Y RIO COCA",
+        "address": "AV LOS SHYRIS N44-26 AV RIO COCA LOCAL 6 A UNA CUADRA DE POLLOS DE LA KENEDY.",
+        "telefono": "0990346460",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:30PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU NACIONES UNIDAS",
+        "address": "Av. NACIONES UNIDAS Y SHYRIS PB (JUNTO A BCO BOLIVARIANO).",
+        "telefono": "0997262710 / 0993391394",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU CC. CARACOL",
+        "address": "C.C. CARACOL: AV AMAZONAS Y AV NNUU LOCAL 108 (FRENTE AL CC IÑAQUITO)",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 6:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU AV 6 DE DICIEMBRE",
+        "address": "AV 06 DE DICIEMBRE Y COLON LT 2016 N26 BATALLAS ESQ LOCAL 3.",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU AV. DEL MAESTRO",
+        "address": "AV MAESTRO OE4-202 QUITUMBE.",
+        "telefono": "0982684779",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 4:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU CC RECREO",
+        "address": "C.C. EL RECREO: PEDRO VICENTE MALDONADO S11-122 EL RECREO K15",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 8:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 7:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU CC RECREO 2",
+        "address": "C.C. RECREO PEDRO VICENTE MALDONADO MALADONADO S10-194 CALVAS JUNTO AMERICA CLASICC",
+        "telefono": null,
+        "days": null
+      },
+      {
+        "name": "NOVICOMPU AV. REPÚBLICA",
+        "address": "AV REPUBLICA N36-148 Y AV AMERICA ESQUINA.",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 5:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU EL BOSQUE",
+        "address": "ALONSO DE TORRES N44 -98  Y EDMUNDO CARVAJAL DIAGONAL AL C.C EL BOSQUE.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  },
+  {
+    "Machala": [
+      {
+        "name": "NOVICOMPU MACHALA",
+        "address": "PAEZ SN Y AV ROCAFUERTE ESQ JUNTO A COMANDATO.",
+        "telefono": "0986039369",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 3:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU BUENAVISTA",
+        "address": "BUENAVISTA ENTRE BOLIVAR Y ROCAFUERTE DIAGONAL AL COMERCIO.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  },
+  {
+    "Ambato": [
+      {
+        "name": "NOVICOMPU AMBATO",
+        "address": "LALAMA O8-59 ENTRE LAS CALLES JUAN BENIGNO VELA Y AV CEVALLOS.",
+        "telefono": "0984098284",
+        "days": [{ "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" }]
+      },
+      {
+        "name": "NOVICOMPU AMBATO 2",
+        "address": "AV. PEDRO FERMIN CEVALLOS Y JOAQUIN AYLLON.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  },
+  {
+    "Cuenca": [
+      {
+        "name": "NOVICOMPU CUENCA",
+        "address": "C.C. MALL DEL RIO AV FELIPE CIRCUNVALACIÓN SUR PLANTA BAJA LOCAL S3.",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 8:00PM" },
+          { "day": "DOMINGO", "hour": "10:00AM A 8:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU CUENCA 2",
+        "address": "C.C. MALL DEL RIO FELIPE II Y CIRCUNVALACIÓN SUR  PLANTA BAJA LOCAL C 5-6-7-8-9-10.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  },
+
+  {
+    "Santo Domingo de los Tsachilas": [
+      {
+        "name": "NOVICOMPU SANTO DOMINGO TSACHILAS",
+        "address": "Av. Quito 1308 y Abraham Calazacom.",
+        "telefono": "0990897180",
+        "days": null
+      }
+    ]
+  },
+
+  {
+    "Loja": [
+      {
+        "name": "NOVICOMPU LOJA",
+        "address": "BOLIVAR Y ROCAFUERTE ESQ. LOCAL #0942 - PORTAL DEL PARQUE STO DOMINGO.",
+        "telefono": "0993330928",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 7:30PM" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "Quevedo": [
+      {
+        "name": "NOVICOMPU QUEVEDO",
+        "address": "CALLE 7 DE OCTUBRE Y 4TA ESQUINA BCO INTERNACIONAL.",
+        "telefono": "0963267223",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 6:30PM" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "Riobamba": [
+      {
+        "name": "NOVICOMPU RIOBAMBA",
+        "address": "PRIMERA CONSTITUYENTE 26-25 GARCIA MORENO FRENTE BCO GYE.",
+        "telefono": "0988225205",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" }
+        ]
+      }
+    ]
+  },
+
+  {
+    "Babahoyo": [
+      {
+        "name": "NOVICOMPU BABAHOYO",
+        "address": "AV 5 DE JUNIO SN JUAN MONTALVO.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  },
+
+  {
+    "Ibarra": [
+      {
+        "name": "NOVICOMPU IBARRA",
+        "address": "BOLIVAR 10-90 PEREZ GUERRERO.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  },
+
+  {
+    "La Libertad": [
+      {
+        "name": "NOVICOMPU LA LIBERTAD",
+        "address": "Calle 21 Edmundo diagonal a la 2da avenida.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  },
+
+  {
+    "Milagro": [
+      {
+        "name": "NOVICOMPU MILAGRO",
+        "address": "AV GABRIEL GARCIA MORENO Y GRAL ELOY ALFARO JUNTO ARTEFACTA.",
+        "telefono": "0999551320",
+        "days": [
+          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 6:30PM" },
+          { "day": "DOMINGO", "hour": "09:00AM A 4:00PM" }
+        ]
+      },
+      {
+        "name": "NOVICOMPU MILAGRO 2",
+        "address": "GARCIA MORENO ENTRE 12 DE FEBRERO Y ROCAFUERTE JUNTO A COMPUTRON.",
+        "telefono": null,
+        "days": null
+      }
+    ]
+  }
+]
+

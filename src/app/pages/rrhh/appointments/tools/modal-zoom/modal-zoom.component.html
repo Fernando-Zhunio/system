@@ -1,15 +1,25 @@
-<h3 class="m-0 text-muted font-facebook font-2xl">Zoom #{{zoom.id}}</h3>
+<h3 class="m-0  font-facebook font-2xl"> <span class="font-weight-bold">{{zoom.topic}}</span></h3>
+<!-- <small class="badge bg-danger"></small> -->
 <div mat-dialog-content>
-  <p class="lead p-3 font-italic">
-    Id: <span class="font-weight-bold">{{zoom.zoom_id}}</span> <br>
-    Topic : <span class="font-weight-bold">{{zoom.topic}}</span> <br>
-    password: <span class="font-weight-bold">{{zoom.password}}</span> <br>
-    Join Url: <span class="font-weight-bold">{{zoom.join_url}}</span> <br>
-    Start Url: <span class="font-weight-bold">{{zoom.start_url}}</span> <br>
-    Tiempo de inicio: <span class="font-weight-bold">{{zoom.start_time}}</span> <br>
-    Estado: <span class="font-weight-bold">{{zoom.status}}</span> <br>
-  </p>
+  <div class="row m-0 lead">
+    <div class="col-md-6 col-12 border-right">
+      <div class="font-2xl my-2">Datos para el anfitrión</div>
+      Ir a cita: <a href="{{zoom.start_url}}" target="__blank" class="font-weight-bold btn-warning btn btn-sm">Preciona aqui para ir a la cita</a> <br>
+      Tiempo de inicio: <span class="font-weight-bold">{{zoom.start_time}}</span> <br>
+    </div>
+    <div class="col-md-6 col-12">
+      <div class="font-2xl my-2">Datos para invitado</div>
+      <div>
+        Contraseña: <span class="font-weight-bold">{{zoom.password}}</span> <br>
+      Join Url: <span (click)="urlJoinCopy()" style="cursor: pointer;" class="font-weight-bold " [cdkCopyToClipboard]="zoom.join_url">{{zoom.join_url}} <small>(click para copiar)</small> </span> <br>
+      </div>
+
+    </div>
+  </div>
+  <!-- <p class="lead p-3 font-italic">
+  </p> -->
+  <!-- Estado: <span class="font-weight-bold">{{zoom.status}}</span> <br> -->
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+  <button mat-raised-button mat-dialog-close color="warn" cdkFocusInitial>Cerrar</button>
 </div>

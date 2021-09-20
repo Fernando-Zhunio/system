@@ -18,6 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ModalZoomComponent } from './tools/modal-zoom/modal-zoom.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+
 // import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 // import { Ngx } from '@angular-material-components';
 
@@ -42,6 +44,7 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     MatIconModule,
     MatDialogModule,
     NgxDocViewerModule,
+    ClipboardModule
     // NgxMatDatetimePickerModule,
     // NgxMatTimepickerModule,
     // NgxMatMomentModule

@@ -19,33 +19,32 @@ import { VtexPriceGuard } from '../../../guards/resolvers/vtex-price.guard';
 export class AdminVtexProductsMainComponents  {
 }
 
-
 const routes: Routes = [
   {
     path: '',
-    component:AdminVtexProductsMainComponents,
-    data:{name:'products_vtex_admin'},
+    component: AdminVtexProductsMainComponents,
+    data: { name: 'products_vtex_admin'},
     children: [
       {
         path: '',
-        component:IndexComponent,
+        component: IndexComponent,
         data: {
-          name:'index-product-vtex',
+          name: 'index-product-vtex',
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.vtex.product-vtex.index"],
+            only: ['super-admin', 'products-admin.vtex.product-vtex.index'],
           },
         },
         canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'create-product-vtex',
-        component:CreateOrEditComponent,
+        component: CreateOrEditComponent,
         data: {
-          name:'create-product-vtex',
+          name: 'create-product-vtex',
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.vtex.product-vtex.create"],
+            only: ['super-admin', 'products-admin.vtex.product-vtex.create'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -53,12 +52,12 @@ const routes: Routes = [
 
       {
         path: 'edit-product-vtex/:id',
-        component:CreateOrEditComponent,
+        component: CreateOrEditComponent,
         data: {
-          name:'edit-product-vtex',
+          name: 'edit-product-vtex',
           isEdit: true,
           permissions: {
-            only: ["super-admin", "products-admin.vtex.product-vtex.edit"],
+            only: ['super-admin', 'products-admin.vtex.product-vtex.edit'],
           },
         },
         canActivate: [NgxPermissionsGuard],

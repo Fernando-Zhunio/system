@@ -14,7 +14,6 @@ import { VtexProductosModule } from './vtex-productos/vtex-productos.module';
     AdminProductRoutingModule,
     VtexProductosModule,
     NgxPermissionsModule
-
   ]
 })
 export class AdministracionProductosModule { }

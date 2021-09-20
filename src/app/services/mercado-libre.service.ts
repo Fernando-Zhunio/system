@@ -59,4 +59,13 @@ export class MercadoLibreService {
   assingProduct(url,params):Observable<any>{
     return this.http.put(this.end_point+url,{...params});
   }
+
+  postRealistProduct(id,data): Observable<any> {
+    const params = {};
+    params['price_' + id] = data.price;
+    params['quantity_' + id] = data.quantity;
+    params['listing_type_id_' + id] = data.listing_type_id;
+    return this.http.post(`${this.end_point}catalogs/ml-products/${id}/relist`, { ...params });
+  }
+
 }

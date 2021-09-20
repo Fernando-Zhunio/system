@@ -30,12 +30,6 @@
         <div class="card-body pt-1">
             <div class="w-100">
                 <mat-card-title class="position-relative d-block" *ngIf="withName">{{ml.name}}</mat-card-title>
-                <!-- <mat-card-title >{{ml.name}}</mat-card-title> -->
-                <!-- <p *ngIf="ml.stock" class=" text-muted">
-                    <span>Stock Inical: {{ml.stock.initial_quantity}}</span> - <span>Vendido:
-                        {{ml.stock.sold_quantity}}</span> - <span class="text-success">Disponible:
-                        {{ml.stock.available_quantity}}</span>
-                </p> -->
                 <div style="font-family: SEGOE UI;" class="mat-button text-value text-success" color="accent">{{ml.price+ml.tax | currency}}</div>
                 <!-- <button mat-raised-button class="" (click)="openDescription()" color="accent">Ver descripcion</button> -->
 

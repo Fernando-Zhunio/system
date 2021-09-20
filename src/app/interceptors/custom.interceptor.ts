@@ -1,18 +1,18 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
   HttpHeaders,
-} from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError, finalize, take, tap } from "rxjs/operators";
-import { SwalService } from "../services/swal.service";
-import { Router } from "@angular/router";
-import { StorageService } from "../services/storage.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { SnackBarLoaderComponent } from "../components/snack-bar-loader/snack-bar-loader.component";
+} from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize, take, tap } from 'rxjs/operators';
+import { SwalService } from '../services/swal.service';
+import { Router } from '@angular/router';
+import { StorageService } from '../services/storage.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarLoaderComponent } from '../components/snack-bar-loader/snack-bar-loader.component';
 
 declare let Swal: any;
 
@@ -33,8 +33,8 @@ export class CustomInterceptor implements HttpInterceptor {
       headers = this.createHeader();
     } else {
       headers = new HttpHeaders({
-        accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
+        accept: 'application/json',
+        'Access-Control-Allow-Origin': '*',
       });
     }
     const newResquest = request.clone({ headers });
@@ -45,12 +45,12 @@ export class CustomInterceptor implements HttpInterceptor {
     // Swal.showLoading();
     const swal = Swal.fire({
       // title: ,
-      position: "bottom-end",
+      position: 'bottom-end',
       toast: true,
       showConfirmButton: false,
       title: '<div class="d-flex font-weight-bold">Cargando <div style="display:block;margin:0 0 0 15px" class="swal2-loader d-block ml-2 mr-1"></div></div>',
       customClass: {
-        popup: "p-2",
+        popup: 'p-2',
       },
 
     });
@@ -65,49 +65,49 @@ export class CustomInterceptor implements HttpInterceptor {
         Swal.close();
         switch (err.status) {
           case 401:
-            if (this.s_storage.isAuthenticated()) this.s_storage.logout();
+            if (this.s_storage.isAuthenticated()) { this.s_storage.logout(); }
             // this.route.navigate(['/login'])
             SwalService.swalToast(
-              "Error de credenciales comprueben que sean correctas",
-              "warning"
+              'Error de credenciales comprueben que sean correctas',
+              'warning'
             );
             break;
           case 403:
             SwalService.swalToast(
-              "No posee los permisos necesarios para este contenido",
-              "warning"
+              'No posee los permisos necesarios para este contenido',
+              'warning'
             );
             break;
           case 422:
-            if (err.error.hasOwnProperty("success")) {
-              SwalService.swalToast(err.error.data, "warning");
+            if (err?.error.hasOwnProperty('success')) {
+              SwalService.swalToast(err.error.data, 'warning');
             } else {
               SwalService.swalToast(
-                "Contenido improcesable codigo 422",
-                "warning"
+                'Contenido improcesable codigo 422',
+                'warning'
               );
             }
             break;
           case 404:
             SwalService.swalToast(
-              "El servidor no pudo encontrar el contenido solicitado. 404",
-              "warning"
+              'El servidor no pudo encontrar el contenido solicitado. 404',
+              'warning'
             );
             break;
           case 500:
             SwalService.swalToast(
-              "Error del servidor, intentalo otra vez,500",
-              "warning"
+              'Error del servidor, intentalo otra vez,500',
+              'warning'
             );
             break;
 
           default:
-            if (err.error.hasOwnProperty("success")) {
-              SwalService.swalToast(err.error.data, "warning");
+            if (err?.error.hasOwnProperty('success')) {
+              SwalService.swalToast(err.error.data, 'warning');
             } else {
               SwalService.swalToast(
-                "Ups! Ocurrio un problema intentalo de nuevo,code: 500",
-                "warning"
+                'Ups! Ocurrio un problema intentalo de nuevo,codigo: 500',
+                'warning'
               );
             }
             break;
@@ -120,8 +120,8 @@ export class CustomInterceptor implements HttpInterceptor {
   createHeader() {
     const token = this.s_storage.getCurrentToken();
     const Header = new HttpHeaders({
-      accept: "application/json",
-      Authorization: "Bearer " + token,
+      accept: 'application/json',
+      Authorization: 'Bearer ' + token,
     });
     return Header;
   }

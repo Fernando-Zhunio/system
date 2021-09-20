@@ -18,7 +18,6 @@ export class IndexComponent extends CTemplateSearch<Iappointment> implements OnI
   constructor( private s_shared: SharedService, private dialog: MatDialog, private router: Router, private s_serviceStandart: StandartSearchService) {
     super();
   }
-  // isLoad: boolean;
   url: string = 'rrhh/appointments';
   isOpenCv: boolean = false;
   cv: string = '';
@@ -39,7 +38,7 @@ export class IndexComponent extends CTemplateSearch<Iappointment> implements OnI
       if (result.isConfirmed) {
         appointment['isload'] = true;
         this.s_serviceStandart
-          .destory(`rrhh/works/${appointment.id}`)
+          .destory(`rrhh/requests/${appointment.request.id}/appointments/${appointment.id}`)
           .subscribe((res) => {
             appointment['isload'] = false;
             console.log(res);

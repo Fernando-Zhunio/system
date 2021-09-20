@@ -513,159 +513,9 @@ export class DefaultLayoutComponent implements OnInit {
       tag: this.tags.admin_system,
     },
     //#endregion
-
-    // {
-    //   name: 'Dashboard',
-    //   url: '/dashboard',
-    //   icon: 'icon-speedometer',
-    //   badge: {
-    //     variant: 'info',
-    //     text: 'NEW'
-    //   }
-    // },
-    // {
-    //   title: true,
-    //   name: 'Informacion General',
-
-    // },
-    // {
-    //   name: 'Importaciones',
-    //   url: '/theme/colors',
-    //   icon: 'icon-cloud-upload',
-    // },
-
-    // {
-    //   title: true,
-    //   name: "Administracion de productos",
-    // },
-    // {
-    //   name: "Productos",
-    //   url: "/admin-products/productos",
-    //   icon: "icon-basket",
-    //   permission: "products-admin.products.index",
-    // },
-    // {
-    //   name: "Categoria",
-    //   url: "/admin-products/categorias",
-    //   icon: "icon-badge",
-    //   permission: "products-admin.categories.index",
-    // },
-    // {
-    //   name: "Marcas",
-    //   url: "/admin-products/marcas",
-    //   icon: "icon-bag",
-    //   permission: "products-admin.brands.index",
-    // },
-    // {
-    //   name: "Prefijos",
-    //   url: "/admin-products/prefijos",
-    //   icon: "fab fa-autoprefixer",
-    //   permission: "products-admin.prefixes.index",
-    // },
-
-    // {
-    //   title: true,
-    //   name: "Catalogo",
-    // },
-    // {
-    //   name: "Buscar producto",
-    //   url: "/catalogo/buscar_productos",
-    //   icon: "fas fa-search",
-    //   permission: "catalogs.products.index",
-    // },
-    // {
-    //   name: "Mercado libre",
-    //   url: "/catalogo/mercado-libre",
-    //   icon: "far fa-handshake",
-    //   permission: "catalogs.ml-products.index",
-    // },
-    // {
-    //   name: "Publicaciones",
-    //   url: "/catalogo/publicaciones",
-    //   icon: "fab fa-telegram-plane",
-    //   permission: "catalogs.publications.index",
-    // },
-
-    // {
-    //   title: true,
-    //   name: "Importaciones",
-    // },
-    // {
-    //   name: "Proveedores",
-    //   url: "/importaciones/proveedores",
-    //   icon: "icon-briefcase",
-    //   permission: "purchase-department.imports.index",
-    // },
-    // {
-    //   name: "Codificar importaciones",
-    //   url: "/importaciones/codificar-importaciones",
-    //   icon: "far fa-handshake",
-    //   permission: "purchase-department.imports.index",
-    // },
-    // {
-    //   name: "Precios y promociones",
-    //   url: "/importaciones/precios-promociones",
-    //   icon: "icon-briefcase",
-    //   permission: "purchase-department.imports.index",
-    // },
-    // {
-    //   title: true,
-    //   name: "Reportes",
-    // },
-    // {
-    //   name: "Grupo de Productos",
-    //   url: "/reports/group-products",
-    //   icon: "icon-briefcase",
-    //   permission: "purchase-department.imports.index",
-    // },
-    // {
-    //   title: true,
-    //   name: "Informacion general",
-    // },
-    // {
-    //   name: "Organizacion",
-    //   url: "/information-general/organizacion",
-    //   icon: "icon-briefcase",
-    //   permission: "purchase-department.imports.index",
-    // },
-    // {
-    //   title: true,
-    //   name: "Administracion del sistema",
-    // },
-    // {
-    //   name: "Usuarios",
-    //   url: "/administracion-sistema/usuarios",
-    //   icon: "icon-user-following",
-    //   permission: "admin.users.index",
-    // },
-
-    // {
-    //   name: "Personas",
-    //   url: "/administracion-sistema/personas",
-    //   icon: "icon-user",
-    //   permission: "admin.people.index",
-    // },
-
-    // {
-    //   name: "Roles",
-    //   url: "/administracion-sistema/roles",
-    //   icon: "icon-briefcase",
-    //   permission: "admin.users.index",
-    // },
-
-    // {
-    //   name: "Paises",
-    //   url: "/administracion-sistema/paises",
-    //   icon: "icon-globe",
-    //   permission: "admin.countries.index",
-    // },
-    // {
-    //   name: "Locaciones",
-    //   url: "/administracion-sistema/locaciones",
-    //   icon: "icon-directions",
-    //   permission: "admin.locations.index",
-    // },
   ];
+
+  // key_notification: string = e;
 
   ngOnInit(): void {
     if(localStorage.getItem('color_sidebar_left')){
@@ -722,7 +572,7 @@ export class DefaultLayoutComponent implements OnInit {
     const echo = new Echo({
       broadcaster: 'pusher',
       cluster: 'mt1',
-      key: '03045e5e16a02b690e4c',
+      key: environment.keySocket,
       // key: "1564856898",
       authEndpoint: endpoint + 'broadcasting/auth',
       wsHost: domain_serve,

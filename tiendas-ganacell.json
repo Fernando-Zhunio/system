@@ -1,0 +1,114 @@
+[
+  {
+      "Guayaquil": [
+          {
+              "address": "C.C. PLAZA QUIL: Av. Luis Plaza Dañin y Fco. Boloña (frente a mi Comisariato) Local 82 y 84",
+              "telefono": "0963212672",
+              "days": [
+                  { "day": "LUNES a SÁBADO", "hour": "08:30 A 19:00" },
+                  { "day": "DOMINGO", "hour": "10:00 a 17:00" }
+              ]
+          },
+          {
+              "address": "C.C. Unicentro Calle Aguirre entre Chimborazo y, Chile Isla 1012 planta baja",
+              "telefono": "0997879073",
+              "days": [
+                  { "day": "LUNES a VIERNES", "hour": "10:00 a 19:00" },
+                  { "day": "SÁBADO", "hour": "10:00 a 18:00" },
+                  { "day": "DOMINGO", "hour": "11:00 a 18:00" }
+              ]
+          },
+          {
+              "address": "C.C. LA ROTONDA, local 27 (junto a de Prati).",
+              "telefono": "0986544073 -  0984709752",
+              "days": [
+                  { "day": "LUNES a SÁBADO", "hour": "10:00 a 20:00" },
+                  { "day": "DOMINGO", "hour": "10:00 a 20:00" }
+              ]
+          },
+          {
+              "address": "Edificio Blue Tower (Av. Francisco de Orellana) Piso 8 Oficina 813.",
+              "telefono": "0959020899 - 0988996435 - 0979455377",
+              "days": [
+                  { "day": "LUNES a SÁBADO", "hour": "09:00 a 18:30" },
+                  { "day": "DOMINGO", "hour": "10:00 a 16:00" }
+              ]
+          }
+      ]
+  },
+  {
+      "Quito": [
+          {
+              "address": "Edificio CITY CENTER: Av. Los Shyris nº44-26 y Av. Rio Coca, local 1 junto a samsung",
+              "telefono": "0990383178",
+              "days": [
+                  { "day": "LUNES A SÁBADO", "hour": "08H30 a 19H00" }
+              ]
+          },
+          {
+              "address": "Ganacell Espiral, centro comercial Espiral calle Jorge Washington n20-80 y rio Amazonas local 38 planta baja.",
+              "telefono": "0980386322",
+              "days": [
+                  { "day": "LUNES A SÁBADO ", "hour": "09:30 a 19:00" }
+              ]
+          }]
+  },
+  {
+      "Manta": [
+          {
+              "address": "Calle 13 Av. 11 sobre la Av. 11 LADO DE LA FARMACIA DANILO FRENTA A NOVICOMPU.",
+              "telefono": "0998344715 - 0999246145",
+              "days": [
+                  { "day": "LUNES a SÁBADO", "hour": "09:00 a 19:00" },
+                  { "day": "DOMINGO", "hour": "09:00 a 15:00" }
+              ]
+          }
+      ]
+  },
+  {
+      "Portoviejo": [
+          {
+              "address": "Avenida Manabi y Quito junto a Importadora Novoa y Diagonal al edificio World Plaza",
+              "telefono": "0999551320",
+              "days": [
+                  { "day": "LUNES a SÁBADO", "hour": "09:00 a 19:00" },
+                  { "day": "DOMINGO", "hour": "09:00 a 15:00" }
+              ]
+          }
+      ]
+  },
+  {
+      "Machala": [
+          {
+              "address": "C.C. Oro plaza junto a ciudad verde local 230",
+              "telefono": "0990695654",
+              "days": [
+                  { "day": "LUNES a SÁBADO", "hour": "09:00 a 19:00" },
+                  { "day": "DOMINGO", "hour": "10:00 a 15:00" }
+              ]
+          }
+      ]
+  },
+  {
+      "Santo Domingo": [
+          {
+              "address": "Av. 29 de mayo y calle Cocaniguas a lado de tatuajes Apocalíptica.",
+              "telefono": "0997353583 - 0984335636",
+              "days": [
+                  { "day": "LUNES A SÁBADO", "hour": "09:00 a 19:00" }
+              ]
+          }
+      ]
+  },
+  {
+      "Cuenca": [
+          {
+              "address": "Bodega 49, Edificio CICA, planta baja Av. Solano entre Av. Remigio Crespo y Av. Florencia Astudillo",
+              "telefono": "0992573458",
+              "days": [
+                  { "day": "LUNES A SÁBADO", "hour": "08:30 a 18:30" }
+              ]
+          }
+      ]
+  }
+]
