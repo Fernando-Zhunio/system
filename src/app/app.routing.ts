@@ -18,6 +18,7 @@ import { RegisterComponent } from './views/register/register.component';
 
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
+// import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
 
 // @Component({
 //   selector: 'app-authentication',
@@ -106,7 +107,7 @@ export const routes: Routes = [
     data: {
       title: 'Home'
     },
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'home',

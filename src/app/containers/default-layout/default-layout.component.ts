@@ -216,6 +216,12 @@ export class DefaultLayoutComponent implements OnInit {
         icon: 'icon-briefcase',
         permission: 'reports.group-products.index',
       },
+      {
+        name: 'Download stock',
+        url: '/reports/general-stock',
+        icon: 'icon-briefcase',
+        permission: 'reports.general-stock.export',
+      }
     ],
 
     info_general: [
@@ -438,6 +444,13 @@ export class DefaultLayoutComponent implements OnInit {
       permission: 'reports.group-products.index',
       tag: this.tags.reports,
     },
+    {
+      name: 'Download stock',
+      url: '/reports/general-stock',
+      icon: 'icon-cloud-download',
+      permission: 'reports.general-stock.export',
+      tag: this.tags.reports,
+    },
     //#endregion
 
     //#region info general
@@ -520,7 +533,7 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit(): void {
     if(localStorage.getItem('color_sidebar_left')){
       this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
-    } else this.colorSidebarLeft = '#054372';
+    } else { this.colorSidebarLeft = '#054372'; }
     this.getValueDark();
     let user = this.s_storage.getCurrentUser();
     this.s_standart.index('user/preferences/ajax').subscribe((res) => {
@@ -564,7 +577,7 @@ export class DefaultLayoutComponent implements OnInit {
     const endpoint = environment.server;
     const domain_serve = environment.domain_serve;
     // const domain_serve = "192.168.1.74";
-    const port_ = 6001;
+    const port_ = 80;
     // const endpoint = 'http://'+domain_serve +'/api/';
 
     // descomentar para notificaciones ------------------------------------------------------------------------------
@@ -626,14 +639,15 @@ export class DefaultLayoutComponent implements OnInit {
 
   goRouteNotification(url:any):void{
     // console.log(url);
-    if(url)
+    if(url) {
     this.route.navigate([url.path])
+    }
   }
 
   getValueDark(): void {
-    if (!localStorage.getItem('isDark'))
+    if (!localStorage.getItem('isDark')) {
       localStorage.setItem('isDark', JSON.stringify(this.isDark));
-    else this.isDark = JSON.parse(localStorage.getItem('isDark'));
+    } else { this.isDark = JSON.parse(localStorage.getItem('isDark')); }
   }
 
 
@@ -685,12 +699,12 @@ export class DefaultLayoutComponent implements OnInit {
     this.s_standart.create('reports/general-stock').subscribe((res) => {
       console.log(res);
       this.isDownloadStock = false;
-      SwalService.swalToast(res.data,'success','bottom-end')
+      SwalService.swalToast(res.data, 'success', 'bottom-end')
     });
   }
 
   changeCompany(idCompany, index): void {
-    if (this.company_select == this.companies[index].name) return;
+    if (this.company_select === this.companies[index].name) { return; }
     this.s_auth.changedCompany(idCompany).subscribe((res) => {
       if (res.success) {
         SwalService.swalToast('Compañia cambiada con exito');
@@ -706,7 +720,7 @@ export class DefaultLayoutComponent implements OnInit {
         this.route.navigate(['/']).then(()=>{
           this.s_custom_reusing['cache'] = {};
 
-        })
+        });
         // const custon = this.s_custom_reusing as CustomReusingStrategy;
         // custon.clearCache()
         // this.companies[index].name = aux_company;
@@ -721,8 +735,8 @@ export class DefaultLayoutComponent implements OnInit {
       ...permissionAndRol.permission,
       ...permissionAndRol.rol,
     ];
-    const isSuperAdmin = permissionAndRol.rol.find((x) => x == 'super-admin');
-    if (isSuperAdmin != undefined) {
+    const isSuperAdmin = permissionAndRol.rol.find((x) => x === 'super-admin');
+    if (isSuperAdmin !== undefined) {
       return this.navItems_;
     }
 
@@ -732,9 +746,9 @@ export class DefaultLayoutComponent implements OnInit {
 
     for (let j = 0; j < sizePermissionAndRol; j++) {
       let item: INavData = this.navItems_.find(
-        (x) => x.permission == mergePermissionAndRol[j]
+        (x) => x.permission === mergePermissionAndRol[j]
       );
-      if (item != undefined) {
+      if (item !== undefined) {
         this.new_Item_data[item.tag].push(item);
       }
     }

@@ -1,0 +1,52 @@
+<div class="font-facebook mt-3 mb-2 font-5xl">Descarga de reporte</div>
+
+<div class="card border-0">
+  <div class="card-body pb-0">
+    <ng-container *ngIf="mbaStatus">
+      <div class="d-flex align-items-center mb-2">
+        <span class="lead">Estado del servicio MBA:&nbsp;</span>
+        <mat-chip-list>
+          <mat-chip [ngClass]=" mbaStatus?.value == 'down'?'down':'up'">{{mbaStatus?.value == 'down'?'CAIDO':'EN LINEA'}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div *ngIf="mbaStatus.value == 'down'; else  templateMbaUp" class="alert alert-warning">
+        <strong>CUIDADO!</strong> los datos de stock no se han actualizado desde <b>{{mbaStatus.updated_at | amLocale:'es' | amTimeAgo}}</b>, lo
+        cual significa que la información de este reporte no es fiable, úsela bajo su responsabilidad.
+      </div>
+      <ng-template #templateMbaUp>
+        <small>Desde: {{mbaStatus.updated_at | amLocale:'es' | amTimeAgo}}</small>
+      </ng-template>
+
+    </ng-container>
+  </div>
+  <div class="row m-0 card-body pt-0">
+    <div class="col-12 my-2">
+      <input (keyup)="filterWarehouse()" [(ngModel)]="search" type="text"
+        class="form-control font-facebook input-facebook rounded-fz mb-2" placeholder="Buscador de bodegas">
+    </div>
+    <div class="col-12 col-md-6 border-right mb-lg-3">
+      <div class="font-facebook font-2xl mb-2">Bodegas</div>
+      <mat-selection-list class="warehouse" [multiple]="false">
+        <mat-list-option (click)="addWarehousesSelects(warehouse.id)" *ngFor="let warehouse of warehouses">
+          {{warehouse.name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="col-md-6 col-12">
+      <div style="position: sticky;top: 20px;">
+        <div class="font-facebook font-2xl">Bodegas seleccionadas</div>
+        <mat-selection-list [multiple]="false">
+          <mat-list-option (click)="removeWarehousesSelects(warehouse.id)" *ngFor="let warehouse of warehousesSelects">
+            {{warehouse.name}}
+          </mat-list-option>
+        </mat-selection-list>
+        <div class="my2">
+          <mat-slide-toggle [(ngModel)]="show_global_stock">Mostrar conteo global</mat-slide-toggle><br>
+          <button (click)="saveInServer()" [disabled]="warehousesSelects.length < 1 || isLoad" mat-raised-button
+            color="accent">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

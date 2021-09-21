@@ -1,0 +1,16 @@
+.input-facebook{
+  background: #f5f5f5;
+    font-size: 20px;
+}
+.down {
+  background-color: red;
+  color: white;
+}
+.up {
+  background-color: green;
+  color: white;
+}
+.warehouse {
+  height: 500px;
+    overflow: auto;
+}

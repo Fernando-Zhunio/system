@@ -5,23 +5,25 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpHeaders,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, finalize, take, tap } from 'rxjs/operators';
+import { catchError, finalize, map, take, tap } from 'rxjs/operators';
 import { SwalService } from '../services/swal.service';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarLoaderComponent } from '../components/snack-bar-loader/snack-bar-loader.component';
+import { Iresponse } from '../interfaces/Imports/invoice-item';
 
 declare let Swal: any;
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
   constructor(
-    private route: Router,
+    // private route: Router,
     private s_storage: StorageService,
-    private snack_bar: MatSnackBar
+    // private snack_bar: MatSnackBar
   ) {}
 
   intercept(
@@ -29,22 +31,18 @@ export class CustomInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     let headers = null;
+    // si esta autenticado
     if (this.s_storage.isAuthenticated()) {
       headers = this.createHeader();
-    } else {
+    }  /* si no esta autenticado */ else {
       headers = new HttpHeaders({
         accept: 'application/json',
         'Access-Control-Allow-Origin': '*',
       });
     }
     const newResquest = request.clone({ headers });
-
-    // Swal({
-    //   title: "Loading cars from data base",
-    // });
-    // Swal.showLoading();
+    // Activa spinner cargando
     const swal = Swal.fire({
-      // title: ,
       position: 'bottom-end',
       toast: true,
       showConfirmButton: false,
@@ -52,16 +50,19 @@ export class CustomInterceptor implements HttpInterceptor {
       customClass: {
         popup: 'p-2',
       },
-
     });
 
     return next.handle(newResquest).pipe(
+      // map((event: HttpResponse<Iresponse>) => {
+      //   if (event.body && typeof event === 'object' && event.body.hasOwnProperty('success') && event.body.success === true) { event.body['success'] = false; }
+      //   else { event.body['success'] = false; }
+      //   console.log('event', event);
+      //   return event;
+      // }),
       finalize(() => {
-        // this.snack_bar.dismiss();
         swal.close();
       }),
       catchError((err) => {
-        // this.snack_bar.dismiss();
         Swal.close();
         switch (err.status) {
           case 401:
