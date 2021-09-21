@@ -46,18 +46,18 @@ export class OrganizationChartSystemComponent implements OnInit {
   ];
   ngOnInit(): void {
 
-    var chart = new OrgChart(document.getElementById("tree"), {
-      nodeBinding: {
-        field_0: "Nombre",
-        field_1: "Cargo",
-        img_0: "img",
-      },
-    });
-    this.s_standart.show('admin/people/orgchart').subscribe(res=>{
-      console.log(res);
-      if(res && res.hasOwnProperty('success') && res.success)
-      chart.load(res.data);
-    })
+    // var chart = new OrgChart(document.getElementById("tree"), {
+    //   nodeBinding: {
+    //     field_0: "Nombre",
+    //     field_1: "Cargo",
+    //     img_0: "img",
+    //   },
+    // });
+    // this.s_standart.show('admin/people/orgchart').subscribe(res=>{
+    //   console.log(res);
+    //   if(res && res.hasOwnProperty('success') && res.success)
+    //   chart.load(res.data);
+    // })
 
 
 
