@@ -1,11 +1,11 @@
-import { formatDate } from "@angular/common";
-import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatBottomSheet } from "@angular/material/bottom-sheet";
-import { MatDialog } from "@angular/material/dialog";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatTableDataSource } from "@angular/material/table";
-import { EProviderActions } from "../../enums/eprovider-actions.enum";
+import { formatDate } from '@angular/common';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { EProviderActions } from '../../enums/eprovider-actions.enum';
 import {
   Iimportation,
   invoice,
@@ -13,19 +13,19 @@ import {
   InvoiceItemFull,
   Iprovider,
   Iresponse,
-} from "../../interfaces/Imports/invoice-item";
+} from '../../interfaces/Imports/invoice-item';
 // import { EventEmitter } from 'events';
 // import { TableItemInvoice } from "../../interfaces/table-item-invoice";
-import { StandartSearchService } from "../../services/standart-search.service";
-import { SwalService } from "../../services/swal.service";
-import { CreateProviderOrContactComponent } from "../modals/create-provider-or-contact/create-provider-or-contact.component";
-import { InvoiceItemModalComponent } from "../modals/invoice-item-modal/invoice-item-modal.component";
-import { ActionProviderComponent } from "../Sheet/action-provider/action-provider.component";
+import { StandartSearchService } from '../../services/standart-search.service';
+import { SwalService } from '../../services/swal.service';
+import { CreateProviderOrContactComponent } from '../modals/create-provider-or-contact/create-provider-or-contact.component';
+import { InvoiceItemModalComponent } from '../modals/invoice-item-modal/invoice-item-modal.component';
+import { ActionProviderComponent } from '../Sheet/action-provider/action-provider.component';
 
 @Component({
-  selector: "app-invoice-create-or-edit",
-  templateUrl: "./invoice-create-or-edit.component.html",
-  styleUrls: ["./invoice-create-or-edit.component.css"],
+  selector: 'app-invoice-create-or-edit',
+  templateUrl: './invoice-create-or-edit.component.html',
+  styleUrls: ['./invoice-create-or-edit.component.css'],
 })
 export class InvoiceCreateOrEditComponent implements OnInit {
   constructor(
@@ -38,6 +38,16 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   @Input() providers = [];
   @Input() id_import;
   @Input() product_relationship = null;
+  @Input() state: 'edit' | 'create' | 'formMore' = 'create';
+  @Input() invoice: invoice = null;
+  formInvoice: FormGroup = new FormGroup({
+    identifier: new FormControl(null, [Validators.required]),
+    notes: new FormControl(null),
+    date_purchase: new FormControl(null, [Validators.required]),
+    provider_id: new FormControl('', [Validators.required]),
+    id: new FormControl(null),
+    // state:new FormControl('create'),
+  });
   @Output() close: EventEmitter<object> = new EventEmitter();
   @Output() new_action: EventEmitter<{
     action: EProviderActions;
@@ -47,24 +57,23 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   // @Output() openSide:EventEmitter<object> = new EventEmitter();
 
   isLoadInvoice: boolean = false;
+  isLoadFile: boolean = false;
   @Input() ELEMENT_DATA: invoiceItem[] = [];
-  invoice_data:any[] = [];
+  invoice_data: any[] = [];
   displayedColumns: string[] = [
-    "new",
-    "code",
-    "description",
-    "note",
-    "quantity",
-    "price",
-    "tariff",
-    "id",
+    'new',
+    'code',
+    'description',
+    'note',
+    'quantity',
+    'price',
+    'tariff',
+    'id',
   ];
   dataSource = new MatTableDataSource<invoiceItem>(this.ELEMENT_DATA);
 
   ngOnInit(): void {
-    console.log(this.providers);
 
-    console.log(this.state);
     if (this.invoice) {
       const {
         date_purchase,
@@ -84,49 +93,35 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     }
   }
 
-  @Input() state: "edit" | "create" | "formMore" = "create";
-  @Input() invoice: invoice = null;
-  formInvoice: FormGroup = new FormGroup({
-    identifier: new FormControl(null, [Validators.required]),
-    notes: new FormControl(null),
-    date_purchase: new FormControl(null, [Validators.required]),
-    provider_id: new FormControl("", [Validators.required]),
-    id: new FormControl(null),
-    // state:new FormControl('create'),
-  });
-
   saveInvoice(): void {
     if (this.formInvoice.valid) {
       this.isLoadInvoice = true;
-      // console.log(this.formInvoice.value);
-      if (this.formInvoice.controls["date_purchase"].value != null) {
-        let data_req = this.formInvoice.value;
+      if (this.formInvoice.controls['date_purchase'].value != null) {
+        const data_req = this.formInvoice.value;
         data_req.date_purchase = formatDate(
           new Date(data_req.date_purchase),
-          "yyyy/MM/dd",
-          "en"
+          'yyyy/MM/dd',
+          'en'
         );
       }
-      if (this.state == "edit") {
+      if (this.state === 'edit') {
         this.s_standart
           .updatePut(
-            "purchase-department/imports/" +
+            'purchase-department/imports/' +
               this.id_import +
-              "/invoices/" +
-              this.formInvoice.controls["id"].value,
+              '/invoices/' +
+              this.formInvoice.controls['id'].value,
             this.formInvoice.value
           )
           .subscribe(
             (res) => {
               if (res.success) {
-                console.log(res);
                 this.invoice = res.data;
-                this.formInvoice.controls["id"].setValue(res.data.id);
+                this.formInvoice.controls['id'].setValue(res.data.id);
                 this.formInvoice.disable({ emitEvent: true });
-                this.state = "formMore";
+                this.state = 'formMore';
               }
               this.isLoadInvoice = false;
-              // console.log(this.formInvoice.value);
             },
             (err) => {
               this.isLoadInvoice = false;
@@ -135,20 +130,18 @@ export class InvoiceCreateOrEditComponent implements OnInit {
       } else {
         this.s_standart
           .store(
-            "purchase-department/imports/" + this.id_import + "/invoices",
+            'purchase-department/imports/' + this.id_import + '/invoices',
             this.formInvoice.value
           )
           .subscribe(
             (res) => {
               if (res.hasOwnProperty('success') && res.success) {
-                console.log(res);
                 this.invoice = res.data;
-                this.formInvoice.controls["id"].setValue(res.data.id);
+                this.formInvoice.controls['id'].setValue(res.data.id);
                 this.formInvoice.disable({ emitEvent: true });
-                this.state = "formMore";
+                this.state = 'formMore';
               }
               this.isLoadInvoice = false;
-              console.log(this.formInvoice.value);
             },
             (err) => {
               this.isLoadInvoice = false;
@@ -159,20 +152,20 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   }
 
   cancelEditInvoice() {
-    this.state = "formMore";
+    this.state = 'formMore';
   }
 
   editInvoice() {
     this.formInvoice.enable({ emitEvent: true });
-    this.state = "edit";
+    this.state = 'edit';
   }
 
   // action_provider:'create_provider'|'create_contact'
   openActionProvider() {
-    let id = this.formInvoice.controls["provider_id"].value;
-    const indexProvider = this.providers.findIndex((x) => x.id == id);
+    const id = this.formInvoice.controls['provider_id'].value;
+    const indexProvider = this.providers.findIndex((x) => x.id === id);
     let data: Iprovider = null;
-    if (indexProvider != -1) {
+    if (indexProvider !== -1) {
       data = this.providers[indexProvider];
     }
     this.bottomSheet
@@ -185,14 +178,14 @@ export class InvoiceCreateOrEditComponent implements OnInit {
           case EProviderActions.create_provider:
             this.dialog
               .open(CreateProviderOrContactComponent, {
-                data: { title: "Crear Proveedor", isProvider: true },
+                data: { title: 'Crear Proveedor', isProvider: true },
               })
               .beforeClosed()
-              .subscribe((res) => {
-                if (res && res.success) {
+              .subscribe( res1 => {
+                if (res1 && res1.hasOwnProperty('success') && res1.success) {
                   this.new_action.emit({
                     action: EProviderActions.create_provider,
-                    data: res.data,
+                    data: res1.data,
                   });
                 }
               });
@@ -202,28 +195,27 @@ export class InvoiceCreateOrEditComponent implements OnInit {
             this.dialog
               .open(CreateProviderOrContactComponent, {
                 data: {
-                  title: "Crear Contacto",
+                  title: 'Crear Contacto',
                   isProvider: false,
                   state: EProviderActions.create_contact,
                 },
               })
               .beforeClosed()
-              .subscribe((res) => {
-                if (res && res.success) {
+              .subscribe( res1 => {
+                if (res1 && res1.success) {
                   this.new_action.emit({
                     action: EProviderActions.create_contact,
-                    data: res.data,
+                    data: res1.data,
                     id: data.id,
                   });
                 }
               });
             break;
           case EProviderActions.view_contact:
-            console.log(data.contacts);
             this.dialog
               .open(CreateProviderOrContactComponent, {
                 data: {
-                  title: "Contactos",
+                  title: 'Contactos',
                   isProvider: false,
                   state: EProviderActions.view_contact,
                   form_data: {
@@ -233,12 +225,11 @@ export class InvoiceCreateOrEditComponent implements OnInit {
                 },
               })
               .beforeClosed()
-              .subscribe((res) => {
-                console.log(res);
-                if (res && res.success) {
+              .subscribe((res1) => {
+                if (res1 && res1.success) {
                   this.new_action.emit({
-                    action: res.action,
-                    data: res.data,
+                    action: res1.action,
+                    data: res1.data,
                     id: data.id,
                   });
                 }
@@ -255,18 +246,18 @@ export class InvoiceCreateOrEditComponent implements OnInit {
             this.dialog
               .open(CreateProviderOrContactComponent, {
                 data: {
-                  title: "Editar Proveedor",
+                  title: 'Editar Proveedor',
                   isProvider: true,
                   form_data: data,
                   state: EProviderActions.edit_provider,
                 },
               })
               .beforeClosed()
-              .subscribe((res) => {
-                if (res && res.success) {
+              .subscribe((res1) => {
+                if (res1 && res1.success) {
                   this.new_action.emit({
                     action: EProviderActions.edit_provider,
-                    data: res.data,
+                    data: res1.data,
                     id: data.id,
                   });
                 }
@@ -283,42 +274,40 @@ export class InvoiceCreateOrEditComponent implements OnInit {
       .open(InvoiceItemModalComponent, {
         data: {
           id_import: this.id_import,
-          id_invoice: this.formInvoice.controls["id"].value,
-          state: "create",
+          id_invoice: this.formInvoice.controls['id'].value,
+          state: 'create',
         },
         disableClose: true,
       })
       .beforeClosed()
-      .subscribe((res) => {
-        if (res && res.hasOwnProperty("success") && res.success) {
-          this.refreshDataTable(res.data);
-        } else console.log("no tiene data");
+      .subscribe((res1) => {
+        if (res1 && res1.hasOwnProperty('success') && res1.success) {
+          this.refreshDataTable(res1.data);
+        }
       });
   }
   deleteItem(i) {
-    let snack1 = this.snack.open("Eliminando Item espera...");
+    const snack1 = this.snack.open('Eliminando Item espera...');
     this.isLoadInvoice = true;
     const item_num = this.ELEMENT_DATA[i].id;
-    // "purchase-department/imports/167/invoices/142/items/1784"
     this.s_standart
       .destory(
-        "purchase-department/imports/" +
+        'purchase-department/imports/' +
           this.id_import +
-          "/invoices/" +
-          this.formInvoice.controls["id"].value +
-          "/items/" +
+          '/invoices/' +
+          this.formInvoice.controls['id'].value +
+          '/items/' +
           item_num
       )
       .subscribe(
         (res) => {
-          console.log(res);
           snack1.dismiss();
 
-          if (res && res.hasOwnProperty("success") && res.success) {
-            this.snack.open("Eliminado con exito", "Ok", { duration: 2500 });
+          if (res && res.hasOwnProperty('success') && res.success) {
+            this.snack.open('Eliminado con exito', 'Ok', { duration: 2500 });
             this.refreshDataTable(res.data.invoice.items);
           } else {
-            this.snack.open("Error intentalo de nuevo", "Error", {
+            this.snack.open('Error intentalo de nuevo', 'Error', {
               duration: 2500,
             });
           }
@@ -329,17 +318,16 @@ export class InvoiceCreateOrEditComponent implements OnInit {
           this.isLoadInvoice = false;
           console.log(err);
           snack1.dismiss();
-          this.snack.open("Error intentalo de nuevo", "Error", {
+          this.snack.open('Error intentalo de nuevo', 'Error', {
             duration: 2500,
           });
         }
       );
   }
 
-  refreshDataTable(data:any) {
-    let row = data;
-    console.log(row);
-    this.invoice_data = Object.assign(row,[]);
+  refreshDataTable(data: any) {
+    const row = data;
+    this.invoice_data = Object.assign(row, []);
     this.ELEMENT_DATA = row;
     this.dataSource = new MatTableDataSource<invoiceItem>(this.ELEMENT_DATA);
   }
@@ -348,48 +336,45 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   }
 
   editItem(id) {
-    // console.log( this.ELEMENT_DATA,index);
-    const invoice_item = this.invoice_data.find(x=>x.id == id);
-    console.log(invoice_item);
-    if(!invoice_item){
-      SwalService.swalToast("Error a tratar de editar","error");
+    const invoice_item = this.invoice_data.find( x => x.id === id);
+    if (!invoice_item) {
+      SwalService.swalToast('Error a tratar de editar', 'error');
       return;
     }
     this.dialog.open(InvoiceItemModalComponent, {
         data: {
           id_import: this.id_import,
-          id_invoice: this.formInvoice.controls["id"].value,
-          state: "edit",
+          id_invoice: this.formInvoice.controls['id'].value,
+          state: 'edit',
           formData: invoice_item,
         },
         disableClose: true,
       })
       .beforeClosed().subscribe((res) => {
-        if (res && res.hasOwnProperty("success") && res.success) {
+        if (res && res.hasOwnProperty('success') && res.success) {
           this.refreshDataTable(res.data);
-        } else console.log("no tiene data");
+        }
       });
   }
 
   deleteInvoice() {
-    let snack1 = this.snack.open("Eliminando Factura espera...");
+    const snack1 = this.snack.open('Eliminando Factura espera...');
     this.isLoadInvoice = true;
     this.s_standart
       .destory(
-        "purchase-department/imports/" +
+        'purchase-department/imports/' +
           this.id_import +
-          "/invoices/" +
-          this.formInvoice.controls["id"].value
+          '/invoices/' +
+          this.formInvoice.controls['id'].value
       )
       .subscribe(
         (res) => {
-          console.log(res);
           snack1.dismiss();
           if (res.success) {
-            this.snack.open("Eliminado con exito", "Ok", { duration: 2500 });
+            this.snack.open('Eliminado con exito', 'Ok', { duration: 2500 });
             this.closeInvoice();
           } else {
-            this.snack.open("Error intentalo de nuevo", "Error", {
+            this.snack.open('Error intentalo de nuevo', 'Error', {
               duration: 2500,
             });
           }
@@ -399,7 +384,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
           this.isLoadInvoice = false;
           console.log(err);
           snack1.dismiss();
-          this.snack.open("Error intentalo de nuevo", "Error", {
+          this.snack.open('Error intentalo de nuevo', 'Error', {
             duration: 2500,
           });
         }
@@ -418,30 +403,29 @@ export class InvoiceCreateOrEditComponent implements OnInit {
       return this.product_relationship.ml_infos[0].image;
     }
 
-    return "assets/img/img_default_null.jpg";
+    return 'assets/img/img_default_null.jpg';
   }
 
-  isLoadFile: boolean = false;
+
   addFile(event): void {
     this.isLoadFile = true;
-    let file: any = event.target.files[0];
+    const file: any = event.target.files[0];
     this.s_standart
       .uploadImg(
-        "purchase-department/imports/" +
+        'purchase-department/imports/' +
           this.id_import +
-          "/invoices/" +
-          this.formInvoice.controls["id"].value +
-          "/items/import",
+          '/invoices/' +
+          this.formInvoice.controls['id'].value +
+          '/items/import',
         file,
-        "file"
+        'file'
       )
       .subscribe(
         (res: Iresponse) => {
-          console.log(res);
           if (res.success) {
             SwalService.swalToast(
-              "Los item del archive se han guardado en la base datos con exito",
-              "success"
+              'Los item del archive se han guardado en la base datos con exito',
+              'success'
             );
           }
           this.isLoadFile = false;
@@ -453,6 +437,6 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   }
 
   getProvider(): string {
-    return this.providers.find((x) => x.id == this.invoice.provider_id).name;
+    return this.providers.find((x) => x.id === this.invoice.provider_id).name;
   }
 }

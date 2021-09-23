@@ -63,6 +63,7 @@
         "ng2-charts": "^2.3.2",
         "ngx-angular-autocomplete": "^1.0.7",
         "ngx-bootstrap": "^5.6.1",
+        "ngx-countdown": "^12.0.1",
         "ngx-doc-viewer": "^1.4.1",
         "ngx-file-drop": "^10.1.1",
         "ngx-gallery-9": "^1.0.6",
@@ -81,6 +82,7 @@
         "ts-helpers": "^1.1.2",
         "tslib": "^1.13.0",
         "web-animations-js": "^2.3.2",
+        "web-push": "^3.4.5",
         "zone.js": "~0.10.3"
     },
     "devDependencies": {

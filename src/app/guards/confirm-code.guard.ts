@@ -12,20 +12,15 @@ export class ConfirmCodeGuard implements Resolve<Iresponse> {
   constructor(private router:Router,private s_standart:StandartSearchService){}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Iresponse | Observable<Iresponse> | Promise<Iresponse> {
     const token = route.params.token;
-    console.log(token);
-
-    return this.s_standart.show("auth/email-two-factor/"+token).pipe(
+    return this.s_standart.show('auth/email-two-factor/' + token).pipe(
       map((res) => {
-        console.log(res);
         if (res.success) {
           route.queryParams = null;
-          console.log("paso");
         }
         return res;
       }),
       catchError((res) => {
-        console.log(res);
-        this.router.navigate(["login"]);
+        this.router.navigate(['login']);
         return EMPTY;
       })
     );

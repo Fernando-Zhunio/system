@@ -1,17 +1,17 @@
-import { HttpBackend, HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnInit, SkipSelf } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { environment } from "../../../environments/environment";
-import { Session } from "../../clases/session";
-import { User } from "../../clases/user";
-import { Iresponse } from "../../interfaces/Imports/invoice-item";
-import { StorageService } from "../../services/storage.service";
-import { SwalService } from "../../services/swal.service";
+import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, SkipSelf } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { Session } from '../../clases/session';
+import { User } from '../../clases/user';
+import { Iresponse } from '../../interfaces/Imports/invoice-item';
+import { StorageService } from '../../services/storage.service';
+import { SwalService } from '../../services/swal.service';
 
 @Component({
-  selector: "app-redirect-to",
-  templateUrl: "./redirect-to.component.html",
-  styleUrls: ["./redirect-to.component.css"],
+  selector: 'app-redirect-to',
+  templateUrl: './redirect-to.component.html',
+  styleUrls: ['./redirect-to.component.css'],
 })
 export class RedirectToComponent implements OnInit {
   constructor(
@@ -25,20 +25,15 @@ export class RedirectToComponent implements OnInit {
   private http: HttpClient;
 
   ngOnInit(): void {
-    const token = this.act_router.snapshot.queryParamMap.get("token");
+    const token = this.act_router.snapshot.queryParamMap.get('token');
     // const goto = this.act_router.snapshot.paramMap.get("goto");
-    const goto = this.act_router.snapshot.queryParamMap.get("goto");
-    console.log(token,goto);
+    const goto = this.act_router.snapshot.queryParamMap.get('goto');
 
     if (this.s_storage.isAuthenticated()) {
       if (goto){
-
-        console.log('paso goto');
         this.router.navigate([goto]);
-      }
-      else {
-        this.router.navigate(["/home/dashboard"]);
-        console.log('paso no goto');
+      } else {
+        this.router.navigate(['/home/dashboard']);
       }
       return;
     }
@@ -46,19 +41,18 @@ export class RedirectToComponent implements OnInit {
     // this.route.snapshot.queryParamMap.get
     if (token) {
       const headers = new HttpHeaders({
-        Authorization: "Bearer " + token,
+        Authorization: 'Bearer ' + token,
       });
 
-      console.log(token, goto);
 
       this.http
-        .get(environment.server + "user", {
+        .get(environment.server + 'user', {
           headers,
         })
         .subscribe(
           (res: Iresponse) => {
             if (res.success) {
-              let session: Session = new Session();
+              const session: Session = new Session();
               session.token = token;
               session.expires_at = res.data.expires_at;
               session.token_type = res.data.token_type;
@@ -75,15 +69,15 @@ export class RedirectToComponent implements OnInit {
               this.s_storage.setCurrentSession(session);
               // localStorage.setItem('user_name',res.user.name)
               if (goto) this.router.navigate([goto]);
-              else this.router.navigate(["/dashboard"]);
+              else this.router.navigate(['/dashboard']);
             }
           },
           (err) => {
-            SwalService.swalToast("Token invalido");
+            SwalService.swalToast('Token invalido');
           }
         );
     } else {
-      SwalService.swalToast("Token no valido");
+      SwalService.swalToast('Token no valido');
     }
   }
 }

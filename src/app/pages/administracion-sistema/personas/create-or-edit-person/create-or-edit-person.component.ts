@@ -68,14 +68,12 @@ export class CreateOrEditPersonComponent implements OnInit {
         );
         const url = 'admin/people/' + id + '/edit';
         this.s_standart.show(url).subscribe((response) => {
-          console.log(response);
           if (response.hasOwnProperty('success') && response.success) {
             this.setDataDefault(response.data);
           }
         });
       } else {
         this.s_standart.show('admin/people/create').subscribe((response) => {
-          console.log(response);
           if (response.hasOwnProperty('success') && response.success) {
             this.setDataDefault(response.data);
           }
@@ -100,10 +98,10 @@ export class CreateOrEditPersonComponent implements OnInit {
   }
 
   createFormData(): FormData {
-    let data_send = this.form_person.value;
+    const data_send = this.form_person.value;
     data_send.start_date = this.s_standart.formatDate(data_send.start_date);
     data_send.birthday = this.s_standart.formatDate(data_send.birthday);
-    let form_data_send = new FormData();
+    const form_data_send = new FormData();
     form_data_send.append('first_name', data_send.first_name);
     form_data_send.append('last_name', data_send.last_name);
     form_data_send.append('identification_type', data_send.identification_type);
@@ -135,7 +133,6 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.sexes = data.sexes;
     this.id_types = data.id_types;
     if (this.state == 'edit') {
-      console.log('is Edit');
       const {
         first_name,
         last_name,
@@ -179,7 +176,6 @@ export class CreateOrEditPersonComponent implements OnInit {
               if (res.hasOwnProperty('success') && res.success) {
                 this.person = res.data.person;
                 this.types = res.data.types;
-                console.log(this.person);
                 this.isCompletedFormPerson = true;
                 this.stepper.selected.completed = true;
                 this.stepper.next();
@@ -198,19 +194,14 @@ export class CreateOrEditPersonComponent implements OnInit {
         this.isloadperson = true;
         let form_data_send: FormData = this.createFormData();
         form_data_send.append('_method', 'put');
-        // console.log("sen put");
-
         this.s_standart
           .uploadFormData('admin/people/' + this.person.id, form_data_send)
           .subscribe(
             (res) => {
-              console.log(res);
-
               if (res.hasOwnProperty('success') && res.success) {
                 this.person = res.data.person;
                 this.types = res.data.types;
                 this.infoAndContact = res.data.info;
-                console.log(this.person);
                 this.isCompletedFormPerson = true;
                 this.stepper.selected.completed = true;
                 this.stepper.next();
@@ -237,7 +228,6 @@ export class CreateOrEditPersonComponent implements OnInit {
           })
           .subscribe(
             (res) => {
-              console.log(res);
               if(res && res.hasOwnProperty('success') && res.success){
                 this.infoAndContact.push(res.data);
                 this.asCreateInfo();
@@ -266,7 +256,6 @@ export class CreateOrEditPersonComponent implements OnInit {
           .subscribe(
             (res) => {
               this.isloadContact = false;
-              console.log(res);
               const index = this.infoAndContact.findIndex(
                 (x) => x.id == res.data.id
               );
@@ -296,7 +285,6 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.file_img = event.target.files[0];
     this.getBase64FromFile(this.file_img, (base64) => {
       this.photo = base64;
-      // console.log(base64);
     });
   }
 

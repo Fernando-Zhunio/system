@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
 import { Router, RouteReuseStrategy } from '@angular/router';
 import { INavData } from '@coreui/angular';
@@ -7,6 +7,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CustomReusingStrategy } from '../../class/custom-reusing-strategy';
+import { NotificationsWebPush } from '../../class/notifications-web-push';
 import { Inotification } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared/shared.service';
@@ -14,28 +15,31 @@ import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
 import { navItems } from '../../_nav';
-
+import { SwPush } from '@angular/service-worker';
+import { DataSidebar } from '../../class/data-sidebar';
 @Component({
   selector: 'app-dashboard',
   styles: [
     'button {outline: none;}',
     '.dark{color:gray}',
     '.not-dark{color:goldenrod}',
-    '.disabled {pointer-events: none;cursor: default;}'
+    '.disabled {pointer-events: none;cursor: default;}',
+    '.bg-error {background:red;color:white}'
+
   ],
   templateUrl: './default-layout.component.html',
 })
-export class DefaultLayoutComponent implements OnInit {
+export class DefaultLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private s_auth: AuthService,
     private route: Router,
     private s_storage: StorageService,
-    private s_standart: StandartSearchService ,
+    private s_standart: StandartSearchService,
     public s_shared: SharedService,
-    private s_custom_reusing: RouteReuseStrategy ,
+    private s_custom_reusing: RouteReuseStrategy,
+    private swPush: SwPush,
   ) {}
   public sidebarMinimized = false;
-  // public navItems = navItems;
   public navItems = null;
   public url_img = '';
   public companies = [];
@@ -51,501 +55,37 @@ export class DefaultLayoutComponent implements OnInit {
     state: false,
   };
   public isDownloadStock: boolean = false;
-  private suscriptionNotifaction :Subscription;
+  private suscriptionNotifaction: Subscription;
   public notifications: Inotification[] = [];
-  colorSidebarLeft:string;
+  colorSidebarLeft: string;
+  sidebarData = new DataSidebar();
 
-  //#region
+  new_Item_data = DataSidebar.NameGroupItem;
 
-  new_Item_data = {
-    section_info_general: [
-      {
-        title: true,
-        name: 'Informacion General',
-      },
-    ],
+  navItemsForCategories = DataSidebar.ItemsForCategories;
 
-    section_catalogo: [
-      {
-        title: true,
-        name: 'Catalogo',
-      },
-    ],
+  navItems_ = this.sidebarData.NavItems;
 
-    section_admin_products: [
-      {
-        title: true,
-        name: 'Administracion de Producto',
-      },
-    ],
-
-    section_imports: [
-      {
-        title: true,
-        name: 'Importaciones',
-      },
-    ],
-
-    section_admin_system: [
-      {
-        title: true,
-        name: 'Administracion del sistema',
-      },
-    ],
-
-    section_report: [
-      {
-        title: true,
-        name: 'Administracion del sistema',
-      },
-    ],
-    section_rrhh: [
-      {
-        title: true,
-        name: 'Administracion del sistema',
-      },
-    ],
-  };
-
-  tags = {
-    admin_products: 'section_admin_products',
-    catalogs: 'section_catalogo',
-    imports: 'section_imports',
-    reports: 'section_report',
-    info_general: 'section_info_general',
-    admin_system: 'section_admin_system',
-    rrhh: 'section_rrhh',
-  };
-
-  navItemsForCategories = {
-    product_admin: [
-      {
-        title: true,
-        name: 'Administracion de productos',
-      },
-      {
-        name: 'Productos',
-        url: '/admin-products/productos',
-        icon: 'icon-basket',
-        permission: 'products-admin.products.index',
-      },
-      {
-        name: 'Vtex Productos',
-        url: '/admin-products/vtex-products',
-        icon: 'icon-basket',
-        permission: 'products-admin.products.index',
-      },
-      {
-        name: 'Categoria',
-        url: '/admin-products/categorias',
-        icon: 'icon-badge',
-        permission: 'products-admin.categories.index',
-      },
-      {
-        name: 'Marcas',
-        url: '/admin-products/marcas',
-        icon: 'icon-bag',
-        permission: 'products-admin.brands.index',
-      },
-      {
-        name: 'Prefijos',
-        url: '/admin-products/prefijos',
-        icon: 'fab fa-autoprefixer',
-        permission: 'products-admin.prefixes.index',
-      },
-    ],
-
-    catalogs: [
-      {
-        title: true,
-        name: 'Catalogo',
-      },
-      {
-        name: 'Buscar producto',
-        url: '/catalogo/buscar_productos',
-        icon: 'fas fa-search',
-        permission: 'catalogs.products.index',
-      },
-      {
-        name: 'Mercado libre',
-        url: '/catalogo/mercado-libre',
-        icon: 'far fa-handshake',
-        permission: 'catalogs.ml-products.index',
-      },
-      {
-        name: 'Publicaciones',
-        url: '/catalogo/publicaciones',
-        icon: 'fab fa-telegram-plane',
-        permission: 'catalogs.publications.index',
-      },
-    ],
-
-    imports: [
-      {
-        title: true,
-        name: 'Importaciones',
-      },
-      {
-        name: 'Proveedores',
-        url: '/importaciones/proveedores',
-        icon: 'icon-briefcase',
-        permission: 'purchase-department.imports.index',
-      },
-      {
-        name: 'Codificar importaciones',
-        url: '/importaciones/codificar-importaciones',
-        icon: 'far fa-handshake',
-        permission: 'purchase-department.imports.index',
-      },
-      {
-        name: 'Precios y promociones',
-        url: '/importaciones/precios-promociones',
-        icon: 'icon-briefcase',
-        permission: 'purchase-department.imports.index',
-      },
-    ],
-
-    reports: [
-      {
-        title: true,
-        name: 'Reportes',
-      },
-      {
-        name: 'Grupo de Productos',
-        url: '/reports/group-products',
-        icon: 'icon-briefcase',
-        permission: 'reports.group-products.index',
-      },
-      {
-        name: 'Download stock',
-        url: '/reports/general-stock',
-        icon: 'icon-briefcase',
-        permission: 'reports.general-stock.export',
-      }
-    ],
-
-    info_general: [
-      {
-        title: true,
-        name: 'Informacion general',
-      },
-      {
-        name: 'Organizacion',
-        url: '/information-general/organizacion',
-        icon: 'icon-briefcase',
-        // este permimso no existe
-        permission: 'general.organization.index',
-      },
-    ],
-
-    admin_system: [
-      {
-        title: true,
-        name: 'Administracion del sistema',
-      },
-      {
-        name: 'Usuarios',
-        url: '/administracion-sistema/usuarios',
-        icon: 'icon-user-following',
-        permission: 'admin.users.index',
-      },
-
-      {
-        name: 'Personas',
-        url: '/administracion-sistema/personas',
-        icon: 'icon-user',
-        permission: 'admin.people.index',
-      },
-
-      {
-        name: 'Roles',
-        url: '/administracion-sistema/roles',
-        icon: 'icon-briefcase',
-        permission: 'admin.roles.index',
-      },
-
-      {
-        name: 'Paises',
-        url: '/administracion-sistema/paises',
-        icon: 'icon-globe',
-        permission: 'admin.countries.index',
-      },
-      {
-        name: 'Locaciones',
-        url: '/administracion-sistema/locaciones',
-        icon: 'icon-directions',
-        permission: 'admin.locations.index',
-      },
-    ],
-  };
-
-  navItems_: INavData[] = [
-    {
-      title: true,
-      name: 'Home',
-    },
-    {
-      name: 'Inicio',
-      url: '/home/inicio',
-      icon: 'icon-home',
-      // permission: "products-admin.products.index",
-      // tag: this.tags.admin_products,
-    },
-    {
-      name: 'Dashboard',
-      url: '/home/dashboard',
-      icon: 'icon-speedometer',
-      // permission: "products-admin.products.index",
-      // tag: this.tags.admin_products,
-    },
-
-    // #region rrhh
-    {
-      title: true,
-      name: 'Recursos Humanos',
-    },
-    {
-      name: 'Dashboard Rrhh',
-      url: '/recursos-humanos/dashboard',
-      icon: 'icon-star',
-      permission: 'products-admin.products.index',
-      tag: this.tags.rrhh,
-    },
-    {
-      name: 'Empleos',
-      url: '/recursos-humanos/works',
-      icon: 'icon-star',
-      permission: 'rrhh.works.index',
-      tag: this.tags.rrhh,
-    },
-    {
-      name: 'Citas',
-      url: '/recursos-humanos/appointments',
-      icon: 'icon-star',
-      permission: 'rrhh.appointments.index',
-      tag: this.tags.rrhh,
-    },
-    {
-      name: 'Solicitudes',
-      url: '/recursos-humanos/requests',
-      icon: 'icon-star',
-      permission: 'rrhh.requests.index',
-      tag: this.tags.rrhh,
-    },
-    //#endregion rrhh
-    //#region admin products
-    {
-      title: true,
-      name: 'Administracion de productos',
-    },
-    {
-      name: 'Productos',
-      url: '/admin-products/productos',
-      icon: 'icon-basket',
-      permission: 'products-admin.products.index',
-      tag: this.tags.admin_products,
-    },
-    {
-      name: 'Vtex Productos',
-      url: '/admin-products/vtex-products',
-      icon: 'icon-basket',
-      permission: 'products-admin.products.index',
-      tag: this.tags.admin_products,
-    },
-    {
-      name: 'Categoria',
-      url: '/admin-products/categorias',
-      icon: 'icon-badge',
-      permission: 'products-admin.categories.index',
-      tag: this.tags.admin_products,
-    },
-    {
-      name: 'Marcas',
-      url: '/admin-products/marcas',
-      icon: 'icon-bag',
-      permission: 'products-admin.brands.index',
-      tag: this.tags.admin_products,
-    },
-    {
-      name: 'Prefijos',
-      url: '/admin-products/prefijos',
-      icon: 'fab fa-autoprefixer',
-      permission: 'products-admin.prefixes.index',
-      tag: this.tags.admin_products,
-    },
-
-    //#endregion
-
-    //#region Catalogos
-    {
-      title: true,
-      name: 'Catalogo',
-    },
-    {
-      name: 'Buscar producto',
-      url: '/catalogo/buscar_productos',
-      icon: 'fas fa-search',
-      permission: 'catalogs.products.index',
-      tag: this.tags.catalogs,
-    },
-    {
-      name: 'Mercado libre',
-      url: '/catalogo/mercado-libre',
-      icon: 'far fa-handshake',
-      permission: 'catalogs.ml-products.index',
-      tag: this.tags.catalogs,
-    },
-    {
-      name: 'Publicaciones',
-      url: '/catalogo/publicaciones',
-      icon: 'fab fa-telegram-plane',
-      permission: 'catalogs.publications.index',
-      tag: this.tags.catalogs,
-    },
-    //#endregion
-
-    //#region imports
-    {
-      title: true,
-      name: 'Importaciones',
-    },
-    {
-      name: 'Proveedores',
-      url: '/importaciones/proveedores',
-      icon: 'icon-briefcase',
-      permission: 'purchase-department.imports.index',
-      tag: this.tags.imports,
-    },
-    {
-      name: 'Codificar importaciones',
-      url: '/importaciones/codificar-importaciones',
-      icon: 'far fa-handshake',
-      permission: 'purchase-department.imports.index',
-      tag: this.tags.imports,
-    },
-    {
-      name: 'Precios y promociones',
-      url: '/importaciones/precios-promociones',
-      icon: 'icon-briefcase',
-      permission: 'purchase-department.imports.index',
-      tag: this.tags.imports,
-    },
-    //#endregion
-
-    //#region Reportes
-    {
-      title: true,
-      name: 'Reportes',
-    },
-    {
-      name: 'Grupo de Productos',
-      url: '/reports/group-products',
-      icon: 'icon-briefcase',
-      permission: 'reports.group-products.index',
-      tag: this.tags.reports,
-    },
-    {
-      name: 'Download stock',
-      url: '/reports/general-stock',
-      icon: 'icon-cloud-download',
-      permission: 'reports.general-stock.export',
-      tag: this.tags.reports,
-    },
-    //#endregion
-
-    //#region info general
-    {
-      title: true,
-      name: 'Informacion general',
-    },
-    {
-      name: 'Organizacion',
-      url: '/information-general/organizacion',
-      icon: 'icon-briefcase',
-      // este permimso no existe
-      permission: 'general.organization.index',
-      tag: this.tags.info_general,
-    },
-    //#endregion
-
-    //#region admin system
-    {
-      title: true,
-      name: 'Administracion del sistema',
-    },
-    {
-      name: 'Usuarios',
-      url: '/administracion-sistema/usuarios',
-      icon: 'icon-user-following',
-      permission: 'admin.users.index',
-      tag: this.tags.admin_system,
-    },
-
-    {
-      name: 'Personas',
-      url: '/administracion-sistema/personas',
-      icon: 'icon-user',
-      permission: 'admin.people.index',
-      tag: this.tags.admin_system,
-    },
-
-    {
-      name: 'Roles',
-      url: '/administracion-sistema/roles',
-      icon: 'icon-briefcase',
-      permission: 'admin.roles.index',
-      tag: this.tags.admin_system,
-    },
-
-    {
-      name: 'Paises',
-      url: '/administracion-sistema/paises',
-      icon: 'icon-globe',
-      permission: 'admin.countries.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Locaciones',
-      url: '/administracion-sistema/locaciones',
-      icon: 'icon-directions',
-      permission: 'admin.locations.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Mercado Libre',
-      url: '/administracion-sistema/mercado-libre/cuentas',
-      icon: 'far fa-handshake',
-      permission: 'ml.accounts.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Facebook Ads Manager',
-      url: '/administracion-sistema/facebook-ads-manager',
-      icon: 'icon-bag',
-      permission: 'admin.facebook-ads.campaigns.index',
-      tag: this.tags.admin_system,
-    },
-    //#endregion
-  ];
-
-  // key_notification: string = e;
+  notificationWeb: NotificationsWebPush = null;
 
   ngOnInit(): void {
-    if(localStorage.getItem('color_sidebar_left')){
+    this.notificationWeb = new NotificationsWebPush(this.swPush, this.s_standart);
+    this.notificationWeb.pushSuscription();
+    if (localStorage.getItem('color_sidebar_left')) {
       this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
     } else { this.colorSidebarLeft = '#054372'; }
     this.getValueDark();
-    let user = this.s_storage.getCurrentUser();
+    const user = this.s_storage.getCurrentUser();
     this.s_standart.index('user/preferences/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.TYPE_NOTY_EMAIL.state =
-          res.data[this.TYPE_NOTY_EMAIL.value] == 'on' ? true : false;
+          res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
         this.TYPE_NOTY_WEBPUSH.state =
-          res.data[this.TYPE_NOTY_WEBPUSH.value] == 'on' ? true : false;
+          res.data[this.TYPE_NOTY_WEBPUSH.value] === 'on' ? true : false;
       }
     });
 
-    this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(res=>{
+    this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(res => {
       this.notifications = res;
     });
 
@@ -558,7 +98,7 @@ export class DefaultLayoutComponent implements OnInit {
     let username = user.name.replace(' ', '+');
     this.url_img = 'https://ui-avatars.com/api/?name=' + username;
     this.companies = user.companies;
-    localStorage.setItem('companies',JSON.stringify(this.companies));
+    localStorage.setItem('companies', JSON.stringify(this.companies));
     const id_company = user.company_company_id;
     const index = this.companies.findIndex((x) => x.id == id_company);
     if (index == -1) {
@@ -603,12 +143,10 @@ export class DefaultLayoutComponent implements OnInit {
       },
     });
 
-    echo.private('App.User.' + user.id).notification((notify:Inotification) => {
-      console.log(notify);
+    echo.private('App.Models.User.' + user.id).notification((notify: Inotification) => {
       this.s_shared.addNotification(notify);
       const data_rendered = notify.data;
-      console.log({ data_rendered });
-      let name_user: string = 'System';
+      let name_user = 'System';
       if (data_rendered.user.hasOwnProperty('person') && data_rendered.user.person) {
         name_user = `${data_rendered.user.person.first_name} ${data_rendered.user.person.last_name}`;
       } else {
@@ -626,21 +164,47 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    if(this.suscriptionNotifaction){
+    if (this.suscriptionNotifaction) {
       this.suscriptionNotifaction.unsubscribe();
     }
   }
 
-  changeColor(event):void{
-    console.log(event);
-    this.colorSidebarLeft = event.target.value
-    localStorage.setItem('color_sidebar_left',event.target.value)
+  unreadNotifications() {
+    this.s_standart.store('notifications/mark-seen', {}).subscribe((res) => {
+      if (res && res.hasOwnProperty('success') && res.success) {
+        console.log(res);
+      }
+    });
   }
 
-  goRouteNotification(url:any):void{
-    // console.log(url);
-    if(url) {
-    this.route.navigate([url.path])
+  changeColor(event): void {
+    this.colorSidebarLeft = event.target.value;
+    localStorage.setItem('color_sidebar_left', event.target.value);
+  }
+
+  goRouteNotification(url: string): void {
+    if (url && url.includes('reports/general-stock/download')) {
+      const convertUrlNg = url.split('?');
+      console.log(url, convertUrlNg);
+      const nameFile = convertUrlNg[1].replace(/\+-\+/gm, '_').replace('file_name=reports%2FSTOCK+GENERAL', '');
+      console.log(nameFile);
+      this.s_shared.download('report_stock', 'reports/general-stock/download?' + convertUrlNg[1]).subscribe((res: any) => {
+        console.log(res);
+        const blob = new Blob([res], { type: 'application/ms-Excel' });
+        const urlDownload = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = urlDownload;
+        a.download = 'reporte_de_stock' + nameFile;
+        a.click();
+        window.URL.revokeObjectURL(urlDownload);
+        a.remove();
+      });
+      return;
+    }
+    if (url) {
+    this.route.navigate([url]);
     }
   }
 
@@ -694,38 +258,18 @@ export class DefaultLayoutComponent implements OnInit {
     });
   }
 
-  downloadStock(): void {
-    this.isDownloadStock = true;
-    this.s_standart.create('reports/general-stock').subscribe((res) => {
-      console.log(res);
-      this.isDownloadStock = false;
-      SwalService.swalToast(res.data, 'success', 'bottom-end')
-    });
-  }
 
   changeCompany(idCompany, index): void {
     if (this.company_select === this.companies[index].name) { return; }
     this.s_auth.changedCompany(idCompany).subscribe((res) => {
       if (res.success) {
         SwalService.swalToast('Compañia cambiada con exito');
-        // const aux_company = this.company_select;
         this.company_select = this.companies[index].name;
         this.s_storage.setCompanyUser(idCompany);
-        // console.log(this.s_custom_reusing['cache']);
-        // console.log(this.s_custom_reusing['cache']);
-
-        // this.route.navigateByUrl(`/`).then(() => {
-        //   this.route.navigateByUrl(this.route.url);
-        // });
-        this.route.navigate(['/']).then(()=>{
+        this.route.navigate(['/']).then(() => {
           this.s_custom_reusing['cache'] = {};
-
         });
-        // const custon = this.s_custom_reusing as CustomReusingStrategy;
-        // custon.clearCache()
-        // this.companies[index].name = aux_company;
       }
-      // SwalService.swalToast('Up! a ocu');
     });
   }
 
@@ -740,12 +284,11 @@ export class DefaultLayoutComponent implements OnInit {
       return this.navItems_;
     }
 
-    // console.log(mergePermissionAndRol);
 
     const sizePermissionAndRol = mergePermissionAndRol.length;
 
     for (let j = 0; j < sizePermissionAndRol; j++) {
-      let item: INavData = this.navItems_.find(
+      const item: INavData = this.navItems_.find(
         (x) => x.permission === mergePermissionAndRol[j]
       );
       if (item !== undefined) {
@@ -778,6 +321,4 @@ export class DefaultLayoutComponent implements OnInit {
     ];
     return data_return;
   }
-
-
 }

@@ -28,7 +28,6 @@ export class FacebookAdsModalComponent implements OnInit {
   // ELEMENT_DATA: IitemsTable[] = [];
   dataSource = new MatTableDataSource<IitemsTable>(this.ELEMENT_DATA.products);
   ngOnInit(): void {
-    console.log(this.ELEMENT_DATA);
 
   }
 

@@ -24,6 +24,5 @@ export abstract class CTemplateSearch<T> {
 
   changePaginator(event): void {
     this.headerComponent.searchBar(event);
-    console.log(event);
   }
 }

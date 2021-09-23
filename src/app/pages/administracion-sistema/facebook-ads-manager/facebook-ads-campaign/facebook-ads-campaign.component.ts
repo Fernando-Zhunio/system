@@ -138,38 +138,38 @@ interface IfacebookCampaign {
 export class FacebookAdsCampaignComponent extends CtableAndPaginator<IfacebookCampaign> implements OnInit {
 
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  @Output() arrayIds:EventEmitter<any> = new EventEmitter();
-  searchItems:{id:number,name:string}[] = [];
-  idSearchItems:number[] = [];
+  @Output() arrayIds: EventEmitter<any> = new EventEmitter();
+  searchItems: {id: number, name: string}[] = [];
+  idSearchItems: number[] = [];
   @Input() account_id;
   @Input() urlData;
   accounts: IaccountsFb[] = [];
   currentAccount: any;
   permissions: IpermissionStandart;
-  wordMain: string = "Facebook Ads";
-  urlDelete: string = "admin/roles/";
+  wordMain: string = 'Facebook Ads';
+  urlDelete: string = 'admin/roles/';
   displayedColumns: string[] = [
-    "add",
-    "state",
-    "riesgo",
-    "name",
-    "start",
-    "stop",
-    "acciones"
+    'add',
+    'state',
+    'riesgo',
+    'name',
+    'start',
+    'stop',
+    'acciones'
   ];
 
   //#region DATA FILTER FUN
-  min:any = '';
-  max:any = '';
-  status:number= 3;
+  min: any = '';
+  max: any = '';
+  status: number = 3;
   //#endregion
 
-  name_spinner:string = "spinner_table";
+  name_spinner: string = 'spinner_table';
 
 
   constructor( public activated_route: ActivatedRoute,
     public s_standart: StandartSearchService,
-    public snack_bar: MatSnackBar,private dialog:MatDialog,public ngx_spinner:NgxSpinnerService) { super(); }
+    public snack_bar: MatSnackBar, private dialog: MatDialog, public ngx_spinner: NgxSpinnerService) { super(); }
 
   ngOnInit(): void {
     this.activated_route.data.subscribe((res) => {
@@ -177,53 +177,44 @@ export class FacebookAdsCampaignComponent extends CtableAndPaginator<IfacebookCa
     });
   }
 
-  addSearchCampaign(id):void{
-    const exist_item = this.searchItems.find(x=>x.id == id);
-    if(exist_item)return;
-    const item_add = this.ELEMENT_DATA.find(x=>x.id == id);
-    console.log({item_add,id});
-    if(item_add){
-      this.searchItems.push({id:item_add.id,name:item_add.name});
+  addSearchCampaign(id): void {
+    const exist_item = this.searchItems.find(x => x.id === id);
+    if (exist_item) { return; }
+    const item_add = this.ELEMENT_DATA.find(x => x.id === id);
+
+    if (item_add) {
+      this.searchItems.push({id: item_add.id, name: item_add.name});
       // this.idSearchItems.push(item_add.id)
     }
   }
 
-  removeSearchCampaign(id):void{
-    const remove_item_index = this.searchItems.findIndex(x=>x.id == id);
-    if(remove_item_index != -1){
-      this.searchItems.splice(remove_item_index,1);
+  removeSearchCampaign(id): void {
+    const remove_item_index = this.searchItems.findIndex(x => x.id === id);
+    if (remove_item_index !== -1) {
+      this.searchItems.splice(remove_item_index, 1);
 
       // this.searchItems.splice(remove_item_index,1);
     }
   }
-  changeState(id,event):void{
-    console.log(event.target.checked,id);
-    this.s_standart.updatePut('admin/facebook-ads/campaigns/'+id+'/toggle-enable',{}).subscribe(res=>{
-      console.log(res);
+  changeState(id, event): void {
+    this.s_standart.updatePut('admin/facebook-ads/campaigns/' + id + '/toggle-enable', {}).subscribe(res => {
     },
-    err=>{
-      event.target.checked = !event.target.checked
+    err => {
+      event.target.checked = !event.target.checked;
     }
-    )
+    );
   }
 
   applyFilter() {
-  this.headerComponent.url = "admin/facebook-ads/" + this.account_id + "/campaigns";
-    if(this.min > this.max) {const aux = this.min;this.min=this.max;this.max=aux}
+  this.headerComponent.url = 'admin/facebook-ads/' + this.account_id + '/campaigns';
+    if (this.min > this.max) {const aux = this.min; this.min = this.max; this.max = aux; }
     this.headerComponent.searchBar();
   }
 
-  viewProduct(id):void{
-    const products = this.ELEMENT_DATA.find(x=>x.id ==id);
-    console.log(products.products.products);
-    if(products){
-      this.dialog.open(FacebookAdsModalComponent,{data:{products:products.products.products}})
+  viewProduct(id): void {
+    const products = this.ELEMENT_DATA.find(x => x.id === id);
+    if (products) {
+      this.dialog.open(FacebookAdsModalComponent, {data: {products: products.products.products}});
     }
   }
-
-  // loaderTable(state):void{
-  //   console.log({state});
-  // state ? this.ngx_spinner.show(this.name_spinner):this.ngx_spinner.hide(this.name_spinner);
-  // }
-
 }

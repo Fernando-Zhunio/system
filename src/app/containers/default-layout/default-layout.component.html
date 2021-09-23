@@ -8,14 +8,14 @@
     <li class="nav-item px-3">
       <a class="nav-link" href="javascript:void(0)">Dashboard</a>
     </li>
-    <li class="nav-item" *ngxPermissionsOnly="['super-admin','reports.general-stock.export']">
+    <!-- <li class="nav-item" *ngxPermissionsOnly="['super-admin','reports.general-stock.export']">
       <a [ngClass]="isDownloadStock?'disabled parpadeo':''" (click)="downloadStock()"
         class="d-flex align-items-center nav-link" href="javascript:void(0)">
         <span class="material-icons">
           download_for_offline
         </span> Descagar stock
       </a>
-    </li>
+    </li> -->
     <!-- <li class="nav-item ">
             <a (click)="testNotification()" class="d-flex align-items-center nav-link" href="javascript:void(0)">
         test notificacion
@@ -35,14 +35,14 @@
       </mat-menu>
     </li>
     <li class="nav-item d-md-down-none">
-      <button [matMenuTriggerFor]="menu1" mat-icon-button>
+      <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button>
         <mat-icon color="primary" [matBadge]="notifications.length" matBadgePosition="above after"
           matBadgeColor="accent">notifications
         </mat-icon>
       </button>
       <mat-menu #menu1="matMenu" [overlapTrigger]="false">
         <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
-          class="shadow d-flex align-items-center h-auto mb-2 py-2 bg-{{notification.data.type}}"
+          class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'bg-light':'bg-'+notification.data.type}}"
           *ngFor="let notification of notifications" (click)="$event.stopPropagation()"
           (keydown)="$event.stopPropagation()">
           <div *ngIf="notification.data.image">
@@ -55,12 +55,10 @@
           </div>
         </div>
       </mat-menu>
-
     </li>
+
     <li class="nav-item dropdown" dropdown placement="bottom right">
-      <!-- <a class="nav-link"  [matMenuTriggerFor]="menu2" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false"> -->
       <a class="nav-link" [matMenuTriggerFor]="menu2">
-        <!-- <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" /> -->
         <img [src]="url_img" class="img-avatar" alt="admin@bootstrapmaster.com" />
       </a>
       <mat-menu #menu2="matMenu">

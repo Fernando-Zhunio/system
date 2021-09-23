@@ -13,20 +13,17 @@ export class SearchProductModalComponent implements OnInit {
     private dialogRef: MatDialogRef<SearchProductModalComponent>
   ) { }
   ngOnInit(): void {
-    console.log(this.data);
 
   }
 
-  products:any[] = []
+  products: any[] = []
 
-  getProducts(event):void{
+  getProducts(event): void {
     this.products = event.data.data;
   }
 
-  changeProduct(ind):void{
-    console.log(this.products[ind].id);
-
-    this.dialogRef.close({id_product:this.products[ind].id})
+  changeProduct(ind): void {
+    this.dialogRef.close({id_product: this.products[ind].id})
   }
 
   captureImagenProduct(i): string | boolean {
@@ -36,7 +33,7 @@ export class SearchProductModalComponent implements OnInit {
     if (this.products[i].ml_infos.length > 0) {
       return this.products[i].ml_infos[0].image;
     }
-    return "assets/img/img_default_null.jpg";
+    return 'assets/img/img_default_null.jpg';
   }
 
 }

@@ -9,10 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { TwoFAComponent } from './two-fa/two-fa.component';
+import { CountdownModule } from 'ngx-countdown';
 
 
 @NgModule({
-  declarations: [CapturePasswordComponent,AutheticationMainComponents, TwoFAComponent],
+  declarations: [CapturePasswordComponent, AutheticationMainComponents, TwoFAComponent],
   imports: [
     AutheticationRoutingModule,
     CommonModule,
@@ -22,7 +23,7 @@ import { TwoFAComponent } from './two-fa/two-fa.component';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-
+    CountdownModule,
   ]
 })
 export class AuthenticateModule { }

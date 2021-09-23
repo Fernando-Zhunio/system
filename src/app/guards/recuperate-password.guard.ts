@@ -21,20 +21,13 @@ export class RecuperatePasswordGuard implements  Resolve<Iresponse> {
     const email = router.queryParams.email;
     return this.s_standart.show(`auth/password/reset/${token}?email=${email}`).pipe(
       map((res) => {
-        console.log(res);
         if (res && res.hasOwnProperty('success') && res.success) {
-          // router.queryParams = null;
-          // const token = this.active_route.queryParams.subscribe((res) => {
-          //   console.log(res);
-          // });
-          // console.log("paso");
-          return {success:true,data: {email,token,res}};
-        }
-        else EMPTY;
+          return {success: true, data: {email, token, res}};
+        } else EMPTY;
       }),
-      catchError((res) => {
-        console.log(res);
-        this.route.navigate(["login"]);
+      catchError((err) => {
+        console.log(err);
+        this.route.navigate(['login']);
         return EMPTY;
       })
     );

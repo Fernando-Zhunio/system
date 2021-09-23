@@ -15,11 +15,11 @@ import { ModalRealistComponent } from './tools/modal-realist/modal-realist.compo
 })
 export class MlComponent implements OnInit {
 
-  constructor(private s_mercado_libre:MercadoLibreService, public dialog: MatDialog,private snack_bar:MatSnackBar) { }
+  constructor(private s_mercado_libre: MercadoLibreService, public dialog: MatDialog, private snack_bar: MatSnackBar) { }
 
   ml_state = STATE_ML_INFO
   @Input() ml: ImlInfo;
-  @Input() withName:boolean = false;
+  @Input() withName: boolean = false;
   ngOnInit(): void {
   }
 
@@ -27,24 +27,21 @@ export class MlComponent implements OnInit {
 
   openDescription(): void {
      this.dialog.open(InfoViewComponent, {
-      data: {name: this.ml.name, title:'Descripcion',info:this.ml.description,isHtml:true},
+      data: {name: this.ml.name, title: 'Descripcion', info: this.ml.description, isHtml: true},
     });
   }
 
 
-  executeMenu(type,id,index): void {
-    // console.log(event);
+  executeMenu(type, id, index): void {
     // active,paused,closed,deleted,relist_forever_on,relist_forever_off
-    console.log(type);
     switch (type) {
       case 'assign':
-          this.dialog.open(SearchProductModalComponent,{
+          this.dialog.open(SearchProductModalComponent, {
             data: {ml: this.ml}
           }).beforeClosed().subscribe(res => {
             if (res) {
             const snack = this.snack_bar.open('Cambiando estado espere...')
-              this.s_mercado_libre.assingProduct('catalogs/ml-products/' + this.ml.id+'/assign',{product_id:res.id_product}).subscribe(res=>{
-                console.log(res);
+              this.s_mercado_libre.assingProduct('catalogs/ml-products/' + this.ml.id + '/assign', {product_id: res.id_product}).subscribe(res => {
                 snack.dismiss();
                 if (res.success) {
                   this.snack_bar.open('Estado cambiado con exito', 'Exito', {duration: 2000});
@@ -70,7 +67,6 @@ export class MlComponent implements OnInit {
               const snack = this.snack_bar.open('Cambiando estado espere...');
               // tslint:disable-next-line: max-line-length
               this.s_mercado_libre.postRealistProduct(this.ml.id, res).subscribe( res1 => {
-                console.log(res1);
                 snack.dismiss();
                 if (res1 && res1.hasOwnProperty('success') && res1.success) {
                   this.snack_bar.open('Estado cambiado con exito', 'Exito', {duration: 2000});
@@ -100,30 +96,26 @@ export class MlComponent implements OnInit {
 
       default:
         const snack = this.snack_bar.open('Cambiando estado espere...')
-        this.s_mercado_libre.updateStatus(id,type).subscribe((res) => {
-          console.log(res);
+        this.s_mercado_libre.updateStatus(id, type).subscribe((res) => {
           snack.dismiss();
           if (res.success) {
-            this.snack_bar.open('Estado cambiado con exito','Exito',{duration :2000})
-            // const indice = this.products.findIndex((x) => x.id == id);
+            this.snack_bar.open('Estado cambiado con exito', 'Exito', {duration : 2000})
             this.ml = res.ml;
-            // this.products[indice] = res.ml;
-            // console.log(this.products[indice]);
 
           }
           else{
-            this.snack_bar.open('Ups! Ocurrio un error','Error',{duration :2000})
+            this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration : 2000})
 
           }
-        },err=>{
+        }, err => {
           snack.dismiss();
-          this.snack_bar.open('Ups! Ocurrio un error','Error',{duration :2000})
+          this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration : 2000})
         });
         break;
     }
   }
 
-  assignProducts():void{
+  assignProducts(): void{
 
   }
 

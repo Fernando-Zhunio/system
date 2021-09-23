@@ -6,7 +6,7 @@ import collect from 'collect.js';
 import { SwalService } from '../../../services/swal.service';
 
 interface ImbaStatus {
-  created_at: string;
+created_at: string;
 id: number;
 preferable_id: number;
 preferable_type: string;
@@ -23,7 +23,7 @@ value: string;
 export class DownloadStockComponent implements OnInit {
 
   constructor(private s_standart: StandartSearchService) { }
-  status: string = 'ready';
+  // status: string = 'ready';
   warehouses: Iwarehouse[] = [];
   warehousesSelects: Iwarehouse[] = [];
   warehouseCopySearch: Iwarehouse[] = [];
@@ -31,6 +31,7 @@ export class DownloadStockComponent implements OnInit {
   isLoad: boolean = false;
   mbaStatus: ImbaStatus = null;
   show_global_stock: boolean = false;
+  allWarehouse: boolean = false;
   ngOnInit(): void {
     this.isLoad = true;
     this.s_standart.show('reports/general-stock').subscribe(res => {
@@ -40,13 +41,23 @@ export class DownloadStockComponent implements OnInit {
         this.warehouses = collect(res.data.warehouses).sortBy('name').all() as Iwarehouse[];
         this.warehouseCopySearch = this.warehouses;
         this.mbaStatus = res.data.mba_status;
+        if (res.data.user_warehouses) {
+          this.assignedDataOnInit(res.data.user_warehouses);
+        }
       }
       console.log(res);
     });
   }
 
+  assignedDataOnInit(user_warehouses: any[]): void {
+    user_warehouses.forEach((id) => {
+      this.addWarehousesSelects(id);
+    });
+  }
+
   addWarehousesSelects(id: number) {
     console.log(id);
+    if (this.allWarehouse) {return; }
     const index = this.warehouses.findIndex((x) => x.id === id);
     const indexCopy = this.warehouseCopySearch.findIndex((x) => x.id === id);
     if (index !== -1) {
@@ -58,15 +69,16 @@ export class DownloadStockComponent implements OnInit {
   }
 
   removeWarehousesSelects(id: number) {
+    if (this.allWarehouse) {return; }
     const index = this.warehousesSelects.findIndex((x) => x.id === id);
-    // const indexCopy = this.warehouseCopySearch.findIndex((x) => x.id === id);
-
     if (index !== -1) {
       console.log(id);
 
       // this.warehouses.push(this.warehousesSelects[index]);
       this.warehouseCopySearch.push(this.warehousesSelects[index]);
       this.warehousesSelects.splice(index, 1);
+      console.log(this.warehousesSelects.length);
+
       this.filterWarehouse();
     }
   }
@@ -78,10 +90,10 @@ export class DownloadStockComponent implements OnInit {
   }
 
   saveInServer(): void {
-    if (this.warehousesSelects.length > 0) {
+    const sendData = this.convertDataSend();
+    if (sendData['warehouses_ids'].length > 0) {
       this.isLoad = true;
       const url = 'reports/general-stock';
-      const sendData = this.convertDataSend();
       console.log(sendData);
       this.s_standart.store(url, {...sendData}).subscribe( res => {
         console.log(res);
@@ -99,12 +111,20 @@ export class DownloadStockComponent implements OnInit {
   }
 
   convertDataSend(): object {
-    const warehouses_ids = this.warehousesSelects.map((x) => x.id);
-    let sendData = {};
+
+    const warehouses_ids = this.allWarehouse ? ['all'] : this.warehousesSelects.map((x) => x.id);
+    const sendData = {};
     sendData['warehouses_ids'] = warehouses_ids;
     if (this.show_global_stock) { sendData['show_global_stock'] = true; }
 
     return sendData;
+  }
+
+  changeAllWarehouse(event: any) {
+    console.log(event.checked);
+    if (event.checked) {
+      this.allWarehouse = true;
+    } else { this.allWarehouse = false; }
   }
 
 }

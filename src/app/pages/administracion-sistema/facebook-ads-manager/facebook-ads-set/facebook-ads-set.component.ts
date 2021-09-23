@@ -1,15 +1,15 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute } from "@angular/router";
-import { NgxSpinnerService } from "ngx-spinner";
-import { CtableAndPaginator } from "../../../../class/ctable-and-paginator";
-import { HeaderSearchComponent } from "../../../../components/header-search/header-search.component";
-import { STATUS_FACEBOOK } from "../../../../Objects/ObjectMatchs";
-import { StandartSearchService } from "../../../../services/standart-search.service";
-import { FacebookAdsModalComponent } from "../facebook-ads-modal/facebook-ads-modal.component";
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { CtableAndPaginator } from '../../../../class/ctable-and-paginator';
+import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
+import { STATUS_FACEBOOK } from '../../../../Objects/ObjectMatchs';
+import { StandartSearchService } from '../../../../services/standart-search.service';
+import { FacebookAdsModalComponent } from '../facebook-ads-modal/facebook-ads-modal.component';
 
-interface Ifacebook_set {
+interface IfacebookSet {
   id: number;
   name: string;
   fb_id: string;
@@ -39,7 +39,7 @@ interface Ifacebook_set {
       };
     }[];
   };
-  stock_status: "WARNING" | "GOOD" | "DANGER";
+  stock_status: 'WARNING' | 'GOOD' | 'DANGER';
   products: [
     {
       id: number;
@@ -57,39 +57,39 @@ interface Ifacebook_set {
 }
 
 @Component({
-  selector: "app-facebook-ads-set",
-  templateUrl: "./facebook-ads-set.component.html",
-  styleUrls: ["./facebook-ads-set.component.css"],
+  selector: 'app-facebook-ads-set',
+  templateUrl: './facebook-ads-set.component.html',
+  styleUrls: ['./facebook-ads-set.component.css'],
 })
 export class FacebookAdsSetComponent
-  extends CtableAndPaginator<Ifacebook_set>
+  extends CtableAndPaginator<IfacebookSet>
   implements OnInit {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   displayedColumns: string[] = [
     // "add",
-    "state",
-    "image",
-    "riesgo",
-    "name",
-    "min_stock",
-    "start",
-    "status_effective",
-    "acciones",
+    'state',
+    'image',
+    'riesgo',
+    'name',
+    'min_stock',
+    'start',
+    'status_effective',
+    'acciones',
   ];
   //#region DATA FILTER FUN
-  @Input() account_id:number = 0;
-  spinnerTable:string = "spinner_table";
-  min: any = "";
-  max: any = "";
+  @Input() account_id: number = 0;
+  spinnerTable: string = 'spinner_table';
+  min: any = '';
+  max: any = '';
   status: number = 3;
-  urlData: string = "facebook-ads/"+this.account_id+"/campaigns-set";
+  urlData: string = 'facebook-ads/' + this.account_id + '/campaigns-set';
   status_object = STATUS_FACEBOOK;
   //#endregion
   constructor(
     public activated_route: ActivatedRoute,
     public s_standart: StandartSearchService,
-    public snack_bar: MatSnackBar,private dialog:MatDialog,
-    public ngx_spinner:NgxSpinnerService
+    public snack_bar: MatSnackBar, private dialog: MatDialog,
+    public ngx_spinner: NgxSpinnerService
   ) {
     super();
   }
@@ -97,26 +97,23 @@ export class FacebookAdsSetComponent
   ngOnInit(): void {}
 
   applyFilter() {
-    if(this.min > this.max) {const aux = this.min;this.min=this.max;this.max=aux}
+    if (this.min > this.max) {const aux = this.min; this.min = this.max; this.max = aux; }
     this.headerComponent.searchBar();
   }
 
-  changeState(id,event):void{
-    console.log(event.target.checked,id);
-    this.s_standart.updatePut('admin/facebook-ads/campaignsAd/'+id+'/toggle-enable',{}).subscribe(res=>{
-      console.log(res);
+  changeState(id, event): void {
+    this.s_standart.updatePut('admin/facebook-ads/campaignsAd/' + id + '/toggle-enable', {}).subscribe(res => {
     },
-    err=>{
-      event.target.checked = !event.target.checked
+    err => {
+      event.target.checked = !event.target.checked;
     }
-    )
+    );
   }
 
-  viewProduct(id):void{
-    const products = this.ELEMENT_DATA.find(x=>x.id ==id);
-    console.log(products.products_set.products);
-    if(products){
-      this.dialog.open(FacebookAdsModalComponent,{data:{products:products.products_set.products}})
+  viewProduct(id): void {
+    const products = this.ELEMENT_DATA.find(x => x.id === id);
+    if (products) {
+      this.dialog.open(FacebookAdsModalComponent, {data: {products: products.products_set.products}});
     }
   }
 

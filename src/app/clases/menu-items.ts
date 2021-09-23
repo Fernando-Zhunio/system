@@ -4,7 +4,7 @@ export class MenuItems {
 
     public  LIST_TYPE_FREE = 'free';
     public  LIST_TYPE_SILVER = 'silver';
-    public  LIST_TYPE_GOLD = 'gold'; 
+    public  LIST_TYPE_GOLD = 'gold';
     public  RELIST_FOREVER_ON = 'on';
     public  RELIST_FOREVER_OFF = 'off';
     private menuItems = [
@@ -83,24 +83,10 @@ export class MenuItems {
     constructor(private s_permission:NgxPermissionsService){}
 
     menu(){
-        let menu = [];
-        // console.log(this.s_permission.getPermissions());
-        // let permissions = null;
-        // $availableItems = collect([]);
-        // const count = this.menuItems.length;
-        // for (let i = 0; i < count; i++) {
-
-        //     permissions = this.s_permission.hasPermission(this.menuItems[i].slug).then(res=>{
-        //         if(res){
-        //          return   this.menuItems[i];
-        //         }
-        //         else return null
-        //     })
-        // }
-        // return permissions;
+        // let menu = [];
     }
 
-    getMenuItemAll(){
+    getMenuItemAll() {
         return this.menuItems;
     }
 

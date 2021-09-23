@@ -19,18 +19,18 @@ export class AutheticationMainComponents  {
 const routes: Routes = [
   {
     path: '',
-    component:AutheticationMainComponents,
+    component: AutheticationMainComponents,
     children: [
       {
         path: 'capture-password',
-        component:CapturePasswordComponent,
-        canLoad:[NewPasswordGuard],
-        resolve:{person:NewPasswordGuard}
+        component: CapturePasswordComponent,
+        canLoad: [NewPasswordGuard],
+        resolve: {person: NewPasswordGuard}
       },
       {
         path: 'codigo-confirmacion/:token',
-        component:TwoFAComponent,
-        resolve:{response:ConfirmCodeGuard},
+        component: TwoFAComponent,
+        resolve: { response: ConfirmCodeGuard},
         // resolve:{person:NewPasswordGuard}
       },
       // {

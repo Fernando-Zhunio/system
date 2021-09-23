@@ -19,22 +19,20 @@ export class VtexPriceGuard implements  Resolve<Iresponse> {
 
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Iresponse | Observable<Iresponse> | Promise<Iresponse> {
     // const skuId = router.queryParams.token;
-    const skuId = router.paramMap.get("id");
+    const skuId = router.paramMap.get('id');
 
     // const email = router.queryParams.email;
     return this.s_standart.show(`products-admin/vtex/price-vtex/create?id=${skuId}`).pipe(
       map((res) => {
-        console.log(res);
         if (res && res.hasOwnProperty('success') && res.success) {
           return res;
-        }
-        else EMPTY;
+        } else EMPTY;
       }),
-      catchError((res) => {
-        console.log(res);
-        SwalService.swalFire({position:'center',title:'Error al cargar datos',text:'Intente lo nuevo en unos minutos'})
+      catchError((err) => {
+        console.log(err);
+        SwalService.swalFire({position: 'center', title: 'Error al cargar datos', text: 'Intente lo nuevo en unos minutos'})
 
-        this.route.navigate(["admin-products/vtex-products"]);
+        this.route.navigate(['admin-products/vtex-products']);
         return EMPTY;
       })
     );

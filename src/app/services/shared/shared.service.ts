@@ -3,6 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import { Inotification } from '../../interfaces/inotification';
 import { formatDate } from '@angular/common';
 import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces-jobNovicompu';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,7 @@ import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces
 export class SharedService {
 
 
-
+  public urlServer = environment.server;
   public get requestWork() {
     return this._requestWork;
   }
@@ -27,7 +30,7 @@ export class SharedService {
     this._appointmentWork = appointmentWork;
   }
 
-  constructor() { }
+  constructor(private Http: HttpClient) { }
 
   private notifications = new BehaviorSubject<Inotification[]>([]);
   public currentNotifications = this.notifications.asObservable();
@@ -35,7 +38,7 @@ export class SharedService {
   private _appointmentWork: Iappointment = null;
 
   // tslint:disable-next-line: member-ordering
-  public static convertDateForLaravelOfDataPicker(valueDate, format='yyyy/MM/dd'): string {
+  public static convertDateForLaravelOfDataPicker(valueDate, format= 'yyyy/MM/dd'): string {
     return formatDate(new Date(valueDate), format, 'en');
   }
 
@@ -56,4 +59,16 @@ export class SharedService {
     this.changeNotifications(notifications_);
   }
 
+  download(name, url) {
+    return this.Http.get(this.urlServer + url, {
+        responseType: 'blob',
+      })/* .pipe(
+        map(( res: any) => {
+        return {
+          filename: name,
+          data: res.blob()
+        };
+      })
+      ); */
+  }
 }

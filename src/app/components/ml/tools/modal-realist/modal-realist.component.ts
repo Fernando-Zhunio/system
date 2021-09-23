@@ -20,17 +20,13 @@ export class ModalRealistComponent implements OnInit {
     listing_type_id: new FormControl(this.ml.listing_type_id, [Validators.required]),
   });
   ngOnInit(): void {
-    console.log(this.ml.name);
 
   }
 
   saveInServer() {
-    console.log(this.form.value);
     if (this.form.valid) {
-      console.log('valid');
       this.dialogRef.close(this.form.value);
     } else {
-      console.log('invalid');
       SwalService.swalToast('Formulario invalido', 'error');
     }
   }

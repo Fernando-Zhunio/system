@@ -18,60 +18,59 @@ declare let Swal: any;
 })
 export class LocacionesComponent implements OnInit {
 
-  constructor(private s_standart:StandartSearchService,private snack_bar:MatSnackBar,private dialog:MatDialog) { }
+  constructor(private s_standart: StandartSearchService, private snack_bar: MatSnackBar, private dialog: MatDialog) { }
   displayedColumns: string[] = [
-    "id",
-    "name",
-    "type",
-    "address",
-    "latitude",
-    "longitude",
-    "city",
-    "company",
-    "acciones",
+    'id',
+    'name',
+    'type',
+    'address',
+    'latitude',
+    'longitude',
+    'city',
+    'company',
+    'acciones',
   ];
-  @ViewChild(HeaderSearchComponent) headerComponent:HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   ELEMENT_DATA: Location[] = [];
-  permission_create:any[] = ['super-admin','admin.users.create'];
-  permission_edit:any[] = ['super-admin','admin.users.edit'];
-  permission_destroy:any[] = ['super-admin','admin.users.destroy'];
+  permission_create: any[] = ['super-admin', 'admin.users.create'];
+  permission_edit: any[] = ['super-admin', 'admin.users.edit'];
+  permission_destroy: any[] = ['super-admin', 'admin.users.destroy'];
   dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
-  paginator:Ipagination<Location>;
-  isload:boolean;
+  paginator: Ipagination<Location>;
+  isload: boolean;
 
   ngOnInit(): void {}
 
-  users:Location[];
+  users: Location[];
 
 
   refreshDataTable(data) {
     let row: Location[] = data as Location[];
-    console.log(row);
     this.ELEMENT_DATA = row;
     this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   }
 
   //#region botones de acciones de usuario
-  editItem(i):void{
+  editItem(i): void{
 
   }
 
-  deleteItem(id):void{
-    SwalService.swalConfirmation("Eliminar","Esta seguro de eliminar esta locacion","warning").then((result) => {
+  deleteItem(id): void{
+    SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar esta locacion', 'warning').then((result) => {
       if (result.isConfirmed) {
-        this.snack_bar.open("Eliminando locacion espere ...")
-        this.s_standart.destory("admin/locations/"+id).subscribe(res=>{
-          if(res.hasOwnProperty("success") && res.success){
-            this.snack_bar.open("Localidad Eliminada con exito","OK",{duration:2000});
+        this.snack_bar.open('Eliminando locacion espere ...')
+        this.s_standart.destory('admin/locations/' + id).subscribe(res => {
+          if (res.hasOwnProperty('success') && res.success){
+            this.snack_bar.open('Localidad Eliminada con exito', 'OK', {duration: 2000});
             this.removeItemTable(id);
           }
           else{
-            this.snack_bar.open("No se a podido eliminar ","Error",{duration:2000})
+            this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000})
           }
-        },err=>{
+        }, err => {
           console.log(err);
-          this.snack_bar.open("No se a podido eliminar ","Error",{duration:2000})
-        })
+          this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000})
+        });
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
@@ -80,58 +79,51 @@ export class LocacionesComponent implements OnInit {
     })
   }
 
-  removeItemTable(id):void{
-      let index = this.ELEMENT_DATA.findIndex(x=>x.id == id);
-      this.ELEMENT_DATA.splice(index,1);
+  removeItemTable(id): void{
+      let index = this.ELEMENT_DATA.findIndex(x => x.id == id);
+      this.ELEMENT_DATA.splice(index, 1);
       // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
       this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   }
 
   //#endregion
-  loadData($event):void{
+  loadData($event): void{
     this.paginator = $event.data;
-    console.log(this.paginator);
     this.refreshDataTable(this.paginator.data);
   }
 
-  changePaginator(event):void{
+  changePaginator(event): void{
     this.headerComponent.searchBar(event);
-    console.log(event);
   }
 
-  createLocation(isEdit=false,id=0):void{
-    let title = "Creando Pais";
-    let state = "create"
-    let Location = null;
-    if(isEdit){
-      title = "Editando Pais"
-      state = "edit";
-      const index = this.ELEMENT_DATA.findIndex(res=>res.id == id);
-      if(index != -1){
-        Location = this.ELEMENT_DATA[index];
+  createLocation(isEdit= false, id= 0): void{
+    let title = 'Creando Pais';
+    let state = 'create';
+    let location = null;
+    if (isEdit){
+      title = 'Editando Pais';
+      state = 'edit';
+      const index = this.ELEMENT_DATA.findIndex(res => res.id === id);
+      if (index !== -1) {
+        location = this.ELEMENT_DATA[index];
       }
-      else return;
+      else { return; }
     }
-    this.dialog.open(CreateOrEditLocationComponent,{data:{action:{title,state},Location}}).beforeClosed().subscribe(res=>{
-      if(res)
+    this.dialog.open(CreateOrEditLocationComponent, {data: {action: {title, state}, Location}}).beforeClosed().subscribe(res => {
+      if (res)
       {
-        this.snack_bar.open("Espere gestionando...")
-        if(res.action == "edit"){
-          this.s_standart.updatePut('admin/countries/'+res.data.id,res.data).subscribe(res1=>{
-            console.log({res1});
-            this.snack_bar.open("Pais Editado con exito","OK",{duration:2000})
-          })
-        }
-        else{
-          this.s_standart.store('admin/countries',res.data).subscribe((res1:{success:boolean,data:Location})=>{
-            console.log({res1});
-            this.snack_bar.open("Pais creado con exito","OK",{duration:2000})
+        this.snack_bar.open('Espere gestionando...');
+        if (res.action === 'edit') {
+          this.s_standart.updatePut('admin/countries/' + res.data.id, res.data).subscribe(res1 => {
+            this.snack_bar.open('Pais Editado con exito', 'OK', {duration: 2000})
+          });
+        } else {
+          this.s_standart.store('admin/countries', res.data).subscribe((res1: {success: boolean, data: Location}) => {
+            this.snack_bar.open('Pais creado con exito', 'OK', {duration: 2000})
             this.ELEMENT_DATA.push(res1.data);
             this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
-          })
+          });
         }
-        // let Location = res;
-        // console.log(res);
       }
     });
   }

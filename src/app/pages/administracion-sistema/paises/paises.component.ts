@@ -41,16 +41,9 @@ export class PaisesComponent implements OnInit {
   }
 
   users:Country[];
-  // getUserServer():void{
-  //   this.s_standart.show('admin/users').subscribe((res:{success:boolean,data:Ipagination<Country>})=>{
-  //     // console.log(res);
-  //     // this.refreshDataTable(res.data.data);
-  //   })
-  // }
 
   refreshDataTable(data) {
     let row: Country[] = data as Country[];
-    console.log(row);
     this.ELEMENT_DATA = row;
     this.dataSource = new MatTableDataSource<Country>(this.ELEMENT_DATA);
   }
@@ -94,13 +87,11 @@ export class PaisesComponent implements OnInit {
   //#endregion
   loadData($event):void{
     this.paginator = $event.data;
-    console.log(this.paginator);
     this.refreshDataTable(this.paginator.data);
   }
 
   changePaginator(event):void{
     this.headerComponent.searchBar(event);
-    console.log(event);
   }
 
   createCountry(isEdit=false,id=0):void{
@@ -122,22 +113,17 @@ export class PaisesComponent implements OnInit {
         this.snack_bar.open("Espere gestionando...")
         if(res.action == "edit"){
           this.s_standart.updatePut('admin/countries/'+res.data.id,res.data).subscribe(res1=>{
-            console.log({res1});
             this.snack_bar.open("Pais Editado con exito","OK",{duration:2000})
           })
         }
         else{
           this.s_standart.store('admin/countries',res.data).subscribe((res1:{success:boolean,data:Country})=>{
-            console.log({res1});
             this.snack_bar.open("Pais creado con exito","OK",{duration:2000})
             this.ELEMENT_DATA.push(res1.data);
             this.dataSource = new MatTableDataSource<Country>(this.ELEMENT_DATA);
           })
         }
-        let country = res;
-        console.log(res);
-
-        // this.s_standart.store('admin/countries',)
+        // let country = res;
       }
     });
   }

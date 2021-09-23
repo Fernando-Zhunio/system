@@ -1,29 +1,29 @@
-import { Component, Inject, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   NgxGalleryAction,
   NgxGalleryAnimation,
   NgxGalleryImage,
   NgxGalleryOptions,
-} from "ngx-gallery-9";
-import { NgxSpinnerService } from "ngx-spinner";
+} from 'ngx-gallery-9';
+import { NgxSpinnerService } from 'ngx-spinner';
 import {
   invoiceItem,
   Iresponse,
   invoiceItemImg,
-} from "../../../interfaces/Imports/invoice-item";
-import { StandartSearchService } from "../../../services/standart-search.service";
-import { SwalService } from "../../../services/swal.service";
+} from '../../../interfaces/Imports/invoice-item';
+import { StandartSearchService } from '../../../services/standart-search.service';
+import { SwalService } from '../../../services/swal.service';
 
 @Component({
-  selector: "app-invoice-item-modal",
-  templateUrl: "./invoice-item-modal.component.html",
-  styleUrls: ["./invoice-item-modal.component.css"],
+  selector: 'app-invoice-item-modal',
+  templateUrl: './invoice-item-modal.component.html',
+  styleUrls: ['./invoice-item-modal.component.css'],
 })
 export class InvoiceItemModalComponent implements OnInit {
-  @ViewChild("drawer") drawer: any;
+  @ViewChild('drawer') drawer: any;
   constructor(
     private snack: MatSnackBar,
     private s_standart: StandartSearchService,
@@ -50,29 +50,28 @@ export class InvoiceItemModalComponent implements OnInit {
     product_id: new FormControl(null),
   });
   products = [];
-  title: string = "Nuevo item en la factura";
+  title: string = 'Nuevo item en la factura';
   product_relationship: any;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[] = [];
-  state_edit_init = "";
+  state_edit_init = '';
   galleryAction = <NgxGalleryAction>{
-    icon: "fas fa-trash text-danger",
+    icon: 'fas fa-trash text-danger',
     onClick: (event: Event, index: number) => {
       alert(this.galleryImages[index].medium);
       const id = this.galleryImages[index].id;
-      const url = "purchase-department/imports/imagen/" + id;
+      const url = 'purchase-department/imports/imagen/' + id;
       this.s_standart.destory(url).subscribe((res) => {
-        // console.log(res);
         this.removeImageGallery(res.data.id);
       });
     },
   };
-  imgInvoice: string = "assets/img/img_default_null.jpg";
+  imgInvoice: string = 'assets/img/img_default_null.jpg';
   ngOnInit(): void {
     this.galleryOptions = [
       {
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
         actions: [this.galleryAction],
@@ -81,8 +80,8 @@ export class InvoiceItemModalComponent implements OnInit {
       // max-width 800
       {
         breakpoint: 800,
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         imagePercent: 80,
         thumbnailsPercent: 20,
         thumbnailsMargin: 20,
@@ -95,9 +94,8 @@ export class InvoiceItemModalComponent implements OnInit {
       },
     ];
 
-    if (this.data.state == "edit") this.title = "Editando item de la factura";
-    if (this.data.hasOwnProperty("formData")) {
-      console.log(this.data);
+    if (this.data.state === 'edit') { this.title = 'Editando item de la factura'};
+    if (this.data.hasOwnProperty('formData')) {
       const {
         code,
         description,
@@ -114,7 +112,7 @@ export class InvoiceItemModalComponent implements OnInit {
         quantity,
         price,
         tariff,
-        images:[],
+        images: [],
         note,
         product_id,
       });
@@ -124,22 +122,14 @@ export class InvoiceItemModalComponent implements OnInit {
         this.getIdImagens(this.data.formData.images);
       }
     }
-    // this.formMore.valueChanges.subscribe((res) => {
-    //   console.log({ cambio: res });
-    // });
   }
 
   getIdImagens(imagens: invoiceItemImg[]) {
     // let ids = [];
     const images = Object.assign(imagens,[]);
     images.forEach((item) => {
-      // ids.push(item.id);
-      console.log(item.id);
-
       this.addImageGallery(item.full_url_api, item.id);
-      // return item;
     });
-    // this.formMore.controls["images"].setValue(ids);
   }
 
   addImageGallery(img, id): void {
@@ -150,23 +140,20 @@ export class InvoiceItemModalComponent implements OnInit {
       id,
     });
 
-    let arr: any[] = this.formMore.controls["images"].value;
+    const arr: any[] = this.formMore.controls['images'].value;
     arr.push(id);
-    console.log({arr,id});
 
   }
 
   removeImageGallery(id): void {
-    const index = this.galleryImages.findIndex((x) => x.id == id);
-    if (index != -1) {
+    const index = this.galleryImages.findIndex((x) => x.id === id);
+    if (index !== -1) {
       this.galleryImages.splice(index, 1);
-      let arr: [] = this.formMore.controls["images"].value;
+      const arr: [] = this.formMore.controls['images'].value;
       const indexImg = arr.findIndex(id);
-      if (indexImg != -1) {
+      if (indexImg !== -1) {
         arr.splice(indexImg, 1);
-        console.log("removido de form");
       }
-      console.log("removido de la gallery");
     }
   }
 
@@ -176,27 +163,26 @@ export class InvoiceItemModalComponent implements OnInit {
     if (this.formMore.valid) {
       this.isLoadItem = true;
       this.spinner.show()
-      if (this.data.state == "create") {
-        let snack1 = this.snack.open("Agregando item espera...");
+      if (this.data.state == 'create') {
+        let snack1 = this.snack.open('Agregando item espera...');
         this.s_standart
           .store(
-            "purchase-department/imports/" +
+            'purchase-department/imports/' +
               this.data.id_import +
-              "/invoices/" +
+              '/invoices/' +
               this.data.id_invoice +
-              "/items",
+              '/items',
             this.formMore.value
           )
           .subscribe(
             (res) => {
               this.isLoadItem = false;
-              console.log(res);
               snack1.dismiss();
               if (res.success) {
-                this.snack.open("Agregado con exito", "Ok", { duration: 2500 });
+                this.snack.open('Agregado con exito', 'Ok', { duration: 2500 });
                 this.dialogRef.close(res);
               } else {
-                this.snack.open("Error intentalo de nuevo", "Error", {
+                this.snack.open('Error intentalo de nuevo', 'Error', {
                   duration: 2500,
                 });
               }
@@ -211,36 +197,31 @@ export class InvoiceItemModalComponent implements OnInit {
           );
       } else {
         const state_edit_current = JSON.stringify(this.formMore.value);
-        let snack1 = this.snack.open("Editando item espera...");
-
-        console.log(state_edit_current);
-        console.log(this.state_edit_init);
-
-        if (this.state_edit_init == state_edit_current) {
-          SwalService.swalToast("No se encuentran cambios", "error");
+        const snack1 = this.snack.open('Editando item espera...');
+        if (this.state_edit_init === state_edit_current) {
+          SwalService.swalToast('No se encuentran cambios', 'error');
           return;
         }
         this.s_standart
           .updatePut(
-            "purchase-department/imports/" +
+            'purchase-department/imports/' +
               this.data.id_import +
-              "/invoices/" +
+              '/invoices/' +
               this.data.id_invoice +
-              "/items/" +
+              '/items/' +
               this.data.formData.id,
             this.formMore.value
           )
           .subscribe(
             (res) => {
-              console.log(res);
               snack1.dismiss();
               if (res.success) {
-                this.snack.open("Actualizado con exito", "Ok", {
+                this.snack.open('Actualizado con exito', 'Ok', {
                   duration: 2500,
                 });
                 this.dialogRef.close(res);
               } else {
-                this.snack.open("Error intentalo de nuevo", "Error", {
+                this.snack.open('Error intentalo de nuevo', 'Error', {
                   duration: 2500,
                 });
               }
@@ -265,23 +246,22 @@ export class InvoiceItemModalComponent implements OnInit {
   /*Sube la imagen al servidor y luego la anade a la galeria y al form control de imagen*/
   uploadImg(event) {
     let img: any = event.target.files[0];
-    let snack1 = this.snack.open("Actualizando imagen espera...");
+    let snack1 = this.snack.open('Actualizando imagen espera...');
     this.isLoadItem = true;
     this.s_standart
       .uploadImg(
-        "purchase-department/imports/" +
+        'purchase-department/imports/' +
           this.data.id_import +
-          "/upload-item-images",
+          '/upload-item-images',
         img
       )
       .subscribe(
         (res) => {
-          console.log(res);
           snack1.dismiss();
           if (res.success) {
             this.imgInvoice = res.data.full_url_api;
             this.addImageGallery(this.imgInvoice, res.data.id);
-            this.snack.open("Imagen subida con exito", "Ok", {
+            this.snack.open('Imagen subida con exito', 'Ok', {
               duration: 2500,
             });
           }
@@ -310,14 +290,14 @@ export class InvoiceItemModalComponent implements OnInit {
       return this.products[i].ml_infos[0].image;
     }
 
-    return "assets/img/img_default_null.jpg";
+    return 'assets/img/img_default_null.jpg';
   }
 
   // Se ejecuta cuando se da click en algun producto que busco y se crea el producto relacionado
   selectProductRelationship(index) {
     this.product_relationship = this.products[index];
     this.drawer.toggle();
-    this.formMore.controls["product_id"].setValue(this.product_relationship.id);
+    this.formMore.controls['product_id'].setValue(this.product_relationship.id);
   }
 
   // Captura la imagen de el producto relacionado con el item si no tiene de pone una iamgen por defecto
@@ -329,12 +309,12 @@ export class InvoiceItemModalComponent implements OnInit {
       return this.product_relationship.ml_infos[0].image;
     }
 
-    return "assets/img/img_default_null.jpg";
+    return 'assets/img/img_default_null.jpg';
   }
 
   removeProductRelationship() {
     this.product_relationship = null;
-    this.formMore.controls["product_id"].setValue(null);
+    this.formMore.controls['product_id'].setValue(null);
   }
 
 

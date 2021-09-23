@@ -92,6 +92,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
+
 // import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
 // import { ModalRealistComponent } from './components/ml/tools/modal-realist/modal-realist.component';
 
@@ -134,8 +135,7 @@ registerLocaleData(localeEs, 'es');
     MatSnackBarModule,
     MatSlideToggleModule,
     MatBadgeModule,
-
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
 

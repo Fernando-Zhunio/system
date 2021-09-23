@@ -53,12 +53,6 @@ export class CustomInterceptor implements HttpInterceptor {
     });
 
     return next.handle(newResquest).pipe(
-      // map((event: HttpResponse<Iresponse>) => {
-      //   if (event.body && typeof event === 'object' && event.body.hasOwnProperty('success') && event.body.success === true) { event.body['success'] = false; }
-      //   else { event.body['success'] = false; }
-      //   console.log('event', event);
-      //   return event;
-      // }),
       finalize(() => {
         swal.close();
       }),

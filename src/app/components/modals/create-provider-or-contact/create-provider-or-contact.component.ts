@@ -45,9 +45,7 @@ export class CreateProviderOrContactComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.hasOwnProperty("state")) {
       this.state = this.data.state;
-      console.log(this.state,this.enum_action_provider.edit_provider);
-      console.log(this.state == this.enum_action_provider.create_provider || this.state == this.enum_action_provider.edit_provider);
-      
+
       switch (this.state) {
         case EProviderActions.edit_provider:
           const {
@@ -78,7 +76,7 @@ export class CreateProviderOrContactComponent implements OnInit {
             }
             // if(this.state == EProviderActions.edit_provider){
               //   if(this.data.isProvider){
-                
+
                 //   }else{
                   //     const {name,phone,email,position} = this.data.form_data;
                   //     this.formContact.setValue({name,phone,email,position})
@@ -86,8 +84,7 @@ export class CreateProviderOrContactComponent implements OnInit {
                   // }
                 }
                 this.countries = JSON.parse(localStorage.getItem('countries'))
-                console.log(this.countries);
-                
+
   }
 
   closeDialogProviderCreate(): void {
@@ -112,8 +109,8 @@ export class CreateProviderOrContactComponent implements OnInit {
           this.dialogRef.close({
             success: true,
             action:this.enum_action_provider.edit_contact,
-            data: this.formContact.value,  
-          }); 
+            data: this.formContact.value,
+          });
         }
       }
     // }
@@ -135,7 +132,7 @@ export class CreateProviderOrContactComponent implements OnInit {
       this.dialogRef.close({
         success: true,
         action:this.enum_action_provider.delete_contact,
-        data:{id,name,phone,email,position},  
+        data:{id,name,phone,email,position},
       });
       // this.formContact.setValue({id,name,phone,email,position});
     }

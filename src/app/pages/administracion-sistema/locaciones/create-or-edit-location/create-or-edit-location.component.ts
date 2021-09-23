@@ -1,19 +1,19 @@
-import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { NgxSpinnerService } from "ngx-spinner";
-import { environment } from "../../../../../environments/environment";
-import { Icity, Icompanies_access } from "../../../../interfaces/iml-info";
-import { StandartSearchService } from "../../../../services/standart-search.service";
-import { Location as Clocation } from "../../../../class/location";
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { environment } from '../../../../../environments/environment';
+import { Icity, Icompanies_access } from '../../../../interfaces/iml-info';
+import { StandartSearchService } from '../../../../services/standart-search.service';
+import { Location as Clocation } from '../../../../class/location';
 
-import * as Mapboxgl from "mapbox-gl";
-import { stringify } from "@angular/compiler/src/util";
+import * as Mapboxgl from 'mapbox-gl';
+import { stringify } from '@angular/compiler/src/util';
 @Component({
-  selector: "app-create-or-edit-location",
-  templateUrl: "./create-or-edit-location.component.html",
-  styleUrls: ["./create-or-edit-location.component.css"],
+  selector: 'app-create-or-edit-location',
+  templateUrl: './create-or-edit-location.component.html',
+  styleUrls: ['./create-or-edit-location.component.css'],
 })
 export class CreateOrEditLocationComponent implements OnInit {
   constructor(
@@ -24,7 +24,7 @@ export class CreateOrEditLocationComponent implements OnInit {
     private location: Location
   ) {}
 
-  state: "create" | "edit" = "create";
+  state: 'create' | 'edit' = 'create';
 
   cities: any;
   keyCities = [];
@@ -33,8 +33,8 @@ export class CreateOrEditLocationComponent implements OnInit {
   keyTypes = [];
   map: Mapboxgl.Map;
   marker: Mapboxgl.Marker;
-  title: string = "Creando una localidad";
-  isLoadServer:boolean = false;
+  title: string = 'Creando una localidad';
+  isLoadServer: boolean = false;
   coordinate: { longitud: number; latitud: number } = {
     longitud: 0,
     latitud: 0,
@@ -42,44 +42,41 @@ export class CreateOrEditLocationComponent implements OnInit {
   isEnabledMap: boolean = false;
   location_: Clocation = new Clocation();
   form_location: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required]),
-    address: new FormControl("", [Validators.required]),
-    type: new FormControl("", [Validators.required]),
+    name: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    type: new FormControl('', [Validators.required]),
     city: new FormControl(null, [Validators.required]),
-    company: new FormControl("", [Validators.required]),
+    company: new FormControl('', [Validators.required]),
     // latitude: new FormControl("", [Validators.required]),
     // longitude: new FormControl("", [Validators.required]),
   });
   ngOnInit(): void {
     this.ngx_spinner.show();
     this.act_router.data.subscribe((res) => {
-      this.state = res.isEdit ? "edit" : "create";
-      console.log(res);
+      this.state = res.isEdit ? 'edit' : 'create';
       if (res.isEdit) {
-        this.title = "Editando Usuario";
-        const id = Number.parseInt(this.act_router.snapshot.paramMap.get("id"));
-        const url = "admin/locations/" + id + "/edit";
+        this.title = 'Editando Usuario';
+        const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
+        const url = 'admin/locations/' + id + '/edit';
         this.s_standart.show(url).subscribe(
           (response) => {
-            if (response.hasOwnProperty("success") && response.success) {
-              console.log(response);
+            if (response.hasOwnProperty('success') && response.success) {
               this.setDataSelects(response.data);
               this.location_ = response.data.location;
               const {
                 name,
                 address,
                 type,
-                city_id:city,
-                company_id:company,
+                city_id: city,
+                company_id: company,
               } = this.location_;
               this.form_location.setValue({
                 name,
                 address,
                 type,
-                city:city.toString(),
+                city: city.toString(),
                 company,
               });
-              console.log(this.form_location.value);
 
               if (this.location_.latitude && this.location_.longitude) {
                 this.coordinate.latitud = Number.parseFloat(
@@ -104,9 +101,8 @@ export class CreateOrEditLocationComponent implements OnInit {
           }
         );
       } else {
-        this.s_standart.show("admin/locations/create").subscribe(
+        this.s_standart.show('admin/locations/create').subscribe(
           (response) => {
-            console.log(response);
             if (response.success) {
               this.setDataSelects(response.data);
             }
@@ -124,7 +120,7 @@ export class CreateOrEditLocationComponent implements OnInit {
   }
 
   getCurrentPosition() {
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
       /* la geolocalización está disponible */
       navigator.geolocation.getCurrentPosition((position) => {
         const coord = {
@@ -146,14 +142,13 @@ export class CreateOrEditLocationComponent implements OnInit {
     this.keyCities = Object.keys(this.cities);
     this.types = data.types;
     this.keyTypes = Object.keys(this.types);
-    console.log(this.keyCities);
   }
 
   createMap(lon = 0, lat = 0): void {
     Mapboxgl.accessToken = environment.mapbox_key;
     this.map = new Mapboxgl.Map({
-      container: "map", // container id
-      style: "mapbox://styles/mapbox/streets-v11",
+      container: 'map', // container id
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [lon, lat], // starting position
       zoom: 9, // starting zoom
       // interactive: this.isEnabledMap
@@ -171,7 +166,7 @@ export class CreateOrEditLocationComponent implements OnInit {
       this.coordinate.latitud = lngLat.lat;
       this.coordinate.longitud = lngLat.lng;
     };
-    this.marker.on("dragend", drag);
+    this.marker.on('dragend', drag);
     // this.enabledAndDesabledMap();
   }
 
@@ -180,7 +175,6 @@ export class CreateOrEditLocationComponent implements OnInit {
   }
 
   enableAndDesableMap(event): void {
-    console.log(event);
 
     if (!event.checked) {
       this.map.boxZoom.disable();
@@ -192,8 +186,7 @@ export class CreateOrEditLocationComponent implements OnInit {
       this.map.touchZoomRotate.disable();
       // this.marker.style.visibility();
       // this.marker.draggable = false;
-    }
-    else{
+    } else {
       this.map.boxZoom.enable();
       this.map.scrollZoom.enable();
       this.map.dragPan.enable();
@@ -210,31 +203,28 @@ export class CreateOrEditLocationComponent implements OnInit {
     if (this.form_location.valid) {
       this.isLoadServer = true;
       let dataSend = this.form_location.value;
-      if(this.isEnabledMap){
+      if (this.isEnabledMap) {
         dataSend.latitude = this.coordinate.latitud;
         dataSend.longitude = this.coordinate.longitud;
       }
-      if(this.state == 'create'){
-        this.s_standart.store('admin/locations',{...dataSend}).subscribe(res=>{
-          if(res.hasOwnProperty('success') && res.success){
+      if (this.state === 'create') {
+        this.s_standart.store('admin/locations', {...dataSend}).subscribe(res => {
+          if (res.hasOwnProperty('success') && res.success) {
             this.route.navigate(['administracion-sistema/locaciones']);
-          }
-          else this.isLoadServer = false;
-        },err=>{
+          } else { this.isLoadServer = false; }
+        }, err => {
           console.log(err);
-          this.isLoadServer =false;
-        })
-      }
-      else{
-        this.s_standart.updatePut('admin/locations/'+this.location_.id,{...dataSend}).subscribe(res=>{
-          if(res.hasOwnProperty('success') && res.success){
+          this.isLoadServer = false;
+        });
+      } else {
+        this.s_standart.updatePut('admin/locations/' + this.location_.id, {...dataSend}).subscribe(res => {
+          if (res.hasOwnProperty('success') && res.success) {
             this.route.navigate(['administracion-sistema/locaciones']);
-          }
-          else this.isLoadServer = false;
-        },err=>{
+          } else { this.isLoadServer = false; }
+        }, err => {
           console.log(err);
-          this.isLoadServer =false;
-        })
+          this.isLoadServer = false;
+        });
       }
     } else {
       this.form_location.markAllAsTouched();

@@ -81,22 +81,20 @@ export class PublicationComponent implements OnInit {
 
 
   deletePublication(idPublication):void{
-    const snack = this.snack_bar.open('Eliminando espere ...')
+    const snack = this.snack_bar.open('Eliminando espere ...');
     this.isLoader = true;
     // this.s_catalogo.destroyPublications(idPublication).subscribe(
-      this.s_standart.destory('catalogs/publications/'+idPublication).subscribe(
-      res=>{
+      this.s_standart.destory('catalogs/publications/' + idPublication).subscribe(
+      res => {
         snack.dismiss();
         this.isLoader = false;
-        console.log(res);
         if(res.success){
           this.delete.emit(res.data);
           this.snack_bar.open('Eliminado con exito', 'OK', {duration:2000})
-        }
-        else {
+        } else {
           this.snack_bar.open('Error al eliminar', 'Error', {duration:2000})
         }
-      },err=>{
+      }, err => {
         console.log(err);
         this.snack_bar.open('Error al eliminar', 'Error', {duration:2000})
         this.isLoader = false;
@@ -106,15 +104,11 @@ export class PublicationComponent implements OnInit {
   }
 
   executeMenu(type,id ): void {
-    // console.log(event);
-    if(this.suscription_ml)
-      this.suscription_ml.unsubscribe();
-    if(type == 'relist'){
-      this.dialog.open(RepublicarCuentasModalComponent,{data:{id:this.publication.id},disableClose: true})
-    }
-    else{
-      this.suscription_ml = this.s_mercado_libre.updateStatus(id,type).subscribe((res) => {
-        console.log(res);
+    if (this.suscription_ml) { this.suscription_ml.unsubscribe(); }
+    if (type === 'relist') {
+      this.dialog.open(RepublicarCuentasModalComponent, {data: {id: this.publication.id},disableClose: true})
+    } else {
+      this.suscription_ml = this.s_mercado_libre.updateStatus(id, type).subscribe((res) => {
         if (res.success) {
           this.publication = res.ml;
         }
