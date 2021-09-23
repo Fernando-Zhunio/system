@@ -1,37 +1,37 @@
 // import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { HttpParams } from "@angular/common/http";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { HttpParams } from '@angular/common/http';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   ValidationErrors,
   Validators,
-} from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 // import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
 import {
   FileSystemDirectoryEntry,
   FileSystemFileEntry,
   NgxFileDropEntry,
-} from "ngx-file-drop";
-import { NgxSpinnerService } from "ngx-spinner";
-import { Subscription } from "rxjs";
-import { environment } from "../../../../../environments/environment";
-import { Iaccount } from "../../../../interfaces/iml-info";
-import { Iresponse } from "../../../../interfaces/Imports/invoice-item";
-import { Ipublication } from "../../../../interfaces/ipublication";
-import { CatalogoService } from "../../../../services/catalogo.service";
-import { StandartSearchService } from "../../../../services/standart-search.service";
-import { SwalService } from "../../../../services/swal.service";
+} from 'ngx-file-drop';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
+import { Iaccount } from '../../../../interfaces/iml-info';
+import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
+import { Ipublication } from '../../../../interfaces/ipublication';
+import { CatalogoService } from '../../../../services/catalogo.service';
+import { StandartSearchService } from '../../../../services/standart-search.service';
+import { SwalService } from '../../../../services/swal.service';
 
 @Component({
-  selector: "app-create-or-edit-publicacion",
-  templateUrl: "./create-or-edit-publicacion.component.html",
-  styleUrls: ["./create-or-edit-publicacion.component.css"],
+  selector: 'app-create-or-edit-publicacion',
+  templateUrl: './create-or-edit-publicacion.component.html',
+  styleUrls: ['./create-or-edit-publicacion.component.css'],
 })
 export class CreateOrEditPublicacionComponent implements OnInit {
-  @ViewChild("formMain", { static: false }) formMain: ElementRef;
+  @ViewChild('formMain', { static: false }) formMain: ElementRef;
   empresas = new FormControl();
   publication: Ipublication;
   listing_types = [];
@@ -70,10 +70,10 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   });
   src1: any;
   attributes = [];
-  alturaAttribute = "400px";
+  alturaAttribute = '400px';
   isLoadCategory: boolean = false;
   title: string;
-  state: "create" | "edit" = "create";
+  state: 'create' | 'edit' = 'create';
   options: any;
   isLoadPosition: boolean = false;
   isLoadPublication: boolean = false;
@@ -84,7 +84,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   // aditional_data:any;
   ngOnInit(): void {
     this.s_catalogo.create_publications().subscribe((res) => {
-      // console.log(res);
       this.ml_accounts = res.ml_accounts;
       this.listing_types = res.listing_types;
       this.options = {
@@ -94,19 +93,18 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       };
     });
     this.act_router.data.subscribe((res) => {
-      // console.log(res);
       if (res.isEdit) {
-        this.state = "edit";
+        this.state = 'edit';
         this.spinner_ngx.show();
         this.isEditNamePublication = false;
-        this.title = "Editando Publication #" + this.id;
-        this.id = Number.parseInt(this.act_router.snapshot.paramMap.get("id"));
+        this.title = 'Editando Publication #' + this.id;
+        this.id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
         this.s_standart
-          .show("catalogs/publications/" + this.id + "/edit")
+          .show('catalogs/publications/' + this.id + '/edit')
           .subscribe((response) => {
             if (
               response &&
-              response.hasOwnProperty("success") &&
+              response.hasOwnProperty('success') &&
               response.success
             ) {
               this.isEditNamePublication = false;
@@ -116,7 +114,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
             }
           });
       } else {
-        this.title = "Creando Publicacion";
+        this.title = 'Creando Publicacion';
         this.id = null;
       }
     });
@@ -125,15 +123,15 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   setDataFormPublication() {
     this.formName.setValue({ name: this.publication.name });
     let idsAccounts = this.getIdMlAccounts(this.publication.ml_accounts);
-    this.formPublication.get("title").setValue(this.publication.name);
-    this.formPublication.get("category").setValue(this.publication.category);
+    this.formPublication.get('title').setValue(this.publication.name);
+    this.formPublication.get('category').setValue(this.publication.category);
     this.formPublication
-      .get("description")
+      .get('description')
       .setValue(this.publication.description);
-    this.formPublication.get("qty").setValue(this.publication.quantity);
-    this.formPublication.get("price").setValue(this.publication.price);
-    this.formPublication.get("type").setValue(this.publication.listing_type);
-    this.formPublication.get("mlaccounts").setValue(idsAccounts);
+    this.formPublication.get('qty').setValue(this.publication.quantity);
+    this.formPublication.get('price').setValue(this.publication.price);
+    this.formPublication.get('type').setValue(this.publication.listing_type);
+    this.formPublication.get('mlaccounts').setValue(idsAccounts);
     const title = { target: { value: this.publication.name } };
     this.predictorMl(title, true);
   }
@@ -141,25 +139,23 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     let form_params: HttpParams = new HttpParams();
     this.isLoadPosition = true;
     const id_images = this.publication.images.map((value) => {
-      form_params = form_params.append("ids[]", String(value.id));
+      form_params = form_params.append('ids[]', String(value.id));
       return value;
     });
     this.s_standart
       .updatePut(
-        "catalogs/publications/" + this.publication.id + "/images",
+        'catalogs/publications/' + this.publication.id + '/images',
         form_params,
         false
       )
       .subscribe(
         (res) => {
-          console.log(res);
           this.isLoadPosition = false;
         },
         (err) => {
           this.isLoadPosition = false;
         }
       );
-    // console.log("fer move");
   }
 
   getIdMlAccounts(mlaccounts: Iaccount[]) {
@@ -177,7 +173,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
-    console.log("drop");
 
     for (const droppedFile of files) {
       // Is it a file?
@@ -185,19 +180,16 @@ export class CreateOrEditPublicacionComponent implements OnInit {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         const reader = new FileReader();
 
-        console.log(droppedFile);
-
         fileEntry.file((file: File) => {
-          if (file.type == "image/jpeg" || file.type == "image/png") {
+          if (file.type == 'image/jpeg' || file.type == 'image/png') {
             // let form_data = new FormData();
             // form_data.append('image',file)
             this.s_standart
               .uploadImg(
-                "catalogs/publications/" + this.publication.id + "/upload",
+                'catalogs/publications/' + this.publication.id + '/upload',
                 file
               )
               .subscribe((res: Iresponse) => {
-                console.log(res);
                 if (res.success) {
                   // this.arrayImagen.push({url:this.url_server+"/img/"+res.url})
                   this.publication.images.push(res.data);
@@ -206,24 +198,21 @@ export class CreateOrEditPublicacionComponent implements OnInit {
               });
           } else {
             SwalService.swalToast(
-              "Este tipo de archivo no es una imagen valida",
-              "error"
+              'Este tipo de archivo no es una imagen valida',
+              'error'
             );
           }
         });
       } else {
         const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
       }
     }
   }
 
   public fileOver(event) {
-    console.log(event);
   }
 
   public fileLeave(event) {
-    console.log(event);
   }
 
   public removeImage(id) {
@@ -231,7 +220,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     if (index_img != -1) {
       this.s_standart
         .destory(
-          "catalogs/publications/" + this.publication.id + "/images/" + id
+          'catalogs/publications/' + this.publication.id + '/images/' + id
         )
         .subscribe((res: Iresponse) => {
           if (res.success) {
@@ -244,17 +233,10 @@ export class CreateOrEditPublicacionComponent implements OnInit {
 
   createPulicationName(): void {
     if (this.formName.valid) {
-      if (this.state == "create") {
-        console.log(
-          "creando publicacion",
-          this.formName.controls["name"].value
-        );
-
-        // this.s_catalogo.create_publication_name(this.formName.controls['name'].value)
+      if (this.state == 'create') {
         this.s_standart
-          .store("catalogs/publications", this.formName.value)
+          .store('catalogs/publications', this.formName.value)
           .subscribe((res) => {
-            console.log(res);
             if (res.success) {
               this.isEditNamePublication = false;
               this.publication = res.data;
@@ -263,11 +245,10 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       } else {
         this.s_standart
           .updatePut(
-            "catalogs/publications/" + this.publication.id,
+            'catalogs/publications/' + this.publication.id,
             this.formName.value
           )
           .subscribe((res) => {
-            console.log(res);
             if (res.success) {
               this.isEditNamePublication = false;
               this.publication = res.data;
@@ -283,12 +264,11 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   }
 
   removeItemMlAccount(id) {
-    let accounts = this.formPublication.get("mlaccounts").value;
-    console.log(accounts, id);
+    const accounts = this.formPublication.get('mlaccounts').value;
     const index = accounts.findIndex((x) => x == id);
     if (index != -1) {
       accounts.splice(index, 1);
-      this.formPublication.get("mlaccounts").setValue(accounts);
+      this.formPublication.get('mlaccounts').setValue(accounts);
     }
   }
 
@@ -303,13 +283,11 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       .predictor_keyup(title)
       .subscribe(
         (res) => {
-          console.log(res);
           this.optionsTitle = res;
           this.isLoadCategory = false;
           const exist_cat = this.optionsTitle.findIndex(
             (x) => x.category_id == this.publication.category
           );
-          console.log(exist_cat);
           if (exist_cat != -1) {
             this.getAttributes(this.publication.category, isEdit);
           }
@@ -331,7 +309,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     this.isLoadCategory = true;
     this.s_catalogo.categoriesMl(title).subscribe(
       (res) => {
-        console.log(res);
         this.optionsTitle = res;
         this.isLoadCategory = false;
       },
@@ -344,33 +321,30 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   publicationNow() {
     // this.getFormValidationErrors();
     if (this.publication.images.length < 1) {
-      SwalService.swalToast("Se necesita por lo menos una imagen", "warning");
+      SwalService.swalToast('Se necesita por lo menos una imagen', 'warning');
       return;
     }
-    console.log(this.formPublication.errors);
     if (this.formPublication.valid) {
-      // console.log(this.formPublication.get("attribute").value);
       this.spinner_ngx.show();
-      let data = {
+      const data = {
         name: this.publication.name,
-        category: this.formPublication.get("category").value,
-        description: this.formPublication.get("description").value,
-        quantity: this.formPublication.get("qty").value,
-        price: this.formPublication.get("price").value,
-        listing_type: this.formPublication.get("type").value,
-        mlaccounts: this.formPublication.get("mlaccounts").value,
+        category: this.formPublication.get('category').value,
+        description: this.formPublication.get('description').value,
+        quantity: this.formPublication.get('qty').value,
+        price: this.formPublication.get('price').value,
+        listing_type: this.formPublication.get('type').value,
+        mlaccounts: this.formPublication.get('mlaccounts').value,
       };
-      const attributes = this.formPublication.get("attribute").value;
+      const attributes = this.formPublication.get('attribute').value;
       const data_request = { ...data, ...attributes };
       this.s_standart
-        .store("catalogs/publications/" + this.publication.id, data_request)
+        .store('catalogs/publications/' + this.publication.id, data_request)
         .subscribe(
           (res: { success: boolean; data: Ipublication }) => {
             if (res.success) {
-              console.log(res);
               this.spinner_ngx.hide();
               this.router.navigate([
-                "/catalogo/publicaciones/show",
+                '/catalogo/publicaciones/show',
                 res.data.id,
               ]);
             }
@@ -392,33 +366,31 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   }
 
   getAttributes(id, isEdit = false) {
-    this.alturaAttribute = this.formMain.nativeElement.offsetHeight + "px";
-    console.log(this.alturaAttribute);
-    this.formPublication.controls["attribute"] = new FormGroup({});
+    this.alturaAttribute = this.formMain.nativeElement.offsetHeight + 'px';
+    this.formPublication.controls['attribute'] = new FormGroup({});
     this.attributes.length = 0;
     if (this.suscription_attribute) this.suscription_attribute.unsubscribe();
     this.suscription_attribute = this.s_catalogo
       .getAttributes(id)
       .subscribe((res) => {
-        // console.log(res);
-        if (res && res.hasOwnProperty("success") && res.success) {
+        if (res && res.hasOwnProperty('success') && res.success) {
           let attribute_copy = res.data;
-          this.formPublication.controls["attribute"] = new FormGroup({});
+          this.formPublication.controls['attribute'] = new FormGroup({});
           const count_attribute = attribute_copy.length;
           for (let i = 0; i < count_attribute; i++) {
-            if (attribute_copy[i].hasOwnProperty("values")) {
+            if (attribute_copy[i].hasOwnProperty('values')) {
               if (attribute_copy[i].tags.catalog_required) {
                 let control_select = new FormControl(null);
                 let control_input = new FormControl(null);
                 let newFormGroup: FormGroup = this.formPublication.controls[
-                  "attribute"
+                  'attribute'
                 ] as FormGroup;
                 newFormGroup.addControl(
-                  "attribute_manually_" + attribute_copy[i].id,
+                  'attribute_manually_' + attribute_copy[i].id,
                   control_input
                 );
                 newFormGroup.addControl(
-                  "attribute_suggest_" + attribute_copy[i].id,
+                  'attribute_suggest_' + attribute_copy[i].id,
                   control_select
                 );
               } else {
@@ -426,14 +398,14 @@ export class CreateOrEditPublicacionComponent implements OnInit {
                 let control_input = new FormControl();
                 // let  newFormGroup = new FormGroup({})
                 let newFormGroup = this.formPublication.controls[
-                  "attribute"
+                  'attribute'
                 ] as FormGroup;
                 newFormGroup.addControl(
-                  "attribute_suggest_" + attribute_copy[i].id,
+                  'attribute_suggest_' + attribute_copy[i].id,
                   control_select
                 );
                 newFormGroup.addControl(
-                  "attribute_manually_" + attribute_copy[i].id,
+                  'attribute_manually_' + attribute_copy[i].id,
                   control_input
                 );
               }
@@ -442,11 +414,11 @@ export class CreateOrEditPublicacionComponent implements OnInit {
                 let control_input = new FormControl(null);
                 // let  newFormGroup = new FormGroup({})
                 let newFormGroup = this.formPublication.controls[
-                  "attribute"
+                  'attribute'
                 ] as FormGroup;
                 // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
                 newFormGroup.addControl(
-                  "attribute_manually_" + attribute_copy[i].id,
+                  'attribute_manually_' + attribute_copy[i].id,
                   control_input
                 );
                 // this.formPublication.controls['attribute'].push(newFormGroup);
@@ -454,23 +426,18 @@ export class CreateOrEditPublicacionComponent implements OnInit {
                 let control_input = new FormControl(null);
                 // let  newFormGroup = new FormGroup({})
                 let newFormGroup = this.formPublication.controls[
-                  "attribute"
+                  'attribute'
                 ] as FormGroup;
 
-                // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
                 newFormGroup.addControl(
-                  "attribute_manually_" + attribute_copy[i].id,
+                  'attribute_manually_' + attribute_copy[i].id,
                   control_input
                 );
-                // this.formPublication.controls['attribute'].push(newFormGroup);
               }
             }
           }
           this.attributes = attribute_copy;
-          // console.log(this.formPublication.value);
           if (isEdit) {
-            console.log(this.publication);
-
             this.setDataAttribute();
           }
         }
@@ -483,39 +450,20 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       this.publication.aditional_data?.attributes
     ) {
       let form_attribute: FormGroup = this.formPublication.controls[
-        "attribute"
+        'attribute'
       ] as FormGroup;
       this.publication.aditional_data.attributes.forEach((attribute) => {
-        console.log(attribute);
-        if (form_attribute.contains("attribute_manually_" + attribute.id)) {
+        if (form_attribute.contains('attribute_manually_' + attribute.id)) {
           form_attribute.controls[
-            "attribute_manually_" + attribute.id
+            'attribute_manually_' + attribute.id
           ].setValue(attribute.value_name);
         }
-        if (form_attribute.contains("attribute_suggest_" + attribute.id)) {
-          console.log("si existe");
-
-          form_attribute.controls["attribute_suggest_" + attribute.id].setValue(
+        if (form_attribute.contains('attribute_suggest_' + attribute.id)) {
+          form_attribute.controls['attribute_suggest_' + attribute.id].setValue(
             attribute.value_id
           );
         }
       });
     }
   }
-
-
-  // getFormValidationErrors() {
-  //   Object.keys(this.formPublication.controls).forEach((key) => {
-  //     const controlErrors: ValidationErrors = this.formPublication.get(key)
-  //       .errors;
-  //     if (controlErrors != null) {
-  //       Object.keys(controlErrors).forEach((keyError) => {
-  //         console.log(
-  //           "Key control: " + key + ", keyError: " + keyError + ", err value: ",
-  //           controlErrors[keyError]
-  //         );
-  //       });
-  //     }
-  //   });
-  // }
 }

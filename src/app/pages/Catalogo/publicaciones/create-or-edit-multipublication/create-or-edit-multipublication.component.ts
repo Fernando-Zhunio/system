@@ -24,45 +24,42 @@ export class CreateOrEditMultipublicationComponent implements OnInit {
     public snack_bar: MatSnackBar
   ) {}
 
-  products:Iproduct3[] = []
-  url:string = "products-admin/product-simple";
-  productsSelections:Iproduct3[] = [];
-  goPass:number = 1;
-  formFirst:FormGroup = new FormGroup({
+  products: Iproduct3[] = []
+  url: string = "products-admin/product-simple";
+  productsSelections: Iproduct3[] = [];
+  goPass: number = 1;
+  formFirst: FormGroup = new FormGroup({
 
   })
 
   ngOnInit(): void {}
 
-  loadData(event):void{
+  loadData(event): void{
     this.products = event;
-    console.log(event);
   }
 
-  agregarProducto(id):void{
-    const productFind = this.products.findIndex(item =>item.id == id)
-    console.log(productFind);
+  agregarProducto(id): void{
+    const productFind = this.products.findIndex(item => item.id == id)
 
-    if(productFind ==-1) return
+    if (productFind == -1) return
 
-    const productsRelations = this.productsSelections.find(item =>item.id == id)
-    if(productsRelations) return;
+    const productsRelations = this.productsSelections.find(item => item.id == id)
+    if (productsRelations) return;
 
     this.productsSelections.push(this.products[productFind]);
-    this.products.splice(productFind,1);
+    this.products.splice(productFind, 1);
   }
 
-  desagregarProducto(id):void{
-    const productFind = this.productsSelections.findIndex(item =>item.id == id)
-    console.log(productFind);
+  desagregarProducto(id): void{
+    const productFind = this.productsSelections.findIndex(item => item.id == id)
 
-    if(productFind == -1) return
+    if (productFind == -1) return
 
-    const productsRelations = this.products.find(item =>item.id == id)
-    if(productsRelations) return;
+    const productsRelations = this.products.find(item => item.id == id)
+    if (productsRelations) return;
 
     this.products.push(this.productsSelections[productFind]);
-    this.productsSelections.splice(productFind,1);
+    this.productsSelections.splice(productFind, 1);
   }
 
 

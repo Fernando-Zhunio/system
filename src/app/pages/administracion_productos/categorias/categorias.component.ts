@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoriasService } from '../../../services/categorias.service';
 
 
-declare let Swal:any;
+declare let Swal: any;
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
@@ -10,64 +10,58 @@ declare let Swal:any;
 })
 export class CategoriasComponent implements OnInit {
 
-  constructor(private s_categories:CategoriasService) { }
-  
-  categories:any
-  pageCurrent:number = 1;
-  perPage:number = 10;
-  totalItem:number = 0;
-  permission_edit = ['super-admin','products-admin.categories.edit']
-  permission_destroy = ['super-admin','products-admin.categories.destroy']
-  permission_create = ['super-admin','products-admin.categories.create']
+  constructor(private s_categories: CategoriasService) { }
+  categories: any;
+  pageCurrent: number = 1;
+  perPage: number = 10;
+  totalItem: number = 0;
+  permission_edit = ['super-admin', 'products-admin.categories.edit']
+  permission_destroy = ['super-admin', 'products-admin.categories.destroy']
+  permission_create = ['super-admin', 'products-admin.categories.create']
   ngOnInit(): void {
    this.nextPage();
   }
 
-  nextPage(pageNumber=1):void{
-    console.log(pageNumber);
-    
+  nextPage(pageNumber= 1): void{
     this.s_categories.index(pageNumber).subscribe(
-      (response:any)=>{
-        console.log(response);
+      (response: any) => {
         this.categories = response.categories.data;
         this.totalItem = response.categories.total;
         this.perPage = response.categories.per_page;
-        this.pageCurrent =  response.categories.current_page;   
+        this.pageCurrent =  response.categories.current_page;
       }
-    )
+    );
   }
 
   destroyCategory(id): void {
-    let index = this.categories.findIndex((x) => x.id === id);
+    const index = this.categories.findIndex((x) => x.id === id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: "btn btn-success mr-1",
-        cancelButton: "btn btn-danger",
+        confirmButton: 'btn btn-success mr-1',
+        cancelButton: 'btn btn-danger',
       },
       buttonsStyling: false,
     });
 
     swalWithBootstrapButtons
       .fire({
-        title: "Seguro que quieres eliminar esta Categoria ?",
+        title: 'Seguro que quieres eliminar esta Categoria ?',
         text: this.categories[index].name,
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Si, eliminar!",
-        cancelButtonText: "No, cancelar!",
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'No, cancelar!',
         // reverseButtons: true
       })
       .then((result) => {
-        console.log(id);
-
         if (result.isConfirmed) {
           this.s_categories.destroy(id).subscribe((res) => {
             // let index:number = this.categories.findIndex((x) => x.id === id);
-            if (index != -1) this.categories.splice(index, 1);
+            if (index != -1) { this.categories.splice(index, 1); }
             swalWithBootstrapButtons.fire(
-              "Eliminado!",
-              "Eliminado con exito.",
-              "success"
+              'Eliminado!',
+              'Eliminado con exito.',
+              'success'
             );
           });
         } else if (
@@ -75,9 +69,9 @@ export class CategoriasComponent implements OnInit {
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire(
-            "Cancelled",
-            "Tu accion a sido cancelada :)",
-            "error"
+            'Cancelled',
+            'Tu accion a sido cancelada :)',
+            'error'
           );
         }
       });

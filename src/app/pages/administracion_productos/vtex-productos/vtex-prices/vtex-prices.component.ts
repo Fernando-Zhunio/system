@@ -142,16 +142,11 @@ export class VtexPricesComponent implements OnInit {
   }
 
   keyUpInputThreePrices(): void {
-    console.log(this.enablesInput, this.enablesInput.state);
-    // const index:any = this.enablesInput.state;
-    console.log(this.enablesInput.state());
     this.enablesInput[this.enablesInput.state()].function();
   }
 
   activeTwoInputs(name): void {
-    // console.log(name);
     for (let i in this.enablesInput) {
-      // console.log(i);
       if (i == name) {
         this.enablesInput[i].value = false;
         this.formPrices.get(i).disable();
@@ -195,15 +190,7 @@ export class VtexPricesComponent implements OnInit {
     //   !this.formPrices.controls["costPrice"].value;
     if (this.formPrices.valid /* && isTwoValidate */) {
       this.is.isLoad = true;
-      console.log(this.formPrices.value);
       const prices = this.formPrices.controls['fixedPrices'].value;
-      // for (let index = 0; index < prices.length; index++) {
-      //   let from = prices[index].dateRange.from;
-      //   from = SharedService.convertDateForLaravelOfDataPicker(from);
-      //   let to = prices[index].dateRange.to;
-      //   to = SharedService.convertDateForLaravelOfDataPicker(to);
-      // }
-      console.log(this.formPrices.value);
       this.s_standart
         .updatePut(
           `products-admin/vtex/price-vtex/${this.sku.vtex_api_id}`,
@@ -211,7 +198,6 @@ export class VtexPricesComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            console.log(res);
             if ((res && res.hasOwnProperty('success'), res.success)) {
               SwalService.swalFire({
                 icon: 'success',

@@ -1,29 +1,29 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { NgxSpinnerService } from "ngx-spinner";
-import { StandartSearchService } from "./../../../../services/standart-search.service";
-import { Subscription } from "rxjs";
-import { NestedTreeControl } from "@angular/cdk/tree";
-import { MatTreeNestedDataSource } from "@angular/material/tree";
-import { Ipagination } from "./../../../../interfaces/ipagination";
-import { Iproduct3 } from "../../../../interfaces/iproducts";
-import { HeaderSearchComponent } from "../../../../components/header-search/header-search.component";
-import { SwalService } from "../../../../services/swal.service";
-import { MatStepper } from "@angular/material/stepper";
-import { FormProductComponent } from "./../templates/form-product/form-product.component";
-import { FormSkusComponent } from "./../templates/form-skus/form-skus.component";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { StandartSearchService } from './../../../../services/standart-search.service';
+import { Subscription } from 'rxjs';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { Ipagination } from './../../../../interfaces/ipagination';
+import { Iproduct3 } from '../../../../interfaces/iproducts';
+import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
+import { SwalService } from '../../../../services/swal.service';
+import { MatStepper } from '@angular/material/stepper';
+import { FormProductComponent } from './../templates/form-product/form-product.component';
+import { FormSkusComponent } from './../templates/form-skus/form-skus.component';
 import {
   IvtexProducts,
   IvtexResponseProduct,
   IvtexSkuStore,
-} from "./../../../../interfaces/vtex/iproducts";
-import { ActivatedRoute } from "@angular/router";
+} from './../../../../interfaces/vtex/iproducts';
+import { ActivatedRoute } from '@angular/router';
 import { Ispecification } from './../../../../interfaces/vtex/ispecification';
 
 @Component({
-  selector: "app-create-or-edit",
-  templateUrl: "./create-or-edit.component.html",
-  styleUrls: ["./create-or-edit.component.css"],
+  selector: 'app-create-or-edit',
+  templateUrl: './create-or-edit.component.html',
+  styleUrls: ['./create-or-edit.component.css'],
 })
 export class CreateOrEditComponent implements OnInit {
   constructor(
@@ -31,6 +31,17 @@ export class CreateOrEditComponent implements OnInit {
     private act_router: ActivatedRoute,
     private spinner_ngx: NgxSpinnerService
   ) {}
+  formValidationOne: FormGroup = new FormGroup({
+    agregados: new FormControl(null, [
+      Validators.required,
+      Validators.minLength(1),
+    ]),
+  });
+
+  formValidationTwo: FormGroup = new FormGroup({
+    isValid: new FormControl(null, [Validators.required]),
+  });
+
   form: FormGroup = new FormGroup({
     Name: new FormControl(null, [Validators.required]),
     // DepartmentId: new FormControl({ value: null, disabled: true }),
@@ -56,68 +67,56 @@ export class CreateOrEditComponent implements OnInit {
     Score: new FormControl(null),
   });
   formsSku: number[] = [];
-  status: "create" | "edit" = "create";
+  status: 'create' | 'edit' = 'create';
   isload: boolean;
-  url: string = "products-admin/vtex/product-simple";
+  url: string = 'products-admin/vtex/product-simple';
   paginator: Ipagination<Iproduct3>;
   products: Iproduct3[] = [];
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  @ViewChild("stepper") private myStepper: MatStepper;
+  @ViewChild('stepper') private myStepper: MatStepper;
   @ViewChild(FormProductComponent)
   private formProductComponent: FormProductComponent;
   idProduct: number;
   vtexProduct: IvtexProducts;
   agregados: Iproduct3[] = [];
-  skus:IvtexSkuStore[] = [];
+  skus: IvtexSkuStore[] = [];
 
   ngOnInit(): void {
 
     /* Se ejecuta para comprobar si el estado es para editar */
-    this.act_router.data.subscribe((res) => {
-      if (res.isEdit) {
-        this.status = "edit";
+    this.act_router.data.subscribe((res0) => {
+      if (res0.isEdit) {
+        this.status = 'edit';
         this.spinner_ngx.show();
-        const id = Number.parseInt(this.act_router.snapshot.paramMap.get("id"));
-        this.s_standart.show('products-admin/vtex/product-vtex/'+id+'/edit').subscribe((res:{success:boolean,data:IvtexProducts})=>{
-          console.log(res);
-          if(res &&res.hasOwnProperty('success') && res.success){
+        const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
+        this.s_standart.show('products-admin/vtex/product-vtex/' + id + '/edit').subscribe(( res: {success: boolean, data: IvtexProducts}) => {
+          if (res && res.hasOwnProperty('success') && res.success){
             this.vtexProduct = res.data;
-            SwalService.swalConfirmation("Editando\n"+this.vtexProduct.Name,"Vas a agregar un sku a este producto?","question","Si, quiero agreagar un sku","No, continuar")
-            .then(result=>{
-              if(!result.isConfirmed){
-                this.goForward();
-              }
-            })
+            SwalService.swalConfirmation('Editando\n' + this.vtexProduct.Name, 'Vas a agregar un sku a este producto?', 'question', 'Si, quiero agreagar un sku', 'No, continuar')
+            .then(result => {
+              if (!result.isConfirmed) {this.goForward(); }
+            });
             this.spinner_ngx.hide();
           }
-      },err=>{this.spinner_ngx.hide()});
+      }, err => {this.spinner_ngx.hide(); });
     }});
   }
 
-  formValidationOne: FormGroup = new FormGroup({
-    agregados: new FormControl(null, [
-      Validators.required,
-      Validators.minLength(1),
-    ]),
-  });
 
-  formValidationTwo: FormGroup = new FormGroup({
-    isValid: new FormControl(null, [Validators.required]),
-  });
 
   goBack() {
     this.myStepper.previous();
   }
 
   goForward() {
-    if(this.status == "edit") this.formValidationOne.controls['agregados'].setValue('fernando');
+    if (this.status == 'edit') this.formValidationOne.controls['agregados'].setValue('fernando');
     this.myStepper.next();
   }
 
   getSkusAfterSaveProduct($event): void {
     if ($event) {
       this.skus = $event;
-      this.formValidationTwo.controls["isValid"].setValue("fernando");
+      this.formValidationTwo.controls['isValid'].setValue('fernando');
       this.goForward();
     }
   }
@@ -125,22 +124,21 @@ export class CreateOrEditComponent implements OnInit {
   agregar(id): void {
     const findProduct = this.products.findIndex((product) => product.id == id);
     if (findProduct == -1) {
-      SwalService.swalToast("El producto no se puedo agregar");
+      SwalService.swalToast('El producto no se puedo agregar');
       return;
     }
     this.agregados.push(this.products[findProduct]);
-    this.formValidationOne.controls["agregados"].setValue(this.agregados);
+    this.formValidationOne.controls['agregados'].setValue(this.agregados);
     this.products.splice(findProduct, 1);
   }
 
   desagregar(id): void {
     const findProduct = this.agregados.findIndex((product) => product.id == id);
-    console.log(findProduct);
     if (findProduct == -1) {
-      SwalService.swalToast("El producto no se puedo remover");
+      SwalService.swalToast('El producto no se puedo remover');
       return;
     }
-    this.formValidationOne.controls["agregados"].setValue(this.agregados);
+    this.formValidationOne.controls['agregados'].setValue(this.agregados);
     this.products.push(this.agregados[findProduct]);
     this.agregados.splice(findProduct, 1);
   }
@@ -156,9 +154,9 @@ export class CreateOrEditComponent implements OnInit {
 
   onChangeStepper(event): void {
     if (event.previouslySelectedIndex == 0) {
-      if (this.agregados.length == 0 && this.status !="edit") {
+      if (this.agregados.length == 0 && this.status != 'edit') {
         SwalService.swalToast(
-          "Error donde quieres ingresar sin un previo paso"
+          'Error donde quieres ingresar sin un previo paso'
         );
         return;
       }
@@ -167,10 +165,6 @@ export class CreateOrEditComponent implements OnInit {
     if (event.selectedIndex == 1) {
       this.formProductComponent.onChangeStepper(event);
     }
-    // else{
-    //   console.log(event);
-    //   this.formSkusComponent.onChangeStepper(event);
-    // }
   }
 
   loadData($event): void {
@@ -179,20 +173,15 @@ export class CreateOrEditComponent implements OnInit {
       this.agregados.length > 0
         ? this.paginator.data.filter((item) => this.agregados.includes(item))
         : this.paginator.data;
-    // if (this.agregados.length > 0) {
-    //   this.productVtex;
-    // }
-    console.log(this.paginator);
   }
 
   changePaginator(event): void {
     this.headerComponent.searchBar(event);
-    console.log(event);
   }
 
-  vtexSpecificationsSkus:Ispecification[] = []
-  vtexSpecificationsProduct:Ispecification[] = []
-  getSpecification($event):void{
+  vtexSpecificationsSkus: Ispecification[] = []
+  vtexSpecificationsProduct: Ispecification[] = []
+  getSpecification($event): void{
     this.vtexSpecificationsProduct = $event.specification_products;
     this.vtexSpecificationsSkus = $event.specification_skus;
   }

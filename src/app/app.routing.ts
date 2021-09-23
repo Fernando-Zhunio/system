@@ -126,7 +126,6 @@ export const routes: Routes = [
         path: 'importaciones',
         loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
       },
-
       {
         path: 'reports',
         loadChildren: () => import('./pages/reportes/reportes.module').then(m => m.ReportesModule)

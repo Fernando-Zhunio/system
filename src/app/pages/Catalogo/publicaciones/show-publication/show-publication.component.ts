@@ -39,8 +39,6 @@ export class ShowPublicationComponent implements OnInit {
   }
 
   destroyPublication(event):void{
-    console.log(event);
-
   }
 
 }

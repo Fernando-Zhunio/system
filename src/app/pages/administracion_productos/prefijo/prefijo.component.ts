@@ -14,7 +14,7 @@ export class PrefijoComponent implements OnInit {
   permission_create = ['super-admin','products-admin.prefixes.create'];
   permission_edit = ['super-admin','products-admin.prefixes.edit'];
   permission_destroy = ['super-admin','products-admin.prefixes.destroy'];
-  
+
   prefixes = [];
   pageCurrent: number = 1;
   perPage: number = 10;
@@ -24,10 +24,7 @@ export class PrefijoComponent implements OnInit {
   }
 
   nextPage(pageNumber = 1): void {
-    console.log(pageNumber);
-
     this.s_prefijos.index(pageNumber).subscribe((response: any) => {
-      console.log(response);
       this.prefixes = response.prefixes.data;
       this.totalItem = response.prefixes.total;
       this.perPage = response.prefixes.per_page;
@@ -36,37 +33,35 @@ export class PrefijoComponent implements OnInit {
   }
 
   destroyPrefix(id): void {
-    let index = this.prefixes.findIndex((x) => x.id === id);
+    const index = this.prefixes.findIndex((x) => x.id === id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: "btn btn-success mr-1",
-        cancelButton: "btn btn-danger",
+        confirmButton: 'btn btn-success mr-1',
+        cancelButton: 'btn btn-danger',
       },
       buttonsStyling: false,
     });
 
     swalWithBootstrapButtons
       .fire({
-        title: "Seguro que quieres eliminar esta Marca ?",
+        title: 'Seguro que quieres eliminar esta Marca ?',
         text: this.prefixes[index].name,
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Si, eliminar!",
-        cancelButtonText: "No, cancelar!",
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'No, cancelar!',
         // reverseButtons: true
       })
       .then((result) => {
-        console.log(id);
-
         if (result.isConfirmed) {
           this.s_prefijos.destroy(id).subscribe((res) => {
             // let index:number = this.prefixes.findIndex((x) => x.id === id);
-            if (index != -1) this.prefixes.splice(index, 1);
+            if (index != -1) {this.prefixes.splice(index, 1); }
             this.totalItem--;
             swalWithBootstrapButtons.fire(
-              "Eliminado!",
-              "Eliminado con exito.",
-              "success"
+              'Eliminado!',
+              'Eliminado con exito.',
+              'success'
             );
           });
         } else if (
@@ -74,9 +69,9 @@ export class PrefijoComponent implements OnInit {
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire(
-            "Cancelled",
-            "Tu accion a sido cancelada :)",
-            "error"
+            'Cancelled',
+            'Tu accion a sido cancelada :)',
+            'error'
           );
         }
       });

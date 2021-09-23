@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { IProducts } from "../../../interfaces/iproducts";
-import { ProductsService } from "../../../services/products.service";
-import { StandartSearchService } from "../../../services/standart-search.service";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { IProducts } from '../../../interfaces/iproducts';
+import { ProductsService } from '../../../services/products.service';
+import { StandartSearchService } from '../../../services/standart-search.service';
 
 declare let Swal: any;
 @Component({
-  selector: "app-productos",
-  templateUrl: "./productos.component.html",
-  styleUrls: ["./productos.component.css"],
+  selector: 'app-productos',
+  templateUrl: './productos.component.html',
+  styleUrls: ['./productos.component.css'],
 })
 export class ProductosComponent implements OnInit {
   constructor(
@@ -19,11 +19,11 @@ export class ProductosComponent implements OnInit {
     private activeRoute: ActivatedRoute
   ) {}
 
-  permission_create: any[] = ["super-admin", "products-admin.products.create"];
-  permission_edit: any[] = ["super-admin", "products-admin.products.edit"];
+  permission_create: any[] = ['super-admin', 'products-admin.products.create'];
+  permission_edit: any[] = ['super-admin', 'products-admin.products.edit'];
   permission_destroy: any[] = [
-    "super-admin",
-    "products-admin.products.destroy",
+    'super-admin',
+    'products-admin.products.destroy',
   ];
   products: IProducts;
   pageCurrent: number = 1;
@@ -31,38 +31,34 @@ export class ProductosComponent implements OnInit {
   totalItem: number = 0;
 
   formProducts: FormGroup = new FormGroup({
-    id: new FormControl('',[Validators.required]),
-    code: new FormControl('',[Validators.required]),
-    code_alt: new FormControl('',[Validators.required]),
-    name: new FormControl('',[Validators.required]),
-    description: new FormControl('',[Validators.required]),
-    prefix: new FormControl('',[Validators.required]),
-    category: new FormControl('',[Validators.required]),
-    sequence: new FormControl('',[Validators.required]),
-    brand: new FormControl('',[Validators.required]),
+    id: new FormControl('', [Validators.required]),
+    code: new FormControl('', [Validators.required]),
+    code_alt: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    prefix: new FormControl('', [Validators.required]),
+    category: new FormControl('', [Validators.required]),
+    sequence: new FormControl('', [Validators.required]),
+    brand: new FormControl('', [Validators.required]),
   });
   ngOnInit(): void {
     const pageInitial =
-      Number.parseInt(this.activeRoute.snapshot.queryParamMap.get("page")) || 1;
-      console.log(this.activeRoute.snapshot.queryParamMap['params']);
+      Number.parseInt(this.activeRoute.snapshot.queryParamMap.get('page')) || 1;
       const params = this.getQueryParams();
-      params?this.nextPage(pageInitial,params):this.nextPage(pageInitial);
+      params ? this.nextPage(pageInitial, params) : this.nextPage(pageInitial);
   }
 
-  getQueryParams(){
-    let params={};
-    params =JSON.parse(JSON.stringify(this.activeRoute.snapshot.queryParamMap['params']));
-    if(params.hasOwnProperty('page'))
-    {
+  getQueryParams() {
+    let params = {};
+    params = JSON.parse(JSON.stringify(this.activeRoute.snapshot.queryParamMap['params']));
+    if (params.hasOwnProperty('page')) {
       delete params['page'];
     }
-    console.log(params);
-    if(params != '{}' ){
-      console.log('no estoy vacio');
+    if (params != '{}' ) {
       try {
         const keysParams = Object.keys(params)
         for (let i = 0; i < keysParams.length; i++) {
-          this.formProducts.controls[keysParams[i]].setValue(params[keysParams[i]])
+          this.formProducts.controls[keysParams[i]].setValue(params[keysParams[i]]);
         }
         return params;
       } catch (error) {
@@ -76,129 +72,79 @@ export class ProductosComponent implements OnInit {
 
 
 
-  nextPage(pageNumber = 1,params=null): void {
-    console.log(pageNumber);
-    // this.s_products.index(pageNumber).subscribe((res: any) => {
-    const dataValid = params?params: this.findValidControls();
-    this.s_standart.search2('products-admin/products',{...dataValid,page:pageNumber}).subscribe((res: any) => {
-      console.log(res);
-      // const isVlid = this.formProducts.valid
-      if (res && res.hasOwnProperty("success") && res.success) {
+  nextPage(pageNumber = 1, params= null): void {
+    const dataValid = params ? params : this.findValidControls();
+    this.s_standart.search2('products-admin/products', {...dataValid, page: pageNumber}).subscribe((res: any) => {
+      if (res && res.hasOwnProperty('success') && res.success) {
         this.products = res.data;
         this.totalItem = this.products.total;
         this.perPage = this.products.per_page;
         this.pageCurrent = this.products.current_page;
         this.gotoTop();
-        const queryParams: Params = { page: this.pageCurrent,...dataValid };
-        console.log(queryParams);
-
-
+        const queryParams: Params = { page: this.pageCurrent, ...dataValid };
         this.router.navigate([], {
           relativeTo: this.activeRoute,
           queryParams: queryParams,
           replaceUrl: true,
-          // queryParamsHandling: "preserve", // remove to replace all query params by provided
         });
       }
-      // this.products = response[0]
     });
   }
 
   gotoTop() {
-    const main = document.getElementsByClassName("app-body");
+    const main = document.getElementsByClassName('app-body');
     main[0].scrollTop = 0;
   }
 
   public findValidControls() {
     const valid = [];
-    let controls  = this.formProducts.controls;
+    const controls  = this.formProducts.controls;
     for (const name in controls) {
         if (controls[name].valid) {
             // valid.push(name);
-            valid[name] =controls[name].value;
+            valid[name] = controls[name].value;
         }
     }
     return valid;
 }
 
   destroyProduct(id): void {
-    // let index = this.products.data.findIndex(x=>x.id===id)
-    // const swalWithBootstrapButtons = Swal.mixin({
-    //   customClass: {
-    //     confirmButton: 'btn btn-success mr-1',
-    //     cancelButton: 'btn btn-danger'
-    //   },
-    //   buttonsStyling: false
-    // })
-
-    // swalWithBootstrapButtons.fire({
-    //   title: 'Seguro que quieres eliminar este Producto?',
-    //   text: this.products.data[index].name,
-    //   icon: 'warning',
-    //   showCancelButton: true,
-
-    //   confirmButtonText: 'Si, eliminar!',
-    //   cancelButtonText: 'No, cancelar!',
-
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     swalWithBootstrapButtons.fire(
-    //       'Eliminado!',
-    //       'Eliminado con exito.',
-    //       'success'
-    //     )
-    //   } else if (
-    //     /* Read more about handling dismissals below */
-    //     result.dismiss === Swal.DismissReason.cancel
-    //   ) {
-    //     swalWithBootstrapButtons.fire(
-    //       'Cancelled',
-    //       'Tu accion a sido cancelada :)',
-    //       'error'
-    //     )
-    //   }
-    // })
-
-    let index = this.products.data.findIndex((x) => x.id === id);
+    const index = this.products.data.findIndex((x) => x.id === id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: "btn btn-success mr-1",
-        cancelButton: "btn btn-danger",
+        confirmButton: 'btn btn-success mr-1',
+        cancelButton: 'btn btn-danger',
       },
       buttonsStyling: false,
     });
 
     swalWithBootstrapButtons
       .fire({
-        title: "Seguro que quieres eliminar esta Categoria ?",
+        title: 'Seguro que quieres eliminar esta Categoria ?',
         text: this.products.data[index].name,
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Si, eliminar!",
-        cancelButtonText: "No, cancelar!",
-        // reverseButtons: true
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'No, cancelar!',
       })
       .then((result) => {
-        console.log(id);
 
         if (result.isConfirmed) {
           this.s_products.destroy(id).subscribe((res) => {
-            // let index:number = this.categories.findIndex((x) => x.id === id);
-            if (index != -1) this.products.data.splice(index, 1);
+            if (index != -1) {this.products.data.splice(index, 1); }
             swalWithBootstrapButtons.fire(
-              "Eliminado!",
-              "Eliminado con exito.",
-              "success"
+              'Eliminado!',
+              'Eliminado con exito.',
+              'success'
             );
           });
         } else if (
-          /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire(
-            "Cancelled",
-            "Tu accion a sido cancelada :)",
-            "error"
+            'Cancelled',
+            'Tu accion a sido cancelada :)',
+            'error'
           );
         }
       });

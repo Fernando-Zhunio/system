@@ -12,38 +12,36 @@ import { SwalService } from '../../../../services/swal.service';
 })
 export class ProductCreateOrEditComponent implements OnInit {
 
-  constructor(private location: Location,private s_products: ProductsService,private act_router:ActivatedRoute) { }
+  constructor(private location: Location, private s_products: ProductsService, private act_router: ActivatedRoute) { }
 
-  formCreateOrEdit:FormGroup = new FormGroup({
-    name: new FormControl(null,[Validators.required,Validators.max(200)]),
-    code_old: new FormControl(null,[Validators.max(200)]),
-    code_alt: new FormControl(null,[Validators.max(200)]),
-    description: new FormControl(null,[Validators.max(200)]),
-    prefix: new FormControl(null,[Validators.required,Validators.max(200)]),
-    category: new FormControl(null,[Validators.required,Validators.max(200)]),
-    brand: new FormControl(null,[Validators.required,Validators.max(200)]),
+  formCreateOrEdit: FormGroup = new FormGroup({
+    name: new FormControl(null, [Validators.required, Validators.max(200)]),
+    code_old: new FormControl(null, [Validators.max(200)]),
+    code_alt: new FormControl(null, [Validators.max(200)]),
+    description: new FormControl(null, [Validators.max(200)]),
+    prefix: new FormControl(null, [Validators.required, Validators.max(200)]),
+    category: new FormControl(null, [Validators.required, Validators.max(200)]),
+    brand: new FormControl(null, [Validators.required, Validators.max(200)]),
     sequence: new FormControl(null),
-    special_code: new FormControl(null,[Validators.max(200)]),
-    code: new FormControl({value:null,disabled:true}),
-    
+    special_code: new FormControl(null, [Validators.max(200)]),
+    code: new FormControl({value: null, disabled: true}),
+
   });
   isSend = false;
 
-  title:string="";
-  categories=[];
-  brands=[];
-  prefixes=[];
-  product_name = ""
-  id:number|string = null;
+  title: string = '';
+  categories = [];
+  brands = [];
+  prefixes = [];
+  product_name = '';
+  id: number|string = null;
   ngOnInit(): void {
-     this.act_router.data.subscribe(res=>{
-      console.log(res);
-      if(res.isEdit){
-        this.title ="Editando Producto";
+     this.act_router.data.subscribe(res => {
+      if (res.isEdit) {
+        this.title = 'Editando Producto';
          this.id = this.act_router.snapshot.paramMap.get('id');
-        this.s_products.edit(this.id).subscribe(response=>{
-          this.updateVariants(response.categories,response.brands,response.prefixes);
-          console.log(response);
+        this.s_products.edit(this.id).subscribe(response => {
+          this.updateVariants(response.categories, response.brands, response.prefixes);
           this.product_name = response.product.name;
           this.formCreateOrEdit.controls['name'].setValue(response.product.name);
           this.formCreateOrEdit.controls['code_old'].setValue(response.product.old_code);
@@ -55,65 +53,56 @@ export class ProductCreateOrEditComponent implements OnInit {
           this.formCreateOrEdit.controls['code'].setValue(response.product.code);
           this.formCreateOrEdit.controls['sequence'].setValue(response.product.sequence.sequence_number);
           // sequence_number
-        })
-      }
-      else{
-        this.title ="Creando Producto";
+        });
+      } else {
+        this.title = 'Creando Producto';
         this.id = null;
         this.s_products.create().subscribe(
-          response=>{
-            console.log(response);
-           this.updateVariants(response.categories,response.brands,response.prefixes);          
+          response => {
+           this.updateVariants(response.categories, response.brands, response.prefixes);
           }
-        )
+        );
       }
-    })
+    });
   }
 
-  updateVariants(categories,brands,prefixes){
+  updateVariants(categories, brands, prefixes) {
     this.categories = categories;
     this.brands = brands;
     this.prefixes = prefixes;
   }
 
-  sendData():void{
-      if(this.formCreateOrEdit.valid){
+  sendData(): void {
+      if (this.formCreateOrEdit.valid) {
         this.isSend = ! this.isSend;
-        if(!this.id){
-          console.log(this.formCreateOrEdit.value);
+        if (!this.id) {
           this.s_products.store(this.formCreateOrEdit.value).subscribe(
-            res=>{
-              console.log(res);
+            res => {
               if (res.hasOwnProperty('success') && res.success) {
-                SwalService.swalToast('Producto creado con exito','success')
-              }
-              else{
-                SwalService.swalToast(res.errors,'warning')
+                SwalService.swalToast('Producto creado con exito', 'success')
+              } else {
+                SwalService.swalToast(res.errors, 'warning')
               }
               this.isSend = ! this.isSend;
             },
-            error=>{
-              console.log({error}); 
+            error => {
+              console.log({error});
           this.isSend = ! this.isSend;
 
             }
           )
-        }
-        else{
-          console.log(this.formCreateOrEdit.value);
-          this.s_products.update(this.id,this.formCreateOrEdit.value).subscribe(
-            res=>{
-              console.log(res);
+        } else {
+          this.s_products.update(this.id, this.formCreateOrEdit.value).subscribe(
+            res => {
               if (res.hasOwnProperty('success') && res.success) {
-                SwalService.swalToast(res.message,'success')
-              }
-              else{
-                SwalService.swalToast(res.errors,'warning')
+                SwalService.swalToast(res.message, 'success')
+              } else {
+                SwalService.swalToast(res.errors, 'warning')
               }
               this.isSend = ! this.isSend;
             },
-            error=>{
-              console.log({error}); 
+            error => {
+              console.log({error});
           this.isSend = ! this.isSend;
 
             }
@@ -123,7 +112,7 @@ export class ProductCreateOrEditComponent implements OnInit {
       }
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
 

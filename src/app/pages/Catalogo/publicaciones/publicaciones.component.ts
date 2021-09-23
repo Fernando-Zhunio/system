@@ -1,30 +1,30 @@
-import { animate, style, transition, trigger } from "@angular/animations";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription } from "rxjs";
-import { HeaderSearchComponent } from "../../../components/header-search/header-search.component";
-import { InfoViewComponent } from "../../../components/modals/info-view/info-view.component";
-import { Ipagination } from "../../../interfaces/ipagination";
-import { IpermissionStandart } from "../../../interfaces/ipermission-standart";
-import { Ipublication } from "../../../interfaces/ipublication";
-import { CatalogoService } from "../../../services/catalogo.service";
-import { MercadoLibreService } from "../../../services/mercado-libre.service";
-import { StandartSearchService } from "../../../services/standart-search.service";
-import { SwalService } from "../../../services/swal.service";
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
+import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
+import { Ipagination } from '../../../interfaces/ipagination';
+import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
+import { Ipublication } from '../../../interfaces/ipublication';
+import { CatalogoService } from '../../../services/catalogo.service';
+import { MercadoLibreService } from '../../../services/mercado-libre.service';
+import { StandartSearchService } from '../../../services/standart-search.service';
+import { SwalService } from '../../../services/swal.service';
 // import SwiperCore from 'swiper/core';
 
 @Component({
-  selector: "app-publicaciones",
-  templateUrl: "./publicaciones.component.html",
-  styleUrls: ["./publicaciones.component.css"],
+  selector: 'app-publicaciones',
+  templateUrl: './publicaciones.component.html',
+  styleUrls: ['./publicaciones.component.css'],
   animations: [
-    trigger("fade", [
-      transition(":leave", [
-        style({ transform: "scale(0)", opacity: "0" }),
+    trigger('fade', [
+      transition(':leave', [
+        style({ transform: 'scale(0)', opacity: '0' }),
         animate(400),
       ]),
     ]),
@@ -37,7 +37,7 @@ export class PublicacionesComponent implements OnInit {
   // permission_edit =['super-admin','catalogs.publications.edit'];
   // permission_destroy =['super-admin','catalogs.publications.destroy'];
   isLoader: boolean = false;
-  selected_state: string = "all";
+  selected_state: string = 'all';
   price_min: number = null;
   price_max: number = null;
   hasData: boolean = true;
@@ -87,17 +87,16 @@ export class PublicacionesComponent implements OnInit {
   //#endregion
 
   deletePublication(idPublication, index): void {
-    const snack = this.snack_bar.open("Eliminando espere ...");
+    const snack = this.snack_bar.open('Eliminando espere ...');
     this.isLoader = true;
     this.s_catalogo.destroyPublications(idPublication).subscribe(
       (res) => {
         snack.dismiss();
         this.isLoader = false;
-        console.log(res);
         if (res.success) {
-          this.snack_bar.open("Eliminado con exito", "OK", { duration: 2000 });
+          this.snack_bar.open('Eliminado con exito', 'OK', { duration: 2000 });
           this.products.splice(index, 1);
-          SwalService.swalToast("Eliminado con exito", "success");
+          SwalService.swalToast('Eliminado con exito', 'success');
         }
       },
       (err) => {
@@ -112,16 +111,14 @@ export class PublicacionesComponent implements OnInit {
     this.dialog.open(InfoViewComponent, {
       data: {
         name: this.products[index].name,
-        title: "Descripcion",
+        title: 'Descripcion',
         info: this.products[index].description,
       },
     });
   }
 
   executeMenu(event): void {
-    console.log(event);
     this.s_mercado_libre.updateStatus(event.id, event.type).subscribe((res) => {
-      console.log(res);
       if (res.success) {
         const indice = this.products.findIndex((x) => x.id == event.id);
         this.products[indice] = res.ml;
@@ -132,12 +129,10 @@ export class PublicacionesComponent implements OnInit {
   loadData($event): void {
     this.paginator = $event.data;
     this.products = this.paginator.data;
-    console.log(this.paginator);
   }
 
   changePaginator(event): void {
     this.headerComponent.searchBar(event);
-    console.log(event);
   }
 
   destroyPublication(event): void {

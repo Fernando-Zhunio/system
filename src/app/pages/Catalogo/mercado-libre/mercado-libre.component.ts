@@ -57,103 +57,10 @@ export class MercadoLibreComponent implements OnInit {
 
   mlInfos:ImlInfo[] = [];
 
-  ngOnInit(): void {
-    // this.gotoTop();
-    // this.isload = true;
-    // this.s_mercado_libre.index(1, 10).subscribe((res) => {
-    //   console.log(res);
-    //   this.isload = false;
-    //   // this.products = res.products.data;
-    //   this.mlInfos = res.data.data;
-    //   this.length = res.data.total;
-    //   this.pageSize = res.data.per_page;
-    //   this.pageCurrent = res.data.current_page;
-    //   if (this.mlInfos.length < 1) {
-    //     this.hasData = false;
-    //   } else this.hasData = true;
-    //   // this.pageEvent.length = 10;
-    //   // this.pageEvent.pageIndex = 0;
-    //   // this.pageEvent.pageSize = 10;
-    // },err => {
-    //   this.isload = false;
-    // })
+  ngOnInit(): void {}
 
-  }
-
-  // searchBar($event = { pageSize: 15, pageIndex: 0 }) {
-  //   this.pageSize = $event.pageSize;
-  //   console.log($event);
-  //   this.isload =true;
-  //   this.gotoTop();
-  //   if (this.suscrition_api) {
-  //     this.suscrition_api.unsubscribe();
-  //     console.log("cancelado llamado");
-  //   }
-  //   this.suscrition_api = this.s_standart
-  //     .search2("catalogs/ml-products", {
-  //       page: $event.pageIndex + 1,
-  //       pageSize: this.pageSize,
-  //       ...this.form_filter.value,
-  //     })
-  //     .subscribe((response: any) => {
-  //       console.log(response);
-  //       this.isload = false;
-  //       this.mlInfos = response.data.data;
-  //       this.length = response.data.total;
-  //       this.pageSize = response.data.per_page;
-  //       this.pageCurrent = response.data.current_page;
-  //       if (this.mlInfos.length < 1) {
-  //         this.hasData = false;
-  //       } else this.hasData = true;
-  //     },err=>{
-  //       this.isload = false;
-  //     });
-  // }
-
-  // changedPaginator($event) {
-  //   this.pageSize = $event.pageSize;
-  //   this.isload = true;
-  //   console.log($event);
-  //   if ($event.pageIndex != this.aux_page_next) {
-  //     // window.scrollTo(0,0);
-  //     this.gotoTop();
-  //     console.log("scroll");
-  //     // scrollTo(0,0);
-  //     this.aux_page_next = $event.pageIndex;
-  //   }
-  //   this.s_standart
-  //     .nextPageSearch(
-  //       $event.pageIndex + 1,
-  //       this.productSearch,
-  //       $event.pageSize,
-  //       this.selected_state,
-  //       this.price_min,
-  //       this.price_max,
-  //       'catalogs/ml-products'
-  //     )
-  //     .subscribe((response: any) => {
-  //       console.log(response);
-  //       this.isload = false;
-  //       this.mlInfos = response.products.data;
-  //       this.length = response.products.total;
-  //       this.pageSize = response.products.per_page;
-  //       this.pageCurrent = response.products.current_page;
-  //       if (this.mlInfos.length < 1) {
-  //         this.hasData = false;
-  //       } else this.hasData = true;
-
-  //     },err=>{
-  //       this.isload = false;
-  //     });
-  // }
-  // gotoTop() {
-  //   const main = document.getElementsByClassName("app-body");
-  //   main[0].scrollTop = 0;
-  // }
   executeMenu(event): void {
-    console.log(event);
     this.s_mercado_libre.updateStatus(event.id, event.type).subscribe((res) => {
-      console.log(res);
       if (res.success) {
         const indice = this.mlInfos.findIndex((x) => x.id == event.id);
         this.mlInfos[indice] = res.ml;
@@ -164,12 +71,10 @@ export class MercadoLibreComponent implements OnInit {
   loadData($event):void{
     this.paginator = $event.data;
     this.mlInfos = this.paginator.data;
-    console.log(this.paginator);
   }
 
   changePaginator(event):void{
     this.headerComponent.searchBar(event);
-    console.log(event);
   }
 
   applyFilter(){

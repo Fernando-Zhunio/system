@@ -102,7 +102,6 @@ export class FormSkusComponent implements OnInit {
 
       const collect_sku = collect(this.sku);
       const diff = collect_sku.intersectByKeys(this.formSku.getRawValue());
-      console.log(this.sku, this.formSku.getRawValue(), diff.all());
       this.formSku.setValue(diff.all());
       this.imagesSku = Array.isArray(this.sku.Images)? this.sku.Images: [];
     }
@@ -171,7 +170,6 @@ export class FormSkusComponent implements OnInit {
 
   convertDataSpecificationForServer() {
     let dataSpecification = Object.assign({}, this.formSpecification.value);
-    console.log(dataSpecification);
     // let specifications = [];
     const sendSpecifications:IformatSpecification[] = [];
     for (const specification in dataSpecification) {
@@ -206,7 +204,6 @@ export class FormSkusComponent implements OnInit {
           {specifications, ...this.formSku.getRawValue()}
         )
         .subscribe((res) => {
-          console.log(res);
           this.emitSave.emit({data:res});
           if (res && res.hasOwnProperty("success") && res.success) {
             this.status = "update";
@@ -237,7 +234,6 @@ export class FormSkusComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            console.log(res);
             if (res && res.hasOwnProperty("success") && res.success) {
               /**
                * "Id": number,
@@ -285,7 +281,6 @@ export class FormSkusComponent implements OnInit {
           `products-admin/vtex/sku-vtex-image/sku/${this.sku.Id}/image/${id}`
         )
         .subscribe((res) => {
-          console.log(res);
           if (res && res.hasOwnProperty("success") && res.success) {
             const imgIndex = this.imagesSku.findIndex(
               (item) => item.FileId === id

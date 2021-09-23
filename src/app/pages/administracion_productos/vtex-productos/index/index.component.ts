@@ -18,22 +18,22 @@ import { ModalPricesComponent } from './../templates/modal-prices/modal-prices.c
 })
 export class IndexComponent implements OnInit {
 
-  constructor(private modal:MatDialog,private s_serviceStandart: StandartSearchService) { }
+  constructor(private modal: MatDialog, private s_serviceStandart: StandartSearchService) { }
 
-  permission_page = {product_edit:['products-admin.vtex.product-vtex.edit'],sku_edit:['products-admin.vtex.products.skus.edit']}
-  min:number;max:number;
-  warehouse_ids:any[];
-  prefix_id:string;
-  isload:boolean;
-  url:string = "products-admin/vtex/product-vtex";
+  permission_page = {product_edit: ['products-admin.vtex.product-vtex.edit'], sku_edit: ['products-admin.vtex.products.skus.edit']}
+  min: number; max: number;
+  warehouse_ids: any[];
+  prefix_id: string;
+  isload: boolean;
+  url: string = 'products-admin/vtex/product-vtex';
   paginator: Ipagination<IproductVtex>;
-  products:IproductVtex[] = [];
-  img_not:string = environment.img_not_default;
+  products: IproductVtex[] = [];
+  img_not: string = environment.img_not_default;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
   public config: SwiperOptions = {
     // a11y: { enabled: true },
-    direction: "horizontal",
+    direction: 'horizontal',
     spaceBetween: 10,
     // slidesPerView: 4,
     breakpoints: {
@@ -73,30 +73,27 @@ export class IndexComponent implements OnInit {
   loadData($event): void {
     this.paginator = $event.data;
     this.products = this.paginator.data;
-    console.log(this.paginator);
   }
 
-  changePaginator(event):void{
+  changePaginator(event): void {
     this.headerComponent.searchBar(event);
-    console.log(event);
   }
 
-  showSku(id):void{
-    this.modal.open(ModalSkuComponent,{
-      data:{id},
-      disableClose:true,
-      hasBackdrop:true
+  showSku(id): void {
+    this.modal.open(ModalSkuComponent, {
+      data: {id},
+      disableClose: true,
+      hasBackdrop: true
     })
   }
 
-  deleteVtexProduct(vtex_api_id):void{
-    SwalService.swalConfirmation("Eliminacion de producto","Desea eliminar este producto?","center","Si, eliminar","No, cancelar").then(result=>{
-      if(result.isConfirmed){
-        this.s_serviceStandart.destory(`products-admin/vtex/product-vtex/${vtex_api_id}`).subscribe(res=>{
-          console.log(res);
-          if(res && res.hasOwnProperty('success') && res.success){
-           const index = this.products.findIndex(i=>i.vtex_api_id == vtex_api_id);
-            this.products.splice(index ,1 );
+  deleteVtexProduct(vtex_api_id): void {
+    SwalService.swalConfirmation('Eliminacion de producto', 'Desea eliminar este producto?', 'center', 'Si, eliminar', 'No, cancelar').then(result => {
+      if (result.isConfirmed) {
+        this.s_serviceStandart.destory(`products-admin/vtex/product-vtex/${vtex_api_id}`).subscribe(res => {
+          if (res && res.hasOwnProperty('success') && res.success) {
+           const index = this.products.findIndex(i => i.vtex_api_id == vtex_api_id);
+            this.products.splice(index , 1 );
           }
 
         })
@@ -104,18 +101,14 @@ export class IndexComponent implements OnInit {
     })
   }
 
-  openModalPrices(vtex_api_id,index):void{
-    console.log(vtex_api_id,index,this.products);
-
-    const sku = this.products[index].skus.find(item=> item.vtex_api_id == vtex_api_id);
-    console.log(sku);
-
-    this.modal.open(ModalPricesComponent,{
-      data:{sku},
-      disableClose:true,
-      hasBackdrop:true,
-      panelClass:'position-relative'
-    })
+  openModalPrices(vtex_api_id, index): void {
+    const sku = this.products[index].skus.find(item => item.vtex_api_id == vtex_api_id);
+    this.modal.open(ModalPricesComponent, {
+      data: {sku},
+      disableClose: true,
+      hasBackdrop: true,
+      panelClass: 'position-relative'
+    });
   }
 
 }

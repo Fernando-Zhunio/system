@@ -48,7 +48,6 @@ export class DataSidebar {
       },
     ],
   };
-
   public static ItemsForCategories = {
     product_admin: [
       {
