@@ -9,29 +9,39 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 @Component({
   selector: 'app-show-publication',
   templateUrl: './show-publication.component.html',
-  styleUrls: ['./show-publication.component.css']
+  styleUrls: ['./show-publication.component.css'],
 })
 export class ShowPublicationComponent implements OnInit, OnDestroy {
-
-  constructor(private active_router: ActivatedRoute, private s_standart: StandartSearchService, private s_shared: SharedService) { }
+  constructor(
+    private active_router: ActivatedRoute,
+    private s_standart: StandartSearchService,
+    private s_shared: SharedService
+  ) {}
 
   publication: Ipublication = null;
   isLoadPublication: boolean = false;
   permission_page: IpermissionStandart;
 
   ngOnInit(): void {
-    this.active_router.data.subscribe(res => {
+    this.active_router.data.subscribe((res) => {
       this.permission_page = res.permissions.all;
     });
-    const id = Number.parseInt(this.active_router.snapshot.paramMap.get("id"));
+    const id = Number.parseInt(this.active_router.snapshot.paramMap.get('id'));
     this.changePublication(id);
-    this.s_shared.echo.private('catalogs.publications').listen('.publication', this.listener.bind(this));
+    this.s_shared.echo
+      .private('catalogs.publications')
+      .listen('.publication', this.listener.bind(this));
   }
 
   listener(e): void {
     console.log(e);
+
     if (e.publication.id === this.publication.id) {
-      this.publication = e.publication;
+      if (e.event == 'updated') {
+        this.publication = e.publication;
+      } else if (e.event == 'deleted') {
+        this.publication = null;
+      }
     }
   }
 
@@ -41,17 +51,19 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
 
   changePublication(id): void {
     this.isLoadPublication = true;
-    this.s_standart.show('catalogs/publications/' + id).subscribe((res: Iresponse) => {
-      this.publication = res.data;
-      this.isLoadPublication = false;
-    }, err => {
-      console.log(err);
-      this.isLoadPublication = false;
-    });
+    this.s_standart.show('catalogs/publications/' + id).subscribe(
+      (res: Iresponse) => {
+        this.publication = res.data;
+        this.isLoadPublication = false;
+      },
+      (err) => {
+        console.log(err);
+        this.isLoadPublication = false;
+      }
+    );
   }
 
   destroyPublication(event): void {
     this.publication = null;
   }
-
 }
