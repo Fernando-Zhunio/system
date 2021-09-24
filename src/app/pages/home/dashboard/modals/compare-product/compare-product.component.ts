@@ -96,8 +96,7 @@ export class CompareProductComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
+
     let change_current_compare = changes.currentCompare;
     if (change_current_compare.currentValue == this._Ecompares.locales) {
       this.url = 'admin/locations';
@@ -141,16 +140,17 @@ export class CompareProductComponent implements OnInit {
   }
 
   selectItemCompare(id): void {
-    if (this.itemsCompare.length >= 4) return;
+    if (this.itemsCompare.length >= 4) { return; }
     const exist = this.itemsCompare.findIndex((x) => x.id == id);
-    if (exist != -1) return;
+    if (exist != -1) { return; }
     const productIndex = this.items.findIndex((x) => x.id == id);
-    if (productIndex != -1)
+    if (productIndex != -1) {
       this.itemsCompare.push({
         id: this.items[productIndex].id,
         name: this.items[productIndex].name,
         image: this.captureImagenProduct(productIndex),
       });
+    }
   }
 
   removeItemCompare(id): void {
@@ -184,7 +184,7 @@ export class CompareProductComponent implements OnInit {
      labels.push(months[date]);
 
 
-     if(date== 1)date=12;
+     if(date== 1) {date=12; }
 
     }
     const data = {

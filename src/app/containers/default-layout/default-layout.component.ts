@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 // import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
 import { Router, RouteReuseStrategy } from '@angular/router';
 import { INavData } from '@coreui/angular';
@@ -17,6 +17,7 @@ import { SwalService } from '../../services/swal.service';
 import { navItems } from '../../_nav';
 import { SwPush } from '@angular/service-worker';
 import { DataSidebar } from '../../class/data-sidebar';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-dashboard',
   styles: [
@@ -24,8 +25,7 @@ import { DataSidebar } from '../../class/data-sidebar';
     '.dark{color:gray}',
     '.not-dark{color:goldenrod}',
     '.disabled {pointer-events: none;cursor: default;}',
-    '.bg-error {background:red;color:white}'
-
+    '.bg-error {background:red;color:white}',
   ],
   templateUrl: './default-layout.component.html',
 })
@@ -37,7 +37,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_standart: StandartSearchService,
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy,
-    private swPush: SwPush,
+    private swPush: SwPush
   ) {}
   public sidebarMinimized = false;
   public navItems = null;
@@ -46,6 +46,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public company_select = null;
   public isDark: boolean = false;
   public TYPE_NOTY_SOUND = 'general_notification_sound';
+
   public TYPE_NOTY_WEBPUSH = {
     value: 'general_notification_webpush',
     state: false,
@@ -65,15 +66,21 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   navItemsForCategories = DataSidebar.ItemsForCategories;
 
   navItems_ = this.sidebarData.NavItems;
-
+  countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
+  @ViewChild('IconNotify') iconNotify: MatIcon;
 
   ngOnInit(): void {
-    this.notificationWeb = new NotificationsWebPush(this.swPush, this.s_standart);
-    this.notificationWeb.pushSuscription();
+    this.notificationWeb = new NotificationsWebPush(
+      this.swPush,
+      this.s_standart
+    );
+    this.notificationWeb.canInitSw();
     if (localStorage.getItem('color_sidebar_left')) {
       this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
-    } else { this.colorSidebarLeft = '#054372'; }
+    } else {
+      this.colorSidebarLeft = '#054372';
+    }
     this.getValueDark();
     const user = this.s_storage.getCurrentUser();
     this.s_standart.index('user/preferences/ajax').subscribe((res) => {
@@ -85,17 +92,27 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(res => {
-      this.notifications = res;
-    });
+    this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(
+      (res) => {
+        this.notifications = res;
+      }
+    );
 
     this.s_standart.index('notifications/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        this.s_shared.changeNotifications(res.data)
+        this.s_shared.changeNotifications(res.data);
+        const notifications = res.data;
+        if (notifications.length > 0) {
+             const countNotification = notifications.filter(
+            (notification) => !notification.read_at
+          ).length;
+          this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
+
+        }
       }
     });
 
-    let username = user.name.replace(' ', '+');
+    const username = user.name.replace(' ', '+');
     this.url_img = 'https://ui-avatars.com/api/?name=' + username;
     this.companies = user.companies;
     localStorage.setItem('companies', JSON.stringify(this.companies));
@@ -113,7 +130,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
 
     this.navItems = this.generateSideBarItems();
-    let token = 'Bearer ' + this.s_storage.getCurrentToken();
+    const token = 'Bearer ' + this.s_storage.getCurrentToken();
     const endpoint = environment.server;
     const domain_serve = environment.domain_serve;
     // const domain_serve = "192.168.1.74";
@@ -138,29 +155,34 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       auth: {
         headers: {
           Authorization: token,
-          // "Access-Control-Allow-Origin": "*",
         },
       },
     });
 
-    echo.private('App.Models.User.' + user.id).notification((notify: Inotification) => {
-      this.s_shared.addNotification(notify);
-      const data_rendered = notify.data;
-      let name_user = 'System';
-      if (data_rendered.user.hasOwnProperty('person') && data_rendered.user.person) {
-        name_user = `${data_rendered.user.person.first_name} ${data_rendered.user.person.last_name}`;
-      } else {
-        name_user = data_rendered.user.name;
-      }
-      SwalService.swalToastNotification(
-        this.route,
-        name_user,
-        data_rendered.text,
-        data_rendered.type,
-        data_rendered.image,
-        data_rendered.url
-      );
-    });
+    echo
+      .private('App.Models.User.' + user.id)
+      .notification((notify: Inotification) => {
+        this.s_shared.addNotification(notify);
+        const data_rendered = notify.data;
+        let name_user = 'System';
+        if (
+          data_rendered.user.hasOwnProperty('person') &&
+          data_rendered.user.person
+        ) {
+          name_user = `${data_rendered.user.person.first_name} ${data_rendered.user.person.last_name}`;
+        } else {
+          name_user = data_rendered.user.name;
+        }
+        this.countNotificationUnRead = this.countNotificationUnRead + 1;
+        SwalService.swalToastNotification(
+          this.route,
+          name_user,
+          data_rendered.text,
+          data_rendered.type,
+          data_rendered.image,
+          data_rendered.url
+        );
+      });
   }
 
   ngOnDestroy(): void {
@@ -171,6 +193,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   unreadNotifications() {
     this.s_standart.store('notifications/mark-seen', {}).subscribe((res) => {
+        if (this.countNotificationUnRead > 0) {
+          this.countNotificationUnRead = null;
+        }
       if (res && res.hasOwnProperty('success') && res.success) {
         console.log(res);
       }
@@ -186,34 +211,42 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     if (url && url.includes('reports/general-stock/download')) {
       const convertUrlNg = url.split('?');
       console.log(url, convertUrlNg);
-      const nameFile = convertUrlNg[1].replace(/\+-\+/gm, '_').replace('file_name=reports%2FSTOCK+GENERAL', '');
+      const nameFile = convertUrlNg[1]
+        .replace(/\+-\+/gm, '_')
+        .replace('file_name=reports%2FSTOCK+GENERAL', '');
       console.log(nameFile);
-      this.s_shared.download('report_stock', 'reports/general-stock/download?' + convertUrlNg[1]).subscribe((res: any) => {
-        console.log(res);
-        const blob = new Blob([res], { type: 'application/ms-Excel' });
-        const urlDownload = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = urlDownload;
-        a.download = 'reporte_de_stock' + nameFile;
-        a.click();
-        window.URL.revokeObjectURL(urlDownload);
-        a.remove();
-      });
+      this.s_shared
+        .download(
+          'report_stock',
+          'reports/general-stock/download?' + convertUrlNg[1]
+        )
+        .subscribe((res: any) => {
+          console.log(res);
+          const blob = new Blob([res], { type: 'application/ms-Excel' });
+          const urlDownload = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = urlDownload;
+          a.download = 'reporte_de_stock' + nameFile;
+          a.click();
+          window.URL.revokeObjectURL(urlDownload);
+          a.remove();
+        });
       return;
     }
     if (url) {
-    this.route.navigate([url]);
+      this.route.navigate([url]);
     }
   }
 
   getValueDark(): void {
     if (!localStorage.getItem('isDark')) {
       localStorage.setItem('isDark', JSON.stringify(this.isDark));
-    } else { this.isDark = JSON.parse(localStorage.getItem('isDark')); }
+    } else {
+      this.isDark = JSON.parse(localStorage.getItem('isDark'));
+    }
   }
-
 
   changeDark(value) {
     this.isDark = value.target.checked;
@@ -258,9 +291,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-
   changeCompany(idCompany, index): void {
-    if (this.company_select === this.companies[index].name) { return; }
+    if (this.company_select === this.companies[index].name) {
+      return;
+    }
     this.s_auth.changedCompany(idCompany).subscribe((res) => {
       if (res.success) {
         SwalService.swalToast('Compañia cambiada con exito');
@@ -283,7 +317,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     if (isSuperAdmin !== undefined) {
       return this.navItems_;
     }
-
 
     const sizePermissionAndRol = mergePermissionAndRol.length;
 
@@ -317,7 +350,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         // permission: "products-admin.products.index",
         // tag: this.tags.admin_products,
       },
-      ...data_return
+      ...data_return,
     ];
     return data_return;
   }

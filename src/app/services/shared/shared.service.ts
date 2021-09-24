@@ -62,13 +62,6 @@ export class SharedService {
   download(name, url) {
     return this.Http.get(this.urlServer + url, {
         responseType: 'blob',
-      })/* .pipe(
-        map(( res: any) => {
-        return {
-          filename: name,
-          data: res.blob()
-        };
-      })
-      ); */
+      });
   }
 }

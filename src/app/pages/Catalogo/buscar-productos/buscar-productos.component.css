@@ -97,6 +97,14 @@
     }
 }
 
+.m-drawer{
+  position: fixed;
+  top: auto;
+  bottom: auto;
+  height: calc(100vh - 55px);
+  border-radius: 20px 0 0 20px;
+}
+
 @keyframes go_animation {
     0% {
         transform: scale(1);

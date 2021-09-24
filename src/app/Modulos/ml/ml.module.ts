@@ -37,6 +37,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     MatDialogModule
   ],
+  entryComponents: [ModalRealistComponent],
   exports: [
     MlComponent,
     PromocionesComponent,

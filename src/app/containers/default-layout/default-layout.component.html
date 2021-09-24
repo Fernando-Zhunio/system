@@ -36,7 +36,7 @@
     </li>
     <li class="nav-item d-md-down-none">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button>
-        <mat-icon color="primary" [matBadge]="notifications.length" matBadgePosition="above after"
+        <mat-icon color="primary" #IconNotify [matBadge]="countNotificationUnRead" matBadgePosition="above after"
           matBadgeColor="accent">notifications
         </mat-icon>
       </button>

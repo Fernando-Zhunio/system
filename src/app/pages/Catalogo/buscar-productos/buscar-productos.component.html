@@ -1,11 +1,5 @@
 <mat-drawer-container style="overflow: inherit;background-color: transparent;" class="example-container" autosize>
-  <mat-drawer style="
-      position: fixed;
-      top: auto;
-      bottom: auto;
-      height: calc(100vh - 55px);
-      border-radius: 20px 0 0 20px;
-    " #drawer class="col-md-8 col-11 p-2" mode="over" position="end" fixedInViewport="true">
+  <mat-drawer #drawer class="col-md-8 col-11 p-2 m-drawer" mode="over" position="end" fixedInViewport="true">
     <div *ngIf="isLoadPost; else loadPost" class="position-relative">
       <div style="position: sticky; top: 0; z-index: 10">
         <button mat-mini-fab class="position-absolute bg-gray" style="top: 10px; right: 10px" (click)="viewPost()">
@@ -154,18 +148,18 @@
               <strong>{{ p.sequence?.sequence_number }}</strong><br />
             </small>
             <div class="mt-2">
-              <button mat-raised-button class="mr-1 my1" type="button">
+              <div  class="mr-1 my-2 {{p.available > 0?'alert-info':'alert-danger'}}  p-2 rounded text-uppercase" type="button">
                 Stock para ventas: {{ p.available }}
-              </button>
+              </div>
               <button mat-raised-button class="mr-1 my1" type="button" color="primary" (click)="viewWareHouse(ind)">
                 Stock en bodegas
               </button>
               <button (click)="viewPost(p.id)" *ngIf="p.facebook_posts_count > 0" mat-raised-button class="mr-1 my-1"
                 color="warn" type="button">
-                Ver post
+                Ver posteos
               </button>
               <button mat-raised-button color="accent" class="my-1" (click)="openDescription(ind)">
-                Ver descripcion
+                Ver descripción
               </button>
             </div>
             <div *ngIf="
