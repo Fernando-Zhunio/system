@@ -141,6 +141,10 @@ button {
   z-index: 100;
 }
 
+.mat-menu-item:hover:not([disabled]), .mat-menu-item.cdk-program-focused:not([disabled]), .mat-menu-item.cdk-keyboard-focused:not([disabled]), .mat-menu-item-highlighted:not([disabled]){
+  color: #2f353a;
+}
+
 
 @keyframes parpadeo {
     0% {

@@ -18,9 +18,18 @@
         </mat-card>
     </div>
     <ng-template #loadPublication class="mt-4">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <!-- <ng-container [@fade] *ngFor="let p of products;index as i"> -->
-            <app-publication [permission_page]="permission_page" [publication]="publication" (delete)="destroyPublication($event)"></app-publication>
-        </div>
+        <ng-container *ngIf="!publication else TemplatePublication">
+          <div class="text-center">
+            <img class="w-50 m-auto" src="assets/img/respuesta_vacia.svg" alt=""><br>
+          </div>
+          <div class="text-center font-3xl">La publicación que busca fue eliminada probablemente</div>
+        </ng-container>
+        <ng-template #TemplatePublication>
+          <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <!-- <ng-container [@fade] *ngFor="let p of products;index as i"> -->
+              <app-publication (delete)="destroyPublication($event)" [permission_page]="permission_page" [publication]="publication" (delete)="destroyPublication($event)"></app-publication>
+          </div>
+        </ng-template>
+
     </ng-template>
 </div>

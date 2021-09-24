@@ -41,7 +41,7 @@ declare let Swal: any;
   providedIn: 'root',
 })
 export class SwalService {
-  constructor(private router: Router) {}
+  constructor(private route: Router) {}
 
   public static swalFire(
     // title,
@@ -149,9 +149,10 @@ export class SwalService {
     icon = 'info',
     url_img = null,
     url,
-    position = 'top-end'
+    position = 'top-end',
+    callback = null
   ) {
-    if (icon == 'default') icon = 'success';
+    if (icon === 'default') {icon = 'success'; }
     const Toast = Swal.mixin({
       toast: true,
       position,
@@ -169,7 +170,10 @@ export class SwalService {
         toast.addEventListener('mouseenter', Swal.stopTimer);
         toast.addEventListener('mouseleave', Swal.resumeTimer);
         toast.addEventListener('click', () => {
-          router.navigate([url]);
+          if (callback) {
+            callback(url);
+          }
+          // router.navigate([url]);
         });
       },
     });

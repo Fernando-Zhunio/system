@@ -28,7 +28,7 @@
                         <mat-form-field class="w-100">
                             <mat-label>Selecciones Empresas</mat-label>
                             <mat-select formControlName="mlaccounts" multiple>
-                                <mat-select-trigger>
+                                <mat-select-trigger *ngIf="formPublication.get('mlaccounts')?.value?.length > 0">
                                     <mat-chip-list>
                                         <mat-chip (removed)="removeItemMlAccount(ml_account)" *ngFor="let ml_account of formPublication.get('mlaccounts').value" [removable]="true">
                                             {{getNameMlAccount(ml_account)}}

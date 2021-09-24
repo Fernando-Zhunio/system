@@ -6,6 +6,8 @@ import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from './../../../environments/environment';
+import  Echo  from 'laravel-echo';
+import { StorageService } from '../storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,12 +32,42 @@ export class SharedService {
     this._appointmentWork = appointmentWork;
   }
 
-  constructor(private Http: HttpClient) { }
+  constructor(private Http: HttpClient, private s_storage: StorageService) { }
 
   private notifications = new BehaviorSubject<Inotification[]>([]);
   public currentNotifications = this.notifications.asObservable();
   private _requestWork: Irequest = null;
   private _appointmentWork: Iappointment = null;
+  private port = 80;
+  public endpoint = environment.server;
+  public domain_serve = environment.domain_serve;
+  private echo_ = new Echo({
+    broadcaster: 'pusher',
+    cluster: 'mt1',
+    key: environment.keySocket,
+    authEndpoint: this.endpoint + 'broadcasting/auth',
+    wsHost: this.domain_serve,
+    disableStats: true,
+    encrypted: false,
+    wsPort: this.port,
+    wssPort: this.port,
+    enabledTransports: ['ws', 'wss'],
+    forceTLS: false,
+    auth: {
+      headers: {
+        Authorization: 'Bearer ' + this.s_storage.getCurrentToken()
+      },
+    },
+  });
+
+  public get echo() {
+    return this.echo_;
+  }
+
+  public set echo(echo) {
+    this.echo_ = echo;
+  }
+
 
   // tslint:disable-next-line: member-ordering
   public static convertDateForLaravelOfDataPicker(valueDate, format= 'yyyy/MM/dd'): string {

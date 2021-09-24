@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
 import { IpermissionStandart } from '../../../../interfaces/ipermission-standart';
 import { Ipublication } from '../../../../interfaces/ipublication';
+import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
@@ -10,35 +11,47 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
   templateUrl: './show-publication.component.html',
   styleUrls: ['./show-publication.component.css']
 })
-export class ShowPublicationComponent implements OnInit {
+export class ShowPublicationComponent implements OnInit, OnDestroy {
 
-  constructor(private active_router:ActivatedRoute,private s_standart:StandartSearchService) { }
+  constructor(private active_router: ActivatedRoute, private s_standart: StandartSearchService, private s_shared: SharedService) { }
 
-  publication:Ipublication = {} as Ipublication;
-  isLoadPublication:boolean = false;
-  permission_page:IpermissionStandart;
+  publication: Ipublication = null;
+  isLoadPublication: boolean = false;
+  permission_page: IpermissionStandart;
 
   ngOnInit(): void {
-    this.active_router.data.subscribe(res=>{
+    this.active_router.data.subscribe(res => {
       this.permission_page = res.permissions.all;
-    })
+    });
     const id = Number.parseInt(this.active_router.snapshot.paramMap.get("id"));
-    this.publication.id = id;
-    this.changePublication();
+    this.changePublication(id);
+    this.s_shared.echo.private('catalogs.publications').listen('.publication', this.listener.bind(this));
   }
 
-  changePublication(){
+  listener(e): void {
+    console.log(e);
+    if (e.publication.id === this.publication.id) {
+      this.publication = e.publication;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.s_shared.echo.leave('catalogs.publications');
+  }
+
+  changePublication(id): void {
     this.isLoadPublication = true;
-    this.s_standart.show('catalogs/publications/'+this.publication.id).subscribe((res:Iresponse)=>{
+    this.s_standart.show('catalogs/publications/' + id).subscribe((res: Iresponse) => {
       this.publication = res.data;
       this.isLoadPublication = false;
-    },err=>{
+    }, err => {
       console.log(err);
       this.isLoadPublication = false;
-    })
+    });
   }
 
-  destroyPublication(event):void{
+  destroyPublication(event): void {
+    this.publication = null;
   }
 
 }

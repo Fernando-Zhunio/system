@@ -68,7 +68,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   navItems_ = this.sidebarData.NavItems;
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
-  @ViewChild('IconNotify') iconNotify: MatIcon;
 
   ngOnInit(): void {
     this.notificationWeb = new NotificationsWebPush(
@@ -128,38 +127,43 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         this.companies.push({ id: 'all', name: 'Todas las empresas' });
       }
     }
-
     this.navItems = this.generateSideBarItems();
-    const token = 'Bearer ' + this.s_storage.getCurrentToken();
-    const endpoint = environment.server;
-    const domain_serve = environment.domain_serve;
-    // const domain_serve = "192.168.1.74";
-    const port_ = 80;
-    // const endpoint = 'http://'+domain_serve +'/api/';
-
     // descomentar para notificaciones ------------------------------------------------------------------------------
+    this.suscribeNotifications(user);
+  }
 
-    const echo = new Echo({
-      broadcaster: 'pusher',
-      cluster: 'mt1',
-      key: environment.keySocket,
-      // key: "1564856898",
-      authEndpoint: endpoint + 'broadcasting/auth',
-      wsHost: domain_serve,
-      disableStats: true,
-      encrypted: false,
-      wsPort: port_,
-      wssPort: port_,
-      enabledTransports: ['ws', 'wss'],
-      forceTLS: false,
-      auth: {
-        headers: {
-          Authorization: token,
-        },
-      },
-    });
+  ngOnDestroy(): void {
+    if (this.suscriptionNotifaction) {
+      this.suscriptionNotifaction.unsubscribe();
+    }
+  }
 
-    echo
+  suscribeNotifications(user): void {
+    // const token = 'Bearer ' + this.s_storage.getCurrentToken();
+    // const endpoint = environment.server;
+    // const domain_serve = environment.domain_serve;
+    // const port_ = 80;
+
+    // const echo = new Echo({
+    //   broadcaster: 'pusher',
+    //   cluster: 'mt1',
+    //   key: environment.keySocket,
+    //   authEndpoint: endpoint + 'broadcasting/auth',
+    //   wsHost: domain_serve,
+    //   disableStats: true,
+    //   encrypted: false,
+    //   wsPort: port_,
+    //   wssPort: port_,
+    //   enabledTransports: ['ws', 'wss'],
+    //   forceTLS: false,
+    //   auth: {
+    //     headers: {
+    //       Authorization: token,
+    //     },
+    //   },
+    // });
+    const echo = this.s_shared.echo;
+     echo
       .private('App.Models.User.' + user.id)
       .notification((notify: Inotification) => {
         this.s_shared.addNotification(notify);
@@ -174,21 +178,18 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           name_user = data_rendered.user.name;
         }
         this.countNotificationUnRead = this.countNotificationUnRead + 1;
+        const url = data_rendered.route.replace(window.location.hostname, '');
         SwalService.swalToastNotification(
           this.route,
           name_user,
           data_rendered.text,
           data_rendered.type,
           data_rendered.image,
-          data_rendered.url
+          url,
+          'top-end',
+          this.goRouteNotification.bind(this)
         );
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.suscriptionNotifaction) {
-      this.suscriptionNotifaction.unsubscribe();
-    }
   }
 
   unreadNotifications() {
@@ -209,35 +210,41 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   goRouteNotification(url: string): void {
     if (url && url.includes('reports/general-stock/download')) {
-      const convertUrlNg = url.split('?');
+      // console.log(nameFile);
+      this.downloadStock(url);
+      SwalService.swalToast('Tu descarga iniciara en unos instantes');
+      return;
+    }
+    if (url) {
+      const url1 = url.replace(window.location.hostname, '').replace('https', '');
+      this.route.navigate([url1]);
+    }
+  }
+
+  downloadStock(url): void {
+    const convertUrlNg = url.split('?');
       console.log(url, convertUrlNg);
       const nameFile = convertUrlNg[1]
         .replace(/\+-\+/gm, '_')
         .replace('file_name=reports%2FSTOCK+GENERAL', '');
-      console.log(nameFile);
-      this.s_shared
-        .download(
-          'report_stock',
-          'reports/general-stock/download?' + convertUrlNg[1]
-        )
-        .subscribe((res: any) => {
-          console.log(res);
-          const blob = new Blob([res], { type: 'application/ms-Excel' });
-          const urlDownload = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          document.body.appendChild(a);
-          a.setAttribute('style', 'display: none');
-          a.href = urlDownload;
-          a.download = 'reporte_de_stock' + nameFile;
-          a.click();
-          window.URL.revokeObjectURL(urlDownload);
-          a.remove();
-        });
-      return;
-    }
-    if (url) {
-      this.route.navigate([url]);
-    }
+    this.s_shared
+    .download(
+      'report_stock',
+      'reports/general-stock/download?' + convertUrlNg[1]
+    )
+    .subscribe((res: any) => {
+      console.log(res);
+      const blob = new Blob([res], { type: 'application/ms-Excel' });
+      const urlDownload = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.href = urlDownload;
+      a.download = 'reporte_de_stock' + nameFile;
+      a.click();
+      window.URL.revokeObjectURL(urlDownload);
+      a.remove();
+    });
   }
 
   getValueDark(): void {

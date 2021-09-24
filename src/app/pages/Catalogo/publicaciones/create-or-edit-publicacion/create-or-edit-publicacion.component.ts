@@ -122,7 +122,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
 
   setDataFormPublication() {
     this.formName.setValue({ name: this.publication.name });
-    let idsAccounts = this.getIdMlAccounts(this.publication.ml_accounts);
+    const idsAccounts = this.getIdMlAccounts(this.publication.ml_accounts);
     this.formPublication.get('title').setValue(this.publication.name);
     this.formPublication.get('category').setValue(this.publication.category);
     this.formPublication
@@ -160,7 +160,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
 
   getIdMlAccounts(mlaccounts: Iaccount[]) {
     const mlSize = mlaccounts.length;
-    let ids = [];
+    const ids = [];
     for (let i = 0; i < mlSize; i++) {
       ids.push(mlaccounts[i].id);
     }
@@ -173,7 +173,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
-
     for (const droppedFile of files) {
       // Is it a file?
       if (droppedFile.fileEntry.isFile) {
@@ -182,8 +181,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
 
         fileEntry.file((file: File) => {
           if (file.type == 'image/jpeg' || file.type == 'image/png') {
-            // let form_data = new FormData();
-            // form_data.append('image',file)
             this.s_standart
               .uploadImg(
                 'catalogs/publications/' + this.publication.id + '/upload',
@@ -191,9 +188,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
               )
               .subscribe((res: Iresponse) => {
                 if (res.success) {
-                  // this.arrayImagen.push({url:this.url_server+"/img/"+res.url})
                   this.publication.images.push(res.data);
-                  //  = res.data;
                 }
               });
           } else {
@@ -228,7 +223,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
           }
         });
     }
-    // this.arrayImagen.splice(index, 1);
   }
 
   createPulicationName(): void {

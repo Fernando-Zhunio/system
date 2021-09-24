@@ -58,7 +58,7 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
     this.active_route.data.subscribe((data) => {
       if (data.isEdit) {
         this.state = 'edit';
-        this.title = 'Editando Persona';
+        this.title = 'Editando Mercado Libre';
         this.id = Number.parseInt(this.active_route.snapshot.paramMap.get('id'));
         const url = 'admin/ml/accounts/' + this.id + '/edit';
         this.s_standart.show(url).subscribe((res) => {

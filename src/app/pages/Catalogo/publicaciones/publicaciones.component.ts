@@ -1,11 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { subscribeOn } from 'rxjs/operators';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
 import { Ipagination } from '../../../interfaces/ipagination';
@@ -13,6 +14,7 @@ import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
 import { Ipublication } from '../../../interfaces/ipublication';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
+import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
 // import SwiperCore from 'swiper/core';
@@ -30,12 +32,8 @@ import { SwalService } from '../../../services/swal.service';
     ]),
   ],
 })
-export class PublicacionesComponent implements OnInit {
+export class PublicacionesComponent implements OnInit, OnDestroy {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  // permission_show =['super-admin','catalogs.publications.show'];
-  // permission_create =['super-admin','catalogs.publications.create'];
-  // permission_edit =['super-admin','catalogs.publications.edit'];
-  // permission_destroy =['super-admin','catalogs.publications.destroy'];
   isLoader: boolean = false;
   selected_state: string = 'all';
   price_min: number = null;
@@ -47,44 +45,61 @@ export class PublicacionesComponent implements OnInit {
   menu = [];
   length = 100;
   pageSize = 10;
-  pageSizeOptions: number[] = [10, 15, 25, 100];
+  pageSizeOptions: number[] = [10, 15, 25];
   pageEvent: PageEvent;
   isload: boolean = true;
   aux_page_next: number;
   suscrition_api: Subscription;
-
   permission_page: IpermissionStandart;
-
   constructor(
     private actived_router: ActivatedRoute,
     private snack_bar: MatSnackBar,
-    private s_standart: StandartSearchService,
+    // private s_standart: StandartSearchService,
+    private s_shared: SharedService,
     public dialog: MatDialog,
     private s_catalogo: CatalogoService,
     private s_mercado_libre: MercadoLibreService
   ) {}
+    //#region FILTER DATA
+    min: string;
+    max: string;
+    state_binding: string;
+    //#endregion
 
+    paginator: Ipagination<Ipublication>;
+    states: {name: string, slug: string}[] = [{name: 'Publicado', slug: 'published'}, {name: 'Despublicado', slug: 'unpublished'}, {name: 'Incompleto', slug: 'incomplete'}, {name: 'En cola', slug: 'queue'}, {name: 'Procesando', slug: 'processing'}, {name: 'Actualizando', slug: 'updating'}, {name: 'Parciales procesados', slug: 'partially_processed'}, {name: 'Eliminados', slug: 'deleting_unselected_item'}, {name: 'Con errores', slug: 'error'}, ]
+
+    //#region  filter
+    filter_state: string = '0';
+
+    //#endregion
   ngOnInit(): void {
     this.actived_router.data.subscribe((res) => {
       this.permission_page = res.permissions.all;
     });
+     this.s_shared.echo.private('catalogs.publications').listen('.publication', this.listener.bind(this));
   }
 
+  listener(e): void {
+    console.log(e);
+    if (e.event === 'updated') {
+      const indexPublication = this.products.findIndex((item) => item.id === e.publication.id);
+      if (indexPublication !== -1) {
+        this.products[indexPublication] = e.publication;
+      }
+    } else if (e.event === 'deleted') {
+      const indexPublication = this.products.findIndex((item) => item.id === e.publication.id);
+      if (indexPublication !== -1) {
+        this.products.splice(indexPublication, 1);
+      }
+    } else {
+      this.products.unshift(e.publication);
+    }
+  }
 
-
-  //#region FILTER DATA
-  min: string;
-  max: string;
-  state_binding: string;
-  //#endregion
-
-  paginator: Ipagination<Ipublication>;
-  states:{name:string,slug:string}[] = [{name:'Publicado',slug:'published'},{name:'Despublicado',slug:'unpublished'},{name:'Incompleto',slug:'incomplete'},{name:'En cola',slug:'queue'},{name:'Procesando',slug:'processing'},{name:'Actualizando',slug:'updating'},{name:'Parciales procesados',slug:'partially_processed'},{name:'Eliminados',slug:'deleting_unselected_item'},{name:'Con errores',slug:'error'},]
-
-  //#region  filter
-  filter_state: string = '0';
-
-  //#endregion
+  ngOnDestroy(): void {
+    this.s_shared.echo.leave('catalogs.publications');
+  }
 
   deletePublication(idPublication, index): void {
     const snack = this.snack_bar.open('Eliminando espere ...');
@@ -111,7 +126,7 @@ export class PublicacionesComponent implements OnInit {
     this.dialog.open(InfoViewComponent, {
       data: {
         name: this.products[index].name,
-        title: 'Descripcion',
+        title: 'Descripción',
         info: this.products[index].description,
       },
     });
