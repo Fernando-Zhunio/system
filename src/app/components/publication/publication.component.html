@@ -96,7 +96,9 @@
             {{matchs_state[publication.status]?.value}}</div>
         </div>
         <div *ngIf="publication.errors">
-          <mat-card  class="my-1 bg-danger" *ngFor="let error of publication.errors">{{error.code}}</mat-card>
+          <mat-card  class="my-1 bg-danger lead" *ngFor="let error of publication.errors">Codigo:{{error.code}} <br>
+          Mensaje: {{error.message}}</mat-card>
+
 
 
         </div>

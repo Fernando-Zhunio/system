@@ -1,4 +1,11 @@
 // If you want to override variables do it here
+
+
+
+
+
+
+// @include mat.all-component-themes($angular-default-theme);
 @import "variables";
 // Import styles
 @import "~@coreui/coreui/scss/coreui";
@@ -144,6 +151,8 @@ button {
 .mat-menu-item:hover:not([disabled]), .mat-menu-item.cdk-program-focused:not([disabled]), .mat-menu-item.cdk-keyboard-focused:not([disabled]), .mat-menu-item-highlighted:not([disabled]){
   color: #2f353a;
 }
+.app-header .navbar-brand { position:relative;margin-left:0;left: 0;}
+
 
 
 @keyframes parpadeo {
@@ -179,3 +188,7 @@ button {
         display: table-row;
     }
 }
+
+
+
+

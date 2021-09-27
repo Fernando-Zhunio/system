@@ -9,45 +9,7 @@ export class NotificationsWebPush {
     private s_standart: StandartSearchService
   ) {}
   public readonly PUBLIC_KEY = environment.VAPID_PUBLIC_KEY;
-  //   pushSuscription() {
-  //     if (!this.swPush.isEnabled) {
-  //       console.log('Web Push is not enabled');
-  //       // this.canInitSw();
-  //       return;
-  //     } else {
-  //       console.log('Web Push is enabled');
-  //       this.canInitSw();
-  //     }
-  //   }
 
-  //   answerPush() {
-  //     this.swPush
-  //     .requestSubscription({
-  //       serverPublicKey: this.publicKey,
-  //     })
-  //     .then((sub) => {
-  //       this.s_standart.store('notifications/suscribe-webpush', JSON.parse(JSON.stringify(sub))).subscribe(res => {
-  //         console.log(res);
-  //     });
-  //     }).catch((err) => {
-  //       console.error(err);
-  //     });
-  //   }
-
-  //    urlBase64ToUint8Array(base64String) {
-  //     const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  //     const base64 = (base64String + padding)
-  //         .replace(/\-/g, '+')
-  //         .replace(/_/g, '/');
-
-  //     const rawData = window.atob(base64);
-  //     const outputArray = new Uint8Array(rawData.length);
-
-  //     for (let i = 0; i < rawData.length; ++i) {
-  //         outputArray[i] = rawData.charCodeAt(i);
-  //     }
-  //     return outputArray;
-  // }
 
   addHours(h: number): Date {
     const date = new Date();
@@ -75,7 +37,7 @@ export class NotificationsWebPush {
     }
 
     navigator.serviceWorker
-      .register('/sw.js')
+      .register('/assets/sw.js')
       .then(() => {
         console.log('serviceWorker installed!');
         this.activateWebpushNotifications(true);

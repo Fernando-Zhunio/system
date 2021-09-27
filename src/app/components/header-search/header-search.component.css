@@ -1,5 +1,5 @@
 .input-style{
-  padding-left: 45px;height: 50px;
+  padding-left: 45px;height: 45px;
 }
 
 .btn-find{
@@ -9,8 +9,8 @@
 
 .font-header{
   font-family: Segoe ui !important;
-  font-weight: 700 !important;
-  font-size: 1.5rem !important;
+  /* font-weight: 700 !important; */
+  font-size: 1.2rem !important;
 }
 
 .shadow-header{

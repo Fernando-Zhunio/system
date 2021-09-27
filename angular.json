@@ -34,8 +34,7 @@
                             ]
                         },
                         "scripts": [
-                            "node_modules/chart.js/dist/Chart.min.js",
-                            "src/sw.js"
+                            "nano/chart.js/dist/Chart.min.js"
                         ]
                     },
                     "configurations": {

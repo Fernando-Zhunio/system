@@ -267,7 +267,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   }
 
   predictorMl(event, isEdit = false) {
-    let title = event.target.value;
+    const title = event.target.value;
     this.isLoadCategory = true;
     if (this.suscription_predictor) {
       this.suscription_predictor.unsubscribe();
@@ -291,15 +291,14 @@ export class CreateOrEditPublicacionComponent implements OnInit {
         }
       );
   }
+
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    if (this.suscription_predictor) this.suscription_predictor.unsubscribe();
-    if (this.suscription_attribute) this.suscription_attribute.unsubscribe();
+    if (this.suscription_predictor) { this.suscription_predictor.unsubscribe(); }
+    if (this.suscription_attribute) { this.suscription_attribute.unsubscribe(); }
   }
 
   alternativePredictor(event) {
-    let title = event.target.value;
+    const title = event.target.value;
     this.isLoadCategory = true;
     this.s_catalogo.categoriesMl(title).subscribe(
       (res) => {
@@ -349,8 +348,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
             this.spinner_ngx.hide();
           }
         );
-    }
-    else{
+    } else {
       SwalService.swalToast('Complete todos los campos requeridos (en rojo)','error')
     }
   }
@@ -363,20 +361,20 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     this.alturaAttribute = this.formMain.nativeElement.offsetHeight + 'px';
     this.formPublication.controls['attribute'] = new FormGroup({});
     this.attributes.length = 0;
-    if (this.suscription_attribute) this.suscription_attribute.unsubscribe();
+    if (this.suscription_attribute) { this.suscription_attribute.unsubscribe(); }
     this.suscription_attribute = this.s_catalogo
       .getAttributes(id)
       .subscribe((res) => {
         if (res && res.hasOwnProperty('success') && res.success) {
-          let attribute_copy = res.data;
+          const attribute_copy = res.data;
           this.formPublication.controls['attribute'] = new FormGroup({});
           const count_attribute = attribute_copy.length;
           for (let i = 0; i < count_attribute; i++) {
             if (attribute_copy[i].hasOwnProperty('values')) {
               if (attribute_copy[i].tags.catalog_required) {
-                let control_select = new FormControl(null);
-                let control_input = new FormControl(null);
-                let newFormGroup: FormGroup = this.formPublication.controls[
+                const control_select = new FormControl(null);
+                const control_input = new FormControl(null);
+                const newFormGroup: FormGroup = this.formPublication.controls[
                   'attribute'
                 ] as FormGroup;
                 newFormGroup.addControl(
@@ -388,10 +386,10 @@ export class CreateOrEditPublicacionComponent implements OnInit {
                   control_select
                 );
               } else {
-                let control_select = new FormControl();
-                let control_input = new FormControl();
+                const control_select = new FormControl();
+                const control_input = new FormControl();
                 // let  newFormGroup = new FormGroup({})
-                let newFormGroup = this.formPublication.controls[
+                const newFormGroup = this.formPublication.controls[
                   'attribute'
                 ] as FormGroup;
                 newFormGroup.addControl(
@@ -405,9 +403,9 @@ export class CreateOrEditPublicacionComponent implements OnInit {
               }
             } else {
               if (attribute_copy[i].tags.catalog_required) {
-                let control_input = new FormControl(null);
+                const control_input = new FormControl(null);
                 // let  newFormGroup = new FormGroup({})
-                let newFormGroup = this.formPublication.controls[
+                const newFormGroup = this.formPublication.controls[
                   'attribute'
                 ] as FormGroup;
                 // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
@@ -417,9 +415,9 @@ export class CreateOrEditPublicacionComponent implements OnInit {
                 );
                 // this.formPublication.controls['attribute'].push(newFormGroup);
               } else {
-                let control_input = new FormControl(null);
+                const control_input = new FormControl(null);
                 // let  newFormGroup = new FormGroup({})
-                let newFormGroup = this.formPublication.controls[
+                const newFormGroup = this.formPublication.controls[
                   'attribute'
                 ] as FormGroup;
 
@@ -443,7 +441,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       this.publication.aditional_data &&
       this.publication.aditional_data?.attributes
     ) {
-      let form_attribute: FormGroup = this.formPublication.controls[
+      const form_attribute: FormGroup = this.formPublication.controls[
         'attribute'
       ] as FormGroup;
       this.publication.aditional_data.attributes.forEach((attribute) => {

@@ -210,13 +210,12 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   goRouteNotification(url: string): void {
     if (url && url.includes('reports/general-stock/download')) {
-      // console.log(nameFile);
       this.downloadStock(url);
       SwalService.swalToast('Tu descarga iniciara en unos instantes');
       return;
     }
     if (url) {
-      const url1 = url.replace(window.location.hostname, '').replace('https', '');
+      const url1 = url.replace(window.location.hostname, '').replace('https:/', '');
       this.route.navigate([url1]);
     }
   }

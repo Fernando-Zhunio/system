@@ -4,7 +4,7 @@
         <form [formGroup]="formName" (ngSubmit)="createPulicationName()">
             <mat-form-field appearance="fill" class="d-block">
                 <mat-label>Ingrese el nombre de la publicacion</mat-label>
-                <input matInput formControlName="name" required>
+                <input type="text" matInput formControlName="name" required>
                 <mat-error *ngIf="formName.invalid">Nombre Requerido</mat-error>
             </mat-form-field>
             <button mat-raised-button type="submit" [disabled]="formName.invalid" color="accent">Guardar</button>
@@ -46,7 +46,8 @@
                         <div class="row">
                             <mat-form-field class="col-12" appearance="fill">
                                 <mat-label>Titulo</mat-label>
-                                <input matInput formControlName="title" (keyup.enter)="predictorMl($event)" type="search" required>
+                                <input type="text" matInput formControlName="title" (keyup.enter)="predictorMl($event)" type="search" required>
+                                <mat-hint>Presione enter para buscar</mat-hint>
                             </mat-form-field>
                             <div>
                                 <div class="font-facebook col-12">Seleccione una categoria</div>
@@ -69,7 +70,7 @@
                                 </div>
                             </div>
                             <mat-form-field class="col-12 mt-3">
-                                <mat-label>Descripcion</mat-label>
+                                <mat-label>Descripción</mat-label>
                                 <textarea required formControlName="description" matInput rows="8"></textarea>
                             </mat-form-field>
 
@@ -101,7 +102,6 @@
                                         <div class="row m-0 p-3 w-100 position-relative">
                                             <div *ngIf="isLoadPosition" class="load-data position-absolute rounded-fz font-2xl font-facebook w-100 h-100 d-flex align-items-center justify-content-center">
                                                 <mat-spinner [diameter]="50">
-
                                                 </mat-spinner> Procesando...</div>
                                             <div class=" col-12 d-flex justify-content-center align-items-center">
                                                 Da click en boton o arrastra para subirlo
@@ -113,7 +113,7 @@
                                                 <div class="d-flex" style="flex-wrap: wrap;" [sortablejs]="publication?.images" [sortablejsOptions]="options">
                                                     <div style="width: 120px;" class="m-2" *ngFor="let item of publication?.images; let i=index">
                                                         <div style="width: 120px;" class="position-relative">
-                                                            <button mat-icon-button color="warn" (click)="removeImage(item.id)" class="btn-delete-imagen">
+                                                            <button type="button" mat-icon-button color="warn" (click)="removeImage(item.id)" class="btn-delete-imagen">
                                                                 <mat-icon>close</mat-icon>
                                                             </button>
                                                             <span class="badge badge-pill badge-success position-absolute m-2" *ngIf="i==0">Imagen principal</span>
@@ -150,7 +150,7 @@
                             </mat-form-field>
                             <mat-form-field [ngClass]="attribute_.values?'col-md-6':'col-md-12'" appearance="fill">
                                 <mat-label>Ingresa un valor</mat-label>
-                                <input matInput [formControlName]="'attribute_manually_'+attribute_.id">
+                                <input type="text" matInput [formControlName]="'attribute_manually_'+attribute_.id">
                             </mat-form-field>
                         </div>
                     </div>
