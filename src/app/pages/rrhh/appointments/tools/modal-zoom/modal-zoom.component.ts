@@ -13,7 +13,6 @@ export class ModalZoomComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public zoom, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log(this.zoom);
 
   }
 

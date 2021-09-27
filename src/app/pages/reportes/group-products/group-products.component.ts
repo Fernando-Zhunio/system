@@ -9,11 +9,10 @@ import { StandartSearchService } from '../../../services/standart-search.service
 })
 export class GroupProductsComponent implements OnInit {
 
-  constructor(private s_standart:StandartSearchService) { }
+  constructor(private s_standart: StandartSearchService) { }
 
   ngOnInit(): void {
-    this.s_standart.index('reports/group-products').subscribe((res:{success:boolean,data:IgroupProducts})=>{
-      console.log(res);
+    this.s_standart.index('reports/group-products').subscribe((res: {success: boolean, data: IgroupProducts}) => {
     });
   }
 }

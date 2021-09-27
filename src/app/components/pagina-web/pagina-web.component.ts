@@ -24,7 +24,8 @@ export class PaginaWebComponent implements OnInit {
     });
   }
 
-  rediredImgBag(img: string): string {
+  rediredImgBag(img): string {
+    const imagen = img ? img[0]?.ImageUrl : null;
     return SharedService.rediredImageNull(img);
   }
 

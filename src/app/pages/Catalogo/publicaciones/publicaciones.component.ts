@@ -81,7 +81,6 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   }
 
   listener(e): void {
-    console.log(e);
     if (e.event === 'updated') {
       const indexPublication = this.products.findIndex((item) => item.id === e.publication.id);
       if (indexPublication !== -1) {
@@ -120,6 +119,10 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
         snack.dismiss();
       }
     );
+  }
+
+  publicationFor(index, item): void {
+    return item.id;
   }
 
   openDescription(index): void {

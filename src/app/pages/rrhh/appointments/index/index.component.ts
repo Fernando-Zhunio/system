@@ -25,9 +25,7 @@ export class IndexComponent extends CTemplateSearch<Iappointment> implements OnI
   }
 
   deleteAppointment(id: number) {
-    console.log('deleteAppointment', id);
     const appointment = this.products.find((x) => x.id === id);
-    console.log(appointment);
     SwalService.swalConfirmation(
       'Eliminacion de Cita',
       '¿Está seguro de eliminar esta Cita?',
@@ -41,7 +39,6 @@ export class IndexComponent extends CTemplateSearch<Iappointment> implements OnI
           .destory(`rrhh/requests/${appointment.request.id}/appointments/${appointment.id}`)
           .subscribe((res) => {
             appointment['isload'] = false;
-            console.log(res);
             if (res && res.hasOwnProperty('success') && res.success) {
               const index = this.products.findIndex(
                 (i) => i.id === id

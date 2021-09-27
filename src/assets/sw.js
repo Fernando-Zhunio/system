@@ -23,7 +23,6 @@
           // https://developer.mozilla.org/en-US/docs/Web/API/PushMessageData
           if (event.data) {
 
-              console.log(event.data.json());
               event.waitUntil(
                   this.sendNotification(event.data.json())
               )
@@ -38,8 +37,6 @@
        * @param {NotificationEvent} event
        */
       notificationClick(event) {
-          // console.log(event.notification)
-
           if (event.notification.data && event.notification.data.url) {
               // Do something...
               self.clients.openWindow(event.notification.data.url)

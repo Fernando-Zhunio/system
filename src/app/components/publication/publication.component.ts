@@ -108,9 +108,9 @@ export class PublicationComponent implements OnInit {
     if (type === 'relist') {
       this.dialog.open(RepublicarCuentasModalComponent, {data: {id: this.publication.id}, disableClose: true});
     } else {
-      this.suscription_ml = this.s_mercado_libre.updateStatus(id, type).subscribe((res) => {
+      this.suscription_ml = this.s_mercado_libre.publcationMlStatusUpdate(id, type).subscribe((res) => {
         if (res.success) {
-          this.publication = res.ml;
+          this.publication = res.data;
         }
       });
     }

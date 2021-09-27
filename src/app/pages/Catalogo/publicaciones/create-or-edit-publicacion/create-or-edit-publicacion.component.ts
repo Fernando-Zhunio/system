@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import collect from 'collect.js';
 // import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
 import {
   FileSystemDirectoryEntry,
@@ -108,6 +109,11 @@ export class CreateOrEditPublicacionComponent implements OnInit {
               response.success
             ) {
               this.isEditNamePublication = false;
+              if (response?.data?.publication?.images && response?.data?.publication?.images.length > 0) {
+                const collection = collect(response.data.publication.images);
+                const sorted = collection.sortBy('position');
+                response.data.publication.images = sorted.all();
+               }
               this.publication = response.data.publication as Ipublication;
               this.setDataFormPublication();
               this.spinner_ngx.hide();

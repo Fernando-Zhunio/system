@@ -50,14 +50,12 @@ export class IndexComponent implements OnInit {
         this.requestCount = response.data.request_count;
         this.cvCount = response.data.cv_count;
         response.data.states_request.map((value) => {
-          console.log(value);
           this.statesRequestCount[value.type_action] = {
             name: value.name,
             count: value.count,
           };
         });
         response.data.states_work.map((value) => {
-          console.log(value);
           this.statesWorkCount[value.type_action] = {
             name: value.name,
             count: value.count,

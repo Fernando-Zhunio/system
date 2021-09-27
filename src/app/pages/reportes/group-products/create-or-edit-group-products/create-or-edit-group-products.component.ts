@@ -12,43 +12,34 @@ export class CreateOrEditGroupProductsComponent implements OnInit {
 
   constructor() { }
 
-  form_group_product:FormGroup = new FormGroup(
+  form_group_product: FormGroup = new FormGroup(
     {
-      name:new FormControl(null,[Validators.required]),
-      min_stock:new FormControl(1,[Validators.required])
+      name: new FormControl(null, [Validators.required]),
+      min_stock: new FormControl(1, [Validators.required])
     }
   )
 
   // @ViewChild('widget') container: ElementRef;
   // spreadsheet:any;
-  state:string = 'Creando grupo de productos'
+  state: string = 'Creando grupo de productos'
   ngOnInit(): void {
   //   this.spreadsheet = new Spreadsheet(this.container.nativeElement, {
   //     editLine: false
   // });
   }
 
-  saveData():void{
-    
+  saveData(): void{
   }
 
-  file_excel:any;
+  file_excel: any;
   uploadFile(event){
     const file = event.target.files[0];
-    console.log(file);
-    
     const reader = new FileReader();
-    
     reader.readAsDataURL(file);
     reader.onload = () => {
       // this.src1 = reader.result;
-      this.file_excel = reader.result
-      console.log(this.file_excel);
+      this.file_excel = reader.result;
     };
-    // console.log(exce);
-    // this.id++;
-    // console.log(this.arrayImagen);
-    
   }
 
 }

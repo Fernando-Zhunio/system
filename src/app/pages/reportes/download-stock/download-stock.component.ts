@@ -45,7 +45,6 @@ export class DownloadStockComponent implements OnInit {
           this.assignedDataOnInit(res.data.user_warehouses);
         }
       }
-      console.log(res);
     });
   }
 
@@ -56,7 +55,6 @@ export class DownloadStockComponent implements OnInit {
   }
 
   addWarehousesSelects(id: number) {
-    console.log(id);
     if (this.allWarehouse) {return; }
     const index = this.warehouses.findIndex((x) => x.id === id);
     const indexCopy = this.warehouseCopySearch.findIndex((x) => x.id === id);
@@ -72,13 +70,8 @@ export class DownloadStockComponent implements OnInit {
     if (this.allWarehouse) {return; }
     const index = this.warehousesSelects.findIndex((x) => x.id === id);
     if (index !== -1) {
-      console.log(id);
-
-      // this.warehouses.push(this.warehousesSelects[index]);
       this.warehouseCopySearch.push(this.warehousesSelects[index]);
       this.warehousesSelects.splice(index, 1);
-      console.log(this.warehousesSelects.length);
-
       this.filterWarehouse();
     }
   }
@@ -94,9 +87,7 @@ export class DownloadStockComponent implements OnInit {
     if (sendData['warehouses_ids'].length > 0) {
       this.isLoad = true;
       const url = 'reports/general-stock';
-      console.log(sendData);
       this.s_standart.store(url, {...sendData}).subscribe( res => {
-        console.log(res);
         if (res && typeof res === 'object' && res.hasOwnProperty('success') && res.success) {
           this.isLoad = false;
           SwalService.swalToast(res.data.message, 'success');
@@ -121,7 +112,6 @@ export class DownloadStockComponent implements OnInit {
   }
 
   changeAllWarehouse(event: any) {
-    console.log(event.checked);
     if (event.checked) {
       this.allWarehouse = true;
     } else { this.allWarehouse = false; }

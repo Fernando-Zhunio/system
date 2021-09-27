@@ -34,9 +34,8 @@ export class IndexComponent  extends CTemplateSearch<Irequest> implements OnInit
     const url = `rrhh/requests/${id}/statuses`
     this.s_standart.store(url,{status:'request_cv_viewed'}).subscribe(res=>{
       if(res.hasOwnProperty('success') && res.success){
-        console.log(res);
       }
-    })
+    });
     this.cv = this.products.find((x) => x.id === id).user?.resume?.attachment?.real_permalink;
   }
 

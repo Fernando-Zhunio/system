@@ -29,7 +29,6 @@ export class StandartSearchService {
   }
 
   search2(url: string, params) {
-    console.log(params);
     return this.http.get<Iresponse>(this.end_point + url, {params: {...params}});
   }
 

@@ -198,7 +198,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           this.countNotificationUnRead = null;
         }
       if (res && res.hasOwnProperty('success') && res.success) {
-        console.log(res);
       }
     });
   }
@@ -232,7 +231,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       'reports/general-stock/download?' + convertUrlNg[1]
     )
     .subscribe((res: any) => {
-      console.log(res);
       const blob = new Blob([res], { type: 'application/ms-Excel' });
       const urlDownload = window.URL.createObjectURL(blob);
       const a = document.createElement('a');

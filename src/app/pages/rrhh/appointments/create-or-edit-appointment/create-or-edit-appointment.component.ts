@@ -53,7 +53,6 @@ export class CreateOrEditAppointmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.requestWork = this.s_shared.requestWork;
-    console.log(this.requestWork);
     if (!this.requestWork) {
       this.router.navigate(['recursos-humanos/requests']);
       return;
@@ -65,7 +64,6 @@ export class CreateOrEditAppointmentComponent implements OnInit {
     // this.formAppointment.get('novi_sys_person_id').disable();
     this.spinner.show();
     this.actived_router.data.subscribe((res) => {
-      console.log(res);
       this.state = res.isEdit ? 'edit' : 'create';
       if (res.isEdit) {
         this.title = 'Editando Cita';
@@ -123,7 +121,6 @@ export class CreateOrEditAppointmentComponent implements OnInit {
 
   loadData(data): void {
     this.spinner.hide();
-    // console.log(res1);
     this.persons = data.persons;
     this.locations = data.locations;
   }
@@ -156,7 +153,6 @@ export class CreateOrEditAppointmentComponent implements OnInit {
     const data = this.formAppointment.value;
     const url = `rrhh/requests/${this.requestWork.id}/appointments`;
     data.date = SharedService.convertDateForLaravelOfDataPicker(data.date, 'yyyy-MM-dd HH:mm:ss');
-    console.log(data);
     this.s_standart.store(url, data).subscribe(
       (res) => {
         this.isLoad = false;
@@ -175,7 +171,6 @@ export class CreateOrEditAppointmentComponent implements OnInit {
     const data = this.formAppointment.value;
     const url = `rrhh/requests/${this.requestWork.id}/appointments/${this.appointmet.id}`;
     data.date = SharedService.convertDateForLaravelOfDataPicker(data.date, 'yyyy-MM-dd HH:mm:ss');
-    console.log(data);
     this.s_standart.updatePut(url, data).subscribe(
       (res) => {
         this.isLoad = false;

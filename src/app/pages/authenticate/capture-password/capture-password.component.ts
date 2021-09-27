@@ -41,7 +41,6 @@ export class CapturePasswordComponent implements OnInit, OnDestroy {
          this.count_down.hour = '00';
          this.count_down.min = '00';
          this.suscribir_reloj.unsubscribe();
-         console.log('terminando');
          return;
         }
       }

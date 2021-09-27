@@ -24,7 +24,6 @@ export class NotificationsWebPush {
       return;
     }
     localStorage.setItem(key, this.addHours(4).getTime().toString());
-    console.log('init');
     this.initSW();
   }
 
@@ -87,19 +86,9 @@ export class NotificationsWebPush {
   }
 
   storePushSubscription(pushSubscription) {
-    // axios
-    //   .post('/notification/subscribe', {
-    //     ...JSON.parse(JSON.stringify(pushSubscription)),
-    //   })
-    //   .then((res) => {
-    //     // console.log(res);
-    //   });
-
       this.s_standart.store('notifications/suscribe-webpush', JSON.parse(JSON.stringify(pushSubscription))).subscribe(res => {
-        console.log(res);
     });
 
-        //         console.log(res);
   }
 
   urlBase64ToUint8Array(base64String) {

@@ -1,97 +1,89 @@
 <div>
-    <div class="text-center">
-        <div class="position-relative">
-            <a [href]="ml.link" target="_blank">
-                <img class="w-100 rounded-fz img-product position-relative" [src]="ml.image" alt="">
-            </a>
-            <!-- <span class=""> -->
-            <img src="/assets/logos/mercado-libre.svg" class="logo-mercado-libre" alt="ml">
-            <!-- </span><br> -->
-            <div style="top: 10px;left: 10px;" class="position-absolute text-left">
-                <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
-                    <span class="mb-1 badge text-white {{ml.listing_type_id}}">
+  <div class="text-center">
+    <div class="position-relative">
+      <a [href]="ml.link" target="_blank">
+        <img class="w-100 rounded-fz img-product position-relative" [src]="ml.image" alt="">
+      </a>
+      <!-- <span class=""> -->
+      <img src="/assets/logos/mercado-libre.svg" class="logo-mercado-libre" alt="ml">
+      <!-- </span><br> -->
+      <div style="top: 10px;left: 10px;" class="position-absolute text-left">
+        <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
+          <span class="mb-1 badge text-white {{ml.listing_type_id}}">
             <i class="fas fa-coins {{ml.listing_type_id}}"></i>
             PUBLICACIÓN {{ml.listing_type_id}}
           </span><br>
-                </ng-container>
+        </ng-container>
 
-                <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge  bg-pink text-white">
+        <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge  bg-pink text-white">
           {{company.name}}</span><br>
-                <span class="mb-1 badge  bg-green text-white">{{ml.account.city.name}}</span><br>
-                <span class="mb-1 badge  bg-green text-white">{{ml.account.user_name}}</span>
-            </div>
-        </div>
-        <button mat-mini-fab (click)="openDescription()">
+        <span class="mb-1 badge  bg-green text-white">{{ml.account.city.name}}</span><br>
+        <span class="mb-1 badge  bg-green text-white">{{ml.account.user_name}}</span>
+      </div>
+    </div>
+    <button mat-mini-fab (click)="openDescription()">
       <mat-icon class="mat-18">read_more</mat-icon>
     </button>
-        <div [ngStyle]="ml_state[ml.status]?.css" class="text-uppercase style-status badge  position-absolute mb-1 ">
-            {{ml_state[ml.status]?.value }}
-        </div>
-        <div class="card-body pt-1">
-            <div class="w-100">
-                <mat-card-title class="position-relative d-block" *ngIf="withName">{{ml.name}}</mat-card-title>
-                <div style="font-family: SEGOE UI;" class="mat-button text-value text-success" color="accent">{{ml.price+ml.tax | currency}}</div>
-                <!-- <button mat-raised-button class="" (click)="openDescription()" color="accent">Ver descripcion</button> -->
+    <div [ngStyle]="ml_state[ml.status]?.css" class="text-uppercase style-status badge  position-absolute mb-1 ">
+      {{ml_state[ml.status]?.value }}
+    </div>
+    <div class="card-body pt-1">
+      <div class="w-100">
+        <mat-card-title class="position-relative d-block" *ngIf="withName">{{ml.name}}</mat-card-title>
+        <div style="font-family: SEGOE UI;" class="mat-button text-value text-success" color="accent">{{ml.price+ml.tax
+          | currency}}</div>
+        <!-- <button mat-raised-button class="" (click)="openDescription()" color="accent">Ver descripcion</button> -->
 
-                <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
-                    <div class="alert alert-warning">
-                        <button type="button" class="close"></button>
-                        <strong>Atención!</strong> Este item ha sido publicado como <b>"{{ml.listing_type_id
+        <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
+          <div class="alert alert-warning">
+            <button type="button" class="close"></button>
+            <strong>Atención!</strong> Este item ha sido publicado como <b>"{{ml.listing_type_id
               }}"</b> pero requiere de pago para ser visible. <b>Páguese en la cuenta
               {{ml.account.user_name}}</b>
-                    </div>
-                </div>
-            </div>
-            <div class="text-right">
+          </div>
+        </div>
+      </div>
+      <div class="text-right">
 
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 info-panel text-center">
-                <div class="text-center">
-                    <small class="font-italic font-sm font-weight-bold">Actualizado por última vez:
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 info-panel text-center">
+        <div class="text-center">
+          <small class="font-italic font-sm font-weight-bold">Actualizado por última vez:
             {{ml.updated_at
             | amLocale:'es' |
             amTimeAgo}}</small>
-                </div>
-                <!-- <mat-chip-list class="d-block text-center"> -->
-                <div class="text-center">
-                    <div class="badge badge-info">{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time | amLocale:'es' | amTimeAgo }}</div>
-                    <div class="mt-1 badge badge-secondary d-flex justify-content-center align-items-center" *ngIf="ml.relist_forever == 'on'">
-                        <mat-icon>restore</mat-icon>Republicación Activada
-                    </div>
-                </div>
-                <!-- </mat-chip-list> -->
-
-                <div class="d-flex" style="flex-wrap: wrap;">
-                    <!-- <span [ngClass]=" ml.status == 'closed'?'badge-danger':'badge-success'" class=" badge-pill badge d-inline-flex align-items-center">
-                        <mat-icon>{{(ml.status != 'closed') ? 'play_circle_outline' : 'stop'}}</mat-icon>
-                        <span class="text-uppercase">{{ml.status }}</span>
-                    </span> -->
-                    <!-- <span class="badge-primary badge badge-pill d-inline-flex align-items-center">
-                        <mat-icon>access_alarm</mat-icon>
-                        <span>{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
-                            amLocale:'es' |
-                            amTimeAgo }} </span>
-                    </span> -->
-                    <!-- <span *ngIf="ml.relist_forever == 'on'" class="badge badge-secondary mt-1 badge-pill d-inline-flex align-items-center">
-                        <mat-icon>restore</mat-icon><span>Republicación Activada </span>
-                    </span> -->
-                    <ng-container *ngIf="ml.menu && ml.menu.length != []">
-                        <span class="float-right menu-item">
-              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        </div>
+        <!-- <mat-chip-list class="d-block text-center"> -->
+        <div class="text-center">
+          <div class="badge badge-info">{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
+            amLocale:'es' | amTimeAgo }}</div>
+          <div class="mt-1 badge badge-secondary d-flex justify-content-center align-items-center"
+            *ngIf="ml.relist_forever == 'on'">
+            <mat-icon>restore</mat-icon>Republicación Activada
+          </div>
+        </div>
+        <!-- </mat-chip-list> -->
+        <div class="d-flex" style="flex-wrap: wrap;">
+          <ng-container>
+            <span class="float-right menu-item">
+              <button (click)="openMlMenu()" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <div class="px-2 font-weight-bold text-center">{{ml.menu.type}}</div>
+                <span *ngIf="isLoadMenu"  class="px-2 font-weight-bold text-center d-flex align-items-center"><mat-spinner [diameter]="30"></mat-spinner></span>
+                <ng-container *ngIf="ml_menu;">
+                  <div class="px-2 font-weight-bold text-center">{{ml_menu.type}}</div>
                 <button (click)="executeMenu(itemMenu.type,ml.id,i)"
-                  *ngFor="let itemMenu of ml.menu.availablesItems;index as i " mat-menu-item>
+                  *ngFor="let itemMenu of ml_menu.availablesItems;index as i " mat-menu-item>
                   <mat-icon>{{itemMenu.icon}}</mat-icon>
                   <span>{{itemMenu.label}}</span>
-                        </button>
-                        </mat-menu>
-                        </span>
-                    </ng-container>
-                </div>
-            </div>
+                </button>
+                </ng-container>
+              </mat-menu>
+            </span>
+          </ng-container>
         </div>
+      </div>
     </div>
+  </div>
 </div>

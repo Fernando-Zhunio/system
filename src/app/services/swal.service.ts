@@ -54,18 +54,8 @@ export class SwalService {
       position: 'top-end',
       timer: 1500,
       showConfirmButton: false,
-
     }
   ) {
-    // Swal.fire({
-    //   position: iswal.position,
-    //   icon: iswal.icon,
-    //   title: iswal.title,
-    //   showConfirmButton: iswal.showConfirmButton,
-    //   timer: iswal.timer,
-    // });
-    console.log(iswal);
-
     Swal.fire(iswal)
   }
 
@@ -185,7 +175,6 @@ export class SwalService {
       fire.imageWidth = '50px';
       fire.imageHeight = '50px';
     } else fire.icon = icon;
-    console.log(fire);
     Toast.fire(fire);
   }
 }

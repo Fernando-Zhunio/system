@@ -11,7 +11,7 @@ export interface ImlInfo {
   link: string;
   listing_type_id: string;
   manual_edition: number;
-  menu: any;
+  // menu: any;
   ml_account_id: number;
   name: string;
   parent_item_id: null;
@@ -28,6 +28,12 @@ export interface ImlInfo {
   sub_status: string;
   tax: number;
   updated_at: string;
+}
+
+export interface ImlMenu {
+  type: string;
+  availablesItems: { id: string, type: string, icon: string, label: string; }[];
+  item: number;
 }
 
 export interface Istock {

@@ -98,9 +98,6 @@
         <div *ngIf="publication.errors">
           <mat-card  class="my-1 bg-danger lead" *ngFor="let error of publication.errors">Codigo:{{error.code}} <br>
           Mensaje: {{error.message}}</mat-card>
-
-
-
         </div>
       </div>
     </mat-card-title>
@@ -131,7 +128,7 @@
                   </button>
                   <mat-menu #menu="matMenu">
                     <div class="px-2 my-2 font-3xl font-facebook">{{publication.menu.type}}</div>
-                    <button (click)="executeMenu(itemMenu.type,itemMenu.id)"
+                    <button (click)="executeMenu(itemMenu.type,publication.id)"
                       *ngFor="let itemMenu of publication.menu.availablesItems;index as i " mat-menu-item>
                       <mat-icon>{{itemMenu.icon}}</mat-icon>
                       <span>{{itemMenu.label}}</span>

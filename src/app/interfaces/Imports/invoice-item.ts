@@ -3,6 +3,11 @@ export interface Iresponse {
   data: any;
 }
 
+export interface IresponseGenery<T> {
+  success: boolean;
+  data: T;
+}
+
 export interface InvoiceItemFull {
   code: string;
   created_at: string;

@@ -36,7 +36,6 @@ export class CreateOrEditWorkComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.show();
     this.actived_router.data.subscribe((res) => {
-      console.log(res);
       this.state = res.isEdit ? 'edit' : 'create';
       if (res.isEdit) {
         this.title = 'Editando Empleo';
@@ -44,7 +43,7 @@ export class CreateOrEditWorkComponent implements OnInit {
         const id = Number.parseInt(
           this.actived_router.snapshot.paramMap.get('id')
         );
-        const url: string = `rrhh/works/${id}`;
+        const url = `rrhh/works/${id}`;
         this.s_standart.show(url).subscribe((res1) => {
           if (res1.hasOwnProperty('success') && res1.success) {
             this.spinner.hide();
@@ -53,7 +52,6 @@ export class CreateOrEditWorkComponent implements OnInit {
             this.work = res1.data.work;
 
             this.loadDataUpdate(this.work);
-            console.log(res1);
           }
         });
       }
@@ -65,10 +63,6 @@ export class CreateOrEditWorkComponent implements OnInit {
             this.spinner.hide();
             this.departments_position = res1.data.departments_position;
             this.cities = res1.data.cities;
-            // this.work = res1.data.work;
-
-            // this.loadDataUpdate(this.work);
-            console.log(res1);
           }
         });
       }
@@ -119,11 +113,9 @@ export class CreateOrEditWorkComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.formWork.value);
   }
 
   saveOrEditInServer(): void {
-    console.log(this.formWork.value);
     if (this.formWork.valid) {
       if (this.state === 'create') {
         this.spinner.show();
@@ -131,7 +123,6 @@ export class CreateOrEditWorkComponent implements OnInit {
         this.s_standart.store(url, this.formWork.value).subscribe((res) => {
           if (res.hasOwnProperty('success') && res.success) {
             this.spinner.hide();
-            console.log(res);
             this.goSearchWorkBack(res.data.data.id);
           }
         });
@@ -142,7 +133,6 @@ export class CreateOrEditWorkComponent implements OnInit {
           if (res.hasOwnProperty('success') && res.success) {
             this.spinner.hide();
             this.goSearchWorkBack(this.work.id);
-            console.log(res);
           }
         });
       }

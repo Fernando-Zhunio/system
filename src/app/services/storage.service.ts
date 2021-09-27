@@ -19,13 +19,13 @@ export class StorageService  {
   private localStorageService;
   private currentSession : Session = null;
 
-  constructor(private router: Router,private s_permissionsService: NgxPermissionsService) {
+  constructor(private router: Router, private s_permissionsService: NgxPermissionsService) {
     this.localStorageService = this.secureStorage;
     this.currentSession = this.loadSessionData();
 
     const rolAndPermission = this.getRolAndPermissionUser();
     let mergeRolAndPermission = [];
-    if(rolAndPermission)
+    if (rolAndPermission)
       mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
      this.s_permissionsService.loadPermissions(mergeRolAndPermission);
 
@@ -40,21 +40,17 @@ export class StorageService  {
   secureStorage = new SecureStorage(localStorage, {
     hash: function hash(key) {
         key = CryptoJS.SHA256(key, SECRET_KEY);
-
         return key.toString();
     },
     encrypt: function encrypt(data) {
         data = CryptoJS.AES.encrypt(data, SECRET_KEY);
-
         data = data.toString();
 
         return data;
     },
     decrypt: function decrypt(data) {
         data = CryptoJS.AES.decrypt(data, SECRET_KEY);
-
         data = data.toString(CryptoJS.enc.Utf8);
-
         return data;
     }
 });
@@ -62,23 +58,18 @@ export class StorageService  {
 
   setCurrentSession(session): void {
     this.currentSession = session;
-    this.secureStorage.setItem('currentUser',session);
-    // console.log("Session creada");
+    this.secureStorage.setItem('currentUser', session);
     this.setRolAndPermission();
   }
 
   setCompanyUser(id_company){
     this.currentSession.user.company_company_id = id_company;
-    this.secureStorage.setItem('currentUser',this.currentSession);
+    this.secureStorage.setItem('currentUser', this.currentSession);
   }
 
   loadSessionData(): Session{
     let sessionStr = null;
-    // if(localStorage.getItem('currentUser')){
        sessionStr = this.secureStorage.getItem('currentUser');
-      //  console.log(sessionStr);
-
-    // }/
     return (sessionStr) ? <Session>sessionStr : null;
   }
 
@@ -96,21 +87,20 @@ export class StorageService  {
     return (session && session.user) ? session.user : null;
   }
 
-  setRolAndPermission(rol_permission:{'rol':[],'permission':[]}= null){
+  setRolAndPermission(rol_permission: {'rol': [], 'permission': []}= null){
     // if(this.getRolAndPermissionUser() != null){
 
-      const rolAndPermission = rol_permission?rol_permission:this.getRolAndPermissionUser();
+      const rolAndPermission = rol_permission ? rol_permission : this.getRolAndPermissionUser();
       let mergeRolAndPermission = [];
-      if(rolAndPermission)
+      if (rolAndPermission)
         mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
-        // console.log(rolAndPermission);
        this.s_permissionsService.loadPermissions(mergeRolAndPermission);
     // }
   }
 
-  getRolAndPermissionUser(): {'rol':string[],'permission':string[]} {
-    var user: User = this.getCurrentUser();
-    return (user) ? {rol:user.rol,permission:user.permission} : null;
+  getRolAndPermissionUser(): {'rol': string[], 'permission': string[]} {
+    const user: User = this.getCurrentUser();
+    return (user) ? {rol: user.rol, permission: user.permission} : null;
   }
 
   isAuthenticated(): boolean {
@@ -118,9 +108,7 @@ export class StorageService  {
   }
 
   getCurrentToken(): string {
-    var session = this.getCurrentSession();
-    // console.log(session);
-
+    const session = this.getCurrentSession();
     return (session && session.token) ? session.token : null;
   }
 
