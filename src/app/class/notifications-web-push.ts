@@ -1,11 +1,11 @@
-import { JsonPipe } from '@angular/common';
-import { SwPush } from '@angular/service-worker';
+// import { JsonPipe } from '@angular/common';
+// import { SwPush } from '@angular/service-worker';
 import { environment } from '../../environments/environment';
 import { StandartSearchService } from '../services/standart-search.service';
 
 export class NotificationsWebPush {
   constructor(
-    private swPush: SwPush,
+    // private swPush: SwPush,
     private s_standart: StandartSearchService
   ) {}
   public readonly PUBLIC_KEY = environment.VAPID_PUBLIC_KEY;

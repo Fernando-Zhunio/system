@@ -67,14 +67,14 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   navItems_ = this.sidebarData.NavItems;
   countNotificationUnRead: number = null;
-  notificationWeb: NotificationsWebPush = null;
+  // notificationWeb: NotificationsWebPush = null;
 
   ngOnInit(): void {
-    this.notificationWeb = new NotificationsWebPush(
-      this.swPush,
-      this.s_standart
-    );
-    this.notificationWeb.canInitSw();
+    // this.notificationWeb = new NotificationsWebPush(
+    //   // this.swPush,
+    //   this.s_standart
+    // );
+    // this.notificationWeb.canInitSw();
     if (localStorage.getItem('color_sidebar_left')) {
       this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
     } else {
