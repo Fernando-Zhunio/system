@@ -105,7 +105,7 @@
                                                 </mat-spinner> Procesando...</div>
                                             <div class=" col-12 d-flex justify-content-center align-items-center">
                                                 Da click en boton o arrastra para subirlo
-                                                <button type="button" mat-raised-button (click)="openFileSelector()">Browse Files</button>
+                                                <button type="button" mat-raised-button (click)="openFileSelector()">Buscar archivo</button>
                                             </div>
                                             <small *ngIf="publication?.images.length > 0" class="ml-2 my-2 w-100">Arrastre para
                                                 cambiar la imagen principal</small>
@@ -117,7 +117,8 @@
                                                                 <mat-icon>close</mat-icon>
                                                             </button>
                                                             <span class="badge badge-pill badge-success position-absolute m-2" *ngIf="i==0">Imagen principal</span>
-                                                            <img [src]="url_server+'/img/'+item.url" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'">
+                                                            <img [src]="item.permalink" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'">
+                                                            <!-- <img [src]="url_server+'/img/'+item.url" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'"> -->
                                                         </div>
                                                     </div>
                                                 </div>

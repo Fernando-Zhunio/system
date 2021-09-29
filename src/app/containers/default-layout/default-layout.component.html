@@ -8,23 +8,9 @@
     <li class="nav-item px-3">
       <a class="nav-link" href="javascript:void(0)">Dashboard</a>
     </li>
-    <!-- <li class="nav-item" *ngxPermissionsOnly="['super-admin','reports.general-stock.export']">
-      <a [ngClass]="isDownloadStock?'disabled parpadeo':''" (click)="downloadStock()"
-        class="d-flex align-items-center nav-link" href="javascript:void(0)">
-        <span class="material-icons">
-          download_for_offline
-        </span> Descagar stock
-      </a>
-    </li> -->
-    <!-- <li class="nav-item ">
-            <a (click)="testNotification()" class="d-flex align-items-center nav-link" href="javascript:void(0)">
-        test notificacion
-      </a>
-        </li> -->
   </ul>
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none">
-      <!-- <a class="nav-link" href="#"><i class="icon-list"></i></a> -->
       <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
         <mat-icon>business</mat-icon>{{company_select}}
       </button>
@@ -40,7 +26,7 @@
           matBadgeColor="accent">notifications
         </mat-icon>
       </button>
-      <mat-menu #menu1="matMenu" [overlapTrigger]="false">
+      <mat-menu #menu1="matMenu" [overlapTrigger]="false"  style="height: 80vh;">
         <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
           class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'bg-light':'bg-'+notification.data.type}}"
           *ngFor="let notification of notifications" (click)="$event.stopPropagation()"

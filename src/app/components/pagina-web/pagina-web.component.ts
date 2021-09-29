@@ -12,21 +12,21 @@ import { SharedService } from './../../services/shared/shared.service';
 })
 export class PaginaWebComponent implements OnInit {
 
-  constructor(private dialog:MatDialog) { }
+  constructor(private dialog: MatDialog) { }
 
-  @Input() prestashop_product:IproductVtexSku;
+  @Input() prestashop_product: IproductVtexSku;
   ngOnInit(): void {
   }
 
-  openDescription():void{
+  openDescription(): void{
     this.dialog.open(InfoViewComponent, {
-      data: {name: this.prestashop_product.name, title:"Descripcion",info:this.prestashop_product.vtex_product.description,isHtml:false},
+      data: {name: this.prestashop_product.name, title: "Descripcion", info: this.prestashop_product.vtex_product.description, isHtml: false},
     });
   }
 
   rediredImgBag(img): string {
     const imagen = img ? img[0]?.ImageUrl : null;
-    return SharedService.rediredImageNull(img);
+    return SharedService.rediredImageNull(imagen);
   }
 
 
