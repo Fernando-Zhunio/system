@@ -16,60 +16,60 @@ const SECRET_KEY = 'secret_key';
 })
 export class StorageService  {
 
-  private localStorageService;
-  private currentSession : Session = null;
+  // private localStorageService;
+  private currentSession: Session = null;
 
   constructor(private router: Router, private s_permissionsService: NgxPermissionsService) {
-    this.localStorageService = this.secureStorage;
+    // this.localStorageService = localStorage;
     this.currentSession = this.loadSessionData();
-
     const rolAndPermission = this.getRolAndPermissionUser();
     let mergeRolAndPermission = [];
-    if (rolAndPermission)
+    if (rolAndPermission) {
       mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
+    }
      this.s_permissionsService.loadPermissions(mergeRolAndPermission);
 
   }
 
-  changedPermission(){
+  // changedPermission(){
 
-  }
+  // }
 
 
 
-  secureStorage = new SecureStorage(localStorage, {
-    hash: function hash(key) {
-        key = CryptoJS.SHA256(key, SECRET_KEY);
-        return key.toString();
-    },
-    encrypt: function encrypt(data) {
-        data = CryptoJS.AES.encrypt(data, SECRET_KEY);
-        data = data.toString();
+//   secureStorage = new SecureStorage(localStorage, {
+//     hash: function hash(key) {
+//         key = CryptoJS.SHA256(key, SECRET_KEY);
+//         return key.toString();
+//     },
+//     encrypt: function encrypt(data) {
+//         data = CryptoJS.AES.encrypt(data, SECRET_KEY);
+//         data = data.toString();
 
-        return data;
-    },
-    decrypt: function decrypt(data) {
-        data = CryptoJS.AES.decrypt(data, SECRET_KEY);
-        data = data.toString(CryptoJS.enc.Utf8);
-        return data;
-    }
-});
+//         return data;
+//     },
+//     decrypt: function decrypt(data) {
+//         data = CryptoJS.AES.decrypt(data, SECRET_KEY);
+//         data = data.toString(CryptoJS.enc.Utf8);
+//         return data;
+//     }
+// });
 
 
   setCurrentSession(session): void {
     this.currentSession = session;
-    this.secureStorage.setItem('currentUser', session);
+    localStorage.setItem('currentUser', JSON.stringify(session));
     this.setRolAndPermission();
   }
 
-  setCompanyUser(id_company){
+  setCompanyUser(id_company) {
     this.currentSession.user.company_company_id = id_company;
-    this.secureStorage.setItem('currentUser', this.currentSession);
+    localStorage.setItem('currentUser', JSON.stringify(this.currentSession));
   }
 
-  loadSessionData(): Session{
+  loadSessionData(): Session {
     let sessionStr = null;
-       sessionStr = this.secureStorage.getItem('currentUser');
+       sessionStr = JSON.parse(localStorage.getItem('currentUser'));
     return (sessionStr) ? <Session>sessionStr : null;
   }
 
@@ -79,21 +79,20 @@ export class StorageService  {
 
   removeCurrentSession(): void {
     this.currentSession = null;
-    this.localStorageService.clear();
+    localStorage.clear();
   }
 
   getCurrentUser(): User {
-    var session: Session = this.getCurrentSession();
+    const session: Session = this.getCurrentSession();
     return (session && session.user) ? session.user : null;
   }
 
-  setRolAndPermission(rol_permission: {'rol': [], 'permission': []}= null){
-    // if(this.getRolAndPermissionUser() != null){
-
+  setRolAndPermission(rol_permission: {'rol': [], 'permission': []}= null) {
       const rolAndPermission = rol_permission ? rol_permission : this.getRolAndPermissionUser();
       let mergeRolAndPermission = [];
-      if (rolAndPermission)
+      if (rolAndPermission) {
         mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
+      }
        this.s_permissionsService.loadPermissions(mergeRolAndPermission);
     // }
   }
@@ -116,7 +115,7 @@ export class StorageService  {
   //   this.currentSession.companies
   // }
 
-  logout(): void{
+  logout(): void {
     this.removeCurrentSession();
     this.router.navigate(['/login']);
   }
