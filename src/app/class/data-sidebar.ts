@@ -64,7 +64,7 @@ export class DataSidebar {
         name: 'Vtex Productos',
         url: '/admin-products/vtex-products',
         icon: 'icon-basket',
-        permission: 'products-admin.products.index',
+        permission: 'product-admin.vtex.product-vtex.index',
       },
       {
         name: 'Categoria',

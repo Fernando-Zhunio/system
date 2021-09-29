@@ -20,7 +20,7 @@ export class IndexComponent implements OnInit {
 
   constructor(private modal: MatDialog, private s_serviceStandart: StandartSearchService) { }
 
-  permission_page = {product_edit: ['products-admin.vtex.product-vtex.edit'], sku_edit: ['products-admin.vtex.products.skus.edit']}
+  permission_page = {product_edit: ['products-admin.vtex.product-vtex.edit'], sku_edit: ['product-admin.vtex.product-vtex.edit']}
   min: number; max: number;
   warehouse_ids: any[];
   prefix_id: string;

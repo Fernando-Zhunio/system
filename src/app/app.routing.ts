@@ -18,14 +18,6 @@ import { RegisterComponent } from './views/register/register.component';
 
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
-// import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
-
-// @Component({
-//   selector: 'app-authentication',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class AutheticationMainDefaultComponents  {
-// }
 
 
 export const routes: Routes = [

@@ -37,7 +37,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_standart: StandartSearchService,
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy,
-    private swPush: SwPush
+    // private swPush: SwPush
   ) {}
   public sidebarMinimized = false;
   public navItems = null;
@@ -71,9 +71,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.notificationWeb = new NotificationsWebPush(
-      // this.swPush,
       this.s_standart
     );
+    this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
     if (localStorage.getItem('color_sidebar_left')) {
       this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
@@ -135,6 +135,15 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     if (this.suscriptionNotifaction) {
       this.suscriptionNotifaction.unsubscribe();
     }
+  }
+
+  getPermissionAndRolesFromServer() {
+    this.s_standart.create('user/permissions-roles').subscribe((res) => {
+      if (res && res.hasOwnProperty('success') && res.success) {
+        const permissionAndRol = {rol:res.data.roles, permission: res.data.permissions};
+        this.s_storage.setRolAndPermission(permissionAndRol);
+      }
+    });
   }
 
   suscribeNotifications(user): void {

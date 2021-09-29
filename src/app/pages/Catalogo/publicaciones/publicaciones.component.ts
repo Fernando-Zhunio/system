@@ -58,7 +58,8 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     private s_shared: SharedService,
     public dialog: MatDialog,
     private s_catalogo: CatalogoService,
-    private s_mercado_libre: MercadoLibreService
+    private s_mercado_libre: MercadoLibreService,
+    private router: Router
   ) {}
     //#region FILTER DATA
     min: string;
@@ -98,6 +99,10 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.s_shared.echo.leave('catalogs.publications');
+  }
+
+  goNewPublication(): void {
+    this.router.navigate(['/catalogo/publicaciones/create']);
   }
 
   deletePublication(idPublication, index): void {

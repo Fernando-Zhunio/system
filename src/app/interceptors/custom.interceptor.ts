@@ -72,6 +72,7 @@ export class CustomInterceptor implements HttpInterceptor {
               'No posee los permisos necesarios para este contenido',
               'warning'
             );
+            if (this.s_storage.isAuthenticated()) { this.s_storage.logout(); }
             break;
           case 422:
             if (err?.error.hasOwnProperty('success')) {

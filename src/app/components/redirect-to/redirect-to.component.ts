@@ -47,7 +47,7 @@ export class RedirectToComponent implements OnInit {
       });
 
       this.http
-        .get(environment.server + 'user', {
+        .get(environment.server + 'auth/new-front', {
           headers,
         })
         .subscribe(

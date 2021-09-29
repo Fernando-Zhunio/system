@@ -39,6 +39,7 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.s_shared.echo.private('catalogs.ml.items').listen('.item', this.listener.bind(this));
+
   }
 
   ngOnDestroy(): void {
@@ -46,7 +47,11 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   }
 
   listener(e: {event: string, item: ImlInfo}): void {
-    if (e.event === 'updated') {
+    console.log(e);
+
+    if (e.event == 'updated') {
+      console.log('updated');
+
       const indexPublication = this.mlInfos.findIndex((item) => item.id === e.item.id);
       if (indexPublication !== -1) {
         this.mlInfos[indexPublication] = e.item;
@@ -56,9 +61,10 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
       if (indexPublication !== -1) {
         this.mlInfos.splice(indexPublication, 1);
       }
-    } else {
+    }/*  else if (e.event === 'created') {
+      if(this.headerComponent?.filter_data.page == 1){
       this.mlInfos.unshift(e.item);
-    }
+    } */
   }
 
   executeMenu(event): void {

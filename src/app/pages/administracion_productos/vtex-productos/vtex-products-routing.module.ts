@@ -32,7 +32,7 @@ const routes: Routes = [
           name: 'index-product-vtex',
           isEdit: false,
           permissions: {
-            only: ['super-admin', 'products-admin.vtex.product-vtex.index'],
+            only: ['super-admin', 'product-admin.vtex.product-vtex.index'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -44,7 +44,7 @@ const routes: Routes = [
           name: 'create-product-vtex',
           isEdit: false,
           permissions: {
-            only: ['super-admin', 'products-admin.vtex.product-vtex.create'],
+            only: ['super-admin', 'product-admin.vtex.product-vtex.create'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -57,7 +57,7 @@ const routes: Routes = [
           name: 'edit-product-vtex',
           isEdit: true,
           permissions: {
-            only: ['super-admin', 'products-admin.vtex.product-vtex.edit'],
+            only: ['super-admin', 'product-admin.vtex.product-vtex.edit'],
           },
         },
         canActivate: [NgxPermissionsGuard],

@@ -20,30 +20,28 @@ export class MercadoLibreAdminComponent extends CtableAndPaginator<IAccountMl> i
   constructor(public activated_route:ActivatedRoute, public s_standart:StandartSearchService,public snack_bar:MatSnackBar) {
     super();
    }
-  wordMain: string = "Cuenta Ml";
-  urlDelete:string = "admin/roles/";
+  wordMain: string = 'Cuenta Ml';
+  urlDelete:string = 'admin/roles/';
   displayedColumns: string[] = [
-    "id",
-    "user_id",
+    'id',
+    'user_id',
     // "guard_name",
-    "name",
-    "city",
-    "company",
+    'name',
+    'city',
+    'company',
     'date_created',
     'date_update',
-    "acciones",
+    'acciones',
   ];
 
-  urlData:string = "admin/ml/accounts";
+  urlData:string = 'admin/ml/accounts';
 
 
   @ViewChild(HeaderSearchComponent) headerComponent:HeaderSearchComponent;
   // ELEMENT_DATA: IrolSystem[] = [];
   permissions:IpermissionStandart;
 
-  // dataSource = new MatTableDataSource<IrolSystem>(this.ELEMENT_DATA);
-  // paginator:Ipagination<IrolSystem>;
-  // isload:boolean;
+
 
   ngOnInit(): void {
     this.activated_route.data.subscribe(res => {

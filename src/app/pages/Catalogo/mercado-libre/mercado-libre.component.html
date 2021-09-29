@@ -1,90 +1,95 @@
 <div>
-
-    <app-header-search [filter_data]="{min:min,max:max,'state':state}" [placeholder]="'Escriba el producto a buscar'" (isload)="isload = $event" [url]="'catalogs/ml-products'" (products)="loadData($event)">
-        <!-- <button [matMenuTriggerFor]="menu" mat-icon-button>
+  <app-header-search [filter_data]="{min:min,max:max,'state':state}" [placeholder]="'Escriba el producto a buscar'"
+    (isload)="isload = $event" [url]="'catalogs/ml-products'" (products)="loadData($event)">
+    <!-- <button [matMenuTriggerFor]="menu" mat-icon-button>
       <mat-icon style="font-size: 30px;" type="search">filter_alt</mat-icon>
     </button> -->
-        <mat-chip-list class="ml-1">
-            <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
-                <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
-            </mat-chip>
-        </mat-chip-list>
-        <mat-menu #menu="matMenu" [overlapTrigger]="false">
-            <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-                <mat-form-field class="w-100">
-                    <mat-label>Estados</mat-label>
-                    <mat-select [(ngModel)]="state">
-                        <mat-option value="all">Todos</mat-option>
-                        <mat-option value="active">Activo</mat-option>
-                        <mat-option value="closed">Inactivo</mat-option>
-                        <mat-option value="payment_required">Pago requerido</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-                <mat-form-field>
-                    <mat-label>Precio Min</mat-label>
-                    <input matInput [(ngModel)]="min" class="example-right-align">
-                    <span matPrefix>$&nbsp;</span>
-                    <span matSuffix>.00</span>
-                </mat-form-field>
-            </div>
-            <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-                <mat-form-field>
-                    <mat-label>Precio Max</mat-label>
-                    <input [(ngModel)]="max" matInput class="example-right-align">
-                    <span matPrefix>$&nbsp;</span>
-                    <span matSuffix>.00</span>
-                </mat-form-field>
-            </div>
-            <button mat-raised-button (click)="applyFilter()" class="ml-3" color="primary">Aplicar Filtro</button>
-        </mat-menu>
-    </app-header-search>
+    <mat-chip-list class="ml-1">
+      <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
+        <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <mat-form-field class="w-100">
+          <mat-label>Estados</mat-label>
+          <mat-select [(ngModel)]="state">
+            <mat-option value="all">Todos</mat-option>
+            <mat-option value="active">Activo</mat-option>
+            <mat-option value="closed">Inactivo</mat-option>
+            <mat-option value="payment_required">Pago requerido</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <mat-form-field>
+          <mat-label>Precio Min</mat-label>
+          <input matInput [(ngModel)]="min" class="example-right-align">
+          <span matPrefix>$&nbsp;</span>
+          <span matSuffix>.00</span>
+        </mat-form-field>
+      </div>
+      <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <mat-form-field>
+          <mat-label>Precio Max</mat-label>
+          <input [(ngModel)]="max" matInput class="example-right-align">
+          <span matPrefix>$&nbsp;</span>
+          <span matSuffix>.00</span>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button (click)="applyFilter()" class="ml-3" color="primary">Aplicar Filtro</button>
+    </mat-menu>
+  </app-header-search>
 
-    <div *ngIf="isload" class="mt-4 card-columns">
-        <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
-            <ngx-skeleton-loader count="1" [theme]="{
+  <div *ngIf="isload" class="mt-4 card-columns">
+    <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
+      <ngx-skeleton-loader count="1" [theme]="{
               'border-radius': '20px',
           height: '200px'
         }"></ngx-skeleton-loader>
-            <div class="text-center">
-                <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
-            </div>
-            <ngx-skeleton-loader count="1" [theme]="{
+      <div class="text-center">
+        <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
+      </div>
+      <ngx-skeleton-loader count="1" [theme]="{
           'border-radius': '5px',
           height: '35px',
           width:'150px',
           'margin-right':'5px'
         }"></ngx-skeleton-loader>
-            <ngx-skeleton-loader count="1" [theme]="{
+      <ngx-skeleton-loader count="1" [theme]="{
           'border-radius': '5px',
           height: '25px',
           width:'150px',
           'margin-right':'5px'
         }"></ngx-skeleton-loader>
-        </div>
     </div>
+  </div>
 
 
-    <div *ngIf="!isload;" class="mt-4 card-columns">
+  <!-- <div *ngIf="!isload;" class="mt-4 card-columns">
         <div *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
-            <!-- <mat-card class=" "> -->
             <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
-            <!-- </mat-card> -->
         </div>
+    </div> -->
+  <div class="grid">
+    <div *ngFor="let ml of mlInfos" class="grid-item card border-0 rounded-fz">
+      <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
     </div>
+  </div>
 
-    <ng-container *ngIf="!isload && mlInfos.length < 1">
-        <div class="row">
-            <div class="col-md-6">
-                <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
-            </div>
-            <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
-                Ups! Sin resultados en tu búsqueda
-            </div>
-        </div>
-    </ng-container>
-    <!-- <mat-paginator *ngIf="mlInfos.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)"> -->
-    <mat-paginator [hidden]="isload" *ngIf="mlInfos.length > 0" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1">
-    </mat-paginator>
+  <ng-container *ngIf="!isload && mlInfos.length < 1">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
+      </div>
+      <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
+        Ups! Sin resultados en tu búsqueda
+      </div>
+    </div>
+  </ng-container>
+  <!-- <mat-paginator *ngIf="mlInfos.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)"> -->
+  <mat-paginator [hidden]="isload" *ngIf="mlInfos.length > 0" [pageSizeOptions]="[10, 20, 30]"
+    (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
+    [pageIndex]="paginator.current_page-1">
+  </mat-paginator>
 </div>

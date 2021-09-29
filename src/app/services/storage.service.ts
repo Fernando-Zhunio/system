@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Session } from '../clases/session';
 import { User } from '../clases/user';
 
-import * as CryptoJS from 'crypto-js';
+// import * as CryptoJS from 'crypto-js';
 import { NgxPermissionsService } from 'ngx-permissions';
 // import {AES}  from 'crypto-js';
 // var CryptoJS = require("crypto-js");
@@ -93,6 +93,10 @@ export class StorageService  {
       if (rolAndPermission) {
         mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
       }
+      const session = this.getCurrentSession();
+      session.user.rol = rolAndPermission.rol;
+      session.user.permission = rolAndPermission.permission;
+       localStorage.setItem('currentUser', JSON.stringify(session));
        this.s_permissionsService.loadPermissions(mergeRolAndPermission);
     // }
   }

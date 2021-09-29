@@ -2,7 +2,7 @@
     <button *ngxPermissionsOnly="permission_page.create" mat-fab color="accent" style="    position: fixed;
     z-index: 10;
     right: 25px;
-    bottom: 113px;" [routerLink]="['./menu-multi-publicaciones']">
+    bottom: 113px;" (click)="goNewPublication()">
     <mat-icon>add</mat-icon>
   </button>
     <app-header-search [filter_data]="{state:filter_state}" [placeholder]="'Escribe la publicacion a buscar'" (isload)="isload = $event" [url]="'catalogs/publications'" (products)="loadData($event)">
@@ -12,26 +12,6 @@
             </mat-chip>
         </mat-chip-list>
         <mat-menu #menu="matMenu" [overlapTrigger]="false">
-            <!-- <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-              <mat-form-field class="w-100">
-                  <mat-label>Prefijos</mat-label>
-                  <mat-select [(ngModel)]="prefix_id">
-                      <mat-option value="all">Todos</mat-option>
-                      <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}
-                      </mat-option>
-                  </mat-select>
-              </mat-form-field>
-          </div> -->
-            <!-- <div class="row m-0 p-0" style="text-overflow: initial;" mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-                <mat-form-field class="col-6">
-                    <mat-label>Stock Min</mat-label>
-                    <input matInput type="number" [(ngModel)]="min" type="number" class="" />
-                </mat-form-field>
-                <mat-form-field class="col-6">
-                    <mat-label>Stock Max</mat-label>
-                    <input [(ngModel)]="max" type="number" matInput class="" />
-                </mat-form-field>
-            </div> -->
             <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" class="h-100">
                 <mat-form-field class="w-100">
                     <mat-label>Estado</mat-label>

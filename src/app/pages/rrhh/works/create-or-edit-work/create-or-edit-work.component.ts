@@ -20,13 +20,13 @@ export class CreateOrEditWorkComponent implements OnInit {
     expiration_date: new FormControl(null, [Validators.required]),
     department_position_id: new FormControl(null, [Validators.required]),
     city_id: new FormControl(null, [Validators.required]),
-    salary: new FormControl(null, [Validators.required]),
+    salary: new FormControl(null),
   });
   constructor(
     private actived_router: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private s_standart: StandartSearchService,
-    private router:Router
+    private router: Router
   ) {}
   state: 'create' | 'edit' = 'create';
   title: string = 'Creando Empleo';
