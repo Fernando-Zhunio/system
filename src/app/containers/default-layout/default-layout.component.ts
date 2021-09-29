@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 // import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
 import { Router, RouteReuseStrategy } from '@angular/router';
-import { INavData } from '@coreui/angular';
 import Echo from 'laravel-echo';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { Subscription } from 'rxjs';
@@ -18,6 +17,7 @@ import { navItems } from '../../_nav';
 import { SwPush } from '@angular/service-worker';
 import { DataSidebar } from '../../class/data-sidebar';
 import { MatIcon } from '@angular/material/icon';
+import { INavData } from '../../interfaces/inav-data';
 @Component({
   selector: 'app-dashboard',
   styles: [
