@@ -80,7 +80,7 @@ export const routes: Routes = [
     data: {
       title: 'Register Page'
     },
-    canActivate:[AuthReverseGuard]
+    canActivate: [AuthReverseGuard]
   },
   {
     path: 'redirect-to',
@@ -99,7 +99,7 @@ export const routes: Routes = [
   {
     path: 'authetication',
     loadChildren: () => import('./pages/authenticate/authenticate.module').then(m => m.AuthenticateModule),
-    canActivate:[AuthReverseGuard]
+    canActivate: [AuthReverseGuard]
   },
   {
     path: '',
@@ -144,7 +144,7 @@ export const routes: Routes = [
         data: {
           isEdit: true,
           permissions: {
-            only: ['super-admin','rrhh'],
+            only: ['super-admin', 'rrhh'],
           },
         },
         canActivate: [NgxPermissionsGuard],

@@ -27,23 +27,24 @@ export class RedirectToComponent implements OnInit {
   ngOnInit(): void {
     const token = this.act_router.snapshot.queryParamMap.get('token');
     // const goto = this.act_router.snapshot.paramMap.get("goto");
+    console.log(token);
     const goto = this.act_router.snapshot.queryParamMap.get('goto');
 
     if (this.s_storage.isAuthenticated()) {
-      if (goto){
+      if (goto) {
         this.router.navigate([goto]);
       } else {
         this.router.navigate(['/home/dashboard']);
       }
       return;
     }
+    console.log('token', token);
 
     // this.route.snapshot.queryParamMap.get
     if (token) {
       const headers = new HttpHeaders({
         Authorization: 'Bearer ' + token,
       });
-
 
       this.http
         .get(environment.server + 'user', {
@@ -56,7 +57,7 @@ export class RedirectToComponent implements OnInit {
               session.token = token;
               session.expires_at = res.data.expires_at;
               session.token_type = res.data.token_type;
-              let user: User = new User(
+              const user: User = new User(
                 res.data.user.id,
                 res.data.user.name,
                 res.data.permissions,
@@ -65,11 +66,8 @@ export class RedirectToComponent implements OnInit {
                 res.data.company_company_id
               );
               session.user = user;
-              // this.auth_service.saveToken(res.access_token);
               this.s_storage.setCurrentSession(session);
-              // localStorage.setItem('user_name',res.user.name)
-              if (goto) this.router.navigate([goto]);
-              else this.router.navigate(['/dashboard']);
+              if (goto) { this.router.navigate([goto]); } else { this.router.navigate(['/home/inicio']); }
             }
           },
           (err) => {

@@ -1,5 +1,5 @@
 .input-facebook{
-  background: #f5f5f5;
+  background: white;
     font-size: 20px;
 }
 .down {
@@ -14,3 +14,19 @@
   height: 500px;
     overflow: auto;
 }
+
+
+
+.warehouse-item{
+  display: flex !important;
+  justify-content: space-between !important;
+  flex-direction: row;
+}
+
+.rotate-180 {
+  transform: rotateY(180deg);
+}
+
+/* .warehouse-add:hover::after{
+  content: 'click para agregar';
+} */

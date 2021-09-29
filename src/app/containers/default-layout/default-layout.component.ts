@@ -128,7 +128,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       }
     }
     this.navItems = this.generateSideBarItems();
-    // descomentar para notificaciones ------------------------------------------------------------------------------
     this.suscribeNotifications(user);
   }
 
@@ -139,29 +138,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   suscribeNotifications(user): void {
-    // const token = 'Bearer ' + this.s_storage.getCurrentToken();
-    // const endpoint = environment.server;
-    // const domain_serve = environment.domain_serve;
-    // const port_ = 80;
-
-    // const echo = new Echo({
-    //   broadcaster: 'pusher',
-    //   cluster: 'mt1',
-    //   key: environment.keySocket,
-    //   authEndpoint: endpoint + 'broadcasting/auth',
-    //   wsHost: domain_serve,
-    //   disableStats: true,
-    //   encrypted: false,
-    //   wsPort: port_,
-    //   wssPort: port_,
-    //   enabledTransports: ['ws', 'wss'],
-    //   forceTLS: false,
-    //   auth: {
-    //     headers: {
-    //       Authorization: token,
-    //     },
-    //   },
-    // });
     const echo = this.s_shared.echo;
      echo
       .private('App.Models.User.' + user.id)
@@ -214,8 +190,18 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       return;
     }
     if (url) {
-      const url1 = url.replace(window.location.hostname, '').replace('https:/', '');
-      this.route.navigate([url1]);
+      const urlObjetc = new URL(url);
+      const hash = urlObjetc.hash.replace('#', '');
+      const hashAndQuery = hash.split('?');
+      const query = hashAndQuery[1].split('&');
+      if (query) {
+        const query_ = {};
+        query.forEach((item) => {
+          const item_ = item.split('=');
+          query_[item_[0]] = item_[1];
+        });
+        this.route.navigate([hashAndQuery[0]], { queryParams: query_ });
+      } else { this.route.navigate([hashAndQuery[0]]); }
     }
   }
 

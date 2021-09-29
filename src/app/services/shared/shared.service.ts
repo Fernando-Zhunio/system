@@ -38,7 +38,7 @@ export class SharedService {
   public currentNotifications = this.notifications.asObservable();
   private _requestWork: Irequest = null;
   private _appointmentWork: Iappointment = null;
-  private port = 80;
+  private port = environment.portSocket;
   public endpoint = environment.server;
   public domain_serve = environment.domain_serve;
   private echo_ = new Echo({
