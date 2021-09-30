@@ -10,9 +10,9 @@ import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
 import { DataSidebar } from '../../class/data-sidebar';
-// import { INavData } from '../../interfaces/inav-data';
+import { INavData } from '../../interfaces/inav-data';
 
-import { AppSidebarComponent, AppSidebarNavComponent, INavData } from '@coreui/angular';
+// import { AppSidebarComponent, AppSidebarNavComponent, INavData } from '@coreui/angular';
 @Component({
   selector: 'app-dashboard',
   styles: [
@@ -35,7 +35,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     // private swPush: SwPush
   ) {}
 
-  @ViewChild('appSidebar', {static:false}) appSidebarNav: AppSidebarComponent;
+  // @ViewChild('appSidebar', {static:false}) appSidebarNav: AppSidebarComponent;
   public sidebarMinimized = false;
   public navItems = null;
   public url_img = '';
@@ -70,7 +70,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.notificationWeb = new NotificationsWebPush(
       this.s_standart
     );
-    console.log(this.appSidebarNav);
+    // console.log(this.appSidebarNav);
 
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
@@ -211,10 +211,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
     if (url) {
       const newUrl = url.replace('#/', '/');
-      console.log(newUrl);
-      const urlObjetc = new URL(newUrl);
+      const urlObjetc: any = new URL(newUrl);
       const path = urlObjetc.pathname;
-      console.log(urlObjetc)
       const queryStrings = Array.from(urlObjetc.searchParams.entries());
       if (queryStrings.length > 0) {
         const query_ = {};
