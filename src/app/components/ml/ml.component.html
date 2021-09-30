@@ -14,11 +14,12 @@
             PUBLICACIÓN {{ml.listing_type_id}}
           </span><br>
         </ng-container>
-
-        <span *ngFor="let company of ml.account.companies_access" class="mb-1 badge  bg-pink text-white">
-          {{company.name}}</span><br>
-        <span class="mb-1 badge  bg-green text-white">{{ml.account.city.name}}</span><br>
-        <span class="mb-1 badge  bg-green text-white">{{ml.account.user_name}}</span>
+        <ng-container *ngIf="ml.account">
+          <span *ngFor="let company of ml.account?.companies_access" class="mb-1 badge  bg-pink text-white">
+            {{company.name}}</span><br>
+          <span class="mb-1 badge  bg-green text-white">{{ml.account.city.name}}</span><br>
+          <span class="mb-1 badge  bg-green text-white">{{ml.account.user_name}}</span>
+        </ng-container>
       </div>
     </div>
     <button mat-mini-fab (click)="openDescription()">

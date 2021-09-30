@@ -37,7 +37,7 @@
     .div6 { grid-area: 3 / 6 / 5 / 9; }
     .div7 { grid-area: 5 / 6 / 7 / 9; } */
 
-.parent {
+/* .parent {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(7, 1fr);
@@ -71,6 +71,67 @@
 
 .div7 {
     grid-area: 5 / 6 / 8 / 9;
+} */
+
+.parent {
+  display: grid;
+  grid-template-areas:
+  'appointmens appointmens works works persons persons cv cv'
+  'lastest-appointments lastest-appointments lastest-appointments lastest-appointments lastest-appointments works-count works-count works-count'
+  'lastest-appointments lastest-appointments lastest-appointments lastest-appointments lastest-appointments request-count request-count request-count';
+  gap: 5px;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+@media screen and (max-width: 768px) {
+  .parent {
+    display: flex;
+    grid-template-areas:
+    'appointmens'' works''persons''cv'
+    'lastest-appointments''works-count'
+    'request-count';
+    gap: 5px;
+    flex-direction: column;
+  }
+}
+
+.appointmens {
+  grid-area: appointmens;
+  grid-column: 1fr;
+  grid-row: 1fr;
+
+}
+.works {
+  grid-area: works;
+  grid-column: 1fr;
+  grid-row: 1fr;
+
+}
+.persons {
+  grid-area: persons;
+  grid-column: 1fr;
+  grid-row: 1fr;
+
+}
+.cv {
+  grid-area: cv;
+  grid-column: 1fr;
+  grid-row: 1fr;
+}
+.lastest-appointments {
+  grid-area: lastest-appointments;
+  grid-column: 1fr;
+
+}
+.works-count {
+  grid-area: works-count;
+  grid-column: 1fr;
+
+}
+.request-count {
+  grid-area: request-count;
+  grid-column: 1fr;
+
 }
 
 .item-grid {
@@ -88,7 +149,7 @@
 .comment-content {
     overflow-y: auto;
     overflow-x: hidden;
-    box-shadow: inset 0px 0px 2px #b8b8b8, inset -20px -20px 60px #fafafa;
+    /* box-shadow: inset 0px 0px 2px #b8b8b8, inset -20px -20px 60px #fafafa; */
     height: -webkit-fill-available;
     height: -moz-available;
     height: -ms-fill-available;
@@ -140,6 +201,12 @@
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+.btn-view-appointment {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }
 
 

@@ -3,7 +3,7 @@
     <div class="container h-100">
       <div class="parent h-100">
         <!-- Solicitudes -->
-        <div class="div1 item-grid shadow lead  p-3 bg-white">
+        <div class="appointmens item-grid shadow lead  p-3 bg-white">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/resume.svg" class="w-75" alt=""></span>
@@ -12,7 +12,7 @@
           </div>
         </div>
         <!-- Empleos -->
-        <div class="div2 item-grid shadow lead  p-3 bg-white">
+        <div class="works item-grid shadow lead  p-3 bg-white">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/suitcase.svg" class="w-75" alt=""></span>
@@ -21,7 +21,7 @@
           </div>
         </div>
         <!-- Personas -->
-        <div class="div3 item-grid shadow lead p-3 bg-white">
+        <div class="persons item-grid shadow lead p-3 bg-white">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/group.svg" class="w-75" alt=""></span>
@@ -30,7 +30,7 @@
           </div>
         </div>
         <!-- Falta -->
-        <div class="div4 item-grid shadow lead p-3 bg-white">
+        <div class="cv item-grid shadow lead p-3 bg-white">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/cv.svg" class="w-75" alt=""></span>
@@ -39,14 +39,18 @@
           </div>
         </div>
         <!-- Solicitudes -->
-        <div class="div5 item-grid shadow p-3 bg-white position-relative">
+        <div class="lastest-appointments item-grid shadow p-3 bg-white position-relative">
           <div class="font-5xl font-facebook text-left">Ultimas solicitudes</div>
-          <div class="comment-content rounded-fz p-3">
+          <div class="comment-content rounded-fz p-md-3 p-0">
             <div *ngFor="let request of requests" class="p-1">
-              <div class="rounded-fz bg-light-blue p-3">
+              <div class="rounded-fz shadow p-3 position-relative">
+                <button mat-icon-button color="primary" [routerLink]="['../requests']" [queryParams]="{'search':request.id}" class="btn-view-appointment"><mat-icon>visibility</mat-icon></button>
                 <div class="header-grid">
                   <img class="rounded-circle" [src]="request.user.photo.real_permalink || '/assets/img/avatars/profile-user.svg'" alt="image user">
-                  <div class="font-2xl font-facebook">{{request.user.first_name}} {{request.user.last_name}}</div>
+                  <div class="font-2xl font-facebook">{{request.user.first_name}} {{request.user.last_name}}
+                    <br>
+                    <small class="badge bg-orange font-sm">{{request.created_at | date}}</small>
+                  </div>
                 </div>
                 <div class="font-italic my-1">Solicitud de empleo: <strong>{{request.work.title}}</strong></div>
                 <div *ngIf="request.comment">
@@ -58,7 +62,7 @@
           <button [routerLink]="['../requests']" class="btn-add-request" mat-fab><mat-icon>visibility</mat-icon></button>
         </div>
         <!-- Empleos -->
-        <div class="div6 hp item-grid shadow p-4 bg-white text-center position-relative">
+        <div class="works-count hp item-grid shadow p-4 bg-white text-center position-relative">
           <div class="row">
             <div class="col-md-7 col-12">
               <div class=" font-4xl w-100 font-facebook text-left">Empleos</div>
@@ -86,8 +90,8 @@
             <mat-icon>construction</mat-icon>
           </button>
         </div>
-
-        <div class="div7 item-grid shadow lead p-4 bg-white position-relative">
+        <!-- Postulaciones -->
+        <div class="request-count item-grid shadow lead p-4 bg-white position-relative">
           <div class="h-100">
             <div class="h-100">
               <div class="row">
@@ -98,18 +102,23 @@
                       <tbody>
                         <tr>
                           <td><i class="far fa-paper-plane"></i></td>
-                          <td>Enviados</td>
-                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_SENDED].count}}</td>
+                          <td>Postulado</td>
+                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_POSTULATE].count}}</td>
                         </tr>
                         <tr>
                           <td><i class="far fa-thumbs-down"></i></td>
-                          <td>Rechazados</td>
-                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_REJECTED].count}}</td>
+                          <td>Cv Vistos</td>
+                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_CV_VIEWED].count}}</td>
                         </tr>
                         <tr>
                           <td><i class="far fa-thumbs-up"></i></td>
-                          <td>Aprobados</td>
-                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_ACEPTED].count}}</td>
+                          <td>En proceso</td>
+                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_IN_PROCESS].count}}</td>
+                        </tr>
+                        <tr>
+                          <td><i class="far fa-thumbs-up"></i></td>
+                          <td>FInalista</td>
+                          <td>{{statesRequestCount[enumStatus.ACTION_REQUEST_FINALIST].count}}</td>
                         </tr>
                         <tr>
                           <td><i class="far fa-thumbs-up"></i></td>
@@ -130,9 +139,6 @@
             <mat-icon>visibility</mat-icon>
           </button>
         </div>
-
-
-
       </div>
     </div>
   </div>

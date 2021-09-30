@@ -1,11 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 // import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
 import { Router, RouteReuseStrategy } from '@angular/router';
-import Echo from 'laravel-echo';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { CustomReusingStrategy } from '../../class/custom-reusing-strategy';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
 import { Inotification } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
@@ -13,11 +9,10 @@ import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
-import { navItems } from '../../_nav';
-import { SwPush } from '@angular/service-worker';
 import { DataSidebar } from '../../class/data-sidebar';
-import { MatIcon } from '@angular/material/icon';
-import { INavData } from '../../interfaces/inav-data';
+// import { INavData } from '../../interfaces/inav-data';
+
+import { AppSidebarComponent, AppSidebarNavComponent, INavData } from '@coreui/angular';
 @Component({
   selector: 'app-dashboard',
   styles: [
@@ -39,6 +34,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_custom_reusing: RouteReuseStrategy,
     // private swPush: SwPush
   ) {}
+
+  @ViewChild('appSidebar', {static:false}) appSidebarNav: AppSidebarComponent;
   public sidebarMinimized = false;
   public navItems = null;
   public url_img = '';
@@ -61,9 +58,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   colorSidebarLeft: string;
   sidebarData = new DataSidebar();
 
-  new_Item_data = DataSidebar.NameGroupItem;
+  // new_Item_data = DataSidebar.NameGroupItem;
 
-  navItemsForCategories = DataSidebar.ItemsForCategories;
+  // navItemsForCategories = DataSidebar.ItemsForCategories;
 
   navItems_ = this.sidebarData.NavItems;
   countNotificationUnRead: number = null;
@@ -73,24 +70,14 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.notificationWeb = new NotificationsWebPush(
       this.s_standart
     );
+    console.log(this.appSidebarNav);
+
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
-    if (localStorage.getItem('color_sidebar_left')) {
-      this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
-    } else {
-      this.colorSidebarLeft = '#054372';
-    }
+    this.setSideBarColor();
     this.getValueDark();
     const user = this.s_storage.getCurrentUser();
-    this.s_standart.index('user/preferences/ajax').subscribe((res) => {
-      if (res && res.hasOwnProperty('success') && res.success) {
-        this.TYPE_NOTY_EMAIL.state =
-          res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
-        this.TYPE_NOTY_WEBPUSH.state =
-          res.data[this.TYPE_NOTY_WEBPUSH.value] === 'on' ? true : false;
-      }
-    });
-
+    this.setPreferences();
     this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(
       (res) => {
         this.notifications = res;
@@ -106,7 +93,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
             (notification) => !notification.read_at
           ).length;
           this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
-
         }
       }
     });
@@ -127,7 +113,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         this.companies.push({ id: 'all', name: 'Todas las empresas' });
       }
     }
-    this.navItems = this.generateSideBarItems();
     this.suscribeNotifications(user);
   }
 
@@ -135,6 +120,28 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     if (this.suscriptionNotifaction) {
       this.suscriptionNotifaction.unsubscribe();
     }
+    console.log('destroy');
+    // this.appSidebarNav.
+    this.navItems = [];
+  }
+
+  setSideBarColor(): void {
+    if (localStorage.getItem('color_sidebar_left')) {
+      this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
+    } else {
+      this.colorSidebarLeft = '#054372';
+    }
+  }
+
+  setPreferences(): void {
+    this.s_standart.index('user/preferences/ajax').subscribe((res) => {
+      if (res && res.hasOwnProperty('success') && res.success) {
+        this.TYPE_NOTY_EMAIL.state =
+          res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
+        this.TYPE_NOTY_WEBPUSH.state =
+          res.data[this.TYPE_NOTY_WEBPUSH.value] === 'on' ? true : false;
+      }
+    });
   }
 
   getPermissionAndRolesFromServer() {
@@ -142,6 +149,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       if (res && res.hasOwnProperty('success') && res.success) {
         const permissionAndRol = {rol:res.data.roles, permission: res.data.permissions};
         this.s_storage.setRolAndPermission(permissionAndRol);
+        console.log(permissionAndRol);
+
+    this.navItems = this.generateSideBarItems();
+
       }
     });
   }
@@ -199,18 +210,19 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       return;
     }
     if (url) {
-      const urlObjetc = new URL(url);
-      const hash = urlObjetc.hash.replace('#', '');
-      const hashAndQuery = hash.split('?');
-      const query = hashAndQuery[1].split('&');
-      if (query) {
+      const newUrl = url.replace('#/', '/');
+      console.log(newUrl);
+      const urlObjetc = new URL(newUrl);
+      const path = urlObjetc.pathname;
+      console.log(urlObjetc)
+      const queryStrings = Array.from(urlObjetc.searchParams.entries());
+      if (queryStrings.length > 0) {
         const query_ = {};
-        query.forEach((item) => {
-          const item_ = item.split('=');
-          query_[item_[0]] = item_[1];
+        queryStrings.forEach((item) => {
+          query_[item[0]] = item[1];
         });
-        this.route.navigate([hashAndQuery[0]], { queryParams: query_ });
-      } else { this.route.navigate([hashAndQuery[0]]); }
+        this.route.navigate([path], { queryParams: query_ });
+      } else { this.route.navigate([path]); }
     }
   }
 
@@ -307,6 +319,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   generateSideBarItems(): INavData[] {
+    const new_Item_data = new DataSidebar().NameGroupItem;
     const permissionAndRol = this.s_storage.getRolAndPermissionUser();
     const mergePermissionAndRol: string[] = [
       ...permissionAndRol.permission,
@@ -318,39 +331,33 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
 
     const sizePermissionAndRol = mergePermissionAndRol.length;
+    console.log(mergePermissionAndRol);
 
     for (let j = 0; j < sizePermissionAndRol; j++) {
       const item: INavData = this.navItems_.find(
         (x) => x.permission === mergePermissionAndRol[j]
       );
       if (item !== undefined) {
-        this.new_Item_data[item.tag].push(item);
+        console.log(item.name);
+        new_Item_data[item.tag].push(item);
       }
     }
+    console.log(new_Item_data);
 
     let data_return = [];
-
-    const keysTags = Object.keys(this.new_Item_data);
+    const keysTags = Object.keys(new_Item_data);
     for (let i = 0; i < keysTags.length; i++) {
       // const element = array[i];
-      if (this.new_Item_data[keysTags[i]].length > 1) {
-        data_return.push(...this.new_Item_data[keysTags[i]]);
+      if (new_Item_data[keysTags[i]].length > 1) {
+        data_return.push(...new_Item_data[keysTags[i]]);
       }
     }
+    console.log(data_return);
     data_return = [
-      {
-        title: true,
-        name: 'Home',
-      },
-      {
-        name: 'Inicio',
-        url: '/inicio',
-        icon: 'icon-home',
-        // permission: "products-admin.products.index",
-        // tag: this.tags.admin_products,
-      },
       ...data_return,
     ];
     return data_return;
   }
+
+
 }

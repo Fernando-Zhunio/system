@@ -62,7 +62,7 @@ export class FormProductComponent implements OnInit {
     LomadeeCampaignCode: new FormControl(null),
     Score: new FormControl(null),
   });
-  permission_page = {product_create_or_edit: ['products-admin.vtex.product-vtex.create']};
+  permission_page = {product_create_or_edit: ['super-admin', 'product-admin.vtex.product-vtex.create']};
   formSpecification: FormGroup = new FormGroup({});
   @Input() agregados: Iproduct3[];
   @Input() status: 'create' | 'edit' = 'create';
@@ -276,6 +276,9 @@ export class FormProductComponent implements OnInit {
             }
           );
       }
+    } else {
+      this.form.markAllAsTouched();
+      this.formSpecification.markAllAsTouched();
     }
   }
 

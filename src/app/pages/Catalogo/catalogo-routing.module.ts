@@ -44,8 +44,6 @@ const routes: Routes = [
         data: {name: 'bucar_products_ll'},
         // component:MarcasMainComponents,
         loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule),
-        // data: {  reuse:true,}
-
       },
       {
         path: 'publicaciones',
@@ -122,6 +120,7 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       },
+
     ]
   }
 ];

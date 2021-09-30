@@ -1,5 +1,11 @@
 export class DataSidebar {
-  public static NameGroupItem = {
+  public  NameGroupItem = {
+    section_home: [
+      {
+        title: true,
+        name: 'Home',
+      }
+    ],
     section_info_general: [
       {
         title: true,
@@ -38,177 +44,177 @@ export class DataSidebar {
     section_report: [
       {
         title: true,
-        name: 'Administracion del sistema',
+        name: 'Reportes',
       },
     ],
     section_rrhh: [
       {
         title: true,
-        name: 'Administracion del sistema',
+        name: 'Recursos Humanos',
       },
     ],
   };
-  public static ItemsForCategories = {
-    product_admin: [
-      {
-        title: true,
-        name: 'Administracion de productos',
-      },
-      {
-        name: 'Productos',
-        url: '/admin-products/productos',
-        icon: 'icon-basket',
-        permission: 'products-admin.products.index',
-      },
-      {
-        name: 'Vtex Productos',
-        url: '/admin-products/vtex-products',
-        icon: 'icon-basket',
-        permission: 'product-admin.vtex.product-vtex.index',
-      },
-      {
-        name: 'Categoria',
-        url: '/admin-products/categorias',
-        icon: 'icon-badge',
-        permission: 'products-admin.categories.index',
-      },
-      {
-        name: 'Marcas',
-        url: '/admin-products/marcas',
-        icon: 'icon-bag',
-        permission: 'products-admin.brands.index',
-      },
-      {
-        name: 'Prefijos',
-        url: '/admin-products/prefijos',
-        icon: 'fab fa-autoprefixer',
-        permission: 'products-admin.prefixes.index',
-      },
-    ],
+  // public static ItemsForCategories = {
+  //   product_admin: [
+  //     {
+  //       title: true,
+  //       name: 'Administracion de productos',
+  //     },
+  //     {
+  //       name: 'Productos',
+  //       url: '/admin-products/productos',
+  //       icon: 'icon-basket',
+  //       permission: 'products-admin.products.index',
+  //     },
+  //     {
+  //       name: 'Vtex Productos',
+  //       url: '/admin-products/vtex-products',
+  //       icon: 'icon-basket',
+  //       permission: 'product-admin.vtex.product-vtex.index',
+  //     },
+  //     {
+  //       name: 'Categoria',
+  //       url: '/admin-products/categorias',
+  //       icon: 'icon-badge',
+  //       permission: 'products-admin.categories.index',
+  //     },
+  //     {
+  //       name: 'Marcas',
+  //       url: '/admin-products/marcas',
+  //       icon: 'icon-bag',
+  //       permission: 'products-admin.brands.index',
+  //     },
+  //     {
+  //       name: 'Prefijos',
+  //       url: '/admin-products/prefijos',
+  //       icon: 'fab fa-autoprefixer',
+  //       permission: 'products-admin.prefixes.index',
+  //     },
+  //   ],
 
-    catalogs: [
-      {
-        title: true,
-        name: 'Catalogo',
-      },
-      {
-        name: 'Buscar producto',
-        url: '/catalogo/buscar_productos',
-        icon: 'fas fa-search',
-        permission: 'catalogs.products.index',
-      },
-      {
-        name: 'Mercado libre',
-        url: '/catalogo/mercado-libre',
-        icon: 'far fa-handshake',
-        permission: 'catalogs.ml-products.index',
-      },
-      {
-        name: 'Publicaciones',
-        url: '/catalogo/publicaciones',
-        icon: 'fab fa-telegram-plane',
-        permission: 'catalogs.publications.index',
-      },
-    ],
+  //   catalogs: [
+  //     {
+  //       title: true,
+  //       name: 'Catalogo',
+  //     },
+  //     {
+  //       name: 'Buscar producto',
+  //       url: '/catalogo/buscar_productos',
+  //       icon: 'fas fa-search',
+  //       permission: 'catalogs.products.index',
+  //     },
+  //     {
+  //       name: 'Mercado libre',
+  //       url: '/catalogo/mercado-libre',
+  //       icon: 'far fa-handshake',
+  //       permission: 'catalogs.ml-products.index',
+  //     },
+  //     {
+  //       name: 'Publicaciones',
+  //       url: '/catalogo/publicaciones',
+  //       icon: 'fab fa-telegram-plane',
+  //       permission: 'catalogs.publications.index',
+  //     },
+  //   ],
 
-    imports: [
-      {
-        title: true,
-        name: 'Importaciones',
-      },
-      {
-        name: 'Proveedores',
-        url: '/importaciones/proveedores',
-        icon: 'icon-briefcase',
-        permission: 'purchase-department.imports.index',
-      },
-      {
-        name: 'Codificar importaciones',
-        url: '/importaciones/codificar-importaciones',
-        icon: 'far fa-handshake',
-        permission: 'purchase-department.imports.index',
-      },
-      {
-        name: 'Precios y promociones',
-        url: '/importaciones/precios-promociones',
-        icon: 'icon-briefcase',
-        permission: 'purchase-department.imports.index',
-      },
-    ],
+  //   imports: [
+  //     {
+  //       title: true,
+  //       name: 'Importaciones',
+  //     },
+  //     {
+  //       name: 'Proveedores',
+  //       url: '/importaciones/proveedores',
+  //       icon: 'icon-briefcase',
+  //       permission: 'purchase-department.imports.index',
+  //     },
+  //     {
+  //       name: 'Codificar importaciones',
+  //       url: '/importaciones/codificar-importaciones',
+  //       icon: 'far fa-handshake',
+  //       permission: 'purchase-department.imports.index',
+  //     },
+  //     {
+  //       name: 'Precios y promociones',
+  //       url: '/importaciones/precios-promociones',
+  //       icon: 'icon-briefcase',
+  //       permission: 'purchase-department.imports.index',
+  //     },
+  //   ],
 
-    reports: [
-      {
-        title: true,
-        name: 'Reportes',
-      },
-      {
-        name: 'Grupo de Productos',
-        url: '/reports/group-products',
-        icon: 'icon-briefcase',
-        permission: 'reports.group-products.index',
-      },
-      {
-        name: 'Download stock',
-        url: '/reports/general-stock',
-        icon: 'icon-briefcase',
-        permission: 'reports.general-stock.export',
-      },
-    ],
+  //   reports: [
+  //     {
+  //       title: true,
+  //       name: 'Reportes',
+  //     },
+  //     {
+  //       name: 'Grupo de Productos',
+  //       url: '/reports/group-products',
+  //       icon: 'icon-briefcase',
+  //       permission: 'reports.group-products.index',
+  //     },
+  //     {
+  //       name: 'Download stock',
+  //       url: '/reports/general-stock',
+  //       icon: 'icon-briefcase',
+  //       permission: 'reports.general-stock.export',
+  //     },
+  //   ],
 
-    info_general: [
-      {
-        title: true,
-        name: 'Informacion general',
-      },
-      {
-        name: 'Organizacion',
-        url: '/information-general/organizacion',
-        icon: 'icon-briefcase',
-        // este permimso no existe
-        permission: 'general.organization.index',
-      },
-    ],
+  //   info_general: [
+  //     {
+  //       title: true,
+  //       name: 'Informacion general',
+  //     },
+  //     {
+  //       name: 'Organizacion',
+  //       url: '/information-general/organizacion',
+  //       icon: 'icon-briefcase',
+  //       // este permimso no existe
+  //       permission: 'general.organization.index',
+  //     },
+  //   ],
 
-    admin_system: [
-      {
-        title: true,
-        name: 'Administracion del sistema',
-      },
-      {
-        name: 'Usuarios',
-        url: '/administracion-sistema/usuarios',
-        icon: 'icon-user-following',
-        permission: 'admin.users.index',
-      },
+  //   admin_system: [
+  //     {
+  //       title: true,
+  //       name: 'Administracion del sistema',
+  //     },
+  //     {
+  //       name: 'Usuarios',
+  //       url: '/administracion-sistema/usuarios',
+  //       icon: 'icon-user-following',
+  //       permission: 'admin.users.index',
+  //     },
 
-      {
-        name: 'Personas',
-        url: '/administracion-sistema/personas',
-        icon: 'icon-user',
-        permission: 'admin.people.index',
-      },
+  //     {
+  //       name: 'Personas',
+  //       url: '/administracion-sistema/personas',
+  //       icon: 'icon-user',
+  //       permission: 'admin.people.index',
+  //     },
 
-      {
-        name: 'Roles',
-        url: '/administracion-sistema/roles',
-        icon: 'icon-briefcase',
-        permission: 'admin.roles.index',
-      },
+  //     {
+  //       name: 'Roles',
+  //       url: '/administracion-sistema/roles',
+  //       icon: 'icon-briefcase',
+  //       permission: 'admin.roles.index',
+  //     },
 
-      {
-        name: 'Paises',
-        url: '/administracion-sistema/paises',
-        icon: 'icon-globe',
-        permission: 'admin.countries.index',
-      },
-      {
-        name: 'Locaciones',
-        url: '/administracion-sistema/locaciones',
-        icon: 'icon-directions',
-        permission: 'admin.locations.index',
-      },
-    ],
-  };
+  //     {
+  //       name: 'Paises',
+  //       url: '/administracion-sistema/paises',
+  //       icon: 'icon-globe',
+  //       permission: 'admin.countries.index',
+  //     },
+  //     {
+  //       name: 'Locaciones',
+  //       url: '/administracion-sistema/locaciones',
+  //       icon: 'icon-directions',
+  //       permission: 'admin.locations.index',
+  //     },
+  //   ],
+  // };
   public tags = {
     admin_products: 'section_admin_products',
     catalogs: 'section_catalogo',
@@ -217,28 +223,25 @@ export class DataSidebar {
     info_general: 'section_info_general',
     admin_system: 'section_admin_system',
     rrhh: 'section_rrhh',
+    home: 'section_home',
   };
 
   public NavItems = [
-    {
-      title: true,
-      name: 'Home',
-    },
+
     {
       name: 'Inicio',
       url: '/home/inicio',
       icon: 'icon-home',
-      // permission: "products-admin.products.index",
-      // tag: this.tags.admin_products,
+      permission: 'home',
+      tag: this.tags.home,
     },
     {
       name: 'Dashboard',
       url: '/home/dashboard',
       icon: 'icon-speedometer',
-      // permission: "products-admin.products.index",
-      // tag: this.tags.admin_products,
+      permission: 'dasboard',
+      tag: this.tags.home,
     },
-
     // #region rrhh
     {
       title: true,
@@ -248,28 +251,28 @@ export class DataSidebar {
       name: 'Dashboard Rrhh',
       url: '/recursos-humanos/dashboard',
       icon: 'icon-star',
-      permission: 'products-admin.products.index',
+      permission: 'rrhh-dashboard',
       tag: this.tags.rrhh,
     },
     {
       name: 'Empleos',
       url: '/recursos-humanos/works',
       icon: 'icon-star',
-      permission: 'rrhh.works.index',
+      permission: 'rrhh-works',
       tag: this.tags.rrhh,
     },
     {
       name: 'Citas',
       url: '/recursos-humanos/appointments',
       icon: 'icon-star',
-      permission: 'rrhh.appointments.index',
+      permission: 'rrhh-appointments',
       tag: this.tags.rrhh,
     },
     {
       name: 'Solicitudes',
       url: '/recursos-humanos/requests',
       icon: 'icon-star',
-      permission: 'rrhh.requests.index',
+      permission: 'rrhh-requests',
       tag: this.tags.rrhh,
     },
     //#endregion rrhh

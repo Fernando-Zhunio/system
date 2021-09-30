@@ -21,7 +21,7 @@ const routes: Routes = [
         component: IndexComponent,
         data: {
           permissions: {
-            only: ['super-admin', 'rrhh.requests.index'],
+            only: ['super-admin', 'rrhh-requests'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -31,7 +31,7 @@ const routes: Routes = [
         component: CreateOrEditRequestComponent,
         data: {
           permissions: {
-            only: ['super-admin', 'rrhh.requests.create'],
+            only: ['super-admin', 'rrhh-requests'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -41,7 +41,7 @@ const routes: Routes = [
         component: CreateOrEditRequestComponent,
         data: {
           permissions: {
-            only: ['super-admin', 'rrhh.requests.edit'],
+            only: ['super-admin', 'rrhh-requests'],
           },
         },
         canActivate: [NgxPermissionsGuard],

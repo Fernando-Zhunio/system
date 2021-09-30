@@ -23,7 +23,7 @@ const routes: Routes = [
     children: [
       {
         path: 'categorias',
-        loadChildren:()=>import('./categorias/categorias.module').then(m => m.CategoriasModule),
+        loadChildren: () => import('./categorias/categorias.module').then(m => m.CategoriasModule),
         data: {
           isEdit: false,
           name: 'categorias',

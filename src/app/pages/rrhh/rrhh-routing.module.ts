@@ -1,10 +1,10 @@
-import { Component, NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterModule, Routes } from "@angular/router";
-import { GroupProductsComponent } from "../reportes/group-products/group-products.component";
-import { NgxPermissionsGuard } from "ngx-permissions";
-import { CreateOrEditGroupProductsComponent } from "../reportes/group-products/create-or-edit-group-products/create-or-edit-group-products.component";
-import { IndexComponent } from "./index/index.component";
+import { Component, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { GroupProductsComponent } from '../reportes/group-products/group-products.component';
+import { NgxPermissionsGuard } from 'ngx-permissions';
+import { CreateOrEditGroupProductsComponent } from '../reportes/group-products/create-or-edit-group-products/create-or-edit-group-products.component';
+import { IndexComponent } from './index/index.component';
 
 @Component({
   selector: 'app-rrhh',
@@ -22,7 +22,7 @@ const routes: Routes = [
         component: IndexComponent,
         data: {
           permissions: {
-            only: ['super-admin', 'rrhh.index'],
+            only: ['super-admin', 'rrhh-dashboard'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -30,27 +30,45 @@ const routes: Routes = [
       {
         path: 'works',
         loadChildren: () => import('./works/works.module').then(m => m.WorksModule),
+        data: {
+          permissions: {
+            only: ['super-admin', 'rrhh-works'],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'appointments',
         loadChildren: () => import('./appointments/appointments.module').then(m => m.AppointmentsModule),
+        data: {
+          permissions: {
+            only: ['super-admin', 'rrhh-appointments'],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'requests',
         loadChildren: () => import('./requests/requests.module').then(m => m.RequestsModule),
-      },
-      {
-        path: 'group-products/edit',
-        component: CreateOrEditGroupProductsComponent,
-
         data: {
-          isEdit: true,
           permissions: {
-            only: ['super-admin', 'purchase-department.imports.edit'],
+            only: ['super-admin', 'rrhh-requests'],
           },
         },
         canActivate: [NgxPermissionsGuard],
-      }
+      },
+      // {
+      //   path: 'group-products/edit',
+      //   component: CreateOrEditGroupProductsComponent,
+
+      //   data: {
+      //     isEdit: true,
+      //     permissions: {
+      //       only: ['super-admin', 'purchase-department.imports.edit'],
+      //     },
+      //   },
+      //   canActivate: [NgxPermissionsGuard],
+      // }
     ]
   }
 ];

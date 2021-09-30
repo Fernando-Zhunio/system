@@ -67,7 +67,7 @@
 <div class="app-body" [ngClass]="[isDark?'dark-super':'not-dark-super']">
   <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
     (minimizedChange)="toggleMinimize($event)">
-    <app-sidebar-nav [navItems]="navItems" [style.background]="colorSidebarLeft" [perfectScrollbar]
+    <app-sidebar-nav #appSidebarNav [navItems]="navItems" [style.background]="colorSidebarLeft" [perfectScrollbar]
       [disabled]="appSidebar.minimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>

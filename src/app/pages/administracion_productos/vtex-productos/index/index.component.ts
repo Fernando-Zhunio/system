@@ -20,7 +20,7 @@ export class IndexComponent implements OnInit {
 
   constructor(private modal: MatDialog, private s_serviceStandart: StandartSearchService) { }
 
-  permission_page = {product_edit: ['products-admin.vtex.product-vtex.edit'], sku_edit: ['product-admin.vtex.product-vtex.edit']}
+  permission_page = {product_edit: ['super-admin', 'product-admin.vtex.product-vtex.edit'], sku_edit: ['super-admin', 'product-admin.vtex.product-vtex.edit']}
   min: number; max: number;
   warehouse_ids: any[];
   prefix_id: string;
@@ -84,7 +84,7 @@ export class IndexComponent implements OnInit {
       data: {id},
       disableClose: true,
       hasBackdrop: true
-    })
+    });
   }
 
   deleteVtexProduct(vtex_api_id): void {

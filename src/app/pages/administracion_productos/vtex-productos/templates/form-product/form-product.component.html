@@ -12,7 +12,6 @@
               bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
               <p style="color: white"> Cargando {{selectionState}}... </p>
             </ngx-spinner>
-
             <ng-template #templateCategories>
               <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="bg-transparent">
                 <!-- This is the tree node template for leaf nodes -->
@@ -170,7 +169,6 @@
         <mat-checkbox class="col-12" formControlName="IsActive">Esta Activo?</mat-checkbox>
         <mat-checkbox class="col-12" formControlName="IsVisible">Es visible?</mat-checkbox>
         <mat-checkbox class="col-12" formControlName="ShowWithoutStock">Mostrar si esta agotado?</mat-checkbox>
-
 
         <!-- <button class="btn btn-primary btn-block my-2" type="button">AGREGAR SKU</button> -->
       </form>

@@ -102,8 +102,9 @@ export class TwoFAComponent implements OnInit {
             const user: User = new User(
               res.data.user.id,
               res.data.user.name,
-              res.data.permissions,
-              res.data.roles,
+              [],[],
+              // res.data.permissions,
+              // res.data.roles,
               res.data.companies,
               res.data.company_company_id
             );

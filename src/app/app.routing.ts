@@ -133,13 +133,13 @@ export const routes: Routes = [
       {
         path: 'recursos-humanos',
         loadChildren: () => import('./pages/rrhh/rrhh.module').then(m => m.RrhhModule),
-        data: {
-          isEdit: true,
-          permissions: {
-            only: ['super-admin', 'rrhh'],
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
+        // data: {
+        //   isEdit: true,
+          // permissions: {
+          //   only: ['super-admin', 'rrhh'],
+          // },
+        // },
+        // canActivate: [NgxPermissionsGuard],
       },
 
       // {
