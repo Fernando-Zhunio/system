@@ -54,7 +54,7 @@ const routes: Routes = [
         data: {
           isEdit: true,
           permissions: {
-            only: ['super-admin', 'report.general-stock'],
+            only: ['super-admin', 'reports.general-stock.export'],
           },
         },
         canActivate: [NgxPermissionsGuard],

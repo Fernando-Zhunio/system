@@ -92,6 +92,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
+import { AddInfoPersonModalComponent } from './components/modals/add-info-person-modal/add-info-person-modal.component';
 
 // import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
 // import { ModalRealistComponent } from './components/ml/tools/modal-realist/modal-realist.component';
@@ -161,6 +162,7 @@ registerLocaleData(localeEs, 'es');
     SnackBarLoaderComponent,
     OkLoginComponent,
     FormRecuperationPasswordComponent,
+    AddInfoPersonModalComponent,
     // DownloadStockComponent,
     // ModalRealistComponent,
   ],

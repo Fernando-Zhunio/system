@@ -17,7 +17,7 @@ export class CreateOrEditWorkComponent implements OnInit {
     skills: new FormArray([]),
     requiments: new FormArray([]),
     time: new FormControl(null, [Validators.required]),
-    expiration_date: new FormControl(null, [Validators.required]),
+    expiration_date: new FormControl(null),
     department_position_id: new FormControl(null, [Validators.required]),
     city_id: new FormControl(null, [Validators.required]),
     salary: new FormControl(null),

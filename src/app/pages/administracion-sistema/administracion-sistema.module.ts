@@ -47,6 +47,7 @@ import { FacebookAdsModalComponent } from './facebook-ads-manager/facebook-ads-m
 import { FacebookAdsCampaignComponent } from './facebook-ads-manager/facebook-ads-campaign/facebook-ads-campaign.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FacebookAdsAccountsComponent } from './facebook-ads-accounts/facebook-ads-accounts.component';
+import { ModalAssignUserComponent } from './usuarios/tool/modal-assign-user/modal-assign-user.component';
 
 // import { ComprasAutomaticasComponent } from './compras-automaticas/compras-automaticas.component';
 
@@ -82,6 +83,7 @@ import { FacebookAdsAccountsComponent } from './facebook-ads-accounts/facebook-a
     FacebookAdsCampaignComponent,
     FacebookAdsSetComponent,
     FacebookAdsAccountsComponent,
+    ModalAssignUserComponent,
     ],
   imports: [
     CommonModule,

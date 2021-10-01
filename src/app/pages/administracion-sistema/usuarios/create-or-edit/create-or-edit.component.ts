@@ -5,12 +5,12 @@ import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import { Cperson, TYPE_CORP_EMAIL } from '../../../../class/cperson';
 import { CreateEmailModalComponent } from '../../../../components/modals/create-email-modal/create-email-modal.component';
 import { IuserSystem } from '../../../../interfaces/iuser-system';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
+import { ModalAssignUserComponent } from './../tool/modal-assign-user/modal-assign-user.component';
 
 export interface Task {
   name: string;
@@ -35,24 +35,14 @@ export class CreateOrEditComponent implements OnInit {
 
   hide: boolean = true;
   regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
-
-  //  myControl = new FormControl();
   search_person: string = '';
   persons: Cperson[] = [];
   person_current: Cperson = null;
   isloadPersons: boolean = false;
   form_user: FormGroup = new FormGroup({
-    // name: new FormControl("", [Validators.required]),
-    // email: new FormControl("", [Validators.email, Validators.required]),
-    password: new FormControl('', [Validators.pattern(this.regex)]),
-    email: new FormControl('', [Validators.required]),
-    // city: new FormControl("", [Validators.required]),
-    // position: new FormControl("", [Validators.required]),
-    // location: new FormControl("", [Validators.required]),
-    // sexes: new FormControl("", [Validators.required]),
+  password: new FormControl('', [Validators.pattern(this.regex)]),
+  email: new FormControl('', [Validators.required]),
   });
-
-  // companies: [] = [];
   roles: [] = [];
   sexes = {};
   locations = [];
@@ -99,13 +89,13 @@ export class CreateOrEditComponent implements OnInit {
         const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
         const url = 'admin/users/' + id + '/edit';
         this.s_standart.show(url).subscribe((response) => {
-          // this.cities = response.data.cities;
+          if (response.data.person == null) {
+            this.notPerson(response.data.user);
+          } else {
+            this.person_current = response.data.person;
+          }
           this.userCurrent = response.data.user;
-          this.person_current = response.data.person;
-          // this.sexes = response.data.sexes;
-
-          ////#region transform companies
-          let companies = response.data.companies.map((obj) => ({
+          const companies = response.data.companies.map((obj) => ({
             ...obj,
             active: false,
           }));
@@ -136,6 +126,25 @@ export class CreateOrEditComponent implements OnInit {
     });
   }
 
+  assignPersonUser(person_id: number) {
+    this.s_standart.updatePut('admin/user/' + this.userCurrent.id + '/people/' + person_id, {}).subscribe((response) => {
+      console.log(response);
+    });
+  }
+
+  notPerson(user): void {
+    this.dialog.open(ModalAssignUserComponent, {
+      data: {user},
+      disableClose: true,
+    }).beforeClosed().subscribe((res1) => {
+      console.log(res1);
+      if (res1) {
+       this.assignPersonUser(res1.id);
+       this.person_current = res1;
+      }
+    });
+  }
+
   searchPerson(): void {
     this.isloadPersons = true;
     this.persons.length = 0;
@@ -150,8 +159,6 @@ export class CreateOrEditComponent implements OnInit {
   }
 
   assignData(response) {
-    // this.cities = response.data.cities;
-    // this.sexes = response.data.sexes;
     const companies = response.data.companies.map((obj) => ({
       ...obj,
       active: false,

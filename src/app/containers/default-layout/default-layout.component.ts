@@ -120,9 +120,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     if (this.suscriptionNotifaction) {
       this.suscriptionNotifaction.unsubscribe();
     }
-    console.log('destroy');
-    // this.appSidebarNav.
-    this.navItems = [];
   }
 
   setSideBarColor(): void {
@@ -163,6 +160,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       .private('App.Models.User.' + user.id)
       .notification((notify: Inotification) => {
         this.s_shared.addNotification(notify);
+        console.log(notify);
+
         const data_rendered = notify.data;
         let name_user = 'System';
         if (
@@ -174,7 +173,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           name_user = data_rendered.user.name;
         }
         this.countNotificationUnRead = this.countNotificationUnRead + 1;
-        const url = data_rendered.route.replace(window.location.hostname, '');
+        const url = data_rendered.route;
         SwalService.swalToastNotification(
           this.route,
           name_user,
@@ -210,8 +209,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       return;
     }
     if (url) {
-      const newUrl = url.replace('#/', '/');
+      const newUrl = url.replace('#/', '');
+      console.log(url, newUrl);
+
       const urlObjetc: any = new URL(newUrl);
+
       const path = urlObjetc.pathname;
       const queryStrings = Array.from(urlObjetc.searchParams.entries());
       if (queryStrings.length > 0) {

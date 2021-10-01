@@ -34,6 +34,7 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
   }
 
   listener(e): void {
+    if (!this.publication) {return; }
     if (e.publication.id === this.publication.id) {
       if (e.event == 'updated') {
         this.publication = e.publication;

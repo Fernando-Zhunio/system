@@ -17,7 +17,7 @@ export class Cperson {
   status: string;
   updated_at: string;
   // user: Iuser;
-  contact_info?:any;
+  contact_info?: any;
   user_id: number;
   location: {
     id: number;
@@ -26,7 +26,7 @@ export class Cperson {
   user?: {
     id: number;
     name: string;
-    email?:string;
+    email?: string;
   };
   city: {
     id: number;

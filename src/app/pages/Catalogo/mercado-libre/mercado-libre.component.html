@@ -66,16 +66,16 @@
   </div>
 
 
-  <!-- <div *ngIf="!isload;" class="mt-4 card-columns">
+  <div *ngIf="!isload;" class="mt-4 card-columns">
         <div *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
             <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
         </div>
-    </div> -->
-  <div class="grid">
+    </div>
+  <!-- <div class="grid">
     <div *ngFor="let ml of mlInfos" class="grid-item card border-0 rounded-fz">
       <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
     </div>
-  </div>
+  </div> -->
 
   <ng-container *ngIf="!isload && mlInfos.length < 1">
     <div class="row">

@@ -151,7 +151,7 @@ export class SwalService {
 
       customClass: {
         // container: "p-2",
-        popup: `p-2 bg-${icon}`,
+        popup: `p-2 bg-${icon} cursor-pointer`,
         image: 'm-0 rounded-fz',
       },
 

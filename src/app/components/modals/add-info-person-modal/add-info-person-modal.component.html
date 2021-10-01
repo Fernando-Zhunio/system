@@ -1,0 +1,35 @@
+<h3 class="m-0 text-muted">Hola {{data.user.name}}</h3>
+<div mat-dialog-content>
+  <div>
+    <div class="w-100">
+      <input class="input-search rounded-fz w-100 mb-2" placeholder="Buscador el usuario" type="search" (keyup.enter)="searchPerson()" matInput [(ngModel)]="search_person" [matAutocomplete]="auto">
+  </div>
+  <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let person of persons;let i=index" (click)="captureUser(person.id)" [value]="person.first_name">
+          <img width="40px" [src]="person.photo?.permalink?person.photo.permalink:'assets/img/avatars/profile-user.svg'" class="rounded-circle border p-0 m-0" alt=""> {{person.first_name}} {{person.last_name}}
+      </mat-option>
+      <mat-option *ngIf="isloadPersons">Cargando ...</mat-option>
+  </mat-autocomplete>
+  <div>
+    <div class="row" *ngIf="person;else templateClear">
+      <div class="col-md-4 align-items-center d-flex">
+        <img [src]="person.photo?.permalink?person.photo.permalink:'assets/img/avatars/profile-user.svg'" class="w-100" alt="">
+      </div>
+      <div class="col-md-8">
+        <div class="font-facebook font-2xl">{{person.first_name}} {{person.last_name}}</div>
+        <div class="lead">{{person.city.name}}</div>
+        <div class="lead">{{person.identification_type}}: {{person.identification_number}}</div>
+        <div class="lead">Sexo: {{person.sex}}</div>
+      </div>
+    </div>
+    <ng-template #templateClear>
+      <div>Sin persona seleccionada</div>
+    </ng-template>
+  </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="assignPerson()">Guardar</button>
+    <button mat-raised-button color="accent" mat-dialog-close >Crear persona</button>
+    <button mat-raised-button color="warn" mat-dialog-close cdkFocusInitial>Cancelar</button>
+</div>

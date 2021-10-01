@@ -18,10 +18,10 @@
                         <mat-card-content>
                             <mat-form-field appearance="fill" class="d-block">
                                 <mat-label>Codigo</mat-label>
-                                <input autocomplete matInput [type]="hide ? 'password' : 'text'" formControlName="code">
-                                <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                <input  matInput formControlName="code">
+                                <!-- <button mat-icon-button matSuffix (click)="hide = !hide" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                   <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
+                </button> -->
                                 <!-- <mat-error *ngIf="formPassword.get('password').invalid">Ingrese la contraseña</mat-error> -->
 
                             </mat-form-field>
