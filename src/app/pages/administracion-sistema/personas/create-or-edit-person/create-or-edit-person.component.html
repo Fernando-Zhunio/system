@@ -39,7 +39,7 @@
 
                     <mat-form-field class="col-md-6">
                         <mat-label>Fecha de nacimiento <small>(d/m/yyyy)</small></mat-label>
-                        <input matInput formControlName="birthday" [matDatepicker]="dp4">
+                        <input matInput [max]="maxDateBirthDay" formControlName="birthday" [matDatepicker]="dp4">
                         <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
                         <mat-datepicker #dp4 disabled="false"></mat-datepicker>
                         <mat-error *ngIf="form_person.controls['birthday'].invalid">Fecha de nacimiento Requerido</mat-error>
@@ -56,7 +56,7 @@
 
                     <mat-form-field class="col-md-6">
                         <mat-label>Fecha de inicio laboral <small>(d/m/yyy)</small> </mat-label>
-                        <input matInput formControlName="start_date" [matDatepicker]="dp3">
+                        <input [max]="maxDate" matInput formControlName="start_date" [matDatepicker]="dp3">
                         <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
                         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                         <mat-error *ngIf="form_person.controls['start_date'].invalid">Fecha de inicio laboral Requerido</mat-error>

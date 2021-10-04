@@ -63,7 +63,8 @@ export class RedirectToComponent implements OnInit {
                 res.data.permissions,
                 res.data.roles,
                 res.data.companies,
-                res.data.company_company_id
+                res.data.company_company_id,
+                res.data.user.person,
               );
               session.user = user;
               this.s_storage.setCurrentSession(session);

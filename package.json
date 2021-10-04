@@ -93,7 +93,7 @@
         "@angular/language-service": "^9.1.13",
         "@types/jasmine": "^3.6.4",
         "@types/jasminewd2": "^2.0.8",
-        "@types/node": "^13.13.45",
+        "@types/node": "^13.13.52",
         "@types/sortablejs": "^1.10.6",
         "codelyzer": "^5.2.2",
         "jasmine-core": "^3.6.0",

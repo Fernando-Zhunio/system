@@ -100,9 +100,6 @@ export class StandartSearchService {
     return this.http.post<Iresponse>(this.end_point + url, form);
   }
 
-  // uploadFormDataPut(url,form:FormData):Observable<Iresponse>{
-  //   return this.http.put<Iresponse>(this.end_point+url,form);
-  // }
 
 
 

@@ -10,6 +10,7 @@ import { IpermissionStandart } from '../../interfaces/ipermission-standart';
 import { Subscription } from 'rxjs';
 import { RepublicarCuentasModalComponent } from '../modals/republicar-cuentas-modal/republicar-cuentas-modal.component';
 import { STATES_PUBLICATION } from '../../Objects/ObjectMatchs';
+import { SwalService } from '../../services/swal.service';
 
 @Component({
   selector: 'app-publication',
@@ -81,26 +82,29 @@ export class PublicationComponent implements OnInit {
 
 
   deletePublication(idPublication): void {
-    const snack = this.snack_bar.open('Eliminando espere ...');
-    this.isLoader = true;
-    // this.s_catalogo.destroyPublications(idPublication).subscribe(
-      this.s_standart.destory('catalogs/publications/' + idPublication).subscribe(
-      res => {
-        snack.dismiss();
-        this.isLoader = false;
-        if (res.success) {
-          this.delete.emit(res.data);
-          this.snack_bar.open('Eliminado con exito', 'OK', {duration: 2000});
-        } else {
-          this.snack_bar.open('Error al eliminar', 'Error', {duration: 2000});
-        }
-      }, err => {
-        console.log(err);
-        this.snack_bar.open('Error al eliminar', 'Error', {duration: 2000});
-        this.isLoader = false;
-        snack.dismiss();
+    SwalService.swalConfirmation('Eliminar publicacion', 'Esta seguro de eliminar esta publicacion?', 'warning').then((result) => {
+      if (result.isConfirmed) {
+        const snack = this.snack_bar.open('Eliminando espere ...');
+        this.isLoader = true;
+          this.s_standart.destory('catalogs/publications/' + idPublication).subscribe(
+          res => {
+            snack.dismiss();
+            this.isLoader = false;
+            if (res.success) {
+              this.delete.emit(res.data);
+              this.snack_bar.open('Eliminado con exito', 'OK', {duration: 2000});
+            } else {
+              this.snack_bar.open('Error al eliminar', 'Error', {duration: 2000});
+            }
+          }, err => {
+            console.log(err);
+            this.snack_bar.open('Error al eliminar', 'Error', {duration: 2000});
+            this.isLoader = false;
+            snack.dismiss();
+          }
+        );
       }
-    );
+    });
   }
 
   executeMenu(type, id ): void {

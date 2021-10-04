@@ -56,7 +56,7 @@ export class SwalService {
       showConfirmButton: false,
     }
   ) {
-    Swal.fire(iswal)
+    Swal.fire(iswal);
   }
 
   /**
@@ -74,7 +74,7 @@ export class SwalService {
     icon = 'success',
     confirmTexBtnt = 'Si, deseo eliminar',
     cancelTextBtn = 'No, deseo eliminar'
-  ): Promise<any> {
+  ): Promise<{isConfirmed: boolean, dismiss: boolean}> {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mr-1',

@@ -21,6 +21,9 @@ export class CreateOrEditPersonComponent implements OnInit {
 
   @ViewChild('photoUserInput') photoUserInput: ElementRef;
   @ViewChild('stepper') stepper: MatHorizontalStepper;
+  // minDate = new Date();
+  maxDateBirthDay = new Date();
+  maxDate = new Date();
   title: string = 'Creando nueva Persona';
   state: 'create' | 'edit' = 'create';
   cities: any = {};
@@ -45,7 +48,7 @@ export class CreateOrEditPersonComponent implements OnInit {
     last_name: new FormControl(null, [Validators.required]),
     identification_type: new FormControl(null, [Validators.required]),
     identification_number: new FormControl(null, [Validators.required]),
-    birthday: new FormControl(null, [Validators.required]),
+    birthday: new FormControl(this.maxDate, [Validators.required]),
     sex: new FormControl(null, [Validators.required]),
     start_date: new FormControl(null, [Validators.required]),
     city_id: new FormControl(null, [Validators.required]),
@@ -59,6 +62,7 @@ export class CreateOrEditPersonComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.maxDateBirthDay.setFullYear(this.maxDate.getFullYear() - 18);
     this.router_active.data.subscribe((res) => {
       if (res.isEdit) {
         this.state = 'edit';
@@ -192,7 +196,7 @@ export class CreateOrEditPersonComponent implements OnInit {
     } else if (this.state == 'edit') {
       if (this.form_person.valid) {
         this.isloadperson = true;
-        let form_data_send: FormData = this.createFormData();
+        const form_data_send: FormData = this.createFormData();
         form_data_send.append('_method', 'put');
         this.s_standart
           .uploadFormData('admin/people/' + this.person.id, form_data_send)

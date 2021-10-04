@@ -35,9 +35,6 @@ export class TwoFAComponent implements OnInit, OnDestroy {
   });
 
   token: string;
-  // suscribir_reloj: Subscription;
-  // count_down: { hour: string; min: string } = { hour: '05', min: '00' };
-  // count_down_entero: { hour: number; min: number } = { hour: 5, min: 0 };
   user: Iuser;
 
   config: CountdownConfig = {
@@ -95,6 +92,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
 
   SaveInServer(): void {
     if (this.formPassword.valid) {
+      this.isLoad = true;
       this.s_standart
         .store('auth/email-two-factor/' + this.token, this.formPassword.value)
         .subscribe((res) => {
@@ -121,6 +119,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
               'Error de autenticacion verifique su contraseña o email',
               'warning'
             );
+            this.isLoad = false;
           }
         });
     }

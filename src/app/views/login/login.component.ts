@@ -38,8 +38,9 @@ export class LoginComponent {
           if (res.hasOwnProperty('success') && res.success) {
             const url = '/authetication/codigo-confirmacion/' + res.data.token;
             this.router.navigate([url]);
+          } else {
+            this.btnLogin = !this.btnLogin;
           }
-          this.btnLogin = !this.btnLogin;
         },
         (err) => {
           this.btnLogin = !this.btnLogin;

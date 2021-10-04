@@ -184,7 +184,6 @@
     <ng-template #especificationTemplate>
       <div [formGroup]="formSpecification">
         <div *ngFor="let item of vtexSpecificationProduct">
-          <!-- {{item.Name}} -->
           <div class="item-specification">
             <label>{{item.Name}}:</label>
             <mat-radio-group *ngIf="item.FieldTypeName == 'Radio'" [required]="item.IsRequired"
@@ -201,9 +200,8 @@
             </mat-selection-list>
 
             <mat-form-field *ngIf="item.FieldTypeName == 'Texto'">
-              <!-- <mat-label> {{item.Value}}</mat-label> -->
               <input [formControlName]="item.FieldId" matInput>
-              <mat-error *ngIf="form.get(item.FieldId).invalid">Este campo es requerido</mat-error>
+              <mat-error *ngIf="formSpecification.get(item.FieldId.toString()).invalid">Este campo es requerido</mat-error>
             </mat-form-field>
           </div>
           <hr>

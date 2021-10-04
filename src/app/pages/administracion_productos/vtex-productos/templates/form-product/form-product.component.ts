@@ -40,7 +40,6 @@ export class FormProductComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
     Name: new FormControl(null, [Validators.required]),
-    // DepartmentId: new FormControl({ value: null, disabled: true }),
     CategoryId: new FormControl(null, [Validators.required]),
     BrandId: new FormControl(null, [Validators.required]),
     LinkId: new FormControl(null, [Validators.required]),
@@ -79,17 +78,20 @@ export class FormProductComponent implements OnInit {
   brandSelect: number;
   isLoadProduct: boolean = false;
   isLoadSpecifications: boolean = false;
+  suscriptionProducts: Subscription;
+  vtexSpecificationProduct: Ispecification[] = [];
+  specificationRadio = null;
+
   @Output() vtexSpecifications = new EventEmitter<{
     specification_products: Ispecification[];
     specification_skus: Ispecification[];
   }>();
   hasChild = (_: number, node: any) =>
     !!node.children && node.children.length > 0
-
-  suscriptionProducts: Subscription;
   ngOnInit(): void {}
+
   stateInitUpdate(): void {
-    let {
+    const {
       Id,
       Name,
       DepartmentId,
@@ -297,8 +299,8 @@ export class FormProductComponent implements OnInit {
     this.form.controls['Title'].setValue(this.agregados[0].name);
     let refId: string = '';
     this.agregados.forEach((value, index) => {
-      if (index == 0) refId += value.code;
-      else refId += '-' + value.code;
+      if (index == 0) { refId += value.code; }
+      else { refId += '-' + value.code; }
     });
     this.form.controls['RefId'].setValue(refId);
     const _textLink: any = this.form.controls['Name'].value;
@@ -308,7 +310,6 @@ export class FormProductComponent implements OnInit {
     this.form.controls['LinkId'].setValue(textLink);
   }
 
-  vtexSpecificationProduct: Ispecification[] = [];
   changeSpecifications(): void {
     this.isLoadSpecifications = true;
     this.suscriptionProducts = this.s_standart
@@ -317,31 +318,29 @@ export class FormProductComponent implements OnInit {
         (res) => {
           if (res && res.hasOwnProperty('success') && res.success) {
             this.vtexSpecifications.emit(res.data);
-            // const formGroup:FormGroup = new FormGroup({})
-            // this.form.addControl('specifications',this.formSpecification);
             res.data.specification_products.forEach((element) => {
               const specification = this.vtexProduct?.Specifications.find(
                 (item) => item.FieldId == element.FieldId
               );
               let value;
-              if (specification) value = element.FieldTypeName == 'Radio' ? specification.FieldValues[0] : specification.FieldValues;
+              if (specification) { value = element.FieldTypeName == 'Radio' ? specification.FieldValues[0] : specification.FieldValues; }
               let control: FormControl;
-              if (element.IsRequired)
+              if (element.IsRequired) {
                 control = new FormControl(value, [Validators.required]);
-              else control = new FormControl(value);
+              } else { control = new FormControl(value); }
               this.formSpecification.addControl(element.FieldId, control);
             });
+            console.log(this.formSpecification.value);
             this.vtexSpecificationProduct = res.data.specification_products;
           }
           this.isLoadSpecifications = false;
+          console.log(this.isLoadSpecifications);
         },
         () => {
           this.isLoadSpecifications = false;
         }
       );
   }
-
-  specificationRadio = null;
 
   checkState(event, el, padre) {
     event.preventDefault();

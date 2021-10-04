@@ -11,6 +11,8 @@ import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
 import { DataSidebar } from '../../class/data-sidebar';
 import { INavData } from '../../interfaces/inav-data';
+import { MatDialog } from '@angular/material/dialog';
+import { AddInfoPersonModalComponent } from '../../components/modals/add-info-person-modal/add-info-person-modal.component';
 
 // import { AppSidebarComponent, AppSidebarNavComponent, INavData } from '@coreui/angular';
 @Component({
@@ -32,6 +34,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_standart: StandartSearchService,
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy,
+    private dialog: MatDialog,
     // private swPush: SwPush
   ) {}
 
@@ -57,33 +60,63 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public notifications: Inotification[] = [];
   colorSidebarLeft: string;
   sidebarData = new DataSidebar();
-
-  // new_Item_data = DataSidebar.NameGroupItem;
-
-  // navItemsForCategories = DataSidebar.ItemsForCategories;
-
   navItems_ = this.sidebarData.NavItems;
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
 
   ngOnInit(): void {
-    this.notificationWeb = new NotificationsWebPush(
-      this.s_standart
-    );
-    // console.log(this.appSidebarNav);
-
+    this.notificationWeb = new NotificationsWebPush(this.s_standart);
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
     this.setSideBarColor();
     this.getValueDark();
     const user = this.s_storage.getCurrentUser();
     this.setPreferences();
+    if (!user.person) { console.log(user); this.addPersonModal(user); }
+    this.getNotification();
+    this.companiesGestion(user);
+    this.suscribeNotifications(user);
+  }
+
+  ngOnDestroy(): void {
+    if (this.suscriptionNotifaction) {
+      this.suscriptionNotifaction.unsubscribe();
+    }
+  }
+
+  addPersonModal(user): void {
+    this.dialog.open(AddInfoPersonModalComponent, {
+      data: { user },
+      disableClose: true,
+    }).beforeClosed()
+    .subscribe((res) => {
+      console.log(res);
+      if (res == undefined) {
+        console.log('no se guardo');
+       this.addPersonModal(user);
+      } else {
+       const user_current = this.s_storage.getCurrentUser();
+       console.log(user_current);
+       user_current.person = res;
+        this.s_storage.setCurrentUser(user_current);
+      }
+    });
+  }
+
+  setSideBarColor(): void {
+    if (localStorage.getItem('color_sidebar_left')) {
+      this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
+    } else {
+      this.colorSidebarLeft = '#054372';
+    }
+  }
+
+  getNotification(): void {
     this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(
       (res) => {
         this.notifications = res;
       }
     );
-
     this.s_standart.index('notifications/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.s_shared.changeNotifications(res.data);
@@ -96,7 +129,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
 
+  companiesGestion(user): void {
     const username = user.name.replace(' ', '+');
     this.url_img = 'https://ui-avatars.com/api/?name=' + username;
     this.companies = user.companies;
@@ -112,21 +147,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       if (indexAll == -1) {
         this.companies.push({ id: 'all', name: 'Todas las empresas' });
       }
-    }
-    this.suscribeNotifications(user);
-  }
-
-  ngOnDestroy(): void {
-    if (this.suscriptionNotifaction) {
-      this.suscriptionNotifaction.unsubscribe();
-    }
-  }
-
-  setSideBarColor(): void {
-    if (localStorage.getItem('color_sidebar_left')) {
-      this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
-    } else {
-      this.colorSidebarLeft = '#054372';
     }
   }
 
@@ -331,28 +351,27 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
 
     const sizePermissionAndRol = mergePermissionAndRol.length;
-    console.log(mergePermissionAndRol);
+    // console.log(mergePermissionAndRol);
 
     for (let j = 0; j < sizePermissionAndRol; j++) {
       const item: INavData = this.navItems_.find(
         (x) => x.permission === mergePermissionAndRol[j]
       );
       if (item !== undefined) {
-        console.log(item.name);
+        // console.log(item.name);
         new_Item_data[item.tag].push(item);
       }
     }
-    console.log(new_Item_data);
+    // console.log(new_Item_data);
 
     let data_return = [];
     const keysTags = Object.keys(new_Item_data);
     for (let i = 0; i < keysTags.length; i++) {
-      // const element = array[i];
       if (new_Item_data[keysTags[i]].length > 1) {
         data_return.push(...new_Item_data[keysTags[i]]);
       }
     }
-    console.log(data_return);
+    // console.log(data_return);
     data_return = [
       ...data_return,
     ];

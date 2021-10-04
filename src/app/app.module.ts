@@ -93,6 +93,9 @@ import { environment } from '../environments/environment';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { AddInfoPersonModalComponent } from './components/modals/add-info-person-modal/add-info-person-modal.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
+import { MatNativeDateModule } from '@angular/material/core';
 
 // import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
 // import { ModalRealistComponent } from './components/ml/tools/modal-realist/modal-realist.component';
@@ -136,10 +139,12 @@ registerLocaleData(localeEs, 'es');
     MatSnackBarModule,
     MatSlideToggleModule,
     MatBadgeModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
-
     // MatTabsModule
   ],
   declarations: [
@@ -163,6 +168,9 @@ registerLocaleData(localeEs, 'es');
     OkLoginComponent,
     FormRecuperationPasswordComponent,
     AddInfoPersonModalComponent,
+
+
+
     // DownloadStockComponent,
     // ModalRealistComponent,
   ],
@@ -194,6 +202,7 @@ registerLocaleData(localeEs, 'es');
     InvoiceItemModalComponent,
     CreateProviderOrContactComponent,
     SearchProductModalComponent,
+    AddInfoPersonModalComponent,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,21 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output, Sanitizer } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Iproduct3 } from "../../../../../interfaces/iproducts";
-import { SwalService } from "../../../../../services/swal.service";
-import { StandartSearchService } from "./../../../../../services/standart-search.service";
-import { IproductVtexSku } from "./../../../../../interfaces/iproducts";
+import { Component, EventEmitter, Input, OnInit, Output, Sanitizer } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Iproduct3 } from '../../../../../interfaces/iproducts';
+import { SwalService } from '../../../../../services/swal.service';
+import { StandartSearchService } from './../../../../../services/standart-search.service';
+import { IproductVtexSku } from './../../../../../interfaces/iproducts';
 import {
   IvtexProducts,
   IvtexResponseProduct,
   IvtexSkuStore,
   vtexResponseSku,
-} from "./../../../../../interfaces/vtex/iproducts";
-import { DomSanitizer } from "@angular/platform-browser";
-import { environment } from "../../../../../../environments/environment";
-import { NgxSpinnerService } from "ngx-spinner";
-import { Ispecification } from "./../../../../../interfaces/vtex/ispecification";
-import { Subscription } from "rxjs";
-import { collect } from "collect.js";
+} from './../../../../../interfaces/vtex/iproducts';
+import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../../../../../../environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Ispecification } from './../../../../../interfaces/vtex/ispecification';
+import { Subscription } from 'rxjs';
+import { collect } from 'collect.js';
 interface IformatSpecification {
   FieldId: number;
   FieldName: string;
@@ -26,9 +26,9 @@ interface IformatSpecification {
   FieldGroupName: string;
 }
 @Component({
-  selector: "app-form-skus",
-  templateUrl: "./form-skus.component.html",
-  styleUrls: ["./form-skus.component.css"],
+  selector: 'app-form-skus',
+  templateUrl: './form-skus.component.html',
+  styleUrls: ['./form-skus.component.css'],
 })
 export class FormSkusComponent implements OnInit {
   constructor(
@@ -43,7 +43,7 @@ export class FormSkusComponent implements OnInit {
   @Input() vtexSpecificationsSkus: Ispecification[] = [];
   @Output() emitSave = new EventEmitter<any>();
 
-  @Input() status: "create" | "update" = "create";
+  @Input() status: 'create' | 'update' = 'create';
   formSku: FormGroup = new FormGroup({
     ProductId: new FormControl(null, [Validators.required]),
     IsActive: new FormControl(null, []),
@@ -74,13 +74,13 @@ export class FormSkusComponent implements OnInit {
 
   formFileSku: FormGroup = new FormGroup({
     IsMain: new FormControl(false, [Validators.required]),
-    Label: new FormControl("", [Validators.required]),
-    Name: new FormControl("", [Validators.required]),
-    Text: new FormControl("", [Validators.required]),
+    Label: new FormControl('', [Validators.required]),
+    Name: new FormControl('', [Validators.required]),
+    Text: new FormControl('', [Validators.required]),
     // Img:new FormControl(null,[Validators.required]),
   });
   formSpecification: FormGroup = new FormGroup({});
-  permission_page ={product_create_or_edit:['products-admin.vtex.products.skus.edit','products-admin.vtex.products.skus.create']}
+  permission_page = {product_create_or_edit: ['super-admin', 'product-admin.vtex.product-vtex.edit']}
   file: File = null;
   imagesSku: {
     FileId: number;
@@ -89,23 +89,23 @@ export class FormSkusComponent implements OnInit {
   }[] = [];
   currentImgSku: any;
   isLoadSku: boolean = false;
-  isLoadDestroyImg:boolean = false;
+  isLoadDestroyImg: boolean = false;
   server_vtex_file: string = environment.server_vtex_file;
+  suscriptionProducts: Subscription;
   ngOnInit(): void {
     this.onChangeStepper(null);
   }
 
   onChangeStepper(event): void {
-    if (this.status == "update") {
-      this.sku.RewardValue = !this.sku.RewardValue?null:this.sku.RewardValue
+    if (this.status == 'update') {
+      this.sku.RewardValue = !this.sku.RewardValue ? null : this.sku.RewardValue;
       this.sku.KitItensSellApart = this.sku.KitItensSellApart || false;
 
       const collect_sku = collect(this.sku);
       const diff = collect_sku.intersectByKeys(this.formSku.getRawValue());
       this.formSku.setValue(diff.all());
-      this.imagesSku = Array.isArray(this.sku.Images)? this.sku.Images: [];
-    }
-    else{
+      this.imagesSku = Array.isArray(this.sku.Images) ? this.sku.Images : [];
+    } else{
       this.formSku.setValue({
         CommercialConditionId: this.sku.CommercialConditionId,
         CubicWeight: this.sku.CubicWeight,
@@ -128,30 +128,19 @@ export class FormSkusComponent implements OnInit {
         UnitMultiplier: this.sku.UnitMultiplier,
         WeightKg: this.sku.RealWeightKg,
         Width: this.sku.RealWidth,
-        RefId:this.sku.RefId
+        RefId: this.sku.RefId
       });
     }
 
     this.selectedTabChange();
   }
-  suscriptionProducts: Subscription;
-  // vtexSpecificationProduct:Ispecification[] = [];
   selectedTabChange(): void {
-    // this.suscriptionProducts = this.s_standart
-    // .index("products-admin/vtex-specification/"+this.categorySelect)
-    // .subscribe(
-    //   (res) => {
-    //     if(res && res.hasOwnProperty('success') && res.success){
-    // this.vtexSpecifications.emit(res.data)
-    // const formGroup: FormGroup = new FormGroup({});
-    // this.formSku.addControl("specifications", formGroup);
-    // this.vtexSpecificationsSkus = res.data.specification_products
     this.vtexSpecificationsSkus.forEach((element) => {
-      const specification = this.sku?.Specifications ?this.sku?.Specifications.find(
+      const specification = this.sku?.Specifications ? this.sku?.Specifications.find(
         (item) => item.FieldId == element.FieldId
-      ):null;
+      ) : null;
       let value;
-      if (specification) value = element.FieldTypeName == 'Radio'? specification.FieldValues[0]:specification.FieldValues;
+      if (specification) value = element.FieldTypeName == 'Radio' ? specification.FieldValues[0] : specification.FieldValues;
       let control: FormControl;
       if (element.IsRequired)
         control = new FormControl(value, [Validators.required]);
@@ -171,23 +160,22 @@ export class FormSkusComponent implements OnInit {
   convertDataSpecificationForServer() {
     let dataSpecification = Object.assign({}, this.formSpecification.value);
     // let specifications = [];
-    const sendSpecifications:IformatSpecification[] = [];
+    const sendSpecifications: IformatSpecification[] = [];
     for (const specification in dataSpecification) {
       const itemSpecification = this.vtexSpecificationsSkus.find(
         (x) => x.FieldId == specification
       );
-
       const FieldId = itemSpecification.FieldId;
       const FieldName = itemSpecification.Name;
 
-      const FieldValueIds = dataSpecification[specification] && (Array.isArray(dataSpecification[specification])) ? dataSpecification[specification].map(value=>{
-        return itemSpecification.Values.find(x=>x.Value == value).FieldValueId
-      }):dataSpecification[specification]?[specification] : []
-      const FieldValues = dataSpecification[specification] && Array.isArray(dataSpecification[specification])?dataSpecification[specification] :dataSpecification[specification]?[dataSpecification[specification]] :[];
+      const FieldValueIds = dataSpecification[specification] && (Array.isArray(dataSpecification[specification])) ? dataSpecification[specification].map(value => {
+        return itemSpecification.Values.find(x => x.Value == value).FieldValueId
+      }) : dataSpecification[specification] ? [specification] : [];
+      const FieldValues = dataSpecification[specification] && Array.isArray(dataSpecification[specification]) ? dataSpecification[specification] : dataSpecification[specification] ? [dataSpecification[specification]] : [];
       const IsFilter = itemSpecification.IsFilter;
       const FieldGroupName = itemSpecification.FieldGroupName;
       const FieldGroupId = itemSpecification.FieldGroupId;
-       sendSpecifications.push({FieldId,FieldName,FieldValueIds,FieldValues,IsFilter,FieldGroupId,FieldGroupName})
+       sendSpecifications.push({FieldId, FieldName, FieldValueIds, FieldValues, IsFilter, FieldGroupId, FieldGroupName})
     }
     return sendSpecifications;
   }
@@ -204,37 +192,37 @@ export class FormSkusComponent implements OnInit {
           {specifications, ...this.formSku.getRawValue()}
         )
         .subscribe((res) => {
-          this.emitSave.emit({data:res});
-          if (res && res.hasOwnProperty("success") && res.success) {
-            this.status = "update";
+          this.emitSave.emit({data: res});
+          if (res && res.hasOwnProperty('success') && res.success) {
+            this.status = 'update';
             // this.emitSave.emit()
           }
         });
     }
     else{
-      SwalService.swalToast('Aun hay campos por completar en este formulario o en especificaciones','error','top-end')
+      SwalService.swalToast('Aun hay campos por completar en este formulario o en especificaciones', 'error', 'top-end')
     }
   }
 
   saveInServeSkuImg(): void {
     if (this.formFileSku.valid) {
       const formData = new FormData();
-      const name = this.formFileSku.get("Name").value;
-      formData.append("Img", this.file);
-      formData.append("IsMain", this.formFileSku.get("IsMain").value);
-      formData.append("Label", this.formFileSku.get("Label").value);
-      formData.append("Name", name);
-      formData.append("Text", this.formFileSku.get("Text").value);
+      const name = this.formFileSku.get('Name').value;
+      formData.append('Img', this.file);
+      formData.append('IsMain', this.formFileSku.get('IsMain').value);
+      formData.append('Label', this.formFileSku.get('Label').value);
+      formData.append('Name', name);
+      formData.append('Text', this.formFileSku.get('Text').value);
       this.isLoadSku = true;
-      this.ngx_spinner.show("sku-img");
+      this.ngx_spinner.show('sku-img');
       this.s_standart
         .uploadFormData(
-          "products-admin/vtex/sku-vtex-image/" + this.sku.Id,
+          'products-admin/vtex/sku-vtex-image/' + this.sku.Id,
           formData
         )
         .subscribe(
           (res) => {
-            if (res && res.hasOwnProperty("success") && res.success) {
+            if (res && res.hasOwnProperty('success') && res.success) {
               /**
                * "Id": number,
                * "ArchiveId": number,
@@ -251,16 +239,16 @@ export class FormSkusComponent implements OnInit {
                 ImageUrl: res.data.ImageUrl,
               });
             }
-            this.ngx_spinner.hide("sku-img");
+            this.ngx_spinner.hide('sku-img');
             this.formFileSku.reset();
             this.file = null;
             this.currentImgSku = null;
           },
-          (err) => this.ngx_spinner.hide("sku-img")
+          (err) => this.ngx_spinner.hide('sku-img')
         );
     }
     else{
-      SwalService.swalToast('Aun hay campos por completar en este formulario o en especificaciones','error','top-end')
+      SwalService.swalToast('Aun hay campos por completar en este formulario o en especificaciones', 'error', 'top-end')
     }
   }
 
@@ -275,18 +263,18 @@ export class FormSkusComponent implements OnInit {
   }
 
   destroyImg(id): void {
-    if(!this.isLoadDestroyImg){
+    if (!this.isLoadDestroyImg){
       this.s_standart
         .destory(
           `products-admin/vtex/sku-vtex-image/sku/${this.sku.Id}/image/${id}`
         )
         .subscribe((res) => {
-          if (res && res.hasOwnProperty("success") && res.success) {
+          if (res && res.hasOwnProperty('success') && res.success) {
             const imgIndex = this.imagesSku.findIndex(
               (item) => item.FileId === id
             );
             this.imagesSku.splice(imgIndex, 1);
-            SwalService.swalToast("Eliminado con exito");
+            SwalService.swalToast('Eliminado con exito');
           }
         });
     }
