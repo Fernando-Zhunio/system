@@ -52,7 +52,7 @@ export class AddInfoPersonModalComponent implements OnInit {
     console.log(this.maxDateBirthDay);
 
     this.isload = true;
-    this.s_standart.show('admin/people/create').subscribe((response) => {
+    this.s_standart.show('user/people/create').subscribe((response) => {
       if (response && response.hasOwnProperty('success') && response.success) {
         this.setDataDefault(response.data);
         this.isload = false;
@@ -107,7 +107,7 @@ export class AddInfoPersonModalComponent implements OnInit {
       this.isload = true;
       this.s_standart
         .uploadFormData(
-          'admin/user/' + this.data.user.id + '/people',
+          'user/' + this.data.user.id + '/people',
           data_send
         )
         .subscribe((response) => {

@@ -26,7 +26,6 @@ export class RedirectToComponent implements OnInit {
 
   ngOnInit(): void {
     const token = this.act_router.snapshot.queryParamMap.get('token');
-    // const goto = this.act_router.snapshot.paramMap.get("goto");
     console.log(token);
     const goto = this.act_router.snapshot.queryParamMap.get('goto');
 

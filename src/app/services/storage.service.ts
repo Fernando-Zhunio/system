@@ -46,12 +46,9 @@ export class StorageService  {
     try {
       sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('currentUser')));
     } catch (e) {
-      // sessionStr = null;
       console.log(e);
       this.logout();
     }
-
-    console.log(sessionStr);
     return (sessionStr) ? <Session>sessionStr : null;
   }
 

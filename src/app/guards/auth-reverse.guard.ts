@@ -30,7 +30,7 @@ export class AuthReverseGuard implements CanActivate {
     // }
     // return true;
     if(this.s_storage.isAuthenticated()){
-      this.route.navigate(['dashboard']);
+      this.route.navigate(['/home/dashboard']);
       return false;
     }
     return true;
