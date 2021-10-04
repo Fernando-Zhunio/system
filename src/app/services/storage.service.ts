@@ -44,11 +44,14 @@ export class StorageService  {
   loadSessionData(): Session {
     let sessionStr = null;
     try {
-      sessionStr = this.decryptAes(localStorage.getItem('currentUser'));
-    } catch (error) {
+      sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('currentUser')));
+    } catch (e) {
+      // sessionStr = null;
+      console.log(e);
       this.logout();
-      return ;
     }
+
+    console.log(sessionStr);
     return (sessionStr) ? <Session>sessionStr : null;
   }
 
