@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { Session } from '../clases/session';
 import { User } from '../clases/user';
 import { NgxPermissionsService } from 'ngx-permissions';
-var CryptoJS = require('crypto-js');
+
+declare var require: any;
+const CryptoJS = require('crypto-js');
 @Injectable({
   providedIn: 'root'
 })
