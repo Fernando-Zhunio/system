@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents, ADFacebookAdsManagerMainComponents } from './administracion-sistema-routing.module';
+import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents, ADFacebookAdsManagerMainComponents, ADVtexWarehousesMainComponents } from './administracion-sistema-routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -48,15 +48,13 @@ import { FacebookAdsCampaignComponent } from './facebook-ads-manager/facebook-ad
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FacebookAdsAccountsComponent } from './facebook-ads-accounts/facebook-ads-accounts.component';
 import { ModalAssignUserComponent } from './usuarios/tool/modal-assign-user/modal-assign-user.component';
-
-// import { ComprasAutomaticasComponent } from './compras-automaticas/compras-automaticas.component';
-
-// import { ConvertObjectToArrayPipe } from '../../pipes/convert-object-to-array.pipe';
-
-
+import { VtexWarehousesComponent } from './vtex-warehouses/vtex-warehouses.component';
+import { CreateOrEditVtexWarehousesComponent } from './vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
+
     CreateEmailModalComponent,
     UsuariosComponent,
     ADUsersMainComponents,
@@ -84,6 +82,9 @@ import { ModalAssignUserComponent } from './usuarios/tool/modal-assign-user/moda
     FacebookAdsSetComponent,
     FacebookAdsAccountsComponent,
     ModalAssignUserComponent,
+    VtexWarehousesComponent,
+    CreateOrEditVtexWarehousesComponent,
+    ADVtexWarehousesMainComponents,
     ],
   imports: [
     CommonModule,
@@ -117,8 +118,6 @@ import { ModalAssignUserComponent } from './usuarios/tool/modal-assign-user/moda
     MatMenuModule,
     MatBadgeModule,
     NgxSpinnerModule,
-    // MatSlideToggle,
-
   ],
 
   entryComponents: [

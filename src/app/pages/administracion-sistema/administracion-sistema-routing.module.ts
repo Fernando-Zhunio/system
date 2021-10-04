@@ -16,8 +16,9 @@ import { PersonasComponent } from './personas/personas.component';
 import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/create-or-edit-person.component';
 import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';
 import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado-libre-create-or-edit/mercado-libre-create-or-edit.component';
-import { OkLoginComponent } from '../../components/ok-login/ok-login.component';
 import { FacebookAdsManagerComponent } from './facebook-ads-manager/facebook-ads-manager.component';
+import { VtexWarehousesComponent } from './vtex-warehouses/vtex-warehouses.component';
+import { CreateOrEditVtexWarehousesComponent } from './vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
 // import { ComprasAutomaticasComponent } from "./compras-automaticas/compras-automaticas.component";
 // import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
 
@@ -58,10 +59,16 @@ export class ADPersonasMainComponents {}
 export class ADMercadoLibreAdminMainComponents {}
 
 @Component({
+  selector: 'app-vtex-warehouses',
+  template: '<router-outlet></router-outlet>',
+})
+export class ADVtexWarehousesMainComponents {}
+@Component({
   selector: 'app-as-facebook-ads-manager',
   template: '<router-outlet></router-outlet>',
 })
 export class ADFacebookAdsManagerMainComponents {}
+
 
 const permission_module_AD = {
   usuarios: {
@@ -113,6 +120,14 @@ const permission_module_AD = {
   },
 
   facebook_ads_manager: {
+    index: ['super-admin', 'admin.facebook-ads.ads.index'],
+    show: ['super-admin', 'admin.facebook-ads.ads.show'],
+    create: ['super-admin', 'admin.facebook-ads.ads.create'],
+    edit: ['super-admin', 'admin.facebook-ads.ads.edit'],
+    delete: ['super-admin', 'admin.facebook-ads.ads.destroy'],
+  },
+
+  vtex_warehouses: {
     index: ['super-admin', 'admin.facebook-ads.ads.index'],
     show: ['super-admin', 'admin.facebook-ads.ads.show'],
     create: ['super-admin', 'admin.facebook-ads.ads.create'],
@@ -218,7 +233,6 @@ const routes: Routes = [
     },
     canActivate: [NgxPermissionsGuard],
   },
-
   // roles
   {
     path: 'roles',
@@ -449,6 +463,54 @@ const routes: Routes = [
     data: {
       permissions: {
         only: permission_module_AD.facebook_ads_manager.index,
+      },
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+
+  // Vtex Warehouse
+  {
+    path: 'vtex-warehouses',
+    component: ADVtexWarehousesMainComponents,
+    children: [
+      {
+        path: '',
+        component: VtexWarehousesComponent,
+        data: {
+          permissions: {
+            all: permission_module_AD.vtex_warehouses,
+            only: permission_module_AD.vtex_warehouses.index,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path: 'create',
+        component: CreateOrEditVtexWarehousesComponent,
+        data: {
+          isEdit: false,
+          permissions: {
+            only: permission_module_AD.vtex_warehouses.create,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+
+      {
+        path: 'edit/:id',
+        component: CreateOrEditVtexWarehousesComponent,
+        data: {
+          isEdit: true,
+          permissions: {
+            only: permission_module_AD.vtex_warehouses.edit,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+    ],
+    data: {
+      permissions: {
+        only: permission_module_AD.vtex_warehouses.index,
       },
     },
     canActivate: [NgxPermissionsGuard],
