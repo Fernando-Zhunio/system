@@ -36,9 +36,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy,
     private dialog: MatDialog,
-    public overlayContainer: OverlayContainer,
+    // public overlayContainer: OverlayContainer,
   ) {}
-  @HostBinding('class') componentCssClass;
+  // @HostBinding('class') componentCssClass;
   public sidebarMinimized = false;
   public navItems = null;
   public url_img = '';
@@ -78,10 +78,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.suscribeNotifications(user);
   }
 
-  onSetTheme(theme) {
-    this.overlayContainer.getContainerElement().classList.add(theme);
-    this.componentCssClass = theme;
-  }
+  // onSetTheme(theme) {
+  //   this.overlayContainer.getContainerElement().classList.add(theme);
+  //   this.componentCssClass = theme;
+  // }
 
   ngOnDestroy(): void {
     if (this.suscriptionNotifaction) {
