@@ -1,14 +1,13 @@
-<!-- <app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true" [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 89, height: 25, alt: 'CoreUI Logo'}" [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}" -->
 <app-header class="border-0 shadow-sm" [ngClass]="{'dark-super': isDark}" [navbarBrandRouterLink]="['/home/dashboard']"
-  [fixed]="true"
+  [fixed]="false"
   [navbarBrandFull]="{src: 'assets/icons_custom/novisolutions.svg', width: '100%', height: '100%', alt: 'Novisolutions'}"
   [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
-  <ul class="nav navbar-nav d-md-down-none">
+  <!-- <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item px-3">
       <a class="nav-link" href="javascript:void(0)">Dashboard</a>
     </li>
-  </ul>
+  </ul> -->
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none">
       <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -26,7 +25,7 @@
           matBadgeColor="accent">notifications
         </mat-icon>
       </button>
-      <mat-menu #menu1="matMenu" [overlapTrigger]="false"  style="height: 80vh;">
+      <mat-menu class="custom-menu-notification" #menu1="matMenu" [overlapTrigger]="false" >
         <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
           class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'bg-light':'bg-'+notification.data.type}}"
           *ngFor="let notification of notifications" (click)="$event.stopPropagation()"
@@ -42,7 +41,15 @@
         </div>
       </mat-menu>
     </li>
-
+    <!-- <li class="nav-item">
+      <button mat-raised-button color="primary" (click)="onSetTheme('default-theme')">Default</button>
+    </li>
+    <li class="nav-item">
+      <button mat-raised-button color="primary" (click)="onSetTheme('dark-theme')">Dark</button>
+    </li>
+    <li class="nav-item">
+      <button mat-raised-button color="primary" (click)="onSetTheme('light-theme')">Light</button>
+    </li> -->
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" [matMenuTriggerFor]="menu2">
         <img [src]="url_img" class="img-avatar" alt="admin@bootstrapmaster.com" />

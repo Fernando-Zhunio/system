@@ -1,16 +1,12 @@
-// If you want to override variables do it here
-
-
-
-
-
-
-// @include mat.all-component-themes($angular-default-theme);
-@import "variables";
-// Import styles
+// @import "variables";
 @import "~@coreui/coreui/scss/coreui";
-// If you want to add something do it here
-@import "custom";
+// @import "custom";
+// @import "theme";
+
+
+
+
+
 .justify-end>div {
     display: block;
 }
@@ -193,6 +189,35 @@ button {
   cursor: pointer;
 }
 
+.sidebar .nav-link.active::after {
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  background: transparent;
+  bottom: -30px;
+  border-radius: 0 20px 0 0;
+  box-shadow: 8px -11px 0px #e4e5e6;
+}
 
+.sidebar .nav-link.active::before {
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  background: transparent;
+  top: -30px;
+  border-radius: 0 0 20px 0;
+  box-shadow: 13px 1px 0px #e4e5e6;
+}
 
+.sidebar .nav-link.active {
+  background-color: #e4e5e6;
+  color: #2f353a;
+}
 
+.custom-menu-notification {
+  height:75vh
+}

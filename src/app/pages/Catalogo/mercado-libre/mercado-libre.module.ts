@@ -23,12 +23,12 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
-// import { MlComponent } from '../../../components/ml/ml.component';
+import { NgxMasonryModule } from 'ngx-masonry';
 
 
 
 @NgModule({
-  declarations: [MercadoLibreComponent,MercadoLibreMainComponents],
+  declarations: [MercadoLibreComponent, MercadoLibreMainComponents],
   imports: [
     CommonModule,
     MercadoLibreRoutingModule,
@@ -52,7 +52,7 @@ import { HeaderSearchModule } from '../../../Modulos/header-search/header-search
     MatSnackBarModule,
     MatToolbarModule,
     HeaderSearchModule,
-    // TranslateModule
+    NgxMasonryModule
 
   ]
 })

@@ -30,6 +30,6 @@
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button color="primary" (click)="assignPerson()">Guardar</button>
-    <button mat-raised-button color="accent" mat-dialog-close >Crear persona</button>
-    <button mat-raised-button color="warn" mat-dialog-close cdkFocusInitial>Cancelar</button>
+    <button mat-raised-button color="accent" [routerLink]="['/administracion-sistema/personas/create']" mat-dialog-close >Crear persona</button>
+    <button mat-raised-button color="warn" mat-dialog-close (click)="go()" cdkFocusInitial>Cancelar</button>
 </div>

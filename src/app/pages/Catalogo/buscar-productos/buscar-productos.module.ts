@@ -27,6 +27,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
+import { NgxMasonryModule } from 'ngx-masonry';
 // import { SimpleScrollSpyModule } from "angular-simple-scroll-spy";
 
 @NgModule({
@@ -60,6 +61,7 @@ import { HeaderSearchModule } from '../../../Modulos/header-search/header-search
     PostModule,
     SwiperModule,
     HeaderSearchModule,
+    NgxMasonryModule,
     // SimpleScrollSpyModule,
     ]
 })

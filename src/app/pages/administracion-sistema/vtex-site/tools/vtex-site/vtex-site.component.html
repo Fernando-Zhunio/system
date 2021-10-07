@@ -1,0 +1,29 @@
+<div class="card-body lead position-relative">
+  <span class="btn-edit">
+    <button [routerLink]="['/administracion-sistema/vtex-sites/edit',vtexSite.id]" mat-mini-fab color="primary"><mat-icon>edit</mat-icon></button>
+    <button (click)="deleteVtexSite()" mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
+  </span>
+  <div class="border-bottom mb-2">
+    <span>Nombre amigable:</span><br>
+   <span  class="font-italic text-muted">{{vtexSite.friendly_name}}</span>
+  </div>
+  <div class="border-bottom mb-2">
+    <span>Nombre de cuenta:</span><br>
+    <span class="font-italic text-muted">{{vtexSite.name}}</span>
+  </div>
+  <div class="border-bottom mb-2">
+    <span>Url:</span><br>
+    <span class="font-italic text-muted">{{vtexSite.url}}</span>
+  </div>
+  <div class="border-bottom mb-2">
+    <span>App Key:</span><br>
+    <span class="font-italic text-muted">{{vtexSite.app_key}}</span>
+  </div>
+  <div class="mb-2">
+    <span>App Token:</span><br>
+    <span class="font-italic text-muted">{{vtexSite.app_token}}</span>
+  </div>
+  <mat-chip-list>
+    <mat-chip [routerLink]="['/administracion-sistema/vtex-sites',vtexSite.id,'vtex-warehouses']" color="primary">Ver bodegas &nbsp;<mat-icon>visibility</mat-icon></mat-chip>
+  </mat-chip-list>
+</div>

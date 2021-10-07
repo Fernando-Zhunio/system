@@ -46,7 +46,7 @@ export class MercadoLibreAdminComponent extends CtableAndPaginator<IAccountMl> i
   ngOnInit(): void {
     this.activated_route.data.subscribe(res => {
       this.permissions = res.permissions.all;
-  })
+  });
   }
 
 }

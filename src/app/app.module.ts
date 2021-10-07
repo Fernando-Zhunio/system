@@ -96,6 +96,7 @@ import { AddInfoPersonModalComponent } from './components/modals/add-info-person
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
 import { MatNativeDateModule } from '@angular/material/core';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 // import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
 // import { ModalRealistComponent } from './components/ml/tools/modal-realist/modal-realist.component';
@@ -142,10 +143,10 @@ registerLocaleData(localeEs, 'es');
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    OverlayModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
-    // MatTabsModule
   ],
   declarations: [
     AppComponent,

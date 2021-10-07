@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Cperson } from '../../../../../class/cperson';
 import { StandartSearchService } from './../../../../../services/standart-search.service';
 
@@ -10,7 +11,7 @@ import { StandartSearchService } from './../../../../../services/standart-search
 })
 export class ModalAssignUserComponent implements OnInit {
 
-  constructor( private dialogRef: MatDialogRef<ModalAssignUserComponent>, @Inject(MAT_DIALOG_DATA) public data, private s_standart: StandartSearchService) { }
+  constructor(private router: Router, private dialogRef: MatDialogRef<ModalAssignUserComponent>, @Inject(MAT_DIALOG_DATA) public data, private s_standart: StandartSearchService) { }
   isloadPersons: boolean = false;
   persons: Cperson[] = [];
   person: Cperson;
@@ -37,6 +38,12 @@ export class ModalAssignUserComponent implements OnInit {
     console.log(person);
     if (person) {
       this.person = person;
+    }
+  }
+
+  go(): void {
+    if (!this.data.person) {
+      this.router.navigate(['/administracion-sistema/usuarios']);
     }
   }
 

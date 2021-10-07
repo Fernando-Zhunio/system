@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, HostBinding } from '@angular/core';
 // import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
 import { Router, RouteReuseStrategy } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,8 +13,8 @@ import { DataSidebar } from '../../class/data-sidebar';
 import { INavData } from '../../interfaces/inav-data';
 import { MatDialog } from '@angular/material/dialog';
 import { AddInfoPersonModalComponent } from '../../components/modals/add-info-person-modal/add-info-person-modal.component';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
-// import { AppSidebarComponent, AppSidebarNavComponent, INavData } from '@coreui/angular';
 @Component({
   selector: 'app-dashboard',
   styles: [
@@ -23,6 +23,7 @@ import { AddInfoPersonModalComponent } from '../../components/modals/add-info-pe
     '.not-dark{color:goldenrod}',
     '.disabled {pointer-events: none;cursor: default;}',
     '.bg-error {background:red;color:white}',
+    '.custom-menu-notification {height:75vh}'
   ],
   templateUrl: './default-layout.component.html',
 })
@@ -35,10 +36,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy,
     private dialog: MatDialog,
-    // private swPush: SwPush
+    public overlayContainer: OverlayContainer,
   ) {}
-
-  // @ViewChild('appSidebar', {static:false}) appSidebarNav: AppSidebarComponent;
+  @HostBinding('class') componentCssClass;
   public sidebarMinimized = false;
   public navItems = null;
   public url_img = '';
@@ -76,6 +76,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.getNotification();
     this.companiesGestion(user);
     this.suscribeNotifications(user);
+  }
+
+  onSetTheme(theme) {
+    this.overlayContainer.getContainerElement().classList.add(theme);
+    this.componentCssClass = theme;
   }
 
   ngOnDestroy(): void {

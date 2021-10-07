@@ -8,16 +8,10 @@
   <mat-card>
     <mat-card-content>
       <div *ngIf="!(state == 'edit')" class="col-12">
-        <!-- <mat-form-field appearance="fill" class="w-100">
-                    <mat-label>Buscar persona</mat-label>
-                    <input type="search" (keyup.enter)="searchPerson()" matInput [(ngModel)]="search_person" [matAutocomplete]="auto">
-                    <mat-icon matSuffix>search</mat-icon>
-                </mat-form-field> -->
-        <div class="w-100">
-          <!-- <mat-label>Buscar persona</mat-label> -->
-          <input class="input-search rounded-fz w-100 mb-2" placeholder="Buscador el usuario" type="search"
+        <div class="w-100 position-relative center">
+          <input class="input-search shadow w-100" style="border-radius: 10px;" placeholder="Buscador el usuario" type="search"
             (keyup.enter)="searchPerson()" matInput [(ngModel)]="search_person" [matAutocomplete]="auto">
-          <!-- <mat-icon matSuffix>search</mat-icon> -->
+          <button class="btn-add-person" [routerLink]="['/administracion-sistema/personas/create']"><mat-icon color="accent">person_add_alt</mat-icon></button>
         </div>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let person of persons;let i=index" (click)="captureUser(person.id)"
@@ -29,9 +23,18 @@
           <mat-option *ngIf="isloadPersons">Cargando ...</mat-option>
         </mat-autocomplete>
       </div>
-      <div *ngIf="person_current;else SinUser" class="col-12 mb-3">
+
+      <div *ngIf="person_current;else SinUser" class="col-12 my-3">
         <div class="d-flex justify-content-between p-2 rounded shadow align-items-center">
           <div class="d-flex text-uppercase align-items-center row w-100">
+            <div style="position: absolute;top: 10px;right: 10px;">
+              <button mat-mini-fab (click)="changePerson()"><mat-icon>sync</mat-icon></button>
+              <button mat-mini-fab [routerLink]="['/administracion-sistema/personas/edit',person_current.id]"><mat-icon>edit</mat-icon></button>
+              <button *ngIf="!(state == 'edit')" mat-icon-button color="warn"
+               (click)="person_current=null">
+              <mat-icon>close</mat-icon>
+            </button>
+            </div>
             <img
               [src]="person_current.photo?.permalink?person_current.photo.permalink:'assets/img/avatars/profile-user.svg'"
               class=" col-md-3 col-12" alt="">
@@ -44,15 +47,7 @@
               </div>
               <form [formGroup]="form_user">
                 <div class="row">
-                  <mat-form-field class="col-md-12 mt-1">
-                    <mat-label>Email <span class="badge badge-info">{{person_current.contact_info.length}}</span>
-                    </mat-label>
-                    <mat-select class="text-lowercase" formControlName="email">
-                      <mat-option *ngFor="let contact_info of person_current.contact_info" [value]="contact_info.value">
-                        {{contact_info.value}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+
                   <mat-form-field class="col-md-12">
                     <mat-label>Contraseña</mat-label>
                     <input [type]="hide ? 'password' : 'text'" matInput formControlName="password">
@@ -68,14 +63,11 @@
               </form>
             </div>
           </div>
-          <button *ngIf="!(state == 'edit')" mat-icon-button color="warn"
-            class="position-absolute btn-close bg-gray-300" (click)="person_current=null">
-            <mat-icon>close</mat-icon>
-          </button>
+
         </div>
       </div>
       <ng-template #SinUser>
-        <div class="col-12">
+        <div class="col-12 mt-2">
           <small class="lead text-danger">Busque un usuario y seleccionelo para continuar</small>
         </div>
       </ng-template>

@@ -11,24 +11,25 @@ import { StandartSearchService } from '../../../services/standart-search.service
 })
 export class CreateEmailModalComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {person},private s_standart:StandartSearchService, private dialogRef: MatDialogRef<CreateEmailModalComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {person}, private s_standart: StandartSearchService, private dialogRef: MatDialogRef<CreateEmailModalComponent>) { }
 
-  form_email:FormControl = new FormControl(null,[Validators.required,Validators.email]);
-  isLoad:boolean = false;
+  form_email: FormControl = new FormControl(null, [Validators.required, Validators.email]);
+  isLoad: boolean = false;
   ngOnInit(): void {
   }
 
-  saveInServer():void{
-    if(this.form_email.valid){
+  saveInServer(): void {
+    if (this.form_email.valid) {
       this.isLoad = true;
-      this.s_standart.store("admin/people/" + this.data.person.id + "/contact-info",{type:TYPE_CORP_EMAIL,value:this.form_email.value}).subscribe(res =>{
-        if(res && res.hasOwnProperty("success") && res.success){
-          this.dialogRef.close(res)
+      this.s_standart.store('admin/people/' + this.data.person.id + '/contact-info', {type: TYPE_CORP_EMAIL, value: this.form_email.value}).subscribe(res => {
+        if (res && res.hasOwnProperty('success') && res.success) {
+          this.dialogRef.close(res);
         }
 
-      },(err) =>{this.isLoad = false;})
+      }, (err) => {this.isLoad = false; });
     }
-
   }
+
+
 
 }

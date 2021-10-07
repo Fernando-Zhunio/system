@@ -1,0 +1,23 @@
+<div>
+  <div>
+    <h2 class="font-4xl font-facebook my-3">{{title}}</h2>
+  </div>
+  <div class="card-body bg-white mt-2">
+    <form [formGroup]="form">
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Ingrese el nombre" formControlName="name">
+        <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Seleccione una bodega" formControlName="warehouse_id" >
+          <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+            {{warehouse.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="isload" (click)="saveInServer()">Guardar</button>
+    </form>
+  </div>
+</div>

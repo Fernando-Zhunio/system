@@ -13,11 +13,12 @@ export class StockBodegasComponent implements OnInit {
   total_stock: number = 0;
   total_stock_other: number = 0;
   total_stock_general: number = 0;
-  // displayedColumns: string[] = ['Bodega', 'Ciudad', 'Stock'];
-  // dataSource:MatTableDataSource<any> = new MatTableDataSource(this.data.stock);
+
   ngOnInit(): void {
     this.totalVentasBodegas();
-    this.totalOtrasBodegas();
+    if(this.data?.data?.stock_other) {
+      this.totalOtrasBodegas();
+    }
     this.total_stock_general = this.total_stock + this.total_stock_other;
   }
 

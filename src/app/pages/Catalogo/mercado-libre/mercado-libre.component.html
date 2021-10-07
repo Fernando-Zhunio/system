@@ -71,11 +71,6 @@
             <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
         </div>
     </div>
-  <!-- <div class="grid">
-    <div *ngFor="let ml of mlInfos" class="grid-item card border-0 rounded-fz">
-      <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
-    </div>
-  </div> -->
 
   <ng-container *ngIf="!isload && mlInfos.length < 1">
     <div class="row">

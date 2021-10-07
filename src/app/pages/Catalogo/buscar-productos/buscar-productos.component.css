@@ -117,3 +117,13 @@
         transform: scale(1);
     }
 }
+
+.item-masonry {
+  width: calc(50% - 10px);
+}
+
+@media (max-width: 600px) {
+  .item-masonry {
+    width: 100%;
+  }
+}

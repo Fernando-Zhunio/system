@@ -20,7 +20,7 @@ export class PaginaWebComponent implements OnInit {
 
   openDescription(): void{
     this.dialog.open(InfoViewComponent, {
-      data: {name: this.prestashop_product.name, title: "Descripcion", info: this.prestashop_product.vtex_product.description, isHtml: false},
+      data: {name: this.prestashop_product.name, title: 'Descripcion', info: this.prestashop_product.vtex_product.description, isHtml: false},
     });
   }
 
@@ -28,7 +28,5 @@ export class PaginaWebComponent implements OnInit {
     const imagen = img ? img[0]?.ImageUrl : null;
     return SharedService.rediredImageNull(imagen);
   }
-
-
 
 }

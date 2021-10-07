@@ -311,6 +311,13 @@ export class DataSidebar {
       permission: 'admin.facebook-ads.campaigns.index',
       tag: this.tags.admin_system,
     },
+    {
+      name: 'Vtex Sites',
+      url: '/administracion-sistema/vtex-sites',
+      icon: 'icon-bag',
+      permission: 'admin.vtex.sites.index',
+      tag: this.tags.admin_system,
+    },
     //#endregion
   ];
 }

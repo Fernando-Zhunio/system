@@ -25,7 +25,7 @@ export class CtableAndPaginator<T> {
   ngx_spinner: any;
   name_spinner: string = 'Spinner_table';
   public refreshDataTable(data) {
-    let row: T[] = data as T[];
+    const row: T[] = data as T[];
     this.ELEMENT_DATA = row;
     this.dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
   }
@@ -36,7 +36,7 @@ export class CtableAndPaginator<T> {
   }
 
   removeItemTable(id): void {
-    let index = this.ELEMENT_DATA.findIndex((x) => x['id'] == id);
+    const index = this.ELEMENT_DATA.findIndex((x) => x['id'] == id);
     this.ELEMENT_DATA.splice(index, 1);
     // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
     this.dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);

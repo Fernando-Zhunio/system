@@ -4,15 +4,26 @@ ul {
 }
 
 .btn-close {
-    right: 23px;
-    top: -16px;
+  right: 53px;
+  top: 10px;
 }
 
 .input-search {
     height: 40px;
-    padding: 0px 20px;
+    padding: 0px 40px 0px 20px;
     font-family: segoe ui;
     font-size: 23px;
     outline: none;
-    border: gray solid 1px;
+    border: rgba(128, 128, 128, 0.1) solid 1px;
+}
+
+.btn-add-person {
+  position: absolute;
+  right: 4px;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+    /* border: rgba(128, 128, 128, 0.1) solid 1px; */
 }

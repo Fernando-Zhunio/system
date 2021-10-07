@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-// import { CategoriasMainComponent } from './categorias-main.component';
 import { Component } from '@angular/core';
 import { PublicacionesComponent } from './publicaciones/publicaciones.component';
 import { CreateOrEditPublicacionComponent } from './publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
@@ -9,6 +7,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
 import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
 import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
+
 @Component({
   selector: 'app-catalogo',
   template: '<router-outlet></router-outlet>',

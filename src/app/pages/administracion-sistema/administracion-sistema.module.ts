@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents, ADFacebookAdsManagerMainComponents, ADVtexWarehousesMainComponents } from './administracion-sistema-routing.module';
+import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents, ADFacebookAdsManagerMainComponents, ADVtexWarehousesMainComponents, ADVtexSitesMainComponents } from './administracion-sistema-routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -48,9 +48,12 @@ import { FacebookAdsCampaignComponent } from './facebook-ads-manager/facebook-ad
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FacebookAdsAccountsComponent } from './facebook-ads-accounts/facebook-ads-accounts.component';
 import { ModalAssignUserComponent } from './usuarios/tool/modal-assign-user/modal-assign-user.component';
-import { VtexWarehousesComponent } from './vtex-warehouses/vtex-warehouses.component';
-import { CreateOrEditVtexWarehousesComponent } from './vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
-import { RouterModule } from '@angular/router';
+import { VtexSitesComponent } from './vtex-site/vtex-sites.component';
+import { VtexWarehousesComponent } from './vtex-site/vtex-warehouses/vtex-warehouses.component';
+import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
+import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
+import { VtexSiteComponent } from './vtex-site/tools/vtex-site/vtex-site.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -85,6 +88,10 @@ import { RouterModule } from '@angular/router';
     VtexWarehousesComponent,
     CreateOrEditVtexWarehousesComponent,
     ADVtexWarehousesMainComponents,
+    VtexSitesComponent,
+    ADVtexSitesMainComponents,
+    CreateOrEditVtexSiteComponent,
+    VtexSiteComponent
     ],
   imports: [
     CommonModule,
@@ -118,6 +125,7 @@ import { RouterModule } from '@angular/router';
     MatMenuModule,
     MatBadgeModule,
     NgxSpinnerModule,
+    NgxSkeletonLoaderModule
   ],
 
   entryComponents: [

@@ -17,8 +17,10 @@ import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/cr
 import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';
 import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado-libre-create-or-edit/mercado-libre-create-or-edit.component';
 import { FacebookAdsManagerComponent } from './facebook-ads-manager/facebook-ads-manager.component';
-import { VtexWarehousesComponent } from './vtex-warehouses/vtex-warehouses.component';
-import { CreateOrEditVtexWarehousesComponent } from './vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
+import { VtexWarehousesComponent } from './vtex-site/vtex-warehouses/vtex-warehouses.component';
+import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
+import { VtexSitesComponent } from './vtex-site/vtex-sites.component';
+import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
 // import { ComprasAutomaticasComponent } from "./compras-automaticas/compras-automaticas.component";
 // import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
 
@@ -59,16 +61,21 @@ export class ADPersonasMainComponents {}
 export class ADMercadoLibreAdminMainComponents {}
 
 @Component({
-  selector: 'app-vtex-warehouses',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADVtexWarehousesMainComponents {}
-@Component({
   selector: 'app-as-facebook-ads-manager',
   template: '<router-outlet></router-outlet>',
 })
 export class ADFacebookAdsManagerMainComponents {}
 
+@Component({
+  selector: 'app-vtex-sites',
+  template: '<router-outlet></router-outlet>',
+})
+export class ADVtexSitesMainComponents {}
+@Component({
+  selector: 'app-vtex-warehouses',
+  template: '<router-outlet></router-outlet>',
+})
+export class ADVtexWarehousesMainComponents {}
 
 const permission_module_AD = {
   usuarios: {
@@ -128,11 +135,18 @@ const permission_module_AD = {
   },
 
   vtex_warehouses: {
-    index: ['super-admin', 'admin.facebook-ads.ads.index'],
-    show: ['super-admin', 'admin.facebook-ads.ads.show'],
-    create: ['super-admin', 'admin.facebook-ads.ads.create'],
-    edit: ['super-admin', 'admin.facebook-ads.ads.edit'],
-    delete: ['super-admin', 'admin.facebook-ads.ads.destroy'],
+    index: ['super-admin', 'admin.vtex.warehouses.index'],
+    show: ['super-admin', 'admin.vtex.warehouses.show'],
+    create: ['super-admin', 'admin.vtex.warehouses.create'],
+    edit: ['super-admin', 'admin.vtex.warehouses.edit'],
+    delete: ['super-admin', 'admin.vtex.warehouses.destroy'],
+  },
+  vtex_sites: {
+    index: ['super-admin', 'admin.vtex.sites.index'],
+    show: ['super-admin', 'admin.vtex.sites.show'],
+    create: ['super-admin', 'admin.vtex.sites.create'],
+    edit: ['super-admin', 'admin.vtex.sites.edit'],
+    delete: ['super-admin', 'admin.vtex.sites.destroy'],
   },
 };
 
@@ -468,29 +482,29 @@ const routes: Routes = [
     canActivate: [NgxPermissionsGuard],
   },
 
-  // Vtex Warehouse
+  // Vtex Sites
   {
-    path: 'vtex-warehouses',
-    component: ADVtexWarehousesMainComponents,
+    path: 'vtex-sites',
+    component: ADVtexSitesMainComponents,
     children: [
       {
         path: '',
-        component: VtexWarehousesComponent,
+        component: VtexSitesComponent,
         data: {
           permissions: {
-            all: permission_module_AD.vtex_warehouses,
-            only: permission_module_AD.vtex_warehouses.index,
+            all: permission_module_AD.vtex_sites,
+            only: permission_module_AD.vtex_sites.index,
           },
         },
-        canActivate: [NgxPermissionsGuard],
+        canActivate: [NgxPermissionsGuard]
       },
       {
         path: 'create',
-        component: CreateOrEditVtexWarehousesComponent,
+        component: CreateOrEditVtexSiteComponent,
         data: {
           isEdit: false,
           permissions: {
-            only: permission_module_AD.vtex_warehouses.create,
+            only: permission_module_AD.vtex_sites.create,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -498,11 +512,57 @@ const routes: Routes = [
 
       {
         path: 'edit/:id',
-        component: CreateOrEditVtexWarehousesComponent,
+        component: CreateOrEditVtexSiteComponent,
         data: {
           isEdit: true,
           permissions: {
-            only: permission_module_AD.vtex_warehouses.edit,
+            only: permission_module_AD.vtex_sites.edit,
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+       // Vtex Warehouse
+       {
+        path: ':id/vtex-warehouses',
+        component: ADVtexWarehousesMainComponents,
+        children: [
+          {
+            path: '',
+            component: VtexWarehousesComponent,
+            data: {
+              permissions: {
+                all: permission_module_AD.vtex_warehouses,
+                only: permission_module_AD.vtex_warehouses.index,
+              },
+            },
+            canActivate: [NgxPermissionsGuard],
+          },
+          {
+            path: 'create',
+            component: CreateOrEditVtexWarehousesComponent,
+            data: {
+              isEdit: false,
+              permissions: {
+                only: permission_module_AD.vtex_warehouses.create,
+              },
+            },
+            canActivate: [NgxPermissionsGuard],
+          },
+          {
+            path: 'edit/:id',
+            component: CreateOrEditVtexWarehousesComponent,
+            data: {
+              isEdit: true,
+              permissions: {
+                only: permission_module_AD.vtex_warehouses.edit,
+              },
+            },
+            canActivate: [NgxPermissionsGuard],
+          },
+        ],
+        data: {
+          permissions: {
+            only: permission_module_AD.vtex_warehouses.index,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -510,7 +570,7 @@ const routes: Routes = [
     ],
     data: {
       permissions: {
-        only: permission_module_AD.vtex_warehouses.index,
+        only: permission_module_AD.vtex_sites.index,
       },
     },
     canActivate: [NgxPermissionsGuard],

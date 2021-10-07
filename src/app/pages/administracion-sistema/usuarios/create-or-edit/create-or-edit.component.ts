@@ -41,7 +41,7 @@ export class CreateOrEditComponent implements OnInit {
   isloadPersons: boolean = false;
   form_user: FormGroup = new FormGroup({
   password: new FormControl('', [Validators.pattern(this.regex)]),
-  email: new FormControl('', [Validators.required]),
+  // email: new FormControl('', [Validators.required]),
   });
   roles: [] = [];
   sexes = {};
@@ -50,7 +50,6 @@ export class CreateOrEditComponent implements OnInit {
   positions = [];
   title: string = 'Creando Usuario';
   userCurrent: IuserSystem;
-
   companies: Task = {
     name: 'Todas las empresas',
     active: false,
@@ -59,26 +58,6 @@ export class CreateOrEditComponent implements OnInit {
   };
   state: 'create' | 'edit' = 'create';
   allComplete: boolean = false;
-  updateAllComplete() {
-    this.allComplete =
-      this.companies.child != null &&
-      this.companies.child.every((t) => t.active);
-  }
-
-  someComplete(): boolean {
-    if (this.companies.child == null) {
-      return false;
-    }
-    return (
-      this.companies.child.filter((t) => t.active).length > 0 &&
-      !this.allComplete
-    );
-  }
-
-  setAll(completed: boolean) {
-    this.allComplete = completed;
-    this.companies.child.forEach((t) => (t.active = completed));
-  }
 
   ngOnInit(): void {
     this.ngx_spinner.show();
@@ -125,16 +104,37 @@ export class CreateOrEditComponent implements OnInit {
       }
     });
   }
+  updateAllComplete() {
+    this.allComplete =
+      this.companies.child != null &&
+      this.companies.child.every((t) => t.active);
+  }
+
+  someComplete(): boolean {
+    if (this.companies.child == null) {
+      return false;
+    }
+    return (
+      this.companies.child.filter((t) => t.active).length > 0 &&
+      !this.allComplete
+    );
+  }
+
+  setAll(completed: boolean) {
+    this.allComplete = completed;
+    this.companies.child.forEach((t) => (t.active = completed));
+  }
 
   assignPersonUser(person_id: number) {
-    this.s_standart.updatePut('admin/user/' + this.userCurrent.id + '/people/' + person_id, {}).subscribe((response) => {
+    const old_person = this.person_current ? {old_person: this.person_current.id} : null;
+    this.s_standart.updatePut('admin/user/' + this.userCurrent.id + '/people/' + person_id, old_person).subscribe((response) => {
       console.log(response);
     });
   }
 
   notPerson(user): void {
     this.dialog.open(ModalAssignUserComponent, {
-      data: {user},
+      data: {user, person: this.person_current},
       disableClose: true,
     }).beforeClosed().subscribe((res1) => {
       console.log(res1);
@@ -165,7 +165,6 @@ export class CreateOrEditComponent implements OnInit {
     }));
     this.companies.child = companies;
 
-
     const roles = response.data.roles.map((obj) => ({
       ...obj,
       active: false,
@@ -178,9 +177,11 @@ export class CreateOrEditComponent implements OnInit {
       const data = this.captureData();
       if (data) {
         this.ngx_spinner.show();
-        this.s_standart.store('admin/users', data).subscribe((res) => {
+        this.s_standart.store(`admin/people/${this.person_current.id}/user`, data).subscribe((res) => {
           this.ngx_spinner.hide();
           this.route.navigate(['administracion-sistema/usuarios']);
+        }, err => {
+          this.ngx_spinner.hide();
         });
       }
     } else {
@@ -192,6 +193,8 @@ export class CreateOrEditComponent implements OnInit {
             .subscribe((res) => {
               this.ngx_spinner.hide();
               this.route.navigate(['administracion-sistema/usuarios']);
+            }, err => {
+              this.ngx_spinner.hide();
             });
         }
       }
@@ -218,9 +221,20 @@ export class CreateOrEditComponent implements OnInit {
       SwalService.swalToast('Asigne una compañia al nuevo usuario', 'warning');
       return false;
     }
+    const data = {
+      roles: IdsRoles,
+      companies: IdsCompany,
+    };
+
+
+    if (this.form_user.value.password) {
+      data['password'] = this.form_user.value.password;
+    }
+
+    return data;
 
     return {
-      person_id: this.person_current.id,
+      // person_id: this.person_current.id,
       roles: IdsRoles,
       companies: IdsCompany,
       ...this.form_user.value,
@@ -237,7 +251,6 @@ export class CreateOrEditComponent implements OnInit {
         );
         if (emails_coorp) {
           this.person_current = person;
-          this.form_user.controls['email'].setValue(emails_coorp['value']);
         } else {
           this.getEmailCoorpForThisUser(person);
         }
@@ -259,6 +272,10 @@ export class CreateOrEditComponent implements OnInit {
       }
     });
     SwalService.swalToast('No posee Correo coorporativo', 'error');
+  }
+
+  changePerson(): void {
+    this.notPerson(this.userCurrent);
   }
 
   goBack() {

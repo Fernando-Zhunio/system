@@ -22,6 +22,7 @@ import { Ipagination } from '../../../interfaces/ipagination';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxMasonryOptions } from 'ngx-masonry';
 
 @Component({
   selector: 'app-buscar-productos',
@@ -36,7 +37,7 @@ export class BuscarProductosComponent implements OnInit {
     private dialog: MatDialog,
     private s_product: ProductsService,
     private actived_router: ActivatedRoute,
-    private router:Router
+    private router: Router
   ) {
 
 
@@ -45,21 +46,30 @@ export class BuscarProductosComponent implements OnInit {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
   permission_edit = ['super-admin', 'products-admin.products.edit'];
-  // length = 100;
-  // pageSize = 10;
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
-  // products: Iproduct2[] = [];
+
   products: IproductWithVtex[] = [];
-  // isColumns: boolean = true;
-  // search_name: string = "";
-  // productSearch: string = null;
-  // pageCurrent: number = 1;
-  // hasData: boolean = true;
+
   selected_state: string = 'all';
-  min: string='';
-  max: string='';
+  min: string = '';
+  max: string = '';
   aux_page_next = 0;
+
+  masonryOptions: NgxMasonryOptions = {
+    // columnWidth: 300,
+    gutter: 10,
+    // percentPosition: true,
+    // stamp: string;
+    // fitWidth: true,
+    // originLeft: boolean;
+    // originTop: boolean;
+    // containerStyle: string;
+    // resize: true,
+    // initLayout: boolean;
+    // horizontalOrder: boolean;
+    // animations: NgxMasonryAnimations;
+  };
 
   post_current: IpostProduct;
 
@@ -72,24 +82,24 @@ export class BuscarProductosComponent implements OnInit {
   prefix_id: string = 'all';
   warehouse_ids = [];
   search: string;
-
+  @ViewChild(MatDrawer) drawer: MatDrawer;
+  messagePost: string = 'Cargando post espere por favor...';
+  isLoadPost: boolean = false;
+  current_go: number;
+  is_open_go: boolean = false;
+  icon_go: 'segment'|'close' = 'segment';
   public config: SwiperOptions = {
-    // a11y: { enabled: true },
     direction: 'horizontal',
     spaceBetween: 10,
-    // slidesPerView: 4,
     breakpoints: {
-      // when window width is >= 320px
       320: {
         slidesPerView: 1,
         spaceBetween: 5,
       },
-      // when window width is >= 480px
       480: {
         slidesPerView: 1,
         spaceBetween: 5,
       },
-      // when window width is >= 640px
       601: {
         slidesPerView: 1,
         spaceBetween: 10,
@@ -103,10 +113,7 @@ export class BuscarProductosComponent implements OnInit {
         spaceBetween: 10,
       },
     },
-    // keyboard: true,
-    // mousewheel: true,
     scrollbar: true,
-    // navigation: true,
     pagination: false,
   };
   permission_page: IpermissionStandart;
@@ -121,8 +128,7 @@ export class BuscarProductosComponent implements OnInit {
         if (res.success && res.hasOwnProperty('success') && res.success) {
           this.prefixes = res.data.prefixes;
           this.warehouses = res.data.warehouses;
-        }
-        else {
+        } else {
 
         }
       });
@@ -130,9 +136,6 @@ export class BuscarProductosComponent implements OnInit {
 
   getNameWareHouse(id) {
     const warehouse = this.warehouses.find((x) => x.id == id);
-    // if(warehouse == undefined){
-    //   this.form_filter.get('warehouse_ids').setValue(["all"]);
-    // }
     return warehouse ? warehouse.name : 'Todas las bodegas';
   }
 
@@ -170,7 +173,11 @@ export class BuscarProductosComponent implements OnInit {
   }
 
   viewWareHouse(index) {
-    this.s_product.viewWareHouse(this.products[index].id).subscribe((res) => {
+    let warehouse = {};
+    if (this.warehouse_ids.length > 0) {
+      warehouse = {'warehouse_ids[]': this.warehouse_ids};
+    }
+    this.s_product.viewWareHouse(this.products[index].id, warehouse).subscribe((res) => {
       this.dialog.open(StockBodegasComponent, {
         data: {
           titleOne: 'Bodegas Ventas',
@@ -181,9 +188,6 @@ export class BuscarProductosComponent implements OnInit {
     });
   }
 
-  @ViewChild(MatDrawer) drawer: MatDrawer;
-  messagePost: string = 'Cargando post espere por favor...';
-  isLoadPost: boolean = false;
   viewPost(id = null): void {
     this.isLoadPost = false;
     this.messagePost = 'Cargando post espere por favor...';
@@ -214,28 +218,25 @@ export class BuscarProductosComponent implements OnInit {
     this.headerComponent.searchBar();
   }
 
-  current_go:number;
-  is_open_go:boolean = false;
-  icon_go:'segment'|'close'= 'segment';
 
   goSpy(id) {
-    if(this.current_go == id) return;
+    if (this.current_go == id) return;
     let element = document.getElementById(id);
     element.classList.remove('anim-go');
 
     this.current_go = id;
-    const forScroll =document.getElementsByClassName('app-body')
+    const forScroll = document.getElementsByClassName('app-body')
     const dist = element.getBoundingClientRect().y;
     const current_position = forScroll[0].scrollTop;
     const viewHeigth = window.screen.height;
-    const go = dist +current_position-(viewHeigth/2);
+    const go = dist + current_position - (viewHeigth / 2);
     forScroll[0].scrollTop = go;
     element.classList.add('anim-go');
   }
 
   openOrCloseGo(){
     this.is_open_go = !this.is_open_go;
-    if(this.is_open_go){
+    if (this.is_open_go){
       this.icon_go = 'close'
     }
     else{

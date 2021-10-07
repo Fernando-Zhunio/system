@@ -1,0 +1,10 @@
+.btn-edit{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: 0.5;
+}
+
+.btn-edit:hover{
+  opacity: 1;
+}

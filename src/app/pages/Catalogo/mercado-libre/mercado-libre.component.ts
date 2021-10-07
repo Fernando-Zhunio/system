@@ -1,13 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { StandartSearchService } from '../../../services/standart-search.service';
 import { ImlInfo } from '../../../interfaces/iml-info';
-import { Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { Ipagination } from '../../../interfaces/ipagination';
 import { SharedService } from '../../../services/shared/shared.service';
+import { NgxMasonryOptions } from 'ngx-masonry';
 
 @Component({
   selector: 'app-mercado-libre',
@@ -33,7 +30,20 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   ) {}
 
   paginator: Ipagination<ImlInfo>;
-
+  masonryOptions: NgxMasonryOptions = {
+    // columnWidth: 300,
+    gutter: 10,
+    // percentPosition: true,
+    // stamp: string;
+    // fitWidth: true,
+    // originLeft: boolean;
+    // originTop: boolean;
+    // containerStyle: string;
+    // resize: true,
+    // initLayout: boolean;
+    // horizontalOrder: boolean;
+    // animations: NgxMasonryAnimations;
+  };
 
   mlInfos: ImlInfo[] = [];
 
