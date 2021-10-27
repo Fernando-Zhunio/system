@@ -1,0 +1,75 @@
+<div mat-dialog-content>
+  <app-search-template  *ngIf="!form.get('full_work').value; else TEMPLATE_FULL_WORK" (data)="getDataPaginate($event)" [url$]="url">
+    <div data>
+      <mat-card class="card position-relative" *ngFor="let item of data">
+        <button mat-mini-fab class="add-btn" (click)="addUser(item.id)" *ngIf="!item?.selected"><mat-icon>add</mat-icon></button>
+        <mat-card-header>
+          <div class="img-avatar" [ngStyle]="{'background-image': 'url('+item.photo.real_permalink+')'}" mat-card-avatar></div>
+          <mat-card-title>{{item.first_name}} {{item.last_name}}</mat-card-title>
+          <mat-card-subtitle>{{item.email}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </app-search-template>
+  <div>
+
+    <ng-template #TEMPLATE_FULL_WORK>
+      <div class="col-12">
+        <div class="w-100 position-relative center">
+          <input class="font-2xl px-3 py-1 shadow w-100" style="border-radius: 10px;" placeholder="Buscador el empleo" type="search"
+            (keyup.enter)="searchWorks($event)" matInput  [matAutocomplete]="auto">
+          <!-- <button class="btn-add-person" [routerLink]="['/administracion-sistema/personas/create']"><mat-icon color="accent">person_add_alt</mat-icon></button> -->
+        </div>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let work of works;let i=index" (click)="captureUserFinalist(work.id)"
+            [value]="work.title">
+            <div>{{work.title}}</div>
+          </mat-option>
+          <mat-option *ngIf="isloadUser">Cargando ...</mat-option>
+        </mat-autocomplete>
+      </div>
+    </ng-template>
+
+    <hr>
+    <div class="font-facebook font-2xl mb-1">CV de usuarios a enviar</div>
+    <div class="card-columns">
+      <mat-card class="card position-relative" *ngFor="let item of selectUsers">
+        <button color="warn" mat-mini-fab class="add-btn" (click)="removeUser(item.id)" ><mat-icon>remove</mat-icon></button>
+        <mat-card-header>
+          <div class="img-avatar" [ngStyle]="{'background-image': 'url('+item.photo.real_permalink+')'}" mat-card-avatar></div>
+          <mat-card-title>{{item.first_name}} {{item.last_name}}</mat-card-title>
+          <mat-card-subtitle>{{item.email}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
+  <div>
+    <form [formGroup]="form">
+       <!-- <mat-form-field class="w-100">
+        <input matInput type="email" formControlName="email" placeholder="Correo a quien se le envia">
+      </mat-form-field> -->
+
+      <div class="col-12">
+        <!-- <div class="font-facebook my-2 font-2xl">Ofrecimientos</div> -->
+        <ng-container formArrayName="emails">
+          <ng-container *ngFor="let skill of emailsForm.controls; let i = index">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Correo electronico {{i}}</mat-label>
+              <input matInput placeholder="Ingrese un ofrecimiento" [formControl]="skill" required>
+              <!-- <mat-error *ngIf="formWork.get('title').invalid">Este campo es requerido</mat-error> -->
+              <button type="button" mat-icon-button matSuffix (click)="removeFormEmail(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-form-field>
+          </ng-container>
+          <button type="button" class="my-1" mat-raised-button (click)="addEmail()">Agregar email destinatario</button>
+        </ng-container>
+      </div>
+      <mat-slide-toggle class="w-100" formControlName="full_work">Enviar a todos los finalistas de un empleo especificico</mat-slide-toggle>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button color="primary" [disabled]="selectUsers.length < 1 || emailsForm.length < 1 || form.invalid" (click)="saveInServer()" mat-raised-button>Enviar emails</button>
+  <button mat-raised-button mat-dialog-close color="warn" cdkFocusInitial>Cerrar</button>
+</div>

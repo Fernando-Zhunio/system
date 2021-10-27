@@ -19,6 +19,12 @@ import { ModalZoomComponent } from './tools/modal-zoom/modal-zoom.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { MatMenuModule } from '@angular/material/menu';
+import { ModalSendCvComponent } from './tools/modal-send-cv/modal-send-cv.component';
+import { MatCardModule } from '@angular/material/card';
+import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 // import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 // import { Ngx } from '@angular-material-components';
@@ -26,7 +32,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 
 
 @NgModule({
-  declarations: [RrhhAppointmentMainComponents, IndexComponent, CreateOrEditAppointmentComponent, ModalZoomComponent],
+  declarations: [RrhhAppointmentMainComponents, IndexComponent, CreateOrEditAppointmentComponent, ModalZoomComponent, ModalSendCvComponent],
   imports: [
     CommonModule,
     RrhhAppointmentRoutingModule,
@@ -44,11 +50,13 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     MatIconModule,
     MatDialogModule,
     NgxDocViewerModule,
+    MatMenuModule,
+    MatCardModule,
+    MatSlideToggleModule,
+    SearchTemplateModule,
+    MatAutocompleteModule,
     ClipboardModule
-    // NgxMatDatetimePickerModule,
-    // NgxMatTimepickerModule,
-    // NgxMatMomentModule
   ],
-  entryComponents: [ModalZoomComponent]
+  entryComponents: [ModalZoomComponent, ModalSendCvComponent]
 })
 export class AppointmentsModule { }

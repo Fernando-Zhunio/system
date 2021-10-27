@@ -6,12 +6,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   templateUrl: './proveedores.component.html',
   styleUrls: ['./proveedores.component.css'],
   animations: [trigger('fade', [
-    // transition(
-    //   ':enter', [
-    //     style({ transform: 'translateX(-100%)' }),
-    //     animate(100)
-    //   ]
-    // ),
     transition(
       ':leave', [
         style({ transform: 'scale(0)',opacity:'0' }),

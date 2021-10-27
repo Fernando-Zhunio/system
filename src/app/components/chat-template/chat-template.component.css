@@ -1,0 +1,96 @@
+
+.users-chats {
+    height: calc(100vh - 55px);
+    /* position: fixed; */
+    right: 0;
+    overflow-y: scroll;
+    z-index: 1111;
+}
+
+.btn-close-user-chat {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  z-index: 999999;
+}
+
+.photo-user {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.chat-template {
+  height: 70%;
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  z-index: 9999;
+  width: 350px;
+}
+
+.chat-info{
+  line-height: 1;
+  font-size: 15px;
+  font-family: 'Roboto';
+}
+
+.item-chat {
+  /* display: grid; */
+  display: flex;
+    /* grid-template-columns: 43px calc(100% - 43px); */
+    align-items: center;
+    cursor: pointer;
+}
+
+.badge-chat {
+  position: absolute;
+    right: 5px;
+}
+
+.badge-online {
+  font-size: 10px;
+    position: absolute;
+    right: 3px;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    top: 0px;
+}
+
+.chat-bubble-position-250 {
+  right: 268px;
+}
+
+.chat-bubble-position-5 {
+  right: 5px;
+}
+
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color:red;
+  background-color: green;
+  }
+
+@media screen and (max-width: 768px) {
+  .chat-bubble-position-250 {
+    right: 0px;
+  }
+  .chat-bubble-position-5 {
+    right: 0px;
+  }
+
+  .chat-template {
+    width: 350px;
+  }
+}
+
+.bubble-mini-chat {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top:-44px
+}
+
+.active-mini-chat {
+  border: solid 3px blue;
+}

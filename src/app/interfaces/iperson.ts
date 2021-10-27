@@ -23,17 +23,18 @@ export interface Iperson {
 
 interface Iphoto {
   id: number;
-    type: string;
-    file: string;
-    mime_type: string;
-    attributes: {
-      width: number;
-      height: number;
-    };
-    created_at: string;
-    updated_at: string;
-    ext: string;
-    permalink: string;
+  type: string;
+  file: string;
+  mime_type: string;
+  attributes: {
+    width: number;
+    height: number;
+  };
+  created_at: string;
+  updated_at: string;
+  ext: string;
+  permalink: string;
+  real_permalink?: string;
 }
 
 interface Iposition {

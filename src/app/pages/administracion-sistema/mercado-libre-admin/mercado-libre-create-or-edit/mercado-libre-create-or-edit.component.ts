@@ -53,6 +53,8 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
   isLoad: boolean = false;
   id: number;
   state: 'create'|'edit' = 'create';
+  observerWindow: Observable<boolean>;
+
 
   ngOnInit(): void {
     this.active_route.data.subscribe((data) => {
@@ -96,7 +98,6 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
     });
   }
 
-  observerWindow: Observable<boolean>;
   openDialog(): void {
     const w = 500, h = 600;
     const dualScreenLeft =

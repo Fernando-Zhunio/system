@@ -1,13 +1,13 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { StandartSearchService } from "./../../../../../services/standart-search.service";
-import { Subscription } from "rxjs";
-import { SwalService } from "./../../../../../services/swal.service";
-import { Router } from "@angular/router";
-import { NgxSpinnerService } from "ngx-spinner";
-import { SimpleChanges } from "@angular/core";
-import { vtexResponseSku } from "../../../../../interfaces/vtex/iproducts";
-import { IvtexPrices } from "../../../../../interfaces/vtex/ivtex-prices";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { StandartSearchService } from './../../../../../services/standart-search.service';
+import { Subscription } from 'rxjs';
+import { SwalService } from './../../../../../services/swal.service';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SimpleChanges } from '@angular/core';
+import { vtexResponseSku } from '../../../../../interfaces/vtex/iproducts';
+import { IvtexPrices } from '../../../../../interfaces/vtex/ivtex-prices';
 
 // export interface IvtexPrice {
 //   itemId: string;
@@ -26,15 +26,15 @@ export enum EStatus {
   loading
 }
 @Component({
-  selector: "app-modal-prices",
-  templateUrl: "./modal-prices.component.html",
-  styleUrls: ["./modal-prices.component.css"],
+  selector: 'app-modal-prices',
+  templateUrl: './modal-prices.component.html',
+  styleUrls: ['./modal-prices.component.css'],
 })
 export class ModalPricesComponent implements OnInit {
   public e_status = EStatus;
-  public sku:vtexResponseSku;
+  public sku: vtexResponseSku;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { sku:vtexResponseSku },
+    @Inject(MAT_DIALOG_DATA) public data: { sku: vtexResponseSku },
     private s_standart: StandartSearchService,
     private dialogRef: MatDialogRef<ModalPricesComponent>,
     private router: Router,
@@ -44,7 +44,7 @@ export class ModalPricesComponent implements OnInit {
   }
 
   vtexPriceSku: IvtexPrices;
-  status:EStatus = EStatus.loading;
+  status: EStatus = EStatus.loading;
   //  "create" | "edit" | "view" | "not found" | "loading" = "loading";
   // isLoad: boolean = false;
   suscriptionPrices: Subscription;
@@ -56,51 +56,37 @@ export class ModalPricesComponent implements OnInit {
     this.status = EStatus.loading;
     // this.s_spinner.show("loader-modal-prices");
     this.suscriptionPrices = this.s_standart
-      .show("products-admin/vtex/price-vtex/" + this.sku.vtex_api_id)
+      .show('products-admin/vtex/price-vtex/' + this.sku.vtex_api_id)
       .subscribe(
         (res) => {
-          if ((res && res.hasOwnProperty("success"), res.success)) {
-            // this.item = res.data.sku;
+          if ((res && res.hasOwnProperty('success'), res.success)) {
             this.vtexPriceSku = res.data;
             this.status = EStatus.view;
           }
         },
         () => {
-          // this.status = "not found";
           this.status = EStatus.notFound;
         }
       );
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-  //   //Add '${implements OnChanges}' to the class.
-  //   let status = changes.status;
-  //   if(status == this.e_status.loading){
-  //     this.s_spinner.show("loader-modal-prices");
-  //   }
-  //   else{
-  //     this.s_spinner.hide("loader-modal-prices");
-
-  //   }
-  // }
-
   closeModal(event = null): void {
-    if (this.suscriptionPrices) this.suscriptionPrices.unsubscribe();
-    if (event)
+    if (this.suscriptionPrices) { this.suscriptionPrices.unsubscribe(); }
+    if (event) {
       SwalService.swalFire({
-        title: "Guardado con exito",
-        icon: "success",
-        position: "center",
+        title: 'Guardado con exito',
+        icon: 'success',
+        position: 'center',
         timer: 1500,
       });
+    }
     this.dialogRef.close();
   }
 
   editPrice(): void {
-    this.status = EStatus.edit
+    this.status = EStatus.edit;
   }
-  createPrice():void{
+  createPrice(): void {
     this.status = EStatus.create;
   }
   viewPrice():void{
@@ -110,7 +96,7 @@ export class ModalPricesComponent implements OnInit {
 
   goVtexPrices(): void {
     this.router.navigate([
-      "admin-products/vtex-products/vtex-price-create",
+      'admin-products/vtex-products/vtex-price-create',
       this.sku.vtex_api_id,
     ]);
     this.dialogRef.close();

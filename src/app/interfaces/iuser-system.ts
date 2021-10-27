@@ -1,4 +1,4 @@
-import { Cperson } from "../class/cperson";
+import { Cperson } from '../class/cperson';
 
 export interface IuserSystem {
   id: number,

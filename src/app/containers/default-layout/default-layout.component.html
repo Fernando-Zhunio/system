@@ -1,3 +1,4 @@
+<!-- <app-chat-template></app-chat-template> -->
 <app-header class="border-0 shadow-sm" [ngClass]="{'dark-super': isDark}" [navbarBrandRouterLink]="['/home/dashboard']"
   [fixed]="false"
   [navbarBrandFull]="{src: 'assets/icons_custom/novisolutions.svg', width: '100%', height: '100%', alt: 'Novisolutions'}"
@@ -69,6 +70,11 @@
         <div (click)="logout()" class="dropdown-item"><i class="fa fa-lock"></i> Cerrar sesion</div>
       </div>
     </li>
+    <li class="nav-item">
+      <button mat-icon-button  (click)="openOrCloseChats()"><mat-icon [matBadge]="countMesssages"
+        matBadgePosition="above after"
+        matBadgeColor="accent" color="primary">chat_bubble</mat-icon></button>
+    </li>
   </ul>
 </app-header>
 <div class="app-body" [ngClass]="[isDark?'dark-super':'not-dark-super']">
@@ -79,7 +85,7 @@
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
   <!-- Main content -->
-  <main class="main scroll">
+  <main [ngStyle]="{'margin-right': hideUsersChat?'250px':''}" class="main scroll">
     <!-- Breadcrumb -->
     <!-- breaking change 'cui-breadcrumb' -->
 
@@ -112,7 +118,7 @@
     </div>
     <!-- /.container-fluid -->
   </main>
-  <app-aside [fixed]="true" [display]="false" [ngClass]="'test'">
+  <app-aside #sidebarToggler [fixed]="true" [display]="false" [ngClass]="'test'">
     <tabset>
       <tab *ngIf="false">
         <ng-template tabHeading><i class="icon-list"></i></ng-template>
@@ -399,6 +405,9 @@
       </tab>
     </tabset>
   </app-aside>
+
+  <app-chat-template style="position: fixed;width: 250px;right: 0;z-index: 1;margin-right: 16px;" (newMessageEmit)="newMessage($event)" [openOrClose]="hideUsersChat"></app-chat-template>
+
   <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
     <p style="color: white"> Loading... </p>
   </ngx-spinner>

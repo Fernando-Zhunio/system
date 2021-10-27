@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import {
   LocationStrategy,
   HashLocationStrategy,
@@ -21,14 +21,11 @@ import { AppComponent } from './app.component';
 
 // Import containers
 import { DefaultLayoutComponent } from './containers';
-
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
-
 const APP_CONTAINERS = [DefaultLayoutComponent];
-
 import {
   AppAsideModule,
   AppBreadcrumbModule,
@@ -58,9 +55,7 @@ import { RepricarMlModalComponent } from './components/repricar-ml-modal/reprica
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { InfoViewComponent } from './components/modals/info-view/info-view.component';
-
 import { MatDialogModule } from '@angular/material/dialog';
-// import { MlComponent } from './components/ml/ml.component';
 import { MatCardModule } from '@angular/material/card';
 import { MomentModule } from 'ngx-moment';
 import { StockBodegasComponent } from './components/modals/stock-bodegas/stock-bodegas.component';
@@ -78,9 +73,7 @@ import { HeaderSearchModule } from './Modulos/header-search/header-search.module
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { CreateProviderOrContactComponent } from './components/modals/create-provider-or-contact/create-provider-or-contact.component';
 import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
-import { PublicationComponent } from './components/publication/publication.component';
 import { InConstructionComponent } from './views/in-construction/in-construction.component';
-import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -94,9 +87,19 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { AddInfoPersonModalComponent } from './components/modals/add-info-person-modal/add-info-person-modal.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { KeysObjectToArrayPipe } from './pipes/keys-object-to-array.pipe';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
+import {  NgxEmojiPickerModule  } from 'ngx-emoji-picker';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+import { ChatComponent } from './components/chat-template/chat/chat.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+
+// import FilePondPluginFileValidateType from 'filepond';
+registerPlugin(FilePondPluginImagePreview);
+// import { CreateGroupChatComponent } from './pages/chats/create-group-chat/create-group-chat.component';
 
 // import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
 // import { ModalRealistComponent } from './components/ml/tools/modal-realist/modal-realist.component';
@@ -143,7 +146,11 @@ registerLocaleData(localeEs, 'es');
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxEmojiPickerModule,
+    TextareaAutosizeModule,
     OverlayModule,
+    InfiniteScrollModule,
+    FilePondModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -169,6 +176,9 @@ registerLocaleData(localeEs, 'es');
     OkLoginComponent,
     FormRecuperationPasswordComponent,
     AddInfoPersonModalComponent,
+    ChatTemplateComponent,
+    ChatComponent,
+    // CreateGroupChatComponent,
 
 
 
@@ -176,6 +186,11 @@ registerLocaleData(localeEs, 'es');
     // ModalRealistComponent,
   ],
   providers: [
+    // {
+    //   // processes all errors
+    //   provide: ErrorHandler,
+    //   useClass: GlobalErrorHandler,
+    // },
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

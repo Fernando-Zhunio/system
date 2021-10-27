@@ -19,7 +19,7 @@ export class IndexComponent  extends CTemplateSearch<Irequest> implements OnInit
   url: string = 'rrhh/requests';
   isOpenCv: boolean = false;
   cv: string = '';
-  statuses:any[] = ['request_postulate', 'request_cv_viewed', 'request_in_process','request_finalist']
+  statuses: any[] = ['request_postulate', 'request_cv_viewed', 'request_in_process','request_finalist']
   ngOnInit(): void {
   }
 
@@ -31,8 +31,8 @@ export class IndexComponent  extends CTemplateSearch<Irequest> implements OnInit
 
   openCv(id: number) {
     this.isOpenCv = true;
-    const url = `rrhh/requests/${id}/statuses`
-    this.s_standart.store(url,{status:'request_cv_viewed'}).subscribe(res=>{
+    const url = `rrhh/requests/${id}/statuses`;
+    this.s_standart.store(url, {status: 'request_cv_viewed'}).subscribe(res=>{
       if(res.hasOwnProperty('success') && res.success){
       }
     });

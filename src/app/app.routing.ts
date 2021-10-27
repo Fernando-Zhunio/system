@@ -18,6 +18,7 @@ import { RegisterComponent } from './views/register/register.component';
 
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
+import { CreateGroupChatComponent } from './pages/chats/create-group-chat/create-group-chat.component';
 
 
 export const routes: Routes = [
@@ -140,6 +141,10 @@ export const routes: Routes = [
           // },
         // },
         // canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path: 'chats',
+        loadChildren: () => import('./pages/chats/chats.module').then(m => m.ChatsModule),
       },
 
       // {

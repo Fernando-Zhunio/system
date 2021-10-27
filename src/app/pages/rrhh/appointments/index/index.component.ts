@@ -2,27 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CTemplateSearch } from '../../../../class/ctemplate-search';
-import { Iappointment } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
+import { Iappointment, Iuser } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
+import { ModalSendCvComponent } from '../tools/modal-send-cv/modal-send-cv.component';
 import { ModalZoomComponent } from '../tools/modal-zoom/modal-zoom.component';
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  styleUrls: ['./index.component.css'],
 })
-export class IndexComponent extends CTemplateSearch<Iappointment> implements OnInit {
-
-  constructor( private s_shared: SharedService, private dialog: MatDialog, private router: Router, private s_serviceStandart: StandartSearchService) {
+export class IndexComponent
+  extends CTemplateSearch<Iappointment>
+  implements OnInit
+{
+  constructor(
+    private s_shared: SharedService,
+    private dialog: MatDialog,
+    private router: Router,
+    private s_serviceStandart: StandartSearchService,
+  ) {
     super();
   }
   url: string = 'rrhh/appointments';
   isOpenCv: boolean = false;
   cv: string = '';
-  ngOnInit(): void {
-  }
+  status: 'normal' | 'send_email' = 'normal';
+  userSelectedToEmailCv: Iuser[] = [];
+  ngOnInit(): void {}
 
   deleteAppointment(id: number) {
     const appointment = this.products.find((x) => x.id === id);
@@ -36,16 +45,21 @@ export class IndexComponent extends CTemplateSearch<Iappointment> implements OnI
       if (result.isConfirmed) {
         appointment['isload'] = true;
         this.s_serviceStandart
-          .destory(`rrhh/requests/${appointment.request.id}/appointments/${appointment.id}`)
-          .subscribe((res) => {
-            appointment['isload'] = false;
-            if (res && res.hasOwnProperty('success') && res.success) {
-              const index = this.products.findIndex(
-                (i) => i.id === id
-              );
-              this.products.splice(index, 1);
+          .destory(
+            `rrhh/requests/${appointment.request.id}/appointments/${appointment.id}`
+          )
+          .subscribe(
+            (res) => {
+              appointment['isload'] = false;
+              if (res && res.hasOwnProperty('success') && res.success) {
+                const index = this.products.findIndex((i) => i.id === id);
+                this.products.splice(index, 1);
+              }
+            },
+            (err) => {
+              appointment['isload'] = false;
             }
-          }, (err) => {appointment['isload'] = false; });
+          );
       }
     });
   }
@@ -58,24 +72,96 @@ export class IndexComponent extends CTemplateSearch<Iappointment> implements OnI
   }
 
   goRequest(id): void {
-    this.router.navigate(['/recursos-humanos/request/'], {queryParams: {search: id}});
+    this.router.navigate(['/recursos-humanos/request/'], {
+      queryParams: { search: id },
+    });
   }
 
   goWork(id): void {
-    this.router.navigate(['/recursos-humanos/works/'], {queryParams: {search: id}});
+    this.router.navigate(['/recursos-humanos/works/'], {
+      queryParams: { search: id },
+    });
   }
 
   openCv(id: number) {
     this.isOpenCv = true;
-    this.cv = this.products.find((x) => x.id === id).request.user.resume.attachment.real_permalink;
+    this.cv = this.products.find(
+      (x) => x.id === id
+    ).request.user.resume.attachment.real_permalink;
   }
 
   gotEditAppointment(id: number) {
     const appointment = this.products.find((x) => x.id === id);
     this.s_shared.requestWork = appointment.request;
     this.s_shared.appointmentWork = appointment;
-    this.router.navigate([`/recursos-humanos/appointments/request/${appointment.request.id}/edit/${id}`]);
-  }
+    this.router.navigate([
+      `/recursos-humanos/appointments/request/${appointment.request.id}/edit/${id}`,
+    ]);
   }
 
+  doHired(id: number) {
+    const appointment = this.products.find((x) => x.id === id);
+    if (appointment.request.current_status.type_action === 'request_hired') {
+      SwalService.swalConfirmation(
+        'Precaución',
+        'Este usuario ya esta contratado .\n Deseas cambiar el estado a finalista?',
+        'warning',
+        'Si, deseo cambiar a finalista'
+      ).then((res) => {
+        if (res.isConfirmed) {
+          appointment['isload'] = true;
+          const url = `rrhh/requests/${appointment.request_id}/statuses`;
+          this.s_serviceStandart
+            .store(url, { status: 'request_finalist' })
+            .subscribe(
+              (res1: any) => {
+                appointment['isload'] = false;
+                if (res1 && res1.hasOwnProperty('success') && res1.success) {
+                  appointment.request.current_status.type_action =
+                    'request_finalist';
+                }
+              },
+              (err) => {
+                appointment['isload'] = false;
+              }
+            );
+        }
+      });
+      return;
+    }
 
+    SwalService.swalConfirmation(
+      'Precaución',
+      '¿Está seguro de contratar a este trabajador?',
+      'question',
+      'Si, contratar',
+      'No, cancelar'
+    ).then((result) => {
+      if (result.isConfirmed) {
+        const url = `rrhh/requests/${appointment.request_id}/statuses`;
+        this.s_serviceStandart
+          .store(url, { status: 'request_hired' })
+          .subscribe((res) => {
+            if (res.hasOwnProperty('success') && res.success) {
+              appointment.request.current_status.type_action = 'request_hired';
+            }
+          });
+      }
+    });
+  }
+
+  changedStatus(): void {
+    // this.status = this.status == 'send_email' ? 'normal' : 'send_email';
+    // this.products.map((x) => {
+    //   x['isload'] = this.status == 'send_email' ? true : false;
+    // });
+    this.dialog.open(ModalSendCvComponent, {
+      disableClose: true,
+    });
+  }
+
+  // addUserForEmailCv(id: number) {
+  //   const user = this.products.find((x) => x.id === id).request.user;
+  //   this.userSelectedToEmailCv.push(user);
+  // }
+}

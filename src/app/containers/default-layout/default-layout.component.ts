@@ -46,7 +46,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public company_select = null;
   public isDark: boolean = false;
   public TYPE_NOTY_SOUND = 'general_notification_sound';
-
+  public hideUsersChat: boolean = false;
   public TYPE_NOTY_WEBPUSH = {
     value: 'general_notification_webpush',
     state: false,
@@ -63,6 +63,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   navItems_ = this.sidebarData.NavItems;
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
+  countMesssages: any = null;
 
   ngOnInit(): void {
     this.notificationWeb = new NotificationsWebPush(this.s_standart);
@@ -78,16 +79,12 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.suscribeNotifications(user);
   }
 
-  // onSetTheme(theme) {
-  //   this.overlayContainer.getContainerElement().classList.add(theme);
-  //   this.componentCssClass = theme;
-  // }
-
   ngOnDestroy(): void {
     if (this.suscriptionNotifaction) {
       this.suscriptionNotifaction.unsubscribe();
     }
   }
+
 
   addPersonModal(user): void {
     this.dialog.open(AddInfoPersonModalComponent, {
@@ -116,6 +113,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
+  newMessage(e): void {
+     e ? this.countMesssages++ : this.countMesssages = null;
+  }
+
   getNotification(): void {
     this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(
       (res) => {
@@ -134,6 +135,13 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  openOrCloseChats(): void {
+    this.hideUsersChat = !this.hideUsersChat;
+    if (this.hideUsersChat) {
+      this.countMesssages = null;
+    }
   }
 
   companiesGestion(user): void {

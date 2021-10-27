@@ -1,0 +1,84 @@
+<div [hidden]="!openOrClose">
+  <tabset [justified]="true">
+    <tab (selectTab)="onSelectChats($event)" [customClass]="'p-0 font-2xl font-facebook border-0'"
+      id="tab1">
+      <ng-template tabHeading>
+        <span class=""><i class="fas fa-comments"></i><br> Chats</span>
+      </ng-template>
+      <div >
+        <div class="users-chats w-100  p-0 bg-white shadow" infiniteScroll [infiniteScrollDistance]="5"
+          [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
+          <div class="position-relative">
+            <ul class="list-group">
+              <li class="border-0 btn-spotify m-3 text-center btn font-sm lead" [routerLink]="['/chats/create-chat-group']">Crear chat grupal</li>
+              <li  (click)="openChatOfChat(chat._id)" *ngFor="let chat of chats"
+                class=" d-flex justify-content-between align-items-center border-bottom item-chat btn rounded-0">
+                <div class="text-truncate item-chat position-relative">
+                  <ng-container  *ngIf="chat.type == 'group'; else elseTemplate">
+                    <span class="position-relative">
+                      <img class="photo-user" [src]="getPhoto(chat?.img,true)" />
+                    </span>
+                    <span class="chat-info text-left pl-1  text-capitalize text-truncate">
+                      {{chat.name}}
+                      <ng-container *ngIf="chat?.last_message">
+                        <br> <small class="text-muted"><span mat-line class="font-italic text-muted text-truncate"> {{chat?.last_message?.text}} </span><br> {{chat?.last_message?.created_at | date:'medium'}} <i *ngIf="chat?.last_message.author_user_id == myUser.id"
+                           class="{{chat?.last_message.readed == 'true'?'fas text-success':'far'}} fa-check-circle"></i></small>
+                         <!-- <br> <small mat-line class="text-muted text-truncate"> {{chat?.last_message?.text}} </small> -->
+                      </ng-container>
+                    </span>
+                    <span *ngIf="chat.unread_messages_count > 0" style="font-size: 12px;" class="badge badge-primary badge-pill ml-2">{{chat.unread_messages_count}}</span>
+                  </ng-container>
+
+                  <ng-template #elseTemplate>
+                    <span class="position-relative">
+                      <span *ngIf="chat.participants[0].status != 'offline'" class="badge bg-success badge-online text-success">●</span>
+                      <img class="photo-user" [src]="getPhoto(chat.user?.info.photo)" />
+                    </span>
+                    <span class="chat-info text-left pl-1 text-capitalize text-truncate">
+                      {{chat.participants[0].info.name}}
+                      <!-- <br> <small mat-line class="text-muted text-truncate"> {{chat?.last_message?.text}} </small> -->
+                      <ng-container *ngIf="chat?.last_message">
+                        <br> <small class="text-muted"><span mat-line class="font-italic text-muted text-truncate"><i *ngIf="chat?.last_message?.files" class="fas fa-file-alt"></i> {{chat?.last_message?.text}} </span><br> {{chat?.last_message?.created_at | date:'medium'}} <i *ngIf="chat?.last_message?.author_user_id == myUser.id"
+                          class="{{chat?.last_message.readed == 'true'?'fas text-success':'far'}} fa-check-circle"></i></small>
+                      </ng-container>
+                    </span>
+                    <span *ngIf="chat.unread_messages_count > 0" style="font-size: 12px;" class="badge badge-primary badge-pill ml-2">{{chat.unread_messages_count}}</span>
+                  </ng-template>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </tab>
+    <tab [customClass]="'p-0 font-2xl font-facebook border-0'">
+      <ng-template tabHeading>
+        <span class=""><i class="fas fa-users"></i><br> Usuarios</span>
+      </ng-template>
+      <div class="users-chats w-100  p-0 bg-white shadow" infiniteScroll [infiniteScrollDistance]="5"
+        [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
+        <div class="position-relative">
+          <mat-selection-list [multiple]="false">
+            <mat-list-option (click)="openChat(user.id)" *ngFor="let user of users">
+              <img class="photo-user" [matBadge]="user.connected?'●':null"
+                [src]="getPhoto(user?.person?.photo?.real_permalink)" mat-list-icon />
+              <div mat-line>{{user.name? user.name: user.person.first_name+''+ user.person.last_name}}</div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+    </tab>
+  </tabset>
+</div>
+
+<div [ngClass]="!openOrClose? 'chat-bubble-position-5':'chat-bubble-position-250'" class="chat-template"
+  *ngFor="let chat of chatsbubble;let i = index;trackBy: chatMethod">
+  <div>
+    <!-- <div [ngStyle]="{'background-image': 'url('+getPhoto(chat?.data_chat?.user?.info?.photo) +')'}"
+    mat-card-avatar class="example-header-image"></div>-->
+    <span (click)="upBubble(i)" [ngStyle]="{'left': (i*46)+'px'}" [ngClass]="{'active-mini-chat': i == (chatsbubble.length -1)}" class="bubble-mini-chat bg-white"> 
+      <img class="w-100 rounded-circle" [src]="getPhoto(chat?.data_chat?.user?.info?.photo)" alt="">
+    </span>
+  </div>
+  <app-chat (delete)="closeChatBubble($event)" [userchat]="chat" [my_id]="myUser.id"></app-chat>
+</div>

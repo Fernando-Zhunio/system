@@ -1,0 +1,150 @@
+<span class="col-md-3 col-12 chat-template p-0">
+  <mat-card class="shadow">
+    <mat-card-header class="header-template-chat">
+      <button class="btn-close-chat text-danger" (click)="closeChat()">
+        <i class="far fa-times-circle"></i>
+      </button>
+      <div [ngStyle]="{'background-image': 'url('+getPhoto(userchat?.data_chat?.user?.info?.photo) +')'}"
+        mat-card-avatar class="example-header-image"></div>
+      <mat-card-title class="text-truncate">{{userchat?.name ? userchat?.name: userchat?.data_chat?.user?.info?.name}}
+      </mat-card-title>
+      <mat-card-subtitle class="text-success" *ngIf="userchat?.data_chat?.participants[0]?.status == 'online'">En linea
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="body-template-chat">
+      <div class="body-template-background-chat p-2" [infiniteScrollDisabled]="disableScroll" #scrollMe infiniteScroll
+        [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="0" (scrolledUp)="onScrollUp()" [scrollWindow]="false">
+        <div #ngfor *ngFor="let message of userchat?.messages"
+          [ngClass]="{'text-right': message.author_user_id == my_id}">
+          <ng-container *ngIf="message.type != 'info';else templateInfo">
+            <p [ngClass]="message.author_user_id == my_id ?'message-send':'message-recept'">
+              <ng-container *ngIf="!message.files; else templateFile">
+                {{message.text}}
+              </ng-container>
+              <ng-template #templateFile>
+                <div class="w-100" *ngFor="let file of message.files">
+                  <span  class="download-file">
+                    <button class="btn-download" mat-icon-button *ngIf="file.type == 'image'" (click)="downloadResource(file.permalink, null)"><mat-icon>download_for_offline</mat-icon></button>
+                    <ng-container [ngSwitch]="file.type">
+                    <ng-container *ngSwitchCase="'image'">
+                      <!-- <picture class="w-100 rounded-fz my-2">
+                        <source [srcset]="file.permalink" >
+                        <source srcset="mdn-logo-medium.png" media="(min-width: 600px)">
+                        <img src="mdn-logo-narrow.png" alt="MDN Web Docs">
+                     </picture> -->
+                      <img class="w-100 rounded-fz my-2" [src]="file.permalink" alt="">
+                    </ng-container>
+                      <video *ngSwitchCase="'video'" class="w-100 rounded-fz my-2" controls  alt="">
+                        <source [src]="file.permalink" type="video/{{file.ext}}">
+                      </video>
+                      <audio *ngSwitchCase="'audio'" controls>
+                        <source [src]="file.permalink" type="audio/{{file.ext}}">
+                        Your browser does not support the audio element.
+                      </audio>
+                    <div *ngSwitchDefault>
+                      <!-- <embed [src]="file.permalink" type="*/{{file.ext}}"> -->
+                        <div class="d-flex align-items-center text-muted bg-white rounded-lg p-sm-1">
+                          <mat-icon>description</mat-icon>
+                          <span class="text-truncate">Aqui va el nombre del archivo ascs ds d sd scdvfsax</span>
+                          <button mat-icon-button (click)="downloadResource(file.permalink, null)"><mat-icon>download_for_offline</mat-icon></button>
+                        </div>
+                    </div>
+                    </ng-container>
+                   
+                  </span>
+                </div>
+                {{message.text}}
+              </ng-template>
+              <br>
+              <small class="text-muted">{{message.created_at | date:'medium'}} <i
+                  *ngIf="message.author_user_id == my_id"
+                  class="{{message.readed == 'true'?'fas text-success':'far'}} fa-check-circle"></i></small>
+            </p>
+          </ng-container>
+          <ng-template #templateInfo>
+            <div class="my-2 text-center font-weight-bold p-1">{{message.text}}</div>
+          </ng-template>
+        </div>
+
+        <!-- <div class="attach" *ngIf="attachments.length > 0">
+          <div class="p-1 bg-white shadow">
+            <div class="content-attach p-1 ">
+              <div class="item-attach m-1 shadow" *ngFor="let attachment of attachments;let i = index">
+                <ng-container [ngSwitch]="attachment.type">
+                  <ng-container *ngSwitchCase="'image'">
+
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'audio'">
+
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'video'">
+
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+
+                  </ng-container>
+                </ng-container>
+
+                <img class="w-100 h-100 item-attach-img" [src]="attachment.url" alt="photo">
+                <button (click)="removeAttach(i)" class="btn-remove-attach-item"><i class="fas fa-times-circle"></i></button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div *ngIf="hasFile" class="attach">
+        <file-pond #myPond [className]="'m-0'"  [options]="pondOptions" (oninit)="pondHandleInit()"
+          (onaddfile)="pondHandleAddFile($event)" (onactivatefile)="pondHandleActivateFile($event)">
+        </file-pond>
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="footer-template-chat position-relative">
+      <textarea (keyup.enter)="sendMessage()" [(ngModel)]="text_message" (keyup)="typingMessage()" rows="1" autosize
+        type="text" class="input-send-message py-2" placeholder="Mensaje"></textarea>
+      <!-- <i class="btn-emoji" (click)="toggled = !toggled" [(emojiPickerIf)]="toggled"
+        [emojiPickerDirection]="'top'"
+        (emojiPickerSelect)="handleSelection($event)">😄</i>
+        <i class="fas fa-paperclip btn-attach"></i> -->
+
+      <button mat-icon-button class="btn-emoji" (click)="hasFile=!hasFile">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+      <!-- <button mat-icon-button class="btn-emoji" [matMenuTriggerFor]="menu">
+        <mat-icon>attach_file</mat-icon>
+      </button> -->
+      <!-- <mat-menu #menu="matMenu" [class]="'d-custom'">
+        <button mat-menu-item>
+          <label for="file_file">
+            <mat-icon>insert_drive_file</mat-icon>
+            <span>Archivo</span>
+          </label>
+          <input (change)="addAttachments($event)" class="d-none" type="file" id="file_file" />
+        </button>
+        <button mat-menu-item>
+          <label for="file_video">
+            <mat-icon>smart_display</mat-icon>
+            <span>Video</span>
+          </label>
+          <input (change)="addAttachments($event)" class="d-none" type="file" name="file" id="file_video" accept="video/*">
+        </button>
+        <button mat-menu-item>
+          <label for="file_image">
+            <mat-icon>insert_photo</mat-icon>
+            <span>Imagen</span>
+          </label>
+          <input (change)="addAttachments($event)" class="d-none" type="file" name="file" id="file_image" multiple accept="image/*">
+        </button>
+        <button mat-menu-item>
+          <label for="file_audio">
+            <mat-icon>music_note</mat-icon>
+            <span>Audio</span>
+          </label>
+          <input (change)="addAttachments($event)" class="d-none" type="file" name="file" id="file_audio" accept="audio/*">
+        </button>
+      </mat-menu> -->
+      <button class="m-0 btn-send-message mt-1" mat-mini-fab color="primary" (click)="sendMessage()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</span>

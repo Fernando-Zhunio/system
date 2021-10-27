@@ -107,6 +107,15 @@ export class StorageService  {
     this.removeCurrentSession();
     this.router.navigate(['/login']);
   }
+
+  setUsersChat(users): void {
+    localStorage.setItem('users-chat', this.encrytedAes(JSON.stringify(users)));
+  }
+
+  getUsersChat(): any {
+    return  JSON.parse(this.decryptAes(localStorage.getItem('users-chat')));
+  }
+
 }
 
 

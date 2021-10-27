@@ -13,9 +13,6 @@ import { StorageService } from '../storage.service';
   providedIn: 'root'
 })
 export class SharedService {
-
-
-  public urlServer = environment.server;
   public get requestWork() {
     return this._requestWork;
   }
@@ -33,6 +30,17 @@ export class SharedService {
   }
 
   constructor(private Http: HttpClient, private s_storage: StorageService) { }
+
+  public get echo() {
+    return this.echo_;
+  }
+
+  public set echo(echo) {
+    this.echo_ = echo;
+  }
+
+
+  public urlServer = environment.server;
 
   private notifications = new BehaviorSubject<Inotification[]>([]);
   public currentNotifications = this.notifications.asObservable();
@@ -60,25 +68,41 @@ export class SharedService {
     },
   });
 
-  public get echo() {
-    return this.echo_;
-  }
-
-  public set echo(echo) {
-    this.echo_ = echo;
-  }
-
 
   // tslint:disable-next-line: member-ordering
   public static convertDateForLaravelOfDataPicker(valueDate, format= 'yyyy/MM/dd'): string {
     return formatDate(new Date(valueDate), format, 'en');
   }
 
-  public static rediredImageNull(image: string): string {
-    if (image === null) {
-      return 'assets/img/img_not_available.png';
+  public static rediredImageNull(image: string, url= 'assets/img/img_not_available.png'): string {
+    if (!image) {
+      return url;
     }
     return image;
+  }
+
+
+/**
+ *
+ * @param event
+ * @param callbackAssignBase64
+ * @example callbackAssignBase64 =  callbackImg(e): void {
+    console.log(e);
+    this.imgBase64 = e.srcElement.result;
+  }
+ * @return
+ */
+  public static getBase64(event, callbackAssignBase64, isFile= false): any {
+    const file = isFile ? event.target.files[0] : event;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = callbackAssignBase64; /*  {
+     return  reader.result;
+      console.log(reader.result);
+    }; */
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
   }
 
   changeNotifications(notify: Inotification[]) {

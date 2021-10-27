@@ -16,7 +16,7 @@ export class StandartSearchService {
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
-  index(url, page= '10', pageSize= '10'): Observable<Iresponse> {
+  index(url, page= '1', pageSize= '10'): Observable<Iresponse> {
     return this.http.get<Iresponse>(this.end_point + url, {params: {page, pageSize}});
   }
 
@@ -96,8 +96,21 @@ export class StandartSearchService {
     return this.http.post(this.end_point + url, form);
   }
 
+  /**
+   *
+   * @param url
+   * @param form
+   * @example form ={
+   *   const form_data_send = new FormData();
+    form_data_send.append('first_name', data_send.first_name);}
+   * @returns
+   */
   uploadFormData(url, form: FormData): Observable<Iresponse> {
     return this.http.post<Iresponse>(this.end_point + url, form);
+  }
+
+  customUrlGet(url): Observable<any> {
+    return this.http.get(url);
   }
 
 

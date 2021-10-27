@@ -2,10 +2,31 @@
   <app-header-search [filter_data]="{}" [placeholder]="'Buscador de citas'" (isload)="isload = $event" [url]="url"
     (products)="loadData($event)">
     <mat-chip-list class="ml-1">
-      <mat-chip [routerLink]="['/recursos-humanos/requests']" class="text-truncate">
-        <mat-icon class="text-black-50" type="search">add</mat-icon>
+      <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
+        <mat-icon class="text-black-50" type="search">more_vert</mat-icon>
       </mat-chip>
     </mat-chip-list>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <!-- <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()">
+        <mat-form-field class="w-100">
+          <mat-label>Crear cita</mat-label>
+          <mat-select [(ngModel)]="prefix_id">
+            <mat-option value="all">Todos</mat-option>
+            <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>-->
+      <button [routerLink]="['/recursos-humanos/requests']" mat-menu-item>
+        <mat-icon>add</mat-icon>
+        <span>Crear cita</span>
+      </button>
+      <button (click)="changedStatus()" mat-menu-item>
+        <mat-icon>email</mat-icon>
+        <span>Enviar CV por email</span>
+      </button>
+      </mat-menu>
   </app-header-search>
 
   <div *ngIf="isload" class="mt-4 card-columns">
@@ -32,11 +53,21 @@
     </div>
   </div>
 
+  <!-- <div *ngIf="status == 'send_email'">
+    <div class="card-columns">
+      <mat-card class="card" *ngFor="let user of userSelectedToEmailCv">
+        <h2>{{user.first_name}} {{user.last_name}}</h2>
+      </mat-card>
+    </div>
+  </div> -->
+
   <div *ngIf="!isload;" class="mt-4 card-columns">
-    <div *ngFor="let p of products;let index_product=index"
+    <mat-card *ngFor="let p of products;let index_product=index"
       class="card border-0 rounded-fz overflow-hidden position-relative">
-      <div *ngIf="p?.isload" class="position-absolute w-100 h-100 opaque-blur"></div>
-      <div class="card-body">
+      <div *ngIf="p?.isload" class="position-absolute w-100 h-100 opaque-blur">
+        <!-- <button (click)="addUserForEmailCv(p.id)" *ngIf="status == 'send_email'" mat-mini-fab><mat-icon>add</mat-icon></button> -->
+      </div>
+      <div>
         <div class="row m-0">
           <div class="col-12 font-weight-bold h3">{{p.request.work.title}}</div>
           <div class="col-md-7 col-12">
@@ -84,11 +115,15 @@
               class="text-truncate">
               <mat-icon>edit</mat-icon>
             </mat-chip>
+            <mat-chip [ngClass]="{'bg-success': p.request.current_status.type_action == 'request_hired'}"  selected color="acent" (click)="doHired(p.id)"
+              class="text-truncate">
+              <mat-icon>military_tech</mat-icon>
+            </mat-chip>
             </mat-chip-list>
           </div>
         </div>
       </div>
-    </div>
+    </mat-card>
   </div>
   <ng-container *ngIf="!isload && products?.length < 1">
     <div class="row">
