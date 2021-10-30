@@ -14,12 +14,12 @@ export interface Ichats {
   updated_at: string;
   user_id: string;
   _id: string;
-  user: {
-    id: number;
-    info: { id: number; name: string; photo?: string };
-    status: 'online' | 'offline';
-    _id: string;
-  };
+  // user: {
+  //   id: number;
+  //   info: Iinfo;
+  //   status: 'online' | 'offline';
+  //   _id: string;
+  // };
   img?: string;
 }
 
@@ -27,14 +27,11 @@ export interface IparticipantChat {
   _id: string;
   id: number;
   status: 'offline' | 'online';
-  info: {
-    id: 116;
-    name: string;
-    photo: string;
-    position: { id: number; name: string; department_id: number };
-  };
+  info: Iinfo;
   // user?: IuserChat;
 }
+
+interface Iinfo { id: number; name: string; photo?: string, position: { id: number; name: string; department_id: number }; };
 
 export interface IuserChat {
   // admin: number;
@@ -47,19 +44,20 @@ export interface IuserChat {
   name: string;
   person?: Iperson;
   connected?: number;
-  // updated_at: string;
   data_chat: Ichats;
   messages?: ImessageChat[];
+  index: number;
 }
 
 export interface ImessageChat {
   _id?: string;
   author_user_id: number;
+  author: Iauthor;
   channel_id?: string;
   created_at: string | Date;
   delivered_to?: [];
   files: IfileChat[];
-  info?: any;
+  info?: Iinfo;
   read_for?: IreadForChat[];
   readed: string | boolean;
   text: string;
@@ -67,16 +65,23 @@ export interface ImessageChat {
   updated_at?: string;
 }
 
+interface Iauthor {
+  id: number;
+  info: Iinfo;
+  status: 'online' | 'offline';
+  type: 'user';
+  _id: number;
+}
 export interface IfileChat {
-  attributes: {width: number, height: number}
-created_at: string;
-ext: string;
-file: string;
-id: number;
-mime_type: string;
-permalink: string;
-type: string;
-updated_at: string;
+  attributes: { width: number, height: number }
+  created_at: string;
+  ext: string;
+  file: string;
+  id: number;
+  mime_type: string;
+  permalink: string;
+  type: string;
+  updated_at: string;
 }
 
 export interface Ichannel {

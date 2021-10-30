@@ -22,9 +22,10 @@ export class CreateGroupChatComponent implements OnInit {
   isEditable = false;
   page: number = 1;
   searchText: string = '';
-  imgBase64: any = null;
+  img: {file: File, base64: string} = {file: null, base64: null};
+  // imgBase64: any = null;
   nameGroup: string = '';
-  fileImg: File = null;
+  // fileImg: File = null;
   isload: boolean = false;
   ngOnInit(): void {
     this.searchUser();
@@ -72,17 +73,18 @@ export class CreateGroupChatComponent implements OnInit {
   }
 
   getBase64(event): void {
-    this.fileImg = event.target.files[0];
-    this.imgBase64 = SharedService.getBase64(event, this.callbackImg.bind(this));
+    this.img.file =  event.target.files[0];
+    this.img.base64 = SharedService.getBase64(event, this.callbackImg.bind(this));
   }
 
   removeImg(): void {
-    this.imgBase64 = null;
-    this.fileImg = null;
+
+    this.img = {file: null, base64: null};
+    // this.fileImg = null;
   }
   callbackImg(e): void {
-    console.log(e);
-    this.imgBase64 = e.srcElement.result;
+    // console.log(e);
+    this.img.base64 = e.srcElement.result;
   }
 
   saveInServer(): void {
@@ -111,8 +113,8 @@ export class CreateGroupChatComponent implements OnInit {
       this.usersSelect.forEach((item) => {
         formData.append('participants[]', item.id);
       });
-      if (this.imgBase64) {
-        formData.append('img', this.imgBase64);
+      if (this.img.base64 && this.img.file) {
+        formData.append('img', this.img.file);
       }
       return formData;
     }

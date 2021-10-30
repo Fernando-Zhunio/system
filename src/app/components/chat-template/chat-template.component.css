@@ -1,6 +1,6 @@
 
 .users-chats {
-    height: calc(100vh - 55px);
+    height: calc(100vh - 130px);
     /* position: fixed; */
     right: 0;
     overflow-y: scroll;
@@ -17,6 +17,9 @@
 .photo-user {
   width: 40px !important;
   height: 40px !important;
+  object-fit: contain;
+  border-radius: 50%;
+  border: solid 2px #dadada;
 }
 
 .chat-template {
@@ -26,12 +29,15 @@
   bottom: 5px;
   z-index: 9999;
   width: 350px;
+  /* transform: translateY(0%); */
 }
 
 .chat-info{
-  line-height: 1;
-  font-size: 15px;
-  font-family: 'Roboto';
+  
+  font-family: 'Red Hat Display' !important;
+    line-height: 1;
+    font-weight: 500;
+    font-size: 15px;
 }
 
 .item-chat {
@@ -93,4 +99,5 @@
 
 .active-mini-chat {
   border: solid 3px blue;
+  cursor: pointer;
 }

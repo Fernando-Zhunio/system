@@ -1,6 +1,6 @@
 
 <mat-card class="my-4 position-relative">
-  <div class="position-absolute" style="top: -17px;right: 0;z-index: 2;">
+  <div class="position-absolute" style="top: -17px;right: 0;z-index: 1;">
     <button [routerLink]="['/catalogo/publicaciones/show',publication.id]" [disabled]="isLoader" color="accent"
       *ngxPermissionsOnly="permission_page.show" mat-mini-fab>
       <mat-icon>visibility</mat-icon>

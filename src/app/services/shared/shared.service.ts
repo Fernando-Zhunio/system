@@ -4,9 +4,8 @@ import { Inotification } from '../../interfaces/inotification';
 import { formatDate } from '@angular/common';
 import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { environment } from './../../../environments/environment';
-import  Echo  from 'laravel-echo';
+import Echo from 'laravel-echo';
 import { StorageService } from '../storage.service';
 
 @Injectable({
@@ -20,6 +19,16 @@ export class SharedService {
   public set requestWork(userWork: Irequest) {
     this._requestWork = userWork;
   }
+
+  public static disabled_loader: boolean = false;
+
+  // public static get disabled_loader() {
+  //   return this._disabled_loader;
+  // }
+
+  // public static set disabled_loader(disabled_loader: boolean) {
+  //   this.disabled_loader = disabled_loader;
+  // }
 
   public get appointmentWork(): Iappointment {
     return this._appointmentWork;
@@ -68,6 +77,33 @@ export class SharedService {
     },
   });
 
+  private _echo_chat = new Echo({
+    broadcaster: 'pusher',
+    cluster: 'mt1',
+    key: environment.keySocket,
+    authEndpoint: this.endpoint + 'broadcasting/auth',
+    wsHost: environment.domain_serve_chat,
+    disableStats: true,
+    encrypted: false,
+    wsPort: environment.portSocket_chat,
+    wssPort: environment.portSocket_chat,
+    enabledTransports: ['ws', 'wss'],
+    forceTLS: false,
+    auth: {
+      headers: {
+        Authorization: 'Bearer ' + this.s_storage.getCurrentToken()
+      },
+    },
+  });
+
+  public get echoChat(): any {
+    return this._echo_chat;
+  }
+
+  public set echoChat(v: any) {
+    this._echo_chat = v;
+  }
+
 
   // tslint:disable-next-line: member-ordering
   public static convertDateForLaravelOfDataPicker(valueDate, format= 'yyyy/MM/dd'): string {
@@ -92,8 +128,8 @@ export class SharedService {
   }
  * @return
  */
-  public static getBase64(event, callbackAssignBase64, isFile= false): any {
-    const file = isFile ? event.target.files[0] : event;
+  public static getBase64(event, callbackAssignBase64): any {
+    const file = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = callbackAssignBase64; /*  {

@@ -9,6 +9,49 @@
   overflow: auto;
 }
 
+.chat-font {
+  font-family: "Red Hat Display";
+}
+
+
+.tooltip-fz {
+  opacity: 0;
+  visibility: hidden;
+  display: block;
+  position: fixed;
+  z-index: 99999;
+  background-color: darkgrey;
+  border-radius: 20px;
+  padding: 10px;
+  color: white;
+  box-shadow: 0px 0px 14px -1px rgba(0,0,0,0.75);
+-webkit-box-shadow: 0px 0px 14px -1px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 14px -1px rgba(0,0,0,0.75);
+}
+
+.tooltip-fz img {
+  width: 50px;
+  height: 50px;
+  margin-right: 5px;
+}
+
+.name-group {
+  cursor: pointer;
+}
+
+.name-group:hover .tooltip-fz {
+  opacity: 1;
+  visibility: visible;
+}
+
+.img-avatar-mini {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  /* margin-right: px; */
+  border: 2px solid darkgray;
+}
+
 .chat-template {
   /* height: 70%; */
   /* position: fixed; */
@@ -17,18 +60,26 @@
   /* z-index: 9999; */
 }
 
+::ng-deep .mat-card-header-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .chat-template mat-card {
   height: 100%;
 }
 
 .message-recept {
-  padding: 5px;
+  padding: 10px;
   background: white;
   display: inline-block;
   border-radius: 15px 15px 15px 0;
-  box-shadow: 2px 2px 2px #c3c3c3;
+  /* box-shadow: 2px 2px 2px #c3c3c3; */
   max-width: 80%;
   position: relative;
+  word-break: break-word;
+  font-family: 'Red Hat Display';
 }
 
 .message-recept::after {
@@ -46,12 +97,15 @@
 .message-send {
   /* float: right; */
   display: inline-block;
-  padding: 5px 10px;
+  padding: 10px;
   background: #2f353a !important;
   color: white;
   max-width: 80%;
   border-radius: 15px 15px 0 15px;
   position: relative;
+  word-break: break-word;
+  font-family: 'Red Hat Display';
+
 }
 
 .message-send::after{
@@ -173,6 +227,22 @@ float: right;
     border-color: blue;
 }
 
+.new-message {
+  position: absolute;
+  bottom: 5px;
+  right: 0px;
+  z-index: 999999;
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+  
+}
+.new-message span {
+  background-color: antiquewhite;
+  font-size: small;
+  border-radius: 20px;
+}
+
 .attach > div{
   border-radius: 15px;
 
@@ -223,10 +293,12 @@ position: relative;
   display: block;
   position: relative;
 }
+
 .download-file .btn-download{
   display: none;
   z-index: 10000;
 }
+
 .download-file audio {
   max-width: 250px;
     padding: 8px;

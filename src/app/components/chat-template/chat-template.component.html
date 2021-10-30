@@ -3,7 +3,7 @@
     <tab (selectTab)="onSelectChats($event)" [customClass]="'p-0 font-2xl font-facebook border-0'"
       id="tab1">
       <ng-template tabHeading>
-        <span class=""><i class="fas fa-comments"></i><br> Chats</span>
+        <span class="font-chat"><i class="fas fa-comments"></i><br> Chats</span>
       </ng-template>
       <div >
         <div class="users-chats w-100  p-0 bg-white shadow" infiniteScroll [infiniteScrollDistance]="5"
@@ -32,7 +32,7 @@
                   <ng-template #elseTemplate>
                     <span class="position-relative">
                       <span *ngIf="chat.participants[0].status != 'offline'" class="badge bg-success badge-online text-success">●</span>
-                      <img class="photo-user" [src]="getPhoto(chat.user?.info.photo)" />
+                      <img class="photo-user" [src]="getPhoto(chat.participants[0]?.info.photo)" />
                     </span>
                     <span class="chat-info text-left pl-1 text-capitalize text-truncate">
                       {{chat.participants[0].info.name}}
@@ -53,7 +53,7 @@
     </tab>
     <tab [customClass]="'p-0 font-2xl font-facebook border-0'">
       <ng-template tabHeading>
-        <span class=""><i class="fas fa-users"></i><br> Usuarios</span>
+        <span class="font-chat"><i class="fas fa-users"></i><br> Usuarios</span>
       </ng-template>
       <div class="users-chats w-100  p-0 bg-white shadow" infiniteScroll [infiniteScrollDistance]="5"
         [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
@@ -71,13 +71,11 @@
   </tabset>
 </div>
 
-<div [ngClass]="!openOrClose? 'chat-bubble-position-5':'chat-bubble-position-250'" class="chat-template"
+<div @fade [ngStyle]="{'z-index': chat?.index}" [ngClass]="!openOrClose? 'chat-bubble-position-5':'chat-bubble-position-250'" class="chat-template"
   *ngFor="let chat of chatsbubble;let i = index;trackBy: chatMethod">
   <div>
-    <!-- <div [ngStyle]="{'background-image': 'url('+getPhoto(chat?.data_chat?.user?.info?.photo) +')'}"
-    mat-card-avatar class="example-header-image"></div>-->
-    <span (click)="upBubble(i)" [ngStyle]="{'left': (i*46)+'px'}" [ngClass]="{'active-mini-chat': i == (chatsbubble.length -1)}" class="bubble-mini-chat bg-white"> 
-      <img class="w-100 rounded-circle" [src]="getPhoto(chat?.data_chat?.user?.info?.photo)" alt="">
+    <span (click)="upBubble(chat.data_chat._id)" [ngStyle]="{'left': (i*46)+'px'}"  class="active-mini-chat bubble-mini-chat bg-white"> 
+      <img class="w-100 rounded-circle" [src]="getPhoto(chat?.data_chat?.img ? chat?.data_chat?.img : chat?.data_chat?.participants ? chat?.data_chat?.participants[0]?.info?.photo:null)" alt="">
     </span>
   </div>
   <app-chat (delete)="closeChatBubble($event)" [userchat]="chat" [my_id]="myUser.id"></app-chat>

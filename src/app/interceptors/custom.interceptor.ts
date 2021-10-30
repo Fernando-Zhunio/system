@@ -10,11 +10,8 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize, map, take, tap } from 'rxjs/operators';
 import { SwalService } from '../services/swal.service';
-import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarLoaderComponent } from '../components/snack-bar-loader/snack-bar-loader.component';
-import { Iresponse } from '../interfaces/Imports/invoice-item';
+import { SharedService } from '../services/shared/shared.service';
 
 declare let Swal: any;
 
@@ -23,6 +20,7 @@ export class CustomInterceptor implements HttpInterceptor {
   constructor(
     // private route: Router,
     private s_storage: StorageService,
+    public s_shared: SharedService
     // private snack_bar: MatSnackBar
   ) {}
 
@@ -31,6 +29,7 @@ export class CustomInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     let headers = null;
+    let swal = null;
     // si esta autenticado
     if (this.s_storage.isAuthenticated()) {
       headers = this.createHeader();
@@ -40,24 +39,30 @@ export class CustomInterceptor implements HttpInterceptor {
         'Access-Control-Allow-Origin': '*',
       });
     }
-    const newResquest = request.clone({ headers });
-    // Activa spinner cargando
-    const swal = Swal.fire({
+
+    if  (SharedService.disabled_loader) {
+      SharedService.disabled_loader = false;
+    } else {
+       // Activa spinner cargando
+      swal = Swal.fire({
       position: 'bottom-end',
       toast: true,
       showConfirmButton: false,
-      title: '<div class="d-flex font-weight-bold">Cargando <div style="display:block;margin:0 0 0 15px" class="swal2-loader d-block ml-2 mr-1"></div></div>',
+      title: '<div class="d-flex">Cargando <div style="display:block;margin:0 0 0 15px" class="swal2-loader d-block ml-2 mr-1"></div></div>',
       customClass: {
         popup: 'p-2',
       },
     });
+    }
+
+    const newResquest = request.clone({ headers });
 
     return next.handle(newResquest).pipe(
       finalize(() => {
-        swal.close();
+        if (swal) {swal.close(); }
       }),
       catchError((err) => {
-        Swal.close();
+        if (swal) {swal.close(); }
         switch (err.status) {
           case 401:
             if (this.s_storage.isAuthenticated()) { this.s_storage.logout(); }

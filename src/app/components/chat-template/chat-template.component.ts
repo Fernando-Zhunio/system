@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ichats, ImessageChat, IuserChat } from '../../interfaces/chats/ichats';
 import { SharedService } from '../../services/shared/shared.service';
@@ -8,6 +9,18 @@ import { StorageService } from '../../services/storage.service';
   selector: 'app-chat-template',
   templateUrl: './chat-template.component.html',
   styleUrls: ['./chat-template.component.css'],
+  animations: [trigger('fade', [
+    transition(
+      ':leave', [
+        style({ transform: 'translateY(0%)', opacity: '1' }),
+        animate(500, style({ transform: 'translateY(110%)', opacity: '0' }))
+      ]
+    ),
+    transition(':enter', [
+      style({ transform: 'translateY(110%)', opacity: '0' }),
+      animate(500)
+    ]),
+  ])],
 })
 export class ChatTemplateComponent implements OnInit {
   constructor(
@@ -24,17 +37,86 @@ export class ChatTemplateComponent implements OnInit {
   hideUsers: boolean = true;
   page: number = 1;
   myUser: any = null;
+  index: number = 9999;
   ngOnInit(): void {
     this.myUser = this.s_storage.getCurrentUser();
-    this.s_shared.echo
+    this.s_shared.echoChat
       .private(`chat.${this.myUser.id}`)
       .listen(`.chat`, this.newChat.bind(this))
       .listen('.message', this.getMessages.bind(this))
       .listen('.typing', this.typingUser.bind(this))
       .listen('.message_readed', this.getMessageReaded.bind(this));
-    this.s_shared.echo
+    this.s_shared.echoChat
       .private(`chat_users`)
       .listen('.user', this.getChatUserStatus.bind(this));
+
+
+
+    this.s_shared.echo.connector.pusher.connection.bind('connecting', (payload) => {
+      /**
+       * All dependencies have been loaded and Channels is trying to connect.
+       * The connection will also enter this state when it is trying to reconnect after a connection failure.
+       */
+      console.log('connecting...');
+  });
+
+  this.s_shared.echo.connector.pusher.connection.bind('connected', (payload) => {
+      /**
+       * The connection to Channels is open and authenticated with your app.
+       */
+      console.log('connected!', payload);
+  });
+
+  this.s_shared.echo.connector.pusher.connection.bind('unavailable', (payload) => {
+      /**
+       *  The connection is temporarily unavailable. In most cases this means that there is no internet connection.
+       *  It could also mean that Channels is down, or some intermediary is blocking the connection. In this state,
+       *  pusher-js will automatically retry the connection every 15 seconds.
+       */
+      console.log('unavailable', payload);
+  });
+
+  this.s_shared.echo.connector.pusher.connection.bind('failed', (payload) => {
+      /**
+       * Channels is not supported by the browser.
+       * This implies that WebSockets are not natively available and an HTTP-based transport could not be found.
+       */
+  
+      console.log('failed', payload);
+  
+  });
+  
+  this.s_shared.echo.connector.pusher.connection.bind('disconnected', (payload) => {
+  
+      /**
+       * The Channels connection was previously connected and has now intentionally been closed
+       */
+  
+      console.log('disconnected', payload);
+  
+  });
+  
+  this.s_shared.echo.connector.pusher.connection.bind('message', (payload) => {
+  
+      /**
+       * Ping received from server
+       */
+  
+      console.log('message', payload);
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+    console.log(this.s_shared.echo.connector);
     this.getAllUsers();
     this.onSelectChats(null);
   }
@@ -79,6 +161,7 @@ export class ChatTemplateComponent implements OnInit {
     if (userChat != undefined) {
       const message: ImessageChat = {
         text: event.message.text,
+        author: event.message.author,
         type: event.message.type,
         files: event.message.files,
         created_at: event.message.created_at,
@@ -118,25 +201,7 @@ export class ChatTemplateComponent implements OnInit {
         }
       }
     }
-    // else {
-    //   const is_group = event.chat.type == 'group';
-    //     userChat = {
-    //       id: is_group ? 10000000000 : event.chat.user.id,
-    //       name: is_group ? event.chat.name : event.chat.user.info.name,
-    //       data_chat: event.chat,
-    //       messages: [
-    //         {
-    //           text: event.message.text,
-    //           type: event.message.type,
-    //           created_at: event.message.created_at,
-    //           author_user_id: event.message.author_user_id,
-    //           files: event.message.files,
-    //           readed: false,
-    //         },
-    //       ],
-    //     };
-    //     this.chatsbubble.push(userChat);
-    // }
+    this.reproducir();
   }
 
    array_move(arr, old_index, new_index) {
@@ -150,6 +215,10 @@ export class ChatTemplateComponent implements OnInit {
     return arr; // for testing
 }
 
+reproducir() {
+  const audio = new Audio('assets/audio/new_message.wav');
+  audio.play();
+}
   getChatUserStatus(event: {
     event: string;
     user: { id: number; status: 'offline' | 'online'; _id: string };
@@ -222,7 +291,6 @@ export class ChatTemplateComponent implements OnInit {
 
   openChatOfChat(chat_id): void {
     const chat = this.chats.find((x) => x._id == chat_id);
-
     if (chat != undefined) {
       if (chat.type == 'personal') {
         const user = chat.participants[0].info;
@@ -235,6 +303,7 @@ export class ChatTemplateComponent implements OnInit {
           id,
           name,
           data_chat: chat,
+          index: this.index
         };
         this.chatsbubble.push(userChat);
       } else if (chat.type == 'group') {
@@ -244,10 +313,12 @@ export class ChatTemplateComponent implements OnInit {
         if (userIndex !== -1) {
           return;
         }
+        chat.img = chat.img ? chat.img : 'assets/img/user_group.png';
         const userChat: IuserChat = {
           id: chat._id,
           name: chat.name,
           data_chat: chat,
+          index: this.index,
         };
         this.chatsbubble.push(userChat);
       }
@@ -285,7 +356,16 @@ export class ChatTemplateComponent implements OnInit {
       });
   }
 
-  upBubble(index): void {
-    this.chatsbubble = this.array_move(this.chatsbubble, index, this.chatsbubble.length - 1);
+  // upBubble(index): void {
+  //   this.chatsbubble = this.array_move(this.chatsbubble, index, this.chatsbubble.length - 1);
+  // }
+  upBubble(_id) {
+    const chatBubble = this.chatsbubble.find((x) => x.data_chat._id == _id);
+    if (chatBubble != undefined) {
+      chatBubble.index = this.index++;
+
+    }
   }
+
+
 }

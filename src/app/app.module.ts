@@ -96,6 +96,7 @@ import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // import FilePondPluginFileValidateType from 'filepond';
 registerPlugin(FilePondPluginImagePreview);
@@ -151,6 +152,7 @@ registerLocaleData(localeEs, 'es');
     OverlayModule,
     InfiniteScrollModule,
     FilePondModule,
+    MatTooltipModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),

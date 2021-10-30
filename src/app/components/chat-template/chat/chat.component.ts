@@ -10,17 +10,18 @@ import {
   QueryList,
   AfterViewInit,
   OnDestroy,
+  HostListener,
+  SimpleChanges,
 } from '@angular/core';
 import collect from 'collect.js';
 import { FilePondOptions } from 'filepond';
-// import { FilePondComponent } from 'ngx-filepond/filepond.component';
-// import { FilePondComponent } from 'ngx-filepond';
-import { forkJoin, Subscription } from 'rxjs';
+import {forkJoin, Observable, Subject, Subscription } from 'rxjs';
+
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
-import { ImessageChat, IuserChat } from './../../../interfaces/chats/ichats';
+import { IuserChat } from './../../../interfaces/chats/ichats';
 // import { FilePondComponent } from 'ngx-filepond';
 // import { FilePondOptions } from 'filepond';
 @Component({
@@ -28,22 +29,22 @@ import { ImessageChat, IuserChat } from './../../../interfaces/chats/ichats';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
-export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  constructor(private s_standart: StandartSearchService, private s_storage: StorageService) {}
+export class ChatComponent implements OnInit, OnDestroy {
+  constructor(private s_standart: StandartSearchService, private s_storage: StorageService) { }
   @ViewChild('scrollMe') private scrollFrame: ElementRef;
   @ViewChildren('ngfor') ngfor: QueryList<any>;
   @ViewChild('myPond') myPond: any;
-  hasFile: boolean = false;
-
   @Input() userchat: IuserChat;
   @Output() delete: EventEmitter<number> = new EventEmitter();
   @Input() my_id: number;
-  scrollContainer: any;
+  hasFile: boolean = false;
+  _scrollContainer: any;
   text_message: string = '';
   toggled: boolean = false;
   suscripted: Subscription;
+  hasNewMessages: boolean = false;
   page: number = 1;
-  not_bottom: boolean = true;
+  not_bottom: boolean = false;
   disableScroll: boolean = false;
   attachments: { url: any; file: File, type: 'image' }[] = [];
   pondOptions: FilePondOptions = {
@@ -61,26 +62,26 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         onload: (response: any) => {
           const data = JSON.parse(response);
-          console.log({'File_upload': data});
+          console.log({ 'File_upload': data });
           console.log(data.id);
           this.sendOneMessage([data.id]);
           return data.id;
         }
-
-
       },
-      // process: `${environment.server}storage/attachments/upload`,
     }
   };
+  eventScroll: any = null;
+  subjectScroll$: Subject<any> = new Subject<any>();;
+  observerScroll: Observable<any> = this.subjectScroll$.asObservable();
 
-  // pondFiles: FilePondOptions['files'] = [
-  //   {
-  //     source: 'assets/photo.jpeg',
-  //     options: {
-  //       type: 'local'
-  //     }
-  //   }
-  // ];
+  set scrollContainer(val: any) {
+    this._scrollContainer = val; // Set the new value
+    this.subjectScroll$.next(val); // Trigger the subject, which triggers the Observable
+  }
+
+  get scrollContainer() {
+    return this._scrollContainer;
+  }
 
   ngOnInit(): void {
     if (this.userchat.data_chat) {
@@ -97,6 +98,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   getMessages(goBottom = false): void {
+    // this.hasNewMessages = false;
     this.s_standart
       .show(`chats/${this.userchat.data_chat._id}/messages?page=${this.page}`)
       .subscribe((res) => {
@@ -109,6 +111,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           if (data.length <= 0) {
             this.disableScroll = true;
           }
+          this.scrollContainer.scrollTop += 10;
           data.forEach((item) => {
             this.userchat.messages.unshift(item);
           });
@@ -144,15 +147,31 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.attachments.splice(index, 1);
   }
 
+
+
   ngAfterViewInit() {
-    this.scrollContainer = this.scrollFrame.nativeElement;
-    this.suscripted = this.ngfor.changes.subscribe((_) => {
-      if (this.not_bottom) {
-        this.markReadMessage(this.userchat.data_chat._id);
-        this.scrollToBottom();
-      }
-      this.not_bottom = true;
-    });
+    // this.checked = true;
+    // this.scrollContainer = this.scrollFrame.nativeElement;
+    // this.eventScroll = this.observerScroll.subscribe((e) => alert(e));
+    // this.eventScroll = new ResizeObserver((entries) => {
+    //   console.log(entries);
+    //   console.log(entries[0].scrollHeight);
+    // });
+
+    // this.eventScroll.observe(this.scrollFrame.nativeElement);
+
+    // this.suscripted = this.ngfor.changes.subscribe((_) => {
+    //   if ( this.scrollContainer.scrollTop + this.scrollContainer.clientHeight < this.scrollContainer.scrollHeight - 20 ) {
+    //     this.hasNewMessages = true;
+    //     return;
+    //   } else {
+    //     this.hasNewMessages = false;
+    //     if (this.not_bottom) {
+    //     this.markReadMessage(this.userchat.data_chat._id);
+    //     this.scrollToBottom();
+    //   }}
+    //   this.not_bottom = true;
+    // });
   }
 
   ngOnDestroy() {
@@ -162,12 +181,25 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // checked: boolean = false;
   scrollToBottom(): void {
-    this.scrollContainer.scroll({
-      top: this.scrollContainer.scrollHeight,
-      left: 0,
-      behavior: 'smooth',
-    });
+
+   try {
+        
+      this.scrollContainer = this.scrollFrame.nativeElement;
+
+     const maxHeight = this.scrollContainer.scrollHeight;
+     const hasScrollBar = this.scrollContainer.scrollHeight > this.scrollContainer.clientHeight;
+     // this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight;
+    //  this.scrollContainer.scroll({
+    //    top: this.scrollContainer.scrollHeight,
+    //    left: 0,
+    //    behavior: 'smooth',
+    //  });
+    return maxHeight;
+   } catch (exception) {
+    console.log(exception);
+   }
   }
 
   closeChat(): void {
@@ -221,16 +253,17 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(data);
 
     this.s_standart
-        .store(`chats/user/messages`, data)
-        .subscribe((res) => {
-          console.log(res);
-        });
-        this.text_message = '';
+      .store(`chats/user/messages`, data)
+      .subscribe((res) => {
+        console.log(res);
+      });
+    this.text_message = '';
   }
 
   markReadMessage(chat_id): void {
+    SharedService.disabled_loader = true;
     this.s_standart
-      .updatePut(`chats/${chat_id}/mark-read`, {})
+      .updatePut(`chats/${chat_id}/mark-read`, {}, false)
       .subscribe((res) => {
         console.log(res);
         this.userchat.data_chat.unread_messages_count = 0;
@@ -238,7 +271,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // #region descargar archivo
-   downloadResource(url, filename) {
+  downloadResource(url, filename) {
     if (!filename) { filename = url.split('\\').pop().split('/').pop(); }
     this.s_standart.customUrlGet(url)
       .subscribe((response: any) => {
@@ -246,10 +279,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         const blobUrl = window.URL.createObjectURL(blob);
         this.forceDownload(blobUrl, filename);
       });
-      // .catch(e => console.error(e));
+    // .catch(e => console.error(e));
   }
 
-   forceDownload(blob, filename) {
+  forceDownload(blob, filename) {
     const a = document.createElement('a');
     a.download = filename;
     a.href = blob;
@@ -259,22 +292,26 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     a.remove();
   }
 
-    // #endregion descargar archivo
+  // #endregion descargar archivo
 
 
 
 
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
 
-    pondHandleInit() {
-      console.log('FilePond has initialised', this.myPond);
-    }
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+  }
 
-    pondHandleAddFile(event: any) {
-      console.log('A file was added', event);
-    }
+  pondHandleActivateFile(event: any) {
+    console.log('A file was activated', event);
+  }
 
-    pondHandleActivateFile(event: any) {
-      console.log('A file was activated', event);
-    }
-
+  generateParticipantTooltip(participant): string {
+    return `<span class="text-truncate p-2">
+    <img src="${this.getPhoto(participant?.info?.photo)}" alt="">${participant?.info?.name}
+      </span>`;
+  }
 }

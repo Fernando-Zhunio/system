@@ -406,7 +406,7 @@
     </tabset>
   </app-aside>
 
-  <app-chat-template style="position: fixed;width: 250px;right: 0;z-index: 1;margin-right: 16px;" (newMessageEmit)="newMessage($event)" [openOrClose]="hideUsersChat"></app-chat-template>
+  <app-chat-template style="position: fixed;width: 250px;right: 0;z-index: 1;margin-right: 16px;top: 58px;" (newMessageEmit)="newMessage($event)" [openOrClose]="hideUsersChat"></app-chat-template>
 
   <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
     <p style="color: white"> Loading... </p>

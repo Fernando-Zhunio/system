@@ -64,9 +64,9 @@
       </div>
       <div class="row align-items-center ">
         <div class="img-container col-md-4 col-12">
-          <div *ngIf="imgBase64" class="position-relative">
+          <div *ngIf="img?.base64" class="position-relative">
             <button (click)="removeImg()" class="position-absolute" color="warn" mat-icon-button><mat-icon>delete</mat-icon></button>
-            <img  [src]="imgBase64"  class="img rounded-circle">
+            <img  [src]="img?.base64"  class="img rounded-circle">
           </div>
         </div>
         <mat-form-field class="col-md-8 col-12">
