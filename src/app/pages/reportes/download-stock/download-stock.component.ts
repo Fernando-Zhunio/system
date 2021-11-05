@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Iwarehouse } from '../../../interfaces/iwarehouse';
 import { StandartSearchService } from '../../../services/standart-search.service';
-// import { MatSelectionListChange } from '@angular/material/list';
 import collect from 'collect.js';
 import { SwalService } from '../../../services/swal.service';
 
@@ -38,7 +37,7 @@ export class DownloadStockComponent implements OnInit {
 
       if (res && typeof res === 'object' && res.hasOwnProperty('success') && res.success) {
         this.isLoad = false;
-        this.warehouses = collect(res.data.warehouses).sortBy('name').all() as Iwarehouse[];
+        this.warehouses = res.data.warehouses as Iwarehouse[];
         this.warehouseCopySearch = this.warehouses;
         this.mbaStatus = res.data.mba_status;
         if (res.data.user_warehouses) {
@@ -49,15 +48,18 @@ export class DownloadStockComponent implements OnInit {
   }
 
   assignedDataOnInit(user_warehouses: any[]): void {
-    user_warehouses.forEach((id) => {
+    console.log(user_warehouses);
+    user_warehouses.map((id:any) => {
+      console.log(id);
       this.addWarehousesSelects(id);
     });
   }
 
-  addWarehousesSelects(id: number) {
+  addWarehousesSelects(id: any) {
     if (this.allWarehouse) {return; }
-    const index = this.warehouses.findIndex((x) => x.id === id);
-    const indexCopy = this.warehouseCopySearch.findIndex((x) => x.id === id);
+    const index = this.warehouses.findIndex((x) => x.id == id);
+    console.log(index);
+    const indexCopy = this.warehouseCopySearch.findIndex((x) => x.id == id);
     if (index !== -1) {
       this.warehousesSelects.push(this.warehouses[index]);
       this.warehouses.splice(index, 1);
@@ -87,11 +89,11 @@ export class DownloadStockComponent implements OnInit {
     if (sendData['warehouses_ids'].length > 0) {
       this.isLoad = true;
       const url = 'reports/general-stock';
+      console.log(this.warehousesSelects);
       this.s_standart.store(url, {...sendData}).subscribe( res => {
         if (res && typeof res === 'object' && res.hasOwnProperty('success') && res.success) {
           this.isLoad = false;
           SwalService.swalToast(res.data.message, 'success');
-          this.warehousesSelects = [];
         }
         this.isLoad = false;
       }, err => {

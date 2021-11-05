@@ -1,0 +1,18 @@
+<h3 class="m-0 text-muted">
+   <img [src]="data.img || 'assets/img/user.png'" alt="" class="img-title"> {{data.title }}</h3>
+<div class="d-flex">
+    <button class="rounded-fz mr-1" mat-raised-button color="warn" (click)="deleteChat()"> {{data.isGroup ? 'Salir de este grupo':'Borrar este chat'}}</button>
+    <button class="rounded-fz mr-1" mat-raised-button color="primary">Participantes: #{{data?.participants?.length}}</button>
+</div>
+<div class="text-muted font-facebook my-2">Integrantes</div>
+<div mat-dialog-content>
+    <mat-list>
+        <mat-list-item *ngFor="let participant of data?.participants">
+            <img class="img-item" [src]="participant?.info?.photo || 'assets/img/user.png'" alt="">
+            {{participant.info.name}}</mat-list-item>
+    </mat-list>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial>Cerrar</button>
+</div>
+

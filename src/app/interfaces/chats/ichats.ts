@@ -59,7 +59,8 @@ export interface ImessageChat {
   files: IfileChat[];
   info?: Iinfo;
   read_for?: IreadForChat[];
-  readed: string | boolean;
+  // readed: string | boolean;
+  is_readed_for_all: boolean;
   text: string;
   type: 'message' | 'info';
   updated_at?: string;
@@ -78,6 +79,7 @@ export interface IfileChat {
   ext: string;
   file: string;
   id: number;
+  original_name: string;
   mime_type: string;
   permalink: string;
   type: string;

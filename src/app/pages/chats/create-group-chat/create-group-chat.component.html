@@ -12,7 +12,7 @@
             <input class="input-search" placeholder="Buscador de Usuario" [(ngModel)]="searchText" name="search">
             <button matSuffix (click)="searchUser()" mat-mini-fab><mat-icon>search</mat-icon></button>
           </div>
-          <mat-card>
+          <mat-card class="rounded-fz shadow">
             <mat-selection-list [multiple]="false">
               <mat-list-option (click)="addUser(user.id)" [value]="user.id" *ngFor="let user of users">
                <div class="d-flex align-items-center">
@@ -25,7 +25,7 @@
         </div>
         <div class="col-md-6">
           <h2 class="font-facebook font-2xl">Usuarios seleccionados</h2>
-          <mat-card>
+          <mat-card *ngIf="usersSelect.length > 0" class="rounded-fz shadow">
             <mat-selection-list [multiple]="false"  >
               <mat-list-option [value]="user.id" *ngFor="let user of usersSelect">
                 <div class="d-flex align-items-center">

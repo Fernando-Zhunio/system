@@ -50,60 +50,58 @@ export class ChatTemplateComponent implements OnInit {
       .private(`chat_users`)
       .listen('.user', this.getChatUserStatus.bind(this));
 
+  //   this.s_shared.echo.connector.pusher.connection.bind('connecting', (payload) => {
+  //     /**
+  //      * All dependencies have been loaded and Channels is trying to connect.
+  //      * The connection will also enter this state when it is trying to reconnect after a connection failure.
+  //      */
+  //     console.log('connecting...');
+  // });
 
+  // this.s_shared.echo.connector.pusher.connection.bind('connected', (payload) => {
+  //     /**
+  //      * The connection to Channels is open and authenticated with your app.
+  //      */
+  //     console.log('connected!', payload);
+  // });
 
-    this.s_shared.echo.connector.pusher.connection.bind('connecting', (payload) => {
-      /**
-       * All dependencies have been loaded and Channels is trying to connect.
-       * The connection will also enter this state when it is trying to reconnect after a connection failure.
-       */
-      console.log('connecting...');
-  });
+  // this.s_shared.echo.connector.pusher.connection.bind('unavailable', (payload) => {
+  //     /**
+  //      *  The connection is temporarily unavailable. In most cases this means that there is no internet connection.
+  //      *  It could also mean that Channels is down, or some intermediary is blocking the connection. In this state,
+  //      *  pusher-js will automatically retry the connection every 15 seconds.
+  //      */
+  //     console.log('unavailable', payload);
+  // });
 
-  this.s_shared.echo.connector.pusher.connection.bind('connected', (payload) => {
-      /**
-       * The connection to Channels is open and authenticated with your app.
-       */
-      console.log('connected!', payload);
-  });
-
-  this.s_shared.echo.connector.pusher.connection.bind('unavailable', (payload) => {
-      /**
-       *  The connection is temporarily unavailable. In most cases this means that there is no internet connection.
-       *  It could also mean that Channels is down, or some intermediary is blocking the connection. In this state,
-       *  pusher-js will automatically retry the connection every 15 seconds.
-       */
-      console.log('unavailable', payload);
-  });
-
-  this.s_shared.echo.connector.pusher.connection.bind('failed', (payload) => {
-      /**
-       * Channels is not supported by the browser.
-       * This implies that WebSockets are not natively available and an HTTP-based transport could not be found.
-       */
+  // this.s_shared.echo.connector.pusher.connection.bind('failed', (payload) => {
+  //     /**
+  //      * Channels is not supported by the browser.
+  //      * This implies that WebSockets are not natively available and an HTTP-based transport could not be found.
+  //      */
   
-      console.log('failed', payload);
+  //     console.log('failed', payload);
   
-  });
+  // });
   
-  this.s_shared.echo.connector.pusher.connection.bind('disconnected', (payload) => {
+  // this.s_shared.echo.connector.pusher.connection.bind('disconnected', (payload) => {
   
-      /**
-       * The Channels connection was previously connected and has now intentionally been closed
-       */
+  //     /**
+  //      * The Channels connection was previously connected and has now intentionally been closed
+  //      */
   
-      console.log('disconnected', payload);
+  //     console.log('disconnected', payload);
   
-  });
+  // });
   
-  this.s_shared.echo.connector.pusher.connection.bind('message', (payload) => {
+  // this.s_shared.echo.connector.pusher.connection.bind('message', (payload) => {
   
-      /**
-       * Ping received from server
-       */
+  //     /**
+  //      * Ping received from server
+  //      */
   
-      console.log('message', payload);
-  });
+  //     console.log('message', payload);
+  // });
 
 
 
@@ -124,6 +122,11 @@ export class ChatTemplateComponent implements OnInit {
   newChat(event: { chat: Ichats; event: 'created'|'updated'|'deleted' }): void {
     console.log(event);
     if (event.event == 'created') {
+      const chat = event.chat;
+      const participantsIndex = chat.participants.findIndex(x => x.info.id == this.myUser.id);
+      if ( participantsIndex != -1 ) {
+        chat.participants.splice(participantsIndex, 1);
+      }
       this.chats.unshift(event.chat);
       return;
     }
@@ -166,10 +169,12 @@ export class ChatTemplateComponent implements OnInit {
         files: event.message.files,
         created_at: event.message.created_at,
         author_user_id: event.message.author_user_id,
-        readed: false,
+        is_readed_for_all: event.message.is_readed_for_all,
       };
       if (!userChat?.messages) {userChat.messages = []; }
       userChat['messages'].push(message);
+      console.log({message, state: event.message.is_readed_for_all});
+
       if (chat != undefined) {
         if (!chat.last_message) {
           chat.last_message = {} as any;
@@ -177,16 +182,14 @@ export class ChatTemplateComponent implements OnInit {
         chat.last_message.text = event.message.text;
         chat.last_message.files = Array.isArray(event.message.files);
         chat.last_message.author_user_id = event.message.author_user_id;
-        chat.last_message.readed = event.message.readed;
+        chat.last_message.is_readed_for_all = event.message.is_readed_for_all;
         chat.last_message.created_at = event.message.created_at;
         if (chatIndex > 0) {
           this.chats = this.array_move(this.chats, chatIndex, 0);
         }
       }
     } else {
-      //  chat = this.chats.find((x: any) => x._id === event.chat._id);
       console.log('burbuja no encotrada');
-
       if (chat != undefined) {
         if (!chat.last_message) {
           chat.last_message = {} as any;
@@ -194,14 +197,16 @@ export class ChatTemplateComponent implements OnInit {
         chat.unread_messages_count++;
         chat.last_message.text = event.message.text;
         chat.last_message.author_user_id = event.message.author_user_id;
-        chat.last_message.readed = event.message.readed;
+        chat.last_message.is_readed_for_all = event.message.is_readed_for_all;
         chat.last_message.created_at = event.message.created_at;
         if (chatIndex > 0) {
           this.chats = this.array_move(this.chats, chatIndex, 0);
         }
       }
     }
-    this.reproducir();
+    if (event.message.author_user_id != this.myUser.id) {
+      this.reproducir();
+    }
   }
 
    array_move(arr, old_index, new_index) {
@@ -235,19 +240,19 @@ reproducir() {
     }
   }
 
-  getMessageReaded(event): void {
+  getMessageReaded(event: {chat_id: string, is_readed_for_all: boolean, message_id: string, user: IuserChat}): void {
     console.log({ 'reader_event: ': event });
     const userChat = this.chatsbubble.find((x) => x.data_chat._id === event.chat_id);
+    if (!event.is_readed_for_all) { return; }
     if (userChat != undefined) {
       userChat['messages'].map((message) => {
-        return (message.readed = 'true');
+        return (message.is_readed_for_all = true);
       });
     }
     const chat = this.chats.find((x) => x._id === event.chat_id);
     if (chat != undefined) {
-      if (chat.last_message)
-      {
-        chat.last_message.readed = 'true';
+      if (chat.last_message) {
+        chat.last_message.is_readed_for_all = true;
       }
     }
   }

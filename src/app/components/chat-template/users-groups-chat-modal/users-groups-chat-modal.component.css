@@ -1,0 +1,13 @@
+.img-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.img-title {
+    width: 40px;
+    border: solid 3px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}

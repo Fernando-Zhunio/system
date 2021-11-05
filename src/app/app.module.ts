@@ -94,12 +94,15 @@ import {  NgxEmojiPickerModule  } from 'ngx-emoji-picker';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UsersGroupsChatModalComponent } from './components/chat-template/users-groups-chat-modal/users-groups-chat-modal.component';
+registerPlugin(FilePondPluginImagePreview);
 
 // import FilePondPluginFileValidateType from 'filepond';
-registerPlugin(FilePondPluginImagePreview);
 // import { CreateGroupChatComponent } from './pages/chats/create-group-chat/create-group-chat.component';
 
 // import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
@@ -124,6 +127,7 @@ registerLocaleData(localeEs, 'es');
     HttpClientModule,
     // ProductoModule,
     NgxSpinnerModule,
+    PopoverModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     MatButtonModule,
     MatIconModule,
@@ -180,6 +184,7 @@ registerLocaleData(localeEs, 'es');
     AddInfoPersonModalComponent,
     ChatTemplateComponent,
     ChatComponent,
+    UsersGroupsChatModalComponent,
     // CreateGroupChatComponent,
 
 
@@ -221,6 +226,7 @@ registerLocaleData(localeEs, 'es');
     CreateProviderOrContactComponent,
     SearchProductModalComponent,
     AddInfoPersonModalComponent,
+    UsersGroupsChatModalComponent,
   ],
   bootstrap: [AppComponent],
 })

@@ -18,7 +18,8 @@
   opacity: 0;
   visibility: hidden;
   display: block;
-  position: fixed;
+  position: absolute;
+  top: 63px;
   z-index: 99999;
   background-color: darkgrey;
   border-radius: 20px;
@@ -64,6 +65,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin: 0 9px !important;
 }
 
 .chat-template mat-card {
@@ -147,8 +149,8 @@
 
 .btn-close-chat {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: -9px;
+  right: -1px;
   z-index: 999999;
   border-radius: 50%;
   border: none;
@@ -229,7 +231,7 @@ float: right;
 
 .new-message {
   position: absolute;
-  bottom: 5px;
+  bottom: 15px;
   right: 0px;
   z-index: 999999;
   width: 100%;
@@ -241,6 +243,9 @@ float: right;
   background-color: antiquewhite;
   font-size: small;
   border-radius: 20px;
+  font-family: 'Red Hat Display';
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .attach > div{
@@ -327,4 +332,10 @@ position: relative;
     transition: all 2s;
     border-radius: 21px; */
     display: inline-block;
+}
+
+.btn-modal{
+  position: absolute;
+  top: 3px;
+  right: -6px;
 }
