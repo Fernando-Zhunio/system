@@ -8,15 +8,12 @@ import {
   ElementRef,
   ViewChildren,
   QueryList,
-  AfterViewInit,
   OnDestroy,
-  HostListener,
-  SimpleChanges,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import collect from 'collect.js';
 import { FilePondOptions } from 'filepond';
-import { forkJoin, Observable, Subject, Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/shared/shared.service';
@@ -24,8 +21,7 @@ import { StandartSearchService } from '../../../services/standart-search.service
 import { StorageService } from '../../../services/storage.service';
 import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
 import { IuserChat } from './../../../interfaces/chats/ichats';
-// import { FilePondComponent } from 'ngx-filepond';
-// import { FilePondOptions } from 'filepond';
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -68,7 +64,8 @@ export class ChatComponent implements OnInit, OnDestroy {
           const data = JSON.parse(response);
           console.log({ 'File_upload': data });
           console.log(data.id);
-          this.sendOneMessage(null,[data.id]);
+          this.sendOneMessage(null, [data.id]);
+          this.hasFile = false;
           return data.id;
         }
       },
@@ -90,7 +87,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
   }
   getMessages(goBottom = false): void {
-    // this.hasNewMessages = false;
     this.s_standart
       .show(`chats/${this.userchat.data_chat._id}/messages?page=${this.page}`)
       .subscribe((res) => {
@@ -102,7 +98,6 @@ export class ChatComponent implements OnInit, OnDestroy {
           const data = res.data.data;
           if (data.length <= 0) {
             this.notMoreOldMessage = true;
-            // this.disableScroll = true;
           }
           this.scrollContainer.scrollTop += 10;
           data.forEach((item) => {
