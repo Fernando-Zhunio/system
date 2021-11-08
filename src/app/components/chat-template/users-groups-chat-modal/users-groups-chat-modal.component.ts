@@ -19,7 +19,7 @@ export class UsersGroupsChatModalComponent implements OnInit {
 
   deleteChat() {
     this.s_standart.destory(`chats/users/${this.data.id_chat}`).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       SwalService.swalFire({icon: 'success', title: 'Eliminado', text: 'Esta Chat a sido eliminado con exito'});
       this.dialogRef.close({state: 'deleted'});
     });

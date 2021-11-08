@@ -17,7 +17,7 @@ export class ModalAssignUserComponent implements OnInit {
   person: Cperson;
   search_person: string;
   ngOnInit(): void {
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   searchPerson(): void {
@@ -35,7 +35,7 @@ export class ModalAssignUserComponent implements OnInit {
 
   captureUser(id): void {
     const person = this.persons.find((x) => x.id === id);
-    console.log(person);
+    // console.log(person);
     if (person) {
       this.person = person;
     }
@@ -48,7 +48,7 @@ export class ModalAssignUserComponent implements OnInit {
   }
 
   assignPerson(): void {
-    console.log(this.person);
+    // console.log(this.person);
     this.dialogRef.close(this.person);
   }
 

@@ -91,22 +91,18 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
 import {  NgxEmojiPickerModule  } from 'ngx-emoji-picker';
-import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+
 import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UsersGroupsChatModalComponent } from './components/chat-template/users-groups-chat-modal/users-groups-chat-modal.component';
 registerPlugin(FilePondPluginImagePreview);
 
-// import FilePondPluginFileValidateType from 'filepond';
-// import { CreateGroupChatComponent } from './pages/chats/create-group-chat/create-group-chat.component';
+// import {AutosizeModule} from 'ngx-autosize';
 
-// import { DownloadStockComponent } from './pages/reportes/download-stock/download-stock.component';
-// import { ModalRealistComponent } from './components/ml/tools/modal-realist/modal-realist.component';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -152,7 +148,7 @@ registerLocaleData(localeEs, 'es');
     MatDatepickerModule,
     MatNativeDateModule,
     NgxEmojiPickerModule,
-    TextareaAutosizeModule,
+    // AutosizeModule,
     OverlayModule,
     InfiniteScrollModule,
     FilePondModule,
@@ -218,6 +214,7 @@ registerLocaleData(localeEs, 'es');
     { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
   ],
   entryComponents: [
+    
     InfoViewComponent,
     StockBodegasComponent,
     SelectProviderComponent,

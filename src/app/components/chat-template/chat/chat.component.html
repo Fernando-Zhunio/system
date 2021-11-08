@@ -1,7 +1,7 @@
 <span class="col-md-3 col-12 chat-template p-0">
   <mat-card class="shadow rounded-fz">
     <mat-card-header class="header-template-chat ">
-      <button class="btn-close-chat text-danger" (click)="closeChat()">
+      <button class="btn-close-chat text-danger font-2xl" (click)="closeChat()">
         <i class="far fa-times-circle"></i>
       </button>
       <button class="btn-modal" mat-icon-button (click)="openViewUsersGroupModal()">
@@ -104,32 +104,6 @@
             <div class="my-2 text-center font-weight-bold p-1">{{message.text}}</div>
           </ng-template>
         </div>
-
-        <!-- <div class="attach" *ngIf="attachments.length > 0">
-          <div class="p-1 bg-white shadow">
-            <div class="content-attach p-1 ">
-              <div class="item-attach m-1 shadow" *ngFor="let attachment of attachments;let i = index">
-                <ng-container [ngSwitch]="attachment.type">
-                  <ng-container *ngSwitchCase="'image'">
-
-                  </ng-container>
-                  <ng-container *ngSwitchCase="'audio'">
-
-                  </ng-container>
-                  <ng-container *ngSwitchCase="'video'">
-
-                  </ng-container>
-                  <ng-container *ngSwitchDefault>
-
-                  </ng-container>
-                </ng-container>
-
-                <img class="w-100 h-100 item-attach-img" [src]="attachment.url" alt="photo">
-                <button (click)="removeAttach(i)" class="btn-remove-attach-item"><i class="fas fa-times-circle"></i></button>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
       <div *ngIf="hasFile" class="attach">
         <file-pond #myPond [className]="'m-0'" [options]="pondOptions" (oninit)="pondHandleInit()"
@@ -141,7 +115,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions class="footer-template-chat position-relative">
-      <textarea cdkFocusInitial (keydown.enter)="sendMessage($event)" (keyup)="typingMessage()" rows="1" autosize type="text"
+      <textarea cdkFocusInitial #textMessage (keydown.enter)="sendMessage($event)" (keyup)="typingMessage()"  id="textarea-chat" type="text"
         class="input-send-message py-2" placeholder="Mensaje"></textarea>
       <!-- <i class="btn-emoji" (click)="toggled = !toggled" [(emojiPickerIf)]="toggled"
         [emojiPickerDirection]="'top'"
@@ -151,39 +125,6 @@
       <button mat-icon-button class="btn-emoji" (click)="hasFile=!hasFile">
         <mat-icon>attach_file</mat-icon>
       </button>
-      <!-- <button mat-icon-button class="btn-emoji" [matMenuTriggerFor]="menu">
-        <mat-icon>attach_file</mat-icon>
-      </button> -->
-      <!-- <mat-menu #menu="matMenu" [class]="'d-custom'">
-        <button mat-menu-item>
-          <label for="file_file">
-            <mat-icon>insert_drive_file</mat-icon>
-            <span>Archivo</span>
-          </label>
-          <input (change)="addAttachments($event)" class="d-none" type="file" id="file_file" />
-        </button>
-        <button mat-menu-item>
-          <label for="file_video">
-            <mat-icon>smart_display</mat-icon>
-            <span>Video</span>
-          </label>
-          <input (change)="addAttachments($event)" class="d-none" type="file" name="file" id="file_video" accept="video/*">
-        </button>
-        <button mat-menu-item>
-          <label for="file_image">
-            <mat-icon>insert_photo</mat-icon>
-            <span>Imagen</span>
-          </label>
-          <input (change)="addAttachments($event)" class="d-none" type="file" name="file" id="file_image" multiple accept="image/*">
-        </button>
-        <button mat-menu-item>
-          <label for="file_audio">
-            <mat-icon>music_note</mat-icon>
-            <span>Audio</span>
-          </label>
-          <input (change)="addAttachments($event)" class="d-none" type="file" name="file" id="file_audio" accept="audio/*">
-        </button>
-      </mat-menu> -->
       <button class="m-0 btn-send-message mt-1" mat-mini-fab color="primary" (click)="sendMessage()">
         <mat-icon>send</mat-icon>
       </button>

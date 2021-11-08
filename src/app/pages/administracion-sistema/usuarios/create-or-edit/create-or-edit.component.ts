@@ -137,7 +137,7 @@ export class CreateOrEditComponent implements OnInit {
       data: {user, person: this.person_current},
       disableClose: true,
     }).beforeClosed().subscribe((res1) => {
-      console.log(res1);
+      // console.log(res1);
       if (res1) {
        this.assignPersonUser(res1.id);
        this.person_current = res1;

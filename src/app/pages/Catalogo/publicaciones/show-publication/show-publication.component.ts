@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import Echo from 'laravel-echo';
+import { EchoManager } from '../../../../class/echo-manager';
 import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
 import { IpermissionStandart } from '../../../../interfaces/ipermission-standart';
 import { Ipublication } from '../../../../interfaces/ipublication';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
+import { StorageService } from '../../../../services/storage.service';
 
 @Component({
   selector: 'app-show-publication',
@@ -15,20 +18,22 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
   constructor(
     private active_router: ActivatedRoute,
     private s_standart: StandartSearchService,
-    private s_shared: SharedService
+    // private s_shared: SharedService,
+    private s_storage: StorageService
   ) {}
 
   publication: Ipublication = null;
   isLoadPublication: boolean = false;
   permission_page: IpermissionStandart;
-
+  echo: Echo;
   ngOnInit(): void {
     this.active_router.data.subscribe((res) => {
       this.permission_page = res.permissions.all;
     });
     const id = Number.parseInt(this.active_router.snapshot.paramMap.get('id'));
     this.changePublication(id);
-    this.s_shared.echo
+    this.echo = new EchoManager(this.s_storage).echo;
+    this.echo
       .private('catalogs.publications')
       .listen('.publication', this.listener.bind(this));
   }
@@ -45,7 +50,7 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.s_shared.echo.leave('catalogs.publications');
+    this.echo.leave('catalogs.publications');
   }
 
   changePublication(id): void {

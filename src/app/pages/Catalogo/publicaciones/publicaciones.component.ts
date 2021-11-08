@@ -5,8 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import Echo from 'laravel-echo';
 import { Subscription } from 'rxjs';
 import { subscribeOn } from 'rxjs/operators';
+import { EchoManager } from '../../../class/echo-manager';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
 import { Ipagination } from '../../../interfaces/ipagination';
@@ -16,6 +18,7 @@ import { CatalogoService } from '../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
 import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
+import { StorageService } from '../../../services/storage.service';
 import { SwalService } from '../../../services/swal.service';
 // import SwiperCore from 'swiper/core';
 
@@ -59,7 +62,8 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private s_catalogo: CatalogoService,
     private s_mercado_libre: MercadoLibreService,
-    private router: Router
+    private router: Router,
+    private s_storage: StorageService,
   ) {}
     //#region FILTER DATA
     min: string;
@@ -72,13 +76,15 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
 
     //#region  filter
     filter_state: string = '0';
+    echo: Echo;
 
     //#endregion
   ngOnInit(): void {
     this.actived_router.data.subscribe((res) => {
       this.permission_page = res.permissions.all;
     });
-     this.s_shared.echo.private('catalogs.publications').listen('.publication', this.listener.bind(this));
+    this.echo = new EchoManager(this.s_storage).echo;
+    this.echo.private('catalogs.publications').listen('.publication', this.listener.bind(this));
   }
 
   listener(e): void {
@@ -98,7 +104,7 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.s_shared.echo.leave('catalogs.publications');
+    this.echo.leave('catalogs.publications');
   }
 
   goNewPublication(): void {

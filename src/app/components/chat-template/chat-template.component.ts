@@ -1,5 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import Echo from 'laravel-echo';
+import { EchoManager } from '../../class/echo-manager';
 import { Ichats, ImessageChat, IuserChat } from '../../interfaces/chats/ichats';
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
@@ -22,7 +24,7 @@ import { StorageService } from '../../services/storage.service';
     ]),
   ])],
 })
-export class ChatTemplateComponent implements OnInit {
+export class ChatTemplateComponent implements OnInit, OnDestroy {
   constructor(
     private s_shared: SharedService,
     private s_storage: StorageService,
@@ -38,15 +40,19 @@ export class ChatTemplateComponent implements OnInit {
   page: number = 1;
   myUser: any = null;
   index: number = 9999;
+  echoChat: Echo;
+
   ngOnInit(): void {
     this.myUser = this.s_storage.getCurrentUser();
-    this.s_shared.echoChat
-      .private(`chat.${this.myUser.id}`)
+    // console.log(this.myUser);
+
+    this.echoChat = new EchoManager(this.s_storage).chat_echo;
+    this.echoChat.private(`chat.${this.myUser.id}`)
       .listen(`.chat`, this.newChat.bind(this))
       .listen('.message', this.getMessages.bind(this))
       .listen('.typing', this.typingUser.bind(this))
       .listen('.message_readed', this.getMessageReaded.bind(this));
-    this.s_shared.echoChat
+    this.echoChat
       .private(`chat_users`)
       .listen('.user', this.getChatUserStatus.bind(this));
 
@@ -103,24 +109,15 @@ export class ChatTemplateComponent implements OnInit {
   //     console.log('message', payload);
   // });
 
-
-
-
-
-
-
-
-
-
-
-
-    console.log(this.s_shared.echo.connector);
     this.getAllUsers();
     this.onSelectChats(null);
   }
 
+  ngOnDestroy(): void {
+    this.echoChat.leave(`chat.${this.myUser.id}`);
+  }
+
   newChat(event: { chat: Ichats; event: 'created'|'updated'|'deleted' }): void {
-    console.log(event);
     if (event.event == 'created') {
       const chat = event.chat;
       const participantsIndex = chat.participants.findIndex(x => x.info.id == this.myUser.id);
@@ -130,15 +127,6 @@ export class ChatTemplateComponent implements OnInit {
       this.chats.unshift(event.chat);
       return;
     }
-    // if (event.event == 'updated') {
-    //   const chatIndex = this.chats.findIndex(
-    //     (x) => x._id == event.chat._id
-    //   );
-    //   if (chatIndex !== -1) {
-    //     this.chats[chatIndex] = event.chat;
-    //   }
-    //   return;
-    // }
     if (event.event == 'deleted') {
       const chatIndex = this.chats.findIndex(
         (x) => x._id == event.chat._id
@@ -151,7 +139,7 @@ export class ChatTemplateComponent implements OnInit {
   }
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
-    console.log({ 'message_event:': event });
+    // console.log({ 'message_event:': event });
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }
@@ -173,7 +161,7 @@ export class ChatTemplateComponent implements OnInit {
       };
       if (!userChat?.messages) {userChat.messages = []; }
       userChat['messages'].push(message);
-      console.log({message, state: event.message.is_readed_for_all});
+      // console.log({message, state: event.message.is_readed_for_all});
 
       if (chat != undefined) {
         if (!chat.last_message) {
@@ -189,7 +177,7 @@ export class ChatTemplateComponent implements OnInit {
         }
       }
     } else {
-      console.log('burbuja no encotrada');
+      // console.log('burbuja no encotrada');
       if (chat != undefined) {
         if (!chat.last_message) {
           chat.last_message = {} as any;
@@ -211,7 +199,7 @@ export class ChatTemplateComponent implements OnInit {
 
    array_move(arr, old_index, new_index) {
     if (new_index >= arr.length) {
-        var k = new_index - arr.length + 1;
+        let k = new_index - arr.length + 1;
         while (k--) {
             arr.push(undefined);
         }
@@ -228,7 +216,6 @@ reproducir() {
     event: string;
     user: { id: number; status: 'offline' | 'online'; _id: string };
   }): void {
-    console.log(event);
     if (!this.chats) {
       return;
     }
@@ -241,7 +228,7 @@ reproducir() {
   }
 
   getMessageReaded(event: {chat_id: string, is_readed_for_all: boolean, message_id: string, user: IuserChat}): void {
-    console.log({ 'reader_event: ': event });
+    // console.log({ 'reader_event: ': event });
     const userChat = this.chatsbubble.find((x) => x.data_chat._id === event.chat_id);
     if (!event.is_readed_for_all) { return; }
     if (userChat != undefined) {
@@ -357,7 +344,7 @@ reproducir() {
     this.s_standart
       .updatePut(`chats/${chat_id}/mark-read`, {})
       .subscribe((res) => {
-        console.log(res);
+        // console.log(res);
       });
   }
 

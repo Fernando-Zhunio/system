@@ -5,6 +5,9 @@ import { HeaderSearchComponent } from '../../../components/header-search/header-
 import { Ipagination } from '../../../interfaces/ipagination';
 import { SharedService } from '../../../services/shared/shared.service';
 import { NgxMasonryOptions } from 'ngx-masonry';
+import { StorageService } from '../../../services/storage.service';
+import Echo from 'laravel-echo';
+import { EchoManager } from '../../../class/echo-manager';
 
 @Component({
   selector: 'app-mercado-libre',
@@ -23,15 +26,16 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   min: string = '';
   max: string = '';
   state: string = 'all';
+  echo: Echo;
   constructor(
     private s_mercado_libre: MercadoLibreService,
-    private s_shared: SharedService
+    private s_shared: SharedService,
+    private s_storage: StorageService,
     // private s_standart: StandartSearchService
   ) {}
 
   paginator: Ipagination<ImlInfo>;
   masonryOptions: NgxMasonryOptions = {
-    // columnWidth: 300,
     gutter: 10,
     // percentPosition: true,
     // stamp: string;
@@ -48,12 +52,13 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   mlInfos: ImlInfo[] = [];
 
   ngOnInit(): void {
-    this.s_shared.echo.private('catalogs.ml.items').listen('.item', this.listener.bind(this));
+    this.echo = new EchoManager(this.s_storage).echo;
+    this.echo.private('catalogs.ml.items').listen('.item', this.listener.bind(this));
 
   }
 
   ngOnDestroy(): void {
-    this.s_shared.echo.leave('catalogs.ml.items');
+    this.echo.leave('catalogs.ml.items');
   }
 
   listener(e: {event: string, item: ImlInfo}): void {

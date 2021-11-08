@@ -137,6 +137,7 @@
   position: absolute;
   resize: none;
   outline-style: dashed;
+  height: 38px;
 }
 
 .btn-attach {
@@ -208,6 +209,7 @@ float: right;
   height: auto;
   width: 100%;
   left: 0;
+  position: relative;
 }
 
 .example-header-image {

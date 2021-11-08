@@ -14,6 +14,8 @@ import { INavData } from '../../interfaces/inav-data';
 import { MatDialog } from '@angular/material/dialog';
 import { AddInfoPersonModalComponent } from '../../components/modals/add-info-person-modal/add-info-person-modal.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { EchoManager } from '../../class/echo-manager';
+import Echo from 'laravel-echo';
 
 @Component({
   selector: 'app-dashboard',
@@ -64,6 +66,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
   countMesssages: any = null;
+  echo: Echo;
+  user: any;
 
   ngOnInit(): void {
     this.notificationWeb = new NotificationsWebPush(this.s_standart);
@@ -71,18 +75,19 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.notificationWeb.canInitSw();
     this.setSideBarColor();
     this.getValueDark();
-    const user = this.s_storage.getCurrentUser();
+    this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
-    if (!user.person) { console.log(user); this.addPersonModal(user); }
+    if (!this.user.person) { this.addPersonModal(this.user); }
     this.getNotification();
-    this.companiesGestion(user);
-    this.suscribeNotifications(user);
+    this.companiesGestion(this.user);
+    this.suscribeNotifications(this.user);
   }
 
   ngOnDestroy(): void {
     if (this.suscriptionNotifaction) {
       this.suscriptionNotifaction.unsubscribe();
     }
+    this.echo.leave('App.Models.User.' + this.user.id);
   }
 
 
@@ -92,13 +97,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       disableClose: true,
     }).beforeClosed()
     .subscribe((res) => {
-      console.log(res);
       if (res == undefined) {
-        console.log('no se guardo');
        this.addPersonModal(user);
       } else {
        const user_current = this.s_storage.getCurrentUser();
-       console.log(user_current);
+      //  console.log(user_current);
        user_current.person = res;
         this.s_storage.setCurrentUser(user_current);
       }
@@ -177,23 +180,22 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   getPermissionAndRolesFromServer() {
     this.s_standart.create('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        const permissionAndRol = {rol:res.data.roles, permission: res.data.permissions};
+        const permissionAndRol = {rol: res.data.roles, permission: res.data.permissions};
         this.s_storage.setRolAndPermission(permissionAndRol);
-        console.log(permissionAndRol);
+        // console.log(permissionAndRol);
 
     this.navItems = this.generateSideBarItems();
 
       }
     });
   }
-
   suscribeNotifications(user): void {
-    const echo = this.s_shared.echo;
-     echo
+     this.echo = new EchoManager(this.s_storage).echo;
+     this.echo
       .private('App.Models.User.' + user.id)
       .notification((notify: Inotification) => {
         this.s_shared.addNotification(notify);
-        console.log(notify);
+        // console.log(notify);
 
         const data_rendered = notify.data;
         let name_user = 'System';
@@ -243,7 +245,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
     if (url) {
       const newUrl = url.replace('#/', '');
-      console.log(url, newUrl);
+      // console.log(url, newUrl);
 
       const urlObjetc: any = new URL(newUrl);
 
@@ -261,7 +263,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   downloadStock(url): void {
     const convertUrlNg = url.split('?');
-      console.log(url, convertUrlNg);
+      // console.log(url, convertUrlNg);
       const nameFile = convertUrlNg[1]
         .replace(/\+-\+/gm, '_')
         .replace('file_name=reports%2FSTOCK+GENERAL', '');
@@ -350,6 +352,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 
   generateSideBarItems(): INavData[] {
     const new_Item_data = new DataSidebar().NameGroupItem;

@@ -20,6 +20,9 @@
         </button>
       </mat-menu>
     </li>
+    <li *ngIf="false" class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-2 bg-warning rounded-fz">
+      <mat-icon>light_mode</mat-icon>&nbsp;<mat-slide-toggle></mat-slide-toggle>&nbsp;<mat-icon>nightlight</mat-icon>
+    </li>
     <li class="nav-item ">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button>
         <mat-icon color="primary" #IconNotify [matBadge]="countNotificationUnRead" matBadgePosition="above after"

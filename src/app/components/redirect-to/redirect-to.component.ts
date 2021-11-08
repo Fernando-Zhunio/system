@@ -26,7 +26,7 @@ export class RedirectToComponent implements OnInit {
 
   ngOnInit(): void {
     const token = this.act_router.snapshot.queryParamMap.get('token');
-    console.log(token);
+    // console.log(token);
     const goto = this.act_router.snapshot.queryParamMap.get('goto');
 
     if (this.s_storage.isAuthenticated()) {
@@ -37,7 +37,7 @@ export class RedirectToComponent implements OnInit {
       }
       return;
     }
-    console.log('token', token);
+    // console.log('token', token);
 
     // this.route.snapshot.queryParamMap.get
     if (token) {

@@ -14,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import collect from 'collect.js';
 import { FilePondOptions } from 'filepond';
 import { forkJoin, Subscription } from 'rxjs';
-
+import autosize from 'autosize';
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
@@ -31,13 +31,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog, private s_standart: StandartSearchService, private s_storage: StorageService) { }
   @ViewChild('scrollMe') private scrollFrame: ElementRef;
   @ViewChildren('ngfor') ngfor: QueryList<any>;
+  @ViewChild('textMessage') textMessage: ElementRef;
   @ViewChild('myPond') myPond: any;
   @Input() userchat: IuserChat;
   @Output() delete: EventEmitter<number> = new EventEmitter();
   @Input() my_id: number;
   hasFile: boolean = false;
   scrollContainer: any = null;
-  text_message: string = '';
+  // text_message: string = '';
   toggled: boolean = false;
   suscripted: Subscription;
   hasNewMessages: boolean = false;
@@ -46,6 +47,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   not_bottom: boolean = false;
   disableScroll: boolean = false;
   attachments: { url: any; file: File, type: 'image' }[] = [];
+
   firstScroll: boolean = true;
   pondOptions: FilePondOptions = {
     allowMultiple: true,
@@ -62,8 +64,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         },
         onload: (response: any) => {
           const data = JSON.parse(response);
-          console.log({ 'File_upload': data });
-          console.log(data.id);
+          // console.log({ 'File_upload': data });
+          // console.log(data.id);
           this.sendOneMessage(null, [data.id]);
           this.hasFile = false;
           return data.id;
@@ -76,14 +78,20 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.userchat.data_chat) {
       this.markReadMessage(this.userchat.data_chat._id);
       this.getMessages();
+      autosize(document.querySelectorAll('#textarea-chat'));
+      // console.log(autosize);
     } else {
       this.s_standart
         .store(`chats/user`, { participants: [this.userchat.id] })
         .subscribe((data) => {
-          console.log(data);
+          // console.log(data);
           this.userchat.data_chat = data.data.chats;
           this.userchat.messages = data.data.messages.data;
         });
+        autosize(document.querySelectorAll('#textarea-chat'));
+        // console.log(autosize);
+
+        // document.getElementById('textarea-chat')
     }
   }
   getMessages(goBottom = false): void {
@@ -123,7 +131,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       reader.onload = () => {
         // reader.result;
         this.attachments.push({ url: reader.result, file, type: file.type });
-        console.log(this.attachments);
+        // console.log(this.attachments);
       };
       reader.onerror = function (error) {
         console.log('Error: ', error);
@@ -139,9 +147,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.suscripted = this.ngfor.changes.subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       const hasBottom = this.scrollContainer.scrollTop + this.scrollContainer.clientHeight  < this.scrollContainer.scrollHeight - (this.scrollContainer.clientHeight * 2) 
-      console.log(hasBottom);
+      // console.log(hasBottom);
       if (hasBottom && !this.firstScroll) {
         this.hasNewMessages = (!this.not_bottom && !data.last.nativeElement.className.includes('text-right'));
         this.disableScroll = true;
@@ -192,28 +200,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     console.log(event.char);
   }
 
-  sendMessage(event): boolean {
-    event.preventDefault();
-    if (this.attachments.length > 0) {
-      const suscritions_send = [];
-      this.attachments.map((item) => {
-        const formData = new FormData();
-        formData.append('file', item.file);
-        suscritions_send.push(
-          this.s_standart.uploadFormData('storage/attachments/upload', formData)
-        );
-      });
-      forkJoin(suscritions_send).subscribe((res) => {
-        console.log(res);
-        const attach_ids = res.map((item: any) => item.id);
-        this.sendOneMessage(null, attach_ids);
-        this.attachments = [];
-      });
-    // } else if (this.text_message) {
-    } else if (event.target.value) {
-      this.sendOneMessage(event.target.value);
-      event.target.value = '';
+  sendMessage($event = null): boolean {
+    if ($event) {$event.preventDefault(); }
+    const text = this.textMessage.nativeElement.value;
+    if (text.trim() === '') {
+      return false;
     }
+    this.sendOneMessage(text);
+    this.textMessage.nativeElement.value = '';
+    autosize.update(this.textMessage.nativeElement);
     return false;
   }
 
@@ -224,12 +219,12 @@ export class ChatComponent implements OnInit, OnDestroy {
       data['attachments_ids'] = attach_ids;
     }
     data['chat_id'] = this.userchat.data_chat._id;
-    console.log(data);
+    // console.log(data);
 
     this.s_standart
       .store(`chats/user/messages`, data)
       .subscribe((res) => {
-        console.log(res);
+        // console.log(res);
       });
     // this.text_message = '';
   }
@@ -239,7 +234,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.s_standart
       .updatePut(`chats/${chat_id}/mark-read`, {}, false)
       .subscribe((res) => {
-        console.log(res);
+        // console.log(res);
         this.userchat.data_chat.unread_messages_count = 0;
       });
   }
@@ -251,7 +246,7 @@ export class ChatComponent implements OnInit, OnDestroy {
          img: this.getPhoto(this.userchat?.data_chat?.img ? this.userchat?.data_chat?.img : this.userchat?.data_chat?.participants ? this.userchat?.data_chat?.participants[0]?.info?.photo : null),
          isGroup: this.userchat.data_chat.type == 'group', myId: this.my_id, id_chat: this.userchat.data_chat._id}
     }).beforeClosed().subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       if (res && typeof res === 'object' && res.state === 'deleted') {
         this.delete.emit(this.userchat.id as number);
     }
