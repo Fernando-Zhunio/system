@@ -69,9 +69,9 @@
             </div>
             <div>
               <swiper [config]="config" [useSwiperClass]="false">
-                <div class="shadow rounded-fz bg-white" *ngFor="let ml of publication.ml_infos">
+                <mat-card class="shadow rounded-fz p-0" *ngFor="let ml of publication.ml_infos">
                   <app-ml [ml]="ml"></app-ml>
-                </div>
+                </mat-card>
               </swiper>
             </div>
           </div>

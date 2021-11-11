@@ -5,7 +5,7 @@ import { RrhhMainComponents, RrhhRoutingModule } from './rrhh-routing.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 // import { CreatedOrEditComponent } from './created-or-edit/created-or-edit.component';
-
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -14,7 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 CommonModule,
     RrhhRoutingModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ]
 })
 export class RrhhModule { }

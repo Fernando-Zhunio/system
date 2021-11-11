@@ -18,6 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatNativeDateModule,
     NgxDocViewerModule,
     MatMenuModule,
+    MatCardModule
   ]
 })
 export class RequestsModule { }

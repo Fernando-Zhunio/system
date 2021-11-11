@@ -67,9 +67,9 @@
 
 
   <div *ngIf="!isload;" class="mt-4 card-columns">
-        <div *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
+        <mat-card *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
             <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
-        </div>
+        </mat-card>
     </div>
 
   <ng-container *ngIf="!isload && mlInfos.length < 1">

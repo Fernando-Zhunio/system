@@ -1,5 +1,6 @@
 .content-appointment{
   /* min-height: 500px; */
+  display: flex;
 }
 
 .panel-isload{

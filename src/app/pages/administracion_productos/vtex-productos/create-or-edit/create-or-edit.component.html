@@ -36,7 +36,7 @@
               <div *ngFor="let p of products" class="card border-0 rounded-fz shadow">
                 <!-- <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml> -->
                 <!-- <app-pagina-web [prestashop_product]="p"></app-pagina-web> -->
-                <div class="card-body">
+                <mat-card class="card-body">
                   <div>
                     <div>
                       <div class=" text-uppercase vtex-status pill-fz"> Codigo: <span
@@ -56,7 +56,7 @@
                       {{p.name}}
                     </div>
                   </div>
-                </div>
+                </mat-card>
               </div>
             </div>
             <ng-container *ngIf="!isload && products.length < 1">
@@ -75,13 +75,13 @@
               [length]="paginator.total" [pageIndex]="paginator.current_page-1">
             </mat-paginator>
             <hr>
-            <div>
+            <mat-card>
               <div>
                 <h2 class="font-facebook font-4xl font-weight-bold">Agregados</h2>
               </div>
               <div class="mt-4 card-columns">
                 <div *ngFor="let p of agregados" class="card border-0 rounded-fz shadow">
-                  <div class="card-body">
+                  <mat-card class="card-body">
                     <div>
                       <div>
                         <div class=" text-uppercase vtex-status pill-fz"> Codigo: <span
@@ -101,12 +101,12 @@
                         {{p.name}}
                       </div>
                     </div>
-                  </div>
+                  </mat-card>
                 </div>
               </div>
               <button color="primary" [disabled]="!(agregados.length > 0) && status !='edit'" mat-raised-button
                 (click)="goForward()">Continuar</button>
-            </div>
+            </mat-card>
           </div>
         </div>
       </form>

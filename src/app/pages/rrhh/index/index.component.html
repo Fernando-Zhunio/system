@@ -3,43 +3,43 @@
     <div class="container h-100">
       <div class="parent h-100">
         <!-- Solicitudes -->
-        <div class="appointmens item-grid shadow lead  p-3 bg-white">
+        <mat-card class="appointmens item-grid shadow lead  p-3 ">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/resume.svg" class="w-75" alt=""></span>
               <span class="font-tag">Total de Solicitudes <br> <strong>{{requestCount}}</strong></span>
             </div>
           </div>
-        </div>
+        </mat-card>
         <!-- Empleos -->
-        <div class="works item-grid shadow lead  p-3 bg-white">
+        <mat-card class="works item-grid shadow lead  p-3 ">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/suitcase.svg" class="w-75" alt=""></span>
               <span class="font-tag">Total de Empleos<br> <strong>{{workCount}}</strong></span>
             </div>
           </div>
-        </div>
+        </mat-card>
         <!-- Personas -->
-        <div class="persons item-grid shadow lead p-3 bg-white">
+        <mat-card class="persons item-grid shadow lead p-3 ">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/group.svg" class="w-75" alt=""></span>
               <span class="font-tag">Total de Personas <br> <strong>{{userCount}}</strong></span>
             </div>
           </div>
-        </div>
+        </mat-card>
         <!-- Falta -->
-        <div class="cv item-grid shadow lead p-3 bg-white">
+        <mat-card class="cv item-grid shadow lead p-3 ">
           <div class="h-100">
             <div class="grid-tag">
               <span><img src="/assets/img/dashboard_rrhh/cv.svg" class="w-75" alt=""></span>
               <span class="font-tag">Total de HV <br> <strong>{{cvCount}}</strong></span>
             </div>
           </div>
-        </div>
+        </mat-card>
         <!-- Solicitudes -->
-        <div class="lastest-appointments item-grid shadow p-3 bg-white position-relative">
+        <mat-card class="lastest-appointments item-grid shadow p-3 position-relative">
           <div class="font-5xl font-facebook text-left">Ultimas solicitudes</div>
           <div class="comment-content rounded-fz p-md-3 p-0">
             <div *ngFor="let request of requests" class="p-1">
@@ -60,9 +60,9 @@
             </div>
           </div>
           <button [routerLink]="['../requests']" class="btn-add-request" mat-fab><mat-icon>visibility</mat-icon></button>
-        </div>
+        </mat-card>
         <!-- Empleos -->
-        <div class="works-count hp item-grid shadow p-4 bg-white text-center position-relative">
+        <mat-card class="works-count hp item-grid shadow p-4  text-center position-relative">
           <div class="row">
             <div class="col-md-7 col-12">
               <div class=" font-4xl w-100 font-facebook text-left">Empleos</div>
@@ -89,9 +89,9 @@
           <button [routerLink]="['../works']" class="btn-add-job" mat-fab>
             <mat-icon>construction</mat-icon>
           </button>
-        </div>
+        </mat-card>
         <!-- Postulaciones -->
-        <div class="request-count item-grid shadow lead p-4 bg-white position-relative">
+        <mat-card class="request-count item-grid shadow lead p-4  position-relative">
           <div class="h-100">
             <div class="h-100">
               <div class="row">
@@ -138,7 +138,7 @@
           <button [routerLink]="['../appointments']" class="btn-add-request" mat-fab>
             <mat-icon>visibility</mat-icon>
           </button>
-        </div>
+        </mat-card>
       </div>
     </div>
   </div>

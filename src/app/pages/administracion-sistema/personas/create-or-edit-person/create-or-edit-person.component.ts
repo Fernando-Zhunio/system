@@ -65,6 +65,7 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.maxDateBirthDay.setFullYear(this.maxDate.getFullYear() - 18);
     this.router_active.data.subscribe((res) => {
       if (res.isEdit) {
+        this.isloadperson = true;
         this.state = 'edit';
         this.title = 'Editando Persona';
         const id = Number.parseInt(
@@ -75,6 +76,7 @@ export class CreateOrEditPersonComponent implements OnInit {
           if (response.hasOwnProperty('success') && response.success) {
             this.setDataDefault(response.data);
           }
+          this.isloadperson = false;
         });
       } else {
         this.s_standart.show('admin/people/create').subscribe((response) => {

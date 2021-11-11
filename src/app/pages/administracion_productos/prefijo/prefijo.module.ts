@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { MatCardModule } from '@angular/material/card';
 
 
 
@@ -25,6 +26,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     MatIconModule,
     MatInputModule,
     NgxPermissionsModule,
+    MatCardModule,
   ]
 })
 export class PrefijoModule { }

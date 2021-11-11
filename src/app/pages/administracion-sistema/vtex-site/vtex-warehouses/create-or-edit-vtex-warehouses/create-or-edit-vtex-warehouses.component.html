@@ -2,7 +2,7 @@
   <div>
     <h2 class="font-4xl font-facebook my-3">{{title}}</h2>
   </div>
-  <div class="card-body bg-white mt-2">
+  <mat-card class="card-body  mt-2">
     <form [formGroup]="form">
       <mat-form-field class="w-100">
         <input matInput placeholder="Ingrese el nombre" formControlName="name">
@@ -19,5 +19,5 @@
 
       <button mat-raised-button color="primary" [disabled]="isload" (click)="saveInServer()">Guardar</button>
     </form>
-  </div>
+  </mat-card>
 </div>

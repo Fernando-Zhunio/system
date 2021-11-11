@@ -16,6 +16,7 @@ import { AddInfoPersonModalComponent } from '../../components/modals/add-info-pe
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { EchoManager } from '../../class/echo-manager';
 import Echo from 'laravel-echo';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,9 +39,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy,
     private dialog: MatDialog,
-    // public overlayContainer: OverlayContainer,
-  ) {}
-  // @HostBinding('class') componentCssClass;
+    public overlayContainer: OverlayContainer,
+  ) { }
+  @HostBinding('class') componentCssClass;
+
   public sidebarMinimized = false;
   public navItems = null;
   public url_img = '';
@@ -70,11 +72,16 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   user: any;
 
   ngOnInit(): void {
+
+
+    // this.overlayContainer.getContainerElement().classList.add('light-theme');
+    // this.componentCssClass = 'light-theme';
+    this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.s_standart);
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
     this.setSideBarColor();
-    this.getValueDark();
+    // this.getValueDark();
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
     if (!this.user.person) { this.addPersonModal(this.user); }
@@ -90,22 +97,36 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.echo.leave('App.Models.User.' + this.user.id);
   }
 
+  onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
+    const theme = e.checked ? 'dark-theme' : 'light-theme';
+    localStorage.setItem('isDark', e.checked ? 'true' : 'false');
+    this.isDark = false;
+    this.overlayContainer.getContainerElement().classList.add(theme);
+    this.componentCssClass = theme;
+  }
+
+  hasDarkTheme() {
+    if (localStorage.getItem('isDark')) {
+      this.onSetTheme({ checked: JSON.parse(localStorage.getItem('isDark')) });
+      this.isDark =  JSON.parse(localStorage.getItem('isDark'));
+    }
+  }
 
   addPersonModal(user): void {
     this.dialog.open(AddInfoPersonModalComponent, {
       data: { user },
       disableClose: true,
     }).beforeClosed()
-    .subscribe((res) => {
-      if (res == undefined) {
-       this.addPersonModal(user);
-      } else {
-       const user_current = this.s_storage.getCurrentUser();
-      //  console.log(user_current);
-       user_current.person = res;
-        this.s_storage.setCurrentUser(user_current);
-      }
-    });
+      .subscribe((res) => {
+        if (res == undefined) {
+          this.addPersonModal(user);
+        } else {
+          const user_current = this.s_storage.getCurrentUser();
+          //  console.log(user_current);
+          user_current.person = res;
+          this.s_storage.setCurrentUser(user_current);
+        }
+      });
   }
 
   setSideBarColor(): void {
@@ -117,7 +138,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   newMessage(e): void {
-     e ? this.countMesssages++ : this.countMesssages = null;
+    e ? this.countMesssages++ : this.countMesssages = null;
   }
 
   getNotification(): void {
@@ -131,7 +152,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         this.s_shared.changeNotifications(res.data);
         const notifications = res.data;
         if (notifications.length > 0) {
-             const countNotification = notifications.filter(
+          const countNotification = notifications.filter(
             (notification) => !notification.read_at
           ).length;
           this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
@@ -180,18 +201,18 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   getPermissionAndRolesFromServer() {
     this.s_standart.create('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        const permissionAndRol = {rol: res.data.roles, permission: res.data.permissions};
+        const permissionAndRol = { rol: res.data.roles, permission: res.data.permissions };
         this.s_storage.setRolAndPermission(permissionAndRol);
         // console.log(permissionAndRol);
 
-    this.navItems = this.generateSideBarItems();
+        this.navItems = this.generateSideBarItems();
 
       }
     });
   }
   suscribeNotifications(user): void {
-     this.echo = new EchoManager(this.s_storage).echo;
-     this.echo
+    this.echo = new EchoManager(this.s_storage).echo;
+    this.echo
       .private('App.Models.User.' + user.id)
       .notification((notify: Inotification) => {
         this.s_shared.addNotification(notify);
@@ -224,9 +245,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   unreadNotifications() {
     this.s_standart.store('notifications/mark-seen', {}).subscribe((res) => {
-        if (this.countNotificationUnRead > 0) {
-          this.countNotificationUnRead = null;
-        }
+      if (this.countNotificationUnRead > 0) {
+        this.countNotificationUnRead = null;
+      }
       if (res && res.hasOwnProperty('success') && res.success) {
       }
     });
@@ -263,36 +284,36 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   downloadStock(url): void {
     const convertUrlNg = url.split('?');
-      // console.log(url, convertUrlNg);
-      const nameFile = convertUrlNg[1]
-        .replace(/\+-\+/gm, '_')
-        .replace('file_name=reports%2FSTOCK+GENERAL', '');
+    // console.log(url, convertUrlNg);
+    const nameFile = convertUrlNg[1]
+      .replace(/\+-\+/gm, '_')
+      .replace('file_name=reports%2FSTOCK+GENERAL', '');
     this.s_shared
-    .download(
-      'report_stock',
-      'reports/general-stock/download?' + convertUrlNg[1]
-    )
-    .subscribe((res: any) => {
-      const blob = new Blob([res], { type: 'application/ms-Excel' });
-      const urlDownload = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.setAttribute('style', 'display: none');
-      a.href = urlDownload;
-      a.download = 'reporte_de_stock' + nameFile;
-      a.click();
-      window.URL.revokeObjectURL(urlDownload);
-      a.remove();
-    });
+      .download(
+        'report_stock',
+        'reports/general-stock/download?' + convertUrlNg[1]
+      )
+      .subscribe((res: any) => {
+        const blob = new Blob([res], { type: 'application/ms-Excel' });
+        const urlDownload = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = urlDownload;
+        a.download = 'reporte_de_stock' + nameFile;
+        a.click();
+        window.URL.revokeObjectURL(urlDownload);
+        a.remove();
+      });
   }
 
-  getValueDark(): void {
-    if (!localStorage.getItem('isDark')) {
-      localStorage.setItem('isDark', JSON.stringify(this.isDark));
-    } else {
-      this.isDark = JSON.parse(localStorage.getItem('isDark'));
-    }
-  }
+  // getValueDark(): void {
+  //   if (!localStorage.getItem('isDark')) {
+  //     localStorage.setItem('isDark', JSON.stringify(this.isDark));
+  //   } else {
+  //     this.isDark = JSON.parse(localStorage.getItem('isDark'));
+  //   }
+  // }
 
   changeDark(value) {
     this.isDark = value.target.checked;

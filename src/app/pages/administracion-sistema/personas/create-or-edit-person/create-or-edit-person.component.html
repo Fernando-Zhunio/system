@@ -5,7 +5,8 @@
 
     <mat-horizontal-stepper linear #stepper>
         <mat-step [completed]="isCompletedFormPerson" [editable]="false">
-            <form [formGroup]="form_person" class="card rounded-fz border-0 card-body">
+            <form [formGroup]="form_person" class=" rounded-fz border-0 card-body">
+                
                 <ng-template matStepLabel>Formulario de persona</ng-template>
                 <div class="row">
                     <mat-form-field class="col-md-6">
@@ -105,8 +106,8 @@
                     </div>
                 </div>
                 <div>
-                    <button mat-raised-button [disabled]="isloadperson" type="button" (click)="saveInServerPerson()">Guardar</button>
-                    <button *ngIf="state=='edit'" [disabled]="isloadperson" mat-raised-button color="accent" (click)="goInfo()" type="button">Gestionar datos de la persona</button>
+                    <button color="primary" mat-raised-button [disabled]="isloadperson" type="button" (click)="saveInServerPerson()">Guardar</button>
+                    <button color="accent" *ngIf="state=='edit'" [disabled]="isloadperson" mat-raised-button color="accent" (click)="goInfo()" type="button">Gestionar datos de la persona</button>
                 </div>
             </form>
         </mat-step>
@@ -137,34 +138,37 @@
                 </mat-form-field>
 
                 <div class="my-3">
-                    <button mat-raised-button [disabled]="isloadContact" type="submit">Guardar</button>
+                    <button [color]="'primary'" mat-raised-button [disabled]="isloadContact" type="submit">Guardar</button>
                 </div>
             </form>
-            <table class="table table-light">
-                <thead class="thead-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Tipo</th>
-                        <th>Info</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of infoAndContact">
-                        <td>{{item.id}}</td>
-                        <td>{{item.type}}</td>
-                        <td>{{item.value}}</td>
-                        <td><button mat-mini-fab (click)="editItemCurrent(item.id)">
-                <mat-icon>edit</mat-icon>
-              </button>
-                            <button mat-mini-fab color="accent" color="warn" (click)="deleteItem(item.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
+            <mat-card>
+                <table style="background: inherit;color: inherit;" class="table ">
+                    <thead >
+                        <tr>
+                            <th>#</th>
+                            <th>Tipo</th>
+                            <th>Info</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of infoAndContact">
+                            <td>{{item.id}}</td>
+                            <td>{{item.type}}</td>
+                            <td>{{item.value}}</td>
+                            <td><button mat-mini-fab (click)="editItemCurrent(item.id)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                                <button mat-mini-fab color="accent" color="warn" (click)="deleteItem(item.id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+    
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            </mat-card>
         </mat-step>
     </mat-horizontal-stepper>
 </div>

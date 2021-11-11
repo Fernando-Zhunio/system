@@ -82,6 +82,7 @@
   position: relative;
   word-break: break-word;
   font-family: 'Red Hat Display';
+  color: black;
 }
 
 .message-recept::after {
@@ -94,6 +95,7 @@
   bottom: 3px;
   box-shadow: 2px 3px 0px white;
   border-radius: 50%;
+
 }
 
 .message-send {
@@ -128,7 +130,7 @@
 .input-send-message {
   width: calc(100% - 47px);
   min-height: 37px;
-  box-shadow: 0px 2px 15px #ccc;
+  /* box-shadow: 0px 2px 15px #ccc; */
   border-radius: 14px;
   border: solid 1px #dadada;
   outline: none;
@@ -136,7 +138,7 @@
   bottom: 8px;
   position: absolute;
   resize: none;
-  outline-style: dashed;
+  /* outline-style: dashed; */
   height: 38px;
 }
 
@@ -176,6 +178,7 @@
   font-size: large;
   font-style: initial;
   cursor: pointer;
+  color: black;
 }
 
 .btn-send-message {

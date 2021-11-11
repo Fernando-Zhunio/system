@@ -1,5 +1,6 @@
 <!-- <app-chat-template></app-chat-template> -->
-<app-header class="border-0 shadow-sm" [ngClass]="{'dark-super': isDark}" [navbarBrandRouterLink]="['/home/dashboard']"
+<!-- <app-header class="border-0 shadow-sm" [ngClass]="{'dark-super': isDark}" [navbarBrandRouterLink]="['/home/dashboard']" -->
+<app-header class="border-0 shadow-sm" [navbarBrandRouterLink]="['/home/dashboard']"
   [fixed]="false"
   [navbarBrandFull]="{src: 'assets/icons_custom/novisolutions.svg', width: '100%', height: '100%', alt: 'Novisolutions'}"
   [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
@@ -20,8 +21,8 @@
         </button>
       </mat-menu>
     </li>
-    <li *ngIf="false" class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-2 bg-warning rounded-fz">
-      <mat-icon>light_mode</mat-icon>&nbsp;<mat-slide-toggle></mat-slide-toggle>&nbsp;<mat-icon>nightlight</mat-icon>
+    <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 bg-warning rounded-fz">
+      <mat-icon>light_mode</mat-icon>&nbsp;<mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>&nbsp;<mat-icon>nightlight</mat-icon>
     </li>
     <li class="nav-item ">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button>
@@ -31,7 +32,7 @@
       </button>
       <mat-menu class="custom-menu-notification" #menu1="matMenu" [overlapTrigger]="false" >
         <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
-          class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'bg-light':'bg-'+notification.data.type}}"
+          class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'':'bg-'+notification.data.type}}"
           *ngFor="let notification of notifications" (click)="$event.stopPropagation()"
           (keydown)="$event.stopPropagation()">
           <div *ngIf="notification.data.image">
@@ -80,7 +81,8 @@
     </li>
   </ul>
 </app-header>
-<div class="app-body" [ngClass]="[isDark?'dark-super':'not-dark-super']">
+<!-- <div class="app-body" [ngClass]="[isDark?'dark-super':'not-dark-super']"> -->
+  <div class="app-body">
   <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
     (minimizedChange)="toggleMinimize($event)">
     <app-sidebar-nav #appSidebarNav [navItems]="navItems" [style.background]="colorSidebarLeft" [perfectScrollbar]

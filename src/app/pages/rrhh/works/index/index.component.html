@@ -8,7 +8,7 @@
   </mat-chip-list>
 </app-header-search>
 
-<div *ngIf="isload" class="mt-4 card-columns">
+<mat-card *ngIf="isload" class="mt-4 card-columns">
   <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
     <ngx-skeleton-loader count="1" [theme]="{
         'border-radius': '20px',
@@ -30,11 +30,11 @@
     'margin-right':'5px'
   }"></ngx-skeleton-loader>
   </div>
-</div>
+</mat-card>
 
 
 <div *ngIf="!isload;" class="mt-4 card-columns">
-  <div *ngFor="let p of products;let index_product=index" class="card border-0 rounded-fz overflow-hidden position-relative">
+  <mat-card *ngFor="let p of products;let index_product=index" class="card border-0 rounded-fz overflow-hidden position-relative">
     <div *ngIf="p?.isload" class="position-absolute w-100 h-100 opaque-blur"></div>
     <div class="card-body">
       <div class="header-request">
@@ -56,7 +56,7 @@
         </mat-chip-list>
       </div>
     </div>
-  </div>
+  </mat-card>
 </div>
 <ng-container *ngIf="!isload && products?.length < 1">
   <div class="row">

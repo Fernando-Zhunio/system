@@ -20,144 +20,146 @@
                 </button>
             </h2>
         </div>
-        <form [formGroup]="formPublication" class="row rounded-fz bg-white p-md-3 p-2 shadow-lg">
-            <div #formMain class="col-md-6 px-3">
-                <div>
+
+            <mat-card [formGroup]="formPublication" class="row d-flex rounded-fz p-md-3 p-2 shadow-lg">
+                <div #formMain class="col-md-6 px-3">
                     <div>
-                        <div class="font-3xl font-facebook mb-3">Cuentas de mercado libre</div>
-                        <mat-form-field class="w-100">
-                            <mat-label>Selecciones Empresas</mat-label>
-                            <mat-select formControlName="mlaccounts" multiple>
-                                <mat-select-trigger *ngIf="formPublication.get('mlaccounts')?.value?.length > 0">
-                                    <mat-chip-list>
-                                        <mat-chip (removed)="removeItemMlAccount(ml_account)" *ngFor="let ml_account of formPublication.get('mlaccounts').value" [removable]="true">
-                                            {{getNameMlAccount(ml_account)}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-                                    </mat-chip-list>
-                                </mat-select-trigger>
-                                <mat-option *ngFor="let ml_account of ml_accounts" [value]="ml_account.id">
-                                    {{ml_account.user_name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <div class="font-3xl font-facebook mb-3">Publicación</div>
-                        <div class="row">
-                            <mat-form-field class="col-12" appearance="fill">
-                                <mat-label>Titulo</mat-label>
-                                <input type="text" matInput formControlName="title" (keyup.enter)="predictorMl($event)" type="search" required>
-                                <mat-hint>Presione enter para buscar</mat-hint>
-                            </mat-form-field>
-                            <div>
-                                <div class="font-facebook col-12">Seleccione una categoria</div>
-                                <div class="col-12">
-                                    <div *ngIf="isLoadCategory">
-                                        <mat-spinner [diameter]="50">
-                                            Cargando categorias espere
-                                        </mat-spinner>
-                                    </div>
-                                    <div *ngIf="optionsTitle?.length < 1 && !isLoadCategory" class="text-danger">
-                                        Con este titulo no se encontro categorias
-                                    </div>
-
-                                    <mat-radio-group formControlName="category" *ngIf="!isLoadCategory" aria-label="Select an option">
-                                        <mat-radio-button [checked]="isSelectCategory" (change)="getAttributes(option.category_id)" class="mx-1" *ngFor="let option of optionsTitle" [value]="option.category_id"> {{option.category_name}}
-                                            <small>({{option.domain_name}})</small>
-                                        </mat-radio-button>
-                                        <mat-error *ngIf="formPublication.get('category').invalid">Debe tener una categoria seleccionada</mat-error>
-                                    </mat-radio-group>
-                                </div>
-                            </div>
-                            <mat-form-field class="col-12 mt-3">
-                                <mat-label>Descripción</mat-label>
-                                <textarea type="text" required formControlName="description" matInput rows="8"></textarea>
-                            </mat-form-field>
-
-                            <mat-form-field class="col-md-4" appearance="fill">
-                                <mat-label>Cantidad</mat-label>
-                                <input type="number" formControlName="qty" matInput required>
-                                <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
-                            </mat-form-field>
-
-                            <mat-form-field class="col-md-4" appearance="fill">
-                                <mat-label>Precio</mat-label>
-                                <input type="number" formControlName="price" matInput required>
-                                <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
-                            </mat-form-field>
-
-                            <mat-form-field class="col-md-4" appearance="fill">
-                                <mat-label>Selecciones un tipo</mat-label>
-                                <mat-select formControlName="type">
-                                    <mat-option *ngFor="let key of keysListingTypes()" [value]="key">
-                                        {{listing_types[key]}}</mat-option>
+                        <div>
+                            <div class="font-3xl font-facebook mb-3">Cuentas de mercado libre</div>
+                            <mat-form-field class="w-100">
+                                <mat-label>Selecciones Empresas</mat-label>
+                                <mat-select formControlName="mlaccounts" multiple>
+                                    <mat-select-trigger *ngIf="formPublication.get('mlaccounts')?.value?.length > 0">
+                                        <mat-chip-list>
+                                            <mat-chip (removed)="removeItemMlAccount(ml_account)" *ngFor="let ml_account of formPublication.get('mlaccounts').value" [removable]="true">
+                                                {{getNameMlAccount(ml_account)}}
+                                                <mat-icon matChipRemove>cancel</mat-icon>
+                                            </mat-chip>
+                                        </mat-chip-list>
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let ml_account of ml_accounts" [value]="ml_account.id">
+                                        {{ml_account.user_name}}</mat-option>
                                 </mat-select>
-                                <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
                             </mat-form-field>
-
-                            <div class="w-100 p-3 mb-3">
-                                <div class="mb-2">Imagenes</div>
-                                <ngx-file-drop contentClassName="h-100" dropZoneClassName="border-dot" accept=".png,.jpeg,.jpg" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-                                    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                                        <div class="row m-0 p-3 w-100 position-relative">
-                                            <div *ngIf="isLoadPosition" class="load-data position-absolute rounded-fz font-2xl font-facebook w-100 h-100 d-flex align-items-center justify-content-center">
-                                                <mat-spinner [diameter]="50">
-                                                </mat-spinner> Procesando...</div>
-                                            <div class=" col-12 d-flex justify-content-center align-items-center">
-                                                Da click en boton o arrastra para subirlo
-                                                <button type="button" mat-raised-button (click)="openFileSelector()">Buscar archivo</button>
-                                            </div>
-                                            <small *ngIf="publication?.images.length > 0" class="ml-2 my-2 w-100">Arrastre para
-                                                cambiar la imagen principal</small>
-                                            <div *ngIf="publication?.images">
-                                                <div class="d-flex" style="flex-wrap: wrap;" [sortablejs]="publication?.images" [sortablejsOptions]="options">
-                                                    <div style="width: 120px;" class="m-2" *ngFor="let item of publication?.images; let i=index">
-                                                        <div style="width: 120px;" class="position-relative">
-                                                            <button type="button" mat-icon-button color="warn" (click)="removeImage(item.id)" class="btn-delete-imagen">
-                                                                <mat-icon>close</mat-icon>
-                                                            </button>
-                                                            <span class="badge badge-pill badge-success position-absolute m-2" *ngIf="i==0">Imagen principal</span>
-                                                            <img [src]="item.permalink" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'">
-                                                            <!-- <img [src]="url_server+'/img/'+item.url" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'"> -->
+                        </div>
+                        <div>
+                            <div class="font-3xl font-facebook mb-3">Publicación</div>
+                            <div class="row">
+                                <mat-form-field class="col-12" appearance="fill">
+                                    <mat-label>Titulo</mat-label>
+                                    <input type="text" matInput formControlName="title" (keyup.enter)="predictorMl($event)" type="search" required>
+                                    <mat-hint>Presione enter para buscar</mat-hint>
+                                </mat-form-field>
+                                <div>
+                                    <div class="font-facebook col-12">Seleccione una categoria</div>
+                                    <div class="col-12">
+                                        <div *ngIf="isLoadCategory">
+                                            <mat-spinner [diameter]="50">
+                                                Cargando categorias espere
+                                            </mat-spinner>
+                                        </div>
+                                        <div *ngIf="optionsTitle?.length < 1 && !isLoadCategory" class="text-danger">
+                                            Con este titulo no se encontro categorias
+                                        </div>
+    
+                                        <mat-radio-group formControlName="category" *ngIf="!isLoadCategory" aria-label="Select an option">
+                                            <mat-radio-button [checked]="isSelectCategory" (change)="getAttributes(option.category_id)" class="mx-1" *ngFor="let option of optionsTitle" [value]="option.category_id"> {{option.category_name}}
+                                                <small>({{option.domain_name}})</small>
+                                            </mat-radio-button>
+                                            <mat-error *ngIf="formPublication.get('category').invalid">Debe tener una categoria seleccionada</mat-error>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <mat-form-field class="col-12 mt-3">
+                                    <mat-label>Descripción</mat-label>
+                                    <textarea type="text" required formControlName="description" matInput rows="8"></textarea>
+                                </mat-form-field>
+    
+                                <mat-form-field class="col-md-4" appearance="fill">
+                                    <mat-label>Cantidad</mat-label>
+                                    <input type="number" formControlName="qty" matInput required>
+                                    <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
+                                </mat-form-field>
+    
+                                <mat-form-field class="col-md-4" appearance="fill">
+                                    <mat-label>Precio</mat-label>
+                                    <input type="number" formControlName="price" matInput required>
+                                    <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
+                                </mat-form-field>
+    
+                                <mat-form-field class="col-md-4" appearance="fill">
+                                    <mat-label>Selecciones un tipo</mat-label>
+                                    <mat-select formControlName="type">
+                                        <mat-option *ngFor="let key of keysListingTypes()" [value]="key">
+                                            {{listing_types[key]}}</mat-option>
+                                    </mat-select>
+                                    <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
+                                </mat-form-field>
+    
+                                <div class="w-100 p-3 mb-3">
+                                    <div class="mb-2">Imagenes</div>
+                                    <ngx-file-drop contentClassName="h-100" dropZoneClassName="border-dot" accept=".png,.jpeg,.jpg" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                            <div class="row m-0 p-3 w-100 position-relative">
+                                                <div *ngIf="isLoadPosition" class="load-data position-absolute rounded-fz font-2xl font-facebook w-100 h-100 d-flex align-items-center justify-content-center">
+                                                    <mat-spinner [diameter]="50">
+                                                    </mat-spinner> Procesando...</div>
+                                                <div class=" col-12 d-flex justify-content-center align-items-center">
+                                                    Da click en boton o arrastra para subirlo
+                                                    <button type="button" mat-raised-button (click)="openFileSelector()">Buscar archivo</button>
+                                                </div>
+                                                <small *ngIf="publication?.images.length > 0" class="ml-2 my-2 w-100">Arrastre para
+                                                    cambiar la imagen principal</small>
+                                                <div *ngIf="publication?.images">
+                                                    <div class="d-flex" style="flex-wrap: wrap;" [sortablejs]="publication?.images" [sortablejsOptions]="options">
+                                                        <div style="width: 120px;" class="m-2" *ngFor="let item of publication?.images; let i=index">
+                                                            <div style="width: 120px;" class="position-relative">
+                                                                <button type="button" mat-icon-button color="warn" (click)="removeImage(item.id)" class="btn-delete-imagen">
+                                                                    <mat-icon>close</mat-icon>
+                                                                </button>
+                                                                <span class="badge badge-pill badge-success position-absolute m-2" *ngIf="i==0">Imagen principal</span>
+                                                                <img [src]="item.permalink" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'">
+                                                                <!-- <img [src]="url_server+'/img/'+item.url" alt="" class="w-100 rounded-lg" [ngClass]="i==0?'imagen-main-shadow':'imagen-shadow'"> -->
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                </ngx-file-drop>
+                                        </ng-template>
+                                    </ngx-file-drop>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 border-left" [ngStyle]="{'height': alturaAttribute}" style="overflow-y: auto;">
-                <div class="font-3xl font-facebook mb-3">Atributos</div>
-                <div>
-                    <h5 class="text-muted" *ngIf="attributes.length == 0">Se mostraran al seleccionar una categoria</h5>
-                </div>
-                <div formArrayName="attribute">
-                    <div *ngFor="let attribute_ of attributes; let i = index">
-                        <mat-label class="d-block">{{attribute_.name}}</mat-label>
-                        <small class="text-danger" *ngIf="attribute_.tags.catalog_required">Complete una o las todas</small>
-                        <div class="row">
-                            <mat-form-field *ngIf="attribute_.values" class="col-md-6" appearance="fill">
-                                <mat-label>Seleccionar </mat-label>
-                                <mat-select [formControlName]="'attribute_suggest_'+attribute_.id">
-                                    <mat-option *ngFor="let item of attribute_.values" [value]="item.id">
-                                        {{item.name}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field [ngClass]="attribute_.values?'col-md-6':'col-md-12'" appearance="fill">
-                                <mat-label>Ingresa un valor</mat-label>
-                                <input type="text" matInput [formControlName]="'attribute_manually_'+attribute_.id">
-                            </mat-form-field>
+                <div class="col-md-6 border-left" [ngStyle]="{'height': alturaAttribute}" style="overflow-y: auto;">
+                    <div class="font-3xl font-facebook mb-3">Atributos</div>
+                    <div>
+                        <h5 class="text-muted" *ngIf="attributes.length == 0">Se mostraran al seleccionar una categoria</h5>
+                    </div>
+                    <div formArrayName="attribute">
+                        <div *ngFor="let attribute_ of attributes; let i = index">
+                            <mat-label class="d-block">{{attribute_.name}}</mat-label>
+                            <small class="text-danger" *ngIf="attribute_.tags.catalog_required">Complete una o las todas</small>
+                            <div class="row">
+                                <mat-form-field *ngIf="attribute_.values" class="col-md-6" appearance="fill">
+                                    <mat-label>Seleccionar </mat-label>
+                                    <mat-select [formControlName]="'attribute_suggest_'+attribute_.id">
+                                        <mat-option *ngFor="let item of attribute_.values" [value]="item.id">
+                                            {{item.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field [ngClass]="attribute_.values?'col-md-6':'col-md-12'" appearance="fill">
+                                    <mat-label>Ingresa un valor</mat-label>
+                                    <input type="text" matInput [formControlName]="'attribute_manually_'+attribute_.id">
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <button (click)="publicationNow()" type="button" mat-raised-button color="accent">Guardar</button>
-        </form>
+                <button (click)="publicationNow()" type="button" mat-raised-button color="accent">Guardar</button>
+            </mat-card>
+
     </ng-template>
 </div>

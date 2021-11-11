@@ -38,7 +38,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   @Input() my_id: number;
   hasFile: boolean = false;
   scrollContainer: any = null;
-  // text_message: string = '';
   toggled: boolean = false;
   suscripted: Subscription;
   hasNewMessages: boolean = false;
@@ -53,9 +52,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     allowMultiple: true,
     labelIdle: 'Arrastre o presione aqui',
     name: 'file',
+    maxParallelUploads: 5,
     server: {
       url: `${environment.server}`,
-      timeout: 5000,
       process: {
         url: 'storage/attachments/upload',
         headers: {
@@ -67,7 +66,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           // console.log({ 'File_upload': data });
           // console.log(data.id);
           this.sendOneMessage(null, [data.id]);
-          this.hasFile = false;
+          // this.hasFile = false;
           return data.id;
         }
       },
@@ -86,13 +85,24 @@ export class ChatComponent implements OnInit, OnDestroy {
         .subscribe((data) => {
           // console.log(data);
           this.userchat.data_chat = data.data.chats;
-          this.userchat.messages = data.data.messages.data;
+          this.userchat.messages =  data.data.messages.data.reverse();
         });
         autosize(document.querySelectorAll('#textarea-chat'));
         // console.log(autosize);
-
         // document.getElementById('textarea-chat')
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            this.markReadMessage(this.userchat.data_chat._id);
+          }
+        });
     }
+  }
+
+  successFiles(event): void {
+    console.log(event);
+    // if(event.error == null){
+      this.hasFile = false;
+    // }
   }
   getMessages(goBottom = false): void {
     this.s_standart

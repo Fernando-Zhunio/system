@@ -1,7 +1,7 @@
 // @import "variables";
 @import "~@coreui/coreui/scss/coreui";
 // @import "custom";
-// @import "theme";
+@import "theme";
 @import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap');
 
 
@@ -28,6 +28,7 @@ a img {
 .navbar-brand,
 .navbar-brand-minimized {
     height: auto !important;
+   
 }
 
 .custom-snack-bar-loader-data {
@@ -193,7 +194,7 @@ button {
   cursor: pointer;
 }
 
-.sidebar .nav-link.active::after {
+.dark-theme .sidebar .nav-link.active::after {
   content: '';
   width: 30px;
   height: 30px;
@@ -202,10 +203,23 @@ button {
   background: transparent;
   bottom: -30px;
   border-radius: 0 20px 0 0;
-  box-shadow: 8px -11px 0px #e4e5e6;
+  box-shadow: 8px -11px 0px  mat-color($dark-bg);
 }
 
-.sidebar .nav-link.active::before {
+.light-theme .sidebar .nav-link.active::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0px;
+    background: transparent;
+    bottom: -30px;
+    border-radius: 0 20px 0 0;
+    box-shadow: 8px -11px 0px  #e4e5e6;
+    
+  }
+
+.dark-theme .sidebar .nav-link.active::before {
   content: '';
   width: 30px;
   height: 30px;
@@ -214,15 +228,51 @@ button {
   background: transparent;
   top: -30px;
   border-radius: 0 0 20px 0;
-  box-shadow: 13px 1px 0px #e4e5e6;
+  box-shadow: 13px 1px 0px mat-color($dark-bg);
 }
 
-.sidebar .nav-link.active {
-  background-color: #e4e5e6;
-  color: #2f353a;
+.light-theme .sidebar .nav-link.active::before {
+    content: '';
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0px;
+    background: transparent;
+    top: -30px;
+    border-radius: 0 0 20px 0;
+    box-shadow: 13px 1px 0px #e4e5e6;
+  }
+
+.dark-theme .sidebar .nav-link.active {
+  background-color:  mat-color($dark-bg);
+  color: #ffffff;
   border-radius: 20px 0 0 20px;
 }
 
+.light-theme .sidebar .nav-link.active {
+    background-color: #e4e5e6;
+    color: #2f353a;
+    border-radius: 20px 0 0 20px;
+  }
+
+.light-theme .app-body{
+  background-color:  #e4e5e6;
+}
+
+.dark-theme .app-body{
+    background-color:  mat-color($dark-bg);
+}
+
+
+
+
+
 .custom-menu-notification {
   height:75vh
+}
+
+.tab-content {
+    border: none;
+    // color: black;
+    // background-color: inherit;
 }

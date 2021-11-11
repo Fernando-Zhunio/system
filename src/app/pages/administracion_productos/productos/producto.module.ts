@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -34,9 +35,10 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     MatSelectModule,
     MatIconModule,
     MatButtonModule,
-    NgxPermissionsModule
+    NgxPermissionsModule,
+    MatCardModule,
   ],
-  exports: [ MatFormFieldModule,MatInputModule ]
+  exports: [ MatFormFieldModule, MatInputModule ]
 
 })
 export class ProductoModule { }

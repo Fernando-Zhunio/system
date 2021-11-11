@@ -124,7 +124,7 @@
     </div>
 
     <div *ngIf="!isload" class="card-columns">
-      <div class="my-1 card rounded-fz card-body border-0" *ngFor="let p of products; index as ind">
+      <mat-card class="my-1 card rounded-fz card-body border-0" *ngFor="let p of products; index as ind">
         <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0 " style="top: 68px;background: inherit">
           <div class="font-weight-light font-2xl text-center">
             <span class="mr-1" style="color: #f44336; font-weight: bold">#{{ p.id }}</span>{{ p.name }}
@@ -207,9 +207,9 @@
               <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
               <div class="container">
                 <swiper [config]="config" [useSwiperClass]="false">
-                  <div class="shadow rounded-fz" *ngFor="let i of p.vtex_skus">
+                  <mat-card style="background: inherit;" class="shadow rounded-fz" *ngFor="let i of p.vtex_skus">
                     <app-pagina-web [prestashop_product]="i"></app-pagina-web>
-                  </div>
+                  </mat-card>
                 </swiper>
               </div>
             </ng-container>
@@ -217,17 +217,17 @@
               <div class="font-faccebook font-3xl my-4">Mercado Libre</div>
               <div class="container mb-3">
                 <swiper [config]="config" [useSwiperClass]="false">
-                  <div class="shadow rounded-fz" *ngFor="let ml of p.ml_infos">
+                  <mat-card style="background: inherit;" class="shadow rounded-fz" *ngFor="let ml of p.ml_infos">
                     <!-- <mat-card> -->
                     <app-ml [ml]="ml"></app-ml>
                     <!-- </mat-card> -->
-                  </div>
+                  </mat-card>
                 </swiper>
               </div>
             </div>
           </div>
         </mat-card-content>
-      </div>
+      </mat-card>
     </div>
 
     <ng-container *ngIf="!isload && products.length < 1">

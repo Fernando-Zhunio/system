@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { MatCardModule } from '@angular/material/card';
 // import { CategoriasMainComponent } from './categorias-main.component';
 
 
@@ -26,6 +27,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     MatButtonModule,
     MatIconModule,
     NgxPermissionsModule,
+    MatCardModule
   ]
 })
 export class CategoriasModule { }

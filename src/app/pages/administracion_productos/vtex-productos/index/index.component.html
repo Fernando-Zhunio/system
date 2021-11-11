@@ -80,7 +80,7 @@
 
 <div *ngIf="!isload;" class="mt-4 card-columns">
   <div *ngFor="let p of products;let index_product=index" class="card border-0 rounded-fz overflow-hidden">
-    <div class="card-body">
+    <mat-card class="card-body">
       <div>
         <div>
           <span class="{{p.status}} text-uppercase vtex-status pill-fz">{{p.status}}</span><br>
@@ -114,7 +114,7 @@
           </div>
         </swiper>
       </div>
-    </div>
+    </mat-card>
   </div>
 </div>
 

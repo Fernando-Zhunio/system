@@ -59,4 +59,5 @@ export interface Iimages {
   publication_id: number;
   updated_at: string;
   url: string;
+  permalink: string;
 }

@@ -89,6 +89,7 @@ export class BuscarProductosComponent implements OnInit {
   is_open_go: boolean = false;
   icon_go: 'segment'|'close' = 'segment';
   public config: SwiperOptions = {
+
     direction: 'horizontal',
     spaceBetween: 10,
     breakpoints: {
@@ -115,6 +116,7 @@ export class BuscarProductosComponent implements OnInit {
     },
     scrollbar: true,
     pagination: false,
+
   };
   permission_page: IpermissionStandart;
   ngOnInit(): void {

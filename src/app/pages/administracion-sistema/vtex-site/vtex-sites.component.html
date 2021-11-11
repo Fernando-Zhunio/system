@@ -22,9 +22,9 @@
 
   <div class="card-columns">
     <ng-container *ngIf="!isload">
-      <div class="card rounded-fz border-0 shadow-sm" *ngFor="let vtexSite of vtexSites">
+      <mat-card class="card rounded-fz border-0 shadow-sm" *ngFor="let vtexSite of vtexSites">
         <app-vtex-site (delete)="deleteVtexSite($event)" [vtexSite]="vtexSite"></app-vtex-site>
-      </div>
+      </mat-card>
     </ng-container>
   </div>
 

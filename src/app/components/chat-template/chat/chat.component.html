@@ -106,7 +106,7 @@
         </div>
       </div>
       <div *ngIf="hasFile" class="attach">
-        <file-pond #myPond [className]="'m-0'" [options]="pondOptions" (oninit)="pondHandleInit()"
+        <file-pond #myPond (onprocessfiles)="successFiles($event)" [className]="'m-0'" [options]="pondOptions" (oninit)="pondHandleInit()"
           (onaddfile)="pondHandleAddFile($event)" (onactivatefile)="pondHandleActivateFile($event)">
         </file-pond>
       </div>

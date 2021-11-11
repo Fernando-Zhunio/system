@@ -47,6 +47,9 @@
     align-items: center;
     cursor: pointer;
 }
+.item-chat div{
+  font-family: "Red Hat Display";
+}
 
 .badge-chat {
   position: absolute;

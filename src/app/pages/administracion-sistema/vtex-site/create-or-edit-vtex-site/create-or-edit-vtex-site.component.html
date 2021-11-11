@@ -4,7 +4,7 @@
       {{title}}
     </h2>
   </div>
-  <div class="card-body bg-white mt-3">
+  <mat-card class="card-body  mt-3">
     <form [formGroup]="form" class="row m-0">
       <mat-form-field class="col-md-6 col-12">
         <input matInput  placeholder="Ingresa el Nombre" formControlName="name">
@@ -38,5 +38,5 @@
 
       <button mat-raised-button color="primary" [disabled]="isload" (click)="saveInServer()">Guardar</button>
     </form>
-  </div>
+  </mat-card>
 </div>

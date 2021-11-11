@@ -5,6 +5,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 // import { IndexComponent } from './vtex-productos/index/index.component';
 
 import { VtexProductosModule } from './vtex-productos/vtex-productos.module';
+// import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { VtexProductosModule } from './vtex-productos/vtex-productos.module';
   CommonModule,
     AdminProductRoutingModule,
     VtexProductosModule,
-    NgxPermissionsModule
+    NgxPermissionsModule,
+    // MatCardModule
   ]
 })
 export class AdministracionProductosModule { }

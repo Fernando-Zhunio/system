@@ -46,7 +46,7 @@
         <div class="font-2xl p-3">Ultimas Notificaciones</div>
         <div>
             <div class="card-columns">
-                <div class="card border-0 shadow  h-auto p-3" *ngFor="let notification of notifications">
+                <mat-card class="card border-0 shadow  h-auto p-3" *ngFor="let notification of notifications">
                     <div class="row m-0 d-flex align-items-center">
                         <div *ngIf="notification.data.image" class="col-md-4">
                             <img class="w-100" [src]="notification.data.image" alt="">
@@ -57,7 +57,7 @@
                             <small class="text-primary text-uppercase">{{notification.created_at | amLocale:'es' | amTimeAgo}}</small>
                         </div>
                     </div>
-                </div>
+                </mat-card>
             </div>
         </div>
     </div>

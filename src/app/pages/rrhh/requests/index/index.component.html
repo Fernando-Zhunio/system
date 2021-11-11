@@ -34,7 +34,7 @@
 </div>
 
 <div *ngIf="!isload;" class="mt-4 card-columns">
-  <div *ngFor="let p of products;let index_product=index" class="card border-0 rounded-fz overflow-hidden position-relative">
+  <mat-card *ngFor="let p of products;let index_product=index" class="card border-0 rounded-fz overflow-hidden position-relative">
     <div *ngIf="p?.isload" class="position-absolute w-100 h-100 opaque-blur"></div>
     <div class="card-body">
       <div class="row">
@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </mat-card>
 </div>
 <ng-container *ngIf="!isload && products?.length < 1">
   <div class="row">
