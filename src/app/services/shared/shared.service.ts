@@ -86,9 +86,11 @@ export class SharedService {
     this.changeNotifications(notifications_);
   }
 
-  download(name, url) {
+  download(url) {
     return this.Http.get(this.urlServer + url, {
       responseType: 'blob',
+      reportProgress: true,
+      observe: 'events'
     });
   }
 }

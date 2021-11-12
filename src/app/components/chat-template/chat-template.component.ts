@@ -26,7 +26,6 @@ import { StorageService } from '../../services/storage.service';
 })
 export class ChatTemplateComponent implements OnInit, OnDestroy {
   constructor(
-    private s_shared: SharedService,
     private s_storage: StorageService,
     private s_standart: StandartSearchService
   ) {}
@@ -44,8 +43,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.myUser = this.s_storage.getCurrentUser();
-    // console.log(this.myUser);
-
     this.echoChat = new EchoManager(this.s_storage).chat_echo;
     this.echoChat.private(`chat.${this.myUser.id}`)
       .listen(`.chat`, this.newChat.bind(this))
@@ -108,14 +105,13 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   
   //     console.log('message', payload);
   // });
-
     this.getAllUsers();
     this.onSelectChats(null);
   }
 
   ngOnDestroy(): void {
     this.echoChat.leave(`chat.${this.myUser.id}`);
-  }
+  } 
 
   newChat(event: { chat: Ichats; event: 'created'|'updated'|'deleted' }): void {
     if (event.event == 'created') {
@@ -139,7 +135,8 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
-    // console.log({ 'message_event:': event });
+    console.log(event);
+    
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }
@@ -158,6 +155,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         created_at: event.message.created_at,
         author_user_id: event.message.author_user_id,
         is_readed_for_all: event.message.is_readed_for_all,
+        links: event.message.links
       };
       if (!userChat?.messages) {userChat.messages = []; }
       userChat['messages'].push(message);
@@ -214,7 +212,7 @@ reproducir() {
 }
   getChatUserStatus(event: {
     event: string;
-    user: { id: number; status: 'offline' | 'online'; _id: string };
+    user: { id: number; status: 'offline' | 'online'; _id: string, last_seen: string };
   }): void {
     if (!this.chats) {
       return;
@@ -224,6 +222,7 @@ reproducir() {
     );
     if (chat != undefined && chat.type == 'personal') {
       chat.participants[0].status = event.user.status;
+      chat.participants[0].last_seen = event?.user?.last_seen || null;
     }
   }
 

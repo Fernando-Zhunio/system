@@ -106,7 +106,7 @@ export class SwalService {
     });
   }
 
-  public static swalToast(title, icon = 'success', position = 'top-end') {
+  public static swalToast(title, icon = 'success', position = 'top-end',top=50) {
     const title_html = `<div class="d-flex font-weight-bold">${title}</div>`;
 
     const Toast = Swal.mixin({
@@ -114,6 +114,9 @@ export class SwalService {
       position,
       showConfirmButton: false,
       timer: 3000,
+      customClass: {
+        popup:'mt-5'
+      },
 
       timerProgressBar: true,
       didOpen: (toast) => {
@@ -150,7 +153,7 @@ export class SwalService {
       timer: 3000,
 
       customClass: {
-        // container: "p-2",
+        container: "p-2",
         popup: `p-2 bg-${icon} cursor-pointer`,
         image: 'm-0 rounded-fz',
       },

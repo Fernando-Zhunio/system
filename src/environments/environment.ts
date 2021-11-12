@@ -4,7 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  // production: false,
+  production: false,
   // server: 'http://sistema-codificacion.test/api/',
   // server_img: 'http://sistema-codificacion.test/',
   // keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',
@@ -19,7 +19,7 @@ export const environment = {
   // img_not_default: 'https://mec-s1-p.mlstatic.com/935743-MEC44870123773_022021-O.jpg',
   // server_vtex_file: 'https://novicompu.vteximg.com.br/arquivos/',
   // user_photo_default: 'assets/img/profile-user.svg'
-  production: true,
+  // production: true,
   server: 'https://system.novicompu.com/api/',
   server_img: 'https://system.novicompu.com/',
   keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',

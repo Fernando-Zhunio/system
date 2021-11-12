@@ -35,7 +35,7 @@ export class CustomInterceptor implements HttpInterceptor {
       headers = this.createHeader();
     }  /* si no esta autenticado */ else {
       headers = new HttpHeaders({
-        accept: 'application/json',
+        // accept: 'application/json',
         'Access-Control-Allow-Origin': '*',
       });
     }
@@ -62,6 +62,8 @@ export class CustomInterceptor implements HttpInterceptor {
         if (swal) {swal.close(); }
       }),
       catchError((err) => {
+        console.log(err);
+        
         if (swal) {swal.close(); }
         switch (err.status) {
           case 401:

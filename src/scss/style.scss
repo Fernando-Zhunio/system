@@ -3,12 +3,32 @@
 // @import "custom";
 @import "theme";
 @import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 
-
-
+ 
 
 .chat-font {
-    font-family: "Red Hat Display";
+    font-family: "Red Hat Display" !important;
+    p {
+        font-family: "Red Hat Display" !important;
+        font-weight: 500;
+        font-size: 14px;
+        margin: 0 !important;
+    }
+}
+a{
+    text-decoration: none !important;
+}
+.markdown p {
+        font-family: "Red Hat Display" !important;
+        font-weight: 500;
+        font-size: 14px;
+        margin: 0 !important;
+    
+}
+
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 .justify-end>div {

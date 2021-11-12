@@ -98,7 +98,9 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { UsersGroupsChatModalComponent } from './components/chat-template/users-groups-chat-modal/users-groups-chat-modal.component';
+import { MarkdwonPipe } from './pipes/markdwon.pipe';
 registerPlugin(FilePondPluginImagePreview);
 
 // import {AutosizeModule} from 'ngx-autosize';
@@ -153,6 +155,7 @@ registerLocaleData(localeEs, 'es');
     InfiniteScrollModule,
     FilePondModule,
     MatTooltipModule,
+    MatProgressBarModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -181,6 +184,7 @@ registerLocaleData(localeEs, 'es');
     ChatTemplateComponent,
     ChatComponent,
     UsersGroupsChatModalComponent,
+    MarkdwonPipe,
     // CreateGroupChatComponent,
 
 

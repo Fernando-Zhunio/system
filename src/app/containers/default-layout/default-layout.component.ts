@@ -290,7 +290,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       .replace('file_name=reports%2FSTOCK+GENERAL', '');
     this.s_shared
       .download(
-        'report_stock',
         'reports/general-stock/download?' + convertUrlNg[1]
       )
       .subscribe((res: any) => {

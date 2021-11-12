@@ -60,6 +60,7 @@
         "font-awesome": "^4.7.0",
         "laravel-echo": "^1.10.0",
         "mapbox-gl": "^2.1.1",
+        "marked": "^3.0.6",
         "masonry-layout": "^4.2.2",
         "mercadolibre": "0.0.13",
         "moment": "^2.29.1",

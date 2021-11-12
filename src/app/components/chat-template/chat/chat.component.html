@@ -19,7 +19,7 @@
             En linea
           </span>
           <ng-template #TemplateOffline>
-            <span class="text-muted">{{userchat?.data_chat?.updated_at | date:'medium'}}</span>
+            <span *ngIf="userchat?.data_chat?.participants[0]?.last_seen" class="text-muted">{{userchat?.data_chat?.participants[0]?.last_seen | date:'medium'}}</span>
           </ng-template>
         </ng-container>
         <ng-template #TemplateGroup>
@@ -51,21 +51,37 @@
         <div #ngfor *ngFor="let message of userchat?.messages"
           [ngClass]="{'text-right': message.author_user_id == my_id}">
           <ng-container *ngIf="message.type != 'info';else templateInfo">
-            <p class="shadow message" [ngClass]="message.author_user_id == my_id ?'message-send':'message-recept'">
+            <p class="shadow message chat-font" [ngClass]="message.author_user_id == my_id ?'message-send':'message-recept'">
               <ng-container *ngIf="!message.files; else templateFile">
                 <ng-container *ngIf="userchat.data_chat.type == 'group' && message.author_user_id != my_id">
                   <span class="font-xs text-muted text-truncate ">{{message?.author?.info?.name}}</span><br>
                 </ng-container>
-                {{message.text}}
+                <ng-container *ngIf="message.links && message.links.length > 0 ">
+                  <div  *ngFor="let link of message.links">
+                    <a [href]="link.page?.url" target="_blank">
+                      <img *ngIf="link.page.image" class="w-100 h-100 rounded-fz" [src]="link.page.image.url" [alt]="link.page.title">
+                      <div *ngIf="link.page?.url" class="text-muted"><strong>{{link.page.url}}</strong><br> {{link.page.description}}</div>
+                    </a>
+                  </div>
+                </ng-container>
+                
+               <span class="markdown" [innerHTML]="message.text | markdwon"></span> 
               </ng-container>
               <ng-template #templateFile>
-                <div class="w-100" *ngFor="let file of message.files">
+                <div class="w-100 position-relative" *ngFor="let file of message.files">
+
+                  <div *ngIf="file?.isload" class="load-file">
+                    <div class="w-100 d-flex h-100 align-items-center" style="white-space: nowrap;">
+                      <mat-progress-bar color="accent" mode="determinate" [value]="file?.progress || 0"></mat-progress-bar>&nbsp;{{file?.progress || 0}}%
+                    </div>
+                  </div>
+
                   <ng-container *ngIf="userchat.data_chat.type == 'group' && message.author_user_id != my_id">
                     <span class="font-xs text-muted text-truncate text-value-lg">{{message.author.info.name}}</span><br>
                   </ng-container>
                   <span class="download-file">
                     <button class="btn-download" mat-icon-button *ngIf="file.type == 'image'"
-                      (click)="downloadResource(file.permalink, null)">
+                      (click)="downloadResource(file.file, file.original_name,message?._id)">
                       <mat-icon>download_for_offline</mat-icon>
                     </button>
                     <ng-container [ngSwitch]="file.type">
@@ -84,7 +100,7 @@
                         <div class="d-flex align-items-center text-muted bg-white rounded-lg p-sm-1">
                           <mat-icon>description</mat-icon>
                           <span class="text-truncate">{{file.original_name}}</span>
-                          <button mat-icon-button (click)="downloadResource(file.permalink, null)">
+                          <button mat-icon-button (click)="downloadResource(file.file, file.original_name,message?._id)">
                             <mat-icon>download_for_offline</mat-icon>
                           </button>
                         </div>
@@ -92,7 +108,8 @@
                     </ng-container>
                   </span>
                 </div>
-                {{message.text}}
+               <span class="chat-font" [innerHTML]="message.text | markdwon"></span> 
+
               </ng-template>
               <br>
               <small class="text-muted">{{message.created_at | date:'medium'}} <i
@@ -106,8 +123,7 @@
         </div>
       </div>
       <div *ngIf="hasFile" class="attach">
-        <file-pond #myPond (onprocessfiles)="successFiles($event)" [className]="'m-0'" [options]="pondOptions" (oninit)="pondHandleInit()"
-          (onaddfile)="pondHandleAddFile($event)" (onactivatefile)="pondHandleActivateFile($event)">
+        <file-pond #myPond (onprocessfiles)="successFiles($event)" [className]="'m-0'" [options]="pondOptions">
         </file-pond>
       </div>
       <div *ngIf="hasNewMessages" class="new-message">
@@ -125,7 +141,7 @@
       <button mat-icon-button class="btn-emoji" (click)="hasFile=!hasFile">
         <mat-icon>attach_file</mat-icon>
       </button>
-      <button class="m-0 btn-send-message mt-1" mat-mini-fab color="primary" (click)="sendMessage()">
+      <button class="m-0 btn-send-message mt-1" mat-raised-button color="primary" (click)="sendMessage()">
         <mat-icon>send</mat-icon>
       </button>
     </mat-card-actions>

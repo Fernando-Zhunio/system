@@ -28,6 +28,7 @@ export interface IparticipantChat {
   id: number;
   status: 'offline' | 'online';
   info: Iinfo;
+  last_seen: string;
   // user?: IuserChat;
 }
 
@@ -64,6 +65,29 @@ export interface ImessageChat {
   text: string;
   type: 'message' | 'info';
   updated_at?: string;
+  links: Ilink[];
+}
+
+interface Ilink {
+  page:
+  {
+    description?: string;
+    title: string
+    type: string
+    url: string
+    image?: {url}
+  };
+  site:
+  {
+    author: string;
+    generator: string;
+    icon: string;
+    language: string;
+    name: string;
+    responsive: boolean
+    secure: boolean
+    url: string;
+  };
 }
 
 interface Iauthor {
@@ -74,7 +98,7 @@ interface Iauthor {
   _id: number;
 }
 export interface IfileChat {
-  attributes: { width: number, height: number }
+  attributes: { width: number, height: number };
   created_at: string;
   ext: string;
   file: string;
@@ -84,6 +108,8 @@ export interface IfileChat {
   permalink: string;
   type: string;
   updated_at: string;
+  isload?: boolean;
+  progress?: number;
 }
 
 export interface Ichannel {

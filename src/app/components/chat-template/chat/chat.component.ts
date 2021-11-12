@@ -21,6 +21,7 @@ import { StandartSearchService } from '../../../services/standart-search.service
 import { StorageService } from '../../../services/storage.service';
 import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
 import { IuserChat } from './../../../interfaces/chats/ichats';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-chat',
@@ -28,7 +29,7 @@ import { IuserChat } from './../../../interfaces/chats/ichats';
   styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  constructor(private dialog: MatDialog, private s_standart: StandartSearchService, private s_storage: StorageService) { }
+  constructor(private dialog: MatDialog, private s_standart: StandartSearchService, private s_storage: StorageService, private s_shared: SharedService) { }
   @ViewChild('scrollMe') private scrollFrame: ElementRef;
   @ViewChildren('ngfor') ngfor: QueryList<any>;
   @ViewChild('textMessage') textMessage: ElementRef;
@@ -263,44 +264,80 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  // #region descargar archivo
-  downloadResource(url, filename) {
-    if (!filename) { filename = url.split('\\').pop().split('/').pop(); }
-    this.s_standart.customUrlGet(url)
-      .subscribe((response: any) => {
-        const blob = response.blob();
-        const blobUrl = window.URL.createObjectURL(blob);
-        this.forceDownload(blobUrl, filename);
-      });
-    // .catch(e => console.error(e));
+  downloadResource(file, name, id) {
+    console.log(id);
+    const message = this.userchat.messages.find(x => x._id == id);
+    if (message == undefined) { return; }
+    message.files[0]['isload'] = true;
+    this.s_shared.download(`storage/attachments?file=${file}`)
+      .subscribe((event:  HttpEvent<Blob> ) => {
+        // if (event.type === HttpEventType.UploadProgress) {
+        //   // This is an upload progress event. Compute and show the % done:
+        //   const percentDone = Math.round(100 * event.loaded / event.total);
+        //   console.log(`File is ${percentDone}% uploaded.`);
+        // } else if (event instanceof  Blob) {
+        //   console.log('File is completely uploaded!');
+        //   const blob = new Blob([event], { type: 'application/ms-Excel' });
+        //   const urlDownload = window.URL.createObjectURL(blob);
+        //   const a = document.createElement('a');
+        //   document.body.appendChild(a);
+        //   a.setAttribute('style', 'display: none');
+        //   a.href = urlDownload;
+        //   a.download = name;
+        //   a.click();
+        //   window.URL.revokeObjectURL(urlDownload);
+        //   a.remove();
+        //   message.files[0]['isload'] = false;
+        // }
+        let progress = 0;
+        switch (event.type) {
+          case HttpEventType.Sent:
+            console.log('Request has been made!');
+            break;
+          case HttpEventType.ResponseHeader:
+            console.log('Response header has been received!');
+            break;
+          case HttpEventType.DownloadProgress:
+            console.log(event);
+            console.log(event.loaded , event.total);
+            
+            progress = Math.round(event.loaded / event.total * 100);
+            message.files[0].progress = progress;
+            console.log(`Uploaded! ${progress}%`);
+            break;
+          case HttpEventType.Response:
+            console.log('File is completely uploaded!');
+              const blob = new Blob([event.body], { type: 'application/ms-Excel' });
+              const urlDownload = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              document.body.appendChild(a);
+              a.setAttribute('style', 'display: none');
+              a.href = urlDownload;
+              a.download = name;
+              a.click();
+              window.URL.revokeObjectURL(urlDownload);
+              a.remove();
+              setTimeout(() => {
+                message.files[0]['isload'] = false;
+                message.files[0].progress = 0;
+              }, 1500);
+            console.log('User successfully created!', event.body);
+            
+        }
+      }, err => {message.files[0]['isload'] = false; });
   }
 
-  forceDownload(blob, filename) {
-    const a = document.createElement('a');
-    a.download = filename;
-    a.href = blob;
-    // For Firefox https://stackoverflow.com/a/32226068
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
+  // pondHandleInit() {
+  //   console.log('FilePond has initialised', this.myPond);
+  // }
 
-  // #endregion descargar archivo
+  // pondHandleAddFile(event: any) {
+  //   console.log('A file was added', event);
+  // }
 
-
-
-
-  pondHandleInit() {
-    console.log('FilePond has initialised', this.myPond);
-  }
-
-  pondHandleAddFile(event: any) {
-    console.log('A file was added', event);
-  }
-
-  pondHandleActivateFile(event: any) {
-    console.log('A file was activated', event);
-  }
+  // pondHandleActivateFile(event: any) {
+  //   console.log('A file was activated', event);
+  // }
 
   generateParticipantTooltip(participant): string {
     return `<span class="text-truncate p-2">
