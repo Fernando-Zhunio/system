@@ -16,7 +16,7 @@
   </div>
   <div class="d-flex my-3 justify-content-between">
     <div>
-      <h1 class="font-montserrat d-inline-block font-5xl">Dashboard</h1>
+      <h1 class="font-montserrat d-inline-block font-5xl m-0">Dashboard</h1>
       <!-- <mat-form-field [appearance]="'standard'" class="line-none">
         <mat-select>
           <mat-option *ngFor="let company of companies" [value]="company.name">
@@ -111,31 +111,42 @@
     </div>
 
 
+    <div class="body-dashboard">
+        <mat-card class="rounded-fz shadow p-3 h-100 ">
+          <h3 class="font-montserrat font-3xl">Productos</h3>
+          <div class="d-flex align-items-center h-100">
+            <canvas height="300px" id="chart-main"></canvas>
+          </div>
+        </mat-card>
 
-    <div class="body-dashboard-1">
-      <div class=" bg-white rounded-fz shadow p-3 h-100 ">
-        <h3 class="font-facebook font-2xl">Productos</h3>
+        <mat-card class="rounded-fz shadow h-100 p-3">
+          <h3 class="font-montserrat font-3xl">Locales</h3>
+          <canvas  height="300px" id="chart-warehouses"></canvas>
+        </mat-card>
+    </div>
+
+    <div class="body-dashboard-2 my-2">
+      <mat-card class="rounded-fz shadow p-3 h-100 ">
+        <h3 class="font-montserrat font-3xl">Ventas</h3>
         <div class="d-flex align-items-center h-100">
-          <canvas id="chart-main"></canvas>
+          <canvas height="300px" id="chart-ventas"></canvas>
         </div>
-      </div>
-    </div>
-    <div class="body-dashboard-2 h-100">
-      <div class=" bg-white rounded-fz shadow h-100 p-3">
-        <h3 class="font-facebook font-2xl">Locales</h3>
-        <canvas id="chart-warehouses"></canvas>
-      </div>
-    </div>
+      </mat-card>
 
+      <mat-card class="rounded-fz shadow h-100 p-3">
+        <h3 class="font-montserrat font-3xl">Ventas por categorias</h3>
+        <canvas  height="300px" id="chart-other"></canvas>
+      </mat-card>
+  </div>
 
-    <div class="footer-dashboard">
+    <!-- <div class="footer-dashboard">
       <div class="p-3 bg-white rounded-fz">
         <h3 class="font-facebook">Ranking de Ventas por meses</h3>
         <canvas id="chart-months"></canvas>
       </div>
       <div class="p-3 bg-white"></div>
       <div class="p-3 bg-white"></div>
-    </div>
+    </div> -->
 
   </div>
 </div>

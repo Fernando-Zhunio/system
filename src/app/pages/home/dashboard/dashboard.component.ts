@@ -19,7 +19,7 @@ interface IdataJsonHeaderDashboard {
 })
 export class DashboardComponent implements OnInit {
   constructor(private _bottomSheet: MatBottomSheet,
-    private _dialog:MatDialog,private s_storage: StorageService) {}
+    private _dialog: MatDialog, private s_storage: StorageService) {}
 
   dataJsonHeaderDashbardProduct: IdataJsonHeaderDashboard = {
     for: 'mes',
@@ -31,24 +31,66 @@ export class DashboardComponent implements OnInit {
     },
   };
 
-  companies:any[] = []
+  companies: any[] = []
 
 
-  isCompare:boolean = false;
-  currentCompare:'productos'|'locales';
-  current_item:'product'|'warehouse';
-  isCompareCompany:boolean =false;
+  isCompare: boolean = false;
+  currentCompare: 'productos'|'locales';
+  current_item: 'product'|'warehouse';
+  isCompareCompany: boolean = false;
+  chartProduct: Chart = null;
+  chartLocales: Chart = null;
+  chartVentas: Chart = null;
 
   ngOnInit(): void {
     this.companies = this.s_storage.getCurrentUser().companies;
-    new Chart('chart-main', {
+    this.createChartProduct();
+    this.createChartLocales();
+    this.createChartVentas();
+    this.createChartOther();
+
+    // new Chart('chart-months', {
+    //   type: 'radar',
+    //   data: {
+    //     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+    //     datasets: [
+    //       {
+    //         label: 'Population (millions)',
+    //         backgroundColor: [
+    //           '#3e95cd',
+    //           '#8e5ea2',
+    //           '#3cba9f',
+    //           '#e8c3b9',
+    //           '#c45850',
+    //         ],
+    //         data: [0, 1, 2, 3, 4],
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     aspectRatio: 1,
+    //     plugins: {
+    //       title: {
+    //         display: true,
+    //         text: 'Chart.js Radar Chart',
+    //       },
+    //     },
+    //   },
+    // });
+  }
+  createChartProduct(): void {
+    const canvas = <HTMLCanvasElement> document.getElementById('chart-main');
+    const ctx = canvas.getContext('2d');
+
+    const data =  {
       type: 'bar',
       data: {
         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [
           {
             label: 'Top 6 de productos mas vendidos',
-            data: [12, 19, 3, 5, 2, 3],
+            data: [15, 4, 3, 5, 2, 3],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -70,8 +112,24 @@ export class DashboardComponent implements OnInit {
         ],
       },
       options: {
-        responsive: true,
-        // aspectRatio: 1,
+        responsive: false,
+        // maintainAspectRatio: false,
+        // responsive: true,
+        // aspectRatio: 2,
+        // scales: {
+        //   y: {
+        //     stacked: true,
+        //     grid: {
+        //       display: true,
+        //       color: "rgba(255,99,132,0.2)"
+        //     }
+        //   },
+        //   x: {
+        //     grid: {
+        //       display: false
+        //     }
+        //   }
+        // },
         plugins: {
           legend: {
             position: 'top',
@@ -82,16 +140,13 @@ export class DashboardComponent implements OnInit {
           },
         },
       },
-      // options: {
-      //   scales: {
-      //     y: {
-      //       beginAtZero: true,
-      //     },
-      //   },
-      // },
-    });
+    };
 
-    new Chart('chart-warehouses', {
+    this.chartProduct =  new Chart(ctx, data );
+  }
+
+  createChartLocales(): void {
+    const data = {
       type: 'doughnut',
       data: {
         labels: ['Africa', 'Asia', 'Europe', 'Latin America', 'North America'],
@@ -122,42 +177,164 @@ export class DashboardComponent implements OnInit {
           },
         },
       },
-    });
+    };
+    this.chartLocales = new Chart('chart-warehouses', data);
+  }
 
-    new Chart('chart-months', {
-      type: 'radar',
+  createChartVentas(): void {
+    const canvas = <HTMLCanvasElement> document.getElementById('chart-ventas');
+    const ctx = canvas.getContext('2d');
+    const data =  {
+      type: 'line',
       data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [
           {
-            label: 'Population (millions)',
+            label: 'Top 6 de productos mas vendidos',
+            data: [15, 4, 3, 5, 2, 3],
             backgroundColor: [
-              '#3e95cd',
-              '#8e5ea2',
-              '#3cba9f',
-              '#e8c3b9',
-              '#c45850',
+              // 'rgba(255, 99, 132, 0.2)',
+              'rgb(112, 221, 98, 0.2)',
+              // 'rgba(54, 162, 235, 0.2)',
+              // 'rgba(255, 206, 86, 0.2)',
+              // 'rgba(75, 192, 192, 0.2)',
+              // 'rgba(153, 102, 255, 0.2)',
+              // 'rgba(255, 159, 64, 0.2)',
             ],
-            data: [0, 1, 2, 3, 4],
+            borderColor: [
+              // 'rgba(255, 99, 132, 1)',
+              'rgb(112, 221, 98)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 2,
+          },
+          {
+            label: 'Top 6 de productos mas vendidos',
+            data: [5, 3, 10, 1, 0, 7],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 2,
           },
         ],
       },
       options: {
-        responsive: true,
-        aspectRatio: 1,
+        responsive: false,
+        // maintainAspectRatio: false,
+        // responsive: true,
+        // aspectRatio: 2,
+        // scales: {
+        //   y: {
+        //     stacked: true,
+        //     grid: {
+        //       display: true,
+        //       color: "rgba(255,99,132,0.2)"
+        //     }
+        //   },
+        //   x: {
+        //     grid: {
+        //       display: false
+        //     }
+        //   }
+        // },
         plugins: {
+          legend: {
+            position: 'top',
+          },
           title: {
             display: true,
-            text: 'Chart.js Radar Chart',
+            text: 'Chart.js Doughnut Chart',
           },
         },
       },
-    });
+    };
+    this.chartVentas =  new Chart(ctx, data );
   }
 
+  createChartOther(): void {
+    const canvas = <HTMLCanvasElement> document.getElementById('chart-other');
+    const ctx = canvas.getContext('2d');
 
+    const data =  {
+      type: 'radar',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [
+          {
+            label: 'Top 6 de productos mas vendidos',
+            data: [15, 4, 3, 5, 2, 3],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: false,
+        // maintainAspectRatio: false,
+        // responsive: true,
+        // aspectRatio: 2,
+        // scales: {
+        //   y: {
+        //     stacked: true,
+        //     grid: {
+        //       display: true,
+        //       color: "rgba(255,99,132,0.2)"
+        //     }
+        //   },
+        //   x: {
+        //     grid: {
+        //       display: false
+        //     }
+        //   }
+        // },
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Doughnut Chart',
+          },
+        },
+      },
+    };
 
-  openSheetButton( currentCompare:'productos'|'locales'): void {
+    this.chartProduct =  new Chart(ctx, data );
+  }
+
+  openSheetButton( currentCompare: 'productos'|'locales'): void {
     // this._bottomSheet.open(ViewForComponent);
     // this._dialog.open(CompareProductComponent)
     switch (currentCompare) {
@@ -173,21 +350,21 @@ export class DashboardComponent implements OnInit {
     this.isCompare = true;
   }
 
-  openCompareCompany():void{
+  openCompareCompany(): void{
     this.isCompareCompany = true;
   }
 
-  closeCompare(event):void{
-    this.isCompare=!event;
+  closeCompare(event): void{
+    this.isCompare = !event;
   }
 
 
 
-  currentItemHeader(item:'product'|'warehouse'){
+  currentItemHeader(item: 'product'|'warehouse'){
     this.current_item = item;
   }
 
-  viewFor(send_for:'dia' | 'semana' | 'mes' | 'año'):void{
+  viewFor(send_for: 'dia' | 'semana' | 'mes' | 'año'): void{
     switch (this.current_item) {
       case 'product':
         this.dataJsonHeaderDashbardProduct.for = send_for;
@@ -200,7 +377,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  applyFilter():void{
+  applyFilter(): void{
   }
 
 

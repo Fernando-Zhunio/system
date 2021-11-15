@@ -16,10 +16,39 @@ h6 {
 }
 
 .header-dashboard {
-    grid-area: header;
+    /* grid-area: header; */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 15px;
+}
+
+.body-dashboard{
+    display: grid;
+    grid-template-columns: 66% 34%;
+    grid-gap: 15px;
+    color: rgba(255, 99, 132, 0.2);
+    color: rgba(54, 162, 235, 0.2);
+    color: rgba(255, 206, 86, 0.2);
+    color: rgba(75, 192, 192, 0.2);
+    color: rgba(153, 102, 255, 0.2);
+    color: rgba(255, 159, 64, 0.2);
+    
+    color: rgb(112, 221, 98);
+
+
+    /* height: 300px !important; */
+}
+
+.body-dashboard-2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px;
+    /* height: 300px !important; */
+}
+
+#chart-main, #chart-warehouses, #chart-ventas, #chart-other{
+    /* height: 300px; */
+    width: 100% !important;
 }
 
 .footer-dashboard {
