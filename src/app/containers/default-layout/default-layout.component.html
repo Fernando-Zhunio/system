@@ -25,10 +25,28 @@
       <mat-icon>light_mode</mat-icon>&nbsp;<mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>&nbsp;<mat-icon>nightlight</mat-icon>
     </li>
     <li class="nav-item ">
-      <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button>
+      <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
         <mat-icon color="primary" #IconNotify [matBadge]="countNotificationUnRead" matBadgePosition="above after"
           matBadgeColor="accent">notifications
         </mat-icon>
+        
+        <ng-container *ngIf="isProgressDowloadReport">
+          <small  style="line-height: 1;
+          font-family: 'Montserrat';
+          font-weight: 800;
+          position: absolute;
+          bottom: 18px;
+    left: 25px;
+    background: aqua;
+    display: inline-block;
+    height: 20px;
+    border-radius: 9px;
+    padding: 5px;
+    z-index: 1;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    ">{{progressDowloadReport}}%</small> 
+        </ng-container>
+        
       </button>
       <mat-menu class="custom-menu-notification" #menu1="matMenu" [overlapTrigger]="false" >
         <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
@@ -83,6 +101,7 @@
 </app-header>
 <!-- <div class="app-body" [ngClass]="[isDark?'dark-super':'not-dark-super']"> -->
   <div class="app-body">
+    
   <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
     (minimizedChange)="toggleMinimize($event)">
     <app-sidebar-nav #appSidebarNav [navItems]="navItems" [style.background]="colorSidebarLeft" [perfectScrollbar]

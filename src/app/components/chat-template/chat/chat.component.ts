@@ -271,24 +271,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     message.files[0]['isload'] = true;
     this.s_shared.download(`storage/attachments?file=${file}`)
       .subscribe((event:  HttpEvent<Blob> ) => {
-        // if (event.type === HttpEventType.UploadProgress) {
-        //   // This is an upload progress event. Compute and show the % done:
-        //   const percentDone = Math.round(100 * event.loaded / event.total);
-        //   console.log(`File is ${percentDone}% uploaded.`);
-        // } else if (event instanceof  Blob) {
-        //   console.log('File is completely uploaded!');
-        //   const blob = new Blob([event], { type: 'application/ms-Excel' });
-        //   const urlDownload = window.URL.createObjectURL(blob);
-        //   const a = document.createElement('a');
-        //   document.body.appendChild(a);
-        //   a.setAttribute('style', 'display: none');
-        //   a.href = urlDownload;
-        //   a.download = name;
-        //   a.click();
-        //   window.URL.revokeObjectURL(urlDownload);
-        //   a.remove();
-        //   message.files[0]['isload'] = false;
-        // }
         let progress = 0;
         switch (event.type) {
           case HttpEventType.Sent:

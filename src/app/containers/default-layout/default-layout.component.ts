@@ -17,6 +17,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { EchoManager } from '../../class/echo-manager';
 import Echo from 'laravel-echo';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,6 +52,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public isDark: boolean = false;
   public TYPE_NOTY_SOUND = 'general_notification_sound';
   public hideUsersChat: boolean = false;
+  public progressDowloadReport: number = 0;
+  public isProgressDowloadReport: boolean = false;
   public TYPE_NOTY_WEBPUSH = {
     value: 'general_notification_webpush',
     state: false,
@@ -257,11 +260,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.colorSidebarLeft = event.target.value;
     localStorage.setItem('color_sidebar_left', event.target.value);
   }
-
+ 
   goRouteNotification(url: string): void {
     if (url && url.includes('reports/general-stock/download')) {
       this.downloadStock(url);
-      SwalService.swalToast('Tu descarga iniciara en unos instantes');
+      // SwalService.swalToast('Tu descarga iniciara en unos instantes');
       return;
     }
     if (url) {
@@ -284,26 +287,63 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   downloadStock(url): void {
     const convertUrlNg = url.split('?');
-    // console.log(url, convertUrlNg);
+    console.log(url, convertUrlNg);
     const nameFile = convertUrlNg[1]
       .replace(/\+-\+/gm, '_')
       .replace('file_name=reports%2FSTOCK+GENERAL', '');
+    this.isProgressDowloadReport = true;
     this.s_shared
       .download(
         'reports/general-stock/download?' + convertUrlNg[1]
       )
-      .subscribe((res: any) => {
-        const blob = new Blob([res], { type: 'application/ms-Excel' });
-        const urlDownload = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = urlDownload;
-        a.download = 'reporte_de_stock' + nameFile;
-        a.click();
-        window.URL.revokeObjectURL(urlDownload);
-        a.remove();
-      });
+      .subscribe((event: any) => {
+        // console.log("descargando");
+        
+        // const blob = new Blob([res], { type: 'application/ms-Excel' });
+        // const urlDownload = window.URL.createObjectURL(blob);
+        // const a = document.createElement('a');
+        // document.body.appendChild(a);
+        // a.setAttribute('style', 'display: none');
+        // a.href = urlDownload;
+        // a.download = 'reporte_de_stock' + nameFile;
+        // a.click();
+        // window.URL.revokeObjectURL(urlDownload);
+        // a.remove();
+        let progress = 0;
+        switch (event.type) {
+          case HttpEventType.Sent:
+            console.log('Request has been made!');
+            break;
+          case HttpEventType.ResponseHeader:
+            console.log('Response header has been received!');
+            break;
+          case HttpEventType.DownloadProgress:
+            console.log(event);
+            console.log(event.loaded , event.total);
+            
+            progress = Math.round(event.loaded / event.total * 100);
+            this.progressDowloadReport = progress;
+            console.log(`Uploaded! ${progress}%`);
+            break;
+          case HttpEventType.Response:
+            console.log('File is completely uploaded!');
+              const blob = new Blob([event.body], { type: 'application/ms-Excel' });
+              const urlDownload = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              document.body.appendChild(a);
+              a.setAttribute('style', 'display: none');
+              a.href = urlDownload;
+              a.download = 'reporte_de_stock' + nameFile;
+              a.click();
+              window.URL.revokeObjectURL(urlDownload);
+              a.remove();
+              setTimeout(() => {
+                this.isProgressDowloadReport = false;
+                this.progressDowloadReport = 0;
+              }, 1500);
+            console.log('User successfully created!', event.body);
+        }
+      }, (err) => { this.isProgressDowloadReport = false; });
   }
 
   // getValueDark(): void {
