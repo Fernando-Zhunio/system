@@ -7,19 +7,19 @@ import { CategoriasCreateOrEditComponent } from './categorias-create-or-edit/cat
 import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
-@Component({
-  selector: 'app-productos',
-  template: '<router-outlet></router-outlet>',
+// @Component({
+//   selector: 'app-productos',
+//   template: '<router-outlet></router-outlet>',
 
-})
-export class CategoriasMainComponents  {
-}
+// })
+// export class CategoriasMainComponents  {
+// }
 
 
 const routes: Routes = [
   {
     path: '',
-    component:CategoriasMainComponents,
+    // component:CategoriasMainComponents,
     data: {
       name: 'categorias_main',
       isEdit: false,

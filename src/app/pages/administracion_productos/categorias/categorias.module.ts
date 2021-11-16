@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoriasComponent } from './categorias.component';
 import { CategoriasCreateOrEditComponent } from './categorias-create-or-edit/categorias-create-or-edit.component';
-import { CategoriasRoutingModule,CategoriasMainComponents } from './categorias-routing.module ';
+import { CategoriasRoutingModule } from './categorias-routing.module ';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
-  declarations: [CategoriasComponent, CategoriasCreateOrEditComponent,CategoriasMainComponents],
+  declarations: [CategoriasComponent, CategoriasCreateOrEditComponent],
   imports: [
     CommonModule,
     CategoriasRoutingModule,

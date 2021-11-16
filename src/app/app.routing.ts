@@ -1,6 +1,5 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NgxPermissionsGuard } from 'ngx-permissions';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 
@@ -8,7 +7,6 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
 import { DefaultLayoutComponent } from './containers';
 import { AuthReverseGuard } from './guards/auth-reverse.guard';
 import { AuthGuard } from './guards/auth.guard';
-import { CapturePasswordComponent } from './pages/authenticate/capture-password/capture-password.component';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -18,8 +16,6 @@ import { RegisterComponent } from './views/register/register.component';
 
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
-import { CreateGroupChatComponent } from './pages/chats/create-group-chat/create-group-chat.component';
-
 
 export const routes: Routes = [
   {

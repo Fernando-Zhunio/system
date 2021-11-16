@@ -97,7 +97,6 @@
       }
     ]
   },
-
   {
     "Portoviejo": [
       {
@@ -120,7 +119,6 @@
       }
     ]
   },
-
   {
     "Quito": [
       {
@@ -254,7 +252,6 @@
       }
     ]
   },
-
   {
     "Santo Domingo de los Tsachilas": [
       {
@@ -265,46 +262,36 @@
       }
     ]
   },
-
   {
     "Loja": [
       {
         "name": "NOVICOMPU LOJA",
         "address": "BOLIVAR Y ROCAFUERTE ESQ. LOCAL #0942 - PORTAL DEL PARQUE STO DOMINGO.",
         "telefono": "0993330928",
-        "days": [
-          { "day": "LUNES A SÁBADO ", "hour": "10:00AM A 7:30PM" }
-        ]
+        "days": [{ "day": "LUNES A SÁBADO ", "hour": "10:00AM A 7:30PM" }]
       }
     ]
   },
-
   {
     "Quevedo": [
       {
         "name": "NOVICOMPU QUEVEDO",
         "address": "CALLE 7 DE OCTUBRE Y 4TA ESQUINA BCO INTERNACIONAL.",
         "telefono": "0963267223",
-        "days": [
-          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 6:30PM" }
-        ]
+        "days": [{ "day": "LUNES A SÁBADO ", "hour": "09:00AM A 6:30PM" }]
       }
     ]
   },
-
   {
     "Riobamba": [
       {
         "name": "NOVICOMPU RIOBAMBA",
         "address": "PRIMERA CONSTITUYENTE 26-25 GARCIA MORENO FRENTE BCO GYE.",
         "telefono": "0988225205",
-        "days": [
-          { "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" }
-        ]
+        "days": [{ "day": "LUNES A SÁBADO ", "hour": "09:00AM A 7:00PM" }]
       }
     ]
   },
-
   {
     "Babahoyo": [
       {
@@ -315,7 +302,6 @@
       }
     ]
   },
-
   {
     "Ibarra": [
       {
@@ -326,7 +312,6 @@
       }
     ]
   },
-
   {
     "La Libertad": [
       {
@@ -337,7 +322,6 @@
       }
     ]
   },
-
   {
     "Milagro": [
       {
@@ -356,6 +340,14 @@
         "days": null
       }
     ]
+  },
+  { "Esmeraldas": [
+    {
+      "name": "NOVICOMPU ESMERALDAS",
+      "address": "ROCAFUERTE M44 SL7 AV. SUCRE ESQ CENTRO DE CIUDAD ",
+      "telefono": null,
+      "days": null
+    }
+    ] 
   }
 ]
-

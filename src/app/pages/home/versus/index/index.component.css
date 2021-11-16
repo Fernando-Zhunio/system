@@ -1,0 +1,22 @@
+.btns-versus {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* margin-top: 20px; */
+}
+
+.btns-versus > .rounded-fz{
+    cursor: pointer;
+}
+
+.btns-versus > .rounded-fz:hover{
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+    
+}
+
+.font-fz div{
+    font-family: "Montserrat";
+    line-height: 1;
+}

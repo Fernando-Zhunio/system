@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HomeRoutingModule, HomeMainComponents} from './home-routing.module'
+import {HomeRoutingModule} from './home-routing.module';
 import { InicioComponent } from './inicio/inicio.component';
 import { MomentModule } from 'ngx-moment';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,13 +20,16 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { CompareCompanyComponent } from './dashboard/compare-company/compare-company.component';
 import { MatCardModule } from '@angular/material/card';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
-  declarations: [CompareProductComponent, InicioComponent,HomeMainComponents, DashboardComponent, ViewForComponent, CompareCompanyComponent],
+  declarations: [CompareProductComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
+    ReactiveFormsModule,
     MomentModule,
     MatIconModule,
     MatButtonModule,
@@ -41,7 +44,9 @@ import { MatCardModule } from '@angular/material/card';
     MatSelectModule,
     MatNativeDateModule,
     MatCardModule,
+    NgxSpinnerModule,
+    MatTableModule
   ],
-  entryComponents:[CompareProductComponent]
+  entryComponents: [CompareProductComponent]
 })
 export class HomeModule { }

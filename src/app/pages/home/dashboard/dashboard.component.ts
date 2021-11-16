@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { Chart } from 'chart.js';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import { StorageService } from '../../../services/storage.service';
 
 
@@ -12,6 +16,12 @@ interface IdataJsonHeaderDashboard {
   text_footer: any;
   // }
 }
+
+interface IsellCity{
+  id: number;
+  name: string;
+  total: number;
+}
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,7 +29,7 @@ interface IdataJsonHeaderDashboard {
 })
 export class DashboardComponent implements OnInit {
   constructor(private _bottomSheet: MatBottomSheet,
-    private _dialog: MatDialog, private s_storage: StorageService) {}
+    private _dialog: MatDialog, private s_storage: StorageService, private spinner: NgxSpinnerService) {}
 
   dataJsonHeaderDashbardProduct: IdataJsonHeaderDashboard = {
     for: 'mes',
@@ -31,19 +41,43 @@ export class DashboardComponent implements OnInit {
     },
   };
 
-  companies: any[] = []
+  companies: any[] = [];
 
 
   isCompare: boolean = false;
+  now: Date = new Date();
   currentCompare: 'productos'|'locales';
   current_item: 'product'|'warehouse';
   isCompareCompany: boolean = false;
   chartProduct: Chart = null;
   chartLocales: Chart = null;
   chartVentas: Chart = null;
+  total_sell: number = 0;
+  formDate: FormGroup = new FormGroup({
+    star_date: new FormControl(new Date()),
+    end_date: new FormControl(new Date()),
+  });
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'total',
+  ];
+  ELEMENT_DATA: IsellCity[] = [
+    {id: 1, name: 'Hydrogen', total: 1.0079},
+    {id: 2, name: 'Helium', total: 4.0026},
+    {id: 3, name: 'Lithium', total: 6.941},
+    {id: 4, name: 'Beryllium', total: 9.0122},
+    {id: 5, name: 'Boron', total: 10.811},
+    {id: 6, name: 'Carbon', total: 12.0107},
+    {id: 7, name: 'Nitrogen', total: 14.0067},
+    {id: 8, name: 'Oxygen', total: 15.9994},
+  ];
+  dataSource = new MatTableDataSource<IsellCity>(this.ELEMENT_DATA);
+
 
   ngOnInit(): void {
     this.companies = this.s_storage.getCurrentUser().companies;
+    // this.spinner.show('total-ventas');
     this.createChartProduct();
     this.createChartLocales();
     this.createChartVentas();
@@ -108,14 +142,15 @@ export class DashboardComponent implements OnInit {
               'rgba(255, 159, 64, 1)',
             ],
             borderWidth: 1,
-          },
+          }, 
         ],
       },
       options: {
-        responsive: false,
-        // maintainAspectRatio: false,
-        // responsive: true,
-        // aspectRatio: 2,
+        // responsive: false,
+        maintainAspectRatio: false,
+
+        responsive: true,
+        // aspectRatio: 1,
         // scales: {
         //   y: {
         //     stacked: true,
@@ -166,16 +201,18 @@ export class DashboardComponent implements OnInit {
       },
       options: {
         responsive: true,
-        aspectRatio: 1,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Chart.js Doughnut Chart',
-          },
-        },
+        maintainAspectRatio: false,
+
+        // aspectRatio: 1,
+        // plugins: {
+        //   legend: {
+        //     position: 'top',
+        //   },
+        //   title: {
+        //     display: true,
+        //     text: 'Chart.js Doughnut Chart',
+        //   },
+        // },
       },
     };
     this.chartLocales = new Chart('chart-warehouses', data);

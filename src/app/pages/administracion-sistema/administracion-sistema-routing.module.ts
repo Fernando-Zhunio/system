@@ -1,14 +1,10 @@
 import { Component, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupProductsComponent } from '../reportes/group-products/group-products.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { CreateOrEditGroupProductsComponent } from '../reportes/group-products/create-or-edit-group-products/create-or-edit-group-products.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { CreateOrEditComponent } from './usuarios/create-or-edit/create-or-edit.component';
 import { RolesComponent } from './roles/roles.component';
 import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
-import { IpermissionStandart } from '../../interfaces/ipermission-standart';
 import { PaisesComponent } from './paises/paises.component';
 import { LocacionesComponent } from './locaciones/locaciones.component';
 import { CreateOrEditLocationComponent } from './locaciones/create-or-edit-location/create-or-edit-location.component';
@@ -24,58 +20,58 @@ import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-s
 // import { ComprasAutomaticasComponent } from "./compras-automaticas/compras-automaticas.component";
 // import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
 
-@Component({
-  selector: 'app-as-users',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADUsersMainComponents {}
+// @Component({
+//   selector: 'app-as-users',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADUsersMainComponents {}
 
-@Component({
-  selector: 'app-as-roles',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADRolesMainComponents {}
+// @Component({
+//   selector: 'app-as-roles',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADRolesMainComponents {}
 
-@Component({
-  selector: 'app-as-paises',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADPaisesMainComponents {}
+// @Component({
+//   selector: 'app-as-paises',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADPaisesMainComponents {}
 
-@Component({
-  selector: 'app-as-locaciones',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADLocationsMainComponents {}
+// @Component({
+//   selector: 'app-as-locaciones',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADLocationsMainComponents {}
 
-@Component({
-  selector: 'app-as-personas',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADPersonasMainComponents {}
+// @Component({
+//   selector: 'app-as-personas',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADPersonasMainComponents {}
 
-@Component({
-  selector: 'app-as-mercado-libre-account',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADMercadoLibreAdminMainComponents {}
+// @Component({
+//   selector: 'app-as-mercado-libre-account',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADMercadoLibreAdminMainComponents {}
 
-@Component({
-  selector: 'app-as-facebook-ads-manager',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADFacebookAdsManagerMainComponents {}
+// @Component({
+//   selector: 'app-as-facebook-ads-manager',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADFacebookAdsManagerMainComponents {}
 
-@Component({
-  selector: 'app-vtex-sites',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADVtexSitesMainComponents {}
-@Component({
-  selector: 'app-vtex-warehouses',
-  template: '<router-outlet></router-outlet>',
-})
-export class ADVtexWarehousesMainComponents {}
+// @Component({
+//   selector: 'app-vtex-sites',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADVtexSitesMainComponents {}
+// @Component({
+//   selector: 'app-vtex-warehouses',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ADVtexWarehousesMainComponents {}
 
 const permission_module_AD = {
   usuarios: {
@@ -157,7 +153,7 @@ const routes: Routes = [
   // usuarios
   {
     path: 'usuarios',
-    component: ADUsersMainComponents,
+    // component: ADUsersMainComponents,
     children: [
       {
         path: '',
@@ -203,7 +199,7 @@ const routes: Routes = [
   // personas
   {
     path: 'personas',
-    component: ADPersonasMainComponents,
+    // component: ADPersonasMainComponents,
     children: [
       {
         path: '',
@@ -250,7 +246,7 @@ const routes: Routes = [
   // roles
   {
     path: 'roles',
-    component: ADRolesMainComponents,
+    // component: ADRolesMainComponents,
     children: [
       {
         path: '',
@@ -297,7 +293,7 @@ const routes: Routes = [
   // paises
   {
     path: 'paises',
-    component: ADPaisesMainComponents,
+    // component: ADPaisesMainComponents,
     children: [
       {
         path: '',
@@ -343,7 +339,7 @@ const routes: Routes = [
   // locaciones
   {
     path: 'locaciones',
-    component: ADLocationsMainComponents,
+    // component: ADLocationsMainComponents,
     children: [
       {
         path: '',
@@ -389,7 +385,7 @@ const routes: Routes = [
   // mercado libre admin
   {
     path: 'mercado-libre/cuentas',
-    component: ADMercadoLibreAdminMainComponents,
+    // component: ADMercadoLibreAdminMainComponents,
     children: [
       {
         path: '',
@@ -437,7 +433,7 @@ const routes: Routes = [
   // Facebook ads manager
   {
     path: 'facebook-ads-manager',
-    component: ADFacebookAdsManagerMainComponents,
+    // component: ADFacebookAdsManagerMainComponents,
     children: [
       {
         path: '',
@@ -485,7 +481,7 @@ const routes: Routes = [
   // Vtex Sites
   {
     path: 'vtex-sites',
-    component: ADVtexSitesMainComponents,
+    // component: ADVtexSitesMainComponents,
     children: [
       {
         path: '',
@@ -524,7 +520,7 @@ const routes: Routes = [
        // Vtex Warehouse
        {
         path: ':id/vtex-warehouses',
-        component: ADVtexWarehousesMainComponents,
+        // component: ADVtexWarehousesMainComponents,
         children: [
           {
             path: '',

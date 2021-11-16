@@ -158,9 +158,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.suscripted = this.ngfor.changes.subscribe((data) => {
-      // console.log(data);
       const hasBottom = this.scrollContainer.scrollTop + this.scrollContainer.clientHeight  < this.scrollContainer.scrollHeight - (this.scrollContainer.clientHeight * 2) 
-      // console.log(hasBottom);
       if (hasBottom && !this.firstScroll) {
         this.hasNewMessages = (!this.not_bottom && !data.last.nativeElement.className.includes('text-right'));
         this.disableScroll = true;
@@ -282,7 +280,6 @@ export class ChatComponent implements OnInit, OnDestroy {
           case HttpEventType.DownloadProgress:
             console.log(event);
             console.log(event.loaded , event.total);
-            
             progress = Math.round(event.loaded / event.total * 100);
             message.files[0].progress = progress;
             console.log(`Uploaded! ${progress}%`);

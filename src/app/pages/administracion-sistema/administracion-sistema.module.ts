@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import {  AdminSystemRoutingModule, ADRolesMainComponents, ADUsersMainComponents, ADPaisesMainComponents, ADLocationsMainComponents, ADPersonasMainComponents, ADMercadoLibreAdminMainComponents, ADFacebookAdsManagerMainComponents, ADVtexWarehousesMainComponents, ADVtexSitesMainComponents } from './administracion-sistema-routing.module';
+import {  AdminSystemRoutingModule } from './administracion-sistema-routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -60,25 +60,18 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
     CreateEmailModalComponent,
     UsuariosComponent,
-    ADUsersMainComponents,
-    ADRolesMainComponents,
     CreateOrEditComponent,
     RolesComponent,
     CreateOrEditRolesComponent,
     PaisesComponent,
-    ADPaisesMainComponents,
     CreateOrEditCountryComponent,
     LocacionesComponent,
     CreateOrEditLocationComponent,
-    ADLocationsMainComponents,
     PersonasComponent,
-    ADPersonasMainComponents,
     PersonComponent,
     CreateOrEditPersonComponent,
     MercadoLibreAdminComponent,
-    ADMercadoLibreAdminMainComponents,
     MercadoLibreCreateOrEditComponent,
-    ADFacebookAdsManagerMainComponents,
     FacebookAdsManagerComponent,
     FacebookAdsModalComponent,
     FacebookAdsCampaignComponent,
@@ -87,9 +80,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     ModalAssignUserComponent,
     VtexWarehousesComponent,
     CreateOrEditVtexWarehousesComponent,
-    ADVtexWarehousesMainComponents,
     VtexSitesComponent,
-    ADVtexSitesMainComponents,
     CreateOrEditVtexSiteComponent,
     VtexSiteComponent
     ],

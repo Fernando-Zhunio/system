@@ -4,25 +4,25 @@ import { Routes, RouterModule } from '@angular/router';
 // import { CategoriasComponent } from './categorias/categorias.component';
 // import { CategoriasCreateOrEditComponent } from './categorias/categorias-create-or-edit/categorias-create-or-edit.component';
 // import { CategoriasMainComponent } from './categorias-main.component';
-import { Component } from '@angular/core';
+// import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { IndexComponent } from './index/index.component';
 import { CreateOrEditComponent } from './create-or-edit/create-or-edit.component';
-import { VtexPricesComponent } from './vtex-prices/vtex-prices.component';
-import { VtexPriceGuard } from '../../../guards/resolvers/vtex-price.guard';
+// import { VtexPricesComponent } from './vtex-prices/vtex-prices.component';
+// import { VtexPriceGuard } from '../../../guards/resolvers/vtex-price.guard';
 
-@Component({
-  selector: 'app-vtex-products',
-  template: '<router-outlet></router-outlet>',
+// @Component({
+//   selector: 'app-vtex-products',
+//   template: '<router-outlet></router-outlet>',
 
-})
-export class AdminVtexProductsMainComponents  {
-}
+// })
+// export class AdminVtexProductsMainComponents  {
+// }
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminVtexProductsMainComponents,
+    // component: AdminVtexProductsMainComponents,
     data: { name: 'products_vtex_admin'},
     children: [
       {

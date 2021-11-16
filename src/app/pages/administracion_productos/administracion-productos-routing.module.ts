@@ -7,18 +7,18 @@ import { CategoriasCreateOrEditComponent } from './categorias/categorias-create-
 import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
-@Component({
-  selector: 'app-admin-products',
-  template: '<router-outlet></router-outlet>',
+// @Component({
+//   selector: 'app-admin-products',
+//   template: '<router-outlet></router-outlet>',
 
-})
-export class AdminProductsMainComponents  {}
+// })
+// export class AdminProductsMainComponents  {}
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminProductsMainComponents,
+    // component: AdminProductsMainComponents,
     data: {name: 'products_admin'},
     children: [
       {

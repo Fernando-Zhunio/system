@@ -6,23 +6,21 @@ import { ProductCreateOrEditComponent } from './product-create-or-edit/product-c
 import { ProductosComponent } from './productos.component';
 import { Component } from '@angular/core';
 
-@Component({
-  selector: 'app-productos',
-  template: '<router-outlet></router-outlet>',
-})
-export class ProductosMainComponent  {
-
-}
+// @Component({
+//   selector: 'app-productos',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ProductosMainComponent  {}
 const routes: Routes = [
   {
     path: '',
-    component:ProductosMainComponent,
-    data:{name: 'productosMain'},
+    // component: ProductosMainComponent,
+    data: {name: 'productosMain'},
     children: [
       {
         path: '',
         component: ProductosComponent,
-        data: {reuse:true,name:'productos'}
+        data: {reuse: true, name: 'productos'}
       },
       {
         path: 'create',
@@ -30,7 +28,7 @@ const routes: Routes = [
         data: {
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.product.create"],
+            only: ['super-admin', 'products-admin.product.create'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -42,7 +40,7 @@ const routes: Routes = [
         data: {
           isEdit: true,
           permissions: {
-            only: ["super-admin", "products-admin.product.edit"],
+            only: ['super-admin', 'products-admin.product.edit'],
           },
         },
         canActivate: [NgxPermissionsGuard],

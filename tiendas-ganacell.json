@@ -2,7 +2,7 @@
   {
       "Guayaquil": [
           {
-              "address": "C.C. PLAZA QUIL: Av. Luis Plaza Dañin y Fco. Boloña (frente a mi Comisariato) Local 82 y 84",
+              "address": "C.C. PLAZA QUIL: LUIS PLAZA DAÑIN SN ATRÁS DE SAN MARINO LOCAL 8",
               "telefono": "0963212672",
               "days": [
                   { "day": "LUNES a SÁBADO", "hour": "08:30 A 19:00" },
@@ -10,7 +10,7 @@
               ]
           },
           {
-              "address": "C.C. Unicentro Calle Aguirre entre Chimborazo y, Chile Isla 1012 planta baja",
+              "address": "C.C. UNICENTRO : ROCAFUERTE AGUIRRE 0411 TM4",
               "telefono": "0997879073",
               "days": [
                   { "day": "LUNES a VIERNES", "hour": "10:00 a 19:00" },
@@ -19,7 +19,7 @@
               ]
           },
           {
-              "address": "C.C. LA ROTONDA, local 27 (junto a de Prati).",
+              "address": "C.C. LA ROTONDA AV BENJAMIN CARRION MORA LOCAL 27 JUNTO A DE PRATI.",
               "telefono": "0986544073 -  0984709752",
               "days": [
                   { "day": "LUNES a SÁBADO", "hour": "10:00 a 20:00" },
@@ -27,11 +27,11 @@
               ]
           },
           {
-              "address": "Edificio Blue Tower (Av. Francisco de Orellana) Piso 8 Oficina 813.",
-              "telefono": "0959020899 - 0988996435 - 0979455377",
+              "address": "Ciudadela Kennedy norte AV. Francisco Orellana solar 5 Y Eugenio Almazan (Junto a Juan Marcet)",
+              "telefono": null,
               "days": [
-                  { "day": "LUNES a SÁBADO", "hour": "09:00 a 18:30" },
-                  { "day": "DOMINGO", "hour": "10:00 a 16:00" }
+                  { "day": "LUNES a SÁBADO", "hour": "08:30 A 19:30" },
+                  { "day": "DOMINGO", "hour": "10:00 A 17:00" }
               ]
           }
       ]
@@ -39,14 +39,14 @@
   {
       "Quito": [
           {
-              "address": "Edificio CITY CENTER: Av. Los Shyris nº44-26 y Av. Rio Coca, local 1 junto a samsung",
+              "address": "AV RIO COCA N44-26 AV LOS SHIRYS  JUNTO A NOVITECNOLOGIA.",
               "telefono": "0990383178",
               "days": [
                   { "day": "LUNES A SÁBADO", "hour": "08H30 a 19H00" }
               ]
           },
           {
-              "address": "Ganacell Espiral, centro comercial Espiral calle Jorge Washington n20-80 y rio Amazonas local 38 planta baja.",
+              "address": "CC ESPIRAL AV. AMAZONAS Y AV. JORGE WHASHINTON N20-80 FRENTE A CELULARMANIA.",
               "telefono": "0980386322",
               "days": [
                   { "day": "LUNES A SÁBADO ", "hour": "09:30 a 19:00" }
@@ -68,7 +68,7 @@
   {
       "Portoviejo": [
           {
-              "address": "Avenida Manabi y Quito junto a Importadora Novoa y Diagonal al edificio World Plaza",
+              "address": "Avenida Manabi y Quito junto a Importadora Novoa y Diagonal al edificio World Plaza.",
               "telefono": "0999551320",
               "days": [
                   { "day": "LUNES a SÁBADO", "hour": "09:00 a 19:00" },
@@ -80,7 +80,7 @@
   {
       "Machala": [
           {
-              "address": "C.C. Oro plaza junto a ciudad verde local 230",
+              "address": "CC ORO PLAZA: AV 25 DE JUNIO CIUDAD VERDE KM25 SEGUNDA PLANTA LOCAL #230 GANACELL",
               "telefono": "0990695654",
               "days": [
                   { "day": "LUNES a SÁBADO", "hour": "09:00 a 19:00" },
@@ -92,7 +92,7 @@
   {
       "Santo Domingo": [
           {
-              "address": "Av. 29 de mayo y calle Cocaniguas a lado de tatuajes Apocalíptica.",
+              "address": "24 DE MAYO AV 29 DE MAYO COCANIGUAS FRENTE A IMPRENTA STO DOMINGO .",
               "telefono": "0997353583 - 0984335636",
               "days": [
                   { "day": "LUNES A SÁBADO", "hour": "09:00 a 19:00" }
@@ -103,7 +103,7 @@
   {
       "Cuenca": [
           {
-              "address": "Bodega 49, Edificio CICA, planta baja Av. Solano entre Av. Remigio Crespo y Av. Florencia Astudillo",
+              "address": "AV. FRAY VICENTE SOLANO EDIFICIO CICA LOCAL 5.",
               "telefono": "0992573458",
               "days": [
                   { "day": "LUNES A SÁBADO", "hour": "08:30 a 18:30" }
