@@ -1,0 +1,15 @@
+<mat-card class="rounded-fz shadow p-3">
+    <ngx-spinner name="isload-chart-product" bdColor="rgba(0, 0, 0, 0.1)" size="medium" color="rgba(0, 0, 0,0.5)" type="ball-triangle-path" [fullScreen]="false">
+        <p class="mt-5 pt-5 font-montserrat rounded-fz" style="color: #7e7b7b" > Cargando... </p>
+    </ngx-spinner>
+    <h3 class="font-montserrat font-3xl font-weight-bolder">Productos</h3>
+    <div class="d-flex align-items-center">
+        <mat-radio-group (change)="updateChart($event)" [(ngModel)]="for" aria-label="Select an option">
+            <mat-radio-button value="desc">Mas vendidos</mat-radio-button>
+            <mat-radio-button value="asc">Menos vendidos</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div style="height: 400px;" class="d-flex align-items-center position-relative">
+      <canvas style="height: 400px;" id="chart-product"></canvas>
+    </div>
+  </mat-card>

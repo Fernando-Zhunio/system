@@ -1,5 +1,7 @@
 // @import "variables";
 @import "~@coreui/coreui/scss/coreui";
+@import '~air-datepicker/air-datepicker.css';
+
 // @import "custom";
 @import "theme";
 @import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap');
@@ -15,6 +17,10 @@
         font-size: 14px;
         margin: 0 !important;
     }
+}
+
+.ngx-daterangepicker-material{
+    z-index: 10000;
 }
 
 .filepond--drop-label{

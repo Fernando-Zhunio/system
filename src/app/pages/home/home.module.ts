@@ -20,16 +20,26 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { CompareCompanyComponent } from './dashboard/compare-company/compare-company.component';
 import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { SellChartComponent } from './dashboard/chart/sell-chart/sell-chart.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { ProductChartComponent } from './dashboard/chart/product-chart/product-chart.component';
+// import { ChartJSModule } from '../../views/chartjs/chartjs.module';
+// import { NgChartsModule } from 'ng2-charts';
+
+
 
 @NgModule({
-  declarations: [CompareProductComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent],
+  declarations: [CompareProductComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     MomentModule,
     MatIconModule,
     MatButtonModule,
@@ -45,7 +55,11 @@ import { MatTableModule } from '@angular/material/table';
     MatNativeDateModule,
     MatCardModule,
     NgxSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule,
+    MatPaginatorModule,
+    MatRadioModule,
+    // ChartJSModule,
   ],
   entryComponents: [CompareProductComponent]
 })
