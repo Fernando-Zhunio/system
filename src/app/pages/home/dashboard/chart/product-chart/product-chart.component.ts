@@ -14,7 +14,7 @@ export class ProductChartComponent implements OnInit {
 
   constructor(private spinner: NgxSpinnerService) { }
   @Input() s_stardart: StandartSearchService;
-  @Input() dates;
+  @Input() dates: {first_date: any[], last_date: any[]};
   chart: Chart;
   for: 'asc'|'desc' = 'desc';
 
@@ -53,14 +53,13 @@ export class ProductChartComponent implements OnInit {
     this.spinner.show('isload-chart-product');
 
     const date = this.dates;
-    this.s_stardart.index(`dashboard/stats/sum?start_date=${date.start_date}&end_date=${date.end_date}&key=product-sales-count&limit=5${event ? '&order=' + event.value : ''}`).subscribe((res) => {
+    this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=product-sales-count&limit=5${event ? '&order=' + event.value : ''}`).subscribe((res) => {
       const data = res.data.data as ItopDashboard<IstatisticableProduct>[];
       this.chart.data.datasets[0].data = [];
       this.chart.data.datasets[0].data =  data.map(item => item._total);
       this.chart.data.labels = data.map(item => item.statisticable.code + ' - ' + item.statisticable.name.split(' ')[0]);
       this.chart.update();
       this.spinner.hide('isload-chart-product');
-
     });
   }
 

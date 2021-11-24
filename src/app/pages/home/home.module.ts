@@ -13,7 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatChipsModule } from '@angular/material/chips';
-import { CompareProductComponent } from './dashboard/modals/compare-product/compare-product.component';
+// import { CompareProductComponent } from './dashboard/modals/compare-product/compare-product.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -28,13 +28,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SellChartComponent } from './dashboard/chart/sell-chart/sell-chart.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { ProductChartComponent } from './dashboard/chart/product-chart/product-chart.component';
-// import { ChartJSModule } from '../../views/chartjs/chartjs.module';
-// import { NgChartsModule } from 'ng2-charts';
-
-
-
+import { CategoryChartComponent } from './dashboard/chart/category-chart/category-chart.component';
+import { IndexComponent } from './versus/index/index.component';
+import { SelectDatesDashboardComponent } from './dashboard/modals/select-dates-dashboard/select-dates-dashboard.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
-  declarations: [CompareProductComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent],
+  declarations: [IndexComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -59,8 +58,9 @@ import { ProductChartComponent } from './dashboard/chart/product-chart/product-c
     MatSlideToggleModule,
     MatPaginatorModule,
     MatRadioModule,
-    // ChartJSModule,
+    MatNativeDateModule,
+    MatDialogModule
   ],
-  entryComponents: [CompareProductComponent]
+  entryComponents: [SelectDatesDashboardComponent]
 })
 export class HomeModule { }

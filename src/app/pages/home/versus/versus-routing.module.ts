@@ -2,20 +2,20 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // import { CategoriasMainComponent } from './categorias-main.component';
-import { Component } from '@angular/core';
+// import { Component } from '@angular/core';
 
 // import { InicioComponent } from '../inicio/inicio.component';
 // import { DashboardComponent } from '../dashboard/dashboard.component';
 // import { NgxPermissionsGuard } from 'ngx-permissions';
-import { IndexComponent } from './index/index.component';
+// import { IndexComponent } from './index/index.component';
 import { VersusProductosComponent } from './versus-productos/versus-productos.component';
-
-@Component({
-  selector: 'app-versus_main',
-  template: '<router-outlet></router-outlet>',
-})
-export class VersusMainComponents  {
-}
+import { VersusCategoriasComponent } from './versus-categorias/versus-categorias.component';
+// @Component({
+//   selector: 'app-versus_main',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class VersusMainComponents  {
+// }
 
 const permission_module = {
   publicaciones: {
@@ -28,30 +28,23 @@ const permission_module = {
 };
 
 const routes: Routes = [
+  // {
+  //       path: '',
+  //       component: IndexComponent,
+  // },
   {
-        path: '',
-        component: IndexComponent,
+    path: 'products',
+    component: VersusProductosComponent
   },
   {
-    path: 'productos',
-    component: VersusProductosComponent
+    path: 'categories',
+    component: VersusCategoriasComponent
   }
-  // {
-  //       path: 'dashboard',
-  //       component: DashboardComponent,
-  //       // data: {name:'dashboard',reuse:true},
-  //       data: {
-  //         isEdit: true,
-  //         permissions: {
-  //           only: ['super-admin', 'dashboard'],
-  //         },
-  //       },
-  //       canActivate: [NgxPermissionsGuard],
-  //  },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+exports: [RouterModule]
 })
 export class VersusRoutingModule {}

@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import AirDatepicker from 'air-datepicker';
 import { Chart } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Iproduct2 } from '../../../../interfaces/iproducts';
 import { StandartSearchService } from '../../../../services/standart-search.service';
+import localeEs from 'air-datepicker/locale/es';
+import * as moment from 'moment';
+import { SharedService } from '../../../../services/shared/shared.service';
+import { IcompareGraph, Idates } from '../../../../interfaces/idashboard';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-versus-productos',
@@ -16,10 +22,30 @@ export class VersusProductosComponent implements OnInit {
   productsSelect: Map<number, Iproduct2> = new Map<number, Iproduct2>();
   searchText: string = '';
   isload: boolean = false;
-  chartVersus: Chart;
+  chart: Chart;
+  isVersus: boolean = false;
+  airDate: AirDatepicker;
+  dateRangeStart: { start_date: string, end_date: string } = { start_date: moment().subtract(7, 'days').format(), end_date: moment().format() };
+  options = {
+    locale: localeEs,
+    dateFormat: 'yyyy MMMM dd',
+    range: true,
+    multipleDatesSeparator: ' A ',
+    buttons: [
+      {
+        content() { return 'Aplicar'; },
+        onClick: (dp) => {
+          this.goVersus();
+        },
+      },
+      'today', 'clear'
+    ]
+  };
   ngOnInit(): void {
+    this.airDate = new AirDatepicker('#input-date', this.options as any);
     this.getProducts();
     this.createChartVersus();
+    this.loadDateLocalStorage();
   }
 
   getProducts(page= null): void {
@@ -69,85 +95,79 @@ export class VersusProductosComponent implements OnInit {
     const data =  {
       type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [
-          {
-            label: 'Top 6 de productos mas vendidos',
-            data: [15, 4, 3, 5, 2, 3],
-            backgroundColor: [
-              // 'rgba(255, 99, 132, 0.2)',
-              'rgb(112, 221, 98, 0.2)',
-              // 'rgba(54, 162, 235, 0.2)',
-              // 'rgba(255, 206, 86, 0.2)',
-              // 'rgba(75, 192, 192, 0.2)',
-              // 'rgba(153, 102, 255, 0.2)',
-              // 'rgba(255, 159, 64, 0.2)',
-            ],
-            borderColor: [
-              // 'rgba(255, 99, 132, 1)',
-              'rgb(112, 221, 98)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-            ],
-            borderWidth: 2,
-          },
-          {
-            label: 'Top 6 de productos mas vendidos',
-            data: [5, 3, 10, 1, 0, 7],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-            ],
-            borderWidth: 2,
-          },
-        ],
+        datasets: [],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        // responsive: true,
-        // aspectRatio: 2,
-        // scales: {
-        //   y: {
-        //     stacked: true,
-        //     grid: {
-        //       display: true,
-        //       color: "rgba(255,99,132,0.2)"
-        //     }
-        //   },
-        //   x: {
-        //     grid: {
-        //       display: false
-        //     }
-        //   }
-        // },
         plugins: {
           legend: {
             position: 'top',
           },
-          title: {
-            display: true,
-            text: 'Chart.js Doughnut Chart',
-          },
         },
       },
     };
-    this.chartVersus =  new Chart(ctx, data as any);
+    this.chart =  new Chart(ctx, data as any);
+  }
+
+  goVersus(): void {
+    this.isVersus = true;
+    const date = this.getDate();
+    console.log(this.productsSelect);
+    const request = [];
+    this.productsSelect.forEach((key, value) => {
+      console.log(key, value);
+      request.push( this.s_standart.index(`dashboard/stats/graph?key=product-sales-count&model_id=${value}&start_date=${date.start_date}&end_date=${date.end_date}`))
+    });
+    forkJoin(request).subscribe((res: {data: {dates: Idates, previous_period_stats?: IcompareGraph[], selected_period_stats: IcompareGraph[], model_id: number} }[]) => {
+      // console.log(res);
+      this.chart.data.datasets = [];
+      res.forEach((item) => {
+        const data = item.data;
+        // as { dates: Idates, previous_period_stats?: IcompareGraph[], selected_period_stats: IcompareGraph[], model_id: number };
+        const _data = data.selected_period_stats.map(item1 => item1.total);
+        console.log(_data);
+        this.chart.data.datasets.push(
+          { data: _data, label: this.productsSelect.get(data.model_id).name, borderColor: this.ramdonColor(), borderWidth: 2, backgroundColor: this.ramdonColor() }
+          );
+        });
+      this.chart.data.labels = res[0].data.selected_period_stats.map(item => moment(item.date).format('MMM Do YY'));
+      this.chart.update();
+    });
+  }
+
+  getDate(): { start_date: string, end_date: string } {
+    const start_date = SharedService.convertDateForLaravelOfDataPicker(this.airDate.selectedDates[0] || new Date());
+    const end_date = SharedService.convertDateForLaravelOfDataPicker(this.airDate.selectedDates[1] || new Date());
+    localStorage.setItem('dates', JSON.stringify({ start_date: this.airDate.selectedDates[0], end_date: this.airDate.selectedDates[1] }));
+    return { start_date, end_date };
+  }
+
+  ramdonColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+  loadDateLocalStorage(): void {
+    const date = JSON.parse(localStorage.getItem('dates'));
+    let _dates = null;
+    if (date && date.hasOwnProperty('start_date') && date.hasOwnProperty('end_date')) {
+      const date_json = date;
+      // this.airDate.update({startDate: date_json.start_date, endDate: date_json.end_date});
+      this.airDate.selectDate([date_json.start_date, date_json.end_date]);
+
+    } else {
+       _dates = { start_date: moment().subtract(7, 'days').format(), end_date: moment().format() };
+      localStorage.setItem('dates', JSON.stringify(_dates));
+      this.airDate.selectDate([_dates.start_date, _dates.end_date]);
+    }
+    this.dateRangeStart.start_date = _dates.start_date;
+    this.dateRangeStart.end_date = _dates.end_date;
+
   }
 
 }

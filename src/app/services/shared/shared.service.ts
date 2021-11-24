@@ -39,6 +39,8 @@ export class SharedService {
   private _requestWork: Irequest = null;
   private _appointmentWork: Iappointment = null;
 
+  public static dates_of_dashboard: { start_date: Date, end_date: Date } = null;
+
 
   // tslint:disable-next-line: member-ordering
   public static convertDateForLaravelOfDataPicker(valueDate, format = 'yyyy/MM/dd'): string {

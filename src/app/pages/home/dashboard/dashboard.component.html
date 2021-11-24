@@ -1,67 +1,32 @@
-<div class=" py-3">
-
-  <!-- <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="viewFor('año')">Comparar Productos</button>
-    <button mat-menu-item (click)="viewFor('mes')">Comparar Locales</button>
-    <button mat-menu-item (click)="viewFor('semana')">Comparar Cuidades</button>
-    <button mat-menu-item (click)="viewFor('dia')">Comparar Categorias</button>
-  </mat-menu> -->
-
-  <!-- <div  class="search_product py-3">
-    <app-compare-product [currentCompare]="currentCompare" (close)="closeCompare($event)"></app-compare-product>
-  </div>
-  <div [hidden]="!isCompareCompany" class="search_product py-3">
-    <app-compare-company></app-compare-company>
-  </div> -->
-  <div class="d-flex my-3 justify-content-between">
+<div class="">
     <div>
-      <h1 class="font-montserrat d-inline-block font-5xl m-0">Dashboard</h1>
-      <div>
-        <h3 class="date-picker d-flex ">
-          <div class="position-relative bg-vine center rounded-fz shadow">
-            <input readonly id="input-date" placeholder="Rango de Fechas" />
-            <!-- <mat-chip-list style="position: absolute;right: 5px;">
-              <mat-chip>Solo meses</mat-chip>
-            </mat-chip-list> -->
-          </div>
-          &nbsp;&nbsp;
-          <button mat-mini-fab color="primary" [routerLink]="[ './versus' ]">
-            <mat-icon>compare</mat-icon>
-          </button>
-        </h3>
-      </div>
+      <h1 class="font-montserrat d-inline-block font-5xl m-1">Dashboard</h1>
     </div>
-    <!-- <form [formGroup]="formDate">
-      <mat-menu #menuFechas="matMenu" [overlapTrigger]="false">
-        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()">
-
-        </div>
-        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()">
-          <mat-form-field color="accent">
-            <mat-label>Fecha inicial</mat-label>
-            <input matInput formControlName="star_date" [max]="formDate.get('end_date').value"
-              [matDatepicker]="picker1">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker startView="multi-year" #picker1></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()" class="h-100">
-          <mat-form-field color="accent">
-            <mat-label>Fecha final</mat-label>
-            <input formControlName="end_date" matInput [matDatepicker]="picker2">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker startView="month" #picker2></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div mat-menu-item [disableRipple]="true" class="h-100">
-          <button color="accent" mat-raised-button (click)="applyFilter()">Aplicar filtros</button>
-        </div>
-      </mat-menu>
-    </form> -->
-  </div>
-
+  <div class="mb-3 sticky-top bg-gray-200">
+    <h3 class="date-picker d-flex p-1">
+      <div class="font-italic position-relative center">
+        <span class="bg-success px-2 rounded-fz text-capitalize" >
+          {{dateRange.first_date[0] | date: 'dd MMM yyyy'}}
+          a
+          {{dateRange.first_date[1] | date: 'dd MMM yyyy'}}
+        </span>
+         <span class="px-2">Comparando:</span>  
+          <span class="bg-warning px-2 rounded-fz text-capitalize">
+          {{dateRange.last_date[0] | date: 'dd MMM yyyy'}}
+          a
+          {{dateRange.last_date[1] | date: 'dd MMM yyyy'}}
+        </span>
+      </div>
+      &nbsp;&nbsp;
+      <button mat-mini-fab color="accent" (click)="openDialogDates()">
+        <mat-icon>event</mat-icon>
+      </button>
+      &nbsp;&nbsp;
+      <button mat-mini-fab color="primary" (click)="openSelectVersus()">
+        <mat-icon>compare</mat-icon>
+      </button>
+    </h3>
+   </div>
   <div class="grid-dashboard">
     <div class="header-dashboard mb-3">
       <mat-card class="item-header header-1 p-2 row m-0 shadow">
@@ -102,28 +67,18 @@
             {{products_sold_count?.growth_percentage  || 0}} %</div>
         </div>
       </mat-card>
-
     </div>
     <div class="body-dashboard">
-      <app-sell-chart #chartSellChart [s_stardart]="s_stardart" [dates]="getDate()"></app-sell-chart>
+      <app-sell-chart #chartSellChart [s_stardart]="s_stardart" [dates]="dateRange"></app-sell-chart>
       <mat-card class="rounded-fz shadow p-3">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Locales</h3>
         <div style="height: 400px;" class="d-flex align-items-center position-relative">
           <canvas id="chart-locations"></canvas>
-
         </div>
       </mat-card>
     </div>
     <div class="body-dashboard-2 my-3">
-      <!-- <mat-card class="rounded-fz shadow p-3">
-        <h3 class="font-montserrat font-3xl font-weight-bolder">Productos</h3>
-        <div style="height: 400px;" class="d-flex align-items-center position-relative">
-          <canvas style="height: 400px;" id="chart-product"></canvas>
-        </div>
-      </mat-card> -->
       <app-product-chart #chartProductChart [s_stardart]="s_stardart" [dates]="getDate()"></app-product-chart>
-
- 
       <mat-card class="rounded-fz shadow p-3">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas por categorias</h3>
         <div style="height: 400px;" class="d-flex align-items-center position-relative">
@@ -135,11 +90,8 @@
     <div class="body-dashboard-3">
       <mat-card class="my-2 rounded-fz">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas por cuidad</h3>
-        <mat-table [dataSource]="dataSourceCity" class="mat-elevation-z8 shadow-none">
-          <ng-container matColumnDef="id">
-              <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-          </ng-container>
+        <mat-table [dataSource]="dataSourceCity" class="mat-elevation-z8 shadow-none"
+        matSort >
   
           <ng-container matColumnDef="name">
               <mat-header-cell *matHeaderCellDef>Local</mat-header-cell>
@@ -147,15 +99,15 @@
           </ng-container>
 
           <ng-container matColumnDef="avg">
-            <mat-header-cell *matHeaderCellDef>Avg</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Promedio</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element?.avg | currency}} </mat-cell>
         </ng-container>
   
-          <ng-container matColumnDef="total">
-              <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
+          <ng-container matColumnDef="total" >
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Ventas</mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
           </ng-container>
-  
+
           <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumnsCity"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumnsCity;"></mat-row>
       </mat-table>
@@ -164,9 +116,9 @@
       <mat-card class="my-2 rounded-fz">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas por Locales</h3>
         <mat-table [dataSource]="dataSourceLocal" class="mat-elevation-z8 shadow-none">
-          <ng-container matColumnDef="id">
-              <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+          <ng-container matColumnDef="company">
+              <mat-header-cell *matHeaderCellDef>Compañia</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.company}} </mat-cell>
           </ng-container>
   
           <ng-container matColumnDef="name">
@@ -178,14 +130,33 @@
               <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
           </ng-container>
-  
-
-
           <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumnsLocal"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumnsLocal;"></mat-row>
       </mat-table>
-    <mat-paginator *ngIf="ELEMENT_DATA_LOCAL?.length" [pageSizeOptions]="[10, 20, 30]" (page)="updateTableForLocales($event)" showFirstLastButtons [pageSize]="paginator?.pageSize" [length]="paginator?.length"></mat-paginator>
+    <mat-paginator *ngIf="ELEMENT_DATA_LOCAL?.length"  (page)="updateTableForLocales($event)" showFirstLastButtons [pageSize]="paginator?.pageSize" [length]="paginator?.length"></mat-paginator>
+      </mat-card>
 
+      <mat-card class="my-2 rounded-fz">
+        <h3 class="font-montserrat font-3xl font-weight-bolder">Mejores Vendedores</h3>
+        <mat-table [dataSource]="dataSourceSeller" class="mat-elevation-z8 shadow-none">
+          <ng-container matColumnDef="company">
+              <mat-header-cell *matHeaderCellDef>Nombres</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef>Alias</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element?.alias}} </mat-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
+          </ng-container>
+          <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumnsLocal"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsLocal;"></mat-row>
+      </mat-table>
+    <mat-paginator *ngIf="ELEMENT_DATA_SELLER?.length" (page)="updateTableForSellers($event)" showFirstLastButtons [pageSize]="paginatorSeller?.pageSize" [length]="paginatorSeller?.length"></mat-paginator>
       </mat-card>
     </div>
   </div>

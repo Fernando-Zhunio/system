@@ -70,6 +70,18 @@ export interface IstatisticableLocation {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+    company: Icompany;
+}
+
+
+
+export interface Icompany {
+    id: number;
+    name: string;
+    country_id: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: null;
 }
 
 export interface IsellForCategories {
@@ -106,12 +118,24 @@ export interface IsellForCity {
     };
 }
 
-export interface Idates{
+export interface ISeller {
+    code: string;
+    created_at: string;
+    email: string;
+    first_name: string;
+    id: number;
+    last_name: string;
+    nickname: string;
+    password: string;
+    updated_at: string;
+}
+
+export interface Idates {
     end_date: string;
-        period: any;
-        prev_end_date: string;
-        prev_start_date: string;
-        start_date: string;
+    period: any;
+    prev_end_date: string;
+    prev_start_date: string;
+    start_date: string;
 }
 
 // regex number = [1-9]\d*(\.\d+)?,$

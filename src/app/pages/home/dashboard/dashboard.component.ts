@@ -1,35 +1,39 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-// import { MatBottomSheet } from '@angular/material/bottom-sheet';
-// import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import {  ChartConfiguration, LinearScale, LineController, LineElement, PointElement, registerables, Title } from 'chart.js';
+import { ChartConfiguration, LinearScale, LineController, LineElement, PointElement, registerables, Title } from 'chart.js';
 import Chart from 'chart.js/auto';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
-import { StorageService } from '../../../services/storage.service';
 import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import { StandartSearchService } from '../../../services/standart-search.service';
-import { SwalService } from '../../../services/swal.service';
-import { Ichart, IcompareGraph, IheaderDashboard, IsalesHeader, IsellForCategories, IsellForCity, IstatisticableLocation, IstatisticableProduct, ItopDashboard } from '../../../interfaces/idashboard';
+// import { SwalService } from '../../../services/swal.service';
+import { IheaderDashboard, IsalesHeader, ISeller, IsellForCategories, IsellForCity, IstatisticableLocation, IstatisticableProduct, ItopDashboard } from '../../../interfaces/idashboard';
 import { SharedService } from '../../../services/shared/shared.service';
 import * as moment from 'moment';
-import { Ipagination } from '../../../interfaces/ipagination';
 import { PageEvent } from '@angular/material/paginator';
 import { SellChartComponent } from './chart/sell-chart/sell-chart.component';
 import { ProductChartComponent } from './chart/product-chart/product-chart.component';
-// import { Color, Label } from 'ng2-charts';
-// import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { Router } from '@angular/router';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { IndexComponent } from '../versus/index/index.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectDatesDashboardComponent } from './modals/select-dates-dashboard/select-dates-dashboard.component';
+import { EkeyDashboard } from '../../../enums/EkeyDashboard.enum';
+import { HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 moment.locale('es');
 Chart.register(...registerables);
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
-
-// import { collect } from 'collect.js';
 interface IsellCity {
-  id: number;
+  // id: number;
   name: string;
   total: number;
+}
+interface IsellerTable {
+  // id: number;
+  name: string;
+  total: number;
+  alias: string;
 }
 @Component({
   selector: 'app-dashboard',
@@ -37,7 +41,7 @@ interface IsellCity {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(public s_stardart: StandartSearchService) {
+  constructor(public s_stardart: StandartSearchService, private router: Router, private bottomSheet: MatBottomSheet, private dialogDates: MatDialog) {
   }
   @ViewChild('chartSellChart', { static: true }) chartSellChart: SellChartComponent;
   @ViewChild('chartProductChart', { static: true }) chartProductChart: ProductChartComponent;
@@ -46,42 +50,41 @@ export class DashboardComponent implements OnInit {
   chartLocales: Chart = null;
   chartVentas: Chart = null;
   chartSellForCategories: Chart = null;
-
+  dateRange: { first_date: any[], last_date: any[] } = { first_date: [], last_date: [] };
   formDate: FormGroup = new FormGroup({
     star_date: new FormControl(new Date()),
     end_date: new FormControl(new Date()),
   });
   displayedColumnsLocal: string[] = [
-    'id',
+    'company',
     'name',
     'total',
   ];
-  ELEMENT_DATA_LOCAL: IsellCity[] = [
-    { id: 1, name: 'Hydrogen', total: 1.0079 },
-    { id: 2, name: 'Helium', total: 4.0026 },
-    { id: 3, name: 'Lithium', total: 6.941 },
-    { id: 4, name: 'Beryllium', total: 9.0122 },
-    { id: 5, name: 'Boron', total: 10.811 },
-    { id: 6, name: 'Carbon', total: 12.0107 },
-    { id: 7, name: 'Nitrogen', total: 14.0067 },
-    { id: 8, name: 'Oxygen', total: 15.9994 },
-  ];
+  ELEMENT_DATA_LOCAL: IsellCity[] = [];
   dataSourceLocal = new MatTableDataSource<IsellCity>(this.ELEMENT_DATA_LOCAL);
 
-
-  // #region data for table city
   displayedColumnsCity: string[] = [
-    'id',
     'name',
     'avg',
     'total',
   ];
   ELEMENT_DATA_CITY: IsellCity[] = [];
   dataSourceCity = new MatTableDataSource<IsellCity>(this.ELEMENT_DATA_CITY);
-  // #endregion data for table city
-
   paginator: PageEvent = new PageEvent();
+
+  displayedColumnsSeller: string[] = [
+    'name',
+    'alias',
+    'total',
+  ];
+
+  ELEMENT_DATA_SELLER: IsellerTable[] = [];
+  dataSourceSeller = new MatTableDataSource<IsellerTable>(this.ELEMENT_DATA_SELLER);
+  paginatorSeller: PageEvent = new PageEvent();
+
+
   airDate: AirDatepicker = null;
+  airDatePreview: AirDatepicker = null;
   total_sell: IsalesHeader;
   value_middle: IsalesHeader;
   invoice_total: IsalesHeader;
@@ -91,77 +94,56 @@ export class DashboardComponent implements OnInit {
     dateFormat: 'yyyy MMMM dd',
     range: true,
     multipleDatesSeparator: ' A ',
-    buttons: [
-      {
-        content() { return 'Aplicar'; },
-        onClick: (dp) => {
-          this.getDateHeader();
-          this.updateChartLocales();
-          // this.updateChartProduct();
-          this.chartProductChart.updateChart();
-          this.chartSellChart.updateChart();
-        },
-      },
-      'today', 'clear'
-    ]
   };
 
-
-
   ngOnInit(): void {
-    this.airDate = new AirDatepicker('#input-date', this.options as any);
     this.loadDateLocalStorage();
     this.getDateHeader();
     this.createChartLocales();
     this.createChartSellOfCategories();
-    // this.getDataChartProducts();
     this.updateTableForLocales();
     this.updateChartTableForCity();
+    this.updateTableForSellers();
   }
 
   getDateHeader(): void {
     const date = this.getDate();
-    if (date.start_date && date.end_date) {
-      this.s_stardart.index(`dashboard/stats/basic-metrics?start_date=${date.start_date}&end_date=${date.end_date}`).subscribe(
-        (response) => {
-          console.log(response);
-          this.assignHeaderDate(response.data);
+    this.s_stardart.index(`dashboard/stats/basic-metrics?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`).subscribe(
+      (response) => {
+        this.assignHeaderDate(response.data);
 
-        }, err => { console.log(err); });
-    } else {
-      SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Seleccione un rango de fechas valido' });
-    }
-    console.log(date);
-    return;
+      }, err => { console.log(err); });
   }
 
-  getDate(): { start_date: string, end_date: string } {
-    // const start_date = SharedService.convertDateForLaravelOfDataPicker( this.airDate.selectedDates[0] || new Date());
-    const start_date = SharedService.convertDateForLaravelOfDataPicker(this.airDate.selectedDates[0] || new Date());
-    const end_date = SharedService.convertDateForLaravelOfDataPicker(this.airDate.selectedDates[1] || new Date());
-    localStorage.setItem('dates', JSON.stringify({ start_date: this.airDate.selectedDates[0], end_date: this.airDate.selectedDates[1] }));
-    return { start_date, end_date };
+  getDate(): { first_date: any[], last_date: any[] } {
+    const first_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[1])];
+    const last_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[1])];
+    return { first_date, last_date };
   }
 
   loadDateLocalStorage(): void {
-    const date = localStorage.getItem('dates');
-    if (date) {
-      const date_json = JSON.parse(date);
-      // this.airDate.update({startDate: date_json.start_date, endDate: date_json.end_date});
-      this.airDate.selectDate([date_json.start_date, date_json.end_date]);
+    const date = JSON.parse(localStorage.getItem('dates_all'));
+    let datesAll = null;
+    if (date == null) {
 
+      datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
+      localStorage.setItem('dates_all', JSON.stringify(datesAll));
     } else {
-      console.log('no hay fechas');
-      const _dates = { start_date: moment().subtract(7, 'days').format(), end_date: moment().format() };
-      localStorage.setItem('dates', JSON.stringify(_dates));
-      this.airDate.selectDate([_dates.start_date, _dates.end_date]);
+      datesAll = { first_date: date.first_date, last_date: date.last_date };
     }
+    try {
+      this.dateRange = datesAll;
+    } catch (e) {
+      datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
+      localStorage.setItem('dates_all', JSON.stringify(datesAll));
+      this.dateRange = datesAll;
+
+    }
+
   }
 
-
-
   assignHeaderDate(data: IheaderDashboard): void {
-    console.log(data);
+    // console.log(data);
     this.total_sell = data.sales_total;
     this.value_middle = data.sales_average;
     this.invoice_total = data.sales_count;
@@ -183,49 +165,23 @@ export class DashboardComponent implements OnInit {
             // backgroundColor: 'rgba(0,200,83,0.5)',
             borderColor: 'rgba(0,200,83,0.5)',
             borderWidth: 2,
-            backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)'] 
+            backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
           }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-    }};
-    this.chartLocales = new Chart(ctx as any,  dataChart);
+      }
+    };
+    this.chartLocales = new Chart(ctx as any, dataChart);
     this.updateChartLocales();
-    // this.chartLocales = {
-    //   isLegend: true,
-    //   dataSet: [100],
-    //   labels: ['Cargando'],
-    //   option: {
-    //     responsive: true,
-    //     maintainAspectRatio: false,
-    //     plugins: {
-    //       datalabels: {
-    //         formatter: (value, ctx) => {
-    //           const label = ctx.chart.data.labels[ctx.dataIndex];
-    //           return label;
-    //         },
-    //       },
-    //     }
-    //   },
-      // plugins: [pluginDataLabels],
-    //   colors: [{ backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56'] }],
-    // };
-    // const date = this.getDate();
-    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.start_date}&end_date=${date.end_date}&key=location-sales&limit=5`).subscribe((res) => {
-
-    //   // console.log(res);
-    //   const data = res.data.data as ItopDashboard<IstatisticableLocation>[];
-    //   this.chartLocales.dataSet = [];
-    //   this.chartLocales.dataSet = data.map(item => item.total);
-    //   this.chartLocales.labels = data.map(item => item.statisticable.name);
-    // });
   }
 
-  updateChartLocales(): void {
-     const date = this.getDate();
-    this.s_stardart.index(`dashboard/stats/sum?start_date=${date.start_date}&end_date=${date.end_date}&key=location-sales&limit=5`).subscribe((res) => {
-
+  updateChartLocales(key: EkeyDashboard = EkeyDashboard.location_sales): void {
+    const date = this.getDate();
+    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=5`)
+    this.suscribeForTop(key)
+    .subscribe((res) => {
       // console.log(res);
       const data = res.data.data as ItopDashboard<IstatisticableLocation>[];
       this.chartLocales.data.datasets[0].data = [];
@@ -238,8 +194,28 @@ export class DashboardComponent implements OnInit {
 
   //#endregion Chart Locales
 
-  
+  openSelectVersus(event: MouseEvent): void {
+    this.bottomSheet.open(IndexComponent);
+  }
 
+  openDialogDates(): void {
+    const dialogRef = this.dialogDates.open(SelectDatesDashboardComponent);
+    dialogRef.beforeClosed().subscribe(result => {
+      if (result) {
+        this.dateRange = result;
+        this.getDateHeader();
+        this.updateChartLocales();
+        this.chartProductChart.dates = this.getDate();
+        this.chartProductChart.updateChart();
+        this.chartSellChart.dates = this.getDate();
+        this.chartSellChart.updateChart();
+        this.updateTableForLocales();
+        this.updateChartTableForCity();
+        this.updateChartSellForCategories();
+        this.updateTableForSellers();
+      }
+    });
+  }
 
   //#region Chart Sell of Categories
   createChartSellOfCategories(): void {
@@ -262,40 +238,18 @@ export class DashboardComponent implements OnInit {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-    }};
-    this.chartSellForCategories = new Chart(ctx as any,  dataChart);
+      }
+    };
+    this.chartSellForCategories = new Chart(ctx as any, dataChart);
     this.updateChartSellForCategories();
-    // this.chartSellForCategories = {
-    //   isLegend: true,
-    //   option: {
-    //     responsive: true,
-    //     // scales: { xAxes: [{}], yAxes: [{}] },
-    //     maintainAspectRatio: false,
-    //   },
-    //   labels: ['Cargando', 'Cargando', 'Cargando', 'Cargando', 'Cargando'],
-    //   dataSet: [1, 1, 1, 1, 1]
-    // };
-
-    // const date = this.getDate();
-    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.start_date}&end_date=${date.end_date}&key=category-sales&limit=5`).subscribe((res) => {
-    //   console.log(res);
-    //   const data = res.data.data as ItopDashboard<IsellForCategories>[];
-    //   // this.chartLocales.dataSet = [];
-    //   // this.chartLocales.dataSet = data.map(item => item.total);
-    //   // this.chartLocales.labels = data.map(item => item.statisticable.name);
-    //   this.chartSellForCategories.labels = data.map(item => 'fer');
-    //   this.chartSellForCategories.dataSet = data.map(item => item.total);
-    // });
   }
 
-  updateChartSellForCategories(): void {
-     const date = this.getDate();
-    this.s_stardart.index(`dashboard/stats/sum?start_date=${date.start_date}&end_date=${date.end_date}&key=category-sales&limit=5`).subscribe((res) => {
-      console.log(res);
+  updateChartSellForCategories(key: EkeyDashboard = EkeyDashboard.category_sales): void {
+    const date = this.getDate();
+    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=category-sales&limit=5`)
+    this.suscribeForTop(key)
+    .subscribe((res) => {
       const data = res.data.data as ItopDashboard<IsellForCategories>[];
-      // this.chartLocales.dataSet = [];
-      // this.chartLocales.dataSet = data.map(item => item.total);
-      // this.chartLocales.labels = data.map(item => item.statisticable.name);
       this.chartSellForCategories.data.labels = data.map(item => item.statisticable.name);
       this.chartSellForCategories.data.datasets[0].data = data.map(item => item.total);
       this.chartSellForCategories.update();
@@ -304,68 +258,109 @@ export class DashboardComponent implements OnInit {
   //#endregion Chart Sell of Categories
 
   //#region Table for City
+  updateChartTableForCity(): void {
+    const date = this.getDate();
+    this.s_stardart.index(`dashboard/stats/sales-by-Cities?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`)
 
- 
+      .subscribe((res) => {
+        const data = res.data as IsellForCity[];
+        this.changedTableForCity(data);
+      });
+  }
+
+  changedTableForCity(data: IsellForCity[]): void {
+    const _data = data.map(item => {
+      return {
+        id: item.city.id,
+        name: item.city.name,
+        avg: item.avg,
+        total: item.total,
+      };
+    });
+    const row: IsellCity[] = _data as IsellCity[];
+    this.ELEMENT_DATA_CITY = row;
+    this.dataSourceCity = new MatTableDataSource<IsellCity>(this.ELEMENT_DATA_CITY);
+  }
 
   //#endregion Table for City
 
   //#region Table for Locales
   updateTableForLocales(page: PageEvent = null): void {
     const date = this.getDate();
-    this.s_stardart.index(`dashboard/stats/sum?start_date=${date.start_date}&end_date=${date.end_date}&key=location-sales&limit=10`, page?.pageIndex + 1 || 1)
-    .subscribe((res) => {
-      // console.log(res);
-      this.changedTableForLocales(res.data.data as ItopDashboard<IstatisticableLocation>[]);
-      this.paginator.length = res.data.total;
-      this.paginator.pageSize = res.data.per_page;
-      this.paginator.pageIndex = res.data.current_page - 1;
-    } );
+    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=10`, page?.pageIndex + 1 || 1)
+    this.suscribeForTop(EkeyDashboard.location_sales, null, 'desc', 15, page?.pageIndex + 1 || 1)
+      .subscribe((res) => {
+        this.changedTableForLocales(res.data.data as ItopDashboard<IstatisticableLocation>[]);
+        this.paginator.length = res.data.total;
+        this.paginator.pageSize = res.data.per_page;
+        this.paginator.pageIndex = res.data.current_page - 1;
+      });
   }
 
   changedTableForLocales(data: ItopDashboard<IstatisticableLocation>[]): void {
-     const _data = data.map(item => {
+    const _data = data.map(item => {
       return {
-        id: item.statisticable.id,
+        company: item.statisticable.company.name,
         name: item.statisticable.name,
         total: item._total,
       };
     });
-    const row: IsellCity[] = _data as IsellCity[];
+    const row = _data as any;
     this.ELEMENT_DATA_LOCAL = row;
     this.dataSourceLocal = new MatTableDataSource<IsellCity>(this.ELEMENT_DATA_LOCAL);
   }
   //#endregion Table for Locales
 
-  updateChartTableForCity(): void {
+
+  //#region Table for Seller
+  updateTableForSellers(page: PageEvent = null, key: EkeyDashboard = EkeyDashboard.seller_sales): void {
     const date = this.getDate();
-    this.s_stardart.index(`dashboard/stats/sales-by-Cities?start_date=${date.start_date}&end_date=${date.end_date}`)
-    .subscribe((res) => {
-      console.log(res);
-      const data = res.data as IsellForCity[];
-      this.changedTableForCity(data);
-    } );
+    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=seller-sales&limit=10`, page?.pageIndex + 1 || 1)
+    this.suscribeForTop(key, null, 'desc', 15, page?.pageIndex + 1 || 1)
+      .subscribe((res) => {
+        this.changedTableForSellers(res.data.data as ItopDashboard<ISeller>[]);
+        this.paginatorSeller.length = res.data.total;
+        this.paginatorSeller.pageSize = res.data.per_page;
+        this.paginatorSeller.pageIndex = res.data.current_page - 1;
+      });
   }
 
-  changedTableForCity(data: IsellForCity[]): void {
+  changedTableForSellers(data: ItopDashboard<ISeller>[]): void {
     const _data = data.map(item => {
-     return {
-       id: item.city.id,
-       name: item.city.name,
-       avg: item.avg,
-       total: item.total,
-     };
-   });
-   const row: IsellCity[] = _data as IsellCity[];
-   this.ELEMENT_DATA_CITY = row;
-   this.dataSourceCity = new MatTableDataSource<IsellCity>(this.ELEMENT_DATA_CITY);
- }
+      return {
+        name: item.statisticable.first_name.concat(' ', item.statisticable.last_name),
+        alias: item.statisticable.nickname,
+        total: item._total,
+      };
+    });
+    const row = _data as any;
+    this.ELEMENT_DATA_SELLER = row;
+    this.dataSourceSeller = new MatTableDataSource<IsellerTable>(this.ELEMENT_DATA_SELLER);
+  }
+  //#endregion Table for Seller
 
 
+  suscribeForTop(key: EkeyDashboard, model_id = null, order: 'asc'| 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
+    const date = this.getDate();
+    let params = new HttpParams();
+    params = params.append('start_date', date.first_date[0]);
+    params = params.append('end_date', date.first_date[1]);
+    params = params.append('key', key);
+    params = params.append('order', order);
+    params = params.append('limit', limit.toString());
+    if (model_id) {
+     params = params.append('model_id', model_id.toString());
+    }
+    if (page) {
+      params = params.append('page', page.toString());
+    }
+    console.log(params);
+    return this.s_stardart.getWithHttpParams(`dashboard/stats/sum`, params);
+  }
 
-
-
-
-
-
+  getUrlAndQueryStringForCompare(key: EkeyDashboard, period: 'day'|'week'|'month' = 'day', model_id = null, compare_previous_period: boolean = false): string {
+    const date = this.getDate();
+    return `dashboard/stats/top?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`;
+  }
 
 }

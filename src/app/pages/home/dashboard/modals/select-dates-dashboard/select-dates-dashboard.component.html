@@ -1,0 +1,24 @@
+<h1 matDialogTitle>Fechas de comparacion</h1>
+
+<mat-dialog-content>
+    <div class="grid">
+        <div>
+            <div class="center">Fecha Primera</div>
+            <div id="date-dashboard-1"></div>
+            <div>Dias: {{daysDate1}}</div>
+
+        </div>
+        <div>
+            <div class="center"><input type="checkbox" [(ngModel)]="isActive">&nbsp; Fecha Segunda &nbsp;
+            </div>
+            <div [ngClass]="{'disabled-date': !isActive}" id="date-dashboard-2"></div>
+            <div>Dias: {{daysDate2}}</div>
+        </div>
+    </div>
+    <div *ngIf="daysDate1 != daysDate2" class="text-danger">El numero de dias deben ser los iguales</div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-flat-button matDialogClose color="warn">Cerrar</button>
+    <button mat-flat-button color="accent" (click)="saveDates()">Guardar</button>
+</mat-dialog-actions>
