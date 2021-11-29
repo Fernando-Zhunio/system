@@ -12,9 +12,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { VersusCategoriasComponent } from './versus-categorias/versus-categorias.component';
+import { VersusLocalesComponent } from './versus-locales/versus-locales.component';
+import { VersusCitiesComponent } from './versus-cities/versus-cities.component';
 
 @NgModule({
-  declarations: [ VersusProductosComponent, VersusCategoriasComponent],
+  declarations: [ VersusProductosComponent, VersusCategoriasComponent, VersusLocalesComponent, VersusCitiesComponent],
   imports: [
     CommonModule,
     VersusRoutingModule,

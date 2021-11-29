@@ -32,8 +32,11 @@ import { CategoryChartComponent } from './dashboard/chart/category-chart/categor
 import { IndexComponent } from './versus/index/index.component';
 import { SelectDatesDashboardComponent } from './dashboard/modals/select-dates-dashboard/select-dates-dashboard.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-chart.component';
+
 @NgModule({
-  declarations: [IndexComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent],
+  declarations: [IndexComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -59,8 +62,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatPaginatorModule,
     MatRadioModule,
     MatNativeDateModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonToggleModule
   ],
-  entryComponents: [SelectDatesDashboardComponent]
+  entryComponents: [SelectDatesDashboardComponent, IndexComponent]
 })
 export class HomeModule { }

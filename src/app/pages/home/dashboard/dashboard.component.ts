@@ -6,7 +6,6 @@ import Chart from 'chart.js/auto';
 import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import { StandartSearchService } from '../../../services/standart-search.service';
-// import { SwalService } from '../../../services/swal.service';
 import { IheaderDashboard, IsalesHeader, ISeller, IsellForCategories, IsellForCity, IstatisticableLocation, IstatisticableProduct, ItopDashboard } from '../../../interfaces/idashboard';
 import { SharedService } from '../../../services/shared/shared.service';
 import * as moment from 'moment';
@@ -21,6 +20,8 @@ import { SelectDatesDashboardComponent } from './modals/select-dates-dashboard/s
 import { EkeyDashboard } from '../../../enums/EkeyDashboard.enum';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { LocalesChartComponent } from './chart/locales-chart/locales-chart.component';
+import { CategoryChartComponent } from './chart/category-chart/category-chart.component';
 moment.locale('es');
 Chart.register(...registerables);
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
@@ -43,11 +44,13 @@ interface IsellerTable {
 export class DashboardComponent implements OnInit {
   constructor(public s_stardart: StandartSearchService, private router: Router, private bottomSheet: MatBottomSheet, private dialogDates: MatDialog) {
   }
-  @ViewChild('chartSellChart', { static: true }) chartSellChart: SellChartComponent;
-  @ViewChild('chartProductChart', { static: true }) chartProductChart: ProductChartComponent;
+  @ViewChild('chartSell', { static: true }) chartSellChart: SellChartComponent;
+  @ViewChild('chartProduct', { static: true }) chartProductChart: ProductChartComponent;
+  @ViewChild('chartLocales', { static: true }) chartLocales: LocalesChartComponent;
+  @ViewChild('chartCategory', { static: true }) chartCategory: CategoryChartComponent;
 
-  chartProduct: Chart = null;
-  chartLocales: Chart = null;
+  // chartProduct: Chart = null;
+  // chartLocales: Chart = null;
   chartVentas: Chart = null;
   chartSellForCategories: Chart = null;
   dateRange: { first_date: any[], last_date: any[] } = { first_date: [], last_date: [] };
@@ -82,7 +85,6 @@ export class DashboardComponent implements OnInit {
   dataSourceSeller = new MatTableDataSource<IsellerTable>(this.ELEMENT_DATA_SELLER);
   paginatorSeller: PageEvent = new PageEvent();
 
-
   airDate: AirDatepicker = null;
   airDatePreview: AirDatepicker = null;
   total_sell: IsalesHeader;
@@ -99,8 +101,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadDateLocalStorage();
     this.getDateHeader();
-    this.createChartLocales();
-    this.createChartSellOfCategories();
+    // this.createChartLocales();
+    // this.createChartSellOfCategories();
     this.updateTableForLocales();
     this.updateChartTableForCity();
     this.updateTableForSellers();
@@ -122,24 +124,38 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDateLocalStorage(): void {
-    const date = JSON.parse(localStorage.getItem('dates_all'));
+   
+    // if (date == null || date.hasOwnProperty('first_date') === false || date.hasOwnProperty('last_date') === false ) {
+    //   datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
+    //   localStorage.setItem('dates_all', JSON.stringify(datesAll));
+    // } else {
+    //   }
     let datesAll = null;
-    if (date == null) {
+      try {
+        // const date = JSON.parse(localStorage.getItem('dates_all'));
+      const date = JSON.parse(localStorage.getItem('dates_all'));
+      const first_date = [];
+       first_date[0] = this.isValidDate(date?.first_date[0]) ? date.first_date[0] : new Date(moment(new Date()).subtract(7, 'days').format());
+       first_date[1] = this.isValidDate(date?.first_date[1]) ? date.first_date[1] : new Date();
 
-      datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
+      const last_date = [];
+      last_date[0] = this.isValidDate(date?.last_date[0]) ? date.last_date[0] : new Date(moment(new Date()).subtract(14, 'days').format());
+      last_date[1] = this.isValidDate(date?.last_date[1]) ? date.last_date[1] : new Date(moment(new Date()).subtract(7, 'days').format());
+
+      datesAll = { first_date: first_date, last_date: last_date };
       localStorage.setItem('dates_all', JSON.stringify(datesAll));
-    } else {
-      datesAll = { first_date: date.first_date, last_date: date.last_date };
-    }
-    try {
       this.dateRange = datesAll;
+      console.log(this.dateRange);
     } catch (e) {
+      console.log(e);
       datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
       localStorage.setItem('dates_all', JSON.stringify(datesAll));
       this.dateRange = datesAll;
-
     }
+  }
 
+  isValidDate(date: Date): boolean {
+    return moment(new Date(date)).isValid();
   }
 
   assignHeaderDate(data: IheaderDashboard): void {
@@ -151,50 +167,50 @@ export class DashboardComponent implements OnInit {
   }
 
   //#region Chart Locales
-  createChartLocales(): void {
-    const _chart = document.getElementById('chart-locations') as any;
-    const ctx = _chart.getContext('2d') as any;
-    const dataChart: ChartConfiguration = {
-      type: 'doughnut',
-      data: {
-        labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
-        datasets: [
-          {
-            label: 'Ventas',
-            data: [1, 1, 1, 1, 1],
-            // backgroundColor: 'rgba(0,200,83,0.5)',
-            borderColor: 'rgba(0,200,83,0.5)',
-            borderWidth: 2,
-            backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
-          }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    };
-    this.chartLocales = new Chart(ctx as any, dataChart);
-    this.updateChartLocales();
-  }
+  // createChartLocales(): void {
+  //   const _chart = document.getElementById('chart-locations') as any;
+  //   const ctx = _chart.getContext('2d') as any;
+  //   const dataChart: ChartConfiguration = {
+  //     type: 'doughnut',
+  //     data: {
+  //       labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
+  //       datasets: [
+  //         {
+  //           label: 'Ventas',
+  //           data: [1, 1, 1, 1, 1],
+  //           // backgroundColor: 'rgba(0,200,83,0.5)',
+  //           borderColor: 'rgba(0,200,83,0.5)',
+  //           borderWidth: 2,
+  //           backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
+  //         }]
+  //     },
+  //     options: {
+  //       responsive: true,
+  //       maintainAspectRatio: false,
+  //     }
+  //   };
+  //   this.chartLocales = new Chart(ctx as any, dataChart);
+  //   this.updateChartLocales();
+  // }
 
-  updateChartLocales(key: EkeyDashboard = EkeyDashboard.location_sales): void {
-    const date = this.getDate();
-    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=5`)
-    this.suscribeForTop(key)
-    .subscribe((res) => {
-      // console.log(res);
-      const data = res.data.data as ItopDashboard<IstatisticableLocation>[];
-      this.chartLocales.data.datasets[0].data = [];
-      this.chartLocales.data.datasets[0].data = data.map(item => item._total);
-      this.chartLocales.data.labels = data.map(item => item.statisticable.name);
-      this.chartLocales.update();
+  // updateChartLocales(key: EkeyDashboard = EkeyDashboard.location_sales): void {
+  //   const date = this.getDate();
+  //   // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=5`)
+  //   this.suscribeForTop(key)
+  //   .subscribe((res) => {
+  //     // console.log(res);
+  //     const data = res.data.data as ItopDashboard<IstatisticableLocation>[];
+  //     this.chartLocales.data.datasets[0].data = [];
+  //     this.chartLocales.data.datasets[0].data = data.map(item => item._total);
+  //     this.chartLocales.data.labels = data.map(item => item.statisticable.name);
+  //     this.chartLocales.update();
 
-    });
-  }
+  //   });
+  // }
 
   //#endregion Chart Locales
 
-  openSelectVersus(event: MouseEvent): void {
+  openSelectVersus(): void {
     this.bottomSheet.open(IndexComponent);
   }
 
@@ -204,14 +220,22 @@ export class DashboardComponent implements OnInit {
       if (result) {
         this.dateRange = result;
         this.getDateHeader();
-        this.updateChartLocales();
+
+        this.chartLocales.dates = this.getDate();
+        this.chartLocales.updateChart();
+
         this.chartProductChart.dates = this.getDate();
         this.chartProductChart.updateChart();
+
         this.chartSellChart.dates = this.getDate();
         this.chartSellChart.updateChart();
+
+        this.chartCategory.dates = this.getDate();
+        this.chartCategory.updateChart();
+
         this.updateTableForLocales();
         this.updateChartTableForCity();
-        this.updateChartSellForCategories();
+        // this.updateChartSellForCategories();
         this.updateTableForSellers();
       }
     });

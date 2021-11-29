@@ -5,12 +5,16 @@
         </ngx-spinner>
     
     <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas</h3>
-    <div class="d-flex align-items-center">
-        <mat-radio-group (change)="updateChart($event)" [(ngModel)]="for" aria-label="Select an option">
-            <mat-radio-button value="day">Dias</mat-radio-button>
-            <mat-radio-button value="week">Semanas</mat-radio-button>
-            <mat-radio-button value="month">Meses</mat-radio-button>
-        </mat-radio-group>
+    <div class="d-flex justify-content-between">
+          <mat-chip-list selectable="true" aria-label="period selection">
+            <mat-chip (click)="updateChart({type:'period', value: 'day'})" [selected]="period.day">Dias</mat-chip>
+            <mat-chip (click)="updateChart({type:'period', value: 'week'})" [selected]="period.week">Semana</mat-chip>
+            <mat-chip (click)="updateChart({type:'period', value: 'month'})" [selected]="period.month">Meses</mat-chip>
+          </mat-chip-list>
+          <mat-chip-list selectable="true" aria-label="key selection">
+              <mat-chip color="accent" (click)="updateChart({type:'key', value: 'sales'})" [selected]="key.sales">Ventas en dolares</mat-chip>
+              <mat-chip color="accent" (click)="updateChart({type:'key', value: 'sales-count'})" [selected]="key['sales-count']">Numero de ventas</mat-chip>
+          </mat-chip-list>
     </div>
     <div style="height: 400px;" class="d-flex align-items-center position-relative">
         <canvas id="chart-sells"></canvas>

@@ -25,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 // import { Ngx } from '@angular-material-components';
@@ -34,7 +35,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [RrhhAppointmentMainComponents, IndexComponent, CreateOrEditAppointmentComponent, ModalZoomComponent, ModalSendCvComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     RrhhAppointmentRoutingModule,
     HeaderSearchModule,
     MatChipsModule,
@@ -55,7 +56,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatSlideToggleModule,
     SearchTemplateModule,
     MatAutocompleteModule,
-    ClipboardModule
+    ClipboardModule,
+    MatTooltipModule
   ],
   entryComponents: [ModalZoomComponent, ModalSendCvComponent]
 })

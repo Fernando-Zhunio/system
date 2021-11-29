@@ -28,9 +28,6 @@ export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements On
     this.data.emit(this.products);
   }
 
-
-
-
   hasIsLoading(): void {
     this.isloading.emit(this.isload);
   }

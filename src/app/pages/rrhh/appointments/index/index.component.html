@@ -70,6 +70,7 @@
                 Solicitante: <span class="font-weight-bold ">{{p.request.user.first_name}} {{p.request.user.last_name}}
                   <br></span>
                 Tipo : <span class="font-weight-bold ">{{p.type}} <br></span>
+                Estado : <span class="font-weight-bold text-success">{{p.request.current_status.name}} <br></span>
                 Fecha:<span class="font-weight-bold "> {{p.date | date:'dd/MM/yyyy'}} </span><br>
                 Hora: <span class="font-weight-bold ">{{p.date | date:'hh:mm'}}</span> <br>
                 Persona asignada: <span class="font-weight-bold ">
@@ -92,26 +93,34 @@
           <div class="col-12">
 
             <mat-chip-list class="ml-1">
-              <mat-chip selected (click)="goWork(p.request.work.id)" class="text-truncate">
+              <mat-chip  (click)="goWork(p.request.work.id)" class="text-truncate">
                 <mat-icon>description</mat-icon> Empleo
               </mat-chip>
-              <mat-chip *ngIf="p.type =='video_conference'" selected color="acent" (click)="modalZoom(p.id)"
+              <mat-chip *ngIf="p.type =='video_conference'"  color="accent" (click)="modalZoom(p.id)"
                 class="text-truncate">
                 <mat-icon>videocam</mat-icon> Zoom
               </mat-chip>
-              <mat-chip selected color="acent" (click)="openCv(p.id)" class="text-truncate">
+              <mat-chip color="accent" (click)="openCv(p.id)" class="text-truncate">
                 <mat-icon>assignment_ind</mat-icon> HV
               </mat-chip>
               <mat-chip selected color="warn" (click)="deleteAppointment(p.id)" class="text-truncate">
                 <mat-icon>delete</mat-icon>
               </mat-chip>
-              <mat-chip  selected color="acent" (click)="gotEditAppointment(p.id)"
+              <mat-chip  selected color="accent" (click)="gotEditAppointment(p.id)"
               class="text-truncate">
               <mat-icon>edit</mat-icon>
             </mat-chip>
-            <mat-chip [ngClass]="{'bg-success': p.request.current_status.type_action == 'request_hired'}"  selected color="acent" (click)="doHired(p.id)"
+            <mat-chip class="bg-success" matTooltip="Hacer Finalista"  *ngIf="p.request.current_status.type_action == 'request_in_process'" color="accent" (click)="doFinalist(p.id)"
+              class="text-truncate">
+              <mat-icon>file_download_done</mat-icon>
+            </mat-chip>
+            <mat-chip class="bg-success" matTooltip="Contratar a esta persona" *ngIf="p.request.current_status.type_action == 'request_finalist'"   color="accent" (click)="doHired(p.id)"
               class="text-truncate">
               <mat-icon>military_tech</mat-icon>
+            </mat-chip>
+            <mat-chip class="bg-success" selected *ngIf="p.request.current_status.type_action == 'request_hired'"   color="primary"
+              class="text-truncate">
+              Esta persona ya fue contratada
             </mat-chip>
             </mat-chip-list>
           </div>

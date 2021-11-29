@@ -123,6 +123,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     CreateEmailModalComponent,
     CreateOrEditCountryComponent,
     FacebookAdsModalComponent,
+    ModalAssignUserComponent,
   ]
 })
 export class AdministracionSistemaModule { }

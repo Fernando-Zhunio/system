@@ -99,6 +99,25 @@ export class IndexComponent
     ]);
   }
 
+  doFinalist(id: number): void {
+    const appointment = this.products.find((x) => x.id === id);
+    const url = `rrhh/requests/${appointment.request_id}/statuses`;
+    this.s_serviceStandart
+    .store(url, { status: 'request_finalist' })
+    .subscribe(
+      (res1: any) => {
+        appointment['isload'] = false;
+        if (res1 && res1.hasOwnProperty('success') && res1.success) {
+          appointment.request.current_status.type_action =
+            'request_finalist';
+        }
+      },
+      (err) => {
+        appointment['isload'] = false;
+      }
+    );
+  }
+
   doHired(id: number) {
     const appointment = this.products.find((x) => x.id === id);
     if (appointment.request.current_status.type_action === 'request_hired') {

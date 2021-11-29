@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import AirDatepicker, { AirDatepickerOptions } from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
+import { SwalService } from './../../../../../services/swal.service';
 
 @Component({
   selector: 'app-select-dates-dashboard',
@@ -18,10 +19,12 @@ export class SelectDatesDashboardComponent implements OnInit {
   airDate2: AirDatepicker = null;
   daysDate2: number = 0;
   isActive: boolean = false;
+
   options1: AirDatepickerOptions | any = {
     locale: localeEs,
     dateFormat: 'yyyy MMMM dd',
     range: true,
+    maxDate: new Date(),
     multipleDatesSeparator: ' A ',
     onSelect: ({ datepicker,  }) => {
       const dates = datepicker.selectedDates;
@@ -37,16 +40,6 @@ export class SelectDatesDashboardComponent implements OnInit {
           maxDate: _date,
         });
         this.daysDate2 = days;
-        // this.airDate2.update({
-        //   onRenderCell: ({ date }) => {
-        //     const is = moment(date).isBetween(new Date(moment(dates[0]).subtract(days + 1, 'days').format()), new Date(moment(dates[1]).add(1, 'days').format()));
-        //       if (is) {
-        //         return {
-        //           disabled: true,
-        //           classes: 'disabled-day didabef'
-        //         };
-        //       }}
-        // });
     }},
   };
 
@@ -61,10 +54,6 @@ export class SelectDatesDashboardComponent implements OnInit {
       const dates = datepicker.selectedDates;
       if (dates.length == 2) {
         this.daysDate2 = Math.abs(moment(dates[0]).diff(moment(dates[1]), 'days'));
-        // console.log({ days, dates });
-        // this.daysDate2 = days;
-        // if (moment([dates]).isBetween(dates[0], dates[1])) {
-        // }
       }
     },
   };
@@ -75,12 +64,18 @@ export class SelectDatesDashboardComponent implements OnInit {
   }
 
   saveDates() {
-    const datesAll = {first_date: this.airDate1.selectedDates, last_date: this.airDate2.selectedDates};
-    // if (this.isActive) {
-    //   datesAll.last_date = this.airDate2.selectedDates;
-    // }
-    localStorage.setItem('dates_all', JSON.stringify(datesAll));
-    this.dialogRef.close(datesAll);
+    if (this.daysDate1 != this.daysDate2) {
+      SwalService.swalFire({ title: 'Error de dias', text: 'El numero de fechas no coinciden', icon: 'warning'});
+      return;
+    }
+    if (this.airDate1.selectedDates.length == 2 && this.airDate2.selectedDates.length == 2) {
+      console.log({first_date: this.airDate1.selectedDates, last_date: this.airDate2.selectedDates});
+      const datesAll = {first_date: this.airDate1.selectedDates, last_date: this.airDate2.selectedDates};
+      localStorage.setItem('dates_all', JSON.stringify(datesAll));
+      this.dialogRef.close(datesAll);
+    } else {
+      SwalService.swalFire({ title: 'Error de Seleccion', text: 'Error de seleccion de fechas', icon: 'warning'});
+    }
   }
 
 }

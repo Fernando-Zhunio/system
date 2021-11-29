@@ -12,3 +12,14 @@ export enum EkeyDashboard {
     sales = 'sales',
     sales_count = 'sales-count',
 }
+
+export enum EtypeGraph {
+    doughnut =  'doughnut',
+    bar = 'bar',
+    line = ' line' ,
+    scatter = 'scatter',
+    bubble = 'bubble',
+    radar = 'radar',
+    polarArea = 'polarArea',
+    pie = 'pie',
+}

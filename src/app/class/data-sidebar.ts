@@ -118,6 +118,14 @@ export class DataSidebar {
       permission: 'rrhh-requests',
       tag: this.tags.rrhh,
     },
+    {
+      name: 'Usuarios Web',
+      url: '/recursos-humanos/users-web',
+      icon: 'icon-star',
+      permission: 'rrhh-requests',
+      tag: this.tags.rrhh,
+    },
+    
     //#endregion rrhh
     //#region admin products
     {
