@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UsersWebRrhhComponent } from './users-web-rrhh/users-web-rrhh.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ CommonModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    RouterModule,
   ]
 })
 export class RrhhModule { }

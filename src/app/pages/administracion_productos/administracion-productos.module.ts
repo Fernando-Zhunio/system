@@ -2,10 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminProductRoutingModule } from './administracion-productos-routing.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
-// import { IndexComponent } from './vtex-productos/index/index.component';
-
 import { VtexProductosModule } from './vtex-productos/vtex-productos.module';
-// import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -15,7 +13,7 @@ import { VtexProductosModule } from './vtex-productos/vtex-productos.module';
     AdminProductRoutingModule,
     VtexProductosModule,
     NgxPermissionsModule,
-    // MatCardModule
+    RouterModule
   ]
 })
 export class AdministracionProductosModule { }

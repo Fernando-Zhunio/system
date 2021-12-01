@@ -17,7 +17,7 @@ export class ProductosComponent implements OnInit {
     private s_standart: StandartSearchService,
     private router: Router,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   permission_create: any[] = ['super-admin', 'products-admin.products.create'];
   permission_edit: any[] = ['super-admin', 'products-admin.products.edit'];
@@ -44,8 +44,8 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
     const pageInitial =
       Number.parseInt(this.activeRoute.snapshot.queryParamMap.get('page')) || 1;
-      const params = this.getQueryParams();
-      params ? this.nextPage(pageInitial, params) : this.nextPage(pageInitial);
+    const params = this.getQueryParams();
+    params ? this.nextPage(pageInitial, params) : this.nextPage(pageInitial);
   }
 
   getQueryParams() {
@@ -54,7 +54,7 @@ export class ProductosComponent implements OnInit {
     if (params.hasOwnProperty('page')) {
       delete params['page'];
     }
-    if (params != '{}' ) {
+    if (params != '{}') {
       try {
         const keysParams = Object.keys(params)
         for (let i = 0; i < keysParams.length; i++) {
@@ -72,9 +72,9 @@ export class ProductosComponent implements OnInit {
 
 
 
-  nextPage(pageNumber = 1, params= null): void {
+  nextPage(pageNumber = 1, params = null): void {
     const dataValid = params ? params : this.findValidControls();
-    this.s_standart.search2('products-admin/products', {...dataValid, page: pageNumber}).subscribe((res: any) => {
+    this.s_standart.search2('products-admin/products', { ...dataValid, page: pageNumber }).subscribe((res: any) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.products = res.data;
         this.totalItem = this.products.total;
@@ -98,15 +98,19 @@ export class ProductosComponent implements OnInit {
 
   public findValidControls() {
     const valid = [];
-    const controls  = this.formProducts.controls;
+    const controls = this.formProducts.controls;
     for (const name in controls) {
-        if (controls[name].valid) {
-            // valid.push(name);
-            valid[name] = controls[name].value;
-        }
+      if (controls[name].valid) {
+        // valid.push(name);
+        valid[name] = controls[name].value;
+      }
     }
     return valid;
-}
+  }
+
+  goCreate():void {
+    this.router.navigate(['/admin-products/productos/create']);
+  } 
 
   destroyProduct(id): void {
     const index = this.products.data.findIndex((x) => x.id === id);
@@ -131,7 +135,7 @@ export class ProductosComponent implements OnInit {
 
         if (result.isConfirmed) {
           this.s_products.destroy(id).subscribe((res) => {
-            if (index != -1) {this.products.data.splice(index, 1); }
+            if (index != -1) { this.products.data.splice(index, 1); }
             swalWithBootstrapButtons.fire(
               'Eliminado!',
               'Eliminado con exito.',

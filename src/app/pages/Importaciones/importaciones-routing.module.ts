@@ -9,41 +9,44 @@ import { CreateImportComponent } from './create-import/create-import.component';
 import { EditImportComponent } from './edit-import/edit-import.component';
 import { InConstructionComponent } from '../../views/in-construction/in-construction.component';
 
-@Component({
-  selector: 'app-importaciones',
-  template: '<router-outlet></router-outlet>',
-})
-export class ImportacionesMainComponents  {
-}
+// @Component({
+//   selector: 'app-importaciones',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class ImportacionesMainComponents  {
+// }
 
 
 const routes: Routes = [
   {
     path: '',
-    component:ImportacionesMainComponents,
+    // component:ImportacionesMainComponents,
     children: [
       {
-        path: 'proveedores',
-        component:ProveedoresComponent,
-      },
-      {
-        path:'import/create',
-        component:CreateImportComponent,
-        data:{state:"create"}
+        path: '',
+        component: ProveedoresComponent,
       },
 
       {
-        path:'import/edit/:id',
-        component:EditImportComponent,
-        data:{state:"edit"}
+        path: 'create',
+        component: CreateImportComponent,
+        data: {state: 'create'}
       },
+
+      {
+        path: 'edit/:id',
+        component: EditImportComponent,
+        data: {state: 'edit'}
+      },
+
       {
         path: 'codificar-importaciones',
-        component:InConstructionComponent,
+        component: InConstructionComponent,
       },
+
       {
         path: 'precios-promociones',
-        component:InConstructionComponent,
+        component: InConstructionComponent,
       }
       // {
       //   path: 'buscar_productos',

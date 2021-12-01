@@ -1,16 +1,11 @@
-import { Ipagination } from "../interfaces/ipagination";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { StandartSearchService } from "../services/standart-search.service";
-import { HeaderSearchComponent } from "../components/header-search/header-search.component";
-import { Injectable, ViewChild } from "@angular/core";
+import { Ipagination } from '../interfaces/ipagination';
+import { HeaderSearchComponent } from '../components/header-search/header-search.component';
+import { Injectable, ViewChild } from '@angular/core';
 
 @Injectable()
 export abstract class CTemplateSearch<T> {
   paginator: Ipagination<T>;
   isload: boolean;
-  // snack_bar: MatSnackBar;
-  // s_standart: StandartSearchService;
-  // headerComponent: HeaderSearchComponent;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
   // ngx_spinner:any;

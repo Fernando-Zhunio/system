@@ -5,9 +5,9 @@
                 <div>
                     <div *ngIf="import" class="mb-3">
                         <div>
-                            <mat-card-title>Importacion {{import.sequence.origin.name}} #{{import.sequence.sequence_number}}
+                            <mat-card-title>Importacion {{import?.sequence?.origin?.name}} #{{import?.sequence?.sequence_number}}
                             </mat-card-title>
-                            <mat-card-subtitle> Código: <b>{{import.code}}</b></mat-card-subtitle>
+                            <mat-card-subtitle> Código: <b>{{import?.code}}</b></mat-card-subtitle>
                         </div>
                         <mat-chip-list aria-label="Fish selection">
                             <mat-chip>{{import.last_status.status.name}}</mat-chip>
@@ -24,13 +24,14 @@
                             </ng-template>
                         </mat-chip-list>
                     </div>
-                    <div>
-                        <div class="font-2xl font-facebook">Facturas <button mat-mini-fab (click)="newInvoice()">
-                            <mat-icon>add</mat-icon>
-                        </button></div>
+                    <div class="shadow rounded-fz card-body mb-3">
+                        <div class="font-2xl font-facebook">Facturas </div>
                         <div *ngFor="let invoices of forms_invoices;index as i">
                             <app-invoice-create-or-edit (new_action)="changeProviders($event)" [ELEMENT_DATA]="invoices?.items" [invoice]="invoices" (close)="deleteInvoice(i)" [id_import]="import?.id" [providers]="providers" [state]="invoices?'edit':'create'"></app-invoice-create-or-edit>
                         </div>
+                        <button color="accent" mat-flat-button class="mt-2" (click)="newInvoice()">
+                           Agregar nueva factura <mat-icon>add</mat-icon>
+                        </button>
                     </div>
                     <div [formGroup]="form_publish">
                         <div class="font-2xl font-facebook">Fecha estimada de llegada</div>
