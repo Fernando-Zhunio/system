@@ -8,7 +8,6 @@ export abstract class CTemplateSearch<T> {
   isload: boolean;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
-  // ngx_spinner:any;
   pageSizeOptions: number[] = [10, 15, 25, 100];
   products: T[] = [];
 

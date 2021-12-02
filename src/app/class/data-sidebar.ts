@@ -122,11 +122,11 @@ export class DataSidebar {
       name: 'Usuarios Web',
       url: '/recursos-humanos/users-web',
       icon: 'icon-star',
-      permission: 'rrhh-requests',
+      permission: 'rrhh-users-web',
       tag: this.tags.rrhh,
     },
-    
     //#endregion rrhh
+
     //#region admin products
     {
       title: true,

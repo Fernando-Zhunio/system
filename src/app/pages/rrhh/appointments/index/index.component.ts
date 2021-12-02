@@ -22,7 +22,7 @@ export class IndexComponent
     private s_shared: SharedService,
     private dialog: MatDialog,
     private router: Router,
-    private s_serviceStandart: StandartSearchService,
+    private s_serviceStandard: StandartSearchService,
   ) {
     super();
   }
@@ -30,6 +30,7 @@ export class IndexComponent
   isOpenCv: boolean = false;
   cv: string = '';
   status: 'normal' | 'send_email' = 'normal';
+  statusAppointment: string = 'available';
   userSelectedToEmailCv: Iuser[] = [];
   ngOnInit(): void {}
 
@@ -44,7 +45,7 @@ export class IndexComponent
     ).then((result) => {
       if (result.isConfirmed) {
         appointment['isload'] = true;
-        this.s_serviceStandart
+        this.s_serviceStandard
           .destory(
             `rrhh/requests/${appointment.request.id}/appointments/${appointment.id}`
           )
@@ -102,7 +103,7 @@ export class IndexComponent
   doFinalist(id: number): void {
     const appointment = this.products.find((x) => x.id === id);
     const url = `rrhh/requests/${appointment.request_id}/statuses`;
-    this.s_serviceStandart
+    this.s_serviceStandard
     .store(url, { status: 'request_finalist' })
     .subscribe(
       (res1: any) => {
@@ -130,7 +131,7 @@ export class IndexComponent
         if (res.isConfirmed) {
           appointment['isload'] = true;
           const url = `rrhh/requests/${appointment.request_id}/statuses`;
-          this.s_serviceStandart
+          this.s_serviceStandard
             .store(url, { status: 'request_finalist' })
             .subscribe(
               (res1: any) => {
@@ -158,7 +159,7 @@ export class IndexComponent
     ).then((result) => {
       if (result.isConfirmed) {
         const url = `rrhh/requests/${appointment.request_id}/statuses`;
-        this.s_serviceStandart
+        this.s_serviceStandard
           .store(url, { status: 'request_hired' })
           .subscribe((res) => {
             if (res.hasOwnProperty('success') && res.success) {
@@ -170,17 +171,15 @@ export class IndexComponent
   }
 
   changedStatus(): void {
-    // this.status = this.status == 'send_email' ? 'normal' : 'send_email';
-    // this.products.map((x) => {
-    //   x['isload'] = this.status == 'send_email' ? true : false;
-    // });
+
     this.dialog.open(ModalSendCvComponent, {
       disableClose: true,
     });
   }
 
-  // addUserForEmailCv(id: number) {
-  //   const user = this.products.find((x) => x.id === id).request.user;
-  //   this.userSelectedToEmailCv.push(user);
-  // }
+  applyFilter() {
+    this.headerComponent.filter_data = {status: this.statusAppointment};
+    this.headerComponent.searchBar();
+  }
+
 }

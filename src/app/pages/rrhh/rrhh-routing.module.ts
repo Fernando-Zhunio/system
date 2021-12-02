@@ -63,7 +63,7 @@ const routes: Routes = [
         component: UsersWebRrhhComponent,
         data: {
           permissions: {
-            only: ['super-admin', 'rrhh-requests'],
+            only: ['super-admin', 'rrhh-users-web'],
           },
         },
         canActivate: [NgxPermissionsGuard],

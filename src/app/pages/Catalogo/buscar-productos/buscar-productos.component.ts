@@ -38,6 +38,7 @@ export class BuscarProductosComponent implements OnInit {
     private s_product: ProductsService,
     private actived_router: ActivatedRoute,
   ) {}
+
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
@@ -46,7 +47,6 @@ export class BuscarProductosComponent implements OnInit {
   pageEvent: PageEvent;
 
   products: IproductWithVtex[] = [];
-
   selected_state: string = 'all';
   min: string = '';
   max: string = '';
@@ -68,12 +68,10 @@ export class BuscarProductosComponent implements OnInit {
   };
 
   post_current: IpostProduct;
-
   suscrition_api: Subscription;
   isLoad: boolean = false;
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
-
   paginator: Ipagination<IproductWithVtex>;
   prefix_id: string = 'all';
   warehouse_ids = [];
@@ -85,7 +83,6 @@ export class BuscarProductosComponent implements OnInit {
   is_open_go: boolean = false;
   icon_go: 'segment'|'close' = 'segment';
   public config: SwiperOptions = {
-
     direction: 'horizontal',
     spaceBetween: 10,
     breakpoints: {

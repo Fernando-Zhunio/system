@@ -23,6 +23,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   @Input() url = '';
   @Input() placeholder = 'Escriba el nombre del producto';
   @Input() filter_data = {};
+  @Input() active_filters_menu: boolean = false;
   @Input() isSticky: boolean = true;
   @Input() init: boolean = true;
   @Input() spinner_name = null;
@@ -75,6 +76,8 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     this.gotoTop();
+    console.log(this.filter_data);
+    
     this.subscription = this.s_standard
       .search2(this.url, {
         pageSize: $event.pageSize,

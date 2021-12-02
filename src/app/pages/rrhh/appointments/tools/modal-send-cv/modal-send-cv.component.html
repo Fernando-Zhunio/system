@@ -15,13 +15,11 @@
     </ng-container>
   </app-search-template>
   <div>
-
     <ng-template #TEMPLATE_FULL_WORK>
       <div class="col-12">
         <div class="w-100 position-relative center">
           <input class="font-2xl px-3 py-1 shadow w-100" style="border-radius: 10px;" placeholder="Buscador el empleo" type="search"
             (keyup.enter)="searchWorks($event)" matInput  [matAutocomplete]="auto">
-          <!-- <button class="btn-add-person" [routerLink]="['/administracion-sistema/personas/create']"><mat-icon color="accent">person_add_alt</mat-icon></button> -->
         </div>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let work of works;let i=index" (click)="captureUserFinalist(work.id)"

@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { CTemplateSearch } from '../../../../class/ctemplate-search';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
@@ -16,13 +19,19 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
   constructor(private router: Router, private s_shared: SharedService, private s_standard: StandartSearchService) {
     super();
   }
-  @ViewChild('headerComponent') headerComponent: HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  @ViewChild('workInput') inputWork: ElementRef;
 
   searchJob: string = '';
   works: Iwork[] = [];
+  idWork: number = null;
   url: string = 'rrhh/requests';
   isOpenCv: boolean = false;
-  filtersJob: { name: string, value: string | number } = null;
+  form: FormGroup = new FormGroup({
+    isWishlist: new FormControl(false),
+    work_id: new FormControl(null),
+  });
+  workText: string = null;
   cv: string = '';
   statuses: any[] = ['request_postulate', 'request_cv_viewed', 'request_in_process', 'request_finalist'];
   ngOnInit(): void {
@@ -38,16 +47,15 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
     this.isOpenCv = true;
     const url = `rrhh/requests/${id}/statuses`;
     this.s_standard.store(url, { status: 'request_cv_viewed' }).subscribe(res => {
-      if (res.hasOwnProperty('success') && res.success) {
 
-      }
     });
     this.cv = this.products.find((x) => x.id === id).user?.resume?.attachment?.real_permalink;
   }
 
   getWorks(): void {
     const url = `rrhh/works`;
-    this.s_standard.index(`${url}?search=${this.searchJob}`).subscribe(res => {
+    const searchText = this.inputWork.nativeElement.value;
+    this.s_standard.index(`${url}?search=${searchText}`).subscribe(res => {
       console.log(res);
       if (res.hasOwnProperty('success') && res.success) {
         this.works = res.data.data;
@@ -56,21 +64,66 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
     );
   }
 
-  clearFilterJob(): void {
-    this.filtersJob = null;
-    this.searchJob = '';
-    this.headerComponent.filter_data = null;
-    this.headerComponent.searchBar();
+  addWorkFilter(event: MatAutocompleteSelectedEvent): void {
+    console.log(event);
+    const value = event.option.viewValue;
+    const input = event.option.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.workText = value.trim();
+    }
+
+    // Reset the input value
+    // if (input) {
+    //   input.value = '';
+    // }
+    this.form.get('work_id').setValue(input);
   }
 
+  getDataPaginate(event: Irequest[]): void {
+    this.products = event;
+  }
+
+  removeWorkFilter(): void {
+    this.workText = null;
+    this.form.get('work_id').setValue(null);
+  }
+
+  // clearFilterJob(): void {
+  //   this.filters.job.name = '';
+  //   this.filters.job.value = null;
+  //   this.idWork = null;
+  //   this.searchJob = '';
+  //   this.headerComponent.filter_data = {work_id: this.filters?.job.value, isWishlist: this.filters?.isWishlist};
+  //   this.headerComponent.searchBar();
+  // }
+
+  // clearFilterWishlist(): void {
+  //   this.filters.isWishlist = false;
+  //   this.isWishlist = false;
+  //   this.headerComponent.filter_data = {work_id: this.filters?.job.value, isWishlist: this.filters?.isWishlist};
+  //   this.headerComponent.searchBar();
+  // }
+
   getRequestOfWork(id: number): void {
-    this.filtersJob = { name: this.searchJob, value: id };
-    this.s_standard.index(`${this.url}?work_id=${id}`).subscribe(res => {
-      console.log(res);
+    // this.filters.job.name = this.searchJob;
+    // this.idWork = id;
+    this.form.get('work_id').setValue(id);
+  }
+
+  // applyFilter(): void {
+  //   this.filters = { job: {name: this.filters.job.name, value: this.idWork}, isWishlist: this.isWishlist };
+  //   this.headerComponent.filter_data = {work_id: this.filters?.job.value, isWishlist: this.filters?.isWishlist};
+  //   this.headerComponent.searchBar();
+  // }
+
+  doFavorite(id: number, isFavorite): void {
+    const url = `rrhh/requests/${id}/mark-favorite`;
+    this.s_standard.updatePut(url, {mark: !isFavorite}).subscribe(res => {
       if (res.hasOwnProperty('success') && res.success) {
-        this.products = res.data.data;
+        this.products.find(x => x.id === id).favorite = !isFavorite;
       }
     });
   }
-
 }

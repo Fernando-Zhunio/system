@@ -11,14 +11,15 @@ export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements On
   constructor() {
     super();
   }
-
+  @Input() filter_data: object = {};
   @Input() placeholder: string = 'Buscador';
   @Input() url$: string;
   @Output() isloading = new EventEmitter<boolean>();
-
+  @Input() active_filters_menu: boolean = false;
   @Output() data = new EventEmitter<any>();
 
   ngOnInit(): void {
+console.log(this.filter_data);
 
   }
 

@@ -12,15 +12,13 @@ import { SwalService } from '../../../../../services/swal.service';
 })
 export class ModalSendCvComponent implements OnInit {
 
-  constructor(private s_standart: StandartSearchService) { }
+  constructor(private s_standard: StandartSearchService) { }
   @ViewChild(SearchTemplateComponent) appFoo: SearchTemplateComponent<Iuser>;
 
   url: string = 'rrhh/users';
   placeholder = 'Buscador usuario';
-  // data: Iuser[] = [];
   dataMap: Map<number, Iuser> = new Map<number, Iuser>();
   dataSelectMap: Map<number, Iuser> = new Map<number, Iuser>();
-  // selectUsers: Iuser[] = [];
   form: FormGroup = new FormGroup({
     full_work: new FormControl(false, [Validators.required]),
     emails: new FormArray([]),
@@ -70,7 +68,7 @@ export class ModalSendCvComponent implements OnInit {
     console.log(search);
     const url = `rrhh/works`;
     this.isloadUser = true;
-    this.s_standart.index(url, search).subscribe( res =>{
+    this.s_standard.index(url, search).subscribe( res =>{
       console.log(res);
       this.isloadUser = false;
       this.works = res.data.data;
@@ -81,7 +79,7 @@ export class ModalSendCvComponent implements OnInit {
   }
 
   captureUserFinalist(work_id: number): void {
-    this.s_standart.index(`rrhh/work/${work_id}/requests`).subscribe( res => {
+    this.s_standard.index(`rrhh/work/${work_id}/requests`).subscribe( res => {
       console.log(res);
       // this.dataSelectMap = res.data.map(x => {
       //   return x.user;
@@ -96,7 +94,7 @@ export class ModalSendCvComponent implements OnInit {
     console.log(this.getDataForSend());
     const dataSend = this.getDataForSend();
     if (dataSend) {
-      this.s_standart.store(url, dataSend).subscribe( res => {
+      this.s_standard.store(url, dataSend).subscribe( res => {
         console.log(res);
         SwalService.swalConfirmation('Enviado', 'Se ha enviado el correo', 'success');
       });
