@@ -5,9 +5,9 @@
 // Typography
 $custom-typography: mat-typography-config(
   $font-family: 'Montserrat',
-  $headline: mat-typography-level(24px, 48px, 700),
   $body-1: mat-typography-level(13px, 20px, 600)
-);
+  );
+  // $headline: mat-typography-level(24px, 48px, 700),
 @include angular-material-typography($custom-typography);
 
 

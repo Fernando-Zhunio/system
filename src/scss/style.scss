@@ -308,3 +308,14 @@ button {
     // color: black;
     // background-color: inherit;
 }
+
+.shadow-fz{
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    transition: 0.5s linear;
+}
+
+.shadow-fz:hover{
+box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+    transition: 0.5s linear;
+
+}

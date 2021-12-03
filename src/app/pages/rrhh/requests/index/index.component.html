@@ -146,7 +146,7 @@
       <div class="w-100" mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
         (keydown)="$event.stopPropagation()">
         <mat-form-field class="w-100">
-          <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip-list #chipList aria-label="selection">
             <mat-chip
             class="text-truncate"
             *ngIf="workText"
@@ -181,7 +181,7 @@
   </ng-container>
   <ng-container data>
     <mat-card *ngFor="let p of products;let index_product=index"
-    class="card border-0 rounded-fz overflow-hidden position-relative">
+    class="card border-0 rounded-fz shadow-fz overflow-hidden position-relative">
     <div class="card-body">
       <div class="header-grid">
         <img class="rounded-circle" [src]="p.user?.photo?.real_permalink || '/assets/img/avatars/profile-user.svg'"

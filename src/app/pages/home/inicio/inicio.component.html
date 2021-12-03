@@ -4,8 +4,8 @@
             <div class="col-md-6 p-3 d-flex align-items-center">
                 <div>
                     <div class="position-absolute d-md-block d-none" style="top: 10px;">{{date | date}}</div>
-                    <div class="font-5xl mb-3" style="line-height: 1;">Bienvenido a Novisolutions </div>
-                    <div>{{person.first_name}} {{person.last_name}}</div>
+                    <div class="font-5xl mb-3 text-truncate" style="line-height: 1;">Hola {{person.first_name}} {{person.last_name}} </div>
+                    <div>Bienvenido a Novisolutions</div>
                     <div class="text-capitalize">{{city}}</div>
                 </div>
             </div>
@@ -29,6 +29,13 @@
             </div>
         </div>
     </div>
+    <mat-card class="card-body mb-4 rounded-fz shadow-fz">
+        <h3 class="text-danger">Lo nuevo en el sistema</h3>
+        <div class=" card-body rounded-fz shadow">
+            <h4>Sistema de Chats</h4>
+            <p class="lead">En esta nueva version del sistema podras enviar mensajes a cualquier usuario del sistema ademas del enviar archivos, imagenes, direcciones web y mas, mira esta funcion haciendo click en la parte superior izquierda donde se encuentra este icono <mat-icon>chat_bubble</mat-icon></p>
+        </div>
+    </mat-card>
     <div>
         <!-- <h3>Información del sistema</h3> -->
         <div class="grid-fz m-0">
