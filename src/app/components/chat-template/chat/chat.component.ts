@@ -155,7 +155,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.attachments.splice(index, 1);
   }
 
-
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.suscripted = this.ngfor.changes.subscribe((data) => {

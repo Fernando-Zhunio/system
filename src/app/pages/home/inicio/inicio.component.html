@@ -29,15 +29,14 @@
             </div>
         </div>
     </div>
-    <mat-card class="card-body mb-4 rounded-fz shadow-fz">
-        <h3 class="text-danger">Lo nuevo en el sistema</h3>
-        <div class=" card-body rounded-fz shadow">
-            <h4>Sistema de Chats</h4>
-            <p class="lead">En esta nueva version del sistema podras enviar mensajes a cualquier usuario del sistema ademas del enviar archivos, imagenes, direcciones web y mas, mira esta funcion haciendo click en la parte superior izquierda donde se encuentra este icono <mat-icon>chat_bubble</mat-icon></p>
+    <mat-card *ngIf="newsletters && newsletters.length > 0" class="card-body mb-4 rounded-fz shadow-fz">
+        <h3 class="text-danger m-0">Lo nuevo en el sistema</h3>
+        <div *ngFor="let newsletter of newsletters" class=" card-body rounded-fz shadow mt-3">
+            <h4>{{newsletter.title}}</h4>
+            <p class="lead" [innerHTML]="newsletter.description | markdwon"></p>
         </div>
     </mat-card>
     <div>
-        <!-- <h3>Información del sistema</h3> -->
         <div class="grid-fz m-0">
             <div class="shadow rounded-fz d-flex align-items-center bg-info p-3">
                 <i class="fas fa-shopping-bag font-5xl"></i>

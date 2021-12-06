@@ -276,7 +276,6 @@ reproducir() {
           return;
         }
         console.log(data);
-        
         this.bots = this.bots.concat(data.data.data);
         this.page++;
       },

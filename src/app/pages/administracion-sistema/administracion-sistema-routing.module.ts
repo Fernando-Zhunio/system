@@ -17,6 +17,9 @@ import { VtexWarehousesComponent } from './vtex-site/vtex-warehouses/vtex-wareho
 import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
 import { VtexSitesComponent } from './vtex-site/vtex-sites.component';
 import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
+import { IndexComponent } from './newsletters/index/index.component';
+import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-newsletter/create-or-edit-newsletter.component';
+
 // import { ComprasAutomaticasComponent } from "./compras-automaticas/compras-automaticas.component";
 // import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
 
@@ -571,10 +574,18 @@ const routes: Routes = [
     },
     canActivate: [NgxPermissionsGuard],
   },
+  {
+    path: 'newsletter',
+    children: [
+      {path: '', component: IndexComponent},
+      {path: 'create', component: CreateOrEditNewsletterComponent, data: {isEdit: false}},
+      {path: 'edit/:id', component: CreateOrEditNewsletterComponent, data: {isEdit: true}},
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+exports: [RouterModule],
 })
 export class AdminSystemRoutingModule {}

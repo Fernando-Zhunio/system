@@ -326,6 +326,13 @@ export class DataSidebar {
       permission: 'admin.vtex.sites.index',
       tag: this.tags.admin_system,
     },
+    {
+      name: 'Novedades',
+      url: '/administracion-sistema/newsletter',
+      icon: 'icon-bag',
+      permission: 'newsletters',
+      tag: this.tags.admin_system,
+    },
     //#endregion
   ];
 }

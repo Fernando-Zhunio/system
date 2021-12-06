@@ -1,6 +1,7 @@
 import { Ipagination } from '../interfaces/ipagination';
 import { HeaderSearchComponent } from '../components/header-search/header-search.component';
 import { Injectable, ViewChild } from '@angular/core';
+import { SwalService } from '../services/swal.service';
 
 @Injectable()
 export abstract class CTemplateSearch<T> {
@@ -19,4 +20,5 @@ export abstract class CTemplateSearch<T> {
   changePaginator(event): void {
     this.headerComponent.searchBar(event);
   }
+
 }

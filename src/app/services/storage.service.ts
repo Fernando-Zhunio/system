@@ -21,7 +21,6 @@ export class StorageService  {
       mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
     }
      this.s_permissionsService.loadPermissions(mergeRolAndPermission);
-
   }
 
   setCurrentSession(session): void {

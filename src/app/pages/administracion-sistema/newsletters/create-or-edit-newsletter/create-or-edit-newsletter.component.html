@@ -1,0 +1,28 @@
+<div>
+    <h1>{{title}}</h1>
+    <mat-card>
+        <form class="row card-body" [formGroup]="form" (ngSubmit)="saveInServer()">
+            <mat-form-field class="col-12">
+                <input matInput placeholder="Titulo" formControlName="title">
+            </mat-form-field>
+            <mat-form-field class="col-12">
+                <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Fecha de inicio <small>(d/m/yyyy)</small></mat-label>
+                <input matInput  formControlName="start_date" [matDatepicker]="dp">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp disabled="false"></mat-datepicker>
+                <mat-error *ngIf="form.controls['start_date'].invalid">Fecha de inicio requerida</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Fecha de financiación <small>(d/m/yyyy)</small></mat-label>
+                <input matInput  formControlName="end_date" [matDatepicker]="dp4">
+                <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+                <mat-error *ngIf="form.controls['end_date'].invalid">Fecha de financiación requerida</mat-error>
+            </mat-form-field>
+            <button [disabled]="form.invalid" type="submit" mat-raised-button>Guardar</button>
+        </form>
+    </mat-card>
+</div>

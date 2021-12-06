@@ -34,6 +34,7 @@ import { SelectDatesDashboardComponent } from './dashboard/modals/select-dates-d
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-chart.component';
+import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module';
 
 @NgModule({
   declarations: [IndexComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent],
@@ -63,7 +64,8 @@ import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-c
     MatRadioModule,
     MatNativeDateModule,
     MatDialogModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MarkdownModule
   ],
   entryComponents: [SelectDatesDashboardComponent, IndexComponent]
 })

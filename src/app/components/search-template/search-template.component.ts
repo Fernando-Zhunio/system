@@ -1,5 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CTemplateSearch } from '../../class/ctemplate-search';
+import { StandartSearchService } from '../../services/standart-search.service';
+import { SwalService } from '../../services/swal.service';
 
 @Component({
   selector: 'app-search-template',
@@ -8,7 +11,7 @@ import { CTemplateSearch } from '../../class/ctemplate-search';
 })
 export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements OnInit {
 
-  constructor() {
+  constructor(private standardService: StandartSearchService, private snackBar: MatSnackBar) {
     super();
   }
   @Input() filter_data: object = {};
@@ -32,5 +35,7 @@ console.log(this.filter_data);
   hasIsLoading(): void {
     this.isloading.emit(this.isload);
   }
+
+ 
 
 }

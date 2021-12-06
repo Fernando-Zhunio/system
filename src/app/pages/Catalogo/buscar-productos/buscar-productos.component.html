@@ -126,7 +126,7 @@
     <div *ngIf="!isLoad" class="card-columns">
       <mat-card class="my-1 shadow-sm card rounded-fz card-body border-0" *ngFor="let p of products; index as ind">
         <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0 " style="top: 68px;background: inherit">
-          <div class="font-weight-light font-2xl ">
+          <div class="font-weight-light font-2xl mb-2">
             <span class="mr-1" style="color: #f44336; font-weight: bold">#{{ p.id }}</span>{{ p.name }}
             <button *ngxPermissionsOnly="permission_edit" [routerLink]="['/admin-products/productos/edit/' + p.id]"
               routerLinkActive="router-link-active" mat-mini-fab>

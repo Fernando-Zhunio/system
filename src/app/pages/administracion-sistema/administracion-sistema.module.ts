@@ -54,6 +54,9 @@ import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses
 import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
 import { VtexSiteComponent } from './vtex-site/tools/vtex-site/vtex-site.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { IndexComponent } from './newsletters/index/index.component';
+import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-newsletter/create-or-edit-newsletter.component';
+import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
 
 @NgModule({
   declarations: [
@@ -82,7 +85,9 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     CreateOrEditVtexWarehousesComponent,
     VtexSitesComponent,
     CreateOrEditVtexSiteComponent,
-    VtexSiteComponent
+    VtexSiteComponent,
+    IndexComponent,
+    CreateOrEditNewsletterComponent
     ],
   imports: [
     CommonModule,
@@ -116,7 +121,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatMenuModule,
     MatBadgeModule,
     NgxSpinnerModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    SearchTemplateModule
   ],
 
   entryComponents: [

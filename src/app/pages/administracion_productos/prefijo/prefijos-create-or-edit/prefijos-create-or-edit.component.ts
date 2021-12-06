@@ -16,7 +16,7 @@ export class PrefijosCreateOrEditComponent implements OnInit {
     private location: Location,
     private s_prefijos: PrefijoService,
     private act_router: ActivatedRoute,
-    private router:Router
+    private router: Router
   ) {}
 
   formCreateOrEdit: FormGroup = new FormGroup({
