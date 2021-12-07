@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <h1 class="font-5xl">Versus</h1>
     <div class="font-fz btns-versus">
 
@@ -26,10 +26,72 @@
                 versus <br> cuidades
             </div>
         </mat-card>
-     
-        <!-- <button mat-raised-button >Versus de Productos</button>
-        <button mat-raised-button >Versus de Productos</button>
-        <button mat-raised-button >Versus de Productos</button>
-        <button mat-raised-button >Versus de Productos</button> -->
     </div>
-</div>
+</div> -->
+
+<!-- <mat-nav-list>
+    <span  mat-list-item>
+      <span mat-line>Google Keep</span>
+      <span mat-line>Add to a note</span>
+    </span>
+    <span  mat-list-item>
+      <span mat-line>Google Docs</span>
+      <span mat-line>Embed in a document</span>
+    </span>
+  
+    <span mat-list-item>
+      <span mat-line>Google Plus</span>
+      <span mat-line>Share with your friends</span>
+    </span>
+  
+    <span mat-list-item>
+      <span mat-line>Google Hangouts</span>
+      <span mat-line>Show to your coworkers</span>
+    </span>
+  </mat-nav-list> -->
+
+  <mat-nav-list>
+    <mat-list-item [routerLink]="['home/dashboard/versus/products']">
+        <div class="d-flex align-items-center">
+            <img src="/assets/images/product.png" alt="producto">
+            &nbsp;
+            <div>
+                <span mat-line>Comparar por productos</span>
+                <span mat-line>Podra seleccionar productos para comparar</span>
+            </div>
+        </div>
+    </mat-list-item>
+  
+    <mat-list-item  [routerLink]="['home/dashboard/versus/categories']">
+        <div class="d-flex align-items-center">
+            <img  src="/assets/images/category.png" alt="producto">
+            &nbsp;
+            <div>
+                <span mat-line>Comparar por Categorias</span>
+                <span mat-line>Podras comparar diferentes categorias</span>
+            </div>
+        </div>
+    </mat-list-item>
+  
+    <mat-list-item [routerLink]="['home/dashboard/versus/locations']">
+        <div class="d-flex align-items-center">
+            <img src="/assets/images/tienda.png" alt="producto">
+            &nbsp;
+            <div>
+                <span mat-line>Comparar por Locales</span>
+                <span mat-line>Comparar locales y ver sus ventas</span>
+            </div>
+        </div>
+    </mat-list-item>
+  
+    <mat-list-item [routerLink]="['home/dashboard/versus/cities']">
+        <div class="d-flex align-items-center">
+            <img  src="/assets/images/city.png" alt="cuidades">
+            &nbsp;
+            <div>
+                <span mat-line>Comparar por Ciudades</span>
+                <span mat-line>Comparar diferentes ciudades</span>
+            </div>
+        </div>
+    </mat-list-item>
+  </mat-nav-list>

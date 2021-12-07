@@ -1,0 +1,32 @@
+<app-search-template 
+    placeholder="Buscador de novedades de la pagina"
+    [url$]="url"
+    (data)="getData($event)"
+>
+<ng-container menuBar>
+    <mat-chip-list>
+        <mat-chip [routerLink]="['./create']">
+            <mat-icon>add_circle_outline</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+</ng-container>
+
+<ng-container data>
+    <div *ngFor="let data of newsletters | keyvalue" class="card shadow border-0 rounded-fz">
+        <div class="card-body">
+            <h3 class="font-2xl">{{data.value.title}}</h3>
+            <p class="font-montserrat">{{data.value.description}}</p>
+            <div class="d-flex">
+                <h4>{{data.value?.start_date | date}} al {{data?.value.end_date | date}}</h4>
+               
+            </div>
+            <div class="d-flex">
+                <!-- <button mat-raised-button [routerLink]="['./edit/'+data.value.id]" color="accent">Editar <mat-icon>edit</mat-icon></button> -->
+                <button mat-icon-button  color="accent" [routerLink]="['./edit/'+data.value.id]"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button (click)="deleteData(data.value.id)" color="warn" class="ml-1"><mat-icon>delete</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+</app-search-template>

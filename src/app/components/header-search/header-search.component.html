@@ -1,7 +1,7 @@
-<div class="mb-4 p-0 card-body row" [ngClass]="{'sticky-top': isSticky}" style="z-index: 10;">
-  <div class="position-relative col-12  w-100 p-3 overflow-hidden" >
-    <input class="form-control font-header rounded-pill  input-style"
-      [placeholder]="placeholder" (keyup)="buscarInterval($event)" [(ngModel)]="productSearch">
+<div class=" p-0 card-body row" [ngClass]="{'sticky-top': isSticky}" style="z-index: 10;">
+  <div class="position-relative col-12 w-100 p-3 overflow-hidden">
+    <input class="form-control font-header rounded-pill  input-style" [placeholder]="placeholder"
+      (keyup)="buscarInterval($event)" [(ngModel)]="productSearch">
     <button class="position-absolute btn-find" mat-icon-button (click)="searchBar()">
       <mat-icon style="font-size: 30px;" class="text-black-50" type="search">find_replace</mat-icon>
     </button>
@@ -13,6 +13,19 @@
         </mat-chip>
       </mat-chip-list>
       <ng-content></ng-content>
+      <ng-container *ngIf="active_filters_menu">
+        <mat-chip-list class="ml-1">
+          <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
+            <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <mat-menu class="w-100" #menu="matMenu" [overlapTrigger]="false">
+          <ng-content select="[filterMenu]"></ng-content>
+          <div mat-menu-item [disableRipple]="true">
+            <button mat-raised-button (click)="searchBar()">Aplicar filtros</button>
+          </div>
+        </mat-menu>
+      </ng-container>
     </div>
   </div>
   <ng-content select=".selections-back"></ng-content>

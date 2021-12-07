@@ -78,7 +78,7 @@ export class MenuItems {
             'id' : 'update-status-ml-product',
             'relist_forever_required' : this.RELIST_FOREVER_ON,
         }
-    ]
+    ];
 
     constructor(private s_permission:NgxPermissionsService){}
 

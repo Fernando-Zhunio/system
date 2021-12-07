@@ -13,23 +13,36 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatChipsModule } from '@angular/material/chips';
-import { CompareProductComponent } from './dashboard/modals/compare-product/compare-product.component';
+// import { CompareProductComponent } from './dashboard/modals/compare-product/compare-product.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { CompareCompanyComponent } from './dashboard/compare-company/compare-company.component';
 import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { SellChartComponent } from './dashboard/chart/sell-chart/sell-chart.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { ProductChartComponent } from './dashboard/chart/product-chart/product-chart.component';
+import { CategoryChartComponent } from './dashboard/chart/category-chart/category-chart.component';
+import { IndexComponent } from './versus/index/index.component';
+import { SelectDatesDashboardComponent } from './dashboard/modals/select-dates-dashboard/select-dates-dashboard.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-chart.component';
+import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module';
 
 @NgModule({
-  declarations: [CompareProductComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent],
+  declarations: [IndexComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     MomentModule,
     MatIconModule,
     MatButtonModule,
@@ -45,8 +58,15 @@ import { MatTableModule } from '@angular/material/table';
     MatNativeDateModule,
     MatCardModule,
     NgxSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule,
+    MatPaginatorModule,
+    MatRadioModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatButtonToggleModule,
+    MarkdownModule
   ],
-  entryComponents: [CompareProductComponent]
+  entryComponents: [SelectDatesDashboardComponent, IndexComponent]
 })
 export class HomeModule { }

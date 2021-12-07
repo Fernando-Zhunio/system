@@ -13,7 +13,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import collect from 'collect.js';
 import { FilePondOptions } from 'filepond';
-import { forkJoin, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import autosize from 'autosize';
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/shared/shared.service';
@@ -22,6 +22,7 @@ import { StorageService } from '../../../services/storage.service';
 import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
 import { IuserChat } from './../../../interfaces/chats/ichats';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-chat',
@@ -153,7 +154,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   removeAttach(index): void {
     this.attachments.splice(index, 1);
   }
-
 
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;

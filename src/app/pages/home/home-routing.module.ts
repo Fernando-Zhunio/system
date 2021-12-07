@@ -39,7 +39,6 @@ const routes: Routes = [
           {
             path: 'versus',
             loadChildren: () => import('./versus/versus.module').then(m => m.VersusModule),
-
             // canActivate: [NgxPermissionsGuard],
           }
         ],

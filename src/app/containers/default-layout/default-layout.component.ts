@@ -76,9 +76,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
-    // this.overlayContainer.getContainerElement().classList.add('light-theme');
-    // this.componentCssClass = 'light-theme';
     this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.s_standart);
     this.getPermissionAndRolesFromServer();
@@ -87,6 +84,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     // this.getValueDark();
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
+
+    // console.log(this.user);
+
     if (!this.user.person) { this.addPersonModal(this.user); }
     this.getNotification();
     this.companiesGestion(this.user);
@@ -125,7 +125,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           this.addPersonModal(user);
         } else {
           const user_current = this.s_storage.getCurrentUser();
-          //  console.log(user_current);
           user_current.person = res;
           this.s_storage.setCurrentUser(user_current);
         }

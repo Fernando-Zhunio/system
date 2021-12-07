@@ -51,7 +51,7 @@ export class CompareProductComponent implements OnInit {
   placeholderCompare: string;
   imgInvoice: string = 'assets/img/img_default_null.jpg';
   items: any[] = [];
-  isCompare: boolean = false;
+  isCompare: boolean = false; 
 
   ngOnInit(): void {
     new Chart('chart-items', {

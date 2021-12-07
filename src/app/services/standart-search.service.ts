@@ -16,13 +16,20 @@ export class StandartSearchService {
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
-  index(url, page= '1', pageSize= '10'): Observable<Iresponse> {
+  index(url, page: any= '1', pageSize= '10'): Observable<Iresponse> {
     return this.http.get<Iresponse>(this.end_point + url, {params: {page, pageSize}});
   }
 
   create(url): Observable<Iresponse> {
     return this.http.get<Iresponse>(this.end_point + url);
   }
+
+  getWithHttpParams(url, param: HttpParams): Observable<any> {
+   console.log(param);
+    return this.http.get(this.end_point + url, {params: param});
+  }
+
+
 
  store(url, params): Observable<Iresponse> {
   return this.http.post<Iresponse>(this.end_point + url, {...params});

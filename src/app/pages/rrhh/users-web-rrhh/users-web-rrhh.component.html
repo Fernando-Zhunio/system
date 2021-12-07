@@ -1,0 +1,116 @@
+<div>
+  <app-search-template [filter_data]="form.value" [active_filters_menu]="true" [url$]="url"
+    (data)="getDataPaginate($event)">
+    <ng-container filterMenu>
+      <div [formGroup]="form">
+        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <mat-form-field>
+            <mat-select placeholder="Sexo" formControlName="sex" name="item">
+              <mat-option value="all">Todos</mat-option>
+              <mat-option value="male">Hombres</mat-option>
+              <mat-option value="female">Mujeres</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <mat-form-field>
+            <input formControlName="birth_city" type="text" placeholder="Cuidad de nacimiento" matInput>
+          </mat-form-field>
+        </div>
+        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <mat-form-field>
+            <input formControlName="resident_city" type="text" placeholder="Cuidad de residencia" matInput>
+          </mat-form-field>
+        </div>
+        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <mat-form-field>
+            <input formControlName="identification_number" type="text" placeholder="Numero de identificacion" matInput>
+          </mat-form-field>
+        </div>
+        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <mat-form-field>
+            <input formControlName="profession" type="text" placeholder="Profesion" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container data>
+      <mat-card class="card border-0 shadow rounded-fz" *ngFor="let p of products;">
+        <div class="card-body">
+          <div class="header-grid">
+            <img class="rounded-circle" [src]="p.photo?.real_permalink || '/assets/img/avatars/profile-user.svg'"
+              alt="image user">
+            <div class="font-2xl font-facebook">{{p.first_name}} {{p?.last_name}}
+              <br>
+              <small class="badge bg-orange font-sm">{{p.created_at | date}}</small>
+            </div>
+          </div>
+          <div class="font-italic my-1">Correo: <strong>{{p?.email}}</strong></div><br>
+          <div class="font-italic my-1">Fecha de nacimiento: <strong>{{p?.birthday | date}}</strong></div><br>
+          <div class="font-italic my-1">Ciudad de residencia: <strong>{{p?.resident_city }}</strong></div><br>
+          <!-- <div class="font-italic my-1">Este usuario se creo: <strong>{{p?.created_at | date }}</strong></div> -->
+          <div class="font-italic my-1">Tipo de identificacion: <strong>{{p?.identification_type }}</strong></div><br>
+          <div class="font-italic my-1">Numero de identificacion: <strong>{{p?.identification_number }}</strong></div>
+          <br>
+          <div class="font-italic my-1">Perfil completado: <strong>{{p?.information_percentage }}</strong></div><br>
+          <div class="font-italic my-1">Solicitudes: <strong>{{p?.requests_count }}</strong></div><br>
+          <div class="font-italic my-1">Profesion: <strong>
+              <ng-container *ngIf="p?.professions">
+                <ng-container *ngFor="let pp of p?.professions">
+                  <span class="badge bg-info font-sm mr-1">{{pp.name}}</span>
+                </ng-container>
+              </ng-container>
+
+            </strong></div><br>
+          <div class="font-italic my-1">Información: <strong>
+              <ng-container *ngIf="p?.contact_info">
+                <ng-container *ngFor="let pp of p?.contact_info">
+                  <span class="badge bg-success font-sm mr-1">{{pp.value}}</span>
+                </ng-container>
+              </ng-container>
+            </strong></div><br>
+          <div>
+            <mat-chip-list multiple="true" class="ml-1">
+              <!-- <mat-chip selected color="warn" (click)="goAppointmentCreate(p.id)" class="text-truncate">
+                      <mat-icon>rate_review</mat-icon>&nbsp; Citar
+                    </mat-chip>
+                    <mat-chip selected color="accent" (click)="openCv(p.id)" class="text-truncate">
+                      <mat-icon>assignment_ind</mat-icon> HV
+                    </mat-chip>
+                    <mat-chip selected [routerLink]="['/recursos-humanos/works']" [queryParams]="{search: p.work.id}"
+                      class="text-truncate bg-primary">
+                      <mat-icon class="text-black-50" type="search">work</mat-icon>&nbsp; Empleo
+                    </mat-chip> -->
+              <mat-chip selected color="accent" (click)="openCv(p.id)">
+                Ver CV &nbsp;<mat-icon>assignment_ind</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+      </mat-card>
+    </ng-container>
+  </app-search-template>
+
+  <div *ngIf="isOpenCv" [ngClass]="isOpenCv?'open-cv':'close-cv'" class="section-cv">
+    <div class="content-cv">
+      <button class="btn-close-cv bg-dark" (click)="isOpenCv = false" mat-mini-fab>
+        <mat-icon>close</mat-icon>
+      </button>
+      <div class="container-cv shadow p-3">
+        <div class="row h-100">
+          <div class="col-md-12">
+            <div class="display-4 h-100">
+              <ngx-doc-viewer [url]="cv" viewer="pdf" style="width:100%;height:100%;"></ngx-doc-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

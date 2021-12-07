@@ -24,13 +24,8 @@ export class AuthReverseGuard implements CanActivate {
     | boolean
     | UrlTree {
 
-    // if (localStorage.getItem("token")) {
-    //   this.route.navigate(['dashboard']);
-    //  return false;
-    // }
-    // return true;
     if(this.s_storage.isAuthenticated()){
-      this.route.navigate(['/home/dashboard']);
+      this.route.navigate(['/home/inicio']);
       return false;
     }
     return true;

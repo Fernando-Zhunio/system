@@ -43,25 +43,25 @@ interface IProduct {
 
 
 export interface Iproduct3{
-available: number,
-brand: {id: number, name: string, sort_name: string},
-brand_id: number,
-category: {id: number, name: string, sort_name: string}
-category_id: number,
-code: string
-code_alt: string,
-created_at: string,
-deleted_at: null
-description: string,
-id: number,
-last_prices: []
-name: string,
-prefix: {id: number, type: string, prefix: string}
-prefix_id: number,
-sequence: {id: number, sequence_number: number, category_id: number}
-sequence_id: number
-updated_at: string,
-user_id: number
+available: number;
+brand: {id: number, name: string, sort_name: string};
+brand_id: number;
+category: {id: number, name: string, sort_name: string};
+category_id: number;
+code: string;
+code_alt: string;
+created_at: string;
+deleted_at: null;
+description: string;
+id: number;
+last_prices: [];
+name: string;
+prefix: {id: number, type: string, prefix: string};
+prefix_id: number;
+sequence: {id: number, sequence_number: number, category_id: number};
+sequence_id: number;
+updated_at: string;
+user_id: number;
 }
 
 
@@ -83,7 +83,7 @@ export interface Iproduct2 {
   instagram_posts_count: number;
   last_prices: [];
   ml_infos: ImlInfo[];
-  name: number;
+  name: string;
   old_code: string;
   prefix: Iprefix;
   prefix_id: number;
@@ -292,7 +292,7 @@ export interface IproductVtex {
   created_at: string;
   updated_at: string;
   link: string;
-  skus?:IproductVtexSku[],
+  skus?:IproductVtexSku[];
   site: {
     id: number;
     vtex_api_id: number;
@@ -303,5 +303,5 @@ export interface IproductVtex {
     app_token: string;
     created_at: string;
     updated_at: string;
-  }
+  };
 }

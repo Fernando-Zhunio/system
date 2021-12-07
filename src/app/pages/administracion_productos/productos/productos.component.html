@@ -4,7 +4,7 @@
             <div>
                 <i class="fa fa-align-justify"></i> Tabla de Productos
             </div>
-            <button type="button" *ngxPermissionsOnly="permission_create" [routerLink]="['create']" class="btn btn-pill btn-warning">Crear Producto</button>
+            <button type="button" *ngxPermissionsOnly="permission_create" (click)="goCreate()" class="btn btn-pill btn-warning">Crear Producto</button>
         </div>
         <div class="card-body" [formGroup]="formProducts">
             <table class="table table-responsive table-striped">

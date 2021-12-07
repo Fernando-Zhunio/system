@@ -1,6 +1,10 @@
 <div>
-    <button mat-fab [routerLink]="['/importaciones/import/create']" style="position: fixed;z-index: 10;bottom: 100px;right: 20px;"><mat-icon>add</mat-icon></button>
-    <app-header-search [placeholder]="'Escriba codigo de la importacion'" (isload)="isload = $event" [url]="'purchase-department/imports'" (products)="loadData($event)">
+    <button mat-fab [routerLink]="['/importaciones/create']"
+        style="position: fixed;z-index: 10;bottom: 100px;right: 20px;">
+        <mat-icon>add</mat-icon>
+    </button>
+    <app-header-search [placeholder]="'Escriba codigo de la importacion'" (isload)="isload = $event"
+        [url]="'purchase-department/imports'" (products)="loadData($event)">
     </app-header-search>
     <div *ngIf="isload" class="mt-4">
         <mat-card *ngFor="let item of [1,2,3]" class="my-4">

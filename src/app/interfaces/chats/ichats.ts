@@ -25,21 +25,28 @@ export interface Ichats {
 
 export interface IparticipantChat {
   _id: string;
-  id: number;
+  id: number | string;
   status: 'offline' | 'online';
   info: Iinfo;
   last_seen: string;
   // user?: IuserChat;
 }
 
-interface Iinfo { id: number; name: string; photo?: string, position: { id: number; name: string; department_id: number }; };
+interface Iinfo { id: number | string; name: string; photo?: string; position: { id: number; name: string; department_id: number }; }
 
+
+export interface IchatBot {
+  id: string;
+  info: {
+    name: string;
+    photo: string;
+  };
+
+  status: string;
+  type: string;
+  _id: string;
+}
 export interface IuserChat {
-  // admin: number;
-  // api_token?: string;
-  // created_at: string;
-  // deleted_at: string;
-  // email: string;
   id: number | string;
   last_activity?: string;
   name: string;
@@ -47,7 +54,7 @@ export interface IuserChat {
   connected?: number;
   data_chat: Ichats;
   messages?: ImessageChat[];
-  index: number;
+  index?: number;
 }
 
 export interface ImessageChat {
@@ -75,7 +82,7 @@ interface Ilink {
     title: string
     type: string
     url: string
-    image?: {url}
+    image?: { url }
   };
   site:
   {

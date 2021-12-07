@@ -4,8 +4,8 @@
             <div class="col-md-6 p-3 d-flex align-items-center">
                 <div>
                     <div class="position-absolute d-md-block d-none" style="top: 10px;">{{date | date}}</div>
-                    <div class="font-5xl mb-3" style="line-height: 1;">Bienvenido a Novisolutions </div>
-                    <div>{{person.first_name}} {{person.last_name}}</div>
+                    <div class="font-5xl mb-3 text-truncate" style="line-height: 1;">Hola {{person.first_name}} {{person.last_name}} </div>
+                    <div>Bienvenido a Novisolutions</div>
                     <div class="text-capitalize">{{city}}</div>
                 </div>
             </div>
@@ -29,8 +29,14 @@
             </div>
         </div>
     </div>
+    <mat-card *ngIf="newsletters && newsletters.length > 0" class="card-body mb-4 rounded-fz shadow-fz">
+        <h3 class="text-danger m-0">Lo nuevo en el sistema</h3>
+        <div *ngFor="let newsletter of newsletters" class=" card-body rounded-fz shadow mt-3">
+            <h4>{{newsletter.title}}</h4>
+            <p class="lead" [innerHTML]="newsletter.description"></p>
+        </div>
+    </mat-card>
     <div>
-        <!-- <h3>Información del sistema</h3> -->
         <div class="grid-fz m-0">
             <div class="shadow rounded-fz d-flex align-items-center bg-info p-3">
                 <i class="fas fa-shopping-bag font-5xl"></i>

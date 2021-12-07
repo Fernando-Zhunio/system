@@ -1,17 +1,13 @@
-import { Clipboard } from '@angular/cdk/clipboard';
+
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { async } from '@angular/core/testing';
-import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { SwalService } from '../../services/swal.service';
@@ -27,17 +23,18 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   @Input() url = '';
   @Input() placeholder = 'Escriba el nombre del producto';
   @Input() filter_data = {};
+  @Input() active_filters_menu: boolean = false;
   @Input() isSticky: boolean = true;
   @Input() init: boolean = true;
   @Input() spinner_name = null;
   productSearch: string = '';
-  suscription: Subscription;
+  subscription: Subscription;
   intervalSearch: any;
 
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private s_standart: StandartSearchService,
+    private s_standard: StandartSearchService,
     private active_route: ActivatedRoute
   ) {}
 
@@ -55,12 +52,9 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     );
     try {
       const $event = { pageIndex: 0, pageSize: 15, previousPageIndex: 0 };
-      if (params.hasOwnProperty('search'))
-       { this.productSearch = params['search']; }
-      if (params.hasOwnProperty('pageSize'))
-        {$event.pageSize = Number.parseInt(params['pageSize']);}
-      if (params.hasOwnProperty('page'))
-       { $event.pageIndex = Number.parseInt(params['page']) - 1;}
+      if (params.hasOwnProperty('search')) { this.productSearch = params['search']; }
+      if (params.hasOwnProperty('pageSize')) {$event.pageSize = Number.parseInt(params['pageSize']);}
+      if (params.hasOwnProperty('page')) { $event.pageIndex = Number.parseInt(params['page']) - 1;}
       return $event;
     } catch (error) {
       console.log(error);
@@ -68,22 +62,23 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  buscarInterval(event:Event):void{
-    clearTimeout(this.intervalSearch);
-
-
+  buscarInterval(event: Event): void {
+   clearTimeout(this.intervalSearch);
    if (event['keyCode'] === 13) {this.searchBar(); return; }
    this.intervalSearch = setTimeout(() => {
       this.searchBar();
     }, 1000);
   }
+
   searchBar($event = { pageIndex: 0, pageSize: 15, previousPageIndex: 0 }) {
     this.isload.emit(true);
-    if (this.suscription) {
-      this.suscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
     this.gotoTop();
-    this.suscription = this.s_standart
+    console.log(this.filter_data);
+    
+    this.subscription = this.s_standard
       .search2(this.url, {
         pageSize: $event.pageSize,
         search: this.productSearch,
@@ -112,7 +107,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.suscription) {this.suscription.unsubscribe();}
+    if (this.subscription) {this.subscription.unsubscribe();}
   }
 
   gotoTop() {

@@ -9,6 +9,7 @@ export interface Irequest {
   current_status: IcurrentStatus;
   user: Iuser;
   work?: Iwork;
+  favorite?: boolean | number;
 }
 
 interface IstatusLast {
@@ -93,6 +94,30 @@ export interface Iuser {
   profile_completed: true;
   photo: Iphoto;
   resume: Iresume;
+  professions: Iprofession[];
+  contact_info: IcontactInfo[];
+}
+
+export interface IcontactInfo{
+  contactable_id: number;
+  contactable_type: string;
+  created_at: string;
+  deleted_at: string;
+  id: number;
+  type: string;
+  updated_at: string;
+  value: string;
+}
+
+export interface Iprofession {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  pivot: {
+    user_id: number;
+    profession_id: number;
+  }
 }
 
 export interface Iwork {
@@ -111,7 +136,7 @@ export interface Iwork {
   status_last: IstatusLast;
   current_status: IcurrentStatus;
   requests?: Irequest[];
-  is_expired:boolean;
+  is_expired: boolean;
   expiration_date?: Date;
 }
 

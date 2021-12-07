@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import Echo from 'laravel-echo';
 import { EchoManager } from '../../class/echo-manager';
-import { Ichats, ImessageChat, IuserChat } from '../../interfaces/chats/ichats';
+import { IchatBot, Ichats, ImessageChat, IuserChat } from '../../interfaces/chats/ichats';
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
@@ -33,6 +33,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   @Input() openOrClose: boolean = false;
   @Output() newMessageEmit = new EventEmitter<boolean>();
   users: IuserChat[] = [];
+  bots: IchatBot[] = [];
   chats: Ichats[] = [];
   chatsbubble: IuserChat[] = [];
   hideUsers: boolean = true;
@@ -40,6 +41,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   myUser: any = null;
   index: number = 9999;
   echoChat: Echo;
+
 
   ngOnInit(): void {
     this.myUser = this.s_storage.getCurrentUser();
@@ -107,11 +109,12 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   // });
     this.getAllUsers();
     this.onSelectChats(null);
+    this.getAllBots();
   }
 
   ngOnDestroy(): void {
     this.echoChat.leave(`chat.${this.myUser.id}`);
-  } 
+  }
 
   newChat(event: { chat: Ichats; event: 'created'|'updated'|'deleted' }): void {
     if (event.event == 'created') {
@@ -266,6 +269,22 @@ reproducir() {
     );
   }
 
+  getAllBots(): void {
+    this.s_standart.index('chats/bots', this.page.toString(), '30').subscribe(
+      (data: any) => {
+        if (data.data.data.length < 1) {
+          return;
+        }
+        console.log(data);
+        this.bots = this.bots.concat(data.data.data);
+        this.page++;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   typingUser(event): void {
     console.log(event);
   }
@@ -276,6 +295,22 @@ reproducir() {
       (user) => user.id === user_id
     );
     if (userChat !== undefined && chatBubbleIndex == -1) {
+      this.chatsbubble.push(userChat);
+    }
+  }
+
+  openChatBot(bot_id): void {
+    const botChat = this.bots.find((bot) => bot._id === bot_id);
+    const chatBubbleIndex = this.chatsbubble.findIndex(
+      (bot) => bot.id === bot_id
+    );
+    if (botChat !== undefined && chatBubbleIndex == -1) {
+      const userChat: IuserChat = {
+        id: botChat._id,
+        name: botChat.info.name,
+        data_chat: null,
+       
+      };
       this.chatsbubble.push(userChat);
     }
   }

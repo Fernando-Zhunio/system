@@ -1,0 +1,72 @@
+[
+    {
+        "Guayaquil": [
+            {
+                "name": "IMPORTADORA NOVOA ORELLANA",
+                "address": "AKENNEDY NORTE: AV  FCO ORELLANA MZ  12 SL 22 (FRENTE A LA PRIMAX).",
+                "telefono": null,
+                "days": null
+            },
+
+
+            {
+                "name": "IMPORTADORA NOVOA CITY MALL",
+                "address": "C.C. CITY MALL FELIPE PESO Y BENJAMIN CARRION LOCAL 104-105.",
+                "telefono": null,
+                "days": null
+            },
+            {
+                "name": "IMPORTADORA URDESA",
+                "address": "Urdesa AV. Víctor Emilio Estrada 623 entre Ficus y AV. Las Monjas.",
+                "telefono": null,
+                "days": null
+            }
+        ],
+        "Quito": [
+            {
+                "name": "IMPORTADORA NOVOA LA PRENSA",
+                "address": "LA CONCEPCION AV LA PRENSA N47-326 N 48 RIO TOPO ESQ PB LC AEROPUERTO.",
+                "telefono": null,
+                "days": null
+            },
+            {
+                "name": "IMPORTADORA NOVOA QUITO RECREO",
+                "address": "C.C. EL RECREO: PEDRO VICENTE MALDONADO S11-122 EL RECREO LOCAL A50 ETAPA 1.",
+                "telefono": "☎(02)2442095  📱098 027 9175",
+                "days": null
+            }
+        ],
+        "Portoviejo": [
+            {
+                "name": "IMPORTADORA NOVOA PORTOVIEJO",
+                "address": "Av Manabi entre calle Quito y Pio Montufar. Edificio nuevo Fátima Pin frente a panadería Arkontes.",
+                "telefono": null,
+                "days": null
+            }
+        ],
+        "Manta": [
+            {
+                "name": "IMPORTADORA NOVOA MANTA",
+                "address": "CALLE AV TRECE ENTRE AV 12 y 13 ( FRENTE LICORERIA LOPEZ)",
+                "telefono": null,
+                "days": null
+            }
+        ],
+        "Babahoyo": [
+            {
+                "name": "IMPORTADORA NOVOA BABAHOYO",
+                "address": "5 de junio #2709 entre calderón y 27 de mayo frente a corte provincial de justicia",
+                "telefono": null,
+                "days": null
+            }
+        ],
+        "Santo Domingo": [
+            {
+                "name": "IMPORTADORA NOVOA SANTO DOMINGO",
+                "address": "URB HNOS GUERRERO 1 SL 105 MZ 132",
+                "telefono": null,
+                "days": null
+            }
+        ]
+    }
+]

@@ -101,6 +101,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { UsersGroupsChatModalComponent } from './components/chat-template/users-groups-chat-modal/users-groups-chat-modal.component';
 import { MarkdwonPipe } from './pipes/markdwon.pipe';
+import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
 
 // import {AutosizeModule} from 'ngx-autosize';
@@ -156,6 +157,7 @@ registerLocaleData(localeEs, 'es');
     FilePondModule,
     MatTooltipModule,
     MatProgressBarModule,
+    MarkdownModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -184,7 +186,7 @@ registerLocaleData(localeEs, 'es');
     ChatTemplateComponent,
     ChatComponent,
     UsersGroupsChatModalComponent,
-    MarkdwonPipe,
+    // MarkdwonPipe,
     // CreateGroupChatComponent,
 
 

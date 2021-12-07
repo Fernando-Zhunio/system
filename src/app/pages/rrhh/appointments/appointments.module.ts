@@ -7,13 +7,13 @@ import { HeaderSearchModule } from '../../../Modulos/header-search/header-search
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalZoomComponent } from './tools/modal-zoom/modal-zoom.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -25,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 // import { Ngx } from '@angular-material-components';
@@ -34,7 +35,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [RrhhAppointmentMainComponents, IndexComponent, CreateOrEditAppointmentComponent, ModalZoomComponent, ModalSendCvComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     RrhhAppointmentRoutingModule,
     HeaderSearchModule,
     MatChipsModule,
@@ -55,7 +56,10 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatSlideToggleModule,
     SearchTemplateModule,
     MatAutocompleteModule,
-    ClipboardModule
+    ClipboardModule,
+    MatTooltipModule,
+    MatOptionModule,
+    FormsModule,
   ],
   entryComponents: [ModalZoomComponent, ModalSendCvComponent]
 })

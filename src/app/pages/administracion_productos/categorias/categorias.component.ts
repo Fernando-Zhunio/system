@@ -25,10 +25,10 @@ export class CategoriasComponent implements OnInit {
   nextPage(pageNumber= 1): void{
     this.s_categories.index(pageNumber).subscribe(
       (response: any) => {
-        this.categories = response.categories.data;
-        this.totalItem = response.categories.total;
-        this.perPage = response.categories.per_page;
-        this.pageCurrent =  response.categories.current_page;
+        this.categories = response.data.data;
+        this.totalItem = response.data.total;
+        this.perPage = response.data.per_page;
+        this.pageCurrent =  response.data.current_page;
       }
     );
   }

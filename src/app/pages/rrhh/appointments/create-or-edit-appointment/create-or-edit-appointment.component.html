@@ -48,7 +48,7 @@
                       <mat-select formControlName="novi_sys_person_id">
                         <mat-option *ngFor="let person of persons" [value]="person.id">
                           {{ person.first_name}} {{ person.last_name}}
-                          <img [src]="person.photo.permalink" alt="person">
+                          <!-- <img [src]="person?.photo?.permalink || 'assets/img/img_not_available.png'" alt="person"> -->
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -73,19 +73,19 @@
                 <!-- <img [src]="requestWork?.user?.photo.real_permalink" alt="" class="w-75 rounded-circle"> -->
                 <div class="row">
                   <div class="col-12 lead my-2 border-bottom font-3xl pb-2 ">
-                    Solicitante: <strong> {{requestWork?.user.first_name}} {{requestWork.user.last_name}} </strong>
+                    Solicitante: <strong> {{requestWork?.user?.first_name}} {{requestWork?.user?.last_name}} </strong>
                    </div>
                   <div class="col-md-7 col-12 center">
                     <p class="lead font-italic p">
                       Fecha: <strong> {{requestWork?.created_at |date}} </strong> <br>
-                      Email: <strong> <a href="mailto:{{requestWork?.user.email}}"
+                      Email: <strong> <a href="mailto:{{requestWork?.user?.email}}"
                           class="text-muted">{{requestWork.user.email}}</a> </strong> <br>
                       Fecha de nacimiento: <strong> {{requestWork?.user?.birthday | date}} </strong> <br>
                       Cuidad de residencias: <strong> {{requestWork?.user?.resident_city}} </strong> <br>
                     </p>
                   </div>
                   <div class="col-md-5 col-12 center">
-                    <img class="w-100 rounded-circle shadow" [src]="requestWork.user.photo.real_permalink"
+                    <img class="w-100 rounded-circle shadow" [src]="requestWork?.user?.photo?.real_permalink"
                       alt="user photo">
                   </div>
                   <div class="col-12">

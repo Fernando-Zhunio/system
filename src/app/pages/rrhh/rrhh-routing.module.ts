@@ -5,17 +5,18 @@ import { GroupProductsComponent } from '../reportes/group-products/group-product
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { CreateOrEditGroupProductsComponent } from '../reportes/group-products/create-or-edit-group-products/create-or-edit-group-products.component';
 import { IndexComponent } from './index/index.component';
+import { UsersWebRrhhComponent } from './users-web-rrhh/users-web-rrhh.component';
 
-@Component({
-  selector: 'app-rrhh',
-  template: '<router-outlet></router-outlet>',
-})
-export class RrhhMainComponents  {
-}
+// @Component({
+//   selector: 'app-rrhh',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class RrhhMainComponents  {
+// }
 const routes: Routes = [
   {
     path: '',
-    component: RrhhMainComponents,
+    // component: RrhhMainComponents,
     children: [
       {
         path: 'dashboard',
@@ -53,6 +54,16 @@ const routes: Routes = [
         data: {
           permissions: {
             only: ['super-admin', 'rrhh-requests'],
+          },
+        },
+        canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path: 'users-web',
+        component: UsersWebRrhhComponent,
+        data: {
+          permissions: {
+            only: ['super-admin', 'rrhh-users-web'],
           },
         },
         canActivate: [NgxPermissionsGuard],

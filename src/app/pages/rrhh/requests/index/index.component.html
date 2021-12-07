@@ -1,94 +1,131 @@
-
-<div>
-  <app-header-search [filter_data]="{}"
-  [placeholder]="'Buscador de solicitudes'" (isload)="isload = $event" [url]="url" (products)="loadData($event)">
-  <!-- <mat-chip-list class="ml-1">
-    <mat-chip [routerLink]="['./create']" class="text-truncate">
-      <mat-icon class="text-black-50" type="search">add</mat-icon>
+<!-- <div>
+  <app-header-search [filter_data]="{work_id:filters?.job?.value || null, isWishlist: filters?.isWishlist || false}" [placeholder]="'Buscador de solicitudes'"
+    (isload)="isload = $event" [url]="url" (products)="loadData($event)">
+    <mat-chip-list class="ml-1">
+      <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
+        <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <mat-menu class="w-100" #menu="matMenu" [overlapTrigger]="false">
+      <div class="w-100" mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()">
+        <mat-form-field class="w-100">
+          <mat-label>Buscar empleo</mat-label>
+          <input (keydown.enter)="getWorks()" type="text" matInput [(ngModel)]="searchJob" [matAutocomplete]="auto">
+        </mat-form-field>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option (click)="getRequestOfWork(option.id)" *ngFor="let option of works" [value]="option.title">
+            <div style="line-height: 1;" class="font-sm"> {{option.title}} <br>
+              <span class="font-sm d-block text-muted">{{option.created_at | date}}</span>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+      <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <mat-slide-toggle [(ngModel)]="isWishlist">Solo los favoritos</mat-slide-toggle>
+      </div>
+      <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <button mat-raised-button (click)="applyFilter()">Aplicar filtros</button>
+      </div>
+    </mat-menu>
+  </app-header-search>
+  <mat-chip-list>
+    <mat-chip selected *ngIf="filters?.job?.value">Filtro de empleo: &nbsp;<span class="text-truncate text-warning"
+        style="max-width: 220px;">{{filters?.job?.name}}</span>
+      <mat-icon (click)="clearFilterJob()">close</mat-icon>
     </mat-chip>
-  </mat-chip-list> -->
-</app-header-search>
+    <mat-chip selected *ngIf="filters?.isWishlist">Filtro de favorito
+    <mat-icon (click)="clearFilterWishlist()">close</mat-icon>
+  </mat-chip>
+  </mat-chip-list>
 
-<div *ngIf="isload" class="mt-4 card-columns">
-  <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
-    <ngx-skeleton-loader count="1" [theme]="{
+  <div *ngIf="isload" class="mt-4 card-columns">
+    <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
+      <ngx-skeleton-loader count="1" [theme]="{
         'border-radius': '20px',
     height: '200px'
   }"></ngx-skeleton-loader>
-    <div class="text-center">
-      <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
-    </div>
-    <ngx-skeleton-loader count="1" [theme]="{
+      <div class="text-center">
+        <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
+      </div>
+      <ngx-skeleton-loader count="1" [theme]="{
     'border-radius': '5px',
     height: '35px',
     width:'150px',
     'margin-right':'5px'
   }"></ngx-skeleton-loader>
-    <ngx-skeleton-loader count="1" [theme]="{
+      <ngx-skeleton-loader count="1" [theme]="{
     'border-radius': '5px',
     height: '25px',
     width:'150px',
     'margin-right':'5px'
   }"></ngx-skeleton-loader>
+    </div>
   </div>
-</div>
 
-<div *ngIf="!isload;" class="mt-4 card-columns">
-  <mat-card *ngFor="let p of products;let index_product=index" class="card border-0 rounded-fz overflow-hidden position-relative">
-    <div *ngIf="p?.isload" class="position-absolute w-100 h-100 opaque-blur"></div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-12 h3 font-weight-bold border-bottom">
-           {{p.work?.title}}
+  <div *ngIf="!isload;" class="mt-4 card-columns">
+    <mat-card *ngFor="let p of products;let index_product=index"
+      class="card border-0 rounded-fz overflow-hidden position-relative">
+      <div class="card-body">
+        <div class="header-grid">
+          <img class="rounded-circle" [src]="p.user?.photo?.real_permalink || '/assets/img/avatars/profile-user.svg'"
+            alt="image user">
+          <div class="font-2xl font-facebook">{{p?.user?.first_name}} {{p?.user?.last_name}}
+            <br>
+            <small class="badge bg-orange font-sm">{{p.created_at | date}}</small>
+          </div>
         </div>
-        <div class="col-md-7 col-12">
-          <p class="lead font-italic p">
-            Solicitante:  <strong> {{p.user.first_name}} {{p.user.last_name}} </strong> <br>
-            Fecha: <strong> {{p.created_at |date}} </strong> <br>
-            Email: <strong> <a href="mailto:{{p.user.email}}" class="text-muted">{{p.user.email}}</a> </strong> <br>
-            Fecha de nacimiento: <strong> {{p.user.birthday | date}} </strong> <br>
-            Cuidad de residencias: <strong> {{p.user.resident_city}} </strong> <br>
-          </p>
-        </div>
-        <div class="col-md-5 col-12 center">
-          <img class="w-100" [src]="p.user?.photo?.real_permalink" alt="user photo">
-        </div>
-        <div class="col-12">
-          <mat-chip-list class="ml-1">
-            <mat-chip selected color="warn" (click)="goAppointmentCreate(p.id)"  class="text-truncate">
+        <div class="font-italic my-1">Solicitud de empleo: <strong>{{p?.work?.title}}</strong></div><br>
+        <div class="font-italic my-1" *ngIf="p?.comment">
+          <p class="font-italic">Comentario: <strong>{{p?.comment || 'sin comentario'}}</strong></p>
+        </div><br>
+        <div class="font-italic my-1">Correo: <strong>{{p?.user?.email}}</strong></div><br>
+        <div class="font-italic my-1">Fecha de nacimiento: <strong>{{p?.user?.birthday | date}}</strong></div><br>
+        <div class="font-italic my-1">Ciudad de residencia: <strong>{{p?.user?.resident_city }}</strong></div><br>
+        <div>
+          <mat-chip-list multiple="true" class="ml-1">
+            <mat-chip selected color="warn" (click)="goAppointmentCreate(p.id)" class="text-truncate">
               <mat-icon>rate_review</mat-icon>&nbsp; Citar
             </mat-chip>
-            <mat-chip selected color="acent" (click)="openCv(p.id)" class="text-truncate">
+            <mat-chip selected color="accent" (click)="openCv(p.id)" class="text-truncate">
               <mat-icon>assignment_ind</mat-icon> HV
             </mat-chip>
-            <mat-chip selected  [routerLink]="['/recursos-humanos/works']" [queryParams]="{search: p.work.id}"  class="text-truncate bg-primary">
+            <mat-chip selected [routerLink]="['/recursos-humanos/works']" [queryParams]="{search: p.work.id}"
+              class="text-truncate bg-primary">
               <mat-icon class="text-black-50" type="search">work</mat-icon>&nbsp; Empleo
+            </mat-chip>
+            <mat-chip color="accent" [selected]="p.favorite ? true : false" (click)="doFavorite(p.id, p.favorite)">
+              <mat-icon>star</mat-icon>
+            </mat-chip>
+            <mat-chip color="accent" selected [routerLink]="['/recursos-humanos/users-web']" [queryParams]="{search: p.user.id}" routerLinkActive="router-link-active" >
+             Información de usuario <mat-icon>person</mat-icon>
             </mat-chip>
           </mat-chip-list>
         </div>
       </div>
-    </div>
-  </mat-card>
-</div>
-<ng-container *ngIf="!isload && products?.length < 1">
-  <div class="row">
-    <div class="col-md-6">
-      <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
-    </div>
-    <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
-      Ups! Sin resultados en tu búsqueda
-    </div>
+    </mat-card>
   </div>
-</ng-container>
-<mat-paginator [hidden]="isload" *ngIf="products?.length > 0" [pageSizeOptions]="[10, 20, 30]"
-  (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
-  [pageIndex]="paginator.current_page-1">
-</mat-paginator>
+  <ng-container *ngIf="!isload && products?.length < 1">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
+      </div>
+      <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
+        Ups! Sin resultados en tu búsqueda
+      </div>
+    </div>
+  </ng-container>
+  <mat-paginator [hidden]="isload" *ngIf="products?.length > 0" [pageSizeOptions]="[10, 20, 30]"
+    (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
+    [pageIndex]="paginator.current_page-1">
+  </mat-paginator>
 </div>
 
 <div *ngIf="isOpenCv" [ngClass]="isOpenCv?'open-cv':'close-cv'" class="section-cv">
   <div class="content-cv">
-    <button  class="btn-close-cv bg-dark" (click)="isOpenCv = false" mat-mini-fab><mat-icon>close</mat-icon></button>
+    <button class="btn-close-cv bg-dark" (click)="isOpenCv = false" mat-mini-fab>
+      <mat-icon>close</mat-icon>
+    </button>
     <div class="container-cv shadow p-3">
       <div class="row h-100">
         <div class="col-md-12">
@@ -99,4 +136,122 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+
+<app-search-template [filter_data]="form.value" [active_filters_menu]="true" [url$]="url"
+(data)="getDataPaginate($event)">
+  <ng-container filterMenu>
+    <div [formGroup]="form">
+      <div class="w-100" mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()">
+        <mat-form-field class="w-100">
+          <mat-chip-list #chipList aria-label="selection">
+            <mat-chip
+            class="text-truncate"
+            *ngIf="workText"
+              [selectable]="true"
+              [removable]="true"
+              (removed)="removeWorkFilter()">
+            <span class="text-truncate">{{workText}}</span>  
+              <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+            </mat-chip>
+            <input
+            (keydown.enter)="getWorks()"
+              placeholder="Buscar empleo"
+              #workInput
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              >
+          </mat-chip-list>
+          <mat-label>Buscar empleo</mat-label>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addWorkFilter($event)">
+            <mat-option *ngFor="let option of works" [value]="option.id">
+              <div style="line-height: 1;" class="font-sm"> {{option.title}} <br>
+                <span class="font-sm d-block text-muted">{{option.created_at | date}}</span>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+          <mat-slide-toggle formControlName="isWishlist">Solo los favoritos</mat-slide-toggle>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container data>
+    <mat-card *ngFor="let p of products;let index_product=index"
+    class="card border-0 rounded-fz shadow-fz overflow-hidden position-relative">
+    <div class="card-body">
+      <div class="header-grid">
+        <img class="rounded-circle" [src]="p.user?.photo?.real_permalink || '/assets/img/avatars/profile-user.svg'"
+          alt="image user">
+        <div class="font-2xl font-facebook">{{p?.user?.first_name}} {{p?.user?.last_name}}
+          <br>
+          <small class="badge bg-orange font-sm">{{p.created_at | date}}</small>
+        </div>
+      </div>
+
+      <div>
+        <div class="font-italic my-1">Solicitud de empleo: <strong>{{p?.work?.title}}</strong></div>
+      </div>
+
+      <div>
+        <div class="font-italic my-1" *ngIf="p?.comment">
+          <p class="font-italic">Comentario: <strong>{{p?.comment || 'sin comentario'}}</strong></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="font-italic my-1">Correo: <strong>{{p?.user?.email}}</strong></div>
+      </div>
+
+      <div>
+        <div class="font-italic my-1">Fecha de nacimiento: <strong>{{p?.user?.birthday | date}}</strong></div>
+      </div>
+
+      <div>
+        <div class="font-italic my-1">Ciudad de residencia: <strong>{{p?.user?.resident_city }}</strong></div>
+      </div>
+
+      <div>
+        <mat-chip-list multiple="true" class="ml-1">
+          <mat-chip selected color="warn" (click)="goAppointmentCreate(p.id)" class="text-truncate">
+            <mat-icon>rate_review</mat-icon>&nbsp; Citar
+          </mat-chip>
+          <mat-chip selected color="accent" (click)="openCv(p.id)" class="text-truncate">
+            <mat-icon>assignment_ind</mat-icon> HV
+          </mat-chip>
+          <mat-chip selected [routerLink]="['/recursos-humanos/works']" [queryParams]="{search: p.work.id}"
+            class="text-truncate bg-primary">
+            <mat-icon class="text-black-50" type="search">work</mat-icon>&nbsp; Empleo
+          </mat-chip>
+          <mat-chip color="accent" [selected]="p.favorite ? true : false" (click)="doFavorite(p.id, p.favorite)">
+            <mat-icon>star</mat-icon>
+          </mat-chip>
+          <mat-chip color="accent" selected [routerLink]="['/recursos-humanos/users-web']" [queryParams]="{search: p.user.id}" routerLinkActive="router-link-active" >
+           Información de usuario <mat-icon>person</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </mat-card>
+  </ng-container>
+  
+</app-search-template>
+
+<div *ngIf="isOpenCv" [ngClass]="isOpenCv?'open-cv':'close-cv'" class="section-cv">
+  <div class="content-cv">
+    <button class="btn-close-cv bg-dark" (click)="isOpenCv = false" mat-mini-fab>
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="container-cv shadow p-3">
+      <div class="row h-100">
+        <div class="col-md-12">
+          <div class="display-4 h-100">
+            <ngx-doc-viewer [url]="cv" viewer="pdf" style="width:100%;height:100%;"></ngx-doc-viewer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

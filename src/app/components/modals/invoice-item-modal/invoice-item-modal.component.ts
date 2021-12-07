@@ -279,10 +279,10 @@ export class InvoiceItemModalComponent implements OnInit {
    prestashop_product captura la primera imagen si no captura la
    de ml_info si no una imagen por defecto*/
   captureImagenProduct(i): string | boolean {
-    if (this.products[i]?.prestashop_products.length > 0) {
+    if (this.products[i]?.prestashop_products?.length > 0) {
       return this.products[i].prestashop_products[0].image;
     }
-    if (this.products[i].ml_infos.length > 0) {
+    if (this.products[i].ml_infos?.length > 0) {
       return this.products[i].ml_infos[0].image;
     }
 

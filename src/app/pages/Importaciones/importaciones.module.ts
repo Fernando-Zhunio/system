@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ImportacionesMainComponents, ImportacionesRoutingModule } from './importaciones-routing.module';
+import { ImportacionesRoutingModule } from './importaciones-routing.module';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
@@ -29,7 +29,7 @@ import { InvoiceCreateOrEditComponent } from '../../components/invoice-create-or
 
 
 @NgModule({
-  declarations: [ImportacionesMainComponents, ProveedoresComponent, CreateImportComponent,InvoiceCreateOrEditComponent,EditImportComponent],
+  declarations: [ ProveedoresComponent, CreateImportComponent,InvoiceCreateOrEditComponent,EditImportComponent],
   imports: [
     CommonModule,
     ImportacionesRoutingModule,

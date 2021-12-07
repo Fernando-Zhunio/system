@@ -1,0 +1,71 @@
+<div>
+    <h1>{{title}}</h1>
+    <mat-card>
+        <form class="row card-body" [formGroup]="form" (ngSubmit)="saveInServer()">
+            <mat-form-field class="col-12">
+                <input matInput placeholder="Titulo" formControlName="title">
+            </mat-form-field>
+            <!-- <mat-form-field class="col-12">
+                <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+            </mat-form-field> -->
+            <div class="w-100 mb-5" style="height: 200px;">
+                <quill-editor formControlName="description" required  placeholder="Ingrese la descripción" [styles]="editorStyle" class="w-100 h-100">
+                    <div quill-editor-toolbar>
+                        <span class="ql-formats">
+                            <select class="ql-font">
+                              <option selected></option>
+                              <option value="serif"></option>
+                              <option value="monospace"></option>
+                            </select>
+                            <select class="ql-size">
+                              <option value="small"></option>
+                              <option selected></option>
+                              <option value="large"></option>
+                              <option value="huge"></option>
+                            </select>
+                          </span>
+                          <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                          </span>
+                          <span class="ql-formats">
+                            <select class="ql-color"></select>
+                            <select class="ql-background"></select>
+                          </span>
+                          <span class="ql-formats">
+                            <button class="ql-list" value="ordered"></button>
+                            <button class="ql-list" value="bullet"></button>
+                            <select class="ql-align">
+                              <option selected></option>
+                              <option value="center"></option>
+                              <option value="right"></option>
+                              <option value="justify"></option>
+                            </select>
+                          </span>
+                          <span class="ql-formats">
+                            <button class="ql-link"></button>
+                            <button class="ql-image"></button>
+                          </span>
+                    </div>
+                  </quill-editor>
+            </div>
+            <mat-form-field class="col-md-6">
+                <mat-label>Fecha de inicio <small>(d/m/yyyy)</small></mat-label>
+                <input matInput  formControlName="start_date" [matDatepicker]="dp">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp disabled="false"></mat-datepicker>
+                <mat-error *ngIf="form.controls['start_date'].invalid">Fecha de inicio requerida</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Fecha de financiación <small>(d/m/yyyy)</small></mat-label>
+                <input matInput  formControlName="end_date" [matDatepicker]="dp4">
+                <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+                <mat-error *ngIf="form.controls['end_date'].invalid">Fecha de financiación requerida</mat-error>
+            </mat-form-field>
+            <button [disabled]="form.invalid" type="submit" mat-raised-button>Guardar</button>
+        </form>
+    </mat-card>
+</div>

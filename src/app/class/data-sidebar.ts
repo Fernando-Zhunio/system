@@ -118,7 +118,15 @@ export class DataSidebar {
       permission: 'rrhh-requests',
       tag: this.tags.rrhh,
     },
+    {
+      name: 'Usuarios Web',
+      url: '/recursos-humanos/users-web',
+      icon: 'icon-star',
+      permission: 'rrhh-users-web',
+      tag: this.tags.rrhh,
+    },
     //#endregion rrhh
+
     //#region admin products
     {
       title: true,
@@ -196,8 +204,8 @@ export class DataSidebar {
       name: 'Importaciones',
     },
     {
-      name: 'Proveedores',
-      url: '/importaciones/proveedores',
+      name: 'Importaciones',
+      url: '/importaciones',
       icon: 'icon-briefcase',
       permission: 'purchase-department.imports.index',
       tag: this.tags.imports,
@@ -316,6 +324,13 @@ export class DataSidebar {
       url: '/administracion-sistema/vtex-sites',
       icon: 'icon-bag',
       permission: 'admin.vtex.sites.index',
+      tag: this.tags.admin_system,
+    },
+    {
+      name: 'Novedades',
+      url: '/administracion-sistema/newsletter',
+      icon: 'icon-bag',
+      permission: 'newsletters',
       tag: this.tags.admin_system,
     },
     //#endregion

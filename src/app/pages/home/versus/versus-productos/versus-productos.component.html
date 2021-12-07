@@ -1,25 +1,69 @@
-<div>
-    <h1>Versus de Productos</h1>
-
+<div class="versus">
+    <h1 class="font-5xl font-montserrat my-2">Versus de Productos</h1>
     <div>
-        <div>
-            <input type="search" placeholder="Buscar productos">
+      <div [hidden]="isVersus">
+        <div class="position-relative">
+            <input class="input-search" [(ngModel)]="searchText" type="search" (keydown.enter)="getData()" placeholder="Buscar productos">
+            <button (click)="exucute_versus()" [disabled]="dataSelect.size < 2"  [matBadge]="dataSelect.size"
+            matBadgePosition="above after"
+            matBadgeColor="accent" color="primary" class="btn-compare" mat-button>Comparar ahora!</button>
         </div>
         <div>
-            <div class="row">
-                <!-- <ng-container>
-                  <div *ngFor="let p of items;index as ind" class="col-md-6 my-2">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-">
-                      <div class="d-flex align-items-center font-weight-light">
-                        <img class=" img-item" [src]="captureImagenProduct(ind)" alt="">
-                        <div class="mr-1 p-1" style="color:#f44336; font-weight: bold;">#{{p.id}}</div>{{p.name}}
+            <div class="grid-versus my-3">
+              <mat-card class=" border-right rounded-fz border-0 shadow-none">
+                  <div style="width: 100%;height: 400px;" *ngIf="isLoading;else TemplateData">
+                    <ngx-spinner name="isload" bdColor="rgba(0, 0, 0, 0)" size="medium" color="rgba(0, 0, 0,0.5)" type="ball-triangle-path" [fullScreen]="false"><p class="mt-5 pt-5 font-montserrat" style="color: #7e7b7b" > Cargando... </p></ngx-spinner>
+                  </div> 
+                  <ng-template #TemplateData>
+                    <div *ngFor="let p of data | keyvalue" class="col-12 my-2">
+                      <div class="d-flex justify-content-between align-items-center border-bottom">
+                        <div class="d-flex align-items-center">
+                          <img width="50px" class=" img-item" [src]="captureImagenProduct(p.key)" alt="">
+                          <div class="mr-1 p-1" style="color:#f44336; font-weight: bold;">#{{p.value.code}}</div>{{p.value.name}}
+                        </div>
+                        <button (click)="addDataSelect(p.key)" [disabled]="dataSelect.get(p.key)" mat-button color="primary" class="btn-vs" type="button">+
+                          vs</button>
                       </div>
-                      <button (click)="selectItemCompare(p.id)" class="btn btn-outline-dark btn-sm btn-vs" type="button">+
-                        vs</button>
+                    </div>
+                  </ng-template>
+                  <div class="text-center" *ngIf="!isLoading && data.size < 1">
+                    <img src="assets/img/respuesta_vacia.svg" alt=""><br>
+                    No se a encontrado ningun producto
+                  </div>
+                </mat-card> 
+                <mat-card class=" rounded-fz border-0 shadow-none">
+                  <h2 class="font-4xl font-montserrat">Productos a comparar</h2>
+                  <div>
+                    <div *ngFor="let p of dataSelect | keyvalue" class="col-12 my-2">
+                      <div class="d-flex justify-content-between align-items-center border-bottom">
+                        <div class="d-flex align-items-center">
+                          <img width="50px" class=" img-item" [src]="captureImagenProductSelect(p.key)" alt="">
+                          <div class="mr-1 p-1" style="color:#f44336; font-weight: bold;">#{{p.value.code}}</div>{{p.value.name}}
+                        </div>
+                        <button (click)="removeDataSelect(p.key)" mat-button color="warn" class="btn-vs" type="button">-
+                          vs</button>
+                      </div>
                     </div>
                   </div>
-                </ng-container> -->
+                </mat-card>
               </div>
+        </div>
+      </div>
+        <div class="py-1" [hidden]="!isVersus">
+          <mat-card class="rounded-fz border-0 shadow-none mb-2">
+            <div class="d-flex ">
+              <button mat-mini-fab (click)="isVersus = !isVersus"><mat-icon>find_replace</mat-icon></button>
+              &nbsp;
+              <div  style="box-shadow: 1px 1px 5px grey;" class="font-italic position-relative bg-vine px-3 center rounded-fz text-white">
+                <label class="m-0 position-relative text-capitalize" for="input-date">{{dateRange.first_date[0] | date: 'MMM d, y'}} - {{dateRange.first_date[1] | date: 'MMM d, y'}}
+                  <input readonly id="input-date-products" name="input-date" placeholder="Rango de Fechas" />
+                </label>
+              </div>
+            </div>
+            <div style="height: 500px;" class="d-flex align-items-center">
+              <canvas id="chart-versus-products"></canvas>
+            </div>
+          </mat-card>
         </div>
     </div>
 </div>

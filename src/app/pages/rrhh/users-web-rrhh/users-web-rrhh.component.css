@@ -1,0 +1,76 @@
+.header-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .header-grid img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+
+  .font-italic{
+    color: #3f51b5;
+    padding: 5px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    display: inline-block;
+    /* font-family: 'Montserrat'; */
+  }
+  
+  .font-italic strong{
+    color: #3d3c3c;
+  }
+
+  .container-cv {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--size-cv);
+    background: white;
+    height: 100vh;
+    /* z-index: 10000; */
+  }
+  
+  ::ng-deep :root{
+  --size-cv: 70%;
+  }
+  
+  .btn-close-cv{
+  position: absolute;
+  right: calc(var(--size-cv) + 3px);
+  z-index: 1;
+  top: 5px;
+  }
+  
+  .section-cv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    background: white;
+  }
+  
+  .content-cv {
+    width: 100vw;
+    height: 100vh;
+    /* position: relative; */
+    top: 0;
+    right: 0;
+    position: absolute;
+    background: #ffffff26;
+    /* z-index: 10000; */
+    backdrop-filter: blur(2px);
+  }
+  
+  .open-cv {
+  transform: translateX(0%);
+  transition: transform 0.3s;
+  }
+  
+  .close-cv {
+  transform: translateX(100%);
+  transition: transform 0.3s;
+  }

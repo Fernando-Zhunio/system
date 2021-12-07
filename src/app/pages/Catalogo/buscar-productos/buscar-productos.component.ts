@@ -21,7 +21,7 @@ import { MatSelect } from '@angular/material/select';
 import { Ipagination } from '../../../interfaces/ipagination';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgxMasonryOptions } from 'ngx-masonry';
 
 @Component({
@@ -37,11 +37,8 @@ export class BuscarProductosComponent implements OnInit {
     private dialog: MatDialog,
     private s_product: ProductsService,
     private actived_router: ActivatedRoute,
-    private router: Router
-  ) {
+  ) {}
 
-
-  }
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
@@ -50,7 +47,6 @@ export class BuscarProductosComponent implements OnInit {
   pageEvent: PageEvent;
 
   products: IproductWithVtex[] = [];
-
   selected_state: string = 'all';
   min: string = '';
   max: string = '';
@@ -72,12 +68,10 @@ export class BuscarProductosComponent implements OnInit {
   };
 
   post_current: IpostProduct;
-
   suscrition_api: Subscription;
-  isload: boolean = false;
+  isLoad: boolean = false;
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
-
   paginator: Ipagination<IproductWithVtex>;
   prefix_id: string = 'all';
   warehouse_ids = [];
@@ -89,7 +83,6 @@ export class BuscarProductosComponent implements OnInit {
   is_open_go: boolean = false;
   icon_go: 'segment'|'close' = 'segment';
   public config: SwiperOptions = {
-
     direction: 'horizontal',
     spaceBetween: 10,
     breakpoints: {

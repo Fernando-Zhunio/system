@@ -1,10 +1,13 @@
-<mat-card class="my-4">
-    <form [formGroup]="formInvoice" *ngIf="state == 'create' || state == 'edit';else formMore" (ngSubmit)="saveInvoice()" class="position-relative">
-        <button mat-icon-button [disabled]="isLoadInvoice" *ngIf="state == 'create';else removeInvoice" (click)="closeInvoice()" class="bg-gray-300" style="position: absolute;right: 10px;top: -30px;">
+<mat-card class="my-4 border-0 shadow rounded-fz">
+    <form [formGroup]="formInvoice" *ngIf="state == 'create' || state == 'edit';else formMore"
+        (ngSubmit)="saveInvoice()" class="position-relative">
+        <button mat-icon-button [disabled]="isLoadInvoice" *ngIf="state == 'create';else removeInvoice"
+            (click)="closeInvoice()" class="bg-gray-300" style="position: absolute;right: 10px;top: -30px;">
             <mat-icon>close</mat-icon>
         </button>
         <ng-template #removeInvoice>
-            <button mat-icon-button (click)="deleteInvoice()" [disabled]="isLoadInvoice" class="bg-gray-300" style="position: absolute;right: 10px;top: -30px;">
+            <button mat-icon-button (click)="deleteInvoice()" [disabled]="isLoadInvoice" class="bg-gray-300"
+                style="position: absolute;right: 10px;top: -30px;">
                 <mat-icon>delete</mat-icon>
             </button>
         </ng-template>
@@ -37,8 +40,10 @@
                 <mat-icon>construction</mat-icon>
             </button>
         </div>
-        <button mat-raised-button [disabled]="formInvoice.invalid || isLoadInvoice" color="primary" type="submit">Guardar</button>
-        <button mat-raised-button *ngIf="state != 'create'" type="button" [disabled]="isLoadInvoice" (click)="cancelEditInvoice()">
+        <button mat-raised-button [disabled]="formInvoice.invalid || isLoadInvoice" color="primary"
+            type="submit">Guardar</button>
+        <button mat-raised-button *ngIf="state != 'create'" type="button" [disabled]="isLoadInvoice"
+            (click)="cancelEditInvoice()">
             Ir a añadir item
         </button>
         <!-- <button mat-raised-button [disabled]="forms_invoices[i].formInvoice.invalid" color="accent" type="submit">Editar</button> -->
@@ -79,29 +84,26 @@
         <div>
             <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <ng-container matColumnDef="new">
-                    <mat-header-cell *matHeaderCellDef> Is Nuevo?</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef> Es Nuevo?</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.new}} </mat-cell>
                 </ng-container>
-                <!-- Position Column -->
+
                 <ng-container matColumnDef="code">
                     <mat-header-cell *matHeaderCellDef> Codigo</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
                 </ng-container>
 
-                <!-- Name Column -->
                 <ng-container matColumnDef="description">
                     <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.description}}
                     </mat-cell>
                 </ng-container>
 
-                <!-- Weight Column -->
                 <ng-container matColumnDef="note">
                     <mat-header-cell *matHeaderCellDef> Notas </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.note}} </mat-cell>
                 </ng-container>
 
-                <!-- Symbol Column -->
                 <ng-container matColumnDef="quantity">
                     <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.quantity}}
@@ -120,33 +122,28 @@
 
                 <ng-container matColumnDef="id">
                     <mat-header-cell *matHeaderCellDef>
-                        <!-- <button mat-mini-fab><mat-icon>edit</mat-icon></button> -->
                         <button mat-icon-button color="accent" (click)="addRowTableItem()">
                             <mat-icon>post_add</mat-icon>
                         </button>
-                        <!-- <button [disabled]="isLoadFile" mat-icon-button color="accent" (click)="addFile()">
-                            <mat-icon>backup</mat-icon>
-                        </button> -->
+
                         <button mat-icon-button color="accent">
                             <mat-icon>backup</mat-icon>
-                            <label class="m-0 h-100 w-100 position-absolute"  for="file-excel" style="    top: 0;
+                            <label class="m-0 h-100 w-100 position-absolute" for="file-excel" style="    top: 0;
                             right: 0;">
-                                <!-- <span color="accent" > -->
-                                <!-- </span> -->
-                        </label>
-                        <input [disabled]="isLoadFile" type="file" (change)="addFile($event)" class="d-none" id="file-excel" accept=".xlsx">
+
+                            </label>
+                            <input [disabled]="isLoadFile" type="file" (change)="addFile($event)" class="d-none"
+                                id="file-excel" accept=".xlsx">
                         </button>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element;let ind = index">
                         <button mat-icon-button (click)="editItem(element.id)">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <!-- <button mat-icon-button (click)="removeItem(ind)"> -->
+
                         <button mat-icon-button (click)="deleteItem(ind)">
                             <mat-icon>delete</mat-icon>
                         </button>
-                        <!-- <button mat-mini-fab><mat-icon>edit</mat-icon></button>
-                    <button mat-mini-fab><mat-icon>delete</mat-icon></button> -->
                     </mat-cell>
                 </ng-container>
 
@@ -158,7 +155,8 @@
             <mat-card-header class="d-block mat-card-header-m-0">
                 <mat-card-title style="display: flex;" class="row">
                     <div class="col-sm-12 col-md-12">
-                        <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{product_relationship.id}}</span>{{product_relationship.name}}
+                        <span class="mr-1"
+                            style="color:#f44336; font-weight: bold;">#{{product_relationship.id}}</span>{{product_relationship.name}}
                     </div>
                 </mat-card-title>
             </mat-card-header>

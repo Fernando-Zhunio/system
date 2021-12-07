@@ -7,6 +7,7 @@ import { Inotification } from '../../../interfaces/inotification';
 import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
+import { Inewsletter } from './../../../interfaces/inewsletter';
 
 @Component({
   selector: 'app-inicio',
@@ -21,6 +22,7 @@ export class InicioComponent implements OnInit {
   categoriesCount: number;
   brandCount: number;
   productsCount: number;
+  newsletters: Inewsletter[] = [];
   icon_url: string;
   date = new Date().getTime();
   notifications: Inotification[] = [];
@@ -126,7 +128,6 @@ export class InicioComponent implements OnInit {
     this.city = this.person?.city?.name || 'guayaquil';
 
     this.suscription_notifications = this.s_shared.currentNotifications.subscribe(res => {
-
       this.notifications = res;
     })
 
@@ -136,6 +137,7 @@ export class InicioComponent implements OnInit {
         this.categoriesCount = res.data.categories;
         this.productsCount = res.data.products;
         this.brandCount = res.data.brands;
+        this.newsletters = res.data.newsletter;
       }
 
     })

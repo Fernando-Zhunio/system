@@ -17,11 +17,10 @@ import { MatInputModule } from '@angular/material/input';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatTabsModule} from '@angular/material/tabs';
-
+import { MatTabsModule } from '@angular/material/tabs';
 import { RolesComponent } from './roles/roles.component';
 import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PaisesComponent } from './paises/paises.component';
 import { CreateOrEditCountryComponent } from './paises/create-or-edit-country/create-or-edit-country.component';
 import { LocacionesComponent } from './locaciones/locaciones.component';
@@ -30,9 +29,9 @@ import { ConvertsModule } from '../../Modulos/converts/converts.module';
 import { PersonasComponent } from './personas/personas.component';
 import { PersonComponent } from '../../components/person/person.component';
 import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/create-or-edit-person.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateEmailModalComponent } from '../../components/modals/create-email-modal/create-email-modal.component';
@@ -40,7 +39,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';
 import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado-libre-create-or-edit/mercado-libre-create-or-edit.component';
 import { FacebookAdsManagerComponent } from './facebook-ads-manager/facebook-ads-manager.component';
-import { MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { FacebookAdsSetComponent } from './facebook-ads-manager/facebook-ads-set/facebook-ads-set.component';
 import { FacebookAdsModalComponent } from './facebook-ads-manager/facebook-ads-modal/facebook-ads-modal.component';
@@ -54,10 +53,13 @@ import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses
 import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
 import { VtexSiteComponent } from './vtex-site/tools/vtex-site/vtex-site.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { IndexComponent } from './newsletters/index/index.component';
+import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-newsletter/create-or-edit-newsletter.component';
+import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
-
     CreateEmailModalComponent,
     UsuariosComponent,
     CreateOrEditComponent,
@@ -82,7 +84,9 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     CreateOrEditVtexWarehousesComponent,
     VtexSitesComponent,
     CreateOrEditVtexSiteComponent,
-    VtexSiteComponent
+    VtexSiteComponent,
+    IndexComponent,
+    CreateOrEditNewsletterComponent
     ],
   imports: [
     CommonModule,
@@ -116,13 +120,16 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatMenuModule,
     MatBadgeModule,
     NgxSpinnerModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    SearchTemplateModule,
+    QuillModule.forRoot()
   ],
 
   entryComponents: [
     CreateEmailModalComponent,
     CreateOrEditCountryComponent,
     FacebookAdsModalComponent,
+    ModalAssignUserComponent,
   ]
 })
 export class AdministracionSistemaModule { }

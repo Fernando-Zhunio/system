@@ -14,7 +14,6 @@ export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
     super();
   }
 
-  // isLoad: boolean;
   url: string = 'rrhh/works';
 
   ngOnInit(): void {}

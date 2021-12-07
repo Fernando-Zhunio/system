@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SearchTemplateComponent } from '../../../../../components/search-template/search-template.component';
 import { Iuser, Iwork } from '../../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { SwalService } from '../../../../../services/swal.service';
 
 @Component({
   selector: 'app-modal-send-cv',
@@ -11,15 +12,14 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 })
 export class ModalSendCvComponent implements OnInit {
 
-  constructor(private s_standart: StandartSearchService) { }
+  constructor(private s_standard: StandartSearchService) { }
   @ViewChild(SearchTemplateComponent) appFoo: SearchTemplateComponent<Iuser>;
 
   url: string = 'rrhh/users';
   placeholder = 'Buscador usuario';
-  data: Iuser[] = [];
-  selectUsers: Iuser[] = [];
+  dataMap: Map<number, Iuser> = new Map<number, Iuser>();
+  dataSelectMap: Map<number, Iuser> = new Map<number, Iuser>();
   form: FormGroup = new FormGroup({
-    // email: new FormControl('', [Validators.required, Validators.email]),
     full_work: new FormControl(false, [Validators.required]),
     emails: new FormArray([]),
   });
@@ -35,27 +35,32 @@ export class ModalSendCvComponent implements OnInit {
     return this.form.controls['emails'] as FormArray;
   }
 
-  getDataPaginate(event): void {
-    this.data = event;
-    console.log(this.data);
+  getDataPaginate(event: Iuser[]): void {
+    // this.data = event;
+    // console.log(this.data);
+    this.dataMap = new Map<number, Iuser>( event.map(x => [x.id, x]));
+
   }
 
-  addUser(user_id: number): void {
-    const index = this.selectUsers.findIndex(x => x.id === user_id);
-    if (index !== -1) {
-      return;
-    }
-    const user = this.data.find(x => x.id === user_id);
-    if (user) {
-      user['selected'] = true;
-      this.selectUsers.push(user);
-    }
+  addUserSelect(key: number): void {
+    const value = Object.assign({}, this.dataMap.get(key));
+    this.dataSelectMap.set(key, value);
+    // const index = this.selectUsers.findIndex(x => x.id === user_id);
+    // if (index !== -1) {
+    //   return;
+    // }
+    // const user = this.data.find(x => x.id === user_id);
+    // if (user) {
+    //   user['selected'] = true;
+    //   this.selectUsers.push(user);
+    // }
   }
 
-  removeUser(user_id: number): void {
-    const index = this.data.findIndex(x => x.id === user_id);
-    this.data[index]['selected'] = false;
-    this.selectUsers.splice(index, 1);
+  removeUser(key: number): void {
+    // const index = this.data.findIndex(x => x.id === user_id);
+    // this.data[index]['selected'] = false;
+    // this.selectUsers.splice(index, 1);
+    this.dataSelectMap.delete(key);
   }
 
   searchWorks(event): void {
@@ -63,7 +68,7 @@ export class ModalSendCvComponent implements OnInit {
     console.log(search);
     const url = `rrhh/works`;
     this.isloadUser = true;
-    this.s_standart.index(url, search).subscribe( res =>{
+    this.s_standard.index(url, search).subscribe( res =>{
       console.log(res);
       this.isloadUser = false;
       this.works = res.data.data;
@@ -74,11 +79,12 @@ export class ModalSendCvComponent implements OnInit {
   }
 
   captureUserFinalist(work_id: number): void {
-    this.s_standart.index(`rrhh/work/${work_id}/requests`).subscribe( res => {
+    this.s_standard.index(`rrhh/work/${work_id}/requests`).subscribe( res => {
       console.log(res);
-      this.selectUsers = res.data.map(x => {
-        return x.user;
-      });
+      // this.dataSelectMap = res.data.map(x => {
+      //   return x.user;
+      // });
+      this.dataSelectMap = new Map<number, Iuser>( res.data.map(x => [x.user.id, x.user]));
     });
   }
 
@@ -88,8 +94,9 @@ export class ModalSendCvComponent implements OnInit {
     console.log(this.getDataForSend());
     const dataSend = this.getDataForSend();
     if (dataSend) {
-      this.s_standart.store(url, dataSend).subscribe( res => {
+      this.s_standard.store(url, dataSend).subscribe( res => {
         console.log(res);
+        SwalService.swalConfirmation('Enviado', 'Se ha enviado el correo', 'success');
       });
     }
   }
@@ -100,8 +107,14 @@ export class ModalSendCvComponent implements OnInit {
       return false;
     }
     const data = this.form.value;
-    const data1 = this.selectUsers.map(x => {
-      return x.id;
+
+    // const data1 = this.selectUsers.map(x => {
+    //   return x.id;
+    // });
+    
+    const data1 = [];
+     this.dataSelectMap.forEach((value, key) => {
+      data1.push(key);
     });
     if (data1.length === 0) {
       return false;
