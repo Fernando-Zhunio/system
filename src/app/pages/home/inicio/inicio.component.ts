@@ -129,14 +129,14 @@ export class InicioComponent implements OnInit {
 
     this.suscription_notifications = this.s_shared.currentNotifications.subscribe(res => {
       this.notifications = res;
-    })
+    });
 
     this.getDataWeather();
     this.s_standart.index('home').subscribe(res => {
       if (res && res.hasOwnProperty('success') && res.success){
-        this.categoriesCount = res.data.categories;
-        this.productsCount = res.data.products;
-        this.brandCount = res.data.brands;
+        // this.categoriesCount = res.data.categories;
+        // this.productsCount = res.data.products;
+        // this.brandCount = res.data.brands;
         this.newsletters = res.data.newsletter;
       }
 

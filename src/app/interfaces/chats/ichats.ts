@@ -1,8 +1,24 @@
 import { Iperson } from './../iperson';
 
+
+export interface IchatBubble {
+  id: number | string;
+  data: Ichats;
+  // last_activity?: string;
+  name: string;
+  person?: Iperson;
+  connected?: number;
+  messages: ImessageChat[];
+  index: number;
+  img: string;
+  last_message?: ImessageChat;
+  typing: boolean;
+  // type: string;
+}
 export interface Ichats {
   channel_id: string;
   created_at: string;
+  img?: string;
   last_message?: ImessageChat;
   last_message_id: string;
   name: string;
@@ -20,7 +36,6 @@ export interface Ichats {
   //   status: 'online' | 'offline';
   //   _id: string;
   // };
-  img?: string;
 }
 
 export interface IparticipantChat {
@@ -62,7 +77,7 @@ export interface ImessageChat {
   author_user_id: number;
   author: Iauthor;
   channel_id?: string;
-  created_at: string | Date;
+  created_at: string ;
   delivered_to?: [];
   files: IfileChat[];
   info?: Iinfo;

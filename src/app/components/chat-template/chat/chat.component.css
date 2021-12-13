@@ -147,11 +147,11 @@
     width: calc(100% - 47px);
     min-height: 37px;
     border-radius: 20px;
-    border: solid 1px #dadada;
+    /* border: solid 1px #dadada; */
     outline: none;
     padding-left: 31px;
     bottom: 8px;
-    position: absolute;
+    /* position: absolute; */
     resize: none;
     height: 38px;
     font-family: 'Montserrat';
@@ -159,7 +159,7 @@
 }
 
 .btn-attach {
-    position: absolute;
+    /* position: absolute; */
     top: 5px;
     right: 0px;
     z-index: 999999;
@@ -215,7 +215,7 @@
 }
 
 .body-template-chat {
-    height: calc(100% - 100px);
+    height: calc(100% - 85px);
     position: relative;
 }
 

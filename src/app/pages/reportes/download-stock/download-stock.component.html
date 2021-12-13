@@ -30,7 +30,7 @@
         <mat-selection-list [ngStyle]="{'filter': allWarehouse?'blur(3px)':'none'}" class="warehouse" [multiple]="false">
           <mat-list-option class="border-bottom" (click)="addWarehousesSelects(warehouse.value.id)" *ngFor="let warehouse of warehousesMap | keyvalue">
             <div class="warehouse-item">
-              <span>{{warehouse.value.name}}</span>
+              <span>{{warehouse.value.name}} <small>({{warehouse.value.code}})</small></span>
               <span><i class="fas fa-share-square text-primary"></i></span>
             </div>
           </mat-list-option>
@@ -46,7 +46,7 @@
         <mat-selection-list [ngStyle]="{'filter': allWarehouse?'blur(3px)':'none'}"  [multiple]="false">
           <mat-list-option class="border-bottom" (click)="removeWarehousesSelects(warehouse.value.id)" *ngFor="let warehouse of warehousesSelectsMap | keyvalue">
             <div class="warehouse-item">
-              <span>{{warehouse.value.name}}</span>
+              <span>{{warehouse.value.name}} <small>({{warehouse.value.code}})</small></span>
               <span><i class="fas fa-share-square text-danger rotate-180"></i></span>
             </div>
           </mat-list-option>

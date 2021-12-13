@@ -1,48 +1,69 @@
 <div class="p-0" [hidden]="!openOrClose">
   <tabset [justified]="true">
-    <tab (selectTab)="onSelectChats($event)" [customClass]="'p-0 border-0'"
-      id="tab1">
+    <tab (selectTab)="onSelectChats($event)" [customClass]="'p-0 border-0'" id="tab1">
       <ng-template tabHeading>
         <span class="font-chat"><i class="fas fa-comments"></i><br> Chats</span>
       </ng-template>
-      <div >
+      <div>
         <div class="users-chats w-100  p-0 bg-white shadow" infiniteScroll [infiniteScrollDistance]="5"
           [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
           <div class="position-relative">
             <ul class="list-group">
-              <li class="border-0 btn-spotify m-3 text-center btn rounded-fz shadow sticky-top" style="top: 5px;" [routerLink]="['/chats/create-chat-group']">Crear chat grupal</li>
-              <li  (click)="openChatOfChat(chat._id)" *ngFor="let chat of chats"
-                class=" d-flex justify-content-between align-items-center item-chat btn rounded-0">
+              <li class="border-0 btn-spotify m-3 text-center btn rounded-fz shadow sticky-top" style="top: 5px;"
+                [routerLink]="['/chats/grupal/create']">Crear chat grupal</li>
+              <li (click)="openChatOfChat(chat.key)" *ngFor="let chat of chats|keyvalue | orderBy:'.value.last_message.created_at':true"
+                class="m-2 shadow p-2 rounded-fz d-flex justify-content-between align-items-center item-chat btn rounded-0">
                 <div class="text-truncate item-chat position-relative">
-                  <ng-container  *ngIf="chat.type == 'group'; else elseTemplate">
+                  <ng-container *ngIf="chat.value.data.type == 'group'; else elseTemplate">
                     <span class="position-relative">
-                      <img class="photo-user" [src]="getPhoto(chat?.img,true)" />
+                      <img class="photo-user" [src]="getPhoto(chat.value?.img,true)" />
                     </span>
                     <span class="chat-info text-left pl-1  text-capitalize text-truncate">
-                      {{chat.name}}
-                      <ng-container *ngIf="chat?.last_message">
-                        <br> <small class="text-muted"><span mat-line class="font-italic text-muted text-truncate"> {{chat?.last_message?.text}} </span><br> {{chat?.last_message?.created_at | date:'medium'}} <i *ngIf="chat?.last_message.author_user_id == myUser.id"
-                           class="{{chat?.last_message.is_readed_for_all == true?'fas text-success':'far'}} fa-check-circle"></i></small>
-                         <!-- <br> <small mat-line class="text-muted text-truncate"> {{chat?.last_message?.text}} </small> -->
+                      {{chat.value.name}}
+                      <ng-container *ngIf="chat.value?.last_message">
+                        <br> <small class="text-muted"><span mat-line class="font-italic text-muted text-truncate">
+                            {{chat.value?.last_message?.text}} </span><br> 
+                          <ng-container *ngIf="!chat.value.typing;else typingTemplateGroup">
+                            {{chat.value?.last_message?.created_at |
+                              date:'medium'}}
+                          </ng-container>
+                          <ng-template #typingTemplateGroup>
+                            <span class="text-success parpadeo">Escribiendo...</span>
+                          </ng-template>
+                           <i *ngIf="chat.value?.last_message.author_user_id == myUser.id"
+                            class="{{chat.value?.last_message.is_readed_for_all == true?'fas text-success':'far'}} fa-check-circle"></i></small>
                       </ng-container>
                     </span>
-                    <span *ngIf="chat.unread_messages_count > 0" style="font-size: 12px;" class="badge badge-primary badge-pill ml-2">{{chat.unread_messages_count}}</span>
+                    <span *ngIf="chat.value.data.unread_messages_count > 0" style="font-size: 12px;"
+                      class="badge badge-primary badge-pill ml-2">{{chat.value.data.unread_messages_count}}</span>
                   </ng-container>
-
                   <ng-template #elseTemplate>
                     <span class="position-relative">
-                      <span *ngIf="chat.participants[0].status != 'offline'" class="badge bg-success badge-online text-success">●</span>
-                      <img class="photo-user" [src]="getPhoto(chat.participants[0]?.info.photo)" />
+                      <span *ngIf="chat.value.connected"
+                        class="badge bg-success badge-online text-success">●</span>
+                      <img class="photo-user" [src]="getPhoto(chat.value.data.participants[0]?.info.photo)" />
                     </span>
                     <span class="chat-info text-left pl-1 text-capitalize text-truncate">
-                      {{chat.participants[0].info.name}}
-                      <!-- <br> <small mat-line class="text-muted text-truncate"> {{chat?.last_message?.text}} </small> -->
-                      <ng-container *ngIf="chat?.last_message">
-                        <br> <small class="text-muted"><span mat-line class="font-italic text-muted text-truncate"><i *ngIf="chat?.last_message?.files" class="fas fa-file-alt"></i> {{chat?.last_message?.text}} </span><br> {{chat?.last_message?.created_at | date:'medium'}} <i *ngIf="chat?.last_message?.author_user_id == myUser.id"
-                          class="{{chat?.last_message.is_readed_for_all == true?'fas text-success':'far'}} fa-check-circle"></i></small>
+                      {{chat.value.data.participants[0].info.name}}
+                      <ng-container *ngIf="chat.value?.last_message">
+                        <br> <small class="text-muted"><span mat-line class="font-italic text-muted text-truncate"><i
+                              *ngIf="chat.value?.last_message?.files" class="fas fa-file-alt"></i>
+                            {{chat.value?.last_message?.text}} </span><br>
+                            <ng-container *ngIf="!chat.value.typing;else typingTemplate">
+                              {{chat.value?.last_message?.created_at |
+                                date:'medium'}}
+                            </ng-container>
+                            <ng-template #typingTemplate>
+                              <span class="text-success parpadeo">Escribiendo...</span>
+                            </ng-template>
+                            
+                            
+                            <i *ngIf="chat.value?.last_message?.author_user_id == myUser.id"
+                            class="{{chat.value?.last_message.is_readed_for_all == true?'fas text-success':'far'}} fa-check-circle"></i></small>
                       </ng-container>
                     </span>
-                    <span *ngIf="chat.unread_messages_count > 0" style="font-size: 12px;" class="badge badge-primary badge-pill ml-2">{{chat.unread_messages_count}}</span>
+                    <span *ngIf="chat.value.data?.unread_messages_count > 0" style="font-size: 12px;"
+                      class="badge badge-primary badge-pill ml-2">{{chat.value.data?.unread_messages_count}}</span>
                   </ng-template>
                 </div>
               </li>
@@ -56,15 +77,28 @@
         <span class="font-chat"><i class="fas fa-users"></i><br> Usuarios</span>
       </ng-template>
       <div class="users-chats w-100  p-0 border-0 shadow" infiniteScroll [infiniteScrollDistance]="5"
-        [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
+        [infiniteScrollThrottle]="50" (scrolled)="onScroll(searchUser.value)" [scrollWindow]="false">
         <div class="position-relative p-0 m-0">
-          <ul class="list-group">
-            <li class="d-flex align-items-center item-chat btn rounded-0" (click)="openChat(user.id)" *ngFor="let user of users">
-              <img class="photo-user mr-2" [matBadge]="user.connected?'●':null"
-                [src]="getPhoto(user?.person?.photo?.real_permalink)" mat-list-icon />
-              <div class="text-truncate">{{user.name? user.name: user.person.first_name+''+ user.person.last_name}}</div>
+          <div class="bg-gray-100 sticky-top p-3">
+            <input #searchUser (keyup.enter)="getAllUsers($event.target.value)" class="input-search-user w-100" type="search" placeholder="Buscador de usuarios">
+          </div>
+          <ul [hidden]="users.size < 1" class="list-group">
+            <li class="d-flex align-items-center item-chat btn rounded-0"
+              (click)="openChatUser(user.key, user.value.data?._id)" *ngFor="let user of users | keyvalue">
+              <span [ngClass]="{'chat-inline': user.value.connected}">
+                <img class="photo-user mr-2" [matBadge]="user.value.connected?'●':null"
+                  [src]="getPhoto(user.value?.person?.photo?.real_permalink)" mat-list-icon />
+              </span>
+              <div class="text-truncate">{{user.value.name? user.value.name: user.value.person.first_name+''+
+                user.value.person.last_name}}</div>
             </li>
           </ul>
+          <div>
+            <div class="text-center" *ngIf="users.size < 1">
+              <span class="text-muted">No hay usuarios</span>
+              <img class="w-75" src="assets/img/respuesta_vacia.svg" alt="sin datos">
+            </div>
+          </div>
         </div>
       </div>
     </tab>
@@ -77,12 +111,12 @@
         [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
         <div class="position-relative p-0 m-0">
           <ul class="list-group">
-            <li class="d-flex align-items-center item-chat btn rounded-0" (click)="openChatBot(bot._id)" *ngFor="let bot of bots">
+            <li class="d-flex align-items-center item-chat btn rounded-0"
+              (click)="openChatBot(bot.key, bot.value.data?._id)" *ngFor="let bot of bots | keyvalue">
               <span class="chat-inline">
-                <img class="photo-user mr-2" 
-                  [src]="getPhoto(bot?.info?.photo)" mat-list-icon />
+                <img class="photo-user mr-2" [src]="getPhoto(bot.value?.img)" mat-list-icon />
               </span>
-              <div class="text-truncate">{{bot?.info?.name}}</div>
+              <div class="text-truncate">{{bot.value?.name}}</div>
             </li>
           </ul>
         </div>
@@ -91,12 +125,13 @@
   </tabset>
 </div>
 
-<div @fade [ngStyle]="{'z-index': chat?.index}" [ngClass]="!openOrClose? 'chat-bubble-position-5':'chat-bubble-position-250'" class="chat-template"
-  *ngFor="let chat of chatsbubble;let i = index;trackBy: chatMethod">
+<div @fade [ngStyle]="{'z-index': chat.value?.index}"
+  [ngClass]="!openOrClose? 'chat-bubble-position-5':'chat-bubble-position-250'" class="chat-template"
+  *ngFor="let chat of chatsbubble | keyvalue;let i = index;trackBy: chatMethod">
   <div>
-    <span (click)="upBubble(chat.data_chat._id)" [ngStyle]="{'left': (i*46)+'px'}"  class="active-mini-chat bubble-mini-chat bg-white"> 
-      <img class="w-100 rounded-circle" [src]="getPhoto(chat?.data_chat?.img ? chat?.data_chat?.img : chat?.data_chat?.participants ? chat?.data_chat?.participants[0]?.info?.photo:null)" alt="">
+    <span (click)="upBubble(chat.key)" [ngStyle]="{'left': (i*46)+'px'}" class="bubble-mini-chat bg-white">
+      <img class="w-100 rounded-circle shadow-sm-img" [src]="getPhoto(chat?.value?.img)" alt="">
     </span>
   </div>
-  <app-chat (delete)="closeChatBubble($event)" [userchat]="chat" [my_id]="myUser.id"></app-chat>
+  <app-chat (delete)="closeChatBubble($event)" [chat]="chat.value" [my_id]="myUser.id"></app-chat>
 </div>

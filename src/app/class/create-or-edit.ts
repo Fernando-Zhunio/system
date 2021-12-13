@@ -12,6 +12,7 @@ export class CreateOrEdit<T> {
     public urlSave = null;
     public form: FormGroup = null;
     isLoading: boolean = false;
+    public params = null;
 
     constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
     }
@@ -21,18 +22,37 @@ export class CreateOrEdit<T> {
             if (data.isEdit) {
                 this.status = 'edit';
                 this.title += ' Editando';
-                this.standard_service.show(`${this.urlSave}/${this.getId()}/edit`).subscribe(data => {
-                    this.setData(data.data);
-                });
+                this.edit();
             } else {
                 this.status = 'create';
                 this.title += ' Creando';
+                this.loaderDataForCreate();
             }
         });
     }
 
+    edit() {
+        this.standard_service.show(`${this.urlSave}/${this.getId()}/edit${this.params}`).subscribe(data => {
+            this.setData(data.data);
+        });
+    }
+
+    create() {
+        this.isLoading = true;
+        this.standard_service.show(`${this.urlSave}/create${this.params}`).subscribe(data => {
+            this.setData(data.data);
+            this.isLoading = false;
+        }, error => { this.isLoading = false; });
+    }
+
     getId() {
         return this.act_router.snapshot.params['id'];
+    }
+
+    loaderDataForCreate() {
+        this.standard_service.show(`${this.urlSave}/create${this.params}`).subscribe(data => {
+            this.setData(data.data);
+        });
     }
 
     setData(data) {
@@ -66,8 +86,7 @@ export class CreateOrEdit<T> {
         }
     }
 
-    go(){}
-
+    go() { }
     getDataForSendServer(): any { }
 
 

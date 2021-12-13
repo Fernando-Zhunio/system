@@ -1,13 +1,10 @@
 <div>
-    <h1>{{title}}</h1>
-    <mat-card>
+    <h1 class="font-4xl list-group-item-accent-warning font-weight-bold my-3">{{title}}</h1>
+    <mat-card class="rounded-fz shadow-sm">
         <form class="row card-body" [formGroup]="form" (ngSubmit)="saveInServer()">
             <mat-form-field class="col-12">
                 <input matInput placeholder="Titulo" formControlName="title">
             </mat-form-field>
-            <!-- <mat-form-field class="col-12">
-                <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
-            </mat-form-field> -->
             <div class="w-100 mb-5" style="height: 200px;">
                 <quill-editor formControlName="description" required  placeholder="Ingrese la descripción" [styles]="editorStyle" class="w-100 h-100">
                     <div quill-editor-toolbar>
@@ -52,11 +49,21 @@
                   </quill-editor>
             </div>
             <mat-form-field class="col-md-6">
-                <mat-label>Fecha de inicio <small>(d/m/yyyy)</small></mat-label>
-                <input matInput  formControlName="start_date" [matDatepicker]="dp">
-                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp disabled="false"></mat-datepicker>
-                <mat-error *ngIf="form.controls['start_date'].invalid">Fecha de inicio requerida</mat-error>
+              <mat-label>Todas los roles</mat-label>
+              <mat-select type="text" #select_warehouse
+              formControlName="roles" multiple>
+                <mat-select-trigger>
+                  <mat-chip-list>
+                    <mat-chip (removed)="removeRol(_rol)" *ngFor="let _rol of form.get('roles').value"
+                    [removable]="true">
+                      {{ getNameRol(_rol) }}
+                      <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
+                </mat-select-trigger>
+                <mat-option *ngFor="let rol of roles" [value]="rol.id">
+                  {{ rol.name }}</mat-option>
+              </mat-select>
             </mat-form-field>
             <mat-form-field class="col-md-6">
                 <mat-label>Fecha de financiación <small>(d/m/yyyy)</small></mat-label>

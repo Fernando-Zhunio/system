@@ -22,12 +22,9 @@ value: string;
 export class DownloadStockComponent implements OnInit {
 
   constructor(private s_standart: StandartSearchService) { }
-  // status: string = 'ready';
   warehouses: Iwarehouse[] = [];
   warehousesMap: Map<number, object> = new Map<number, object>();
-  // warehousesSelects: Iwarehouse[] = [];
   warehousesSelectsMap:  Map<number, object> = new Map<number, object>();
-  // warehouseCopySearch: Iwarehouse[] = [];
   search: string = '';
   isLoad: boolean = false;
   mbaStatus: ImbaStatus = null;

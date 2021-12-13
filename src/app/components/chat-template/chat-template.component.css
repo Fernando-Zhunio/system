@@ -14,6 +14,10 @@
   z-index: 999999;
 }
 
+.shadow-sm-img {
+  box-shadow: 0px 0px 3px 1px #cbcbcb;
+}
+
 .photo-user {
   width: 40px !important;
   height: 40px !important;
@@ -117,5 +121,15 @@
   font-size: 28px;
   color: #4caf50;
   text-shadow: 0px 1px 4px black;
+  z-index: 1;
+}
+
+.input-search-user {
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-family: 'Montserrat';
+  font-weight: bold;
+  border: none;
+  outline: none;
 }
 

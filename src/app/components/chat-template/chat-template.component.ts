@@ -1,11 +1,14 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { KeyValue } from '@angular/common';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren } from '@angular/core';
+import { group } from 'console';
 import Echo from 'laravel-echo';
 import { EchoManager } from '../../class/echo-manager';
-import { IchatBot, Ichats, ImessageChat, IuserChat } from '../../interfaces/chats/ichats';
+import { IchatBot, IchatBubble, Ichats, ImessageChat, IparticipantChat, IuserChat } from '../../interfaces/chats/ichats';
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
+import { ChatComponent } from './chat/chat.component';
 
 @Component({
   selector: 'app-chat-template',
@@ -14,99 +17,125 @@ import { StorageService } from '../../services/storage.service';
   animations: [trigger('fade', [
     transition(
       ':leave', [
-        style({ transform: 'translateY(0%)', opacity: '1' }),
-        animate(500, style({ transform: 'translateY(110%)', opacity: '0' }))
-      ]
+      // style({ transform: 'translateY(0%)', opacity: '1' }),
+      // animate(300, style({ transform: 'translateY(110%)', opacity: '0' }))
+      style({ transform: 'scale(1)', opacity: '1' }),
+      animate(300, style({ transform: 'scale(0)', opacity: '0' }))
+    ]
     ),
     transition(':enter', [
-      style({ transform: 'translateY(110%)', opacity: '0' }),
-      animate(500)
+      // style({ transform: 'translateY(110%)', opacity: '0' }),
+      style({ transform: 'scale(0)', opacity: '0' }),
+      animate(300)
     ]),
   ])],
 })
 export class ChatTemplateComponent implements OnInit, OnDestroy {
   constructor(
     private s_storage: StorageService,
-    private s_standart: StandartSearchService
-  ) {}
+    private s_standard: StandartSearchService
+  ) { }
 
   @Input() openOrClose: boolean = false;
   @Output() newMessageEmit = new EventEmitter<boolean>();
-  users: IuserChat[] = [];
-  bots: IchatBot[] = [];
-  chats: Ichats[] = [];
-  chatsbubble: IuserChat[] = [];
+  // users: IuserChat[] = [];
+  // bots: IchatBot[] = [];
+  // chats: Ichats[] = [];
+  // chatsbubble: Map<number|string, IchatBubble> = new Map<number|string, IchatBubble>();
+  bots: Map<number | string, IchatBubble> = new Map<number | string, IchatBubble>();
+  chats: Map<number | string, IchatBubble> = new Map<number | string, IchatBubble>();
+  chatsbubble: Map<number | string, IchatBubble> = new Map<number | string, IchatBubble>();
+  users: Map<number | string, IchatBubble> = new Map<number | string, IchatBubble>();
   hideUsers: boolean = true;
   page: number = 1;
   myUser: any = null;
   index: number = 9999;
   echoChat: Echo;
-
+  current_chat_id: string = null;
+  is_status_connect_chat: boolean = true;
+  first_connect: boolean = false;
+  @ViewChildren(ChatComponent) chatsComponent: ChatComponent[];
 
   ngOnInit(): void {
     this.myUser = this.s_storage.getCurrentUser();
     this.echoChat = new EchoManager(this.s_storage).chat_echo;
     this.echoChat.private(`chat.${this.myUser.id}`)
-      .listen(`.chat`, this.newChat.bind(this))
+      .listen(`.chat`, this.modificationChatListen.bind(this))
       .listen('.message', this.getMessages.bind(this))
-      .listen('.typing', this.typingUser.bind(this))
-      .listen('.message_readed', this.getMessageReaded.bind(this));
+      .listen('.typing', this.typingUserListen.bind(this))
+      .listen('.message_readed', this.getMessageReaded.bind(this))
+      .listen('.message_deleted', this.deleteMessage.bind(this));
     this.echoChat
       .private(`chat_users`)
       .listen('.user', this.getChatUserStatus.bind(this));
 
-  //   this.s_shared.echo.connector.pusher.connection.bind('connecting', (payload) => {
-  //     /**
-  //      * All dependencies have been loaded and Channels is trying to connect.
-  //      * The connection will also enter this state when it is trying to reconnect after a connection failure.
-  //      */
-  //     console.log('connecting...');
-  // });
+      this.echoChat.connector.pusher.connection.bind('connecting', (payload) => {
+        /**
+         * All dependencies have been loaded and Channels is trying to connect.
+         * The connection will also enter this state when it is trying to reconnect after a connection failure.
+         */
+        console.log('connecting...');
+        this.is_status_connect_chat = false;
+    });
 
-  // this.s_shared.echo.connector.pusher.connection.bind('connected', (payload) => {
-  //     /**
-  //      * The connection to Channels is open and authenticated with your app.
-  //      */
-  //     console.log('connected!', payload);
-  // });
+    this.echoChat.connector.pusher.connection.bind('connected', (payload) => {
+        /**
+         * The connection to Channels is open and authenticated with your app.
+         */
+        console.log('connected!', payload);
+        this.is_status_connect_chat = true;
+        if (!this.first_connect) {
+          this.first_connect = true;
+        } else {
+          console.log('new connection');
+          this.onSelectChats(null);
+          if (this.chatsComponent.length > 0) {
+            console.log(this.chatsComponent.length > 0);
+            this.chatsComponent.forEach(chat => {
+              chat.getMessageReconnected();
+            });
+          }
 
-  // this.s_shared.echo.connector.pusher.connection.bind('unavailable', (payload) => {
-  //     /**
-  //      *  The connection is temporarily unavailable. In most cases this means that there is no internet connection.
-  //      *  It could also mean that Channels is down, or some intermediary is blocking the connection. In this state,
-  //      *  pusher-js will automatically retry the connection every 15 seconds.
-  //      */
-  //     console.log('unavailable', payload);
-  // });
+        }
 
-  // this.s_shared.echo.connector.pusher.connection.bind('failed', (payload) => {
-  //     /**
-  //      * Channels is not supported by the browser.
-  //      * This implies that WebSockets are not natively available and an HTTP-based transport could not be found.
-  //      */
-  
-  //     console.log('failed', payload);
-  
-  // });
-  
-  // this.s_shared.echo.connector.pusher.connection.bind('disconnected', (payload) => {
-  
-  //     /**
-  //      * The Channels connection was previously connected and has now intentionally been closed
-  //      */
-  
-  //     console.log('disconnected', payload);
-  
-  // });
-  
-  // this.s_shared.echo.connector.pusher.connection.bind('message', (payload) => {
-  
-  //     /**
-  //      * Ping received from server
-  //      */
-  
-  //     console.log('message', payload);
-  // });
+    });
+
+    // this.echoChat.connector.pusher.connection.bind('unavailable', (payload) => {
+    //     /**
+    //      *  The connection is temporarily unavailable. In most cases this means that there is no internet connection.
+    //      *  It could also mean that Channels is down, or some intermediary is blocking the connection. In this state,
+    //      *  pusher-js will automatically retry the connection every 15 seconds.
+    //      */
+    //     console.log('unavailable', payload);
+    // });
+
+    // this.echoChat.connector.pusher.connection.bind('failed', (payload) => {
+    //     /**
+    //      * Channels is not supported by the browser.
+    //      * This implies that WebSockets are not natively available and an HTTP-based transport could not be found.
+    //      */
+
+    //     console.log('failed', payload);
+
+    // });
+
+    // this.echoChat.connector.pusher.connection.bind('disconnected', (payload) => {
+
+    //     /**
+    //      * The Channels connection was previously connected and has now intentionally been closed
+    //      */
+
+    //     console.log('disconnected', payload);
+
+    // });
+
+    // this.echoChat.connector.pusher.connection.bind('message', (payload) => {
+
+    //     /**
+    //      * Ping received from server
+    //      */
+    //     console.log('message', payload);
+    // });
     this.getAllUsers();
     this.onSelectChats(null);
     this.getAllBots();
@@ -116,133 +145,134 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     this.echoChat.leave(`chat.${this.myUser.id}`);
   }
 
-  newChat(event: { chat: Ichats; event: 'created'|'updated'|'deleted' }): void {
+  deleteMessage(event: { chat_id: string, message_id: string }) {
+    console.log('deleteMessage', event);
+    if (this.chatsbubble.has(event.chat_id)) {
+      const messages = this.chatsbubble.get(event.chat_id).messages;
+      const indexMsm = messages.findIndex(msm => msm._id === event.message_id);
+      if (indexMsm > -1) {
+        const msm = messages[indexMsm];
+        msm.text = '🚫 Este mensaje fue eliminado por el remitente';
+        msm.files = [];
+        msm.links = [];
+      }
+    }
+  }
+
+
+  modificationChatListen(event: { chat: Ichats; event: 'created' | 'updated' | 'deleted' }): void {
     if (event.event == 'created') {
       const chat = event.chat;
+      // * Elimina mi usuario de la lista de participantes
       const participantsIndex = chat.participants.findIndex(x => x.info.id == this.myUser.id);
-      if ( participantsIndex != -1 ) {
+      if (participantsIndex != -1) {
         chat.participants.splice(participantsIndex, 1);
       }
-      this.chats.unshift(event.chat);
+      const newChat: IchatBubble = {
+        id: chat._id,
+        person: null,
+        connected: chat.participants[0].status == 'online' ? 1 : 0,
+        data: chat,
+        messages: [],
+        index: this.index,
+        img: chat.participants[0].info.photo,
+        name: chat.participants[0].info.name,
+        last_message: chat.last_message,
+        typing: false,
+      };
+      this.chats.set(event.chat._id, newChat);
+      return;
+    }
+    if (event.event == 'updated') {
+      if (this.chats.has(event.chat._id)) {
+        const chat = this.chats.get(event.chat._id);
+        if (!this.chatsbubble.has(event.chat._id)) {
+          chat.data.unread_messages_count = event.chat.unread_messages_count;
+        } else {
+          chat.data.unread_messages_count = 0;
+        }
+        if (chat.data.type != 'group') {
+          const statusParticipant = event.chat.participants.find(x => x.id != this.myUser.id);
+          chat.data.participants.find(x => x.id != this.myUser.id).status = statusParticipant.status;
+          chat.connected = statusParticipant.status == 'online' ? 1 : 0;
+          if (this.chatsbubble.has(event.chat._id)) {
+            this.chatsbubble.get(event.chat._id).connected = chat.connected;
+          }
+        }
+      }
       return;
     }
     if (event.event == 'deleted') {
-      const chatIndex = this.chats.findIndex(
-        (x) => x._id == event.chat._id
-      );
-      if (chatIndex !== -1) {
-        this.chats.splice(chatIndex, 1);
-      }
+      this.chats.delete(event.chat._id);
       return;
     }
   }
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
     console.log(event);
-    
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }
-    const userChat = this.chatsbubble.find(
-      (user) => user?.data_chat?._id === event.chat._id
-    );
-    const chatIndex = this.chats.findIndex((x: any) => x._id === event.chat._id);
-    let chat;
-    if (chatIndex != -1) {chat = this.chats[chatIndex]; }
-    if (userChat != undefined) {
-      const message: ImessageChat = {
-        text: event.message.text,
-        author: event.message.author,
-        type: event.message.type,
-        files: event.message.files,
-        created_at: event.message.created_at,
-        author_user_id: event.message.author_user_id,
-        is_readed_for_all: event.message.is_readed_for_all,
-        links: event.message.links
-      };
-      if (!userChat?.messages) {userChat.messages = []; }
-      userChat['messages'].push(message);
-      // console.log({message, state: event.message.is_readed_for_all});
-
-      if (chat != undefined) {
-        if (!chat.last_message) {
-          chat.last_message = {} as any;
-        }
-        chat.last_message.text = event.message.text;
-        chat.last_message.files = Array.isArray(event.message.files);
-        chat.last_message.author_user_id = event.message.author_user_id;
-        chat.last_message.is_readed_for_all = event.message.is_readed_for_all;
-        chat.last_message.created_at = event.message.created_at;
-        if (chatIndex > 0) {
-          this.chats = this.array_move(this.chats, chatIndex, 0);
-        }
+    const isExistChatBubble = this.chatsbubble.has(event.chat._id);
+    if (!this.chats.has(event.chat._id)) {
+      if (isExistChatBubble) {
+        event.chat.unread_messages_count = 0;
       }
-    } else {
-      // console.log('burbuja no encotrada');
-      if (chat != undefined) {
-        if (!chat.last_message) {
-          chat.last_message = {} as any;
-        }
-        chat.unread_messages_count++;
-        chat.last_message.text = event.message.text;
-        chat.last_message.author_user_id = event.message.author_user_id;
-        chat.last_message.is_readed_for_all = event.message.is_readed_for_all;
-        chat.last_message.created_at = event.message.created_at;
-        if (chatIndex > 0) {
-          this.chats = this.array_move(this.chats, chatIndex, 0);
-        }
-      }
+      this.chats.set(event.chat._id, {
+        id: event.chat._id,
+        person: null,
+        connected: event.chat.participants[0].status == 'online' ? 1 : 0,
+        data: event.chat,
+        messages: [],
+        index: this.index,
+        img: event.chat.participants[0]?.info?.photo,
+        name: event.chat.participants[0]?.info?.name,
+        last_message: event.message,
+        typing: false,
+      });
+      // return;
     }
-    if (event.message.author_user_id != this.myUser.id) {
+    const _chat = this.chats.get(event.chat._id);
+    _chat.last_message = event.message || null;
+    _chat.typing = false;
+    if (isExistChatBubble) {
+      const _chat_bubble = this.chatsbubble.get(event.chat._id);
+      _chat_bubble.messages.push(event.message);
+      _chat_bubble.typing = false;
+    }
+
+    if (event.chat._id != this.current_chat_id) {
+      console.log(event.chat._id , this.current_chat_id)
       this.reproducir();
     }
+
+    // if (!isExistChatBubble ||  (this.chatsbubble.has(this.current_chat_id) && this.chatsbubble.get(this.current_chat_id).index < this.index - 1)) {
+    //   this.reproducir();
+    //   console.log(this.chatsbubble.entries());
+    // }
   }
 
-   array_move(arr, old_index, new_index) {
-    if (new_index >= arr.length) {
-        let k = new_index - arr.length + 1;
-        while (k--) {
-            arr.push(undefined);
-        }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr; // for testing
-}
-
-reproducir() {
-  const audio = new Audio('assets/audio/new_message.wav');
-  audio.play();
-}
+  reproducir() {
+    const audio = new Audio('assets/audio/new_message.wav');
+    audio.play();
+  }
   getChatUserStatus(event: {
     event: string;
     user: { id: number; status: 'offline' | 'online'; _id: string, last_seen: string };
   }): void {
-    if (!this.chats) {
-      return;
-    }
-    const chat = this.chats.find(
-      (x) => x.participants[0].info.id == event.user.id
-    );
-    if (chat != undefined && chat.type == 'personal') {
-      chat.participants[0].status = event.user.status;
-      chat.participants[0].last_seen = event?.user?.last_seen || null;
-    }
+
+    this.users.get(event.user.id).connected = event.user.status == 'online' ? 1 : 0;
   }
 
-  getMessageReaded(event: {chat_id: string, is_readed_for_all: boolean, message_id: string, user: IuserChat}): void {
-    // console.log({ 'reader_event: ': event });
-    const userChat = this.chatsbubble.find((x) => x.data_chat._id === event.chat_id);
+  getMessageReaded(event: { chat_id: string, is_readed_for_all: boolean, message_id: string, user: IuserChat }): void {
+
     if (!event.is_readed_for_all) { return; }
-    if (userChat != undefined) {
-      userChat['messages'].map((message) => {
+    this.chats.get(event.chat_id).last_message.is_readed_for_all = true;
+    if (this.chatsbubble.has(event.chat_id)) {
+      const _chat = this.chatsbubble.get(event.chat_id);
+      _chat.messages.map((message) => {
         return (message.is_readed_for_all = true);
       });
-    }
-    const chat = this.chats.find((x) => x._id === event.chat_id);
-    if (chat != undefined) {
-      if (chat.last_message) {
-        chat.last_message.is_readed_for_all = true;
-      }
     }
   }
 
@@ -254,13 +284,20 @@ reproducir() {
     return SharedService.rediredImageNull(user, img_path);
   }
 
-  getAllUsers(): void {
-    this.s_standart.index('chats', this.page.toString(), '30').subscribe(
+  getAllUsers(search: string = null): void {
+    this.page = 1;
+    const data_send = { search: search, page: this.page.toString(), pageSize: '30' };
+    this.s_standard.search2('chats', data_send).subscribe(
       (data: any) => {
         if (data.data.data.length < 1) {
+          this.users.clear();
           return;
         }
-        this.users = this.users.concat(data.data.data);
+        this.users.clear();
+        data.data.data.map((x) => {
+          const { connected, id, name, person } = x;
+          this.users.set(x.id, { connected, id, name, person, data: null, img: person?.photo?.real_permalink, index: this.index, messages: [], typing: false });
+        });
         this.page++;
       },
       (error) => {
@@ -270,13 +307,16 @@ reproducir() {
   }
 
   getAllBots(): void {
-    this.s_standart.index('chats/bots', this.page.toString(), '30').subscribe(
+    this.s_standard.index('chats/bots', this.page.toString(), '30').subscribe(
       (data: any) => {
         if (data.data.data.length < 1) {
           return;
         }
         console.log(data);
-        this.bots = this.bots.concat(data.data.data);
+        data.data.data.map((x: IchatBot) => {
+          const { _id, info } = x;
+          this.bots.set(_id, { connected: 1, id: _id, name: info.name, person: null, data: null, img: info.photo, index: this.index, messages: [], typing: false });
+        });
         this.page++;
       },
       (error) => {
@@ -285,113 +325,169 @@ reproducir() {
     );
   }
 
-  typingUser(event): void {
-    console.log(event);
+  typingUserListen(event): void {
+    const _chat = this.chats.get(event.chat_id);
+    _chat.typing = true;
+    console.log(event, this.chats.get(event.chat_id));
+    const isChatBubble = this.chatsbubble.has(event.chat_id);
+    if (isChatBubble) {
+      const _chat_bubble = this.chatsbubble.get(event.chat_id);
+      _chat_bubble.typing = true;
+    }
+    setTimeout(() => {
+      this.chats.get(event.chat_id).typing = false;
+      if (isChatBubble) { this.chatsbubble.get(event.chat_id).typing = false; }
+    }, 2000);
   }
 
-  openChat(user_id): void {
-    const userChat = this.users.find((user) => user.id === user_id);
-    const chatBubbleIndex = this.chatsbubble.findIndex(
-      (user) => user.id === user_id
-    );
-    if (userChat !== undefined && chatBubbleIndex == -1) {
-      this.chatsbubble.push(userChat);
+
+  openChatUser(user_id, key): void {
+    if (this.chatsbubble.has(key)) {
+      this.upBubble(key);
+      return;
     }
+    this.s_standard
+      .store(`chats/user`, { participants: [user_id] })
+      .subscribe((data) => {
+        if (this.chatsbubble.has(data.data.chats._id)) {
+          return;
+        }
+        const res = data.data as { chats: Ichats, messages: any[] };
+        const _chat = this.users.get(user_id);
+        _chat.data = res.chats;
+        _chat.id = res.chats._id;
+        _chat.messages = data.data.messages.data.reverse();
+        this.chatsbubble.set(_chat.id, _chat);
+        this.current_chat_id = _chat.id;
+      });
   }
 
-  openChatBot(bot_id): void {
-    const botChat = this.bots.find((bot) => bot._id === bot_id);
-    const chatBubbleIndex = this.chatsbubble.findIndex(
-      (bot) => bot.id === bot_id
-    );
-    if (botChat !== undefined && chatBubbleIndex == -1) {
-      const userChat: IuserChat = {
-        id: botChat._id,
-        name: botChat.info.name,
-        data_chat: null,
-       
-      };
-      this.chatsbubble.push(userChat);
+  openChatBot(bot_id, key): void {
+    if (this.chatsbubble.has(key)) {
+      this.upBubble(key);
+      return;
     }
+    this.s_standard
+      .store(`chats/user`, { participants: [bot_id] })
+      .subscribe((data) => {
+        if (this.chatsbubble.has(data.data.chats._id)) {
+          return;
+        }
+        const res = data.data as { chats: Ichats, messages: any[] };
+        const _chat = this.bots.get(bot_id);
+        _chat.data = res.chats;
+        _chat.id = res.chats._id;
+        _chat.messages = data.data.messages.data.reverse();
+        _chat.index = this.index++;
+        this.current_chat_id = _chat.id;
+        this.chatsbubble.set(_chat.id, _chat);
+      });
   }
+
 
   openChatOfChat(chat_id): void {
-    const chat = this.chats.find((x) => x._id == chat_id);
-    if (chat != undefined) {
-      if (chat.type == 'personal') {
-        const user = chat.participants[0].info;
-        const userIndex = this.chatsbubble.findIndex((x) => x.id == user.id);
-        if (userIndex !== -1) {
-          return;
-        }
-        const { id, name } = user;
-        const userChat: IuserChat = {
-          id,
-          name,
-          data_chat: chat,
-          index: this.index
-        };
-        this.chatsbubble.push(userChat);
-      } else if (chat.type == 'group') {
-        const userIndex = this.chatsbubble.findIndex(
-          (x) => x.id.toString() == chat._id
-        );
-        if (userIndex !== -1) {
-          return;
-        }
-        chat.img = chat.img ? chat.img : 'assets/img/user_group.png';
-        const userChat: IuserChat = {
-          id: chat._id,
-          name: chat.name,
-          data_chat: chat,
-          index: this.index,
-        };
-        this.chatsbubble.push(userChat);
-      }
+    if (this.chatsbubble.has(chat_id)) {
+      this.upBubble(chat_id);
+      return;
+    }
+    if (this.chats.has(chat_id)) {
+      const chat = this.chats.get(chat_id);
+      console.log(chat);
+      const newChat: IchatBubble = {
+        id: chat.id,
+        person: null,
+        connected: chat.data.participants[0].status == 'online' ? 1 : 0,
+        data: chat.data,
+        index: this.index++,
+        img: chat.data.participants[0].info.photo,
+        name: chat.data.name || chat.data.participants[0].info.name,
+        messages: [],
+        typing: false
+      };
+      this.current_chat_id = chat_id;
+      // console.log(this.chatsbubble.entries());
+
+      this.chatsbubble.set(chat.id, newChat);
+      console.log(this.chatsbubble);
+
     }
   }
 
   closeChatBubble(user_id): void {
-    const userChatIndex = this.chatsbubble.findIndex(
-      (user) => user.id === user_id
-    );
-    if (userChatIndex !== -1) {
-      this.chatsbubble.splice(userChatIndex, 1);
+    this.chatsbubble.delete(user_id);
+    if (this.chatsbubble.size >= 1) {
+      const key = this.chatsbubble.keys().next().value;
+      this.upBubble(key);
+    } else {
+      this.current_chat_id = null;
     }
   }
 
-  onScroll(): void {
-    this.getAllUsers();
+  onScroll(search = null): void {
+    const data_send = { search, page: this.page.toString(), pageSize: '30' };
+    this.s_standard.search2('chats', data_send).subscribe(
+      (data: any) => {
+        if (data.data.data.length < 1) {
+          return;
+        }
+        data.data.data.map((x) => {
+          const { connected, id, name, person } = x;
+          this.users.set(x.id, { connected, id, name, person, data: null, img: person?.photo?.real_permalink, index: this.index, messages: [], typing: false });
+        });
+        this.page++;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   chatMethod(index, item): void {
-    return item.id;
+    return item.key;
   }
 
   onSelectChats(event): void {
-    this.s_standart.index(`chats/user-chats`).subscribe((res) => {
-      this.chats = res.data.data;
+    this.s_standard.index(`chats/user-chats`).subscribe((res) => {
+      const data = res.data.data as Ichats[];
+      const _chat = [];
+      data.map((x) => {
+        const participant = x.participants[0] as IparticipantChat;
+        _chat.push([x._id,
+        {
+          connected: participant.status == 'online' ? 1 : 0,
+          id: x._id,
+          name: x.name || participant.info.name,
+          person: null,
+          data: x,
+          img: x?.type == 'group' ? this.getPhoto(x.img, true) : this.getPhoto(participant.info.photo),
+          index: this.index, messages: [],
+          last_message: x.last_message
+        }]);
+      });
+      this.chats = new Map<string, IchatBubble>(_chat.map((x) => x));
+      console.log(this.chats);
     });
   }
 
   markReadMessage(chat_id): void {
-    this.s_standart
+    this.s_standard
       .updatePut(`chats/${chat_id}/mark-read`, {})
       .subscribe((res) => {
-        // console.log(res);
       });
   }
 
-  // upBubble(index): void {
-  //   this.chatsbubble = this.array_move(this.chatsbubble, index, this.chatsbubble.length - 1);
-  // }
   upBubble(_id) {
-    const chatBubble = this.chatsbubble.find((x) => x.data_chat._id == _id);
-    if (chatBubble != undefined) {
-      chatBubble.index = this.index++;
-
-    }
+    const chatBubble = this.chatsbubble.get(_id);
+    this.current_chat_id = _id;
+    chatBubble.index = this.index++;
   }
+
+
+
+  // valueOrder = (a: KeyValue<number, IchatBubble>, b: KeyValue<number, IchatBubble>): number => {
+
+  //   return b.value.data.last_message.created_at.localeCompare(a.value.data.last_message.created_at);
+  // }
 
 
 }

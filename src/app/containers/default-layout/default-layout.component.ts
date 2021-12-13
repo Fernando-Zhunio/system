@@ -151,8 +151,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     );
     this.s_standart.index('notifications/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        this.s_shared.changeNotifications(res.data);
-        const notifications = res.data;
+        this.s_shared.changeNotifications(res.data.notifications);
+        const notifications = res.data.notifications;
+        this.countMesssages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
         if (notifications.length > 0) {
           const countNotification = notifications.filter(
             (notification) => !notification.read_at

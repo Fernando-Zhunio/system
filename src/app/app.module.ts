@@ -103,6 +103,7 @@ import { UsersGroupsChatModalComponent } from './components/chat-template/users-
 import { MarkdwonPipe } from './pipes/markdwon.pipe';
 import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
+import { OrderModule } from 'ngx-order-pipe';
 
 // import {AutosizeModule} from 'ngx-autosize';
 
@@ -161,6 +162,7 @@ registerLocaleData(localeEs, 'es');
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
+    OrderModule,
   ],
   declarations: [
     AppComponent,

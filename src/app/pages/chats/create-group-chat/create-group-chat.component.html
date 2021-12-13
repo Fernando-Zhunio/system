@@ -1,12 +1,12 @@
 <div>
   <div>
-    <h2 class="font-facebook font-3xl my-2">Crear de Chat Grupal</h2>
+    <h2 class="font-facebook font-3xl my-2">{{title}}</h2>
   </div>
 
   <mat-horizontal-stepper linear #stepper>
     <mat-step [editable]="true">
       <form  class="row">
-        <ng-template matStepLabel>Selecionador de usuarios</ng-template>
+        <ng-template matStepLabel>Seleccionador de usuarios</ng-template>
         <div class="col-md-6">
           <div class="w-100">
             <input class="input-search" placeholder="Buscador de Usuario" [(ngModel)]="searchText" name="search">
@@ -14,10 +14,10 @@
           </div>
           <mat-card class="rounded-fz shadow">
             <mat-selection-list [multiple]="false">
-              <mat-list-option (click)="addUser(user.id)" [value]="user.id" *ngFor="let user of users">
+              <mat-list-option [disabled]="usersSelect.has(user.key)" (click)="addUser(user.key)" [value]="user.key" *ngFor="let user of users | keyvalue">
                <div class="d-flex align-items-center">
-                <img class="photo-user" [src]="getPhoto(user?.person?.photo?.real_permalink)" />
-                &nbsp; {{user?.name}}
+                <img class="photo-user" [src]="getPhoto(user.value?.person?.photo?.real_permalink)" />
+                &nbsp; {{user.value?.name}}
                </div>
               </mat-list-option>
             </mat-selection-list>
@@ -25,12 +25,19 @@
         </div>
         <div class="col-md-6">
           <h2 class="font-facebook font-2xl">Usuarios seleccionados</h2>
-          <mat-card *ngIf="usersSelect.length > 0" class="rounded-fz shadow">
+          <mat-card *ngIf="usersSelect.size > 0" class="rounded-fz shadow">
             <mat-selection-list [multiple]="false"  >
-              <mat-list-option [value]="user.id" *ngFor="let user of usersSelect">
-                <div class="d-flex align-items-center">
-                  <img class="photo-user" [src]="getPhoto(user?.person?.photo?.real_permalink)" />
-                  &nbsp; {{user?.name}} <button color="warn" mat-icon-button (click)="removeUser(user.id)"><mat-icon>close</mat-icon></button>
+              <mat-list-option [value]="user.key" *ngFor="let user of usersSelect | keyvalue">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>
+                    <img class="photo-user" [src]="getPhoto(user.value?.person?.photo?.real_permalink)" />
+                    &nbsp; {{user.value?.name}} 
+                  </span>
+                  <span> 
+                    <mat-checkbox [value]="user.value.isAdmin" color="primary"><small>Hacer admin</small> </mat-checkbox>
+                    <button color="warn" mat-icon-button (click)="removeUser(user.key)"><mat-icon>close</mat-icon></button>
+                  
+                  </span>
                 </div>
               </mat-list-option>
             </mat-selection-list>

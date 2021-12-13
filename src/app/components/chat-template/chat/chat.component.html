@@ -8,24 +8,32 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <div
-        [ngStyle]="{'background-image': 'url('+getPhoto(userchat?.data_chat?.img ? userchat?.data_chat?.img : userchat?.data_chat?.participants ? userchat?.data_chat?.participants[0]?.info?.photo : null) +')'}"
+        [ngStyle]="{'background-image': 'url('+getPhoto(chat?.data?.img ? chat?.data?.img : chat?.data?.participants ? chat?.data?.participants[0]?.info?.photo : null) +')'}"
         mat-card-avatar class="example-header-image border"></div>
-      <mat-card-title class="text-truncate mb-2 chat-font">{{userchat?.name}}
+      <mat-card-title class="text-truncate mb-2 chat-font">{{chat?.name}}
       </mat-card-title>
       <mat-card-subtitle class="chat-font">
-        <ng-container *ngIf="userchat?.data_chat?.type != 'group';else TemplateGroup">
-          <span class="text-success"
-            *ngIf="userchat?.data_chat?.participants && userchat?.data_chat?.participants[0]?.status == 'online'; else TemplateOffline">
-            En linea
-          </span>
-          <ng-template #TemplateOffline>
-            <span *ngIf="userchat?.data_chat?.participants[0]?.last_seen" class="text-muted">{{userchat?.data_chat?.participants[0]?.last_seen | date:'medium'}}</span>
+        <ng-container *ngIf="chat?.data?.type != 'group';else TemplateGroup">
+          <ng-container *ngIf="!chat?.typing;else typingTemplate">
+            <span class="text-success"
+              *ngIf="chat?.connected; else TemplateOffline">
+              En linea
+            </span>
+            <ng-template #TemplateOffline>
+              <span *ngIf="chat?.data?.participants[0]?.last_seen" class="text-muted">{{chat?.data?.participants[0]?.last_seen | date:'medium'}}</span>
+            </ng-template>
+
+          </ng-container>
+          <ng-template #typingTemplate>
+            <span class="text-success">Escribiendo...</span>
           </ng-template>
+          
+          
         </ng-container>
         <ng-template #TemplateGroup>
           <mat-card-subtitle class="text-info text-truncate">
             <ul class="text-truncate chat-font d-flex p-0">
-              <ng-container *ngFor="let participant of userchat.data_chat?.participants.slice(0,7);let i = index">
+              <ng-container *ngFor="let participant of chat.data?.participants.slice(0,7);let i = index">
                 <div class="name-group list-unstyled mr-1">
                   <ng-container *ngIf="i < 6; else TemplateMoreParticipants">
                     <img class="img-avatar-mini" [src]="getPhoto(participant?.info?.photo)" alt="">
@@ -35,7 +43,7 @@
                     </span>
                   </ng-container>
                   <ng-template #TemplateMoreParticipants>
-                    <div class="text-muted center h-100">+{{userchat?.data_chat?.participants?.length - 7}}</div>
+                    <div class="text-muted center h-100">+{{chat?.data?.participants?.length - 7}}</div>
                   </ng-template>
                 </div>
               </ng-container>
@@ -44,16 +52,16 @@
         </ng-template>
       </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content class="body-template-chat">
+    <mat-card-content class="body-template-chat m-0">
       <div id="scroll-container" [scrollTop]="disableScroll ? scrollMe.scrollTop : scrollMe.scrollHeight"
         class="body-template-background-chat p-2" [infiniteScrollDisabled]="notMoreOldMessage" #scrollMe infiniteScroll
         [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="0" (scrolledUp)="onScrollUp()" [scrollWindow]="false">
-        <div #ngfor *ngFor="let message of userchat?.messages"
+        <div #ngfor *ngFor="let message of chat?.messages"
           [ngClass]="{'text-right': message.author_user_id == my_id}">
           <ng-container *ngIf="message.type != 'info';else templateInfo">
             <p class="shadow message chat-font" [ngClass]="message.author_user_id == my_id ?'message-send':'message-recept'">
               <ng-container *ngIf="!message.files; else templateFile">
-                <ng-container *ngIf="userchat.data_chat.type == 'group' && message.author_user_id != my_id">
+                <ng-container *ngIf="chat.data.type == 'group' && message.author_user_id != my_id">
                   <span class="font-xs text-muted text-truncate ">{{message?.author?.info?.name}}</span><br>
                 </ng-container>
                 <ng-container *ngIf="message.links && message.links.length > 0 ">
@@ -76,7 +84,7 @@
                     </div>
                   </div>
 
-                  <ng-container *ngIf="userchat.data_chat.type == 'group' && message.author_user_id != my_id">
+                  <ng-container *ngIf="chat.data.type == 'group' && message.author_user_id != my_id">
                     <span class="font-xs text-muted text-truncate text-value-lg">{{message.author.info.name}}</span><br>
                   </ng-container>
                   <span class="download-file">
@@ -130,9 +138,11 @@
         <span (click)="scrollToBottom()" class="shadow p-2">Nuevos mensajes <i class="fas fa-arrow-down"></i></span>
       </div>
     </mat-card-content>
-    <mat-card-actions class="footer-template-chat position-relative">
-      <textarea cdkFocusInitial #textMessage (keydown.enter)="sendMessage($event)" (keyup)="typingMessage()"  id="textarea-chat" type="text"
-        class="input-send-message py-2" placeholder="Mensaje"></textarea>
+    <mat-card-actions  class="footer-template-chat position-relative align-items-center d-flex justify-content-between">
+      <div class="position-relative w-100" style="top: 27px;"> 
+        <textarea autofocus  #textMessage (keydown)="typingMessage()" (keydown.enter)="sendMessage($event)" (keyup)="typingMessage()"  id="textarea-chat" type="text"
+          class="input-send-message py-2 position-absolute w-100 border-0 shadow-sm" placeholder="Mensaje"></textarea>
+      </div>
       <!-- <i class="btn-emoji" (click)="toggled = !toggled" [(emojiPickerIf)]="toggled"
         [emojiPickerDirection]="'top'"
         (emojiPickerSelect)="handleSelection($event)">😄</i>
@@ -141,7 +151,7 @@
       <button mat-icon-button class="btn-emoji" (click)="hasFile=!hasFile">
         <mat-icon>attach_file</mat-icon>
       </button>
-      <button class="m-0 btn-send-message mt-1" mat-raised-button color="primary" (click)="sendMessage()">
+      <button class="m-0 btn-send-message" mat-icon-button color="primary" (click)="sendMessage()">
         <mat-icon>send</mat-icon>
       </button>
     </mat-card-actions>

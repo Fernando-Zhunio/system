@@ -54,12 +54,12 @@ export class SellChartComponent implements OnInit {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        onClick: (e: any) => {
-          const activePoints = this.chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, false);
-          const [{index}] = activePoints;
-          console.log(activePoints);
-          console.log(this.chart.data.datasets[0].data[index]);
-        }
+        // onClick: (e: any) => {
+        //   const activePoints = this.chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, false);
+        //   const [{index}] = activePoints;
+        //   console.log(activePoints);
+        //   console.log(this.chart.data.datasets[0].data[index]);
+        // }
       }
     };
     this.chart = new Chart(ctx as any, dataChart);

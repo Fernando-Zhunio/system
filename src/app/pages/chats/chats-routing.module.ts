@@ -30,7 +30,7 @@ const permission_module_CHAT = {
 const routes: Routes = [
   // usuarios
   {
-    path: '',
+    path: 'grupal',
     component: ChatMainComponents,
     children: [
       // {
@@ -45,14 +45,25 @@ const routes: Routes = [
       //   canActivate: [NgxPermissionsGuard],
       // },
       {
-        path: 'create-chat-group',
+        path: 'create',
         component: CreateGroupChatComponent,
-        // data: {
-        //   isEdit: false,
-        //   permissions: {
-        //     only: permission_module_CHAT.usuarios.create,
-        //   },
-        // },
+        data: {
+          isEdit: false,
+          // permissions: {
+          //   only: permission_module_CHAT.usuarios.create,
+          // },
+        },
+        // canActivate: [NgxPermissionsGuard],
+      },
+      {
+        path: ':id',
+        component: CreateGroupChatComponent,
+        data: {
+          isEdit: true,
+          // permissions: {
+          //   only: permission_module_CHAT.usuarios.create,
+          // },
+        },
         // canActivate: [NgxPermissionsGuard],
       },
       // {
