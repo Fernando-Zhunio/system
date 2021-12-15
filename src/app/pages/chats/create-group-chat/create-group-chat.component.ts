@@ -34,13 +34,24 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
   public params: any = '?page=&search=';
   public title: string = 'Chat grupal - ';
 
+  isFormParams: boolean = true;
   ngOnInit(): void {
     // this.searchUser();
     this.init();
   }
 
   setData(data: any): void {
+    if ( this.status != 'edit' ) {
       this.users = new Map<any, IuserSystem>( data.data.map((item) => [item.id, item]));
+    } else {
+      console.log(data);
+      const _chat = data.chat as Ichats;
+      this.nameGroup = _chat.name;
+      this.img.base64 = _chat.img;
+      const participants = _chat.participants.filter((item) => item.id != _chat.user.id);
+      this.users = new Map<any, IuserSystem>( data.users.data.map((item) => [item.id, item]));
+      this.usersSelect = new Map<any, any>( participants.map((item) => [item.id, {...this.users.get(item.id), isAdmin: _chat.admins.includes(item._id)} ]));
+    }
   }
 
   searchUser(): void {
@@ -48,16 +59,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
     this.isload = true;
     this.params = '?page=&search=' + this.searchText;
     this.create();
-    // this.s_standard
-    //   .index(`user?search=${this.searchText}`, this.page.toString())
-    //   .subscribe((res) => {
-    //     this.users = res.data.data;
-    //     console.log(this.users);
-    //     this.isload = false;
-    //   }, (err) => {
-    //     this.isload = false;
-    //     console.log(err);
-    //   });
   }
 
   addUser(user_id): void {
@@ -74,14 +75,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
 
   removeUser(user_id): void {
     this.usersSelect.delete(user_id);
-    // const usersIndex = this.usersSelect.findIndex(
-    //   (item) => item.id === user_id
-    // );
-    // if (usersIndex !== -1) {
-    //   // const form_user_id_index = this.firstFormGroup.get('users_id').value.findIndex(x => x == user_id);
-    //   // this.firstFormGroup.get('users_id').value.splice(form_user_id_index, 1);
-    //   this.usersSelect.splice(usersIndex, 1);
-    // }
   }
 
   getPhoto(url): string {
@@ -103,23 +96,26 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
     this.img.base64 = e.srcElement.result;
   }
 
-  saveInServer(): void {
-    const data_send = this.validationData();
-    if (data_send) {
-      this.isload = true;
-      this.s_standard.uploadFormData('chats/group', data_send as FormData).subscribe((res) => {
-        console.log(res);
-        this.isload = false;
-        SwalService.swalFire({icon: 'success', text: 'Grupo creado con exito', position: 'center'});
-        this.router.navigate(['/home/inicio']);
-      }, (err) => {
-        this.isload = false;
-        console.log(err);
-      });
-    }
-  }
+  // saveInServer(): void {
+  //   const data_send = this.getDataForSendServer();
+  //   if (data_send) {
+  //     this.isload = true;
+  //     this.s_standard.uploadFormData(this.urlSave, data_send as FormData).subscribe((res) => {
+  //       console.log(res);
+  //       this.isload = false;
+  //       SwalService.swalFire({icon: 'success', text: 'Grupo creado con exito', position: 'center'});
+  //       this.router.navigate(['/home/inicio']);
+  //     }, (err) => {
+  //       this.isload = false;
+  //       console.log(err);
+  //     });
+  //   }
+  // }
 
-  validationData(): boolean|FormData {
+
+  getDataForSendServer(): boolean|FormData {
+    console.log(this.usersSelect);
+    
     if (this.usersSelect.size < 2 || !this.nameGroup || this.nameGroup.length < 3) {
       SwalService.swalFire({icon: 'error', text: 'Faltan campos por llenar \n 1. Debe tener un minimo de dos usuarios para ser un chat grupal\n 2. Debe tener un nombre de grupo', position: 'center'});
       return false;
@@ -128,11 +124,19 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
       formData.append('name', this.nameGroup);
       this.usersSelect.forEach((item) => {
         formData.append('participants[]', item.id);
+        if (item.isAdmin) {
+          formData.append('admins[]', item.id);
+        }
       });
+
       if (this.img.base64 && this.img.file) {
         formData.append('img', this.img.file);
       }
       return formData;
     }
+  }
+
+  go(): void {
+    this.router.navigate(['/home/inicio']);
   }
 }

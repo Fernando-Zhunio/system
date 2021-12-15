@@ -36,6 +36,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('textMessage') textMessage: ElementRef;
   @ViewChild('myPond') myPond: any;
   @Input() chat: IchatBubble;
+  @Input() current_chat_id: string;
   @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() newId: EventEmitter<{old_id: any, new_id: any}> = new EventEmitter();
   @Input() my_id: number;
@@ -193,7 +194,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.not_bottom = false;
       this.firstScroll = false;
-      this.markReadMessage(this.chat.data._id);
+      if (this.chat.id == this.current_chat_id) {
+        this.markReadMessage(this.chat.data._id);
+      }
     });
   }
 
@@ -276,9 +279,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   openViewUsersGroupModal(): void {
     this.dialog.open(UsersGroupsChatModalComponent, {
       data: {title: this.chat.name,
-         participants: this.chat.data.participants,
+         participants: this.chat.data.participants.filter(x => x.id != this.my_id),
          img: this.getPhoto(this.chat?.data?.img ? this.chat?.data?.img : this.chat?.data?.participants ? this.chat?.data?.participants[0]?.info?.photo : null),
-         isGroup: this.chat.data.type == 'group', myId: this.my_id, id_chat: this.chat.data._id}
+         isGroup: this.chat.data.type == 'group', myId: this.my_id, id_chat: this.chat.data._id,
+         admins: this.chat.data.admins,
+          is_admin: this.chat.data.owner_is_admin
+        }
     }).beforeClosed().subscribe((res) => {
       // console.log(res);
       if (res && typeof res === 'object' && res.state === 'deleted') {

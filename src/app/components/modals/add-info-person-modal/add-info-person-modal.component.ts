@@ -19,7 +19,7 @@ export class AddInfoPersonModalComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddInfoPersonModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
-    private s_standart: StandartSearchService
+    private s_standard: StandartSearchService
   ) {}
 
   maxDateBirthDay = new Date();
@@ -51,7 +51,7 @@ export class AddInfoPersonModalComponent implements OnInit {
     console.log(this.maxDateBirthDay);
 
     this.isload = true;
-    this.s_standart.show('user/people/create').subscribe((response) => {
+    this.s_standard.show('user/people/create').subscribe((response) => {
       if (response && response.hasOwnProperty('success') && response.success) {
         this.setDataDefault(response.data);
         this.isload = false;
@@ -87,7 +87,6 @@ export class AddInfoPersonModalComponent implements OnInit {
   }
 
   uploadImg(event): void {
-    /* Seria usada de la siguiente manera */
     this.file_img = event.target.files[0];
     this.getBase64FromFile(this.file_img, (base64) => {
       this.photo = base64;
@@ -104,7 +103,7 @@ export class AddInfoPersonModalComponent implements OnInit {
     if (this.form_person.valid) {
       const data_send = this.createFormData();
       this.isload = true;
-      this.s_standart
+      this.s_standard
         .uploadFormData(
           'user/' + this.data.user.id + '/people',
           data_send
@@ -131,8 +130,8 @@ export class AddInfoPersonModalComponent implements OnInit {
 
   createFormData(): FormData {
     const data_send = this.form_person.value;
-    data_send.start_date = this.s_standart.formatDate(data_send.start_date);
-    data_send.birthday = this.s_standart.formatDate(data_send.birthday);
+    data_send.start_date = this.s_standard.formatDate(data_send.start_date);
+    data_send.birthday = this.s_standard.formatDate(data_send.birthday);
     const form_data_send = new FormData();
     form_data_send.append('first_name', data_send.first_name);
     form_data_send.append('last_name', data_send.last_name);
@@ -153,7 +152,6 @@ export class AddInfoPersonModalComponent implements OnInit {
     if (this.photo && this.file_img) {
       form_data_send.append('file', this.file_img);
     }
-
     return form_data_send;
   }
 }

@@ -112,15 +112,15 @@ export class TwoFAComponent implements OnInit, OnDestroy {
             session.user = user;
             this.s_storage.setCurrentSession(session);
             this.router.navigate(['/home/inicio']);
-
-
           } else {
             SwalService.swalToast(
               'Error de autenticacion verifique su contraseña o email',
               'warning'
             );
-            this.isLoad = false;
           }
+          this.isLoad = false;
+        }, (err) => {
+          this.isLoad = false;
         });
     }
   }

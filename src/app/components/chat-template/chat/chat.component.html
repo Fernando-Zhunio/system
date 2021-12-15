@@ -8,7 +8,7 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <div
-        [ngStyle]="{'background-image': 'url('+getPhoto(chat?.data?.img ? chat?.data?.img : chat?.data?.participants ? chat?.data?.participants[0]?.info?.photo : null) +')'}"
+        [ngStyle]="{'background-image': 'url('+ chat?.img +')'}"
         mat-card-avatar class="example-header-image border"></div>
       <mat-card-title class="text-truncate mb-2 chat-font">{{chat?.name}}
       </mat-card-title>
@@ -120,9 +120,14 @@
 
               </ng-template>
               <br>
-              <small class="text-muted">{{message.created_at | date:'medium'}} <i
+              <small class="text-muted">{{message.created_at | date:'medium'}}
+                 <!-- <i
                   *ngIf="message.author_user_id == my_id"
-                  class="{{message.is_readed_for_all?'fas text-success':'far'}} fa-check-circle"></i></small>
+                  class="{{message.is_readed_for_all?'fas text-success':'far'}} fa-check-circle"></i> -->
+                  <i *ngIf="message.author_user_id == my_id"
+                  [ngClass]="(message?.is_readed_for_all ) ? 'fas text-success': (message?.is_delivered_for_all)?'fas':'far'"
+                  class="fa-check-circle"></i>
+                </small>
             </p>
           </ng-container>
           <ng-template #templateInfo>

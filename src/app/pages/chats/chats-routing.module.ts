@@ -56,7 +56,7 @@ const routes: Routes = [
         // canActivate: [NgxPermissionsGuard],
       },
       {
-        path: ':id',
+        path: ':id/edit',
         component: CreateGroupChatComponent,
         data: {
           isEdit: true,

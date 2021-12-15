@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Session } from '../clases/session';
 import { User } from '../clases/user';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { Iperson } from '../interfaces/iperson';
+import { Cperson } from '../class/cperson';
 
 declare var require: any;
 const CryptoJS = require('crypto-js');
@@ -63,6 +65,11 @@ export class StorageService  {
   getCurrentUser(): User {
     const session: Session = this.getCurrentSession();
     return (session && session.user) ? session.user : null;
+  }
+
+  getCurrentPerson(): Cperson{
+    const session = this.getCurrentSession();
+    return (session && session.user.person) ? session.user.person : null;
   }
 
   setRolAndPermission(rol_permission: {'rol': [], 'permission': []}= null) {

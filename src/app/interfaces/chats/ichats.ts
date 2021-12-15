@@ -13,6 +13,7 @@ export interface IchatBubble {
   img: string;
   last_message?: ImessageChat;
   typing: boolean;
+  // isActive: boolean;
   // type: string;
 }
 export interface Ichats {
@@ -30,6 +31,9 @@ export interface Ichats {
   updated_at: string;
   user_id: string;
   _id: string;
+  admins: string[];
+  owner_is_admin: boolean;
+  user: IparticipantChat;
   // user: {
   //   id: number;
   //   info: Iinfo;
@@ -44,6 +48,7 @@ export interface IparticipantChat {
   status: 'offline' | 'online';
   info: Iinfo;
   last_seen: string;
+  type?: string;
   // user?: IuserChat;
 }
 
@@ -84,6 +89,7 @@ export interface ImessageChat {
   read_for?: IreadForChat[];
   // readed: string | boolean;
   is_readed_for_all: boolean;
+  is_delivered_for_all: boolean;
   text: string;
   type: 'message' | 'info';
   updated_at?: string;

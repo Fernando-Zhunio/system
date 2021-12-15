@@ -27,7 +27,8 @@ import { HttpEventType } from '@angular/common/http';
     '.not-dark{color:goldenrod}',
     '.disabled {pointer-events: none;cursor: default;}',
     '.bg-error {background:red;color:white}',
-    '.custom-menu-notification {height:75vh}'
+    '.custom-menu-notification {height:75vh}',
+    '.custom-avatar {width:35px;height:35px;border-radius:50%;}',
   ],
   templateUrl: './default-layout.component.html',
 })
@@ -36,7 +37,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_auth: AuthService,
     private route: Router,
     private s_storage: StorageService,
-    private s_standart: StandartSearchService,
+    private s_standard: StandartSearchService,
     public s_shared: SharedService,
     private s_custom_reusing: RouteReuseStrategy,
     private dialog: MatDialog,
@@ -52,8 +53,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public isDark: boolean = false;
   public TYPE_NOTY_SOUND = 'general_notification_sound';
   public hideUsersChat: boolean = false;
-  public progressDowloadReport: number = 0;
-  public isProgressDowloadReport: boolean = false;
+  public progressDownloadReport: number = 0;
+  public isProgressDownloadReport: boolean = false;
   public TYPE_NOTY_WEBPUSH = {
     value: 'general_notification_webpush',
     state: false,
@@ -63,21 +64,21 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     state: false,
   };
   public isDownloadStock: boolean = false;
-  private suscriptionNotifaction: Subscription;
+  private subscriptionNotification: Subscription;
   public notifications: Inotification[] = [];
   colorSidebarLeft: string;
   sidebarData = new DataSidebar();
   navItems_ = this.sidebarData.NavItems;
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
-  countMesssages: any = null;
+  countMessages: any = null;
   echo: Echo;
   user: any;
 
   ngOnInit(): void {
 
     this.hasDarkTheme();
-    this.notificationWeb = new NotificationsWebPush(this.s_standart);
+    this.notificationWeb = new NotificationsWebPush(this.s_standard);
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
     this.setSideBarColor();
@@ -85,7 +86,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
 
-    // console.log(this.user);
+    console.log(this.user);
 
     if (!this.user.person) { this.addPersonModal(this.user); }
     this.getNotification();
@@ -94,8 +95,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.suscriptionNotifaction) {
-      this.suscriptionNotifaction.unsubscribe();
+    if (this.subscriptionNotification) {
+      this.subscriptionNotification.unsubscribe();
     }
     this.echo.leave('App.Models.User.' + this.user.id);
   }
@@ -121,6 +122,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       disableClose: true,
     }).beforeClosed()
       .subscribe((res) => {
+        console.log({res});
         if (res == undefined) {
           this.addPersonModal(user);
         } else {
@@ -140,20 +142,20 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   newMessage(e): void {
-    e ? this.countMesssages++ : this.countMesssages = null;
+    e ? this.countMessages++ : this.countMessages = null;
   }
 
   getNotification(): void {
-    this.suscriptionNotifaction = this.s_shared.currentNotifications.subscribe(
+    this.subscriptionNotification = this.s_shared.currentNotifications.subscribe(
       (res) => {
         this.notifications = res;
       }
     );
-    this.s_standart.index('notifications/ajax').subscribe((res) => {
+    this.s_standard.index('notifications/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.s_shared.changeNotifications(res.data.notifications);
         const notifications = res.data.notifications;
-        this.countMesssages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
+        this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
         if (notifications.length > 0) {
           const countNotification = notifications.filter(
             (notification) => !notification.read_at
@@ -167,7 +169,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   openOrCloseChats(): void {
     this.hideUsersChat = !this.hideUsersChat;
     if (this.hideUsersChat) {
-      this.countMesssages = null;
+      this.countMessages = null;
     }
   }
 
@@ -191,7 +193,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   setPreferences(): void {
-    this.s_standart.index('user/preferences/ajax').subscribe((res) => {
+    this.s_standard.index('user/preferences/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.TYPE_NOTY_EMAIL.state =
           res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
@@ -202,7 +204,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getPermissionAndRolesFromServer() {
-    this.s_standart.create('user/permissions-roles').subscribe((res) => {
+    this.s_standard.create('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         const permissionAndRol = { rol: res.data.roles, permission: res.data.permissions };
         this.s_storage.setRolAndPermission(permissionAndRol);
@@ -247,7 +249,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   unreadNotifications() {
-    this.s_standart.store('notifications/mark-seen', {}).subscribe((res) => {
+    this.s_standard.store('notifications/mark-seen', {}).subscribe((res) => {
       if (this.countNotificationUnRead > 0) {
         this.countNotificationUnRead = null;
       }
@@ -291,7 +293,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     const nameFile = convertUrlNg[1]
       .replace(/\+-\+/gm, '_')
       .replace('file_name=reports%2FSTOCK+GENERAL', '');
-    this.isProgressDowloadReport = true;
+    this.isProgressDownloadReport = true;
     this.s_shared
       .download(
         'reports/general-stock/download?' + convertUrlNg[1]
@@ -322,7 +324,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
             console.log(event.loaded , event.total);
             
             progress = Math.round(event.loaded / event.total * 100);
-            this.progressDowloadReport = progress;
+            this.progressDownloadReport = progress;
             console.log(`Uploaded! ${progress}%`);
             break;
           case HttpEventType.Response:
@@ -338,12 +340,12 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
               window.URL.revokeObjectURL(urlDownload);
               a.remove();
               setTimeout(() => {
-                this.isProgressDowloadReport = false;
-                this.progressDowloadReport = 0;
+                this.isProgressDownloadReport = false;
+                this.progressDownloadReport = 0;
               }, 1500);
             console.log('User successfully created!', event.body);
         }
-      }, (err) => { this.isProgressDowloadReport = false; });
+      }, (err) => { this.isProgressDownloadReport = false; });
   }
 
   // getValueDark(): void {
@@ -367,7 +369,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       value: value.target.checked ? 'on' : 'off',
     };
     const url = 'user/preferences/' + type_notify;
-    this.s_standart.updatePut(url, data_send).subscribe(
+    this.s_standard.updatePut(url, data_send).subscribe(
       (res) => {
         if (res && res.hasOwnProperty('success') && res.success) {
           SwalService.swalToast(

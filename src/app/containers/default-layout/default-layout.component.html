@@ -5,11 +5,11 @@
   [navbarBrandFull]="{src: 'assets/icons_custom/novisolutions.svg', width: '100%', height: '100%', alt: 'Novisolutions'}"
   [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
-  <ul class="nav navbar-nav d-md-down-none">
+  <!-- <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item px-3">
       <a class="nav-link" href="javascript:void(0)">Dashboard</a>
     </li>
-  </ul>
+  </ul> -->
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none">
       <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -30,7 +30,7 @@
           matBadgeColor="accent">notifications
         </mat-icon>
         
-        <ng-container *ngIf="isProgressDowloadReport">
+        <ng-container *ngIf="isProgressDownloadReport">
           <small  style="line-height: 1;
           font-family: 'Montserrat';
           font-weight: 800;
@@ -44,7 +44,7 @@
     padding: 5px;
     z-index: 1;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-    ">{{progressDowloadReport}}%</small> 
+    ">{{progressDownloadReport}}%</small> 
         </ng-container>
         
       </button>
@@ -75,7 +75,7 @@
     </li> -->
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" [matMenuTriggerFor]="menu2">
-        <img [src]="url_img" class="img-avatar" alt="admin@bootstrapmaster.com" />
+        <img [src]="user?.person?.photo?.permalink || url_img" class="img-avatar custom-avatar" alt="admin@bootstrapmaster.com" />
       </a>
       <mat-menu #menu2="matMenu">
         <button mat-menu-item>
@@ -93,7 +93,7 @@
       </div>
     </li>
     <li class="nav-item">
-      <button mat-icon-button  (click)="openOrCloseChats()"><mat-icon [matBadge]="countMesssages"
+      <button mat-icon-button  (click)="openOrCloseChats()"><mat-icon [matBadge]="countMessages"
         matBadgePosition="above after"
         matBadgeColor="accent" color="primary">chat_bubble</mat-icon></button>
     </li>
@@ -126,17 +126,18 @@
         </cui-breadcrumb> -->
 
     <!-- deprecation warning for 'app-breadcrumb' -->
-    <!--<ol class="breadcrumb">-->
-    <!--<app-breadcrumb></app-breadcrumb>-->
-    <!--&lt;!&ndash; Breadcrumb Menu&ndash;&gt;-->
-    <!--<li class="breadcrumb-menu d-md-down-none">-->
-    <!--<div class="btn-group" role="group" aria-label="Button group with nested dropdown">-->
-    <!--<a class="btn" href="#"><i class="icon-speech"></i></a>-->
-    <!--<a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>-->
-    <!--<a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>-->
-    <!--</div>-->
-    <!--</li>-->
-    <!--</ol>-->
+    <!-- <ol class="breadcrumb">
+    <app-breadcrumb></app-breadcrumb> -->
+    <!-- &lt;!&ndash; Breadcrumb Menu&ndash;&gt; -->
+    <!-- <li class="breadcrumb-menu d-md-down-none">
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <a class="btn" href="#"><i class="icon-speech"></i></a>
+    <a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>
+    <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
+    </div>
+    </li>
+    </ol> -->
+
     <div class="container-fluid scroll">
       <router-outlet></router-outlet>
     </div>

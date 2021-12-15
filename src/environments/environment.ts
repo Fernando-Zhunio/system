@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  server: 'http://sistema-codificacion.test/api/',
-  server_img: 'http://sistema-codificacion.test/',
+  // server: 'http://sistema-codificacion.test/api/',
+  // server_img: 'http://sistema-codificacion.test/',
   // keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',
   // portSocket: 80,
   // portSocket_chat: 6001,
@@ -20,8 +20,8 @@ export const environment = {
   // server_vtex_file: 'https://novicompu.vteximg.com.br/arquivos/',
   // user_photo_default: 'assets/img/profile-user.svg'
   // production: true,
-  // server: 'https://system.novicompu.com/api/',
-  // server_img: 'https://system.novicompu.com/',
+  server: 'https://system.novicompu.com/api/',
+  server_img: 'https://system.novicompu.com/',
   keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',
   portSocket: 80,
   portSocket_chat: 6001,

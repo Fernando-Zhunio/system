@@ -13,7 +13,7 @@ export class CreateOrEdit<T> {
     public form: FormGroup = null;
     isLoading: boolean = false;
     public params = null;
-
+    public isFormParams: boolean = false;
     constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
     }
 
@@ -63,25 +63,48 @@ export class CreateOrEdit<T> {
         this.isLoading = true;
         const data_send = this.getDataForSendServer();
         if (data_send) {
-            switch (this.status) {
-                case 'create':
-                    this.standard_service.store(this.urlSave, data_send).subscribe(data => {
-                        this.isLoading = false;
-                        this.go();
-                    }, error => {
-                        SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
-                    });
-                    break;
-                case 'edit':
-                    this.standard_service.updatePut(`${this.urlSave}/${this.getId()}`, data_send).subscribe(data => {
-                        this.isLoading = false;
-                        this.go();
-                    }, error => {
-                        SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
-                    });
-                    break;
-                default:
-                    break;
+            if(this.isFormParams){
+                switch (this.status) {
+                    case 'create':
+                        this.standard_service.uploadFormData(this.urlSave, data_send).subscribe(data => {
+                            this.isLoading = false;
+                            this.go();
+                        }, error => {
+                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                        });
+                        break;
+                    case 'edit':
+                        this.standard_service.uploadFormData(`${this.urlSave}/${this.getId()}`, data_send).subscribe(data => {
+                            this.isLoading = false;
+                            this.go();
+                        }, error => {
+                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                switch (this.status) {
+                    case 'create':
+                        this.standard_service.store(this.urlSave, data_send).subscribe(data => {
+                            this.isLoading = false;
+                            this.go();
+                        }, error => {
+                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                        });
+                        break;
+                    case 'edit':
+                        this.standard_service.updatePut(`${this.urlSave}/${this.getId()}`, data_send).subscribe(data => {
+                            this.isLoading = false;
+                            this.go();
+                        }, error => {
+                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                        });
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
