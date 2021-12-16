@@ -157,7 +157,7 @@ export class SwalService {
         container: 'p-2',
         popup: `p-2 bg-${icon} cursor-pointer`,
         image: 'm-0 rounded-fz',
-        closeButton: 'text-white z-index-fix',
+        closeButton: 'text-white z-index-fix position-absolute',
       },
 
       timerProgressBar: true,

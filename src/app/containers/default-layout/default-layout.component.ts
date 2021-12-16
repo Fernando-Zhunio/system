@@ -133,12 +133,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       });
   }
 
-  checkedVersionApp(): void {
-    
-    const app_version = this.s_storage.encryptedAes('version_app');
-    const version_app = this.s_storage.encryptedAes('version_app_current');
-  }
-
   setSideBarColor(): void {
     if (localStorage.getItem('color_sidebar_left')) {
       this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
