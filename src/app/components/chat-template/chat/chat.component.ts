@@ -82,31 +82,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       this.markReadMessage(this.chat.data._id);
       this.getMessages();
     }
-    // else {
-    //   this.s_standard
-    //   .store(`chats/user`, { participants: [this.chat.id] })
-    //   .subscribe((data) => {
-    //     this.chat.data = data.data.chats;
-    //     this.chat.messages =  data.data.messages.data.reverse();
-    //       this.changeChatID(this.chat.id);
-    //     });
-    //     autosize(document.querySelectorAll('#textarea-chat'));
-    //     // console.log(autosize);
-    //     // document.getElementById('textarea-chat')
-    //     document.addEventListener('visibilitychange', () => {
-    //       if (document.visibilityState === 'visible') {
-    //         this.markReadMessage(this.chat.data._id);
-    //       }
-    //     });
-    //   }
       autosize(document.querySelectorAll('#textarea-chat'));
   }
 
   successFiles(event): void {
     console.log(event);
-    // if(event.error == null){
       this.hasFile = false;
-    // }
   }
 
   getMessages(goBottom = false): void {
@@ -205,6 +186,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log('destroy suscripted');
       this.subscripted.unsubscribe();
     }
+    if(this.suscription_modal){
+      this.suscription_modal.unsubscribe();
+    }
+    this.dialog.closeAll();
   }
 
   scrollToBottom(): void {
@@ -243,6 +228,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     if (text.trim() === '') {
       return false;
     }
+
+//  //! codigo de estres
+//  if(text == 'estres'){
+//    setInterval(() => {
+//     this.sendOneMessage(text);
+//    }, 500);
+//  }
+
+ 
+
+
     this.sendOneMessage(text);
     this.textMessage.nativeElement.value = '';
     autosize.update(this.textMessage.nativeElement);
@@ -276,8 +272,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  suscription_modal: Subscription;
   openViewUsersGroupModal(): void {
-    this.dialog.open(UsersGroupsChatModalComponent, {
+     this.suscription_modal =  this.dialog.open(UsersGroupsChatModalComponent, {
       data: {title: this.chat.name,
          participants: this.chat.data.participants.filter(x => x.id != this.my_id),
          img: this.getPhoto(this.chat?.data?.img ? this.chat?.data?.img : this.chat?.data?.participants ? this.chat?.data?.participants[0]?.info?.photo : null),
@@ -354,4 +351,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     <img style="width: 100px;" src="${this.getPhoto(participant?.info?.photo)}" alt="">${participant?.info?.name}
       </span>`;
   }
+
+
+
 }

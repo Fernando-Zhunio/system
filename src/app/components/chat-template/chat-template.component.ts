@@ -6,6 +6,7 @@ import { IchatBot, IchatBubble, Ichats, ImessageChat, IparticipantChat, IuserCha
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
+import { SwalService } from '../../services/swal.service';
 import { ChatComponent } from './chat/chat.component';
 
 
@@ -196,6 +197,10 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         msm.links = [];
       }
     }
+    const _chat = this.chats.get(event.chat_id);
+    _chat.last_message.text = '🚫 Este mensaje fue eliminado por el remitente';
+    _chat.last_message.files = [];
+    _chat.last_message.links = [];
   }
 
   modificationChatListen(event: { chat: Ichats; event: 'created' | 'updated' | 'deleted' }): void {
@@ -206,6 +211,8 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       if (participantsIndex != -1) {
         chat.participants.splice(participantsIndex, 1);
       }
+      const _name = chat.name || chat.participants[0].info.name;
+
       const newChat: IchatBubble = {
         id: chat._id,
         person: null,
@@ -216,7 +223,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         name: chat.name || chat.participants[0].info.name,
         last_message: chat.last_message,
         typing: false,
-        img: chat?.type == 'group' ? this.getPhoto(chat.img, true) : this.getPhoto(chat.participants[0].info.photo),
+        img: chat?.type == 'group' ? this.getPhotoGroup(chat.img) : this.getPhotoParticipant(chat.participants[0].info.photo, _name),
       };
       this.chats.set(event.chat._id, newChat);
       return;
@@ -248,6 +255,10 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
     if (event.event == 'deleted') {
       this.chats.delete(event.chat._id);
+      if(this.chatsbubble.has(event.chat._id)) {
+        this.chatsbubble.delete(event.chat._id);
+        SwalService.swalFire({icon: 'error', title: 'Error', text: 'El chat ha sido eliminado'});
+      }
       return;
     }
   }
@@ -324,12 +335,18 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
   }
 
-  getPhoto(user, isGroup = null): string {
-    let img_path = 'assets/img/user.png';
-    if (isGroup) {
-      img_path = 'assets/img/user_group.png';
+  getPhotoGroup(img): string {
+    if (!img) {
+      return 'assets/img/user_group.png';
     }
-    return SharedService.rediredImageNull(user, img_path);
+    return img;
+    // let img_path = 'assets/img/user.png';
+    // return img || 'https://ui-avatars.com/api/?name=' + name;
+    // return SharedService.rediredImageNull(user, img_path);
+  }
+
+  getPhotoParticipant(img, name): string {
+    return img || 'https://ui-avatars.com/api/?name=' + name;
   }
 
 
@@ -345,8 +362,9 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         }
         this.users.clear();
         data.data.data.map((x) => {
-          const { connected, id, name, person } = x;
-          this.users.set(x.id, { connected, id, name: person ? `${person.first_name} ${person.last_name}` : name, person, data: null, img: person?.photo?.real_permalink, index: this.index, messages: [], typing: false, });
+          const { connected, id, name, person, } = x;
+          const _name = person ? `${person.first_name} ${person.last_name}` : name;
+          this.users.set(x.id, { connected, id, name: _name, person, data: null, img: this.getPhotoParticipant(person?.photo?.permalink, _name), index: this.index, messages: [], typing: false, });
         });
         this.page++;
       },
@@ -393,24 +411,28 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
 
   openChatUser(user_id, key): void {
+    console.log({ key })
     if (this.chatsbubble.has(key)) {
       this.upBubble(key);
       return;
     }
     this.s_standard
-    .store(`chats/user`, { participants: [user_id] })
-    .subscribe((data) => {
-      const id = data.data.chats._id;
-      if (this.chatsbubble.has(id)) {
-        this.upBubble(id);
-        return;
-      }
+      .store(`chats/user`, { participants: [user_id] })
+      .subscribe((data) => {
+        const id = data.data.chats._id;
+        if (this.chatsbubble.has(id)) {
+          this.upBubble(id);
+          this.users.get(user_id).id = id;
+          return;
+        }
         const res = data.data as { chats: Ichats, messages: any[] };
         const _chat = this.users.get(user_id);
+        // console.log({ _chat });
         _chat.data = res.chats;
         _chat.id = res.chats._id;
         _chat.messages = data.data.messages.data.reverse();
         this.chatsbubble.set(_chat.id, _chat);
+        _chat.index = this.index++;
         this.current_chat_id = _chat.id;
       });
   }
@@ -424,7 +446,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     this.s_standard
       .store(`chats/user`, { participants: [bot_id] })
       .subscribe((data) => {
-      const id = data.data.chats._id;
+        const id = data.data.chats._id;
 
         if (this.chatsbubble.has(id)) {
           this.upBubble(id);
@@ -449,7 +471,9 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
     if (this.chats.has(chat_id)) {
       const chat = this.chats.get(chat_id);
-      console.log(chat);
+      // console.log(chat);
+      const _name = chat.data.name || chat.data.participants[0].info.name;
+
       const newChat: IchatBubble = {
         id: chat.id,
         person: null,
@@ -457,8 +481,8 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         data: chat.data,
         index: this.index++,
         // img: chat.data.type == 'group' chat.data.participants[0].info.photo,
-        img: chat.data.type == 'group' ? this.getPhoto(chat.img, true) : this.getPhoto( chat.data.participants[0].info.photo),
-        name: chat.data.name || chat.data.participants[0].info.name,
+        img: chat.data.type == 'group' ? this.getPhotoGroup(chat.img) : this.getPhotoParticipant(chat.data.participants[0].info.photo, _name),
+        name: _name,
         messages: [],
         typing: false,
       };
@@ -490,7 +514,8 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         }
         data.data.data.map((x) => {
           const { connected, id, name, person } = x;
-          this.users.set(x.id, { connected, id, name: person ? `${person?.first_name} ${person?.last_name}` : name, person, data: null, img: person?.photo?.real_permalink, index: this.index, messages: [], typing: false });
+          const _name = person ? `${person.first_name} ${person.last_name}` : name;
+          this.users.set(x.id, { connected, id, name: _name, person, data: null, img: this.getPhotoParticipant(person?.photo?.permalink, _name), index: this.index, messages: [], typing: false });
         });
         this.page++;
       },
@@ -510,14 +535,15 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       const _chat = [];
       data.map((x) => {
         const participant = x.participants[0] as IparticipantChat;
+        const _name = x.name || participant.info.name;
         _chat.push([x._id,
         {
           connected: participant.status == 'online' ? 1 : 0,
           id: x._id,
-          name: x.name || participant.info.name,
+          name: _name,
           person: null,
           data: x,
-          img: x?.type == 'group' ? this.getPhoto(x.img, true) : this.getPhoto(participant.info.photo),
+          img: x?.type == 'group' ? this.getPhotoGroup(x.img) : this.getPhotoParticipant(participant.info.photo, _name),
           index: this.index, messages: [],
           last_message: x.last_message
         }]);
@@ -547,6 +573,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   upBubble(_id) {
     const chatBubble = this.chatsbubble.get(_id);
     this.current_chat_id = _id;
+    SharedService.disabled_loader = true;
     if (this.chatsbubble.get(_id).data?.unread_messages_count > 0) {
       this.markReadMessage(_id);
     }

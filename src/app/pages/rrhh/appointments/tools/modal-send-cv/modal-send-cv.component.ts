@@ -96,7 +96,7 @@ export class ModalSendCvComponent implements OnInit {
     if (dataSend) {
       this.s_standard.store(url, dataSend).subscribe( res => {
         console.log(res);
-        SwalService.swalConfirmation('Enviado', 'Se ha enviado el correo', 'success');
+        SwalService.swalFire({title: 'Enviado', text: 'Se ha enviado el correo', icon: 'success'});
       });
     }
   }

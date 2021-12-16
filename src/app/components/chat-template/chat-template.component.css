@@ -7,6 +7,10 @@
     z-index: 1111;
 }
 
+.line-user{
+  line-height: 1.1;
+}
+
 .btn-close-user-chat {
   position: absolute;
   top: 5px;
@@ -50,6 +54,11 @@
     /* grid-template-columns: 43px calc(100% - 43px); */
     align-items: center;
     cursor: pointer;
+}
+
+.item-chat.rounded-fz:hover{
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  border: none !important;
 }
 .item-chat div{
   font-family: "Red Hat Display";

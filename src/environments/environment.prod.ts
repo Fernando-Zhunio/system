@@ -1,5 +1,8 @@
+// declare var require: any;
+
 export const environment = {
   production: true,
+  appVersion: require('../../package.json').version,
   server: 'https://system.novicompu.com/api/',
   server_img: 'https://system.novicompu.com/',
   keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',

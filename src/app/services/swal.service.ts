@@ -106,7 +106,7 @@ export class SwalService {
     });
   }
 
-  public static swalToast(title, icon = 'success', position = 'top-end',top=50) {
+  public static swalToast(title, icon = 'success', position = 'top-end', top= 50) {
     const title_html = `<div class="d-flex font-weight-bold">${title}</div>`;
 
     const Toast = Swal.mixin({
@@ -115,7 +115,7 @@ export class SwalService {
       showConfirmButton: false,
       timer: 3000,
       customClass: {
-        popup:'mt-5'
+        popup: 'mt-5'
       },
 
       timerProgressBar: true,
@@ -151,11 +151,13 @@ export class SwalService {
       position,
       showConfirmButton: false,
       timer: 3000,
+      showCloseButton: true,
 
       customClass: {
-        container: "p-2",
+        container: 'p-2',
         popup: `p-2 bg-${icon} cursor-pointer`,
         image: 'm-0 rounded-fz',
+        closeButton: 'text-white z-index-fix',
       },
 
       timerProgressBar: true,
@@ -171,13 +173,13 @@ export class SwalService {
       },
     });
 
-    let fire: any = {};
+    const fire: any = {};
     fire.title = `<div style="max-width: 200px;line-height: 1.5;" class="font-xs font-weight-light"><strong>${name_user}</strong><br>${title}</div>`;
     if (url_img) {
       fire.imageUrl = url_img;
       fire.imageWidth = '50px';
       fire.imageHeight = '50px';
-    } else fire.icon = icon;
+    } else { fire.icon = icon; }
     Toast.fire(fire);
   }
 }

@@ -27,7 +27,7 @@ export class StorageService  {
 
   setCurrentSession(session): void {
     this.currentSession = session;
-    localStorage.setItem('currentUser', this.encrytedAes(JSON.stringify(session)));
+    localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
     this.setRolAndPermission();
   }
 
@@ -39,7 +39,7 @@ export class StorageService  {
 
   setCompanyUser(id_company) {
     this.currentSession.user.company_company_id = id_company;
-    localStorage.setItem('currentUser', this.encrytedAes(JSON.stringify(this.currentSession)));
+    localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(this.currentSession)));
   }
 
   loadSessionData(): Session {
@@ -81,11 +81,11 @@ export class StorageService  {
       const session = this.getCurrentSession();
       session.user.rol = rolAndPermission.rol;
       session.user.permission = rolAndPermission.permission;
-       localStorage.setItem('currentUser', this.encrytedAes(JSON.stringify(session)));
+       localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
        this.s_permissionsService.loadPermissions(mergeRolAndPermission);
   }
 
-  encrytedAes(text: string): string {
+  encryptedAes(text: string): string {
     return CryptoJS.AES.encrypt(text, 'fernando-zhunio-reyes').toString();
   }
   decryptAes(text: string): string {
@@ -115,7 +115,7 @@ export class StorageService  {
   }
 
   setUsersChat(users): void {
-    localStorage.setItem('users-chat', this.encrytedAes(JSON.stringify(users)));
+    localStorage.setItem('users-chat', this.encryptedAes(JSON.stringify(users)));
   }
 
   getUsersChat(): any {

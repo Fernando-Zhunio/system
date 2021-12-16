@@ -32,9 +32,11 @@ export class CreateOrEdit<T> {
     }
 
     edit() {
+        this.isLoading = true;
         this.standard_service.show(`${this.urlSave}/${this.getId()}/edit${this.params}`).subscribe(data => {
             this.setData(data.data);
-        });
+            this.isLoading = false;
+        }, error => { this.isLoading = false; });
     }
 
     create() {
@@ -50,9 +52,11 @@ export class CreateOrEdit<T> {
     }
 
     loaderDataForCreate() {
+        this.isLoading = true;
         this.standard_service.show(`${this.urlSave}/create${this.params}`).subscribe(data => {
             this.setData(data.data);
-        });
+            this.isLoading = false;
+        } , error => { this.isLoading = false; });
     }
 
     setData(data) {
@@ -60,9 +64,9 @@ export class CreateOrEdit<T> {
     }
 
     saveInServer() {
-        this.isLoading = true;
         const data_send = this.getDataForSendServer();
         if (data_send) {
+            this.isLoading = true;
             if(this.isFormParams){
                 switch (this.status) {
                     case 'create':

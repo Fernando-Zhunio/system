@@ -12,11 +12,12 @@
               <li class="border-0 btn-spotify m-3 text-center btn rounded-fz shadow sticky-top" style="top: 5px;"
                 [routerLink]="['/chats/grupal/create']">Crear chat grupal</li>
               <li (click)="openChatOfChat(chat.key)" *ngFor="let chat of chats|keyvalue | orderBy:'.value.last_message.created_at':true"
-                class="m-2 shadow p-2 rounded-fz d-flex justify-content-between align-items-center item-chat btn rounded-0">
+                class="m-1 border  p-2 rounded-fz  item-chat btn ">
                 <div class="text-truncate item-chat position-relative">
+
                   <ng-container *ngIf="chat.value.data.type == 'group'; else elseTemplate">
                     <span class="position-relative">
-                      <img class="photo-user" [src]="getPhoto(chat.value?.img,true)" />
+                      <img class="photo-user" [src]="getPhotoGroup(chat.value?.img)" />
                     </span>
                     <span class="chat-info text-left pl-1  text-capitalize text-truncate">
                       {{chat.value.name}}
@@ -37,17 +38,18 @@
                     <span *ngIf="chat.value.data.unread_messages_count > 0" style="font-size: 12px;"
                       class="badge badge-primary badge-pill ml-2">{{chat.value.data.unread_messages_count}}</span>
                   </ng-container>
+
                   <ng-template #elseTemplate>
                     <span class="position-relative">
                       <span *ngIf="chat.value.connected"
                         class="badge bg-success badge-online text-success">●</span>
-                      <img class="photo-user" [src]="chat.value.data.participants[0]?.info.photo || 'https://ui-avatars.com/api/?name=' + chat.value.name" />
+                      <img class="photo-user" [src]="chat.value.img" />
                     </span>
                     <span class="chat-info text-left pl-1 text-capitalize text-truncate">
                       {{chat.value.name}}
                       <ng-container *ngIf="chat.value?.last_message">
                         <br> <small class="text-muted"><span mat-line class="font-italic text-muted text-truncate"><i
-                              *ngIf="chat.value?.last_message?.files" class="fas fa-file-alt"></i>
+                              *ngIf="chat.value?.last_message?.files?.length > 0" class="fas fa-file-alt"></i>
                             {{chat.value?.last_message?.text}} </span><br>
                             <ng-container *ngIf="!chat.value.typing;else typingTemplate">
                               {{chat.value?.last_message?.created_at |
@@ -84,12 +86,17 @@
           </div>
           <ul [hidden]="users.size < 1" class="list-group">
             <li class="d-flex align-items-center item-chat btn rounded-0"
-              (click)="openChatUser(user.key, user.value.data?._id)" *ngFor="let user of users | keyvalue">
+              (click)="openChatUser(user.key, user.value?.id)" *ngFor="let user of users | keyvalue">
               <span [ngClass]="{'chat-inline': user.value.connected}">
                 <img class="photo-user mr-2" [matBadge]="user.value.connected?'●':null"
-                  [src]="user.value?.person?.photo?.real_permalink || 'https://ui-avatars.com/api/?name=' + user.value.name " mat-list-icon />
+                  [src]="user.value?.img" mat-list-icon />
               </span>
-              <div class="text-truncate">{{user.value.name}}</div>
+              <div class="text-truncate line-user text-left">
+                <div>{{user.value.name}}</div> 
+                <div>
+                  <small class="text-muted">{{user.value?.person?.position?.name}}</small>
+                </div>
+              </div>
             </li>
           </ul>
           <div>
@@ -113,7 +120,7 @@
             <li class="d-flex align-items-center item-chat btn rounded-0"
               (click)="openChatBot(bot.key, bot.value.data?._id)" *ngFor="let bot of bots | keyvalue">
               <span class="chat-inline">
-                <img class="photo-user mr-2" [src]="getPhoto(bot.value?.img)" mat-list-icon />
+                <img class="photo-user mr-2" [src]="bot.value?.img" mat-list-icon />
               </span>
               <div class="text-truncate">{{bot.value?.name}}</div>
             </li>

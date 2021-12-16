@@ -7,9 +7,12 @@
       <button class="btn-modal" mat-icon-button (click)="openViewUsersGroupModal()">
         <mat-icon>more_vert</mat-icon>
       </button>
-      <div
-        [ngStyle]="{'background-image': 'url('+ chat?.img +')'}"
-        mat-card-avatar class="example-header-image border"></div>
+      <!-- <div
+        [ngStyle]="{'background-image': 'url('+chat.img || 'https://material.angular.io/assets/img/examples/shiba1.jpg'+')'}"
+        mat-card-avatar class="example-header-image border"></div> -->
+        <img
+        [src]="chat.img"
+        mat-card-avatar class="example-header-image border"/>
       <mat-card-title class="text-truncate mb-2 chat-font">{{chat?.name}}
       </mat-card-title>
       <mat-card-subtitle class="chat-font">

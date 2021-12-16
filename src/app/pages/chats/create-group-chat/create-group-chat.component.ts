@@ -17,7 +17,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
 
   constructor( active_router: ActivatedRoute, public s_standard: StandartSearchService, router: Router) {
     super(active_router, s_standard, router);
-
   }
 
   users: Map<any, IuserSystem> = new Map<any, IuserSystem>();
@@ -26,9 +25,9 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
   isEditable = false;
   page: number = 1;
   searchText: string = '';
-  img: {file: File, base64: string} = {file: null, base64: null};
+  img: {file: File, base64: string} = {file: null, base64: 'assets/img/user_group.png'};
   nameGroup: string = '';
-  isload: boolean = false;
+  isLoading: boolean = false;
 
   public urlSave: any = 'chats/groups';
   public params: any = '?page=&search=';
@@ -36,7 +35,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
 
   isFormParams: boolean = true;
   ngOnInit(): void {
-    // this.searchUser();
     this.init();
   }
 
@@ -48,26 +46,28 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
       const _chat = data.chat as Ichats;
       this.nameGroup = _chat.name;
       this.img.base64 = _chat.img;
-      const participants = _chat.participants.filter((item) => item.id != _chat.user.id);
+      // const participants = _chat.participants.filter((item) => item.id != _chat.user.id);
+      const participants = data.participants;
       this.users = new Map<any, IuserSystem>( data.users.data.map((item) => [item.id, item]));
-      this.usersSelect = new Map<any, any>( participants.map((item) => [item.id, {...this.users.get(item.id), isAdmin: _chat.admins.includes(item._id)} ]));
+      this.usersSelect = new Map<any, any>( participants.map((item) => [item.id, {...item, isAdmin: _chat.admins.includes(item._id)} ]));
+      console.log(this.usersSelect, this.users);
     }
   }
 
   searchUser(): void {
-    // const search = this.firstFormGroup.get('search').value;
-    this.isload = true;
+    this.isLoading = true;
     this.params = '?page=&search=' + this.searchText;
-    this.create();
+    this.standard_service.show(`${this.urlSave}/create${this.params}`).subscribe(data => {
+      const res = data.data;
+      this.users = new Map<any, IuserSystem>( res.data.map((item) => [item.id, item]));
+      this.isLoading = false;
+  }, error => { this.isLoading = false; });
   }
 
   addUser(user_id): void {
     console.log(user_id);
-    // const user = this.usersSelect.find((item) => item.id == user_id);
     if (!this.usersSelect.has(user_id)) {
       const userAdd = this.users.get(user_id);
-      // this.firstFormGroup.get('users_id').value.push(user_id);
-      // console.log(this.firstFormGroup.get('users_id').value);
       userAdd['isAdmin'] = false;
       this.usersSelect.set(user_id, userAdd);
     }
@@ -88,7 +88,7 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
 
   removeImg(): void {
 
-    this.img = {file: null, base64: null};
+    this.img = {file: null, base64: 'assets/img/user_group.png'};
     // this.fileImg = null;
   }
   callbackImg(e): void {
@@ -96,26 +96,8 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
     this.img.base64 = e.srcElement.result;
   }
 
-  // saveInServer(): void {
-  //   const data_send = this.getDataForSendServer();
-  //   if (data_send) {
-  //     this.isload = true;
-  //     this.s_standard.uploadFormData(this.urlSave, data_send as FormData).subscribe((res) => {
-  //       console.log(res);
-  //       this.isload = false;
-  //       SwalService.swalFire({icon: 'success', text: 'Grupo creado con exito', position: 'center'});
-  //       this.router.navigate(['/home/inicio']);
-  //     }, (err) => {
-  //       this.isload = false;
-  //       console.log(err);
-  //     });
-  //   }
-  // }
-
-
   getDataForSendServer(): boolean|FormData {
     console.log(this.usersSelect);
-    
     if (this.usersSelect.size < 2 || !this.nameGroup || this.nameGroup.length < 3) {
       SwalService.swalFire({icon: 'error', text: 'Faltan campos por llenar \n 1. Debe tener un minimo de dos usuarios para ser un chat grupal\n 2. Debe tener un nombre de grupo', position: 'center'});
       return false;
