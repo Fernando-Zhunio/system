@@ -59,18 +59,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.myUser = this.s_storage.getCurrentUser();
-    this.echoChat = new EchoManager(this.s_storage).chat_echo;
-    this.echoChat.private(`chat.${this.myUser.id}`)
-      .listen(`.chat`, this.modificationChatListen.bind(this))
-      .listen('.message', this.getMessages.bind(this))
-      .listen('.typing', this.typingUserListen.bind(this))
-      .listen('.message_delivered', this.messageDeliveredListen.bind(this))
-      .listen('.message_readed', this.getMessageReaded.bind(this))
-      .listen('.message_deleted', this.deleteMessage.bind(this));
-    this.echoChat
-      .private(`chat_users`)
-      .listen('.user', this.getChatUserStatus.bind(this));
-
+    this.connectionChat();
     this.echoChat.connector.pusher.connection.bind('connecting', (payload) => {
       /**
        * All dependencies have been loaded and Channels is trying to connect.
@@ -78,6 +67,21 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
        */
       console.log('connecting...');
       this.is_status_connect_chat = false;
+    });
+
+    this.echoChat.connector.pusher.connection.bind('state_change', (states) => {
+      console.log('state_change', states);
+      // if (states.current === 'failed') {
+      //   this.connectionChat();
+      //   console.log('failed...');
+      // }
+      // if (states.current != 'connected') {
+      //   this.is_status_connect_chat = false;
+      //   // this.echoChat.connector.pusher.connect();
+      //   // console.log('failed...');
+      // } else {
+      //   this.is_status_connect_chat = true;
+      // }
     });
 
     this.echoChat.connector.pusher.connection.bind('connected', (payload) => {
@@ -90,13 +94,13 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         this.first_connect = true;
       } else {
         console.log('new connection');
-        this.onSelectChats(null);
-        if (this.chatsComponent.length > 0) {
-          console.log(this.chatsComponent.length > 0);
-          this.chatsComponent.forEach(chat => {
-            chat.getMessageReconnected();
-          });
-        }
+        // this.onSelectChats(null);
+        // if (this.chatsComponent.length > 0) {
+        //   console.log(this.chatsComponent.length > 0);
+        //   this.chatsComponent.forEach(chat => {
+        //     chat.getMessageReconnected();
+        //   });
+        // }
 
       }
 
@@ -142,6 +146,21 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     this.onSelectChats(null);
     this.getAllBots();
     this.markDoDeliveryAll();
+  }
+
+
+  connectionChat(): void {
+    this.echoChat = new EchoManager(this.s_storage).chat_echo;
+    this.echoChat.private(`chat.${this.myUser.id}`)
+    .listen(`.chat`, this.modificationChatListen.bind(this))
+    .listen('.message', this.getMessages.bind(this))
+    .listen('.typing', this.typingUserListen.bind(this))
+    .listen('.message_delivered', this.messageDeliveredListen.bind(this))
+    .listen('.message_readed', this.getMessageReaded.bind(this))
+    .listen('.message_deleted', this.deleteMessage.bind(this));
+  this.echoChat
+    .private(`chat_users`)
+    .listen('.user', this.getChatUserStatus.bind(this));
   }
 
   ngOnDestroy(): void {
@@ -255,9 +274,9 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
     if (event.event == 'deleted') {
       this.chats.delete(event.chat._id);
-      if(this.chatsbubble.has(event.chat._id)) {
+      if (this.chatsbubble.has(event.chat._id)) {
         this.chatsbubble.delete(event.chat._id);
-        SwalService.swalFire({icon: 'error', title: 'Error', text: 'El chat ha sido eliminado'});
+        SwalService.swalFire({ icon: 'error', title: 'Error', text: 'El chat ha sido eliminado' });
       }
       return;
     }
@@ -272,9 +291,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     const isExistChatBubble = this.chatsbubble.has(event.chat._id);
     // * si no existe el chat en el mapa de chats lo crea
     if (!this.chats.has(event.chat._id)) {
-      // if (isExistChatBubble) {
-      //   event.chat.unread_messages_count = 0;
-      // }
       this.chats.set(event.chat._id, {
         id: event.chat._id,
         person: null,

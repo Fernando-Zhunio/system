@@ -10,10 +10,10 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
-export class IndexComponent extends Crud implements OnInit {
+export class IndexComponent extends Crud<Inewsletter> implements OnInit {
 
   constructor(standardService: StandartSearchService,
-    snackBar: MatSnackBar, private router: Router) {
+    snackBar: MatSnackBar, public router: Router) {
     super(standardService, snackBar);
   }
 

@@ -19,7 +19,7 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
     super(actived_router, standard_service, router);
   }
 
-  urlEdit = 'admin/newsletter/edit/';
+  // urlEdit = 'admin/newsletter/edit/';
   urlSave = 'admin/newsletter';
   title = 'Novedad del sistema';
   form: FormGroup = new FormGroup({

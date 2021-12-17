@@ -33,7 +33,7 @@ export class CreateOrEdit<T> {
 
     edit() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/${this.getId()}/edit${this.params}`).subscribe(data => {
+        this.standard_service.show(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -41,7 +41,7 @@ export class CreateOrEdit<T> {
 
     create() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/create${this.params}`).subscribe(data => {
+        this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -53,7 +53,7 @@ export class CreateOrEdit<T> {
 
     loaderDataForCreate() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/create${this.params}`).subscribe(data => {
+        this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data.data);
             this.isLoading = false;
         } , error => { this.isLoading = false; });
@@ -67,13 +67,14 @@ export class CreateOrEdit<T> {
         const data_send = this.getDataForSendServer();
         if (data_send) {
             this.isLoading = true;
-            if(this.isFormParams){
+            if (this.isFormParams){
                 switch (this.status) {
                     case 'create':
                         this.standard_service.uploadFormData(this.urlSave, data_send).subscribe(data => {
                             this.isLoading = false;
                             this.go();
                         }, error => {
+                            this.isLoading = false;
                             SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
                         });
                         break;
@@ -82,6 +83,7 @@ export class CreateOrEdit<T> {
                             this.isLoading = false;
                             this.go();
                         }, error => {
+                            this.isLoading = false;
                             SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
                         });
                         break;
@@ -95,6 +97,7 @@ export class CreateOrEdit<T> {
                             this.isLoading = false;
                             this.go();
                         }, error => {
+                            this.isLoading = false;
                             SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
                         });
                         break;
@@ -103,6 +106,7 @@ export class CreateOrEdit<T> {
                             this.isLoading = false;
                             this.go();
                         }, error => {
+                            this.isLoading = false;
                             SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
                         });
                         break;

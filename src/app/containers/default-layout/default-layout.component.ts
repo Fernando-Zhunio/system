@@ -82,12 +82,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
     this.setSideBarColor();
-    // this.getValueDark();
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
-
-    console.log(this.user);
-
     if (!this.user.person) { this.addPersonModal(this.user); }
     this.getNotification();
     this.companiesGestion(this.user);

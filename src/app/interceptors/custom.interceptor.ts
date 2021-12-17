@@ -29,12 +29,15 @@ export class CustomInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    if (!this.hasInternet()) {
+      return;
+    }
+    
     let headers = null;
-    let swal = null;
-    // si esta autenticado
+    // * si esta autenticado
     if (this.s_storage.isAuthenticated()) {
       headers = this.createHeader();
-    }  /* si no esta autenticado */ else {
+    } else {
       headers = new HttpHeaders({
         // accept: 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -67,12 +70,9 @@ export class CustomInterceptor implements HttpInterceptor {
       catchError((err) => {
         console.log(err);
         this.snack_bar.dismiss();
-        
-        // if (swal) {swal.close(); }
         switch (err.status) {
           case 401:
             if (this.s_storage.isAuthenticated()) { this.s_storage.logout(); }
-            // this.route.navigate(['/login'])
             SwalService.swalToast(
               'Error de credenciales comprueben que sean correctas',
               'warning'
@@ -90,7 +90,7 @@ export class CustomInterceptor implements HttpInterceptor {
               SwalService.swalToast(err.error.data, 'warning');
             } else {
               SwalService.swalToast(
-                'Contenido improcesable codigo 422',
+                'Contenido no valido codigo 422',
                 'warning'
               );
             }
@@ -122,6 +122,22 @@ export class CustomInterceptor implements HttpInterceptor {
         return throwError(err);
       })
     );
+  }
+
+  hasInternet(): boolean {
+    const condition = navigator.onLine ? 'online' : 'offline';
+    // console.log(condition);
+    if (condition === 'offline') {
+      SwalService.swalFire({allowOutsideClick: false, showConfirmButton: true, confirmButtonText: 'Recargar pagina', title: 'No hay conexion a internet', text: 'Por favor revise su conexion a internet', icon: 'warning'}).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+
+      return false;
+      // throwError('No hay conexion a internet');
+    }
+    return true;
   }
 
   createHeader() {
