@@ -32,9 +32,14 @@ h4{
         right: inherit;
         left: 10px;
     }
+    .grid-newsletters {
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        grid-gap: 15px;
+    }
 }
 .grid-newsletters {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 50%);
     grid-gap: 15px;
 }
