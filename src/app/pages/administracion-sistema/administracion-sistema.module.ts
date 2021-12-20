@@ -61,6 +61,8 @@ import { SearchTemplateModule } from '../../Modulos/search-template/search-templ
 import { QuillModule } from 'ngx-quill';
 import { CreateOrEditCompanyComponent } from './companies/create-or-edit-company/create-or-edit-company.component';
 import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
+import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
+import {MatTreeModule} from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -93,7 +95,8 @@ import { DepartmentIndexComponent } from './companies/departments/department-ind
     IndexCompaniesComponent,
     CreateOrEditNewsletterComponent,
     CreateOrEditCompanyComponent,
-    DepartmentIndexComponent
+    DepartmentIndexComponent,
+    CreateOrEditDepartmentComponent
     ],
   imports: [
     CommonModule,
@@ -129,6 +132,7 @@ import { DepartmentIndexComponent } from './companies/departments/department-ind
     NgxSpinnerModule,
     NgxSkeletonLoaderModule,
     SearchTemplateModule,
+    MatTreeModule,
     QuillModule.forRoot()
   ],
 

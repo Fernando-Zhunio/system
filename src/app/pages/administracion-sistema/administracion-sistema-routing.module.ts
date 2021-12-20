@@ -22,6 +22,7 @@ import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-ne
 import { IndexComponent as IndexCompanies } from './companies/index/index.component';
 import { CreateOrEditCompanyComponent } from './companies/create-or-edit-company/create-or-edit-company.component';
 import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
+import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
 
 // import { ComprasAutomaticasComponent } from "./compras-automaticas/compras-automaticas.component";
 // import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
@@ -626,6 +627,10 @@ const routes: Routes = [
           {
             path: '',
             component: DepartmentIndexComponent,
+          },
+          {
+            path: 'create',
+            component: CreateOrEditDepartmentComponent,
           }
         ]
       }

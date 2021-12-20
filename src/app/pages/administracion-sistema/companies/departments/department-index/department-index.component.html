@@ -1,19 +1,19 @@
-<app-search-template (data)="getData($event)" [filter_data]="{}" [url$]="url" [placeholder]="'Buscador de departamentos'">
+<app-search-template [key_paginator]="'departments'" (data)="getData($event)" [filter_data]="{}" [url$]="url" [placeholder]="'Buscador de departamentos'">
     <ng-container data>
         <mat-card class="card card-body border-0 rounded-fz" *ngFor="let department of data | keyvalue">
             <mat-card-header>
-                <mat-card-title>{{department.value.name}}</mat-card-title>
+                <mat-card-title>{{department.value?.name}}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
                 <div class="mb-2">
                     <mat-chip-list>
                         <mat-chip>{{department.value.created_at | date}}</mat-chip>
-                        <mat-chip>{{department.value.country.name}}</mat-chip>
+                        <mat-chip *ngIf="department.value?.parent?.name">{{department.value?.parent?.name}}</mat-chip>
                     </mat-chip-list>
                 </div>
                 <button [routerLink]="['./', department.key, 'edit']" color="primary" mat-mini-fab><mat-icon>edit</mat-icon></button>
                 <button (click)="deleteData(department.key)" color="warn" mat-mini-fab><mat-icon>delete</mat-icon></button>
-                <button [routerLink]="['./', department.key, 'edit']" color="accent" mat-mini-fab><mat-icon>apartment</mat-icon></button>
+                <button [routerLink]="['./', department.key, 'edit']" color="accent" mat-mini-fab><mat-icon>reduce_capacity</mat-icon></button>
             </mat-card-content>
         </mat-card>
     </ng-container>

@@ -17,7 +17,7 @@ export class DepartmentIndexComponent extends Crud<IDepartment> implements OnIni
     this.url = `admin/companies/${this.getParam()}/departments`;
   }
 
-  url: string = 'admin/departments';
+  // url: string = 'admin/departments';
 
   ngOnInit(): void {
   }
@@ -27,8 +27,8 @@ export class DepartmentIndexComponent extends Crud<IDepartment> implements OnIni
   }
 
   getData(data) {
-    console.log(data);
-    this.data = new Map<any, IDepartment>(data.map( (item: IDepartment) => [item[this.key], item]));
+    this.data = new Map<any, IDepartment>(data.departments.data.map( (item: IDepartment) => [item[this.key], item]));
+    console.log(data,this.data);
   }
 
 }

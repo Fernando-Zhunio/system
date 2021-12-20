@@ -47,8 +47,8 @@ export class CreateOrEdit<T> {
         }, error => { this.isLoading = false; });
     }
 
-    getId() {
-        return this.act_router.snapshot.params['id'];
+    getId(key: string = 'id'): any {
+        return this.act_router.snapshot.params[key];
     }
 
     loaderDataForCreate() {
