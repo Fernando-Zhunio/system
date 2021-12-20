@@ -10,7 +10,6 @@ export class Crud<T> {
     isLoading: boolean = false;
     data: Map<any, T> = new Map<any, T>();
     key: string = 'id';
-    
 
     deleteData(id: number): void {
         SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el registro?')

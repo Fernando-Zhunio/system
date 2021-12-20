@@ -19,5 +19,4 @@ export class IndexComponent extends Crud<ICompany> implements OnInit {
   ngOnInit(): void {
   }
 
-
 }

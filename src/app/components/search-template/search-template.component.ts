@@ -35,7 +35,4 @@ console.log(this.filter_data);
   hasIsLoading(): void {
     this.isloading.emit(this.isload);
   }
-
- 
-
 }

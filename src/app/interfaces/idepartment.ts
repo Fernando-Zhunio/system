@@ -7,9 +7,9 @@ export interface IDepartment {
     created_at: string;
     updated_at: string;
     deleted_at?: string;
-    parent: Parent;
+    parent: IParent;
   }
-  export interface Parent {
+  export interface IParent {
     id: number;
     name: string;
     company_id: number;
@@ -19,4 +19,3 @@ export interface IDepartment {
     updated_at: string;
     deleted_at?: any;
   }
-  

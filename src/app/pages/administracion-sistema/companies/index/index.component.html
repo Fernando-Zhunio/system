@@ -13,7 +13,7 @@
                 </div>
                 <button [routerLink]="['./', company.key, 'edit']" color="primary" mat-mini-fab><mat-icon>edit</mat-icon></button>
                 <button (click)="deleteData(company.key)" color="warn" mat-mini-fab><mat-icon>delete</mat-icon></button>
-                <button [routerLink]="['./', company.key, 'edit']" color="accent" mat-mini-fab><mat-icon>apartment</mat-icon></button>
+                <button [routerLink]="['./', company.key, 'departments']" color="accent" mat-mini-fab><mat-icon>apartment</mat-icon></button>
             </mat-card-content>
         </mat-card>
     </ng-container>
