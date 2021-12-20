@@ -18,6 +18,7 @@ import { EchoManager } from '../../class/echo-manager';
 import Echo from 'laravel-echo';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { HttpEventType } from '@angular/common/http';
+import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-dashboard',
@@ -42,6 +43,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_custom_reusing: RouteReuseStrategy,
     private dialog: MatDialog,
     public overlayContainer: OverlayContainer,
+    public sw_push: SwPush
   ) { }
   @HostBinding('class') componentCssClass;
 
@@ -78,7 +80,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.hasDarkTheme();
-    this.notificationWeb = new NotificationsWebPush(this.s_standard);
+    this.notificationWeb = new NotificationsWebPush(this.sw_push, this.s_standard);
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
     this.setSideBarColor();

@@ -530,8 +530,8 @@ const routes: Routes = [
         },
         canActivate: [NgxPermissionsGuard],
       },
-       // Vtex Warehouse
-       {
+      // Vtex Warehouse
+      {
         path: ':id/vtex-warehouses',
         // component: ADVtexWarehousesMainComponents,
         children: [
@@ -584,8 +584,8 @@ const routes: Routes = [
     },
     canActivate: [NgxPermissionsGuard],
   },
-   // locaciones
-   {
+  // locaciones
+  {
     path: 'companies',
     // component: ADLocationsMainComponents,
     children: [
@@ -622,7 +622,7 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
       },
       {
-        path: ':id/departments',
+        path: ':company_id/departments',
         children: [
           {
             path: '',
@@ -631,6 +631,16 @@ const routes: Routes = [
           {
             path: 'create',
             component: CreateOrEditDepartmentComponent,
+          },
+          {
+            path: ':id/edit',
+            component: CreateOrEditDepartmentComponent,
+            data: {
+              isEdit: true,
+              permissions: {
+                // only: permission_module_AD..edit,
+              },
+            }
           }
         ]
       }
@@ -645,15 +655,15 @@ const routes: Routes = [
   {
     path: 'newsletter',
     children: [
-      {path: '', component: IndexComponent},
-      {path: 'create', component: CreateOrEditNewsletterComponent, data: {isEdit: false}},
-      {path: 'edit/:id', component: CreateOrEditNewsletterComponent, data: {isEdit: true}},
+      { path: '', component: IndexComponent },
+      { path: 'create', component: CreateOrEditNewsletterComponent, data: { isEdit: false } },
+      { path: 'edit/:id', component: CreateOrEditNewsletterComponent, data: { isEdit: true } },
     ]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-exports: [RouterModule],
+  exports: [RouterModule],
 })
-export class AdminSystemRoutingModule {}
+export class AdminSystemRoutingModule { }

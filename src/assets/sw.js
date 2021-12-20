@@ -22,7 +22,7 @@
 
           // https://developer.mozilla.org/en-US/docs/Web/API/PushMessageData
           if (event.data) {
-
+              console.log('Push message data: ', event.data.json())  
               event.waitUntil(
                   this.sendNotification(event.data.json())
               )

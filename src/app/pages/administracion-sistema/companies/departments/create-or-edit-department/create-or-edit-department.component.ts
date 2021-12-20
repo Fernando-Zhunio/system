@@ -93,6 +93,10 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
     }
    }
 
+   go(): void {
+    this.router.navigate(['/administracion-sistema/companies/', this.getId(), 'departments']);
+   }
+
 
 
 

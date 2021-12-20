@@ -1,11 +1,12 @@
 // import { JsonPipe } from '@angular/common';
 // import { SwPush } from '@angular/service-worker';
+import { SwPush } from '@angular/service-worker';
 import { environment } from '../../environments/environment';
 import { StandartSearchService } from '../services/standart-search.service';
 
 export class NotificationsWebPush {
   constructor(
-    // private swPush: SwPush,
+    private swPush: SwPush,
     private s_standart: StandartSearchService
   ) {}
   public readonly PUBLIC_KEY = environment.VAPID_PUBLIC_KEY;
@@ -24,7 +25,14 @@ export class NotificationsWebPush {
       return;
     }
     localStorage.setItem(key, this.addHours(4).getTime().toString());
-    this.initSW();
+    // this.initSW();
+    this.swPush.requestSubscription({
+      serverPublicKey: this.PUBLIC_KEY,
+    }).then((subscription) => {
+      this.storePushSubscription(subscription);
+    }).catch((err) => {
+      console.error('Could not subscribe to notifications', err);
+    });
   }
 
   initSW() {
@@ -105,33 +113,4 @@ export class NotificationsWebPush {
     }
     return outputArray;
   }
-
-  // var api = new NotificationRequest();
-  // var headers = {
-  //   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-  //   // "Content-Type": "application/json",
-  //   'Accept': 'application/json'
-  // }
-
-  // Date.prototype.addHours = function(h) {
-  //   this.setHours(this.getHours() + h);
-  //   return this;
-  // }
-
-  // function canInitSw() {
-  //   const key = 'canInitSw'
-  //   let storedTime = localStorage.getItem(key)
-
-  //   if(storedTime && (new Date) < new Date(Number(storedTime)))
-  //       return
-
-  //   localStorage.setItem(
-  //       key,
-  //       new Date().addHours(4).getTime()
-  //   )
-  //   initSW()
-  // }
-  // // initSW();
-
-  // canInitSw();
 }

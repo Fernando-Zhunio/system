@@ -29,7 +29,7 @@ export class CreateOrEdit<T> {
                 this.loaderDataForCreate();
             }
         });
-    }
+    } 
 
     edit() {
         this.isLoading = true;

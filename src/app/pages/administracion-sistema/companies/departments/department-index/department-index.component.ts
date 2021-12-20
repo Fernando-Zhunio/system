@@ -22,13 +22,13 @@ export class DepartmentIndexComponent extends Crud<IDepartment> implements OnIni
   ngOnInit(): void {
   }
 
-  getParam(key: string = 'id'): any {
+  getParam(key: string = 'company_id'): any {
     return this.act_router.snapshot.params[key];
   }
 
   getData(data) {
     this.data = new Map<any, IDepartment>(data.departments.data.map( (item: IDepartment) => [item[this.key], item]));
-    console.log(data,this.data);
+    console.log(data, this.data);
   }
 
 }
