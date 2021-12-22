@@ -22,6 +22,7 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
   // urlEdit = 'admin/newsletter/edit/';
   urlSave = 'admin/newsletter';
   title = 'Novedad del sistema';
+  expandQuill = false;
   form: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
@@ -31,12 +32,16 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
   });
   roles: IrolSystem[] = [];
   editorStyle = {
-    height: '200px'
+    height: '100%'
   };
 
 
   ngOnInit(): void {
     this.init();
+  }
+
+  expandQuillEditor() {
+    this.expandQuill = !this.expandQuill;
   }
 
   loaderDataForCreate(): void {

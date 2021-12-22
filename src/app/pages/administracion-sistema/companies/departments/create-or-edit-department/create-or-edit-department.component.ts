@@ -2,8 +2,10 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatRadioChange } from '@angular/material/radio';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Icompany } from '../../../../../interfaces/idashboard';
 import { IDepartment } from '../../../../../interfaces/idepartment';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
@@ -30,10 +32,12 @@ export interface ITreeDepartment {
 })
 export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> implements OnInit {
 
-  constructor( public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
-    super( act_router, standard_service, router);
-    this.urlSave = `admin/companies/${this.getId()}/departments`;
+  constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
+    super(act_router, standard_service, router);
+    this.urlSave = `admin/companies/${this.getId('company_id')}/departments`;
   }
+
+  public key_param: string = 'department_id';
 
   title: string = 'Departamento';
   // url: string = '';
@@ -45,13 +49,13 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
   treeControl = new FlatTreeControl<any>(
     node => node.level, node => node.expandable);
   // tslint:disable-next-line: member-ordering
-  private _transformer = (node: ITreeDepartment, level: number) => {
+  private _transformer = (node: any, level: number) => {
     return {
       expandable: !!node.childs && node.childs.length > 0,
       name: node.name,
       level: level,
       id: node.id,
-      selected: false
+      selected: node?.selected || false
     };
   }
   // tslint:disable-next-line: member-ordering
@@ -59,43 +63,77 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
     this._transformer, node => node.level, node => node.expandable, node => node.childs);
   // tslint:disable-next-line: member-ordering
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-  apartments_selected: Map<number, number> = new Map<number, number>();
+  department_selected: number = null;
+  company: Icompany = null;
 
   ngOnInit(): void {
     this.init();
   }
 
+  recursiveFind(node: any, id: number): ITreeDepartment {
+    if (node.id === id) {
+      node.selected = true;
+    }
+    if (node.childs.length > 0) {
+      for (const child of node.childs) {
+         this.recursiveFind(child, id);
+      }
+    }
+    return node;
+  }
+
   setData(data: any): void {
-    console.log(data);
-    this.dataSource.data = data.tree;
+    if (this.status === 'create') {
+      console.log(data);
+      this.dataSource.data = data.tree;
+    } else {
+      this.company = data.company;
+      const department_parent = data.department.parent_department_id;
+      const tree = data.tree.map(value => {
+        return this.recursiveFind(value, department_parent);
+      });
+      this.department_selected = department_parent;
+      this.dataSource.data = tree;
+      this.form.setValue({
+        name: data?.department?.name
+      });
+    }
   }
   hasChild = (_: number, node: any) => node.expandable;
 
-  changeValueSelectDepartment($event: MatCheckboxChange, node) {
-    if ($event.checked) {
-      this.apartments_selected.set(node.id, node.id);
-    } else {
-      this.apartments_selected.delete(node.id);
-    }
-    console.log(this.apartments_selected.values());
+  changeValueSelectDepartment($event: MatRadioChange, node) {
+    console.log($event);
+    this.department_selected = $event.value;
+    // if ($event.source.checked) {
+    //   this.departments_selected.set(node.id, node.id);
+    // } else {
+    //   this.departments_selected.delete(node.id);
+    // }
+    // console.log(this.departments_selected.values());
   }
 
   getDataForSendServer(): any {
-    if (this.form.valid && this.apartments_selected.size > 0) {
+    // console.log({
+    //   ...this.form.value,
+    //   parent_department_id: this.department_selected,
+    //   company_id: this.getId('company_id')
+    // });
+    // return false;
+    if (this.form.valid && Number.isInteger(this.department_selected)) {
       return {
         ...this.form.value,
-        parent_department_id: this.apartments_selected.values().next().value,
-        company_id: this.getId()
+        parent_department_id: this.department_selected,
+        company_id: this.getId('company_id')
       };
     } else {
       SwalService.swalToast('Faltan datos por llenar', 'error');
       return false;
     }
-   }
+  }
 
-   go(): void {
-    this.router.navigate(['/administracion-sistema/companies/', this.getId(), 'departments']);
-   }
+  go(): void {
+    this.router.navigate(['/administracion-sistema/companies/', this.getId('company_id'), 'departments']);
+  }
 
 
 

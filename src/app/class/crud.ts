@@ -48,6 +48,8 @@ export class Crud<T> {
         this.data = new Map<any, T>(data.map( (item: T) => [item[this.key], item]));
       }
 
+ 
+
 
 
 }

@@ -23,62 +23,8 @@ import { IndexComponent as IndexCompanies } from './companies/index/index.compon
 import { CreateOrEditCompanyComponent } from './companies/create-or-edit-company/create-or-edit-company.component';
 import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
 import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
-
-// import { ComprasAutomaticasComponent } from "./compras-automaticas/compras-automaticas.component";
-// import { IpermissionStandart } from "src/app/interfaces/ipermission-standart";
-
-// @Component({
-//   selector: 'app-as-users',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADUsersMainComponents {}
-
-// @Component({
-//   selector: 'app-as-roles',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADRolesMainComponents {}
-
-// @Component({
-//   selector: 'app-as-paises',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADPaisesMainComponents {}
-
-// @Component({
-//   selector: 'app-as-locaciones',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADLocationsMainComponents {}
-
-// @Component({
-//   selector: 'app-as-personas',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADPersonasMainComponents {}
-
-// @Component({
-//   selector: 'app-as-mercado-libre-account',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADMercadoLibreAdminMainComponents {}
-
-// @Component({
-//   selector: 'app-as-facebook-ads-manager',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADFacebookAdsManagerMainComponents {}
-
-// @Component({
-//   selector: 'app-vtex-sites',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADVtexSitesMainComponents {}
-// @Component({
-//   selector: 'app-vtex-warehouses',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ADVtexWarehousesMainComponents {}
+import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
+import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
 
 const permission_module_AD = {
   usuarios: {
@@ -633,7 +579,7 @@ const routes: Routes = [
             component: CreateOrEditDepartmentComponent,
           },
           {
-            path: ':id/edit',
+            path: ':department_id/edit',
             component: CreateOrEditDepartmentComponent,
             data: {
               isEdit: true,
@@ -641,7 +587,36 @@ const routes: Routes = [
                 // only: permission_module_AD..edit,
               },
             }
-          }
+          },
+          {
+            path: ':department_id/positions',
+            children: [
+              {
+                path: '',
+                component: PositionsIndexComponent,
+              },
+              {
+                path: 'create',
+                component: CreateOrEditPositionComponent,
+                data: {
+                  isEdit: false,
+                  permissions: {
+
+                  },
+                }
+              },
+              {
+                path: ':position_id/edit',
+                component: CreateOrEditPositionComponent,
+                data: {
+                  isEdit: true,
+                  permissions: {
+
+                  },
+                }
+              },
+            ]
+          },
         ]
       }
     ],

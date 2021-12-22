@@ -63,6 +63,9 @@ import { CreateOrEditCompanyComponent } from './companies/create-or-edit-company
 import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
 import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
 import {MatTreeModule} from '@angular/material/tree';
+import { MatRadioModule } from '@angular/material/radio';
+import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
+import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +99,9 @@ import {MatTreeModule} from '@angular/material/tree';
     CreateOrEditNewsletterComponent,
     CreateOrEditCompanyComponent,
     DepartmentIndexComponent,
-    CreateOrEditDepartmentComponent
+    CreateOrEditDepartmentComponent,
+    PositionsIndexComponent,
+    CreateOrEditPositionComponent
     ],
   imports: [
     CommonModule,
@@ -133,6 +138,7 @@ import {MatTreeModule} from '@angular/material/tree';
     NgxSkeletonLoaderModule,
     SearchTemplateModule,
     MatTreeModule,
+    MatRadioModule,
     QuillModule.forRoot()
   ],
 

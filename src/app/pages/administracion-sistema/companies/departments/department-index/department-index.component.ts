@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Crud } from '../../../../../class/crud';
+import { Icompany } from '../../../../../interfaces/idashboard';
 import { IDepartment } from '../../../../../interfaces/idepartment';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 
@@ -18,7 +19,7 @@ export class DepartmentIndexComponent extends Crud<IDepartment> implements OnIni
   }
 
   // url: string = 'admin/departments';
-
+  company: Icompany = null;
   ngOnInit(): void {
   }
 
@@ -27,6 +28,7 @@ export class DepartmentIndexComponent extends Crud<IDepartment> implements OnIni
   }
 
   getData(data) {
+    this.company = data?.company;
     this.data = new Map<any, IDepartment>(data.departments.data.map( (item: IDepartment) => [item[this.key], item]));
     console.log(data, this.data);
   }

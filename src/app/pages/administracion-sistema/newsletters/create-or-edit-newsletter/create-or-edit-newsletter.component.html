@@ -5,7 +5,7 @@
             <mat-form-field class="col-12">
                 <input matInput placeholder="Titulo" formControlName="title">
             </mat-form-field>
-            <div class="w-100 mb-5" style="height: 200px;">
+            <div class="w-100 mb-5" [ngClass]="{'expand-quill': expandQuill}">
                 <quill-editor formControlName="description" required  placeholder="Ingrese la descripción" [styles]="editorStyle" class="w-100 h-100">
                     <div quill-editor-toolbar>
                         <span class="ql-formats">
@@ -47,32 +47,37 @@
                           </span>
                     </div>
                   </quill-editor>
-            </div>
-            <mat-form-field class="col-md-6">
-              <mat-label>Todas los roles</mat-label>
-              <mat-select type="text" #select_warehouse
-              formControlName="roles" multiple>
-                <mat-select-trigger>
-                  <mat-chip-list>
-                    <mat-chip (removed)="removeRol(_rol)" *ngFor="let _rol of form.get('roles').value"
-                    [removable]="true">
-                      {{ getNameRol(_rol) }}
-                      <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
-                  </mat-chip-list>
-                </mat-select-trigger>
-                <mat-option *ngFor="let rol of roles" [value]="rol.id">
-                  {{ rol.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="col-md-6">
-                <mat-label>Fecha de financiación <small>(d/m/yyyy)</small></mat-label>
-                <input matInput  formControlName="end_date" [matDatepicker]="dp4">
-                <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
-                <mat-datepicker #dp4 disabled="false"></mat-datepicker>
-                <mat-error *ngIf="form.controls['end_date'].invalid">Fecha de financiación requerida</mat-error>
-            </mat-form-field>
+                </div>
+              <div class="col-12 p-0">
+                <button class="" mat-button type="button" color="primary" (click)="expandQuillEditor()">Expandir editor de texto <mat-icon>crop_free</mat-icon></button>
+              </div>
+              <mat-form-field class="col-md-6">
+                <mat-label>Todas los roles</mat-label>
+                <mat-select type="text" #select_warehouse
+                formControlName="roles" multiple>
+                  <mat-select-trigger>
+                    <mat-chip-list>
+                      <mat-chip (removed)="removeRol(_rol)" *ngFor="let _rol of form.get('roles').value"
+                      [removable]="true">
+                        {{ getNameRol(_rol) }}
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip>
+                    </mat-chip-list>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let rol of roles" [value]="rol.id">
+                    {{ rol.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="col-md-6">
+                  <mat-label>Fecha de financiación <small>(d/m/yyyy)</small></mat-label>
+                  <input matInput  formControlName="end_date" [matDatepicker]="dp4">
+                  <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                  <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+                  <mat-error *ngIf="form.controls['end_date'].invalid">Fecha de financiación requerida</mat-error>
+              </mat-form-field>
+
             <button [disabled]="form.invalid" type="submit" mat-raised-button>Guardar</button>
         </form>
     </mat-card>
+    <button mat-fab class="quill-expand-btn" type="button" *ngIf="expandQuill" (click)="expandQuillEditor()"><mat-icon>close</mat-icon></button>
 </div>

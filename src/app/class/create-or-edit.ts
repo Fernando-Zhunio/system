@@ -14,6 +14,7 @@ export class CreateOrEdit<T> {
     isLoading: boolean = false;
     public params = null;
     public isFormParams: boolean = false;
+    public key_param = 'id';
     constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
     }
 
@@ -29,7 +30,7 @@ export class CreateOrEdit<T> {
                 this.loaderDataForCreate();
             }
         });
-    } 
+    }
 
     edit() {
         this.isLoading = true;
@@ -47,7 +48,7 @@ export class CreateOrEdit<T> {
         }, error => { this.isLoading = false; });
     }
 
-    getId(key: string = 'id'): any {
+    getId(key: string = this.key_param): any {
         return this.act_router.snapshot.params[key];
     }
 
