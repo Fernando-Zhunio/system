@@ -9,21 +9,12 @@ import { CreateImportComponent } from './create-import/create-import.component';
 import { EditImportComponent } from './edit-import/edit-import.component';
 import { InConstructionComponent } from '../../views/in-construction/in-construction.component';
 
-// @Component({
-//   selector: 'app-importaciones',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class ImportacionesMainComponents  {
-// }
-
-
 const routes: Routes = [
   {
     path: '',
-    // component:ImportacionesMainComponents,
     children: [
       {
-        path: '',
+        path: 'index',
         component: ProveedoresComponent,
       },
 
@@ -48,16 +39,6 @@ const routes: Routes = [
         path: 'precios-promociones',
         component: InConstructionComponent,
       }
-      // {
-      //   path: 'buscar_productos',
-      //   // component:MarcasMainComponents,
-      //   loadChildren: () => import('../Catalogo/buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      // },
-      // {
-      //   path: 'publicaciones',
-      //   component:PublicacionesComponent,
-      //   // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      // },
     ]
   }
 ];

@@ -205,7 +205,7 @@ export class DataSidebar {
     },
     {
       name: 'Importaciones',
-      url: '/importaciones',
+      url: '/importaciones/index',
       icon: 'icon-briefcase',
       permission: 'purchase-department.imports.index',
       tag: this.tags.imports,

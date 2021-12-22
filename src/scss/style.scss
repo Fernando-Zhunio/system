@@ -242,65 +242,67 @@ button {
   cursor: pointer;
 }
 
-.dark-theme .sidebar .nav-link.active::after {
-  content: '';
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 0px;
-  background: transparent;
-  bottom: -30px;
-  border-radius: 0 20px 0 0;
-  box-shadow: 8px -11px 0px  mat-color($dark-bg);
-}
+// .dark-theme .sidebar .nav-link.active::after {
+//   content: '';
+//   width: 30px;
+//   height: 30px;
+//   position: absolute;
+//   right: 0px;
+//   background: transparent;
+//   bottom: -30px;
+//   border-radius: 0 20px 0 0;
+//   box-shadow: 8px -11px 0px  mat-color($dark-bg);
+// }
 
-.light-theme .sidebar .nav-link.active::after {
-    content: '';
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 0px;
-    background: transparent;
-    bottom: -30px;
-    border-radius: 0 20px 0 0;
-    box-shadow: 8px -11px 0px  #e4e5e6;
+// .light-theme .sidebar .nav-link.active::after {
+//     content: '';
+//     width: 30px;
+//     height: 30px;
+//     position: absolute;
+//     right: 0px;
+//     background: transparent;
+//     bottom: -30px;
+//     border-radius: 0 20px 0 0;
+//     box-shadow: 8px -11px 0px  #e4e5e6;
     
-  }
+//   }
 
-.dark-theme .sidebar .nav-link.active::before {
-  content: '';
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 0px;
-  background: transparent;
-  top: -30px;
-  border-radius: 0 0 20px 0;
-  box-shadow: 13px 1px 0px mat-color($dark-bg);
-}
+// .dark-theme .sidebar .nav-link.active::before {
+//   content: '';
+//   width: 30px;
+//   height: 30px;
+//   position: absolute;
+//   right: 0px;
+//   background: transparent;
+//   top: -30px;
+//   border-radius: 0 0 20px 0;
+//   box-shadow: 13px 1px 0px mat-color($dark-bg);
+// }
 
-.light-theme .sidebar .nav-link.active::before {
-    content: '';
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 0px;
-    background: transparent;
-    top: -30px;
-    border-radius: 0 0 20px 0;
-    box-shadow: 13px 1px 0px #e4e5e6;
-  }
+// .light-theme .sidebar .nav-link.active::before {
+//     content: '';
+//     width: 30px;
+//     height: 30px;
+//     position: absolute;
+//     right: 0px;
+//     background: transparent;
+//     top: -30px;
+//     border-radius: 0 0 20px 0;
+//     box-shadow: 13px 1px 0px #e4e5e6;
+//   }
 
 .dark-theme .sidebar .nav-link.active {
   background-color:  mat-color($dark-bg);
   color: #ffffff;
-  border-radius: 20px 0 0 20px;
+  border-radius: 10px;
+  margin: 2px 5px;
 }
 
 .light-theme .sidebar .nav-link.active {
     background-color: #e4e5e6;
     color: #2f353a;
-    border-radius: 20px 0 0 20px;
+    border-radius: 10px;
+    margin: 2px 5px;
   }
 
 .light-theme .app-body{
