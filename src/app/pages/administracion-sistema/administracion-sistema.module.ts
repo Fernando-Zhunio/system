@@ -54,9 +54,18 @@ import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-s
 import { VtexSiteComponent } from './vtex-site/tools/vtex-site/vtex-site.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { IndexComponent } from './newsletters/index/index.component';
+import { IndexComponent as IndexCompaniesComponent } from './companies/index/index.component';
+
 import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-newsletter/create-or-edit-newsletter.component';
 import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
 import { QuillModule } from 'ngx-quill';
+import { CreateOrEditCompanyComponent } from './companies/create-or-edit-company/create-or-edit-company.component';
+import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
+import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { MatRadioModule } from '@angular/material/radio';
+import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
+import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +95,13 @@ import { QuillModule } from 'ngx-quill';
     CreateOrEditVtexSiteComponent,
     VtexSiteComponent,
     IndexComponent,
-    CreateOrEditNewsletterComponent
+    IndexCompaniesComponent,
+    CreateOrEditNewsletterComponent,
+    CreateOrEditCompanyComponent,
+    DepartmentIndexComponent,
+    CreateOrEditDepartmentComponent,
+    PositionsIndexComponent,
+    CreateOrEditPositionComponent
     ],
   imports: [
     CommonModule,
@@ -122,6 +137,8 @@ import { QuillModule } from 'ngx-quill';
     NgxSpinnerModule,
     NgxSkeletonLoaderModule,
     SearchTemplateModule,
+    MatTreeModule,
+    MatRadioModule,
     QuillModule.forRoot()
   ],
 

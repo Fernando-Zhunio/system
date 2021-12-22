@@ -20,6 +20,7 @@ export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements On
   @Output() isloading = new EventEmitter<boolean>();
   @Input() active_filters_menu: boolean = false;
   @Output() data = new EventEmitter<any>();
+  @Input() key_paginator: string = null;
 
   ngOnInit(): void {
 console.log(this.filter_data);
@@ -27,15 +28,20 @@ console.log(this.filter_data);
   }
 
   loadData($event) {
+    if (this.key_paginator) {
+      this.paginator = $event.data[this.key_paginator];
+      this.products = this.paginator.data;
+      this.data.emit($event.data);
+      return;
+    }
     this.paginator = $event.data;
     this.products = this.paginator.data;
     this.data.emit(this.products);
   }
 
+
+
   hasIsLoading(): void {
     this.isloading.emit(this.isload);
   }
-
- 
-
 }

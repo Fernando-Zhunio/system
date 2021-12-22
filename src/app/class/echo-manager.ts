@@ -1,7 +1,8 @@
 import Echo from 'laravel-echo';
+import pusherJs from 'pusher-js';
 import { environment } from '../../environments/environment';
 import { StorageService } from '../services/storage.service';
-
+window['Pusher'] = pusherJs;
 export class EchoManager {
 
   public endpoint = environment.server;
@@ -17,10 +18,8 @@ export class EchoManager {
         wsHost: this.domain_serve,
         disableStats: true,
         encrypted: false,
-        wsPort: this.port,
-        wssPort: this.port,
-        enabledTransports: ['ws', 'wss'],
-        forceTLS: false,
+        wsPort: environment.portSocket,
+        wssPort: environment.portSocket,
         auth: {
             headers: {
                 Authorization: 'Bearer ' + this.s_storage.getCurrentToken()

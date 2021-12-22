@@ -1,0 +1,23 @@
+<div>
+    <div class="my-3">
+        <h2 class="font-4xl">{{title}}</h2>
+
+        <mat-card class="rounded-fz shadow my-2">
+            <form [formGroup]="form" class=" row m-0">
+                <mat-form-field class="col-md-6 col-12">
+                    <input matInput placeholder="Nombre" formControlName="name">
+                    <mat-error *ngIf="form.get('name').hasError('required')">
+                        El nombre es requerido </mat-error>
+                </mat-form-field>
+            <mat-form-field class="col-md-6 col-12">
+                <mat-select placeholder="Selecciones un pais" formControlName="country_id">
+                    <mat-option *ngFor="let country of countries" [value]="country.id">
+                        {{country.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button (click)="saveInServer()" [disabled]="isLoading || form.invalid" color="primary" mat-raised-button>Guardar <mat-icon>save_alt</mat-icon></button>
+            </form>
+        </mat-card>
+    </div>
+</div>

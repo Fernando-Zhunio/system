@@ -34,6 +34,8 @@ interface Iswal {
   width?: string;
   text?: string;
   html?: string;
+  confirmButtonText?: string;
+  allowOutsideClick?: boolean;
 }
 declare let Swal: any;
 
@@ -55,8 +57,8 @@ export class SwalService {
       timer: 1500,
       showConfirmButton: false,
     }
-  ) {
-    Swal.fire(iswal);
+  ): Promise<{isConfirmed: boolean,isDenied: boolean}> {
+   return Swal.fire(iswal);
   }
 
   /**

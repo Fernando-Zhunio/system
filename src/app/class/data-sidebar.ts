@@ -306,6 +306,13 @@ export class DataSidebar {
       tag: this.tags.admin_system,
     },
     {
+      name: 'Empresas',
+      url: '/administracion-sistema/companies',
+      icon: 'icon-directions',
+      permission: 'admin.companies.index',
+      tag: this.tags.admin_system,
+    },
+    {
       name: 'Mercado Libre',
       url: '/administracion-sistema/mercado-libre/cuentas',
       icon: 'far fa-handshake',
