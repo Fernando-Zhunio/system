@@ -120,6 +120,19 @@
     ]
   },
   {
+    "Chone": [
+      {
+        "name": "NOVICOMPU CHONE",
+        "address": "CALLE ROCAFUERTE Y PICHINCHA JUNTO AL UPC",
+        "telefono": null,
+        "days": [
+          { "day": "LUNES A VIERNES", "hour": "09:00AM A 6:00PM" },
+          { "day": "SÁBADO", "hour": "09:00AM A 5:00PM" }
+        ]
+      }
+    ]
+  },
+  {
     "Quito": [
       {
         "name": "NOVICOMPU SHYRIS Y RIO COCA",
@@ -246,7 +259,7 @@
       },
       {
         "name": "NOVICOMPU CUENCA 2",
-        "address": "C.C. MALL DEL RIO FELIPE II Y CIRCUNVALACIÓN SUR  PLANTA BAJA LOCAL C 5-6-7-8-9-10.",
+        "address": "C.C. MALL DEL RIO FELIPE II Y CIRCUNVALACIÓN SUR  PLANTA ALTA LOCAL C 5-6-7-8-9-10.",
         "telefono": null,
         "days": null
       }
@@ -341,13 +354,14 @@
       }
     ]
   },
-  { "Esmeraldas": [
-    {
-      "name": "NOVICOMPU ESMERALDAS",
-      "address": "ROCAFUERTE M44 SL7 AV. SUCRE ESQ CENTRO DE CIUDAD ",
-      "telefono": null,
-      "days": null
-    }
-    ] 
+  {
+    "Esmeraldas": [
+      {
+        "name": "NOVICOMPU ESMERALDAS",
+        "address": "ROCAFUERTE M44 SL7 AV. SUCRE ESQ CENTRO DE CIUDAD ",
+        "telefono": null,
+        "days": null
+      }
+    ]
   }
 ]

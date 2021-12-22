@@ -29,7 +29,7 @@ import { CreateOrEditPositionComponent } from './companies/departments/positions
 const permission_module_AD = {
   usuarios: {
     index: ['super-admin', 'admin.users.index'],
-    show: ['super-admin', 'admin.roles.show'],
+    show: ['super-admin', 'admin.users.show'],
     create: ['super-admin', 'admin.users.create'],
     edit: ['super-admin', 'admin.users.edit'],
     delete: ['super-admin', 'admin.users.destroy'],
@@ -634,6 +634,10 @@ const routes: Routes = [
       { path: 'create', component: CreateOrEditNewsletterComponent, data: { isEdit: false } },
       { path: 'edit/:id', component: CreateOrEditNewsletterComponent, data: { isEdit: true } },
     ]
+  },
+  {
+    path: 'chatbot',
+    loadChildren: () => import('./chat-bots/chat-bots.module').then(m => m.ChatBotsModule),
   }
 ];
 

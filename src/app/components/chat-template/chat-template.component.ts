@@ -148,15 +148,15 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   connectionChat(): void {
     this.echoChat = new EchoManager(this.s_storage).chat_echo;
     this.echoChat.private(`chat.${this.myUser.id}`)
-    .listen(`.chat`, this.modificationChatListen.bind(this))
-    .listen('.message', this.getMessages.bind(this))
-    .listen('.typing', this.typingUserListen.bind(this))
-    .listen('.message_delivered', this.messageDeliveredListen.bind(this))
-    .listen('.message_readed', this.getMessageReaded.bind(this))
-    .listen('.message_deleted', this.deleteMessage.bind(this));
-  this.echoChat
-    .private(`chat_users`)
-    .listen('.user', this.getChatUserStatus.bind(this));
+      .listen(`.chat`, this.modificationChatListen.bind(this))
+      .listen('.message', this.getMessages.bind(this))
+      .listen('.typing', this.typingUserListen.bind(this))
+      .listen('.message_delivered', this.messageDeliveredListen.bind(this))
+      .listen('.message_readed', this.getMessageReaded.bind(this))
+      .listen('.message_deleted', this.deleteMessage.bind(this));
+    this.echoChat
+      .private(`chat_users`)
+      .listen('.user', this.getChatUserStatus.bind(this));
   }
 
   ngOnDestroy(): void {
@@ -199,20 +199,24 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   deleteMessage(event: { chat_id: string, message_id: string }) {
+    console.log('message_deleted', event);
     if (this.chatsbubble.has(event.chat_id)) {
       const messages = this.chatsbubble.get(event.chat_id).messages;
       const indexMsm = messages.findIndex(msm => msm._id === event.message_id);
       if (indexMsm > -1) {
         const msm = messages[indexMsm];
+        console.log('message_deleted', msm);
         msm.text = '🚫 Este mensaje fue eliminado por el remitente';
         msm.files = [];
         msm.links = [];
       }
     }
-    const _chat = this.chats.get(event.chat_id);
-    _chat.last_message.text = '🚫 Este mensaje fue eliminado por el remitente';
-    _chat.last_message.files = [];
-    _chat.last_message.links = [];
+    // const _chat = this.chats.get(event.chat_id);
+    // if (_chat.last_message._id === event.message_id) {
+    //   _chat.last_message.text = '🚫 Este mensaje fue eliminado por el remitente';
+    //   _chat.last_message.files = [];
+    //   _chat.last_message.links = [];
+    // }
   }
 
   modificationChatListen(event: { chat: Ichats; event: 'created' | 'updated' | 'deleted' }): void {
@@ -277,6 +281,8 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
     // * si no esta abierto el panel de chat suma uno en el icono del chat
+    console.log('getMessages', event);
+
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }

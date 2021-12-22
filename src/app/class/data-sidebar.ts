@@ -313,6 +313,13 @@ export class DataSidebar {
       tag: this.tags.admin_system,
     },
     {
+      name: 'Chat Bots',
+      url: '/administracion-sistema/chatbot/index',
+      icon: 'icon-social-reddit',
+      permission: 'admin.chatbot.index',
+      tag: this.tags.admin_system,
+    },
+    {
       name: 'Mercado Libre',
       url: '/administracion-sistema/mercado-libre/cuentas',
       icon: 'far fa-handshake',

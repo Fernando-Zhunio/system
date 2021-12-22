@@ -188,13 +188,6 @@ registerLocaleData(localeEs, 'es');
     ChatTemplateComponent,
     ChatComponent,
     UsersGroupsChatModalComponent,
-    // MarkdwonPipe,
-    // CreateGroupChatComponent,
-
-
-
-    // DownloadStockComponent,
-    // ModalRealistComponent,
   ],
   providers: [
     // {

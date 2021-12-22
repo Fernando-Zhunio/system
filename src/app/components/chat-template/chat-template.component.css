@@ -1,6 +1,6 @@
 
 .users-chats {
-    height: calc(100vh - 130px);
+    height: calc(100vh - 103px);
     /* position: fixed; */
     right: 0;
     overflow-y: scroll;
@@ -124,8 +124,8 @@
 
 .chat-inline::before {
   position: absolute;
-  top: -18px;
-  right: 1px;
+  top: -13px;
+  right: 6px;
   content: '●';
   font-size: 28px;
   color: #4caf50;

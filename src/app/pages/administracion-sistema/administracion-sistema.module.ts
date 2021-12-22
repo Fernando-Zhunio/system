@@ -66,7 +66,6 @@ import {MatTreeModule} from '@angular/material/tree';
 import { MatRadioModule } from '@angular/material/radio';
 import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
 import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
-
 @NgModule({
   declarations: [
     CreateEmailModalComponent,
@@ -101,7 +100,7 @@ import { CreateOrEditPositionComponent } from './companies/departments/positions
     DepartmentIndexComponent,
     CreateOrEditDepartmentComponent,
     PositionsIndexComponent,
-    CreateOrEditPositionComponent
+    CreateOrEditPositionComponent,
     ],
   imports: [
     CommonModule,
