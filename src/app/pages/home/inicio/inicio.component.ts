@@ -141,13 +141,12 @@ export class InicioComponent implements OnInit {
     });
   }
 
-  getDataWeather(): void{
+  getDataWeather(): void {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&lang=es&units=metric&appid=${this.weather_key}`;
     fetch(url).then(res => res.json()).then(res => {
       this.weather_date = res;
       // this.icon_url = `http://openweathermap.org/img/wn/${res.weather[0].icon}.png?width=100`
       this.icon_url = `assets/weather/${this.weather_date.weather[0].main.toLowerCase()}.svg`
-
     });
   }
 
