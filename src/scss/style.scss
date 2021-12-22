@@ -239,7 +239,8 @@ button {
         display: table-row;
     }
     .navbar-brand{
-        width: 30px !important;
+        width: 30px !important
+        ;
     }
 }
 
@@ -318,18 +319,12 @@ button {
     background-color:  mat-color($dark-bg);
 }
 
-
-
-
-
 .custom-menu-notification {
   height:75vh
 }
 
 .tab-content {
     border: none;
-    // color: black;
-    // background-color: inherit;
 }
 
 .shadow-fz{
@@ -340,4 +335,8 @@ button {
 .shadow-fz:hover{
 box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
     transition: 0.5s linear;
+}
+
+.chat-template .nav-tabs {
+    background: #dadada;
 }
