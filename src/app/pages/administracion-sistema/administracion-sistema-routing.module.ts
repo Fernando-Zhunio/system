@@ -60,11 +60,11 @@ const permission_module_AD = {
   },
 
   personas: {
-    index: ['super-admin', 'admin.peoples.index'],
-    show: ['super-admin', 'admin.peoples.show'],
-    create: ['super-admin', 'admin.peoples.create'],
-    edit: ['super-admin', 'admin.peoples.edit'],
-    delete: ['super-admin', 'admin.peoples.destroy'],
+    index: ['super-admin', 'admin.people.index'],
+    show: ['super-admin', 'admin.people.show'],
+    create: ['super-admin', 'admin.people.create'],
+    edit: ['super-admin', 'admin.people.edit'],
+    delete: ['super-admin', 'admin.people.destroy'],
   },
 
   mercado_libre: {

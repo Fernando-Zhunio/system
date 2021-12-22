@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input, HostBinding } from '@angular/core';
-// import { CustomReusingStrategy } from "../../class/custom-reusing-strategy";
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, RouteReuseStrategy } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
@@ -22,15 +21,7 @@ import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-dashboard',
-  styles: [
-    'button {outline: none;}',
-    '.dark{color:gray}',
-    '.not-dark{color:goldenrod}',
-    '.disabled {pointer-events: none;cursor: default;}',
-    '.bg-error {background:red;color:white}',
-    '.custom-menu-notification {height:75vh}',
-    '.custom-avatar {width:35px;height:35px;border-radius:50%;}',
-  ],
+  styleUrls: ['./default-layout.component.css'],
   templateUrl: './default-layout.component.html',
 })
 export class DefaultLayoutComponent implements OnInit, OnDestroy {
@@ -77,8 +68,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   echo: Echo;
   user: any;
 
+  imgCompany: {size: string, url: string} = {size: '100%', url: 'assets/icons_custom/novisolutions.svg'};
+
   ngOnInit(): void {
 
+    this.setImgCompanies();
     this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.s_standard);
     this.getPermissionAndRolesFromServer();
@@ -97,6 +91,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       this.subscriptionNotification.unsubscribe();
     }
     this.echo.leave('App.Models.User.' + this.user.id);
+  }
+
+  setImgCompanies(): void {
+    this.imgCompany = window.innerWidth > 600 ?{ size: '100%', url: 'assets/icons_custom/novisolutions.svg'} : { size: '30px', url: 'assets/icons_custom/icon-512x512.png'};
   }
 
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
@@ -120,7 +118,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       disableClose: true,
     }).beforeClosed()
       .subscribe((res) => {
-        console.log({res});
         if (res == undefined) {
           this.addPersonModal(user);
         } else {
@@ -287,7 +284,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   downloadStock(url): void {
     const convertUrlNg = url.split('?');
-    console.log(url, convertUrlNg);
     const nameFile = convertUrlNg[1]
       .replace(/\+-\+/gm, '_')
       .replace('file_name=reports%2FSTOCK+GENERAL', '');
@@ -312,21 +308,18 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         let progress = 0;
         switch (event.type) {
           case HttpEventType.Sent:
-            console.log('Request has been made!');
             break;
           case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
             break;
           case HttpEventType.DownloadProgress:
-            console.log(event);
-            console.log(event.loaded , event.total);
+           
             
             progress = Math.round(event.loaded / event.total * 100);
             this.progressDownloadReport = progress;
-            console.log(`Uploaded! ${progress}%`);
+           
             break;
           case HttpEventType.Response:
-            console.log('File is completely uploaded!');
+           
               const blob = new Blob([event.body], { type: 'application/ms-Excel' });
               const urlDownload = window.URL.createObjectURL(blob);
               const a = document.createElement('a');
@@ -341,7 +334,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
                 this.isProgressDownloadReport = false;
                 this.progressDownloadReport = 0;
               }, 1500);
-            console.log('User successfully created!', event.body);
+        
         }
       }, (err) => { this.isProgressDownloadReport = false; });
   }

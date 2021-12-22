@@ -62,10 +62,8 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   }
 
   listener(e: {event: string, item: ImlInfo}): void {
-    console.log(e);
 
     if (e.event == 'updated') {
-      console.log('updated');
 
       const indexPublication = this.mlInfos.findIndex((item) => item.id === e.item.id);
       if (indexPublication !== -1) {

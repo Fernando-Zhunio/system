@@ -5,7 +5,7 @@
     <button mat-mini-fab (click)="goBack()" class="mb-2">
     <mat-icon>keyboard_return</mat-icon>
   </button>
-    <mat-card>
+    <mat-card class="rounded-fz">
         <mat-card-content>
             <form [formGroup]="form_rol">
                 <div class="row">
@@ -32,8 +32,8 @@
             </form>
             <!-- fin del form -->
 
-            <div>
-                <div class="example-container border-right">
+            <div class="row">
+                <div class="col-md-6 border-right">
                     <h2 class="font-facebook font-2xl">Permisos</h2>
                     <!-- <mat-form-field class="col-12">
                         <mat-label>Buscar Permiso</mat-label>
@@ -47,7 +47,7 @@
                         <div *ngFor="let item of permission_filter" class="font-weight-bolder example-box shadow-sm"><span>{{item.title}}. <small>({{item?.description}})</small></span><span class="badge badge-success" (click)="transferDataItem(item.id)"><mat-icon class="mat-18">add</mat-icon></span></div>
                     </div>
                 </div>
-                <div style="z-index: 10;" class="example-container sticky-top">
+                <div style="z-index: 10;" class="col-md-6 sticky-top">
                     <h2 class="font-facebook font-2xl">Permisos otorgados</h2>
 
                     <div class="example-list">

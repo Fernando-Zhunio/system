@@ -76,7 +76,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     this.gotoTop();
-    console.log(this.filter_data);
     
     this.subscription = this.s_standard
       .search2(this.url, {

@@ -30,7 +30,6 @@ export class DepartmentIndexComponent extends Crud<IDepartment> implements OnIni
   getData(data) {
     this.company = data?.company;
     this.data = new Map<any, IDepartment>(data.departments.data.map( (item: IDepartment) => [item[this.key], item]));
-    console.log(data, this.data);
   }
 
 }

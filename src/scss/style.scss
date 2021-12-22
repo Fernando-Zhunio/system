@@ -12,6 +12,9 @@
 @import '~quill/dist/quill.snow.css';
  
 
+*{
+    line-height: 1;
+}
 .chat-font {
     font-family: "Red Hat Display" !important;
     p {
@@ -76,7 +79,6 @@ a img {
 .navbar-brand,
 .navbar-brand-minimized {
     height: auto !important;
-   
 }
 
 .custom-snack-bar-loader-data {
@@ -235,6 +237,9 @@ button {
     .mat-row,
     .mat-header-row {
         display: table-row;
+    }
+    .navbar-brand{
+        width: 30px !important;
     }
 }
 

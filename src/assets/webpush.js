@@ -94,7 +94,6 @@ function storePushSubscription(pushSubscription) {
   axios.post('https://system.novicompu.com/api/notifications/suscribe-webpush', {
           ...JSON.parse(JSON.stringify(pushSubscription))
       },{headers}).then(res => {
-          console.log(res);
       })
 }
 

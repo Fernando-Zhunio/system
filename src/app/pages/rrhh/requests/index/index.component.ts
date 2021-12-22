@@ -56,7 +56,6 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
     const url = `rrhh/works`;
     const searchText = this.inputWork.nativeElement.value;
     this.s_standard.index(`${url}?search=${searchText}`).subscribe(res => {
-      console.log(res);
       if (res.hasOwnProperty('success') && res.success) {
         this.works = res.data.data;
       }
@@ -65,7 +64,6 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
   }
 
   addWorkFilter(event: MatAutocompleteSelectedEvent): void {
-    console.log(event);
     const value = event.option.viewValue;
     const input = event.option.value;
 

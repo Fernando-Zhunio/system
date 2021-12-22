@@ -22,7 +22,6 @@ export class IndexComponent extends Crud<Inewsletter> implements OnInit {
   url = 'admin/newsletter';
 
   ngOnInit(): void {
-    console.log(this.newsletters);
     
   }
 
@@ -31,7 +30,6 @@ export class IndexComponent extends Crud<Inewsletter> implements OnInit {
   }
 
   deleteItem(id: number) {
-    console.log({id,new: this.newsletters});
     this.newsletters.delete(id);
   }
 

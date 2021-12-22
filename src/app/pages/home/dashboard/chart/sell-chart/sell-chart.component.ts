@@ -86,7 +86,6 @@ export class SellChartComponent implements OnInit {
     this.spinner.show('isload-chart-sell');
     this.getQueryChart()
     .subscribe((res) => {
-      console.log(res);
       const data = res.data as { dates: Idates, previous_period_stats: IcompareGraph[], selected_period_stats: IcompareGraph[] };
       this.chart.data.datasets[0].data = [];
       this.chart.data.datasets = [

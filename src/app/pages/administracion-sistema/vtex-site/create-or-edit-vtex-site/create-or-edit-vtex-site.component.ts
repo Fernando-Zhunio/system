@@ -33,7 +33,6 @@ export class CreateOrEditVtexSiteComponent implements OnInit {
         this.id = Number.parseInt(id, 10);
         this.isload = true;
         this.s_standart.create(`admin/vtex/${id}/edit`).subscribe((res) => {
-          console.log(res);
           if (res && res.hasOwnProperty('success') && res.success) {
             this.assignDataForEdit(res.data);
             this.isload = false;
@@ -61,7 +60,6 @@ export class CreateOrEditVtexSiteComponent implements OnInit {
     if (this.form.valid) {
       this.isload = true;
       const data = this.form.value;
-      console.log(data);
       if (this.state === 'edit') {
         this.s_standart.updatePut(`admin/vtex/${this.id}`, data).subscribe((res) => {
           if (res && res.hasOwnProperty('success') && res.success) {

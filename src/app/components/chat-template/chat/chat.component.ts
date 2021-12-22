@@ -86,7 +86,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   successFiles(event): void {
-    console.log(event);
       this.hasFile = false;
   }
 
@@ -131,13 +130,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   typingMessage(): void {
-
     if (this.sendTyping) {
       SharedService.disabled_loader = true;
       this.sendTyping = false;
-      this.s_standard.updatePut(`chats/${this.chat.id}/typing`,{}).subscribe(
-       res => console.log(res)
-      );
+      this.s_standard.updatePut(`chats/${this.chat.id}/typing`,{}).subscribe();
       setTimeout(() => {
         this.sendTyping = true;
       }, 2000);
@@ -152,7 +148,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         this.attachments.push({ url: reader.result, file, type: file.type });
       };
       reader.onerror = function (error) {
-        console.log('Error: ', error);
       };
     });
   }
@@ -162,10 +157,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // this.changed_detector_ref.detectChanges();
     this.textMessage.nativeElement.focus();
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.subscripted = this.ngfor.changes.subscribe((data) => {
-      const hasBottom = this.scrollContainer.scrollTop + this.scrollContainer.clientHeight  < this.scrollContainer.scrollHeight - (this.scrollContainer.clientHeight * 2) 
+      const hasBottom = this.scrollContainer.scrollTop + this.scrollContainer.clientHeight  < this.scrollContainer.scrollHeight - (this.scrollContainer.clientHeight * 2);
       if (hasBottom && !this.firstScroll) {
         this.hasNewMessages = (!this.not_bottom && !data.last.nativeElement.className.includes('text-right'));
         this.disableScroll = true;
@@ -183,7 +179,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     if (this.subscripted) {
-      console.log('destroy suscripted');
       this.subscripted.unsubscribe();
     }
     if(this.suscription_modal){
@@ -203,7 +198,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   closeChat(): void {
-    console.log('close chat');
     this.delete.emit(this.chat.id );
   }
 
@@ -219,7 +213,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleSelection(event) {
-    console.log(event.char);
   }
 
   sendMessage($event = null): boolean {
@@ -291,7 +284,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   downloadResource(file, name, id) {
-    console.log(id);
     const message = this.chat.messages.find(x => x._id == id);
     if (message == undefined) { return; }
     message.files[0]['isload'] = true;
@@ -300,20 +292,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         let progress = 0;
         switch (event.type) {
           case HttpEventType.Sent:
-            console.log('Request has been made!');
             break;
           case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
             break;
           case HttpEventType.DownloadProgress:
-            console.log(event);
-            console.log(event.loaded , event.total);
             progress = Math.round(event.loaded / event.total * 100);
             message.files[0].progress = progress;
-            console.log(`Uploaded! ${progress}%`);
             break;
           case HttpEventType.Response:
-            console.log('File is completely uploaded!');
               const blob = new Blob([event.body], { type: 'application/ms-Excel' });
               const urlDownload = window.URL.createObjectURL(blob);
               const a = document.createElement('a');
@@ -328,7 +314,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
                 message.files[0]['isload'] = false;
                 message.files[0].progress = 0;
               }, 1500);
-            console.log('User successfully created!', event.body);
             
         }
       }, err => {message.files[0]['isload'] = false; });

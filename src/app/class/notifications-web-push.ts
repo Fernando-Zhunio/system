@@ -32,7 +32,7 @@ export class NotificationsWebPush {
       serverPublicKey: this.PUBLIC_KEY + _token,
     }).then((subscription) => {
       const token = JSON.parse(JSON.stringify(subscription));
-      console.log('**************** TOKEN **************', token);
+      // console.log('**************** TOKEN **************', token);
       this.storePushSubscription(token);
     }).catch((err) => {
       console.error('Could not subscribe to notifications', err);

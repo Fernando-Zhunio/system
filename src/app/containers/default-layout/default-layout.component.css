@@ -1,0 +1,54 @@
+button {
+    outline: none;
+}
+
+.dark {
+    color: gray
+}
+
+.not-dark {
+    color: goldenrod
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.bg-error {
+    background: red;
+    color: white
+}
+
+.custom-menu-notification {
+    height: 75vh
+}
+
+.custom-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.open-menu-chat {
+    margin-right: 250px;
+}
+
+.logo-chat {
+    width: 28px;
+}
+
+.chat-template {
+    position: fixed;
+    width: 250px;
+    right: 0;
+    z-index: 11111111111111111111111;
+    margin-right: 16px;
+    top: 58px;
+}
+
+@media screen and (max-width: 600px) {
+    .open-menu-chat {
+        margin-right: 0px;
+    }
+}

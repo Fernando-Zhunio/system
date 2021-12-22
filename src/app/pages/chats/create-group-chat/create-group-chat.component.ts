@@ -42,7 +42,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
     if ( this.status != 'edit' ) {
       this.users = new Map<any, IuserSystem>( data.data.map((item) => [item.id, item]));
     } else {
-      console.log(data);
       const _chat = data.chat as Ichats;
       this.nameGroup = _chat.name;
       this.img.base64 = _chat.img;
@@ -50,7 +49,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
       const participants = data.participants;
       this.users = new Map<any, IuserSystem>( data.users.data.map((item) => [item.id, item]));
       this.usersSelect = new Map<any, any>( participants.map((item) => [item.id, {...item, isAdmin: _chat.admins.includes(item._id)} ]));
-      console.log(this.usersSelect, this.users);
     }
   }
 
@@ -65,7 +63,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
   }
 
   addUser(user_id): void {
-    console.log(user_id);
     if (!this.usersSelect.has(user_id)) {
       const userAdd = this.users.get(user_id);
       userAdd['isAdmin'] = false;
@@ -97,7 +94,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
   }
 
   getDataForSendServer(): boolean|FormData {
-    console.log(this.usersSelect);
     if (this.usersSelect.size < 2 || !this.nameGroup || this.nameGroup.length < 3) {
       SwalService.swalFire({icon: 'error', text: 'Faltan campos por llenar \n 1. Debe tener un minimo de dos usuarios para ser un chat grupal\n 2. Debe tener un nombre de grupo', position: 'center'});
       return false;

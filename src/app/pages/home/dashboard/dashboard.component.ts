@@ -145,7 +145,6 @@ export class DashboardComponent implements OnInit {
       datesAll = { first_date: first_date, last_date: last_date };
       localStorage.setItem('dates_all', JSON.stringify(datesAll));
       this.dateRange = datesAll;
-      console.log(this.dateRange);
     } catch (e) {
       console.log(e);
       datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
@@ -378,7 +377,6 @@ export class DashboardComponent implements OnInit {
     if (page) {
       params = params.append('page', page.toString());
     }
-    console.log(params);
     return this.s_stardart.getWithHttpParams(`dashboard/stats/sum`, params);
   }
 

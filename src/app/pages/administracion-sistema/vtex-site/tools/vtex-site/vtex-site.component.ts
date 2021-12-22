@@ -14,7 +14,6 @@ export class VtexSiteComponent implements OnInit {
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit(): void {
-    console.log(this.vtexSite);
   }
 
   deleteVtexSite(): void {

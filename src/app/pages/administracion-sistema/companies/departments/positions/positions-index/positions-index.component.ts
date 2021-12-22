@@ -30,6 +30,5 @@ export class PositionsIndexComponent extends Crud<IPosition> implements OnInit {
   getData(data: any): void {
     this.department = data?.department;
     this.data = new Map<any, IPosition>( data.positions.data.map( (item: IPosition) => [item.id, item]));
-      console.log({data});
   }
 }

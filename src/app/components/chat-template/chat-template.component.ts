@@ -65,12 +65,10 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
        * All dependencies have been loaded and Channels is trying to connect.
        * The connection will also enter this state when it is trying to reconnect after a connection failure.
        */
-      console.log('connecting...');
       this.is_status_connect_chat = false;
     });
 
     this.echoChat.connector.pusher.connection.bind('state_change', (states) => {
-      console.log('state_change', states);
       // if (states.current === 'failed') {
       //   this.connectionChat();
       //   console.log('failed...');
@@ -88,12 +86,10 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       /**
        * The connection to Channels is open and authenticated with your app.
        */
-      console.log('connected!', payload);
       this.is_status_connect_chat = true;
       if (!this.first_connect) {
         this.first_connect = true;
       } else {
-        console.log('new connection');
         // this.onSelectChats(null);
         // if (this.chatsComponent.length > 0) {
         //   console.log(this.chatsComponent.length > 0);
@@ -170,7 +166,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   markDoDeliveryAll(): void {
     this.s_standard.updatePut('chats/mark-delivered', {}).subscribe(
       (res: any) => {
-        console.log(res);
       }
     );
   }
@@ -179,7 +174,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     SharedService.disabled_loader = true;
     this.s_standard.updatePut(`chats/${id}/mark-delivered`, {}).subscribe(
       (res: any) => {
-        console.log(res);
       }
     );
   }
@@ -205,7 +199,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   deleteMessage(event: { chat_id: string, message_id: string }) {
-    console.log('deleteMessage', event);
     if (this.chatsbubble.has(event.chat_id)) {
       const messages = this.chatsbubble.get(event.chat_id).messages;
       const indexMsm = messages.findIndex(msm => msm._id === event.message_id);
@@ -284,7 +277,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
     // * si no esta abierto el panel de chat suma uno en el icono del chat
-    console.log('getMessages', event);
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }
@@ -397,7 +389,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         if (data.data.data.length < 1) {
           return;
         }
-        console.log(data);
         data.data.data.map((x: IchatBot) => {
           const { _id, info } = x;
           this.bots.set(_id, { connected: 1, id: _id, name: info.name, person: null, data: null, img: info.photo, index: this.index, messages: [], typing: false, });
@@ -413,7 +404,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   typingUserListen(event): void {
     const _chat = this.chats.get(event.chat_id);
     _chat.typing = true;
-    console.log(event, this.chats.get(event.chat_id));
     const isChatBubble = this.chatsbubble.has(event.chat_id);
     if (isChatBubble) {
       const _chat_bubble = this.chatsbubble.get(event.chat_id);
@@ -427,7 +417,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
 
   openChatUser(user_id, key): void {
-    console.log({ key })
     if (this.chatsbubble.has(key)) {
       this.upBubble(key);
       return;
@@ -506,7 +495,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       // console.log(this.chatsbubble.entries());
 
       this.chatsbubble.set(chat.id, newChat);
-      console.log(this.chatsbubble);
 
     }
   }
@@ -565,7 +553,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         }]);
       });
       this.chats = new Map<string, IchatBubble>(_chat.map((x) => x));
-      console.log(this.chats);
     });
   }
 

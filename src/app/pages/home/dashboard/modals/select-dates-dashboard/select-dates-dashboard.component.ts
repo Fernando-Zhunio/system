@@ -34,7 +34,6 @@ export class SelectDatesDashboardComponent implements OnInit {
         this.daysDate1 = days;
         const old_date = new Date(moment(dates[0]).subtract(days + 1, 'days').format());
         const _date = new Date(moment(dates[0]).subtract(1, 'days').format());
-        console.log({ old_date, days, dates });
         this.airDate2.selectDate([old_date, _date]);
         this.airDate2.update({
           maxDate: _date,
@@ -69,7 +68,6 @@ export class SelectDatesDashboardComponent implements OnInit {
       return;
     }
     if (this.airDate1.selectedDates.length == 2 && this.airDate2.selectedDates.length == 2) {
-      console.log({first_date: this.airDate1.selectedDates, last_date: this.airDate2.selectedDates});
       const datesAll = {first_date: this.airDate1.selectedDates, last_date: this.airDate2.selectedDates};
       localStorage.setItem('dates_all', JSON.stringify(datesAll));
       this.dialogRef.close(datesAll);

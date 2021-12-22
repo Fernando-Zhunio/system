@@ -94,14 +94,14 @@
 
 @media screen and (max-width: 768px) {
   .chat-bubble-position-250 {
-    right: 0px;
+    right: 5px;
   }
   .chat-bubble-position-5 {
-    right: 0px;
+    right: 5px;
   }
 
   .chat-template {
-    width: 350px;
+    width: calc( 100% - 10px );
   }
 }
 

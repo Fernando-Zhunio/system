@@ -51,3 +51,14 @@
     opacity: 0; 
     cursor: pointer;
 }
+
+@media screen and (max-width: 600px) {
+    .grid-versus{
+        grid-template-columns: 100%;
+        gap: 10px;
+    }
+
+    .versus div {
+        flex-direction: column;
+    }
+}

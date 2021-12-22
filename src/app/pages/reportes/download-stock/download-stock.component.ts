@@ -48,8 +48,6 @@ export class DownloadStockComponent implements OnInit {
   }
 
   assignedDataOnInit(user_warehouses: any[]): void {
-    console.log(user_warehouses);
-    console.log(this.warehousesMap);
     
     user_warehouses.map((id: any) => {
       // console.log(id);
@@ -122,7 +120,6 @@ export class DownloadStockComponent implements OnInit {
     const warehouses_ids = this.allWarehouse ? ['all'] : Array.from(this.warehousesSelectsMap.keys());
     const sendData = {};
     sendData['warehouses_ids'] = warehouses_ids;
-    console.log(warehouses_ids);
     if (this.show_global_stock) { sendData['show_global_stock'] = true; }
 
     return sendData;

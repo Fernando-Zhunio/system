@@ -25,7 +25,6 @@ export class StandartSearchService {
   }
 
   getWithHttpParams(url, param: HttpParams): Observable<any> {
-   console.log(param);
     return this.http.get(this.end_point + url, {params: param});
   }
 

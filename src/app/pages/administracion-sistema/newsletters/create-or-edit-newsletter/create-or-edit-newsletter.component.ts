@@ -86,7 +86,6 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
 
   removeRol(id): void {
     const value = this.form.get('roles').value as [];
-    console.log({ value, id });
 
     const index = value.findIndex(x => x === id);
     value.splice(index, 1);

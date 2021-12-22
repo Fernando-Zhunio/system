@@ -84,7 +84,6 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
 
   setData(data: any): void {
     if (this.status === 'create') {
-      console.log(data);
       this.dataSource.data = data.tree;
     } else {
       this.company = data.company;

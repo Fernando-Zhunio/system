@@ -41,7 +41,6 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
         this.s_standart
           .create(`admin/vtex/${id}/warehouses/${this.idWarehouse}/edit`)
           .subscribe((res) => {
-            console.log(res);
             if (res && res.hasOwnProperty('success') && res.success) {
               this.assignDataForm(res.data.vtexWarehouse);
               this.warehouses = res.data.warehouses;
@@ -52,7 +51,6 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
         this.s_standart
           .create(`admin/vtex/${id}/warehouses/create`)
           .subscribe((res) => {
-            console.log(res);
             if (res && res.hasOwnProperty('success') && res.success) {
               this.isload = false;
               this.warehouses = res.data;
@@ -74,7 +72,6 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
         this.s_standart
           .store(`admin/vtex/${this.idSite}/warehouses`, this.form.value)
           .subscribe((res) => {
-            console.log(res);
             if (res && res.hasOwnProperty('success') && res.success) {
               this.router.navigate([
                 '/administracion-sistema/vtex-sites/', this.idSite , 'vtex-warehouses',
@@ -88,7 +85,6 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
         this.s_standart
           .updatePut(`admin/vtex/${this.idSite}/warehouses/${this.idWarehouse}`, this.form.value)
           .subscribe((res) => {
-            console.log(res);
             if (res && res.hasOwnProperty('success') && res.success) {
               this.router.navigate([
                 '/administracion-sistema/vtex-sites',

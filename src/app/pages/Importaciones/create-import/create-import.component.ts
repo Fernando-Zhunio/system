@@ -122,9 +122,6 @@ export class CreateImportComponent implements OnInit {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         const reader = new FileReader();
-
-        console.log(droppedFile);
-
         fileEntry.file((file: File) => {
         });
       } else {

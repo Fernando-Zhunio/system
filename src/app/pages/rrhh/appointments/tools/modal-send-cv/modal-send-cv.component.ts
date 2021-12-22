@@ -65,11 +65,9 @@ export class ModalSendCvComponent implements OnInit {
 
   searchWorks(event): void {
     const search = event.target.value;
-    console.log(search);
     const url = `rrhh/works`;
     this.isloadUser = true;
     this.s_standard.index(url, search).subscribe( res =>{
-      console.log(res);
       this.isloadUser = false;
       this.works = res.data.data;
     }, err => {
@@ -80,7 +78,6 @@ export class ModalSendCvComponent implements OnInit {
 
   captureUserFinalist(work_id: number): void {
     this.s_standard.index(`rrhh/work/${work_id}/requests`).subscribe( res => {
-      console.log(res);
       // this.dataSelectMap = res.data.map(x => {
       //   return x.user;
       // });
@@ -91,11 +88,9 @@ export class ModalSendCvComponent implements OnInit {
   saveInServer(): void {
     this.isload = true;
     const url = `rrhh/cv/users/emails`;
-    console.log(this.getDataForSend());
     const dataSend = this.getDataForSend();
     if (dataSend) {
       this.s_standard.store(url, dataSend).subscribe( res => {
-        console.log(res);
         SwalService.swalFire({title: 'Enviado', text: 'Se ha enviado el correo', icon: 'success'});
       });
     }

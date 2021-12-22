@@ -1,6 +1,6 @@
 .grid-fz {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 33.33%);
     grid-gap: 15px;
 }
 
@@ -26,7 +26,7 @@ h4{
 
 @media (max-width:600px) {
     .grid-fz {
-        grid-template-columns: 1fr;
+        grid-template-columns: 100%;
     }
     .temp {
         right: inherit;

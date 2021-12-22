@@ -149,11 +149,7 @@
 .comment-content {
     overflow-y: auto;
     overflow-x: hidden;
-    height: -webkit-fill-available;
-    height: -moz-available;
-    height: -ms-fill-available;
-    height: -o-fill-available;
-    height: fill-available;
+    /* height: fill-available; */
     max-height: 434px;
 
 }

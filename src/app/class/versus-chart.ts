@@ -57,7 +57,6 @@ export class VersusChart<DATA> implements IversusChart {
         this.isLoading = true;
         this.spinner.show('isload');
         this.s_standart.index(url).subscribe(res => {
-            console.log(res);
             this.data = new Map<number, DATA>(res.data.data.map((x) => [x.id, x]));
             this.isLoading = false;
             this.spinner.hide('isload');
@@ -86,19 +85,14 @@ export class VersusChart<DATA> implements IversusChart {
         const request = [];
         const keys = [];
         this.dataSelect.forEach((key, value) => {
-            console.log(key, value);
-            keys.push(value);
             request.push(this.s_standart.index(`${this.urlDashboard}?key=${this.key}&model_id=${value}&start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`));
         });
         forkJoin(request).subscribe((res: { data: { dates: Idates, previous_period_stats?: IcompareGraph[], selected_period_stats: IcompareGraph[], model_id: number } }[]) => {
-            console.log(res);
             this.chart.data.datasets = [];
             let count = 0;
-            console.log(keys);
             res.forEach((item) => {
                 const data = item.data;
                 const _data = data.selected_period_stats.map(item1 => item1.total);
-                console.log(_data);
                 this.chart.data.datasets.push(
                     { data: _data, label: this.dataSelect.get(data.model_id)['name'] as any, borderColor: this.ramdonColor(), borderWidth: 2, backgroundColor: this.ramdonColor() }
                 );

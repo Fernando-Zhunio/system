@@ -128,7 +128,6 @@ export class CreateOrEditComponent implements OnInit {
   assignPersonUser(person_id: number) {
     const old_person = this.person_current ? {old_person: this.person_current.id} : null;
     this.s_standart.updatePut('admin/user/' + this.userCurrent.id + '/people/' + person_id, old_person).subscribe((response) => {
-      console.log(response);
     });
   }
 
@@ -137,7 +136,6 @@ export class CreateOrEditComponent implements OnInit {
       data: {user, person: this.person_current},
       disableClose: true,
     }).beforeClosed().subscribe((res1) => {
-      // console.log(res1);
       if (res1) {
        this.assignPersonUser(res1.id);
        this.person_current = res1;
