@@ -1,9 +1,36 @@
 
 <div>
-    <div>
-        <h1 class="m-0">Chat Bots</h1>
+    <div class="my-2">
+        <h1 class="m-0">Chatbots</h1>
     </div>
     <div>
-        <app-search-template [url$]="url"></app-search-template>
+        <app-search-template [url$]="url" (data)="getData($event)">
+            <ng-container data>
+                <mat-card *ngFor="let chatbot of data | keyvalue" class="card rounded-fz border-0 shadow">
+                    <mat-card-header>
+                        <mat-card-title>{{chatbot.value?.info?.name}}</mat-card-title>
+                        <mat-card-subtitle>{{chatbot.value?.status}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img matCardImage [src]="chatbot.value?.info?.photo || 'assets/img/img_not_available.png'">
+                    <mat-card-content>
+                        <mat-chip-list>
+                            <mat-chip>Id chat: {{chatbot.value?._id}}</mat-chip>
+                            <mat-chip>Tipo: {{chatbot.value?.type}}</mat-chip>
+                        </mat-chip-list>
+                    </mat-card-content>
+                    <mat-card-actions align="start">
+                        <!-- <button mat-raised-button >Action1</button> -->
+                        <button mat-mini-fab [routerLink]="['../',chatbot.key,'edit']" routerLinkActive="router-link-active"  >
+                            <mat-icon >edit</mat-icon>
+                        </button>
+                        <button mat-mini-fab  color="warn">
+                            <mat-icon >delete</mat-icon>
+                        </button>
+                        
+                    </mat-card-actions>
+                </mat-card>
+            </ng-container>
+            
+        </app-search-template>
     </div>
 </div>

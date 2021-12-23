@@ -14,15 +14,15 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 // export class HomeMainComponents  {
 // }
 
-const permission_module = {
-  publicaciones: {
-    index: ['super-admin', 'catalogs.publications.index'],
-    show: ['super-admin', 'catalogs.publications.show'],
-    create: ['super-admin', 'catalogs.publications.create'],
-    edit: ['super-admin', 'catalogs.publications.edit'],
-    delete: ['super-admin', 'catalogs.publications.destroy']
-  },
-};
+// const permission_module = {
+//   publicaciones: {
+//     index: ['super-admin', 'catalogs.publications.index'],
+//     show: ['super-admin', 'catalogs.publications.show'],
+//     create: ['super-admin', 'catalogs.publications.create'],
+//     edit: ['super-admin', 'catalogs.publications.edit'],
+//     delete: ['super-admin', 'catalogs.publications.destroy']
+//   },
+// };
 
 const routes: Routes = [
   {
@@ -39,7 +39,6 @@ const routes: Routes = [
           {
             path: 'versus',
             loadChildren: () => import('./versus/versus.module').then(m => m.VersusModule),
-            // canActivate: [NgxPermissionsGuard],
           }
         ],
         data: {

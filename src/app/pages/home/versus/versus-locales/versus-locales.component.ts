@@ -16,7 +16,7 @@ export class VersusLocalesComponent extends VersusChart<Ilocation> implements On
   constructor( spinner: NgxSpinnerService,  s_standart: StandartSearchService) {
     super(spinner, s_standart);
   }
-  url = 'admin/locations';
+  url = 'dashboard/versus/locations';
   urlDashboard: string = 'dashboard/stats/graph';
   key: string = EkeyDashboard.location_sales;
 

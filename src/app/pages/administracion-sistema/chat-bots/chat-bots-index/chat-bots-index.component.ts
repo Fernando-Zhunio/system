@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
-import { IChatBot } from '../../../../interfaces/ichat-bot';
+import { IChatbot } from '../../../../interfaces/ichatbot';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 
@@ -10,7 +10,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
   templateUrl: './chat-bots-index.component.html',
   styleUrls: ['./chat-bots-index.component.css']
 })
-export class ChatBotsIndexComponent extends Crud<IChatBot> implements OnInit {
+export class ChatBotsIndexComponent extends Crud<IChatbot> implements OnInit {
 
   constructor( standardService: StandartSearchService, snackBar: MatSnackBar) {
     super(standardService, snackBar);
@@ -19,6 +19,13 @@ export class ChatBotsIndexComponent extends Crud<IChatBot> implements OnInit {
   url: string = 'admin/chatbot';
 
   ngOnInit(): void {
+  }
+
+  getData(event): void {
+    console.log(event);
+    this.data = new Map<any, IChatbot>(event.map( (item: IChatbot) => [item._id, item]));
+
+    
   }
 
 }

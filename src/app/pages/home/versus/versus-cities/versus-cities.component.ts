@@ -16,7 +16,7 @@ export class VersusCitiesComponent  extends VersusChart<Icity> implements OnInit
   constructor(spinner: NgxSpinnerService,  s_standart: StandartSearchService) {
     super(spinner, s_standart);
   }
-  url = 'admin/countries/1/cities';
+  url = 'dashboard/versus/countries/1/cities';
   urlDashboard: string = 'dashboard/stats/graph';
   key: string = EkeyDashboard.city_sales;
 

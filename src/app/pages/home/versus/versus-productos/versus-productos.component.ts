@@ -16,7 +16,7 @@ export class VersusProductosComponent extends VersusChart<Iproduct2> implements 
   constructor( spinner: NgxSpinnerService,  s_standart: StandartSearchService) {
     super(spinner, s_standart);
   }
-  url = 'catalogs/products';
+  url = 'dashboard/versus/products';
   urlDashboard: string = 'dashboard/stats/graph';
   key: string = EkeyDashboard.product_sales;
 

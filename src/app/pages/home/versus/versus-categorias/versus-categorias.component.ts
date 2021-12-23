@@ -17,7 +17,7 @@ export class VersusCategoriasComponent extends VersusChart<Icategory> implements
   constructor( spinner: NgxSpinnerService,  s_standart: StandartSearchService) {
     super(spinner, s_standart);
   }
-  url = 'products-admin/categories';
+  url = 'dashboard/versus/categories';
   urlDashboard: string = 'dashboard/stats/graph';
   key: string = EkeyDashboard.category_sales;
 
