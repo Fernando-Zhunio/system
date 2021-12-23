@@ -12,7 +12,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 })
 export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implements OnInit {
 
-  constructor( activated_route: ActivatedRoute, standardService: StandartSearchService, snackBar: MatSnackBar, router: Router) { 
+  constructor( activated_route: ActivatedRoute, standardService: StandartSearchService, snackBar: MatSnackBar, router: Router) {
     super(activated_route, standardService, router);
     // this.url = 'admin/chatbot';
   }
