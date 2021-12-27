@@ -1,60 +1,66 @@
 <span class="col-md-3 col-12 chat-template p-0">
   <mat-card class="shadow rounded-fz">
     <mat-card-header class="header-template-chat ">
-      <button class="btn-close-chat text-danger font-2xl" (click)="closeChat()">
-        <i class="far fa-times-circle"></i>
-      </button>
-      <button class="btn-modal" mat-icon-button (click)="openViewUsersGroupModal()">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <!-- <div
-        [ngStyle]="{'background-image': 'url('+chat.img || 'https://material.angular.io/assets/img/examples/shiba1.jpg'+')'}"
-        mat-card-avatar class="example-header-image border"></div> -->
         <img
         [src]="chat.img"
         mat-card-avatar class="example-header-image border"/>
-      <mat-card-title class="text-truncate mb-2 chat-font">{{chat?.name}}
-      </mat-card-title>
-      <mat-card-subtitle class="chat-font">
-        <ng-container *ngIf="chat?.data?.type != 'group';else TemplateGroup">
-          <ng-container *ngIf="!chat?.typing;else typingTemplate">
-            <span class="text-success"
-              *ngIf="chat?.connected; else TemplateOffline">
-              En linea
-            </span>
-            <ng-template #TemplateOffline>
-              <span *ngIf="chat?.data?.participants[0]?.last_seen" class="text-muted">{{chat?.data?.participants[0]?.last_seen | date:'medium'}}</span>
-            </ng-template>
-
-          </ng-container>
-          <ng-template #typingTemplate>
-            <span class="text-success">Escribiendo...</span>
-          </ng-template>
-          
-          
-        </ng-container>
-        <ng-template #TemplateGroup>
-          <mat-card-subtitle class="text-info text-truncate">
-            <ul class="text-truncate chat-font d-flex p-0">
-              <ng-container *ngFor="let participant of chat.data?.participants.slice(0,7);let i = index">
-                <div class="name-group list-unstyled mr-1">
-                  <ng-container *ngIf="i < 6; else TemplateMoreParticipants">
-                    <img class="img-avatar-mini" [src]="getPhoto(participant?.info?.photo)" alt="">
-                    <span class="text-truncate p-2 tooltip-fz font-facebook">
-                      <img class="rounded-circle " [src]="getPhoto(participant?.info?.photo)"
-                        alt="">{{participant?.info?.name}}
-                    </span>
-                  </ng-container>
-                  <ng-template #TemplateMoreParticipants>
-                    <div class="text-muted center h-100">+{{chat?.data?.participants?.length - 7}}</div>
-                  </ng-template>
-                </div>
+      <div class="chat-info-container d-flex justify-content-between">
+        <div class="chat-info">
+          <mat-card-title class="text-truncate mb-2 chat-font">{{chat?.name}}
+          </mat-card-title>
+          <mat-card-subtitle class="chat-font">
+            <ng-container *ngIf="chat?.data?.type != 'group';else TemplateGroup">
+              <ng-container *ngIf="!chat?.typing;else typingTemplate">
+                <span class="text-success"
+                  *ngIf="chat?.connected; else TemplateOffline">
+                  En linea
+                </span>
+                <ng-template #TemplateOffline>
+                  <span *ngIf="chat?.data?.participants[0]?.last_seen" class="text-muted">{{chat?.data?.participants[0]?.last_seen | date:'medium'}}</span>
+                </ng-template>
+    
               </ng-container>
-            </ul>
+              <ng-template #typingTemplate>
+                <span class="text-success">Escribiendo...</span>
+              </ng-template>
+              
+              
+            </ng-container>
+            <ng-template #TemplateGroup>
+              <mat-card-subtitle class="text-info text-truncate">
+                <ul class="text-truncate chat-font d-flex p-0">
+                  <ng-container *ngFor="let participant of chat.data?.participants.slice(0,7);let i = index">
+                    <div class="name-group list-unstyled mr-1">
+                      <ng-container *ngIf="i < 6; else TemplateMoreParticipants">
+                        <img class="img-avatar-mini" [src]="getPhoto(participant?.info?.photo)" alt="">
+                        <span class="text-truncate p-2 tooltip-fz font-facebook">
+                          <img class="rounded-circle " [src]="getPhoto(participant?.info?.photo)"
+                            alt="">{{participant?.info?.name}}
+                        </span>
+                      </ng-container>
+                      <ng-template #TemplateMoreParticipants>
+                        <div class="text-muted center h-100">+{{chat?.data?.participants?.length - 7}}</div>
+                      </ng-template>
+                    </div>
+                  </ng-container>
+                </ul>
+              </mat-card-subtitle>
+            </ng-template>
           </mat-card-subtitle>
-        </ng-template>
-      </mat-card-subtitle>
+        </div>
+        <div class="d-flex">
+          <!-- <button class="btn-close-chat text-danger font-2xl" (click)="closeChat()">
+            <i class="far fa-times-circle"></i>
+          </button> -->
+          <button mat-icon-button (click)="openViewUsersGroupModal()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="closeChat()"><mat-icon>close</mat-icon></button>
+        </div>
+      </div>
     </mat-card-header>
+
+
     <mat-card-content class="body-template-chat m-0">
       <div id="scroll-container" [scrollTop]="disableScroll ? scrollMe.scrollTop : scrollMe.scrollHeight"
         class="body-template-background-chat p-2" [infiniteScrollDisabled]="notMoreOldMessage" #scrollMe infiniteScroll
@@ -143,7 +149,10 @@
         </file-pond>
       </div>
       <div *ngIf="hasNewMessages" class="new-message">
-        <span (click)="scrollToBottom()" class="shadow p-2">Nuevos mensajes <i class="fas fa-arrow-down"></i></span>
+        <span (click)="scrollToBottom()" class="shadow p-2">Nuevos Mensajes<i class="fas fa-arrow-down"></i></span>
+      </div>
+      <div *ngIf="loadingMessages" class="new-message">
+        <span class="shadow p-2">Cargando mensajes espere ...</span>
       </div>
     </mat-card-content>
     <mat-card-actions  class="footer-template-chat position-relative align-items-center d-flex justify-content-between">

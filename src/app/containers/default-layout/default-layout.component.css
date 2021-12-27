@@ -42,7 +42,7 @@ button {
     position: fixed;
     width: 250px;
     right: 0;
-    z-index: 11111111;
+    z-index: 999;
     margin-right: 16px;
     top: 58px;
 }

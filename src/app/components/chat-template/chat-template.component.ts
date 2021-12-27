@@ -326,7 +326,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     audio.play();
   }
 
-  // * funcion que escucha si se emite un evento de que el usuario esta conectado o no
+  // * función que escucha si se emite un evento de que el usuario esta conectado o no
   getChatUserStatus(event: {
     event: string;
     user: { id: number; status: 'offline' | 'online'; _id: string, last_seen: string };
@@ -441,7 +441,8 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         // console.log({ _chat });
         _chat.data = res.chats;
         _chat.id = res.chats._id;
-        _chat.messages = data.data.messages.data.reverse();
+        _chat.messages = [];
+        // _chat.messages = data.data.messages.data.reverse();
         this.chatsbubble.set(_chat.id, _chat);
         _chat.index = this.index++;
         this.current_chat_id = _chat.id;
@@ -467,7 +468,8 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         const _chat = this.bots.get(bot_id);
         _chat.data = res.chats;
         _chat.id = res.chats._id;
-        _chat.messages = data.data.messages.data.reverse();
+        // _chat.messages = data.data.messages.data.reverse();
+        _chat.messages = [];
         _chat.index = this.index++;
         this.current_chat_id = _chat.id;
         this.chatsbubble.set(_chat.id, _chat);

@@ -35,7 +35,7 @@ export class CreateOrEdit<T> {
     edit() {
         this.isLoading = true;
         this.standard_service.show(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
-            this.setData(data.data);
+            this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
     }
@@ -43,7 +43,7 @@ export class CreateOrEdit<T> {
     create() {
         this.isLoading = true;
         this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
-            this.setData(data.data);
+            this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
     }
@@ -55,13 +55,13 @@ export class CreateOrEdit<T> {
     loaderDataForCreate() {
         this.isLoading = true;
         this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
-            this.setData(data.data);
+            this.setData(data?.data);
             this.isLoading = false;
         } , error => { this.isLoading = false; });
     }
 
-    setData(data) {
-        this.form.setValue(data);
+    setData(data = null) {
+        // this.form.setValue(data);
     }
 
     saveInServer() {

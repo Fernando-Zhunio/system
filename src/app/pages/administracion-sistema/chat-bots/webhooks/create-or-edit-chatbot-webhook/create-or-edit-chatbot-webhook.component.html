@@ -1,0 +1,13 @@
+<div>
+    <div>
+        <h1 class="m-0 mt-3 font-4xl"> {{title}}</h1>
+    </div>
+    <mat-card class="rounded-fz border-0 shadow mt-4">
+        <form [formGroup]="form">
+            <mat-form-field class="w-100">
+                <input matInput placeholder="Escriba el url" formControlName="endpoint">
+            </mat-form-field>
+            <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveInServer()">Guardar <mat-icon>save</mat-icon></button>
+        </form>
+    </mat-card>
+</div>

@@ -15,7 +15,7 @@
   position: absolute;
   top: 5px;
   right: 0px;
-  z-index: 999999;
+  z-index: 999;
 }
 
 .shadow-sm-img {

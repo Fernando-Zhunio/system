@@ -52,6 +52,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   disableScroll: boolean = false;
   attachments: { url: any; file: File, type: 'image' }[] = [];
   firstScroll: boolean = true;
+  loadingMessages: boolean = false;
   pondOptions: FilePondOptions = {
     allowMultiple: true,
     labelIdle: 'Arrastre o presione aqui',
@@ -80,6 +81,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     if (this.chat.data) {
       this.markReadMessage(this.chat.data._id);
+      this.loadingMessages = true;
       this.getMessages();
     }
       autosize(document.querySelectorAll('#textarea-chat'));
@@ -111,6 +113,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
           this.chat.messages = this.chat.messages.concat(data);
         }
         this.page++;
+        this.loadingMessages = false;
       });
   }
 

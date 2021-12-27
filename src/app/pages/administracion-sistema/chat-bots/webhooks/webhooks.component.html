@@ -1,0 +1,34 @@
+<div>
+    <div>
+        <h1 class="m-0 mt-3 font-4xl">Webhook de Chatbot - {{title}}</h1>
+    </div>
+    <div>
+        <app-search-template [url$]="url" (data)="getData($event)">
+            <ng-container menuBar>
+                <mat-chip-list class="ml-1">
+                    <mat-chip [routerLink]="['./create']">
+                        <mat-icon>add_circle_outline</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </ng-container>
+            <ng-container data>
+                <mat-card class="card shadow rounded-fz border-0" *ngFor="let webhook of data | keyvalue">
+                    <mat-card-content>
+                        <div class="card-body item-webhook font-lg">
+                            <div>_id: <span>{{webhook.value._id}}</span></div>
+                            <div>Endpoint: <span>{{webhook.value.endpoint}}</span></div>
+                            <div>Usuario id: <span>{{webhook.value.user_id}}</span></div>
+                            <div>Creado: <span>{{webhook.value.created_at | date}}</span></div>
+                            <div>Modificado: <span>{{webhook.value.updated_at | date}}</span></div>
+                        </div>
+                        <div>
+                            <button mat-mini-fab [routerLink]="['./', webhook.key, 'edit']" routerLinkActive="router-link-active"  color="primary"><mat-icon>edit</mat-icon></button>
+                            <button mat-mini-fab color="warn" (click)="deleteData(webhook.key)" ><mat-icon>delete</mat-icon></button>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </ng-container>
+            
+        </app-search-template>
+    </div>
+</div>

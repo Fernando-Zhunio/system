@@ -314,7 +314,7 @@ export class DataSidebar {
     },
     {
       name: 'Chat Bots',
-      url: '/administracion-sistema/chatbot/index',
+      url: '/administracion-sistema/chatbot',
       icon: 'icon-social-reddit',
       permission: 'admin.chatbot.index',
       tag: this.tags.admin_system,

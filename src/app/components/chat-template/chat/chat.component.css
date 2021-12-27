@@ -368,3 +368,12 @@
     top: 3px;
     right: -6px;
 }
+
+.chat-info{
+    width: calc(100% - 80px);
+}
+
+.chat-info-container{
+    width: calc(100% - 38px);
+}
+
