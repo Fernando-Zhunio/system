@@ -11,10 +11,11 @@
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
  
-
-*{
+* {
     line-height: 1;
+    font-family: Segoe ui, system-ui, sans-serif;
 }
+
 .chat-font {
     font-family: "Red Hat Display" !important;
     p {
@@ -152,10 +153,6 @@ canvas {
 
 .rounded-fz {
     border-radius: 20px !important;
-}
-
-* {
-    font-family: Segoe ui;
 }
 
 .border-dot {
