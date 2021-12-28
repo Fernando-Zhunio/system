@@ -47,6 +47,41 @@ button {
     top: 58px;
 }
 
+.progress-download {
+    line-height: 1;
+    font-family: 'Montserrat';
+    font-weight: 800;
+    position: absolute;
+    bottom: 18px;
+    left: 25px;
+    background: aqua;
+    display: inline-block;
+    height: 20px;
+    border-radius: 9px;
+    padding: 5px;
+    z-index: 1;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.search-page {
+    width: 300px;
+    border: none;
+    padding: 5px 10px;
+    border: 3px #dadada solid;
+    outline: none;
+}
+
+.search-page-container:active .container-search {
+    display: block;
+}
+
+
+
+.container-search {
+    max-height: 350px;
+    padding: 10px;
+    overflow: auto;
+}
 @media screen and (max-width: 600px) {
     .open-menu-chat {
         margin-right: 0px;

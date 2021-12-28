@@ -1,9 +1,9 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Session } from '../clases/session';
 import { User } from '../clases/user';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { Iperson } from '../interfaces/iperson';
+// import { Iperson } from '../interfaces/iperson';
 import { Cperson } from '../class/cperson';
 
 declare var require: any;

@@ -2,6 +2,20 @@
   [navbarBrandFull]="{src: imgCompany.url, width: imgCompany.size, height: imgCompany.size, alt: 'Novisolutions'}"
   [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
+  <div class="d-none d-md-block position-relative search-page-container">
+    <input (keydown)="searchPage($event)" (blur)="closeSearch()" type="search" class="search-page rounded-fz" placeholder="Buscar pagina">
+    <mat-card [hidden]="pageSearch.length < 1" class="position-absolute  w-100 z-indez-1020 rounded-fz shadow container-search">
+      <mat-selection-list [multiple]="false">
+        <mat-list-option (click)="goPage(item.route)" *ngFor="let item of pageSearch" class="text-truncate">
+          <div class="text-truncate">
+            {{item.title}}
+            <br><small>{{item.description}}</small>
+          </div>
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-card>
+
+  </div>
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none">
       <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -24,20 +38,7 @@
         </mat-icon>
 
         <ng-container *ngIf="isProgressDownloadReport">
-          <small style="line-height: 1;
-          font-family: 'Montserrat';
-          font-weight: 800;
-          position: absolute;
-          bottom: 18px;
-    left: 25px;
-    background: aqua;
-    display: inline-block;
-    height: 20px;
-    border-radius: 9px;
-    padding: 5px;
-    z-index: 1;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-    ">{{progressDownloadReport}}%</small>
+          <small class="progress-download">{{progressDownloadReport}}%</small>
         </ng-container>
 
       </button>

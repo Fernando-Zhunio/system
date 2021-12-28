@@ -102,7 +102,7 @@
 }
 
 .message-recept::after {
-    background-color: #efe5e0;
+    /* background-color: #efe5e0;
     content: '';
     width: 8px;
     height: 8px;
@@ -110,7 +110,16 @@
     left: -7px;
     bottom: 3px;
     box-shadow: 2px 3px 0px white;
-    border-radius: 50%;
+    border-radius: 50%; */
+    content: '';
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    left: 0px;
+    bottom: -6px;
+    border-style: solid;
+    border-width: 7px 22px 0px 0px;
+    border-color: white transparent transparent transparent;
 }
 
 .message-send {
@@ -132,7 +141,7 @@
 }
 
 .message-send::after {
-    background-color: #efe5e0;
+    /* background-color: #efe5e0;
     content: '';
     width: 8px;
     height: 8px;
@@ -140,7 +149,16 @@
     right: -8px;
     bottom: 4px;
     box-shadow: -4px 4px 0px #2f353a;
-    border-radius: 50%;
+    border-radius: 50%; */
+    content: '';
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    right: 0px;
+    bottom: -2px;
+    border-style: solid;
+    border-width: 0px 9px 2px 0;
+    border-color: transparent #2f353a transparent transparent;
 }
 
 .input-send-message {

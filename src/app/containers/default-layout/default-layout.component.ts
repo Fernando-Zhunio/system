@@ -18,6 +18,7 @@ import Echo from 'laravel-echo';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { HttpEventType } from '@angular/common/http';
 import { SwPush } from '@angular/service-worker';
+import { ListPermissions } from '../../class/list-permissions';
 
 @Component({
   selector: 'app-dashboard',
@@ -67,8 +68,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   countMessages: any = null;
   echo: Echo;
   user: any;
-
-  imgCompany: {size: string, url: string} = {size: '100%', url: 'assets/icons_custom/novisolutions.svg'};
+  searchBar: ListPermissions;
+  pageSearch: any[] = [];
+  imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
   ngOnInit(): void {
 
@@ -84,6 +86,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.getNotification();
     this.companiesGestion(this.user);
     this.suscribeNotifications(this.user);
+
   }
 
   ngOnDestroy(): void {
@@ -94,7 +97,23 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   setImgCompanies(): void {
-    this.imgCompany = window.innerWidth > 600 ?{ size: '100%', url: 'assets/icons_custom/novisolutions.svg'} : { size: '30px', url: 'assets/icons_custom/icon-512x512.png'};
+    this.imgCompany = window.innerWidth > 600 ? { size: '100%', url: 'assets/icons_custom/novisolutions.svg' } : { size: '30px', url: 'assets/icons_custom/icon-512x512.png' };
+  }
+
+
+  searchPage(event): void {
+    this.pageSearch = this.searchBar.searchRoute(event.target.value);
+    // console.log(event.target.value, this.pageSearch);
+  }
+
+  goPage(page): void {
+    this.route.navigate([page]);
+  }
+
+  closeSearch(): void {
+    setTimeout(() => {
+      this.pageSearch = [];
+    }, 500);
   }
 
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
@@ -108,7 +127,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   hasDarkTheme() {
     if (localStorage.getItem('isDark')) {
       this.onSetTheme({ checked: JSON.parse(localStorage.getItem('isDark')) });
-      this.isDark =  JSON.parse(localStorage.getItem('isDark'));
+      this.isDark = JSON.parse(localStorage.getItem('isDark'));
     }
   }
 
@@ -204,7 +223,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         const permissionAndRol = { rol: res.data.roles, permission: res.data.permissions };
         this.s_storage.setRolAndPermission(permissionAndRol);
         // console.log(permissionAndRol);
-
+        this.searchBar = new ListPermissions(this.s_storage);
         this.navItems = this.generateSideBarItems();
 
       }
@@ -257,7 +276,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.colorSidebarLeft = event.target.value;
     localStorage.setItem('color_sidebar_left', event.target.value);
   }
- 
+
   goRouteNotification(url: string): void {
     if (url && url.includes('reports/general-stock/download')) {
       this.downloadStock(url);
@@ -294,7 +313,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe((event: any) => {
         // console.log("descargando");
-        
+
         // const blob = new Blob([res], { type: 'application/ms-Excel' });
         // const urlDownload = window.URL.createObjectURL(blob);
         // const a = document.createElement('a');
@@ -312,29 +331,29 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           case HttpEventType.ResponseHeader:
             break;
           case HttpEventType.DownloadProgress:
-           
-            
+
+
             progress = Math.round(event.loaded / event.total * 100);
             this.progressDownloadReport = progress;
-           
+
             break;
           case HttpEventType.Response:
-           
-              const blob = new Blob([event.body], { type: 'application/ms-Excel' });
-              const urlDownload = window.URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              document.body.appendChild(a);
-              a.setAttribute('style', 'display: none');
-              a.href = urlDownload;
-              a.download = 'reporte_de_stock' + nameFile;
-              a.click();
-              window.URL.revokeObjectURL(urlDownload);
-              a.remove();
-              setTimeout(() => {
-                this.isProgressDownloadReport = false;
-                this.progressDownloadReport = 0;
-              }, 1500);
-        
+
+            const blob = new Blob([event.body], { type: 'application/ms-Excel' });
+            const urlDownload = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.setAttribute('style', 'display: none');
+            a.href = urlDownload;
+            a.download = 'reporte_de_stock' + nameFile;
+            a.click();
+            window.URL.revokeObjectURL(urlDownload);
+            a.remove();
+            setTimeout(() => {
+              this.isProgressDownloadReport = false;
+              this.progressDownloadReport = 0;
+            }, 1500);
+
         }
       }, (err) => { this.isProgressDownloadReport = false; });
   }
