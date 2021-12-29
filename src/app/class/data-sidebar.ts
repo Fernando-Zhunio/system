@@ -196,6 +196,13 @@ export class DataSidebar {
       permission: 'catalogs.publications.index',
       tag: this.tags.catalogs,
     },
+    {
+      name: 'Precios',
+      url: '/catalogo/products/prices',
+      icon: 'fas fa-dollar-sign',
+      permission: 'catalogs.publications.index',
+      tag: this.tags.catalogs,
+    },
     //#endregion
 
     //#region imports

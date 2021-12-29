@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CatalogoMainComponents, CatalogoRoutingModule } from './catalogo-routing.module';
+import { CatalogoRoutingModule } from './catalogo-routing.module';
 import { PublicacionesComponent } from './publicaciones/publicaciones.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,8 +20,6 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { MlComponent } from '../../components/ml/ml.component';
-import { MomentModule } from 'ngx-moment';
 import { MlModule } from '../../Modulos/ml/ml.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -31,21 +29,16 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
-// import { SwiperModule } from 'swiper/angular';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { RepublicarCuentasModalComponent } from '../../components/modals/republicar-cuentas-modal/republicar-cuentas-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RouteReuseStrategy } from '@angular/router';
-import { CustomReusingStrategy } from '../../class/custom-reusing-strategy';
-import { ConvertObjectToArrayPipe } from '../../pipes/convert-object-to-array.pipe';
-import { KeysObjectToArrayPipe } from '../../pipes/keys-object-to-array.pipe';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
 import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
 import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 import { TemplateSearchModule } from './../../Modulos/template-search/template-search.module';
 
 @NgModule({
-  declarations: [ RepublicarCuentasModalComponent, CatalogoMainComponents, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent],
+  declarations: [ RepublicarCuentasModalComponent, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent],
   imports: [
   CommonModule,
     CatalogoRoutingModule,

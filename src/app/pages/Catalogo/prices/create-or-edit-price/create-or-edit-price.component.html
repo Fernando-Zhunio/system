@@ -1,0 +1,22 @@
+<div>
+    <h1 class="font-facebook font-4xl mt-3 center justify-content-start"><button mat-mini-fab (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>&nbsp;{{title}}</h1>
+    <span class="lead">{{data?.name}}</span>
+
+    <mat-card class="border-0 shadow rounded-fz mt-3">
+        <form (ngSubmit)="saveInServer()" [formGroup]="form">
+            <mat-form-field>
+                <input matInput placeholder="Precio Mercado Libre" formControlName="price_group_1">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Precio Paginá Web" formControlName="price_group_2">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Precio Etiqueta" formControlName="price_group_3">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Precio Mayorista" formControlName="price_group_4">
+            </mat-form-field>
+            <button mat-raised-button color="primary" [disabled]="isLoading" type="submit">Guardar <mat-icon>save</mat-icon></button>
+        </form>
+    </mat-card>
+</div>

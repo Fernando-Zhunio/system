@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MercadoLibreMainComponents, MercadoLibreRoutingModule } from './mercado-libre-routing.module';
+import { MercadoLibreRoutingModule } from './mercado-libre-routing.module';
 import { MercadoLibreComponent } from './mercado-libre.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,7 +28,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
 
 
 @NgModule({
-  declarations: [MercadoLibreComponent, MercadoLibreMainComponents],
+  declarations: [MercadoLibreComponent],
   imports: [
     CommonModule,
     MercadoLibreRoutingModule,

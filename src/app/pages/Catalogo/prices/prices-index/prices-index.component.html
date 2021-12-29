@@ -1,0 +1,54 @@
+<div>
+    <h1 class="m-0 mt-3 font-4xl font-facebook"> Listado de precio</h1>
+    <div>
+        <app-search-template [filter_data]="{}" [url$]="url" (data)="getData($event)">
+            <ng-container data>
+                <mat-card class="card shadow rounded-fz border-0" *ngFor="let product of data | keyvalue">
+                    <mat-card-header>
+                        <mat-card-title>{{product.value.name}}</mat-card-title>
+                        <mat-card-subtitle>{{product.value.created_at | date}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img matCardImage [src]="product.value.image || 'assets/img/img_not_available.png'">
+                    <mat-card-content>
+                        <mat-chip-list>
+                            <mat-chip>Disponible: {{product.value.available}}</mat-chip>
+                            <mat-chip>Codigo: {{product.value.code}}</mat-chip>
+                        </mat-chip-list>
+                        <div class="my-2">
+                            <ng-container *ngIf="product.value.last_prices.length > 0;else createBtn">
+                                <div class=" p-md-3 shadow rounded-fz">
+                                    <div class="font-facebook border-bottom font-2xl">Precios</div>
+                                    <div *ngFor="let price of product.value.last_prices" class=" center my-1">
+                                        {{price.group.name}}:
+                                         <span class="bg-gray-300 rounded-fz p-1"><input type="text" [value]="price.full_price_formated">
+                                            <button><i class="far fa-times-circle"></i></button>
+                                        </span> </div>
+                                    <button mat-raised-button [routerLink]="['../',product.key,'prices','edit']"
+                                        selected color="accent">Editar precios </button>
+                                </div>
+                            </ng-container>
+                            <ng-template #createBtn>
+                                <button mat-raised-button [routerLink]="['../',product.key,'prices','create']" selected
+                                    color="warn">Agregar precios </button>
+
+                            </ng-template>
+
+                        </div>
+                    </mat-card-content>
+                    <!-- <mat-card-actions align="start">
+                        <button mat-button color="primary" [routerLink]="['./', product.key, 'edit']">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-button color="warn" (click)="deleteData(product.key)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button mat-button color="accent" [routerLink]="['./', product.key, 'departments']">
+                            <mat-icon>apartment</mat-icon>
+                        </button>   
+                    </mat-card-actions> -->
+                </mat-card>
+            </ng-container>
+
+        </app-search-template>
+    </div>
+</div>

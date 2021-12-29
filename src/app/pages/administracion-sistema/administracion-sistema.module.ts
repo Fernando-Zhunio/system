@@ -115,8 +115,6 @@ import { CreateOrEditPositionComponent } from './companies/departments/positions
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    ConvertsModule,
-    FormsModule,
     ReactiveFormsModule,
     HeaderSearchModule,
     MatPaginatorModule,

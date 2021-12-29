@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StandartSearchService } from '../services/standart-search.service';
@@ -15,6 +15,7 @@ export class CreateOrEdit<T> {
     public params = null;
     public isFormParams: boolean = false;
     public key_param = 'id';
+    public location: Location;
     constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
     }
 
@@ -120,7 +121,9 @@ export class CreateOrEdit<T> {
 
     go() { }
     getDataForSendServer(): any { }
-
+    goBack() {
+        this.location.back();
+    }
 
 
 

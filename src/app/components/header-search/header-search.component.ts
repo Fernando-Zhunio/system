@@ -1,4 +1,5 @@
 
+import { Location } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -35,7 +36,8 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private s_standard: StandartSearchService,
-    private active_route: ActivatedRoute
+    private active_route: ActivatedRoute,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -137,5 +139,9 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     ) {
       this.searchBar();
     }
+  }
+
+  goBack(): void {
+    this._location.back();
   }
 }

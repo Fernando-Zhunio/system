@@ -8,12 +8,12 @@ import { ShowPublicationComponent } from './publicaciones/show-publication/show-
 import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
 import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 
-@Component({
-  selector: 'app-catalogo',
-  template: '<router-outlet></router-outlet>',
-})
-export class CatalogoMainComponents  {
-}
+// @Component({
+//   selector: 'app-catalogo',
+//   template: '<router-outlet></router-outlet>',
+// })
+// export class CatalogoMainComponents  {
+// }
 
 const permission_module = {
   publicaciones: {
@@ -26,13 +26,7 @@ const permission_module = {
 };
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CatalogoMainComponents,
-    data: {name: 'catalogo_main'},
-    children: [
-      {
-        path: 'mercado-libre',
+       { path: 'mercado-libre',
         data: {name: 'mercado_libre_ll'},
         // component:MarcasMainComponents,
         loadChildren: () => import('./mercado-libre/mercado-libre.module').then(m => m.MercadoLibreModule),
@@ -119,9 +113,11 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
       },
-
-    ]
-  }
+      {
+        path: 'products',
+        data: {name: 'prices'},
+        loadChildren: () => import('./prices/prices.module').then(m => m.PricesModule),
+      }
 ];
 
 @NgModule({

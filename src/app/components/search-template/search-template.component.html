@@ -5,7 +5,7 @@
 
 </app-header-search>
 
-<div *ngIf="isload" class="mt-4 card-columns">
+<div  [ngStyle]="{'column-count': columns}" *ngIf="isload" class="mt-4 card-columns">
   <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
     <ngx-skeleton-loader count="1" [theme]="{
       'border-radius': '20px',
@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<div *ngIf="!isload;" class="mt-4 card-columns">
+<div *ngIf="!isload;" [ngStyle]="{'column-count': columns}" class="mt-4 card-columns">
   <ng-content select="[data]"></ng-content>
 </div>
 
