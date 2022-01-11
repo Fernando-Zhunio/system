@@ -12,9 +12,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { CreateOrEditPriceComponent } from './create-or-edit-price/create-or-edit-price.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ModalListPricesComponent } from './tools/modal-list-prices/modal-list-prices.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [PricesIndexComponent, CreateOrEditPriceComponent],
+  declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -27,7 +31,11 @@ import { CreateOrEditPriceComponent } from './create-or-edit-price/create-or-edi
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    MatChipsModule
-  ]
+    MatChipsModule,
+    MatSidenavModule,
+    MatProgressSpinnerModule,
+    MatDialogModule
+  ],
+  entryComponents: [ModalListPricesComponent]
 })
 export class PricesModule { }

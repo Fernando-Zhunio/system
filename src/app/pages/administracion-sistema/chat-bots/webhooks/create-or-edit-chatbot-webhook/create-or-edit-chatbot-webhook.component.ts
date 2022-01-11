@@ -13,7 +13,7 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 })
 export class CreateOrEditChatbotWebhookComponent extends CreateOrEdit<IChatWebhook> implements OnInit {
 
-  constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router, private location: Location) {
+  constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router, public location: Location) {
     super(act_router, standard_service, router);
     this.urlSave = `admin/chatbot/${this.getId('chatbot_id')}/webhooks`;
   }

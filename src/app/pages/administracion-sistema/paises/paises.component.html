@@ -26,18 +26,6 @@
             <mat-cell *matCellDef="let element"> {{element.created_at}}
             </mat-cell>
         </ng-container>
-
-        <!-- <ng-container matColumnDef="roles">
-            <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.roles[0]?.name}} </mat-cell>
-        </ng-container> -->
-
-        <!-- <ng-container matColumnDef="last_activity">
-            <mat-header-cell *matHeaderCellDef> Ultima actividad </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.last_activity | amLocale:'es' | amTimeAgo}}
-            </mat-cell>
-        </ng-container> -->
-
         <ng-container matColumnDef="acciones">
             <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
             <mat-cell *matCellDef="let element;let ind = index">
@@ -47,6 +35,8 @@
                 <button mat-icon-button color="warn" *ngxPermissionsOnly="permission_destroy" (click)="deleteItem(element.id)">
         <mat-icon>delete</mat-icon>
       </button>
+      <mat-chip [selected]="true" [routerLink]="['./',element.id, 'ciudades']" routerLinkActive="router-link-active"  color="accent">Ver cuidades</mat-chip>
+
             </mat-cell>
         </ng-container>
         <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>

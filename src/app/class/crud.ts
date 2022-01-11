@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
-export class Crud<T> {
+export abstract class Crud<T> {
   router: Router;
   constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar) { }
   url: string;

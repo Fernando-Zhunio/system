@@ -66,6 +66,8 @@ import {MatTreeModule} from '@angular/material/tree';
 import { MatRadioModule } from '@angular/material/radio';
 import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
 import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
+import { CitiesIndexComponent } from './paises/cities/cities-index/cities-index.component';
+import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/index-with-mat-table.module';
 @NgModule({
   declarations: [
     CreateEmailModalComponent,
@@ -101,6 +103,7 @@ import { CreateOrEditPositionComponent } from './companies/departments/positions
     CreateOrEditDepartmentComponent,
     PositionsIndexComponent,
     CreateOrEditPositionComponent,
+    CitiesIndexComponent,
     ],
   imports: [
     CommonModule,
@@ -136,7 +139,8 @@ import { CreateOrEditPositionComponent } from './companies/departments/positions
     SearchTemplateModule,
     MatTreeModule,
     MatRadioModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    IndexWithMatTableModule
   ],
 
   entryComponents: [

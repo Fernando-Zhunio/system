@@ -10,10 +10,16 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
- 
+
 * {
     line-height: 1;
     font-family: Segoe ui, system-ui, sans-serif;
+}
+
+.app, app-dashboard, app-root {
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh !important;
 }
 
 .chat-font {
@@ -56,7 +62,7 @@ a{
         font-weight: 500;
         font-size: 14px;
         margin: 0 !important;
-    
+
 }
 
 .font-montserrat {

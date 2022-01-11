@@ -14,12 +14,14 @@ export class ConfirmCodeGuard implements Resolve<Iresponse> {
     const token = route.params.token;
     return this.s_standart.show('auth/email-two-factor/' + token).pipe(
       map((res) => {
+        console.log(res);
         if (res.success) {
           route.queryParams = null;
         }
         return res;
       }),
       catchError((res) => {
+        console.log(res);
         this.router.navigate(['login']);
         return EMPTY;
       })

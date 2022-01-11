@@ -1,54 +1,95 @@
-<div>
-    <h1 class="m-0 mt-3 font-4xl font-facebook"> Listado de precio</h1>
-    <div>
-        <app-search-template [filter_data]="{}" [url$]="url" (data)="getData($event)">
-            <ng-container data>
-                <mat-card class="card shadow rounded-fz border-0" *ngFor="let product of data | keyvalue">
-                    <mat-card-header>
-                        <mat-card-title>{{product.value.name}}</mat-card-title>
-                        <mat-card-subtitle>{{product.value.created_at | date}}</mat-card-subtitle>
-                    </mat-card-header>
-                    <img matCardImage [src]="product.value.image || 'assets/img/img_not_available.png'">
-                    <mat-card-content>
-                        <mat-chip-list>
-                            <mat-chip>Disponible: {{product.value.available}}</mat-chip>
-                            <mat-chip>Codigo: {{product.value.code}}</mat-chip>
-                        </mat-chip-list>
-                        <div class="my-2">
-                            <ng-container *ngIf="product.value.last_prices.length > 0;else createBtn">
-                                <div class=" p-md-3 shadow rounded-fz">
-                                    <div class="font-facebook border-bottom font-2xl">Precios</div>
-                                    <div *ngFor="let price of product.value.last_prices" class=" center my-1">
-                                        {{price.group.name}}:
-                                         <span class="bg-gray-300 rounded-fz p-1"><input type="text" [value]="price.full_price_formated">
-                                            <button><i class="far fa-times-circle"></i></button>
-                                        </span> </div>
-                                    <button mat-raised-button [routerLink]="['../',product.key,'prices','edit']"
-                                        selected color="accent">Editar precios </button>
-                                </div>
-                            </ng-container>
-                            <ng-template #createBtn>
-                                <button mat-raised-button [routerLink]="['../',product.key,'prices','create']" selected
-                                    color="warn">Agregar precios </button>
 
-                            </ng-template>
 
-                        </div>
-                    </mat-card-content>
-                    <!-- <mat-card-actions align="start">
-                        <button mat-button color="primary" [routerLink]="['./', product.key, 'edit']">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-button color="warn" (click)="deleteData(product.key)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        <button mat-button color="accent" [routerLink]="['./', product.key, 'departments']">
-                            <mat-icon>apartment</mat-icon>
-                        </button>   
-                    </mat-card-actions> -->
-                </mat-card>
-            </ng-container>
+<div class="w-100">
+  <mat-drawer-container style="position: inherit;" class="example-container bg-transparent">
+    <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+      <button mat-mini-fab class="btn-close-modify-price" (click)="drawer.toggle()"><mat-icon>close</mat-icon></button>
+      <div ><h2 class="font-facebook font-2x1 list-group-item-accent-warning text-muted pl-2">{{dataPriceModify?.name}}</h2></div>
+      <div>
+        <div class="text-center" *ngIf="dataPriceModify.isLoading; else templateModifyPrice">
+          <div class="text-center">Cargando espere...</div><br>
+          <mat-spinner ></mat-spinner>
+        </div>
+        <ng-template #templateModifyPrice>
+          <div class="d-flex justify-content-center">
+              <form (ngSubmit)="saveInServer()" [formGroup]="form">
+                <div class=" font-xl">Antes de impuestos</div>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Mercado Libre" (keyup)="addOrRemoveTax('price_group_1')" formControlName="price_group_1">
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Paginá Web" (keyup)="addOrRemoveTax('price_group_2')" formControlName="price_group_2">
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Etiqueta" (keyup)="addOrRemoveTax('price_group_3')" formControlName="price_group_3">
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Mayorista" (keyup)="addOrRemoveTax('price_group_4')" formControlName="price_group_4">
+                  </mat-form-field>
 
-        </app-search-template>
+                  <div class=" font-xl">Despues de impuestos</div>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Mercado Libre" (keyup)="addOrRemoveTax('price_group_1', true)" formControlName="tax_price_group_1">
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Paginá Web" (keyup)="addOrRemoveTax('price_group_2', true)" formControlName="tax_price_group_2">
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Etiqueta" (keyup)="addOrRemoveTax('price_group_3', true)" formControlName="tax_price_group_3">
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input autocomplete="off" matInput type="number" placeholder="Precio Mayorista" (keyup)="addOrRemoveTax('price_group_4', true)" formControlName="tax_price_group_4">
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" [disabled]="isLoadingNewPrice" type="submit">Guardar <mat-icon>save</mat-icon></button>
+              </form>
+          </div>
+        </ng-template>
+      </div>
+    </mat-drawer>
+
+    <mat-drawer-content class="example-sidenav-content w-100">
+      <div>
+        <h1 class="m-0 mt-3 font-4xl font-facebook">Listado de precio</h1>
+        <div>
+            <app-search-template [filter_data]="{}" [url$]="url" (data)="getData($event)">
+                <ng-container data>
+                    <mat-card class="card shadow rounded-fz border-0" *ngFor="let product of data | keyvalue">
+                        <mat-card-header>
+                            <mat-card-title>{{product.value.name}}</mat-card-title>
+                            <mat-card-subtitle>{{product.value.created_at | date}}</mat-card-subtitle>
+                        </mat-card-header>
+                        <img matCardImage [src]="product.value.image || 'assets/img/img_not_available.png'">
+                        <mat-card-content>
+                            <mat-chip-list>
+                                <mat-chip>Disponible: {{product.value.available}}</mat-chip>
+                                <mat-chip>Codigo: {{product.value.code}}</mat-chip>
+                            </mat-chip-list>
+                            <div class="my-2">
+                                <ng-container *ngIf="product.value?.last_prices?.length > 0;else createBtn">
+                                    <div class="font-italic p-md-3 shadow rounded-fz">
+                                        <div class="font-facebook border-bottom font-2xl">Precios</div>
+                                        <div *ngFor="let price of product.value.last_prices" class=" my-1">
+                                            {{price.group.name}}:
+                                             <mat-chip>${{price.full_price_formated}}</mat-chip> </div>
+                                        <button mat-mini-fab  (click)="openSidenavPriceForEdit(product.key)"
+                                        color="accent"><mat-icon>edit</mat-icon></button>
+                                        <button color="primary" (click)="openDialogListPrices(product.key)" mat-mini-fab><mat-icon>format_list_bulleted</mat-icon></button>
+                                    </div>
+                                </ng-container>
+                                <ng-template #createBtn>
+                                    <button mat-mini-fab (click)="openSidenavPriceForCreate(product.key)"
+                                    color="warn"><mat-icon>add</mat-icon></button>
+                                </ng-template>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-container>
+
+            </app-search-template>
+        </div>
     </div>
+    </mat-drawer-content>
+
+  </mat-drawer-container>
+
 </div>

@@ -1,0 +1,69 @@
+<app-header-search [placeholder]="placeholder" (isload)="isLoading = $event" [url]="url" (products)="loadData($event)">
+</app-header-search>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container *ngFor="let item of itemRows" [matColumnDef]="item.key">
+    <mat-header-cell *matHeaderCellDef>{{item.title}}</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span *ngIf="!element?.isEditable || !item.isEditable; else editableTemplate">
+        {{element[item.key]}}
+      </span>
+      <ng-template #editableTemplate>
+        <input [placeholder]="item.title" class="input-editable" type="text" [(ngModel)]="element[item.key]" />
+      </ng-template>
+    </mat-cell>
+  </ng-container>
+
+  <!-- <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Pais</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="code">
+          <mat-header-cell *matHeaderCellDef>Codigo</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="created_at">
+          <mat-header-cell *matHeaderCellDef> Creado </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.created_at}}
+          </mat-cell>
+      </ng-container> -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+    <mat-cell *matCellDef="let element;let ind = index">
+      <ng-container *ngIf="!element?.isEditable; else editableTemplateBtn">
+        <button *ngxPermissionsOnly="permissions.edit" mat-icon-button color="primary"
+          (click)="onClickEditItem(element.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-container>
+      <ng-template #editableTemplateBtn>
+        <button color="warn" *ngxPermissionsOnly="permissions.edit" mat-icon-button
+          (click)="onClickEditItem(element.id, true)">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button  *ngxPermissionsOnly="permissions.edit" mat-icon-button
+        (click)="saveInServer(element.id,element?.isCreating)">
+        <mat-icon>save</mat-icon>
+      </button>
+      </ng-template>
+
+      <button [hidden]="element?.isCreating" mat-icon-button color="warn" *ngxPermissionsOnly="permissions.destroy"
+        (click)="onClickDestroyItem(element.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<!-- <mat-paginator #matPaginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator> -->
+<mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)"
+  showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
+  [pageIndex]="paginator.current_page-1"></mat-paginator>
+
+<button [disabled]="isCreating" *ngxPermissionsOnly="permissions.create" mat-fab style="position: fixed;bottom: 10px;right: 10px;"
+  (click)="onClickCreateItem()">
+  <mat-icon>add</mat-icon>
+</button>

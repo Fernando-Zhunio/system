@@ -21,7 +21,7 @@ import { PostInstagramComponent } from '../components/post-instagram/post-instag
     MatMenuModule,
     MatButtonModule,
     CarouselModule
-   
+
   ],
   exports: [PostFacebookComponent,PostInstagramComponent ]
 })

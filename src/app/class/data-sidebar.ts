@@ -200,7 +200,7 @@ export class DataSidebar {
       name: 'Precios',
       url: '/catalogo/products/prices',
       icon: 'fas fa-dollar-sign',
-      permission: 'catalogs.publications.index',
+      permission: 'catalogs.products.prices.index',
       tag: this.tags.catalogs,
     },
     //#endregion
