@@ -1,4 +1,4 @@
-<app-header-search [active_filters_menu]="active_filters_menu" [filter_data]="filter_data" [placeholder]="placeholder" (isload)="isload = $event" [url]="url$"
+<app-header-search [init]="init" [active_filters_menu]="active_filters_menu" [filter_data]="filter_data" [placeholder]="placeholder" (isload)="isload = $event" [url]="url$"
 (products)="loadData($event)">
 <ng-content select="[menuBar]"></ng-content>
 <ng-content filterMenu select="[filterMenu]"></ng-content>

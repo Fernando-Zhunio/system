@@ -33,9 +33,9 @@ export interface IProductPrice {
     created_at: string;
     updated_at: string;
     full_price_formated: string;
-    group?: Group;
+    group?: IPriceGroup;
   }
-  export interface Group {
+  export interface IPriceGroup {
     id: number;
     type: string;
     name: string;

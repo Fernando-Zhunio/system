@@ -1,4 +1,5 @@
 // import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
@@ -8,6 +9,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { ActivatedRoute, Router } from '@angular/router';
 import collect from 'collect.js';
 // import { MatSelectionList, MatSelectionListChange } from "@angular/material/list";
@@ -39,8 +41,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   ml_accounts: Iaccount[] = [];
   arrayImagen = [];
   id: number = 1;
-  // publication_current;
-
   formName: FormGroup = new FormGroup({
     name: new FormControl(null, Validators.required),
   });
@@ -82,7 +82,8 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   isEditNamePublication: boolean = true;
   suscription_predictor: Subscription;
   suscription_attribute: Subscription;
-  // aditional_data:any;
+  categories: any[] = [];
+
   ngOnInit(): void {
     this.s_catalogo.create_publications().subscribe((res) => {
       this.ml_accounts = res.ml_accounts;
@@ -464,4 +465,40 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       });
     }
   }
+
+
+
+
+  // private _transformer = (node: FoodNode, level: number) => {
+  //   return {
+  //     expandable: !!node.children && node.children.length > 0,
+  //     name: node.name,
+  //     level: level,
+  //   };
+  // }
+
+  // constructor() {
+  //   this.dataSource.data = TREE_DATA;
+  // }
+
+//   treeControl = new FlatTreeControl<ExampleFlatNode>(
+//       node => node.level, node => node.expandable);
+
+//   treeFlattener = new MatTreeFlattener(
+//       this._transformer, node => node.level, node => node.expandable, node => node.children);
+
+//   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+  
+//     // this.dataSource.data = TREE_DATA;
+  
+
+//   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+// }
+
+// interface ExampleFlatNode {
+//   expandable: boolean;
+//   name: string;
+//   level: number;
+// }
 }

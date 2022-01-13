@@ -8,16 +8,16 @@
       <div>
         <div class="text-center" *ngIf="dataPriceModify.isLoading; else templateModifyPrice">
           <div class="text-center">Cargando espere...</div><br>
-          <mat-spinner ></mat-spinner>
+          <mat-spinner></mat-spinner>
         </div>
         <ng-template #templateModifyPrice>
           <div class="d-flex justify-content-center">
               <form (ngSubmit)="saveInServer()" [formGroup]="form">
                 <div class=" font-xl">Antes de impuestos</div>
-                  <mat-form-field>
-                      <input autocomplete="off" matInput type="number" placeholder="Precio Mercado Libre" (keyup)="addOrRemoveTax('price_group_1')" formControlName="price_group_1">
+                  <mat-form-field *ngFor="let group of pricesGroup">
+                      <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name" (keyup)="addOrRemoveTax(group.id)" [formControlName]="'price_group_'+group.id">
                   </mat-form-field>
-                  <mat-form-field>
+                  <!-- <mat-form-field>
                       <input autocomplete="off" matInput type="number" placeholder="Precio Paginá Web" (keyup)="addOrRemoveTax('price_group_2')" formControlName="price_group_2">
                   </mat-form-field>
                   <mat-form-field>
@@ -25,13 +25,13 @@
                   </mat-form-field>
                   <mat-form-field>
                       <input autocomplete="off" matInput type="number" placeholder="Precio Mayorista" (keyup)="addOrRemoveTax('price_group_4')" formControlName="price_group_4">
-                  </mat-form-field>
+                  </mat-form-field> -->
 
                   <div class=" font-xl">Despues de impuestos</div>
-                  <mat-form-field>
-                      <input autocomplete="off" matInput type="number" placeholder="Precio Mercado Libre" (keyup)="addOrRemoveTax('price_group_1', true)" formControlName="tax_price_group_1">
+                  <mat-form-field *ngFor="let group of pricesGroup">
+                      <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name" (keyup)="addOrRemoveTax(group.id, true)" [formControlName]="'tax_price_group_'+group.id">
                   </mat-form-field>
-                  <mat-form-field>
+                  <!-- <mat-form-field>
                       <input autocomplete="off" matInput type="number" placeholder="Precio Paginá Web" (keyup)="addOrRemoveTax('price_group_2', true)" formControlName="tax_price_group_2">
                   </mat-form-field>
                   <mat-form-field>
@@ -39,7 +39,7 @@
                   </mat-form-field>
                   <mat-form-field>
                       <input autocomplete="off" matInput type="number" placeholder="Precio Mayorista" (keyup)="addOrRemoveTax('price_group_4', true)" formControlName="tax_price_group_4">
-                  </mat-form-field>
+                  </mat-form-field> -->
                   <button mat-raised-button color="primary" [disabled]="isLoadingNewPrice" type="submit">Guardar <mat-icon>save</mat-icon></button>
               </form>
           </div>

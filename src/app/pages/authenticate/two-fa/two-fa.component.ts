@@ -48,11 +48,8 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     const data = this.active_router.snapshot.data.response.data;
     this.user = data.user;
     this.token = data.token.token;
-    const time_active = data.token.active;
-    const fecha2 = new Date();
-    const fecha1 = new Date(time_active);
-    const resta = Math.round((fecha2.getTime() - fecha1.getTime()) / 1000);
-    this.config.leftTime = 300 - resta;
+
+    this.config.leftTime = 300 - data.time_sub;
 
     // const time_rest = (300 - resta) / 60;
     // const min = Math.trunc(time_rest);
@@ -86,6 +83,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
 
   handleEvent(event) {
     if (event.action === 'done') {
+      SwalService.swalToast('Tiempo agotado', 'warning');
       this.router.navigate(['/login']);
     }
   }

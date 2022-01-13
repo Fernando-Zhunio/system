@@ -17,6 +17,7 @@ export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements On
   @Input() filter_data: object = {};
   @Input() placeholder: string = 'Buscador';
   @Input() url$: string;
+  @Input() init: boolean = true;
   @Input() active_filters_menu: boolean = false;
   @Input() key_paginator: string = null;
   @Input() columns = 4;
