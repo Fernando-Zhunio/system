@@ -1,0 +1,28 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <!-- This is the tree node template for leaf nodes -->
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        <!-- <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        </button> -->
+        <!-- {{node.name}} -->
+        <mat-chip (click)="selectedItem(node)">{{node.name}}</mat-chip>
+        <!-- <mat-progress-bar ></mat-progress-bar> -->
+    </mat-tree-node>
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+        <button *ngIf="node.expandable" mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        </button>
+
+            <mat-chip (click)="selectedItem(node)">{{node.name}}</mat-chip>
+        <mat-progress-bar *ngIf="node.isLoading"
+                      mode="indeterminate"
+                      class="example-tree-progress-bar"></mat-progress-bar>
+    </mat-tree-node>
+</mat-tree>

@@ -24,6 +24,7 @@ import { environment } from '../../../../../environments/environment';
 import { Iaccount } from '../../../../interfaces/iml-info';
 import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
 import { Ipublication } from '../../../../interfaces/ipublication';
+import { ICategoriesParent } from '../../../../Modulos/tools/list-tree-dynamic/list-tree-dynamic.component';
 import { CatalogoService } from '../../../../services/catalogo.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -53,7 +54,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     private s_catalogo: CatalogoService,
     private spinner_ngx: NgxSpinnerService,
     private router: Router
-  ) {}
+  ) { }
 
   url_server: string = environment.server_img;
   formPublication: FormGroup = new FormGroup({
@@ -78,7 +79,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   options: any;
   isLoadPosition: boolean = false;
   isLoadPublication: boolean = false;
-  isSelectCategory: boolean;
+  // isSelectCategory: boolean;
   isEditNamePublication: boolean = true;
   suscription_predictor: Subscription;
   suscription_attribute: Subscription;
@@ -109,12 +110,12 @@ export class CreateOrEditPublicacionComponent implements OnInit {
               response.hasOwnProperty('success') &&
               response.success
             ) {
-              this.isEditNamePublication = false;
+              // this.isEditNamePublication = false;
               if (response?.data?.publication?.images && response?.data?.publication?.images.length > 0) {
                 const collection = collect(response.data.publication.images);
                 const sorted = collection.sortBy('position');
                 response.data.publication.images = sorted.all();
-               }
+              }
               this.publication = response.data.publication as Ipublication;
               this.setDataFormPublication();
               this.spinner_ngx.hide();
@@ -356,7 +357,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
           }
         );
     } else {
-      SwalService.swalToast('Complete todos los campos requeridos (en rojo)','error')
+      SwalService.swalToast('Complete todos los campos requeridos (en rojo)', 'error')
     }
   }
 
@@ -466,39 +467,27 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     }
   }
 
+  openSideBarCategories(): void {
+  }
 
+  selectedCategories(categories: ICategoriesParent): void {
+    this.optionsTitle = [
+      {
+        attributes: [],
+        category_id: categories.id,
+        category_name: categories.name,
+        domain_id: null,
+        domain_name: null,
+      }
+    ];
+    this.formPublication.get('category').setValue(categories.id);
 
+    this.getAttributes(categories.id, true);
+  }
 
-  // private _transformer = (node: FoodNode, level: number) => {
-  //   return {
-  //     expandable: !!node.children && node.children.length > 0,
-  //     name: node.name,
-  //     level: level,
-  //   };
-  // }
+  isOpenCategoriesTree: boolean = false;
 
-  // constructor() {
-  //   this.dataSource.data = TREE_DATA;
-  // }
-
-//   treeControl = new FlatTreeControl<ExampleFlatNode>(
-//       node => node.level, node => node.expandable);
-
-//   treeFlattener = new MatTreeFlattener(
-//       this._transformer, node => node.level, node => node.expandable, node => node.children);
-
-//   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  
-//     // this.dataSource.data = TREE_DATA;
-  
-
-//   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-// }
-
-// interface ExampleFlatNode {
-//   expandable: boolean;
-//   name: string;
-//   level: number;
-// }
+  openOrCloseCategoriesTree(): void {
+    this.isOpenCategoriesTree = !this.isOpenCategoriesTree;
+  }
 }

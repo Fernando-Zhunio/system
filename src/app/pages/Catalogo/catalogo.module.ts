@@ -37,6 +37,7 @@ import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-public
 import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 import { TemplateSearchModule } from './../../Modulos/template-search/template-search.module';
 import { MatTreeModule } from '@angular/material/tree';
+import { ToolsModule } from '../../Modulos/tools/tools.module';
 
 @NgModule({
   declarations: [ RepublicarCuentasModalComponent, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent],
@@ -72,7 +73,8 @@ import { MatTreeModule } from '@angular/material/tree';
     ConvertsModule,
     SortablejsModule.forRoot({ animation: 150 }),
     TemplateSearchModule,
-    MatTreeModule
+    MatTreeModule,
+    ToolsModule,
   ],
   // providers: [{ provide: RouteReuseStrategy, useClass: CustomReusingStrategy }]
   entryComponents:[RepublicarCuentasModalComponent]
