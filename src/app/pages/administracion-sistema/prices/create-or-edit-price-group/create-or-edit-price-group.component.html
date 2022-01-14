@@ -1,0 +1,32 @@
+<h2 class="list-group-item-accent-warning pl-2 my-2 font-facebook font-4xl">{{title}}</h2>
+<div>
+    <mat-card class="rounded-fz border-0 shadow">
+        <mat-card-content>
+            <form [formGroup]="form" class="row m-0" (ngSubmit)="saveInServer()">
+                <div class="col-md-6 col-12 order-md-1 order-2">
+                    <mat-form-field class=" col-12">
+                        <input matInput placeholder="Nombre del grupo de precio *" formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field class=" col-12">
+                        <input matInput placeholder="Tipo del grupo de precio *" formControlName="type">
+                    </mat-form-field>
+                    <section class="col-12">
+                        <mat-checkbox class="example-margin" formControlName="active">Esta activo</mat-checkbox><br>
+                        <mat-checkbox class="example-margin" formControlName="required">Es requerido</mat-checkbox>
+                    </section>
+                    <button type="submit" [disabled]="isLoading" mat-raised-button color="primary">Guardar <mat-icon>save</mat-icon></button>
+                </div>
+                <div class="col-md-6 col-12 order-md-2 order-1">
+                    <div>
+                        <h2 class="font-facebook font-2xl">Roles</h2>
+                        <mat-selection-list formControlName="roles">
+                            <mat-list-option [value]="rol.id" *ngFor="let rol of roles">
+                                {{rol.title}} <small>{{rol.name}}</small>
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

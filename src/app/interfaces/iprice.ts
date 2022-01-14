@@ -1,3 +1,5 @@
+import { IRoles } from "./iroles-and-permissions";
+
 export interface IProductPrice {
     id: number;
     name: string;
@@ -43,5 +45,5 @@ export interface IProductPrice {
     required: string;
     created_at: string;
     updated_at: string;
+    roles: IRoles[];
   }
-  

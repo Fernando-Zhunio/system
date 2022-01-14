@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
-export class CreateOrEdit<T> {
+export abstract class CreateOrEdit<T> {
     public status: 'create' | 'edit' = 'create';
-    public title: string;
+    public abstract title: string;
     public data: T = null;
     public urlEdit = null;
-    public urlSave = null;
+    public abstract urlSave;
     public form: FormGroup = null;
     isLoading: boolean = false;
     public params = null;

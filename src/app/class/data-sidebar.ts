@@ -275,13 +275,61 @@ export class DataSidebar {
       name: 'Administracion del sistema',
     },
     {
-      name: 'Usuarios',
-      url: '/administracion-sistema/usuarios',
-      icon: 'icon-user-following',
-      permission: 'admin.users.index',
+      name: 'Chat Bots',
+      url: '/administracion-sistema/chatbot',
+      icon: 'icon-social-reddit',
+      permission: 'admin.chatbot.index',
       tag: this.tags.admin_system,
     },
-
+    {
+      name: 'Empresas',
+      url: '/administracion-sistema/companies',
+      icon: 'icon-directions',
+      permission: 'admin.companies.index',
+      tag: this.tags.admin_system,
+    },
+    {
+      name: 'Facebook Ads Manager',
+      url: '/administracion-sistema/facebook-ads-manager',
+      icon: 'icon-bag',
+      permission: 'admin.facebook-ads.campaigns.index',
+      tag: this.tags.admin_system,
+    },
+    {
+      name: 'Grupo de precios',
+      url: '/administracion-sistema/prices/groups',
+      icon: 'fas fa-dollar-sign',
+      permission: 'admin.prices.groups.index',
+      tag: this.tags.admin_system,
+    },
+    {
+      name: 'Locaciones',
+      url: '/administracion-sistema/locaciones',
+      icon: 'icon-directions',
+      permission: 'admin.locations.index',
+      tag: this.tags.admin_system,
+    },
+    {
+      name: 'Mercado Libre',
+      url: '/administracion-sistema/mercado-libre/cuentas',
+      icon: 'far fa-handshake',
+      permission: 'ml.accounts.index',
+      tag: this.tags.admin_system,
+    },
+    {
+      name: 'Novedades',
+      url: '/administracion-sistema/newsletter',
+      icon: 'icon-bag',
+      permission: 'newsletters',
+      tag: this.tags.admin_system,
+    },
+    {
+      name: 'Países',
+      url: '/administracion-sistema/paises',
+      icon: 'icon-globe',
+      permission: 'admin.countries.index',
+      tag: this.tags.admin_system,
+    },
     {
       name: 'Personas',
       url: '/administracion-sistema/personas',
@@ -297,47 +345,11 @@ export class DataSidebar {
       permission: 'admin.roles.index',
       tag: this.tags.admin_system,
     },
-
     {
-      name: 'Paises',
-      url: '/administracion-sistema/paises',
-      icon: 'icon-globe',
-      permission: 'admin.countries.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Locaciones',
-      url: '/administracion-sistema/locaciones',
-      icon: 'icon-directions',
-      permission: 'admin.locations.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Empresas',
-      url: '/administracion-sistema/companies',
-      icon: 'icon-directions',
-      permission: 'admin.companies.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Chat Bots',
-      url: '/administracion-sistema/chatbot',
-      icon: 'icon-social-reddit',
-      permission: 'admin.chatbot.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Mercado Libre',
-      url: '/administracion-sistema/mercado-libre/cuentas',
-      icon: 'far fa-handshake',
-      permission: 'ml.accounts.index',
-      tag: this.tags.admin_system,
-    },
-    {
-      name: 'Facebook Ads Manager',
-      url: '/administracion-sistema/facebook-ads-manager',
-      icon: 'icon-bag',
-      permission: 'admin.facebook-ads.campaigns.index',
+      name: 'Usuarios',
+      url: '/administracion-sistema/usuarios',
+      icon: 'icon-user-following',
+      permission: 'admin.users.index',
       tag: this.tags.admin_system,
     },
     {
@@ -347,13 +359,7 @@ export class DataSidebar {
       permission: 'admin.vtex.sites.index',
       tag: this.tags.admin_system,
     },
-    {
-      name: 'Novedades',
-      url: '/administracion-sistema/newsletter',
-      icon: 'icon-bag',
-      permission: 'newsletters',
-      tag: this.tags.admin_system,
-    },
+   
     //#endregion
   ];
 }

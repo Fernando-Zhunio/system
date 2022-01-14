@@ -84,6 +84,8 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   suscription_predictor: Subscription;
   suscription_attribute: Subscription;
   categories: any[] = [];
+  isOpenCategoriesTree: boolean = false;
+
 
   ngOnInit(): void {
     this.s_catalogo.create_publications().subscribe((res) => {
@@ -110,7 +112,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
               response.hasOwnProperty('success') &&
               response.success
             ) {
-              // this.isEditNamePublication = false;
               if (response?.data?.publication?.images && response?.data?.publication?.images.length > 0) {
                 const collection = collect(response.data.publication.images);
                 const sorted = collection.sortBy('position');
@@ -140,8 +141,23 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     this.formPublication.get('price').setValue(this.publication.price);
     this.formPublication.get('type').setValue(this.publication.listing_type);
     this.formPublication.get('mlaccounts').setValue(idsAccounts);
-    const title = { target: { value: this.publication.name } };
-    this.predictorMl(title, true);
+    if (this.publication.category) {
+      this.setCategoriesForEdit(this.publication.category);
+    }
+  }
+
+  setCategoriesForEdit(category_id: string): void {
+    this.s_standart.store(`catalogs/publications/ml/categories/${category_id}?type=full`, {}).subscribe((res) => {
+      if (res?.success) {
+        const categories: ICategoriesParent = {
+          id: this.formPublication.get('category').value,
+          name: res.data.name,
+          children: null
+        };
+        console.log(res.data);
+        this.selectedCategories(categories);
+      }
+    });
   }
   movePositionArrayImages(): void {
     let form_params: HttpParams = new HttpParams();
@@ -485,7 +501,6 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     this.getAttributes(categories.id, true);
   }
 
-  isOpenCategoriesTree: boolean = false;
 
   openOrCloseCategoriesTree(): void {
     this.isOpenCategoriesTree = !this.isOpenCategoriesTree;

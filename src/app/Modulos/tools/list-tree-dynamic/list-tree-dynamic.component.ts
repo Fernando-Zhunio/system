@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Injectable, Output, EventEmitter, Input } from '@angular/core';
 import { CollectionViewer, SelectionChange, DataSource } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
@@ -20,7 +20,7 @@ export class ListTreeDynamicComponent implements OnInit {
 
   constructor(public s_standard: StandartSearchService, private database: DynamicDatabase) { }
 
-  url: string = 'catalogs/publications/ml/categories';
+  @Input() url: string = 'catalogs/publications/ml/categories';
   treeControl: FlatTreeControl<DynamicFlatNode>;
   @Output() selectedNode = new EventEmitter<ICategoriesParent | ICategoriesChildren>();
 
