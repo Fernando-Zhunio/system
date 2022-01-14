@@ -96,6 +96,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.echo.leave('App.Models.User.' + this.user.id);
   }
 
+  goProfile(): void {
+    this.route.navigate(['home/perfil']);
+  }
+
   setImgCompanies(): void {
     this.imgCompany = window.innerWidth > 600 ? { size: '100%', url: 'assets/icons_custom/novisolutions.svg' } : { size: '30px', url: 'assets/icons_custom/icon-512x512.png' };
   }

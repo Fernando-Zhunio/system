@@ -14,6 +14,7 @@ import { SwalService } from './../../../../services/swal.service';
   styleUrls: ['./chat-bots-create-or-edit.component.css']
 })
 export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implements OnInit {
+  public urlSave: any;
 
   constructor(activated_route: ActivatedRoute, standardService: StandartSearchService, snackBar: MatSnackBar, router: Router) {
     super(activated_route, standardService, router);

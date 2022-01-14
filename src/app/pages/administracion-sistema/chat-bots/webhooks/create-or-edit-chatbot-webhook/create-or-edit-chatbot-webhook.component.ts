@@ -12,6 +12,7 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
   styleUrls: ['./create-or-edit-chatbot-webhook.component.css']
 })
 export class CreateOrEditChatbotWebhookComponent extends CreateOrEdit<IChatWebhook> implements OnInit {
+  public urlSave: any;
 
   constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router, public location: Location) {
     super(act_router, standard_service, router);

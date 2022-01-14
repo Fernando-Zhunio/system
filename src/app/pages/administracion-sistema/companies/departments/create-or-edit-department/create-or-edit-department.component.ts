@@ -31,6 +31,7 @@ export interface ITreeDepartment {
   styleUrls: ['./create-or-edit-department.component.css']
 })
 export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> implements OnInit {
+  urlSave: any;
 
   constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
     super(act_router, standard_service, router);

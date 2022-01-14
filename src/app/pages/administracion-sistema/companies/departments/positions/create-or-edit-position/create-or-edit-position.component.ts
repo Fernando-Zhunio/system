@@ -12,6 +12,7 @@ import { IPosition } from './../../../../../../interfaces/iposition';
   styleUrls: ['./create-or-edit-position.component.css']
 })
 export class CreateOrEditPositionComponent extends CreateOrEdit<IPosition> implements OnInit {
+  public urlSave: any;
 
   constructor( public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
     super( act_router, standard_service, router);

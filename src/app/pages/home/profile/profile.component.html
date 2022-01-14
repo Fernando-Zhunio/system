@@ -1,0 +1,55 @@
+<h2 class="font-4xl font-facebook list-group-item-accent-warning pl-2 mt-2">Perfil de usuario</h2>
+
+<div class="font">
+    <div class="row m-0" *ngIf="user?.person">
+        <div class="col-md-4 col-12 bg-dark rounded-fz card-body">
+            <div class="text-center">
+                <img class="w-50 rounded-circle" [src]="user.person?.photo?.permalink" alt="usuario">
+            </div>
+            <div>
+                <h3 class="font-facebook text-white font-2xl">Contactos</h3>
+                <ul class="font-xl">
+                    <li>{{user.info?.city.name}}</li>
+                    <li>{{user.info?.sex == 'male' ? 'Masculino': 'Femenino'}}</li>
+                </ul>
+                <h3 class="font-facebook text-white font-2xl">Cumpleaños</h3>
+                <ul class="font-xl">
+                    <li> {{user.person.birthday | date}}</li>
+                </ul>
+                <h3 class="font-facebook text-white font-2xl">Numero de usuario</h3>
+                <ul class="font-xl">
+                    <li> {{user.id}}</li>
+                </ul>
+                <h3 class="font-facebook text-white font-2xl">Fecha de creación</h3>
+                <ul class="font-xl">
+                    <li> {{user.created_at | date}}</li>
+                </ul>
+                <h3 class="font-facebook text-white font-2xl">Estado</h3>
+                <ul class="font-xl">
+                    <li> {{user.person?.status}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8 col-12">
+            <h2 class="font-5xl font-montserrat font-weight-bold">{{user.person.first_name}} {{user.person.last_name}}</h2>
+            <div class="font-lg">
+               <span>Numero de identificación</span> 
+               <mat-chip-list>
+                   <mat-chip selected color="primary" class="text-uppercase">{{user.person.identification_type}}: {{user.person.identification_number}}</mat-chip>
+               </mat-chip-list>
+            </div>
+            <div class="font-lg">
+                <span>Correo electrónico</span> 
+                <mat-chip-list>
+                    <mat-chip selected color="primary">{{user.email}}</mat-chip>
+                </mat-chip-list>
+             </div>
+             <div class="font-lg">
+                <span>Ubicación</span> 
+                <mat-chip-list>
+                    <mat-chip selected color="primary">{{user.person.location.name}}</mat-chip>
+                </mat-chip-list>
+             </div>
+        </div>
+    </div>
+</div>
