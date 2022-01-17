@@ -70,15 +70,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         onload: (response: any) => {
           const data = JSON.parse(response);
-          // console.log({ 'File_upload': data });
-          // console.log(data.id);
           this.sendOneMessage(null, [data.id]);
-          // this.hasFile = false;
           return data.id;
         }
       },
     }
   };
+
+  isActiveWindow: boolean = false;
 
   ngOnInit(): void {
     if (this.chat.data) {
@@ -87,6 +86,28 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       this.getMessages();
     }
     autosize(document.querySelectorAll('#textarea-chat'));
+    this.windowActive();
+  }
+
+  windowActive(): void {
+    // window.onfocus = () => {
+    //   console.log('focus');
+    //   if (this.chat.id == this.current_chat_id) {
+    //     this.markReadMessage(this.chat.data._id);
+    //   }
+    // };
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        console.log('Hidden');
+        this.isActiveWindow = false;
+      } else {
+        console.log('SHOWN');
+        this.isActiveWindow = true;
+        if (this.chat.id == this.current_chat_id) {
+          this.markReadMessage(this.chat.data._id);
+        }
+      }
+    });
   }
 
   successFiles(event): void {
@@ -178,7 +199,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       // console.log('fer');
       this.not_bottom = false;
       this.firstScroll = false;
-      if (this.chat.id == this.current_chat_id) {
+      if (this.chat.id == this.current_chat_id && this.isActiveWindow) {
         this.markReadMessage(this.chat.data._id);
       }
     });

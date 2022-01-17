@@ -1,53 +1,73 @@
-<h2 class="font-4xl font-facebook list-group-item-accent-warning pl-2 mt-2">Perfil de usuario</h2>
+<h2 class="font-5xl font-facebook list-group-item-accent-warning pl-2 mt-2">Perfil de usuario</h2>
 
-<div class="font">
-    <div class="row m-0" *ngIf="user?.person">
-        <div class="col-md-4 col-12 bg-dark rounded-fz card-body">
-            <div class="text-center">
-                <img class="w-50 rounded-circle" [src]="user.person?.photo?.permalink" alt="usuario">
+<div class="font pb-3">
+    <div class="row m-0 rounded-fz bg-white shadow" *ngIf="user?.person">
+        <div class="col-12 row img-background-profile m-0 p-2">
+            <div class="col-md-3 col-12">
+                <div class="text-center">
+                    <img class="w-75 rounded-circle" [src]="user.person?.photo?.permalink" alt="usuario">
+                </div>
             </div>
-            <div>
-                <h3 class="font-facebook text-white font-2xl">Contactos</h3>
-                <ul class="font-xl">
-                    <li>{{user.info?.city.name}}</li>
-                    <li>{{user.info?.sex == 'male' ? 'Masculino': 'Femenino'}}</li>
-                </ul>
-                <h3 class="font-facebook text-white font-2xl">Cumpleaños</h3>
-                <ul class="font-xl">
-                    <li> {{user.person.birthday | date}}</li>
-                </ul>
-                <h3 class="font-facebook text-white font-2xl">Numero de usuario</h3>
-                <ul class="font-xl">
-                    <li> {{user.id}}</li>
-                </ul>
-                <h3 class="font-facebook text-white font-2xl">Fecha de creación</h3>
-                <ul class="font-xl">
-                    <li> {{user.created_at | date}}</li>
-                </ul>
-                <h3 class="font-facebook text-white font-2xl">Estado</h3>
-                <ul class="font-xl">
-                    <li> {{user.person?.status}}</li>
-                </ul>
+            <div class="col-md-9 col-12 center justify-content-start">
+                <h2 class="font-5xl font-montserrat font-weight-bold text-white">{{user.person.first_name}} {{user.person.last_name}}</h2>
             </div>
         </div>
-        <div class="col-md-8 col-12">
-            <h2 class="font-5xl font-montserrat font-weight-bold">{{user.person.first_name}} {{user.person.last_name}}</h2>
-            <div class="font-lg">
-               <span>Numero de identificación</span> 
+        <div class="col-12 card-columns">
+            <div class="items card">
+                <div class="text-center"><i class="far fa-address-card fa-4x"></i></div>
+               <div>Numero de identificación</div> 
                <mat-chip-list>
                    <mat-chip selected color="primary" class="text-uppercase">{{user.person.identification_type}}: {{user.person.identification_number}}</mat-chip>
                </mat-chip-list>
             </div>
-            <div class="font-lg">
-                <span>Correo electrónico</span> 
+            <div class="items card">
+                <div class="text-center"><i class="fas fa-city fa-4x"></i></div>
+                <div>Cuidad</div> 
+                <mat-chip-list>
+                    <mat-chip selected color="primary" class="text-uppercase">{{user.info?.city.name}}</mat-chip>
+                </mat-chip-list>
+             </div>
+             <div class="items card">
+                <div class="text-center"><i class="fas fa-transgender fa-4x"></i></div>
+                <div>Sexo</div> 
+                <mat-chip-list>
+                    <mat-chip selected color="primary" class="text-uppercase">{{user.info?.sex == 'male' ? 'Masculino': 'Femenino'}}</mat-chip>
+                </mat-chip-list>
+             </div>
+             <div class="items card">
+                <div class="text-center"><i class="fas fa-birthday-cake fa-4x"></i></div>
+
+                <div>Fecha de nacimiento</div> 
+                <mat-chip-list>
+                    <mat-chip selected color="primary">{{user.person.birthday | date}}</mat-chip>
+                </mat-chip-list>
+             </div>
+            <div class="items card">
+                <div class="text-center"><i class="fas fa-envelope-open-text fa-4x"></i></div>
+                <div>Correo electrónico</div> 
                 <mat-chip-list>
                     <mat-chip selected color="primary">{{user.email}}</mat-chip>
                 </mat-chip-list>
              </div>
-             <div class="font-lg">
-                <span>Ubicación</span> 
+             <div class="items card">
+                <div class="text-center"><i class="fas fa-street-view fa-4x"></i></div>
+                <div>Ubicación</div> 
                 <mat-chip-list>
                     <mat-chip selected color="primary">{{user.person.location.name}}</mat-chip>
+                </mat-chip-list>
+             </div>
+             <div class="items card">
+                <div class="text-center"><i class="fas fa-users fa-4x"></i></div>
+                <div>Posición</div> 
+                <mat-chip-list>
+                    <mat-chip selected color="primary">{{user.person.position.name}}</mat-chip>
+                </mat-chip-list>
+             </div>
+             <div class="items card">
+                <div class="text-center"><i class="fas fa-chess-rook fa-4x"></i></div>
+                <div>Estado</div> 
+                <mat-chip-list>
+                    <mat-chip selected color="primary">{{user.person?.status}}</mat-chip>
                 </mat-chip-list>
              </div>
         </div>

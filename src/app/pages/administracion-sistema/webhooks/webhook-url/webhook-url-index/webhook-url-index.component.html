@@ -1,0 +1,29 @@
+<h2 class="font-4xl font-facebook list-group-item-accent-warning pl-2 mt-2">Webhooks Url</h2>
+<app-search-template [url$]="url" (data)="getData($event)">
+    <ng-container data>
+        <mat-card class="card border-0 rounded-fz" *ngFor="let webhook of data | keyvalue">
+            <mat-card-header>
+                <mat-card-title class="title">{{webhook.value.url}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-chip-list>
+                    <mat-chip selected *ngFor="let suscription of webhook.value.suscriptions">{{suscription.name}}</mat-chip>
+                </mat-chip-list>
+            </mat-card-content>
+            <mat-card-actions>
+                    <button mat-mini-fab [routerLink]="['./',webhook.key, 'edit']">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="warn" (click)="deleteData(webhook.key)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+    
+            </mat-card-actions>
+        </mat-card>
+    </ng-container>
+    <ng-container menuBar>
+        <mat-chip class="ml-1" [routerLink]="['./create']">
+            <mat-icon>add</mat-icon>
+        </mat-chip>
+    </ng-container>
+</app-search-template>

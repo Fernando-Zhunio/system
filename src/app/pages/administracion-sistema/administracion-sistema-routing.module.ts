@@ -683,6 +683,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./prices/prices.module').then((m) => m.PricesModule),
   },
+  {
+    path: 'webhooks',
+    loadChildren: () =>
+      import('./webhooks/webhooks.module').then((m) => m.WebhooksModule),
+  },
 ];
 
 @NgModule({

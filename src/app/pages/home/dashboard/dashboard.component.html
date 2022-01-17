@@ -4,19 +4,14 @@
     </div>
   <div class="mb-3 sticky-top-custom">
     <h3 class="date-picker d-flex p-1">
-      <div class="container-date">
-        <span class="bg-warning p-2 rounded-fz text-capitalize">
+      <div class="container-date shadow px-2">
           {{dateRange.last_date[0] | date: 'dd MMM yyyy'}}
           a
           {{dateRange.last_date[1] | date: 'dd MMM yyyy'}}
-        </span>
         <span class="px-2">Comparando:</span>  
-        <span class="bg-success p-2 rounded-fz text-capitalize" >
           {{dateRange.first_date[0] | date: 'dd MMM yyyy'}}
           a
           {{dateRange.first_date[1] | date: 'dd MMM yyyy'}}
-        </span>
-        
       </div>
       &nbsp;&nbsp;
       <button mat-mini-fab color="accent" (click)="openDialogDates()">

@@ -6,7 +6,7 @@ import { SwalService } from '../services/swal.service';
 export abstract class Crud<T> {
   router: Router;
   constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar) { }
-  url: string;
+  abstract url: string;
   isLoading: boolean = false;
   data: Map<any, T> = new Map<any, T>();
   key: string = 'id';

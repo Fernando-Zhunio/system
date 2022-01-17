@@ -118,6 +118,11 @@ td{
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    border-radius: 10px;
+    background: #009688;
+    color: white;
 }
 
 .sticky-top-custom {

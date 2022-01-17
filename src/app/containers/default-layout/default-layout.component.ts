@@ -86,7 +86,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.getNotification();
     this.companiesGestion(this.user);
     this.suscribeNotifications(this.user);
-
   }
 
   ngOnDestroy(): void {

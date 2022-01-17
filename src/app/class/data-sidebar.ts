@@ -359,6 +359,13 @@ export class DataSidebar {
       permission: 'admin.vtex.sites.index',
       tag: this.tags.admin_system,
     },
+    {
+      name: 'Webhooks',
+      url: '/administracion-sistema/webhooks/webhooks-url',
+      icon: 'icon-wrench',
+      permission: 'super-admin',
+      tag: this.tags.admin_system,
+    },
    
     //#endregion
   ];

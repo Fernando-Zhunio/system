@@ -100,7 +100,7 @@ export abstract class CreateOrEdit<T> {
                             this.go();
                         }, error => {
                             this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                            // SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
                         });
                         break;
                     case 'edit':
@@ -109,7 +109,7 @@ export abstract class CreateOrEdit<T> {
                             this.go();
                         }, error => {
                             this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                            // SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
                         });
                         break;
                     default:
