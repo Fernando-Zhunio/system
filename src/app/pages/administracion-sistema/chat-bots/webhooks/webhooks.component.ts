@@ -12,6 +12,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
   styleUrls: ['./webhooks.component.css']
 })
 export class WebhooksComponent extends Crud<IChatWebhook> implements OnInit {
+  url: string;
 
   constructor(protected activated_route: ActivatedRoute, protected standardService: StandartSearchService, protected snackBar: MatSnackBar)  {
     super( standardService, snackBar);

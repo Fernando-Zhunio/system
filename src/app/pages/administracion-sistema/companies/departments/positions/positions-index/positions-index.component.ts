@@ -12,6 +12,7 @@ import { StandartSearchService } from '../../../../../../services/standart-searc
   styleUrls: ['./positions-index.component.css']
 })
 export class PositionsIndexComponent extends Crud<IPosition> implements OnInit {
+  url: string;
 
   constructor( standardService: StandartSearchService, public router: Router,  snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
     super( standardService, snackBar);
