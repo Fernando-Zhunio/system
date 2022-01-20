@@ -47,6 +47,7 @@ export class CreateOrEditLocationComponent implements OnInit {
     type: new FormControl('', [Validators.required]),
     city: new FormControl(null, [Validators.required]),
     company: new FormControl('', [Validators.required]),
+    status: new FormControl(null, [Validators.required]),
     // latitude: new FormControl("", [Validators.required]),
     // longitude: new FormControl("", [Validators.required]),
   });
@@ -69,6 +70,7 @@ export class CreateOrEditLocationComponent implements OnInit {
                 type,
                 city_id: city,
                 company_id: company,
+                status
               } = this.location_;
               this.form_location.setValue({
                 name,
@@ -76,6 +78,7 @@ export class CreateOrEditLocationComponent implements OnInit {
                 type,
                 city: city.toString(),
                 company,
+                status,
               });
 
               if (this.location_.latitude && this.location_.longitude) {

@@ -8,6 +8,7 @@ export class Location {
   city_id: number;
   company_id: string;
   created_at: string;
+  status: string;
   city: {
     id: number;
     name: string;

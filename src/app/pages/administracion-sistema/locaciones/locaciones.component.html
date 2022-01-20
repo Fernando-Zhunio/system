@@ -20,6 +20,11 @@
             <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+        </ng-container>
+
         <!-- Name Column -->
         <ng-container matColumnDef="address">
             <mat-header-cell *matHeaderCellDef> Direccion </mat-header-cell>

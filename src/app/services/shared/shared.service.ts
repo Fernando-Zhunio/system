@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Inotification } from '../../interfaces/inotification';
 import { formatDate } from '@angular/common';
 import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces-jobNovicompu';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { StorageService } from '../storage.service';
 
@@ -94,5 +94,38 @@ export class SharedService {
       reportProgress: true,
       observe: 'events'
     });
+  }
+
+  progressDownload(event: any, name_file: string, callback: any) {
+    let progress = 0;
+    switch (event.type) {
+      case HttpEventType.Sent:
+        break;
+      case HttpEventType.ResponseHeader:
+        break;
+      case HttpEventType.DownloadProgress:
+        progress = Math.round(event.loaded / event.total * 100);
+        // this.progressDownloadReport = progress;
+        callback(progress);
+
+        break;
+      case HttpEventType.Response:
+
+        const blob = new Blob([event.body], { type: 'application/ms-Excel' });
+        const urlDownload = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = urlDownload;
+        a.download = name_file;
+        a.click();
+        window.URL.revokeObjectURL(urlDownload);
+        a.remove();
+        setTimeout(() => {
+          // this.isProgressDownloadReport = false;
+          // this.progressDownloadReport = 0;
+          callback(0);
+        }, 1500);
+    }
   }
 }

@@ -16,6 +16,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ModalListPricesComponent } from './tools/modal-list-prices/modal-list-prices.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FilePondModule } from 'ngx-filepond';
 
 @NgModule({
   declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
@@ -34,7 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatChipsModule,
     MatSidenavModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    FilePondModule
   ],
   entryComponents: [ModalListPricesComponent]
 })
