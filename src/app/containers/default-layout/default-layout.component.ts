@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, RouteReuseStrategy } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
-import { Inotification } from '../../interfaces/inotification';
+import { INotification } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
@@ -19,6 +19,10 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { HttpEventType } from '@angular/common/http';
 import { SwPush } from '@angular/service-worker';
 import { ListPermissions } from '../../class/list-permissions';
+import { Store, select } from '@ngrx/store';
+import { addNotification, overrideNotification } from '../../redux/actions/notification.action';
+import { selectNotification } from '../../redux/state/state.selectors';
+import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,11 +36,16 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_storage: StorageService,
     private s_standard: StandartSearchService,
     public s_shared: SharedService,
-    private s_custom_reusing: RouteReuseStrategy,
+    // private s_custom_reusing: RouteReuseStrategy,
     private dialog: MatDialog,
     public overlayContainer: OverlayContainer,
-    public sw_push: SwPush
-  ) { }
+    public sw_push: SwPush,
+    private store: Store,
+  ) {
+    this.notifications$ = this.store.select(selectNotification);
+  }
+
+  notifications$: Observable<INotification[]>;
   @HostBinding('class') componentCssClass;
 
   public sidebarMinimized = false;
@@ -58,8 +67,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     state: false,
   };
   public isDownloadStock: boolean = false;
-  private subscriptionNotification: Subscription;
-  public notifications: Inotification[] = [];
+  // private subscriptionNotification: Subscription;
+  // public notifications: Inotification[] = [];
   colorSidebarLeft: string;
   sidebarData = new DataSidebar();
   navItems_ = this.sidebarData.NavItems;
@@ -89,9 +98,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptionNotification) {
-      this.subscriptionNotification.unsubscribe();
+    if (this.notifications$) {
     }
+
     this.echo.leave('App.Models.User.' + this.user.id);
   }
 
@@ -163,20 +172,23 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getNotification(): void {
-    this.subscriptionNotification = this.s_shared.currentNotifications.subscribe(
-      (res) => {
-        this.notifications = res;
-      }
-    );
+    // this.subscriptionNotification = this.s_shared.currentNotifications.subscribe(
+    //   (res) => {
+    //     this.notifications = res;
+    //   }
+    // );
     this.s_standard.index('notifications/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        this.s_shared.changeNotifications(res.data.notifications);
+        // console.log(res.data);
+        this.store.dispatch(overrideNotification({ notifications: res.data.notifications }));
+
         const notifications = res.data.notifications;
+        // ** Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
         this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
+
         if (notifications.length > 0) {
-          const countNotification = notifications.filter(
-            (notification) => !notification.read_at
-          ).length;
+          // ** Si hay notificaciones sin leer */
+          const countNotification = notifications.filter((notification) => !notification.read_at).length;
           this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
         }
       }
@@ -236,9 +248,18 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.echo = new EchoManager(this.s_storage).echo;
     this.echo
       .private('App.Models.User.' + user.id)
-      .notification((notify: Inotification) => {
-        this.s_shared.addNotification(notify);
-        // console.log(notify);
+      .notification((notify: INotification) => {
+        console.log(notify);
+        console.log(notify.type);
+        this.store.dispatch(addNotification({ notification: notify }));
+        if (notify.type == "App\\Notifications\\NotificationPrice") {
+          this.store.dispatch(generatePrice());
+        }
+        if (notify.type === "App\\Notifications\\ErrorPriceNotification") {
+          console.log(notify.type);
+          this.store.dispatch(idlePrice());
+        }
+
 
         const data_rendered = notify.data;
         let name_user = 'System';
@@ -281,7 +302,15 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   goRouteNotification(url: string): void {
-    if (url && url.includes('reports/general-stock/download')) {
+    const _url = url.replace('#/', '');
+    const urlOutHash = (new URL(_url)).searchParams;
+
+    // if (url && url.includes('reports/general-stock/download')) {
+    //   this.downloadStock(url);
+    //   // SwalService.swalToast('Tu descarga iniciara en unos instantes');
+    //   return;
+    // }
+    if (urlOutHash.has('file_name')) {
       this.downloadStock(url);
       // SwalService.swalToast('Tu descarga iniciara en unos instantes');
       return;
@@ -334,8 +363,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           case HttpEventType.ResponseHeader:
             break;
           case HttpEventType.DownloadProgress:
-
-
             progress = Math.round(event.loaded / event.total * 100);
             this.progressDownloadReport = progress;
 
@@ -421,9 +448,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         SwalService.swalToast('Compañia cambiada con exito');
         this.company_select = this.companies[index].name;
         this.s_storage.setCompanyUser(idCompany);
-        this.route.navigate(['/']).then(() => {
-          this.s_custom_reusing['cache'] = {};
-        });
+        // this.route.navigate(['/']).then(() => {
+        //   this.s_custom_reusing['cache'] = {};
+        // });
       }
     });
   }
