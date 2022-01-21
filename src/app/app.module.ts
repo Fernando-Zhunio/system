@@ -104,6 +104,9 @@ import { MarkdwonPipe } from './pipes/markdwon.pipe';
 import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
 import { OrderModule } from 'ngx-order-pipe';
+import { StoreModule } from '@ngrx/store';
+import { notificationsReducer } from './redux/reducers/notifications.reducer';
+import { pricesReducer } from './redux/reducers/price.reducer';
 
 // import {AutosizeModule} from 'ngx-autosize';
 
@@ -163,6 +166,7 @@ registerLocaleData(localeEs, 'es');
       enabled: environment.production,
     }),
     OrderModule,
+    StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer }),
   ],
   declarations: [
     AppComponent,

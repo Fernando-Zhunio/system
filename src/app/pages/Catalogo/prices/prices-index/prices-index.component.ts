@@ -5,20 +5,25 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { FilePondOptions } from 'filepond';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { Crud } from '../../../../class/crud';
 import { IPrice, IPriceGroup, IProductPrice } from '../../../../interfaces/iprice';
+import { downloadPrice, generatingPrice, idlePrice } from '../../../../redux/actions/price.action';
+import { EPriceState } from '../../../../redux/reducers/price.reducer';
+import { selectPrice } from '../../../../redux/state/state.selectors';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { StorageService } from '../../../../services/storage.service';
 import { SwalService } from '../../../../services/swal.service';
 import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-prices.component';
 
-enum StateDownloadFilePrices {
-  idle = 'Generar Archivo excel', generating = 'Generando espere ...', load = 'Descargar archivo', loading = 'Descargando espere ...'
-}
+// enum StateDownloadFilePrices {
+//   idle = 'Generar Archivo excel', generating = 'Generando espere ...', load = 'Descargar archivo', loading = 'Descargando espere ...'
+// }
 @Component({
   selector: 'app-prices-index',
   templateUrl: './prices-index.component.html',
@@ -35,12 +40,15 @@ export class PricesIndexComponent
     private dialog: MatDialog,
     private storage: StorageService,
     private shared_service: SharedService,
-    // private s_permissions: NgxPermissionsService,
+    private store: Store,
   ) {
     super(standardService, snackBar);
+    this.stateFilePrices$ = this.store.select(selectPrice);
   }
 
   @ViewChild(MatDrawer) sidenavPrice: MatDrawer;
+  EPriceState = EPriceState;
+  isLoadingFilePrices: boolean = false;
   url: string = 'catalogs/products/prices';
   isOpenPrice: boolean = false;
   dataPriceModify: any = {
@@ -52,58 +60,38 @@ export class PricesIndexComponent
   };
   isLoadingNewPrice: boolean = false;
   pricesGroup: IPriceGroup[] = [];
-  _stateGenerateFilePrices: StateDownloadFilePrices = StateDownloadFilePrices.idle;
-  get stateGenerateFilePrices(): StateDownloadFilePrices {
-    return this._stateGenerateFilePrices;
-  }
 
-  set stateGenerateFilePrices(state: StateDownloadFilePrices) {
-    this._stateGenerateFilePrices = state;
-  }
-  public readonly keySessionStateGenerateFilePrices: string = 'stateGenerateFilePrices';
+  stateFilePrices$: Observable<EPriceState>;
 
   form: FormGroup = new FormGroup({});
 
-  // pondOptions: FilePondOptions = {
-  //   allowMultiple: true,
-  //   labelIdle: 'Arrastre o presione aquí',
-  //   name: 'file',
-  //   maxParallelUploads: 5,
-  //   server: {
-  //     url: `${environment.server}`,
-  //     process: {
-  //       url: 'storage/attachments/upload',
-  //       headers: {
-  //         Authorization: `Bearer ${this.storage.getCurrentToken()}`,
-  //         Accept: 'application/json',
-  //       },
-  //       onload: (response: any) => {
-  //         const data = JSON.parse(response);
-  //         // this.sendOneMessage(null, [data.id]);
-  //         return data.id;
-  //       }
-  //     },
-  //   }
-  // };
+  pondOptions: FilePondOptions = {
+    allowMultiple: true,
+    labelIdle: 'Arrastre o presione aquí',
+    name: 'file',
+    maxParallelUploads: 5,
+    server: {
+      url: `${environment.server}`,
+      process: {
+        url: 'storage/attachments/upload',
+        headers: {
+          Authorization: `Bearer ${this.storage.getCurrentToken()}`,
+          Accept: 'application/json',
+        },
+        onload: (response: any) => {
+          const data = JSON.parse(response);
+          // this.sendOneMessage(null, [data.id]);
+          return data.id;
+        }
+      },
+    }
+  };
   ngOnInit(): void {
 
     this.standardService.index(`${this.url}/prices-group`).subscribe((res: any) => {
       this.generateTemplateForm(res.data);
       this.pricesGroup = res.data;
     });
-
-    this.getStateGenerateFilePrices();
-  }
-
-  getStateGenerateFilePrices() {
-    this.stateGenerateFilePrices = JSON.parse(sessionStorage.getItem(this.keySessionStateGenerateFilePrices) || StateDownloadFilePrices.idle.toString());
-
-    this.setSessionILoaderFilePrices(this.stateGenerateFilePrices);
-  }
-
-
-  setSessionILoaderFilePrices(status: StateDownloadFilePrices): void {
-    return sessionStorage.setItem(this.keySessionStateGenerateFilePrices, status.toString());
   }
 
   generateTemplateForm(group): void {
@@ -123,18 +111,28 @@ export class PricesIndexComponent
   }
 
   downloadExcelPrices(): void {
-    switch (this.stateGenerateFilePrices) {
-      case StateDownloadFilePrices.idle:
-        this.stateGenerateFilePrices = StateDownloadFilePrices.generating;
-        this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
-          console.log(res);
-          SwalService.swalToast(res.data);
-        }, err => {
-          this.stateGenerateFilePrices = StateDownloadFilePrices.idle;
-        });
-        break;
-      case StateDownloadFilePrices.generating:
-    }
+    this.stateFilePrices$.subscribe((state: EPriceState) => {
+      switch (state) {
+        case EPriceState.Idle:
+          this.store.dispatch(generatingPrice());
+          this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
+            console.log(res.data.message);
+            SwalService.swalToast(res.data.message);
+          }, err => {
+            this.store.dispatch(idlePrice());
+          });
+          break;
+        case EPriceState.Generated:
+          this.store.dispatch(downloadPrice());
+          this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
+            console.log(res);
+            SwalService.swalToast(res.data);
+          }, err => {
+            this.store.dispatch(idlePrice());
+          });
+          break;
+      }
+    }).unsubscribe();
   }
 
   progressDownloadPercent(event): void {

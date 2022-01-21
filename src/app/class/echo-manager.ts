@@ -9,6 +9,7 @@ export class EchoManager {
   public domain_serve = environment.domain_serve;
   private port = environment.portSocket;
 
+
   constructor(public s_storage: StorageService) {}
   private  _echo = new Echo({
         broadcaster: 'pusher',
@@ -20,6 +21,8 @@ export class EchoManager {
         encrypted: false,
         wsPort: environment.portSocket,
         wssPort: environment.portSocket,
+        enabledTransports: ['ws', 'wss'],
+        forceTLS: false,
         auth: {
             headers: {
                 Authorization: 'Bearer ' + this.s_storage.getCurrentToken()

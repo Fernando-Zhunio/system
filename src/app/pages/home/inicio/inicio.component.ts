@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Cperson } from '../../../class/cperson';
 import { Inotification } from '../../../interfaces/inotification';
+import { selectNotification } from '../../../redux/state/state.selectors';
 import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
@@ -16,7 +18,10 @@ import { Inewsletter } from './../../../interfaces/inewsletter';
 export class InicioComponent implements OnInit {
 
   person: Cperson = new Cperson();
-  constructor(private s_shared: SharedService, private s_storage: StorageService, private s_standart: StandartSearchService) { }
+  notifications$: Observable<Inotification[]>;
+  constructor(private s_shared: SharedService, private s_storage: StorageService, private s_standart: StandartSearchService, store: Store) {
+    this.notifications$ = store.select(selectNotification);
+   }
 
   categoriesCount: number;
   brandCount: number;
@@ -26,99 +31,99 @@ export class InicioComponent implements OnInit {
   date = new Date().getTime();
   notifications: Inotification[] = [];
   suscription_notifications: Subscription;
-   weather_key = environment.weather_key;
+  weather_key = environment.weather_key;
   weather_date: {
     'coord': {
-        'lon': number,
-        'lat': number,
+      'lon': number,
+      'lat': number,
     },
     'weather': [
-        {
-            'id': number,
-            'main': string,
-            'description': string,
-            'icon': string,
-        }
+      {
+        'id': number,
+        'main': string,
+        'description': string,
+        'icon': string,
+      }
     ],
     'base': string,
     'main': {
-        'temp': number,
-        'feels_like': number,
-        'temp_min': number,
-        'temp_max': number,
-        'pressure': number,
-        'humidity': number,
+      'temp': number,
+      'feels_like': number,
+      'temp_min': number,
+      'temp_max': number,
+      'pressure': number,
+      'humidity': number,
     },
     'visibility': number,
     'wind': {
-        'speed': number,
-        'deg': number,
+      'speed': number,
+      'deg': number,
     },
     'rain': {
-        '1h': number,
+      '1h': number,
     },
     'clouds': {
-        'all': number,
+      'all': number,
     },
     'dt': number,
     'sys': {
-        'type': number,
-        'id': number,
-        'country': string,
-        'sunrise': number,
-        'sunset': number,
+      'type': number,
+      'id': number,
+      'country': string,
+      'sunrise': number,
+      'sunset': number,
     },
     'timezone': number,
     'id': number,
     'name': string,
     'cod': number,
-} =
-{
-    'coord': {
+  } =
+    {
+      'coord': {
         'lon': -79.9,
         'lat': -2.1667
-    },
-    'weather': [
+      },
+      'weather': [
         {
-            'id': 500,
-            'main': 'Rain',
-            'description': 'Sin datos',
-            'icon': '10d'
+          'id': 500,
+          'main': 'Rain',
+          'description': 'Sin datos',
+          'icon': '10d'
         }
-    ],
-    'base': 'stations',
-    'main': {
+      ],
+      'base': 'stations',
+      'main': {
         'temp': 0,
         'feels_like': 31.19,
         'temp_min': 29,
         'temp_max': 29,
         'pressure': 1012,
         'humidity': 0
-    },
-    'visibility': 10000,
-    'wind': {
+      },
+      'visibility': 10000,
+      'wind': {
         'speed': 3.6,
         'deg': 40
-    },
-    'rain': {
+      },
+      'rain': {
         '1h': 0.3
-    },
-    'clouds': {
+      },
+      'clouds': {
         'all': 75
-    },
-    'dt': 1619191248,
-    'sys': {
+      },
+      'dt': 1619191248,
+      'sys': {
         'type': 1,
         'id': 8534,
         'country': 'EC',
         'sunrise': 1619176573,
         'sunset': 1619219948
-    },
-    'timezone': -18000,
-    'id': 3657509,
-    'name': 'Guayaquil',
-    'cod': 200
-};
+      },
+      'timezone': -18000,
+      'id': 3657509,
+      'name': 'Guayaquil',
+      'cod': 200
+    };
   city: string;
 
 
@@ -126,9 +131,9 @@ export class InicioComponent implements OnInit {
     this.person.first_name = this.s_storage.getCurrentUser().name;
     this.city = this.person?.city?.name || 'guayaquil';
 
-    this.suscription_notifications = this.s_shared.currentNotifications.subscribe(res => {
-      this.notifications = res;
-    });
+    // this.suscription_notifications = this.s_shared.currentNotifications.subscribe(res => {
+    //   this.notifications = res;
+    // });
 
     this.getDataWeather();
     this.s_standart.index('home').subscribe(res => {

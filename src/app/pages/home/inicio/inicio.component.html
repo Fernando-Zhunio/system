@@ -83,7 +83,7 @@
         <div>
             <div class="card-columns">
                 <mat-card class="card rounded-fz font-montserrat border-0 shadow font-weight-bolder h-auto p-3"
-                    *ngFor="let notification of notifications">
+                    *ngFor="let notification of notifications$ | async">
                     <div class="row m-0 d-flex align-items-center">
                         <div *ngIf="notification.data.image" class="col-md-4">
                             <img class="w-100" [src]="notification.data.image" alt="">

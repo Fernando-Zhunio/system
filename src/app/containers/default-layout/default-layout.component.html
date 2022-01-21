@@ -43,7 +43,7 @@
 
       </button>
       <mat-menu class="custom-menu-notification" #menu1="matMenu" [overlapTrigger]="false">
-        <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
+        <!-- <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
           class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'':'bg-'+notification.data.type}}"
           *ngFor="let notification of notifications" (click)="$event.stopPropagation()"
           (keydown)="$event.stopPropagation()">
@@ -56,18 +56,25 @@
             <br>
             <small class="text-primary text-uppercase">{{notification.created_at | amLocale:'es' | amTimeAgo}}</small>
           </div>
+        </div> -->
+
+        <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
+          class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'':'bg-'+notification.data.type}}"
+          *ngFor="let notification of notifications$ | async" (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <div *ngIf="notification.data.image">
+            <img style="width: 50px;height: 50px;" [src]="notification.data.image" alt="">
+          </div>
+          <div class="pl-2" style="white-space: initial;line-height: 1.3;">
+            <strong>{{notification?.data?.user?.name ?notification?.data?.user?.name:'Sin Usuario'}}</strong><br>
+            {{notification.data.text}}
+            <br>
+            <small class="text-primary text-uppercase">{{notification.created_at | amLocale:'es' | amTimeAgo}}</small>
+          </div>
         </div>
+
       </mat-menu>
     </li>
-    <!-- <li class="nav-item">
-      <button mat-raised-button color="primary" (click)="onSetTheme('default-theme')">Default</button>
-    </li>
-    <li class="nav-item">
-      <button mat-raised-button color="primary" (click)="onSetTheme('dark-theme')">Dark</button>
-    </li>
-    <li class="nav-item">
-      <button mat-raised-button color="primary" (click)="onSetTheme('light-theme')">Light</button>
-    </li> -->
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" [matMenuTriggerFor]="menu2">
         <img [src]="user?.person?.photo?.permalink || url_img" class="img-avatar custom-avatar"
