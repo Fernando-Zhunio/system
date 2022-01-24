@@ -1,4 +1,5 @@
 import { Location } from '@angular/common';
+import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +12,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { Crud } from '../../../../class/crud';
+import { INotificationData } from '../../../../interfaces/inotification';
 import { IPrice, IPriceGroup, IProductPrice } from '../../../../interfaces/iprice';
 import { downloadPrice, generatingPrice, idlePrice } from '../../../../redux/actions/price.action';
 import { EPriceState } from '../../../../redux/reducers/price.reducer';
@@ -39,7 +41,7 @@ export class PricesIndexComponent
     public act_router: ActivatedRoute,
     private dialog: MatDialog,
     private storage: StorageService,
-    private shared_service: SharedService,
+    private s_shared: SharedService,
     private store: Store,
   ) {
     super(standardService, snackBar);
@@ -62,8 +64,10 @@ export class PricesIndexComponent
   pricesGroup: IPriceGroup[] = [];
 
   stateFilePrices$: Observable<EPriceState>;
+  stateFilePrices: { status: EPriceState, data?: INotificationData } = null;
 
   form: FormGroup = new FormGroup({});
+  isOpenFile: boolean = false;
 
   pondOptions: FilePondOptions = {
     allowMultiple: true,
@@ -92,6 +96,11 @@ export class PricesIndexComponent
       this.generateTemplateForm(res.data);
       this.pricesGroup = res.data;
     });
+    this.stateFilePrices$.subscribe((state: any) => {
+      console.log({ state });
+      this.stateFilePrices = state;
+    });
+
   }
 
   generateTemplateForm(group): void {
@@ -111,28 +120,29 @@ export class PricesIndexComponent
   }
 
   downloadExcelPrices(): void {
-    this.stateFilePrices$.subscribe((state: EPriceState) => {
-      switch (state) {
-        case EPriceState.Idle:
-          this.store.dispatch(generatingPrice());
-          this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
-            console.log(res.data.message);
-            SwalService.swalToast(res.data.message);
-          }, err => {
-            this.store.dispatch(idlePrice());
-          });
-          break;
-        case EPriceState.Generated:
-          this.store.dispatch(downloadPrice());
-          this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
-            console.log(res);
-            SwalService.swalToast(res.data);
-          }, err => {
-            this.store.dispatch(idlePrice());
-          });
-          break;
-      }
-    }).unsubscribe();
+    // this.stateFilePrices$.subscribe((state: EPriceState) => {
+    switch (this.stateFilePrices.status) {
+      case EPriceState.Idle:
+        this.store.dispatch(generatingPrice());
+        this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
+          console.log(res.data.message);
+          SwalService.swalToast(res.data.message);
+        }, err => {
+          this.store.dispatch(idlePrice());
+        });
+        break;
+      case EPriceState.Generated:
+        this.store.dispatch(downloadPrice());
+        this.downloadPrice(this.stateFilePrices.data.url);
+        // this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
+        //   console.log(res);
+        //   SwalService.swalToast(res.data);
+        // }, err => {
+        //   this.store.dispatch(idlePrice());
+        // });
+        break;
+    }
+    // }).unsubscribe();
   }
 
   progressDownloadPercent(event): void {
@@ -151,7 +161,7 @@ export class PricesIndexComponent
       .subscribe((res: any) => {
         this.dataPriceModify.data = res;
         this.dataPriceModify.isLoading = false;
-        this.assignData(res?.data);
+        this.assignData(res?.data.last_prices);
       });
   }
 
@@ -183,20 +193,6 @@ export class PricesIndexComponent
         });
     });
   }
-
-  // addOrRemoveTax(name: string, isTax = false): void {
-  //   console.log(this.form.get(name).value);
-  //   if (isTax) {
-  //     const price_out_tax = this.form.get("tax_" + name).value / 1.12;
-
-  //     this.form.get(name).setValue(price_out_tax.toFixed(2));
-  //   } else {
-  //     const price_with_tax = this.form.get(name).value * 1.12;
-  //     console.log(price_with_tax);
-
-  //     this.form.get("tax_" + name).setValue(price_with_tax.toFixed(2));
-  //   }
-  // }
 
   addOrRemoveTax(id: number, isTax = false): void {
     console.log(this.form.get('price_group_' + id).value);
@@ -238,10 +234,12 @@ export class PricesIndexComponent
   }
 
   assignData(prices: IPrice[]): void {
-    prices.forEach(element => {
-      this.form.get('price_group_' + element.price_group_id).setValue(element.price.toFixed(2));
-      this.form.get('tax_price_group_' + element.price_group_id).setValue((element.price * 1.12).toFixed(2));
-    });
+    if (prices) {
+      prices.forEach(element => {
+        this.form.get('price_group_' + element.price_group_id).setValue(element.price.toFixed(2));
+        this.form.get('tax_price_group_' + element.price_group_id).setValue((element.price * 1.12).toFixed(2));
+      });
+    }
   }
 
   getParams(key: string): any {
@@ -252,4 +250,41 @@ export class PricesIndexComponent
 
   }
 
+  downloadPrice(url: string): void {
+    const url_object = new URL(url);
+    const name_file = url_object.searchParams.get('file_name') || 'file_' + Date.now();
+    this.s_shared
+      .download(url, true)
+      .subscribe((event: any) => {
+        let progress = 0;
+        switch (event.type) {
+          case HttpEventType.Sent:
+            break;
+          case HttpEventType.ResponseHeader:
+            break;
+          case HttpEventType.DownloadProgress:
+            progress = Math.round(event.loaded / event.total * 100);
+            // this.progressDownloadReport = progress;
+            break;
+          case HttpEventType.Response:
+            const blob = new Blob([event.body], { type: 'application/ms-Excel' });
+            const urlDownload = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.setAttribute('style', 'display: none');
+            a.href = urlDownload;
+            a.download = name_file;
+            a.click();
+            window.URL.revokeObjectURL(urlDownload);
+            a.remove();
+            this.store.dispatch(idlePrice());
+
+          // setTimeout(() => {
+
+          //   // this.isProgressDownloadReport = false;
+          //   // this.progressDownloadReport = 0;
+          // }, 1500);
+        }
+      }, (err) => { });
+  }
 }

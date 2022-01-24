@@ -107,6 +107,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { StoreModule } from '@ngrx/store';
 import { notificationsReducer } from './redux/reducers/notifications.reducer';
 import { pricesReducer } from './redux/reducers/price.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // import {AutosizeModule} from 'ngx-autosize';
 
@@ -167,7 +168,12 @@ registerLocaleData(localeEs, 'es');
     }),
     OrderModule,
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer }),
-  ],
+    StoreDevtoolsModule.instrument({
+      // maxAge: 25, // Retains last 25 states
+      // logOnly: environment.production, // Restrict extension to log-only mode
+      // autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+    }),
+  ], 
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,

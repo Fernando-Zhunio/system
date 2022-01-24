@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, RouteReuseStrategy } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
-import { INotification } from '../../interfaces/inotification';
+import { INotification, INotificationData } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
@@ -252,14 +252,13 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         console.log(notify);
         console.log(notify.type);
         this.store.dispatch(addNotification({ notification: notify }));
-        if (notify.type == "App\\Notifications\\NotificationPrice") {
-          this.store.dispatch(generatePrice());
+        if (notify.type == 'App\\Notifications\\NotificationPrice') {
+          this.store.dispatch(generatePrice({data: notify.data}));
         }
-        if (notify.type === "App\\Notifications\\ErrorPriceNotification") {
+        if (notify.type === 'App\\Notifications\\ErrorPriceNotification') {
           console.log(notify.type);
           this.store.dispatch(idlePrice());
         }
-
 
         const data_rendered = notify.data;
         let name_user = 'System';
@@ -301,61 +300,36 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     localStorage.setItem('color_sidebar_left', event.target.value);
   }
 
-  goRouteNotification(url: string): void {
-    const _url = url.replace('#/', '');
-    const urlOutHash = (new URL(_url)).searchParams;
-
-    // if (url && url.includes('reports/general-stock/download')) {
-    //   this.downloadStock(url);
-    //   // SwalService.swalToast('Tu descarga iniciara en unos instantes');
-    //   return;
-    // }
-    if (urlOutHash.has('file_name')) {
-      this.downloadStock(url);
-      // SwalService.swalToast('Tu descarga iniciara en unos instantes');
+  goRouteNotification(notificationData: INotificationData): void {
+    if (notificationData.url) {
+      this.downloadStock(notificationData.url);
       return;
     }
-    if (url) {
-      const newUrl = url.replace('#/', '');
-      // console.log(url, newUrl);
-
-      const urlObjetc: any = new URL(newUrl);
-
-      const path = urlObjetc.pathname;
-      const queryStrings = Array.from(urlObjetc.searchParams.entries());
+    if (notificationData.route) {
+      const urlOutHash = notificationData.route.replace('#/', '');
+      const url_object: any = new URL(urlOutHash);
+      const path_name = url_object.pathname;
+      const queryStrings = Array.from(url_object.searchParams.entries());
       if (queryStrings.length > 0) {
         const query_ = {};
         queryStrings.forEach((item) => {
           query_[item[0]] = item[1];
         });
-        this.route.navigate([path], { queryParams: query_ });
-      } else { this.route.navigate([path]); }
+        this.route.navigate([path_name], { queryParams: query_ });
+      } else { this.route.navigate([path_name]); }
     }
   }
 
-  downloadStock(url): void {
-    const convertUrlNg = url.split('?');
-    const nameFile = convertUrlNg[1]
-      .replace(/\+-\+/gm, '_')
-      .replace('file_name=reports%2FSTOCK+GENERAL', '');
+
+
+
+  downloadStock(url: string): void {
+    const url_object = new URL(url);
+    const name_file = url_object.searchParams.get('file_name') || 'file_' + Date.now();
     this.isProgressDownloadReport = true;
     this.s_shared
-      .download(
-        'reports/general-stock/download?' + convertUrlNg[1]
-      )
+      .download(url, true)
       .subscribe((event: any) => {
-        // console.log("descargando");
-
-        // const blob = new Blob([res], { type: 'application/ms-Excel' });
-        // const urlDownload = window.URL.createObjectURL(blob);
-        // const a = document.createElement('a');
-        // document.body.appendChild(a);
-        // a.setAttribute('style', 'display: none');
-        // a.href = urlDownload;
-        // a.download = 'reporte_de_stock' + nameFile;
-        // a.click();
-        // window.URL.revokeObjectURL(urlDownload);
-        // a.remove();
         let progress = 0;
         switch (event.type) {
           case HttpEventType.Sent:
@@ -365,17 +339,15 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           case HttpEventType.DownloadProgress:
             progress = Math.round(event.loaded / event.total * 100);
             this.progressDownloadReport = progress;
-
             break;
           case HttpEventType.Response:
-
             const blob = new Blob([event.body], { type: 'application/ms-Excel' });
             const urlDownload = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             document.body.appendChild(a);
             a.setAttribute('style', 'display: none');
             a.href = urlDownload;
-            a.download = 'reporte_de_stock' + nameFile;
+            a.download =  name_file;
             a.click();
             window.URL.revokeObjectURL(urlDownload);
             a.remove();
@@ -383,7 +355,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
               this.isProgressDownloadReport = false;
               this.progressDownloadReport = 0;
             }, 1500);
-
         }
       }, (err) => { this.isProgressDownloadReport = false; });
   }

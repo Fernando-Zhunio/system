@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Cperson } from '../../../class/cperson';
-import { Inotification } from '../../../interfaces/inotification';
+import { INotification } from '../../../interfaces/inotification';
 import { selectNotification } from '../../../redux/state/state.selectors';
 import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
@@ -18,7 +18,7 @@ import { Inewsletter } from './../../../interfaces/inewsletter';
 export class InicioComponent implements OnInit {
 
   person: Cperson = new Cperson();
-  notifications$: Observable<Inotification[]>;
+  notifications$: Observable<INotification[]>;
   constructor(private s_shared: SharedService, private s_storage: StorageService, private s_standart: StandartSearchService, store: Store) {
     this.notifications$ = store.select(selectNotification);
    }
@@ -29,7 +29,7 @@ export class InicioComponent implements OnInit {
   newsletters: Inewsletter[] = [];
   icon_url: string;
   date = new Date().getTime();
-  notifications: Inotification[] = [];
+  notifications: INotification[] = [];
   suscription_notifications: Subscription;
   weather_key = environment.weather_key;
   weather_date: {

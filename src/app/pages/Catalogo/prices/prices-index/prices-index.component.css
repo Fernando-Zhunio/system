@@ -1,6 +1,8 @@
 .card-columns {
     column-count: 4 !important;
 }
+
+
 /* .example-container {
   width: 500px;
   height: 300px;
@@ -8,25 +10,46 @@
 } */
 
 .example-sidenav-content {
- display: contents;
+    display: contents;
 }
 
 .example-sidenav {
-  padding: 20px;
-  height: calc(100vh - 55px);
-  position: fixed;
-  top: 55px;
-  max-width: 300px;
+    padding: 20px;
+    height: calc(100vh - 55px);
+    position: fixed;
+    top: 55px;
+    max-width: 300px;
 }
 
 mat-form-field {
-  width: 100%;
+    width: 100%;
 }
 
 .btn-close-modify-price {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  z-index: 1;
-  opacity: .5;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+    opacity: .5;
+}
+
+.attach-file {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 111111;
+    width: 100vw;
+    height: 100vh;
+    background-color: #dadadae3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close-file {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+    /* opacity: .5; */
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Inotification } from '../../interfaces/inotification';
+import { INotification } from '../../interfaces/inotification';
 import { formatDate } from '@angular/common';
 import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
@@ -34,7 +34,7 @@ export class SharedService {
 
   public urlServer = environment.server;
 
-  private notifications = new BehaviorSubject<Inotification[]>([]);
+  private notifications = new BehaviorSubject<INotification[]>([]);
   public currentNotifications = this.notifications.asObservable();
   private _requestWork: Irequest = null;
   private _appointmentWork: Iappointment = null;
@@ -78,18 +78,19 @@ export class SharedService {
     };
   }
 
-  changeNotifications(notify: Inotification[]) {
+  changeNotifications(notify: INotification[]) {
     this.notifications.next(notify);
   }
 
-  addNotification(notify: Inotification) {
+  addNotification(notify: INotification) {
     const notifications_ = this.notifications.value;
     notifications_.unshift(notify);
     this.changeNotifications(notifications_);
   }
 
-  download(url) {
-    return this.Http.get(this.urlServer + url, {
+  download(url, isFullPath = false) {
+    const path = isFullPath ? url : this.urlServer + url;
+    return this.Http.get(path, {
       responseType: 'blob',
       reportProgress: true,
       observe: 'events'

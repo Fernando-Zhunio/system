@@ -58,8 +58,8 @@
           </div>
         </div> -->
 
-        <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data.route)"
-          class="shadow d-flex align-items-center h-auto mb-2 py-2 {{notification.read_at?'':'bg-'+notification.data.type}}"
+        <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data)"
+          class="shadow d-flex align-items-center h-auto mb-2 py-2 {{'bg-'+notification.data.type}}"
           *ngFor="let notification of notifications$ | async" (click)="$event.stopPropagation()"
           (keydown)="$event.stopPropagation()">
           <div *ngIf="notification.data.image">
@@ -69,7 +69,7 @@
             <strong>{{notification?.data?.user?.name ?notification?.data?.user?.name:'Sin Usuario'}}</strong><br>
             {{notification.data.text}}
             <br>
-            <small class="text-primary text-uppercase">{{notification.created_at | amLocale:'es' | amTimeAgo}}</small>
+            <small class="text-primary text-uppercase">{{notification?.created_at | amLocale:'es' | amTimeAgo}}</small>
           </div>
         </div>
 

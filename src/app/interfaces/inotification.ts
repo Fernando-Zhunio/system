@@ -1,6 +1,6 @@
 import { Cperson } from '../class/cperson';
 
-export interface InotificationData {
+export interface INotificationData {
   // created_at: string;
   // data: {
   // icon: string;
@@ -22,7 +22,7 @@ export interface InotificationData {
 }
 
 export interface INotification {
-   data: InotificationData; id: string; type: string;
+   data: INotificationData; id: string; type: string;
 }
 
 export interface Iuser {
