@@ -8,12 +8,6 @@ import { ShowPublicationComponent } from './publicaciones/show-publication/show-
 import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
 import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 
-// @Component({
-//   selector: 'app-catalogo',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class CatalogoMainComponents  {
-// }
 
 const permission_module = {
   publicaciones: {
@@ -117,6 +111,11 @@ const routes: Routes = [
         path: 'products',
         data: {name: 'prices'},
         loadChildren: () => import('./prices/prices.module').then(m => m.PricesModule),
+      },
+      {
+        path: 'promotions',
+        data: {name: 'promotions'},
+        loadChildren: () => import('./promotions/promotions.module').then(m => m.PromotionsModule),
       }
 ];
 

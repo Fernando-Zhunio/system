@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FilePondOptions } from 'filepond';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { Crud } from '../../../../class/crud';
 import { INotificationData } from '../../../../interfaces/inotification';
@@ -33,7 +33,7 @@ import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-
 })
 export class PricesIndexComponent
   extends Crud<IProductPrice>
-  implements OnInit {
+  implements OnInit, OnDestroy {
   constructor(
     // private _location: Location,
     protected standardService: StandartSearchService,
@@ -68,6 +68,7 @@ export class PricesIndexComponent
 
   form: FormGroup = new FormGroup({});
   isOpenFile: boolean = false;
+  subscriptionStateFile: Subscription;
 
   pondOptions: FilePondOptions = {
     allowMultiple: true,
@@ -77,14 +78,15 @@ export class PricesIndexComponent
     server: {
       url: `${environment.server}`,
       process: {
-        url: 'storage/attachments/upload',
+        url: 'catalogs/products/prices/import-file',
         headers: {
           Authorization: `Bearer ${this.storage.getCurrentToken()}`,
           Accept: 'application/json',
         },
         onload: (response: any) => {
           const data = JSON.parse(response);
-          // this.sendOneMessage(null, [data.id]);
+          console.log(data);
+          SwalService.swalFire({ title: 'Procesando excel en el servidor', text: 'El excel se esta procesando en el servidor, en unos momento recibirá una notificación describiendo el estado del proceso', icon: 'success' });
           return data.id;
         }
       },
@@ -96,15 +98,19 @@ export class PricesIndexComponent
       this.generateTemplateForm(res.data);
       this.pricesGroup = res.data;
     });
-    this.stateFilePrices$.subscribe((state: any) => {
+    this.subscriptionStateFile = this.stateFilePrices$.subscribe((state: any) => {
       console.log({ state });
       this.stateFilePrices = state;
     });
+  }
 
+  ngOnDestroy(): void {
+    if (this.subscriptionStateFile) {
+      this.subscriptionStateFile.unsubscribe();
+    }
   }
 
   generateTemplateForm(group): void {
-
     group.forEach((element) => {
       const control_input = new FormControl(null);
       const control_input_with_tax = new FormControl(null);
@@ -119,34 +125,23 @@ export class PricesIndexComponent
     });
   }
 
-  downloadExcelPrices(): void {
-    // this.stateFilePrices$.subscribe((state: EPriceState) => {
+  managerStatesPrices(): void {
     switch (this.stateFilePrices.status) {
       case EPriceState.Idle:
         this.store.dispatch(generatingPrice());
         this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
-          console.log(res.data.message);
-          SwalService.swalToast(res.data.message);
+          // console.log('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
+          SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
         }, err => {
           this.store.dispatch(idlePrice());
         });
         break;
       case EPriceState.Generated:
         this.store.dispatch(downloadPrice());
-        this.downloadPrice(this.stateFilePrices.data.url);
-        // this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
-        //   console.log(res);
-        //   SwalService.swalToast(res.data);
-        // }, err => {
-        //   this.store.dispatch(idlePrice());
-        // });
+        console.log(this.stateFilePrices);
+        this.downloadExcelPrice(this.stateFilePrices.data.url);
         break;
     }
-    // }).unsubscribe();
-  }
-
-  progressDownloadPercent(event): void {
-    console.log(event);
   }
 
   openSidenavPriceForEdit(id: number): void {
@@ -250,7 +245,7 @@ export class PricesIndexComponent
 
   }
 
-  downloadPrice(url: string): void {
+  downloadExcelPrice(url: string): void {
     const url_object = new URL(url);
     const name_file = url_object.searchParams.get('file_name') || 'file_' + Date.now();
     this.s_shared
@@ -278,12 +273,6 @@ export class PricesIndexComponent
             window.URL.revokeObjectURL(urlDownload);
             a.remove();
             this.store.dispatch(idlePrice());
-
-          // setTimeout(() => {
-
-          //   // this.isProgressDownloadReport = false;
-          //   // this.progressDownloadReport = 0;
-          // }, 1500);
         }
       }, (err) => { });
   }

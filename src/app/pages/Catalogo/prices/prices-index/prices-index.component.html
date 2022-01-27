@@ -1,6 +1,6 @@
 <div class="w-100">
     <mat-drawer-container style="position: inherit;" class="example-container bg-transparent">
-        <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+        <mat-drawer #drawer class="example-sidenav" style="top: 0;height: 100vh;" mode="over" position="end">
             <button mat-mini-fab class="btn-close-modify-price" (click)="drawer.toggle()">
                 <mat-icon>close</mat-icon>
             </button>
@@ -39,15 +39,14 @@
 
         <mat-drawer-content class="example-sidenav-content w-100">
             <div>
-                <h1 class="m-0 mt-3 font-4xl font-facebook">Listado de precio</h1>
+                <h1 class="m-0 mt-3 font-4xl font-facebook list-group-item-accent-warning pl-2">Listado de precio</h1>
                 <div class="mt-2">
-
                     <button mat-raised-button (click)="isOpenFile = true" color="primary" class="mr-2">Importar precios
                         <mat-icon>file_upload</mat-icon>
                     </button>
                     <button
                         [disabled]="stateFilePrices.status == EPriceState.Generating || stateFilePrices.status == EPriceState.Downloading"
-                        mat-raised-button color="accent" (click)="downloadExcelPrices()">{{stateFilePrices.status}}
+                        mat-raised-button color="accent" (click)="managerStatesPrices()">{{stateFilePrices.status}}
                         <mat-icon>file_download</mat-icon>
                         <mat-spinner
                             *ngIf="stateFilePrices.status == EPriceState.Generating || stateFilePrices.status == EPriceState.Downloading"
@@ -56,7 +55,7 @@
                     <div class="attach-file" *ngIf="isOpenFile">
                         <button mat-icon-button class="btn-close-file" color="warn" (click)="isOpenFile = false"><mat-icon>close</mat-icon></button>
                         <div class="container">
-                            <file-pond #myPond (onprocessfiles)="successFiles($event)" [className]="'m-0'"
+                            <file-pond #myPond  [className]="'m-0'"
                                 [options]="pondOptions">
                             </file-pond>
                         </div>
@@ -70,7 +69,7 @@
                                     <mat-card-title>{{product.value.name}}</mat-card-title>
                                     <mat-card-subtitle>{{product.value.created_at | date}}</mat-card-subtitle>
                                 </mat-card-header>
-                                <img matCardImage [src]="product.value.image || 'assets/img/img_not_available.png'">
+                                <img matCardImage class="img-product" [src]="product.value.image || 'assets/img/img_not_available.png'">
                                 <mat-card-content>
                                     <mat-chip-list>
                                         <mat-chip>Disponible: {{product.value.available}}</mat-chip>
@@ -104,7 +103,6 @@
                                 </mat-card-content>
                             </mat-card>
                         </ng-container>
-
                     </app-search-template>
                 </div>
             </div>

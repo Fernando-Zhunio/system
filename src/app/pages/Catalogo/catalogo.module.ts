@@ -38,9 +38,10 @@ import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or
 import { TemplateSearchModule } from './../../Modulos/template-search/template-search.module';
 import { MatTreeModule } from '@angular/material/tree';
 import { ToolsModule } from '../../Modulos/tools/tools.module';
+// import { PromotionsIndexComponent } from './promotions/promotions-index/promotions-index.component';
 
 @NgModule({
-  declarations: [ RepublicarCuentasModalComponent, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent],
+  declarations: [ RepublicarCuentasModalComponent, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent, /* PromotionsIndexComponent */],
   imports: [
   CommonModule,
     CatalogoRoutingModule,

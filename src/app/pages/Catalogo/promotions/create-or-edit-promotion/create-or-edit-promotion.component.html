@@ -1,0 +1,61 @@
+<div>
+    <mat-drawer-container class="example-container bg-transparent" autosize>
+        <mat-drawer position="end" mode="over" #drawer class="example-sidenav col-md-6 position-fixed" mode="side">
+            <p>Auto-resizing sidenav</p>
+            <!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p> -->
+            <!-- <button (click)="showFiller = !showFiller" mat-raised-button>
+            Toggle extra text
+          </button> -->
+            <app-search [url]="urlSearchProducts">
+                <ng-container data>
+
+                </ng-container>
+                
+            </app-search>
+
+        </mat-drawer>
+
+        <div class="example-sidenav-content">
+            <h2 class="font-facebook font-5xl my-2 list-group-item-accent-warning">{{title}}</h2>
+            <mat-card class="shadow card-body rounded-fz">
+                <form [formGroup]="form" class="row m-0">
+                    <mat-form-field class="col-md-12 col-12">
+                        <input matInput placeholder="Titulo" formControlName="title">
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4 col-12">
+                        <input matInput placeholder="Precio" formControlName="price">
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4 col-12">
+                        <mat-select placeholder="Seleccione un tipo de duración" formControlName="duration_type">
+                            <mat-option *ngFor="let duration of durationType">{{duration}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-4 col-12">
+                        <mat-select placeholder="Seleccione un estado" formControlName="status">
+                            <mat-option *ngFor="let _status of statuses">{{_status}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12 col-12">
+                        <textarea matInput placeholder="Nota" formControlName="note"></textarea>
+                    </mat-form-field>
+
+                    <div class="col-12 mb-4">
+                        <h3>Productos</h3>
+                        <button type="button" mat-flat-button color="accent" (click)="drawer.toggle()">
+                            Abrir buscador de producto
+                        </button>
+                    </div>
+
+                    <button type="submit" mat-flat-button color="primary" (click)="drawer.toggle()">
+                        Guardar promoción
+                    </button>
+                </form>
+            </mat-card>
+        </div>
+
+    </mat-drawer-container>
+</div>

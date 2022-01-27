@@ -49,6 +49,7 @@
     "@ngrx/store": "^9.2.1",
     "@ngrx/store-devtools": "^9.2.1",
     "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "@types/chart.js": "^2.7.50",
     "air-datepicker": "^3.0.1",
     "angular-simple-scroll-spy": "0.0.3",

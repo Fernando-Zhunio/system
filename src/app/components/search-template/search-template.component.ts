@@ -23,6 +23,7 @@ export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements On
   @Input() columns = 4;
   @Output() isloading = new EventEmitter<boolean>();
   @Output() data = new EventEmitter<any>();
+  
 
   ngOnInit(): void {
 // console.log(this.filter_data);
@@ -41,9 +42,8 @@ export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements On
     this.data.emit(this.products);
   }
 
-
-
   hasIsLoading(): void {
     this.isloading.emit(this.isload);
   }
+
 }

@@ -176,14 +176,16 @@
                 p.ml_infos.length > 0 ||
                 p.last_prices.length > 0
               ">
-              <div *ngIf="p.last_prices.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div *ngIf="p?.last_prices?.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="header">
                   <div class="font-faccebook font-3xl my-4">Precios</div>
                 </div>
-                <ul class="list-group">
-                  <li *ngFor="let price of p.last_prices" class="list-group-item">
-                    {{ price.group.name }}:
-                    <b>${{ price.full_price_formated }}</b>
+                <ul class="card-body rounded-fz shadow list-unstyled">
+                  <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
+
+                        <mat-chip> {{ price.group.name }}:</mat-chip>
+
+                    <b>${{ price?.full_price_formated }}</b>
                   </li>
                 </ul>
               </div>

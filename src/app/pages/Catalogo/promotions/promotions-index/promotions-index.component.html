@@ -1,0 +1,12 @@
+<div>
+    <h2 class="list-group-item-accent-warning font-facebook font-5xl pl-2 my-2">Promociones</h2>
+    <app-search-template [key_paginator]="'promotions'" [url$]="url" (data)="getData($event)">
+        <ng-container menuBar>
+            <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active"  selected="true" color="accent" class="ml-1"><mat-icon>add</mat-icon></mat-chip>
+        </ng-container>
+        <ng-container data>
+
+        </ng-container>
+        
+    </app-search-template>
+</div>

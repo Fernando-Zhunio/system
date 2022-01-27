@@ -2,13 +2,6 @@
     column-count: 4 !important;
 }
 
-
-/* .example-container {
-  width: 500px;
-  height: 300px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-} */
-
 .example-sidenav-content {
     display: contents;
 }
@@ -37,13 +30,14 @@ mat-form-field {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 111111;
+    z-index: 1050;
     width: 100vw;
     height: 100vh;
-    background-color: #dadadae3;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #dadada73;
+    backdrop-filter: blur(10px);
 }
 
 .btn-close-file {
@@ -52,4 +46,9 @@ mat-form-field {
     right: 5px;
     z-index: 1;
     /* opacity: .5; */
+}
+
+.img-product {
+    max-height: 200px;
+    object-fit: contain;
 }

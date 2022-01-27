@@ -190,19 +190,27 @@ export class DataSidebar {
       tag: this.tags.catalogs,
     },
     {
-      name: 'Publicaciones',
-      url: '/catalogo/publicaciones',
-      icon: 'fab fa-telegram-plane',
-      permission: 'catalogs.publications.index',
-      tag: this.tags.catalogs,
-    },
-    {
       name: 'Precios',
       url: '/catalogo/products/prices',
       icon: 'fas fa-dollar-sign',
       permission: 'catalogs.products.prices.index',
       tag: this.tags.catalogs,
     },
+    {
+      name: 'Promociones',
+      url: '/catalogo/promotions',
+      icon: 'cui-tags',
+      permission: 'catalogs.promotions.index',
+      tag: this.tags.catalogs,
+    },
+    {
+      name: 'Publicaciones',
+      url: '/catalogo/publicaciones',
+      icon: 'fab fa-telegram-plane',
+      permission: 'catalogs.publications.index',
+      tag: this.tags.catalogs,
+    },
+   
     //#endregion
 
     //#region imports
