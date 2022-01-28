@@ -1,0 +1,18 @@
+.mat-chip {
+    height: auto;
+}
+
+.btn-close-sidebar {
+    position: absolute;
+    top: 5px;
+    right: 101%;
+    z-index: 1;
+}
+
+.example-sidenav{
+    overflow: initial;
+}
+
+/* .card-columns {
+    column-count: 2;
+} */

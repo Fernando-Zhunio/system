@@ -14,6 +14,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SearchesModule } from '../../../Modulos/searches/searches.module';
+import { MatListModule } from '@angular/material/list';
+import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
+// import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -30,8 +33,11 @@ import { SearchesModule } from '../../../Modulos/searches/searches.module';
     MatSelectModule,
     MatCardModule,
     MatSidenavModule,
+    MatListModule,
     SearchesModule,
     ReactiveFormsModule,
+    TranslatefzModule,
+    // TranslateModule.forChild({defaultLanguage: 'es'}),
   ]
 })
 export class PromotionsModule {}

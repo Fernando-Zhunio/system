@@ -1,14 +1,36 @@
 <div>
-    <mat-drawer-container class="example-container bg-transparent" autosize>
-        <mat-drawer position="end" mode="over" #drawer class="example-sidenav col-md-6 position-fixed" mode="side">
-            <p>Auto-resizing sidenav</p>
+    <mat-drawer-container class="example-container bg-transparent">
+        <mat-drawer fixedInViewport="true" position="end" mode="over" #drawer class="example-sidenav  col-md-6 position-fixed" >
             <!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p> -->
-            <!-- <button (click)="showFiller = !showFiller" mat-raised-button>
+            <!-- <button  mat-raised-button>
             Toggle extra text
           </button> -->
-            <app-search [url]="urlSearchProducts">
+          
+          <button mat-mini-fab class="btn-close-sidebar" color="warn" (click)="drawer.toggle()"><mat-icon>close</mat-icon></button>
+            <app-search #search [url]="urlSearchProducts" placeholder="Buscador de productos" (data)="getProducts($event)">
                 <ng-container data>
-
+                    <div class="card-columns p-2">
+                        <div class="card border-0 rounded-fz shadow" *ngFor="let product of products | keyvalue">
+                            <div class="card-body">
+                                <div class="text-primary">{{product.value.name}}</div>
+                                <img class="w-100" [src]="product.value.image || 'assets/img/img_default_null.jpg'" alt="imagen producto">
+                                <div class="my-2">
+                                    <mat-chip-list>
+                                        <mat-chip>Codigo: {{product.value.code}}</mat-chip>
+                                        <mat-chip>Codigo Alt: {{product.value.code_alt}}</mat-chip>
+                                        <mat-chip>Creado: {{product.value.created_at | date}}</mat-chip>
+                                    </mat-chip-list>
+                                </div>
+                                <div>
+                                    <button *ngIf="!productsSelected.has(product.key); else templateBtnRemove" mat-mini-fab color="accent" (click)="addProductSelected(product.key)"><mat-icon>add</mat-icon></button>
+                                    <ng-template #templateBtnRemove>
+                                        <button mat-mini-fab color="warn" (click)="removeProductSelected(product.key)"><mat-icon>remove</mat-icon></button>
+                                    </ng-template>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </ng-container>
                 
             </app-search>
@@ -29,13 +51,13 @@
 
                     <mat-form-field class="col-md-4 col-12">
                         <mat-select placeholder="Seleccione un tipo de duración" formControlName="duration_type">
-                            <mat-option *ngFor="let duration of durationType">{{duration}}</mat-option>
+                            <mat-option [value]="duration" *ngFor="let duration of durationType">{{duration | translatefz:'promotions'}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field class="col-md-4 col-12">
                         <mat-select placeholder="Seleccione un estado" formControlName="status">
-                            <mat-option *ngFor="let _status of statuses">{{_status}}</mat-option>
+                            <mat-option [value]="_status" *ngFor="let _status of statuses">{{ _status | translatefz}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -43,14 +65,32 @@
                         <textarea matInput placeholder="Nota" formControlName="note"></textarea>
                     </mat-form-field>
 
-                    <div class="col-12 mb-4">
-                        <h3>Productos</h3>
+                    <div class="col-12 mb-4 card-body shadow rounded-fz">
+                        <h3 class="font-facebook font-2xl my-2">Productos</h3>
+                        <div class="row">
+                            <mat-list class="col-md-6 col-12" *ngFor="let productSelected of productsSelected | keyvalue">
+                                <mat-list-item >
+                                    <img mat-list-icon [src]="productSelected.value.image || 'assets/img/img_default_null.jpg'" alt="imagen producto">
+                                    <div mat-line>{{productSelected.value.name}} </div>
+                                    <div mat-line> {{productSelected.value.code}} </div>
+                                    <button mat-icon-button color="warn" (click)="removeProductSelected(productSelected.key)"><mat-icon>delete</mat-icon></button>
+                                    <div mat-line>
+                                        <mat-form-field>
+                                            <input matInput [formControlName]="'quantity_'+productSelected.key" placeholder="Cantidad" >
+                                        </mat-form-field>
+                                        <mat-form-field>
+                                            <input matInput [formControlName]="'listPrice_'+productSelected.key" placeholder="Se factura en" >
+                                        </mat-form-field>
+                                    </div>
+                                </mat-list-item>                                
+                              </mat-list>
+                        </div>
                         <button type="button" mat-flat-button color="accent" (click)="drawer.toggle()">
                             Abrir buscador de producto
                         </button>
                     </div>
 
-                    <button type="submit" mat-flat-button color="primary" (click)="drawer.toggle()">
+                    <button type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="drawer.toggle()">
                         Guardar promoción
                     </button>
                 </form>

@@ -1,0 +1,29 @@
+.input-default {
+    border: solid #dadada;
+    outline: blueviolet;
+    border-radius: 20px;
+    width: 100%;
+    padding: 10px 15px;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    padding-right: 35px;
+}
+
+.btn-default {
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.content-btns {
+    position: absolute;
+    right: 14px;
+}
+
+.grid-default {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    margin-top: 20px;
+}

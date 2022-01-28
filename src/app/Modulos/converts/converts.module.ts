@@ -7,9 +7,6 @@ import { KeysObjectToArrayPipe } from '../../pipes/keys-object-to-array.pipe';
 
 @NgModule({
   declarations: [ConvertObjectToArrayPipe,KeysObjectToArrayPipe],
-  // imports: [
-  //   CommonModule
-  // ],
   exports:[ConvertObjectToArrayPipe,KeysObjectToArrayPipe]
 })
 export class ConvertsModule { }

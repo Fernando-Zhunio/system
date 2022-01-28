@@ -1,17 +1,29 @@
 <div>
     <div>
-        <div>
-            <input type="search">
-            <button><i class="fas fa-search"></i></button>
+        <h2 class="my-2 font-3xl font-facebook">{{title}}</h2>
+    </div>
+    <div class="sticky-top">
+        <div class="p-2 position-relative center">
+            <input (keydown.enter)="searchText()" [(ngModel)]="textSearch" class="input-default" type="search">
+            <div class="content-btns">
+                <button (click)="searchText()" class="btn-default"><i class="fas fa-search"></i></button>
+            </div>
         </div>
     </div>
     <div>
-        <ng-content select="[data]">
-                    
-        </ng-content>
-        <mat-paginator [hidden]="isLoading" *ngIf="length > 0" [pageSizeOptions]="[10, 20, 30]"
-            (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.pageSize" [length]="paginator.length"
-            [pageIndex]="paginator.pageIndex">
-          </mat-paginator>
+        <div *ngIf="!isLoading && paginator.length > 0">
+            <ng-content select="[data]"></ng-content>
+        </div>
+        <div class="text-center" *ngIf="isLoading">
+            <p class="font-2xl">Cargando espere ...</p>
+            <mat-spinner class="m-auto"></mat-spinner>
+        </div>
+        <div *ngIf="paginator.length <= 0 && !isLoading">
+            <h2 class="text-center">No hay resultados</h2>
+        </div>
+        <mat-paginator [hidden]="isLoading" *ngIf="paginator.length > 0" [pageSizeOptions]="[10, 20, 30]"
+            (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.pageSize"
+            [length]="paginator.length" [pageIndex]="paginator.pageIndex">
+        </mat-paginator>
     </div>
 </div>
