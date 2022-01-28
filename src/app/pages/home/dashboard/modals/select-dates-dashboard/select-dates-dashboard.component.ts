@@ -28,7 +28,6 @@ export class SelectDatesDashboardComponent implements OnInit {
     multipleDatesSeparator: ' A ',
     onSelect: ({ datepicker,  }) => {
       const dates = datepicker.selectedDates;
-      
       if (dates.length == 2) {
         const days = Math.abs(moment(dates[0]).diff(moment(dates[1]), 'days'));
         this.daysDate1 = days;
