@@ -42,7 +42,12 @@ export class SharedService {
   public static dates_of_dashboard: { start_date: Date, end_date: Date } = null;
 
 
-  // tslint:disable-next-line: member-ordering
+  /**
+   * Metodo convertido de fechas de datepicker
+   * @param valueDate valor de fecha de un date picker
+   * @param format // formato de fecha por defecto es yyyy/MM/dd
+   * @returns retorna una fecha en formato yyyy/MM/dd
+   */
   public static convertDateForLaravelOfDataPicker(valueDate, format = 'yyyy/MM/dd'): string {
     return formatDate(new Date(valueDate), format, 'en');
   }

@@ -1,0 +1,6 @@
+<mat-selection-list [multiple]="false">
+    <mat-list-option *ngFor="let item of data">
+        <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+        <div mat-line *ngFor="let line of item.lines">{{line}}</div>
+    </mat-list-option>
+</mat-selection-list>

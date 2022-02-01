@@ -3,11 +3,14 @@ import { CTemplateSearch } from '../../../class/ctemplate-search';
 import { Iuser } from '../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { animation_conditional } from '../../../animations/animate_leave_enter';
 
 @Component({
   selector: 'app-users-web-rrhh',
   templateUrl: './users-web-rrhh.component.html',
-  styleUrls: ['./users-web-rrhh.component.css']
+  styleUrls: ['./users-web-rrhh.component.css'],
+  animations: animation_conditional
+
 })
 export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> implements OnInit {
 

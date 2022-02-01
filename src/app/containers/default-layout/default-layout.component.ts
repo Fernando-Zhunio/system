@@ -23,6 +23,7 @@ import { Store, select } from '@ngrx/store';
 import { addNotification, overrideNotification } from '../../redux/actions/notification.action';
 import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
+import { setPreference } from '../../redux/actions/preference.action';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,7 +37,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_storage: StorageService,
     private s_standard: StandartSearchService,
     public s_shared: SharedService,
-    // private s_custom_reusing: RouteReuseStrategy,
     private dialog: MatDialog,
     public overlayContainer: OverlayContainer,
     public sw_push: SwPush,
@@ -46,6 +46,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   notifications$: Observable<INotification[]>;
+
   @HostBinding('class') componentCssClass;
 
   public sidebarMinimized = false;
@@ -98,9 +99,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.notifications$) {
-    }
-
     this.echo.leave('App.Models.User.' + this.user.id);
   }
 
@@ -172,16 +170,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getNotification(): void {
-    // this.subscriptionNotification = this.s_shared.currentNotifications.subscribe(
-    //   (res) => {
-    //     this.notifications = res;
-    //   }
-    // );
     this.s_standard.index('notifications/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        // console.log(res.data);
         this.store.dispatch(overrideNotification({ notifications: res.data.notifications }));
-
         const notifications = res.data.notifications;
         // ** Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
         this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
@@ -228,6 +219,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
         this.TYPE_NOTY_WEBPUSH.state =
           res.data[this.TYPE_NOTY_WEBPUSH.value] === 'on' ? true : false;
+        this.store.dispatch(setPreference({ preference: res.data }));
       }
     });
   }
@@ -240,26 +232,22 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         // console.log(permissionAndRol);
         this.searchBar = new ListPermissions(this.s_storage);
         this.navItems = this.generateSideBarItems();
-
       }
     });
   }
+
   suscribeNotifications(user): void {
     this.echo = new EchoManager(this.s_storage).echo;
     this.echo
       .private('App.Models.User.' + user.id)
       .notification((notify: INotification) => {
-        console.log(notify);
-        console.log(notify.type);
         this.store.dispatch(addNotification({ notification: notify }));
         if (notify.type == 'App\\Notifications\\NotificationPrice') {
           this.store.dispatch(generatePrice({data: notify.data}));
         }
         if (notify.type === 'App\\Notifications\\ErrorPriceNotification') {
-          console.log(notify.type);
           this.store.dispatch(idlePrice());
         }
-
         const data_rendered = notify.data;
         let name_user = 'System';
         if (

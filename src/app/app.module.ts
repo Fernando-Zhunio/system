@@ -100,7 +100,6 @@ import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { UsersGroupsChatModalComponent } from './components/chat-template/users-groups-chat-modal/users-groups-chat-modal.component';
-// import { MarkdwonPipe } from './pipes/markdwon.pipe';
 import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
 import { OrderModule } from 'ngx-order-pipe';
@@ -108,9 +107,9 @@ import { StoreModule } from '@ngrx/store';
 import { notificationsReducer } from './redux/reducers/notifications.reducer';
 import { pricesReducer } from './redux/reducers/price.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-// import { TranslateModule } from '@ngx-translate/core';
-
-// import {AutosizeModule} from 'ngx-autosize';
+import { preferenceReducer } from './redux/reducers/preference.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { PreferenceEffects } from './redux/effects/preference.effect';
 
 
 registerLocaleData(localeEs, 'es');
@@ -127,10 +126,8 @@ registerLocaleData(localeEs, 'es');
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    // ChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // ProductoModule,
     NgxSpinnerModule,
     PopoverModule.forRoot(),
     NgxPermissionsModule.forRoot(),
@@ -157,7 +154,6 @@ registerLocaleData(localeEs, 'es');
     MatDatepickerModule,
     MatNativeDateModule,
     NgxEmojiPickerModule,
-    // AutosizeModule,
     OverlayModule,
     InfiniteScrollModule,
     FilePondModule,
@@ -168,14 +164,9 @@ registerLocaleData(localeEs, 'es');
       enabled: environment.production,
     }),
     OrderModule,
-    StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer }),
-    StoreDevtoolsModule.instrument({
-      // maxAge: 25, // Retains last 25 states
-      // logOnly: environment.production, // Restrict extension to log-only mode
-      // autoPause: true, // Pauses recording actions and state changes when the extension window is not open
-    }),
-    // TranslateModule.forRoot({defaultLanguage: 'es'})
-
+    StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preference: preferenceReducer }),
+    EffectsModule.forRoot([PreferenceEffects]),
+    StoreDevtoolsModule.instrument({}),
   ], 
   declarations: [
     AppComponent,
@@ -228,7 +219,6 @@ registerLocaleData(localeEs, 'es');
     { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
   ],
   entryComponents: [
-    
     InfoViewComponent,
     StockBodegasComponent,
     SelectProviderComponent,

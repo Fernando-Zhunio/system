@@ -18,6 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TranslatefzModule } from '../translatefz/translatefz.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -37,7 +39,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatInputModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    TranslatefzModule,
+    RouterModule,
   ],
   entryComponents: [ModalRealistComponent],
   exports: [

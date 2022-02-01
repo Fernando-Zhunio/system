@@ -1,0 +1,7 @@
+.mat-list-item {
+    height: 40px !important;
+}
+.note {
+    height: auto !important;
+    margin-bottom: 8px;
+}

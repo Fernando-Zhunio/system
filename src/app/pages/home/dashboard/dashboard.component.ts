@@ -22,6 +22,9 @@ import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LocalesChartComponent } from './chart/locales-chart/locales-chart.component';
 import { CategoryChartComponent } from './chart/category-chart/category-chart.component';
+import { Store } from '@ngrx/store';
+import { selectPreference } from '../../../redux/state/state.selectors';
+import { IDatesDashboard } from '../../../interfaces/idates-dashboard';
 moment.locale('es');
 Chart.register(...registerables);
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
@@ -42,18 +45,16 @@ interface IsellerTable {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(public s_stardart: StandartSearchService, private router: Router, private bottomSheet: MatBottomSheet, private dialogDates: MatDialog) {
+  constructor(private store: Store, public s_standard: StandartSearchService, private router: Router, private bottomSheet: MatBottomSheet, private dialogDates: MatDialog) {
   }
   @ViewChild('chartSell', { static: true }) chartSellChart: SellChartComponent;
   @ViewChild('chartProduct', { static: true }) chartProductChart: ProductChartComponent;
   @ViewChild('chartLocales', { static: true }) chartLocales: LocalesChartComponent;
   @ViewChild('chartCategory', { static: true }) chartCategory: CategoryChartComponent;
 
-  // chartProduct: Chart = null;
-  // chartLocales: Chart = null;
   chartVentas: Chart = null;
   chartSellForCategories: Chart = null;
-  dateRange: { first_date: any[], last_date: any[] } = { first_date: [], last_date: [] };
+  dateRange: IDatesDashboard = null;
   formDate: FormGroup = new FormGroup({
     star_date: new FormControl(new Date()),
     end_date: new FormControl(new Date()),
@@ -84,13 +85,13 @@ export class DashboardComponent implements OnInit {
   ELEMENT_DATA_SELLER: IsellerTable[] = [];
   dataSourceSeller = new MatTableDataSource<IsellerTable>(this.ELEMENT_DATA_SELLER);
   paginatorSeller: PageEvent = new PageEvent();
-
   airDate: AirDatepicker = null;
   airDatePreview: AirDatepicker = null;
   total_sell: IsalesHeader;
   value_middle: IsalesHeader;
   invoice_total: IsalesHeader;
   products_sold_count: IsalesHeader;
+  readonly keyDashboardDates: string = 'dashboard_dates';
   options = {
     locale: localeEs,
     dateFormat: 'yyyy MMMM dd',
@@ -99,58 +100,88 @@ export class DashboardComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.loadDateLocalStorage();
+    this.store.select(selectPreference).subscribe(preferences => {
+      console.log(preferences);
+      if (preferences && preferences.hasOwnProperty(this.keyDashboardDates) && preferences[this.keyDashboardDates] !== null) {
+        this.dateRange = preferences[this.keyDashboardDates];
+        this.getDateHeader();
+
+      }
+    });
+    // this.loadDate();
     this.getDateHeader();
-    // this.createChartLocales();
-    // this.createChartSellOfCategories();
     this.updateTableForLocales();
     this.updateChartTableForCity();
     this.updateTableForSellers();
   }
 
   getDateHeader(): void {
-    const date = this.getDate();
-    this.s_stardart.index(`dashboard/stats/basic-metrics?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`).subscribe(
+    // const date = this.getDate();
+    this.s_standard.search2(`dashboard/stats/basic-metrics?start_date`, this.dateRange).subscribe(
       (response) => {
         this.assignHeaderDate(response.data);
 
       }, err => { console.log(err); });
   }
 
-  getDate(): { first_date: any[], last_date: any[] } {
-    const first_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[1])];
-    const last_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[1])];
-    return { first_date, last_date };
+  getDate(): any {
+    // const first_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[1])];
+    // const last_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[1])];
+    return { first_date: ['2022/01/22', '2022-01-20'], last_date: ['2022-01-15', '2022-01-11'] };
   }
 
-  loadDateLocalStorage(): void {
-   
-    // if (date == null || date.hasOwnProperty('first_date') === false || date.hasOwnProperty('last_date') === false ) {
-    //   datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
+  loadDate(): void {
+    // try {
+    this.store.select(selectPreference).subscribe(preferences => {
+      console.log(preferences);
+      if (preferences.hasOwnProperty(this.keyDashboardDates) && preferences[this.keyDashboardDates] !== null) {
+        this.dateRange = preferences[this.keyDashboardDates];
+      }
+    });
+    //   const date = JSON.parse(localStorage.getItem('dates_all'));
+    //   const first_date = [];
+    //   first_date[0] = this.isValidDate(date?.first_date[0]) ? date.first_date[0] : new Date(moment(new Date()).subtract(7, 'days').format());
+    //   first_date[1] = this.isValidDate(date?.first_date[1]) ? date.first_date[1] : new Date();
+
+    //   const last_date = [];
+    //   last_date[0] = this.isValidDate(date?.last_date[0]) ? date.last_date[0] : new Date(moment(new Date()).subtract(14, 'days').format());
+    //   last_date[1] = this.isValidDate(date?.last_date[1]) ? date.last_date[1] : new Date(moment(new Date()).subtract(7, 'days').format());
+
+    //   datesAll = { first_date: first_date, last_date: last_date };
     //   localStorage.setItem('dates_all', JSON.stringify(datesAll));
-    // } else {
-    //   }
-    let datesAll = null;
-      try {
-        // const date = JSON.parse(localStorage.getItem('dates_all'));
-      const date = JSON.parse(localStorage.getItem('dates_all'));
-      const first_date = [];
-       first_date[0] = this.isValidDate(date?.first_date[0]) ? date.first_date[0] : new Date(moment(new Date()).subtract(7, 'days').format());
-       first_date[1] = this.isValidDate(date?.first_date[1]) ? date.first_date[1] : new Date();
+    //   this.dateRange = datesAll;
 
-      const last_date = [];
-      last_date[0] = this.isValidDate(date?.last_date[0]) ? date.last_date[0] : new Date(moment(new Date()).subtract(14, 'days').format());
-      last_date[1] = this.isValidDate(date?.last_date[1]) ? date.last_date[1] : new Date(moment(new Date()).subtract(7, 'days').format());
+    // }
+    //  catch (error) {
+    //   console.log({ error });
+    //   this.generateDates();
+    // }
 
-      datesAll = { first_date: first_date, last_date: last_date };
-      localStorage.setItem('dates_all', JSON.stringify(datesAll));
-      this.dateRange = datesAll;
-    } catch (e) {
-      console.log(e);
-      datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
-      localStorage.setItem('dates_all', JSON.stringify(datesAll));
-      this.dateRange = datesAll;
-    }
+
+
+    //   const date = JSON.parse(localStorage.getItem('dates_all'));
+    //   const first_date = [];
+    //    first_date[0] = this.isValidDate(date?.first_date[0]) ? date.first_date[0] : new Date(moment(new Date()).subtract(7, 'days').format());
+    //    first_date[1] = this.isValidDate(date?.first_date[1]) ? date.first_date[1] : new Date();
+
+    //   const last_date = [];
+    //   last_date[0] = this.isValidDate(date?.last_date[0]) ? date.last_date[0] : new Date(moment(new Date()).subtract(14, 'days').format());
+    //   last_date[1] = this.isValidDate(date?.last_date[1]) ? date.last_date[1] : new Date(moment(new Date()).subtract(7, 'days').format());
+
+    //   datesAll = { first_date: first_date, last_date: last_date };
+    //   localStorage.setItem('dates_all', JSON.stringify(datesAll));
+    //   this.dateRange = datesAll;
+    // } catch (e) {
+    //   console.log(e);
+    //   this.generateDates();
+    // }
+  }
+
+  generateDates(): void {
+    const datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
+    localStorage.setItem('dates_all', JSON.stringify(datesAll));
+    // this.dateRange = datesAll;
+
   }
 
   isValidDate(date: Date): boolean {
@@ -158,56 +189,11 @@ export class DashboardComponent implements OnInit {
   }
 
   assignHeaderDate(data: IheaderDashboard): void {
-    // console.log(data);
     this.total_sell = data.sales_total;
     this.value_middle = data.sales_average;
     this.invoice_total = data.sales_count;
     this.products_sold_count = data.products_sold_count;
   }
-
-  //#region Chart Locales
-  // createChartLocales(): void {
-  //   const _chart = document.getElementById('chart-locations') as any;
-  //   const ctx = _chart.getContext('2d') as any;
-  //   const dataChart: ChartConfiguration = {
-  //     type: 'doughnut',
-  //     data: {
-  //       labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
-  //       datasets: [
-  //         {
-  //           label: 'Ventas',
-  //           data: [1, 1, 1, 1, 1],
-  //           // backgroundColor: 'rgba(0,200,83,0.5)',
-  //           borderColor: 'rgba(0,200,83,0.5)',
-  //           borderWidth: 2,
-  //           backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
-  //         }]
-  //     },
-  //     options: {
-  //       responsive: true,
-  //       maintainAspectRatio: false,
-  //     }
-  //   };
-  //   this.chartLocales = new Chart(ctx as any, dataChart);
-  //   this.updateChartLocales();
-  // }
-
-  // updateChartLocales(key: EkeyDashboard = EkeyDashboard.location_sales): void {
-  //   const date = this.getDate();
-  //   // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=5`)
-  //   this.suscribeForTop(key)
-  //   .subscribe((res) => {
-  //     // console.log(res);
-  //     const data = res.data.data as ItopDashboard<IstatisticableLocation>[];
-  //     this.chartLocales.data.datasets[0].data = [];
-  //     this.chartLocales.data.datasets[0].data = data.map(item => item._total);
-  //     this.chartLocales.data.labels = data.map(item => item.statisticable.name);
-  //     this.chartLocales.update();
-
-  //   });
-  // }
-
-  //#endregion Chart Locales
 
   openSelectVersus(): void {
     this.bottomSheet.open(IndexComponent);
@@ -220,16 +206,16 @@ export class DashboardComponent implements OnInit {
         this.dateRange = result;
         this.getDateHeader();
 
-        this.chartLocales.dates = this.getDate();
+        // this.chartLocales.dates = this.getDate();
         this.chartLocales.updateChart();
 
-        this.chartProductChart.dates = this.getDate();
+        // this.chartProductChart.dates = this.getDate();
         this.chartProductChart.updateChart();
 
-        this.chartSellChart.dates = this.getDate();
+        // this.chartSellChart.dates = this.getDate();
         this.chartSellChart.updateChart();
 
-        this.chartCategory.dates = this.getDate();
+        // this.chartCategory.dates = this.getDate();
         this.chartCategory.updateChart();
 
         this.updateTableForLocales();
@@ -271,19 +257,19 @@ export class DashboardComponent implements OnInit {
     const date = this.getDate();
     // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=category-sales&limit=5`)
     this.suscribeForTop(key)
-    .subscribe((res) => {
-      const data = res.data.data as ItopDashboard<IsellForCategories>[];
-      this.chartSellForCategories.data.labels = data.map(item => item.statisticable.name);
-      this.chartSellForCategories.data.datasets[0].data = data.map(item => item.total);
-      this.chartSellForCategories.update();
-    });
+      .subscribe((res) => {
+        const data = res.data.data as ItopDashboard<IsellForCategories>[];
+        this.chartSellForCategories.data.labels = data.map(item => item.statisticable.name);
+        this.chartSellForCategories.data.datasets[0].data = data.map(item => item.total);
+        this.chartSellForCategories.update();
+      });
   }
   //#endregion Chart Sell of Categories
 
   //#region Table for City
   updateChartTableForCity(): void {
     const date = this.getDate();
-    this.s_stardart.index(`dashboard/stats/sales-by-Cities?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`)
+    this.s_standard.index(`dashboard/stats/sales-by-Cities?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`)
 
       .subscribe((res) => {
         const data = res.data as IsellForCity[];
@@ -363,7 +349,7 @@ export class DashboardComponent implements OnInit {
   //#endregion Table for Seller
 
 
-  suscribeForTop(key: EkeyDashboard, model_id = null, order: 'asc'| 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
+  suscribeForTop(key: EkeyDashboard, model_id = null, order: 'asc' | 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
     const date = this.getDate();
     let params = new HttpParams();
     params = params.append('start_date', date.first_date[0]);
@@ -372,15 +358,15 @@ export class DashboardComponent implements OnInit {
     params = params.append('order', order);
     params = params.append('limit', limit.toString());
     if (model_id) {
-     params = params.append('model_id', model_id.toString());
+      params = params.append('model_id', model_id.toString());
     }
     if (page) {
       params = params.append('page', page.toString());
     }
-    return this.s_stardart.getWithHttpParams(`dashboard/stats/sum`, params);
+    return this.s_standard.getWithHttpParams(`dashboard/stats/sum`, params);
   }
 
-  getUrlAndQueryStringForCompare(key: EkeyDashboard, period: 'day'|'week'|'month' = 'day', model_id = null, compare_previous_period: boolean = false): string {
+  getUrlAndQueryStringForCompare(key: EkeyDashboard, period: 'day' | 'week' | 'month' = 'day', model_id = null, compare_previous_period: boolean = false): string {
     const date = this.getDate();
     return `dashboard/stats/top?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`;
   }

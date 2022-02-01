@@ -1,6 +1,7 @@
  const trans_es_promotions = {
     permanent: 'Permanente',
     date_range: 'Rango de fechas',
+    out_stock: 'Hasta agotar stock'
 };
 
 const trans_es_default = {
@@ -15,9 +16,6 @@ export const _transfz:  {} = {
 };
 
 export function trans(value, name) {
-    // console.log(_transfz['default']);
-    // console.log(_transfz['default']['active']);
-    
     if ( _transfz[name])
     {
         return _transfz[name][value];

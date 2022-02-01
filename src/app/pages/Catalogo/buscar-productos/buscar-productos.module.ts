@@ -28,6 +28,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
 import { NgxMasonryModule } from 'ngx-masonry';
+import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
 // import { SimpleScrollSpyModule } from "angular-simple-scroll-spy";
 
 @NgModule({

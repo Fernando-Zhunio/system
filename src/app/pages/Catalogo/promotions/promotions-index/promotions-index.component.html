@@ -2,11 +2,44 @@
     <h2 class="list-group-item-accent-warning font-facebook font-5xl pl-2 my-2">Promociones</h2>
     <app-search-template [key_paginator]="'promotions'" [url$]="url" (data)="getData($event)">
         <ng-container menuBar>
-            <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active"  selected="true" color="accent" class="ml-1"><mat-icon>add</mat-icon></mat-chip>
+            <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active" selected="true" color="accent"
+                class="ml-1">
+                <mat-icon>add</mat-icon>
+            </mat-chip>
         </ng-container>
         <ng-container data>
-
+            <mat-card @fade class="card border-0 shadow rounded-fz" *ngFor="let promotion of data | keyvalue">
+                <mat-card-header>
+                    <mat-card-title>{{promotion.value.title}}</mat-card-title>
+                    <mat-card-subtitle>{{promotion.value.start_date | date}} A {{promotion.value.end_date | date}}
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-chip-list>
+                        <mat-chip disableRipple="true" selectable="false" selected="false" style="height: auto;"
+                            *ngIf="promotion.value?.note">{{promotion.value?.note}} </mat-chip>
+                        <mat-chip><span class="text-primary"> Estado:&nbsp;</span> {{promotion.value.status | translatefz}}</mat-chip>
+                        <mat-chip><span class="text-primary">Por:&nbsp;</span> {{promotion.value.duration_type | translatefz:'promotions'}}</mat-chip>
+                        <mat-chip><span class="text-primary">Precio:&nbsp;</span> {{promotion.value.price.full_price_formated}}</mat-chip>
+                        <ng-container *ngIf="promotion.value.duration_type == 'date_range'">
+                            <mat-chip><span class="text-primary">Fecha de inicio:&nbsp;</span> {{promotion.value.start_date | date}}</mat-chip>
+                            <mat-chip><span class="text-primary">Fecha final:&nbsp;</span> {{promotion.value.end_date |date}}</mat-chip>
+                        </ng-container>
+                        <mat-chip><span class="text-primary">Numero de productos:&nbsp;</span> {{promotion.value.products.length}}</mat-chip>
+                        <mat-chip (click)="openSheetViewProducts(promotion.key)">Ver productos &nbsp;<mat-icon>visibility</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-mini-fab [routerLink]="['./',promotion.key,'edit']">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-mini-fab (click)="deleteData(promotion.key)" color="warn">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
         </ng-container>
-        
+
     </app-search-template>
 </div>

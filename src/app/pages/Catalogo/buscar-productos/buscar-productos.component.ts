@@ -1,20 +1,20 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
+import { PageEvent } from '@angular/material/paginator';
+import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
 import { StockBodegasComponent } from '../../../components/modals/stock-bodegas/stock-bodegas.component';
 import { IpostProduct } from '../../../interfaces/ipost-product';
 import { Iprefix } from '../../../interfaces/iprefix';
-import { Iproduct2, IproductWithVtex } from '../../../interfaces/iproducts';
+import { IproductWithVtex } from '../../../interfaces/iproducts';
 import { Iwarehouse } from '../../../interfaces/iwarehouse';
 import { ProductsService } from '../../../services/products.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
-import { SwalService } from '../../../services/swal.service';
+
 // import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper';
 import { MatSelect } from '@angular/material/select';
@@ -23,11 +23,13 @@ import { HeaderSearchComponent } from '../../../components/header-search/header-
 import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
 import { ActivatedRoute } from '@angular/router';
 import { NgxMasonryOptions } from 'ngx-masonry';
+import { animation_conditional } from '../../../animations/animate_leave_enter';
 
 @Component({
   selector: 'app-buscar-productos',
   templateUrl: './buscar-productos.component.html',
   styleUrls: ['./buscar-productos.component.css'],
+  animations: animation_conditional
 })
 export class BuscarProductosComponent implements OnInit {
   constructor(

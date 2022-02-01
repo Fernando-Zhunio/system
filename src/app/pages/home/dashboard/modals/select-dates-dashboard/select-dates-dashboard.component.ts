@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import AirDatepicker, { AirDatepickerOptions } from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
+import { loadPreference, setPreference } from '../../../../../redux/actions/preference.action';
+import { selectPreference } from '../../../../../redux/state/state.selectors';
+import { SharedService } from '../../../../../services/shared/shared.service';
+import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from './../../../../../services/swal.service';
 
 @Component({
@@ -12,7 +17,7 @@ import { SwalService } from './../../../../../services/swal.service';
 })
 export class SelectDatesDashboardComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<SelectDatesDashboardComponent>) { }
+  constructor(private dialogRef: MatDialogRef<SelectDatesDashboardComponent>, private s_standard: StandartSearchService, private store: Store) { }
   airDate1: AirDatepicker = null;
   daysDate1: number = 0;
   isIntroRange: boolean = false;
@@ -21,12 +26,13 @@ export class SelectDatesDashboardComponent implements OnInit {
   isActive: boolean = false;
 
   options1: AirDatepickerOptions | any = {
+    classes: 'border-0 shadow rounded-fz',
     locale: localeEs,
     dateFormat: 'yyyy MMMM dd',
     range: true,
     maxDate: new Date(),
     multipleDatesSeparator: ' A ',
-    onSelect: ({ datepicker,  }) => {
+    onSelect: ({ datepicker, }) => {
       const dates = datepicker.selectedDates;
       if (dates.length == 2) {
         const days = Math.abs(moment(dates[0]).diff(moment(dates[1]), 'days'));
@@ -38,15 +44,16 @@ export class SelectDatesDashboardComponent implements OnInit {
           maxDate: _date,
         });
         this.daysDate2 = days;
-    }},
+      }
+    },
   };
 
 
   options2: AirDatepickerOptions | any = {
+    classes: 'border-0 shadow rounded-fz',
     locale: localeEs,
     dateFormat: 'yyyy MMMM dd',
     range: true,
-
     multipleDatesSeparator: ' A ',
     onSelect: ({ datepicker }) => {
       const dates = datepicker.selectedDates;
@@ -63,15 +70,24 @@ export class SelectDatesDashboardComponent implements OnInit {
 
   saveDates() {
     if (this.daysDate1 != this.daysDate2) {
-      SwalService.swalFire({ title: 'Error de dias', text: 'El numero de fechas no coinciden', icon: 'warning'});
+      SwalService.swalFire({ title: 'Error de días', text: 'El numero de fechas no coinciden', icon: 'warning' });
       return;
     }
     if (this.airDate1.selectedDates.length == 2 && this.airDate2.selectedDates.length == 2) {
-      const datesAll = {first_date: this.airDate1.selectedDates, last_date: this.airDate2.selectedDates};
-      localStorage.setItem('dates_all', JSON.stringify(datesAll));
+      const datesAll = {
+        dates: {
+          to: SharedService.convertDateForLaravelOfDataPicker(this.airDate1.selectedDates[1]),
+          from: SharedService.convertDateForLaravelOfDataPicker(this.airDate1.selectedDates[0])
+        }, dates_compare: {
+          to: SharedService.convertDateForLaravelOfDataPicker(this.airDate2.selectedDates[1]),
+          from: SharedService.convertDateForLaravelOfDataPicker(this.airDate2.selectedDates[0])
+        }
+      };
+      this.store.dispatch(loadPreference({ preferenceDateDashboard: datesAll }));
+      this.dialogRef.close();
       this.dialogRef.close(datesAll);
     } else {
-      SwalService.swalFire({ title: 'Error de Seleccion', text: 'Error de seleccion de fechas', icon: 'warning'});
+      SwalService.swalFire({ title: 'Error de selección de fechas', text: 'Seleccione fechas validas', icon: 'warning' });
     }
   }
 

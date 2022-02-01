@@ -11,6 +11,7 @@ import { FilePondOptions } from 'filepond';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
+import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { Crud } from '../../../../class/crud';
 import { INotificationData } from '../../../../interfaces/inotification';
 import { IPrice, IPriceGroup, IProductPrice } from '../../../../interfaces/iprice';
@@ -23,19 +24,17 @@ import { StorageService } from '../../../../services/storage.service';
 import { SwalService } from '../../../../services/swal.service';
 import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-prices.component';
 
-// enum StateDownloadFilePrices {
-//   idle = 'Generar Archivo excel', generating = 'Generando espere ...', load = 'Descargar archivo', loading = 'Descargando espere ...'
-// }
 @Component({
   selector: 'app-prices-index',
   templateUrl: './prices-index.component.html',
   styleUrls: ['./prices-index.component.css'],
+  animations: animation_conditional
+
 })
 export class PricesIndexComponent
   extends Crud<IProductPrice>
   implements OnInit, OnDestroy {
   constructor(
-    // private _location: Location,
     protected standardService: StandartSearchService,
     protected snackBar: MatSnackBar,
     public act_router: ActivatedRoute,
@@ -130,9 +129,9 @@ export class PricesIndexComponent
       case EPriceState.Idle:
         this.store.dispatch(generatingPrice());
         this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
-          // console.log('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
           SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
         }, err => {
+          SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
           this.store.dispatch(idlePrice());
         });
         break;
@@ -259,7 +258,6 @@ export class PricesIndexComponent
             break;
           case HttpEventType.DownloadProgress:
             progress = Math.round(event.loaded / event.total * 100);
-            // this.progressDownloadReport = progress;
             break;
           case HttpEventType.Response:
             const blob = new Blob([event.body], { type: 'application/ms-Excel' });
@@ -274,6 +272,6 @@ export class PricesIndexComponent
             a.remove();
             this.store.dispatch(idlePrice());
         }
-      }, (err) => { });
+      }, (err) => { this.store.dispatch(idlePrice())});
   }
 }

@@ -1,20 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { Crud } from '../../../../class/crud';
-import { Iproduct2 } from '../../../../interfaces/iproducts';
+import { IProduct, IPromotions } from '../../../../interfaces/promotion';
+import { SheetFzComponent } from '../../../../Modulos/sheet-fz/sheet-fz/sheet-fz.component';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
   selector: 'app-promotions-index',
   templateUrl: './promotions-index.component.html',
-  styleUrls: ['./promotions-index.component.css']
+  styleUrls: ['./promotions-index.component.css'],
+  animations: animation_conditional
+
 })
-export class PromotionsIndexComponent extends Crud<any> implements OnInit {
+export class PromotionsIndexComponent extends Crud<IPromotions> implements OnInit {
 
   url: string;
   key_paginator: string = 'promotions';
-  constructor(private s_standartService: StandartSearchService, private s_snackBar: MatSnackBar) {
-    super( s_standartService, s_snackBar);
+
+  constructor(private s_standartService: StandartSearchService, private s_snackBar: MatSnackBar, private sheet: MatBottomSheet) {
+    super(s_standartService, s_snackBar);
     this.url = 'catalogs/promotions';
   }
 
@@ -23,7 +29,16 @@ export class PromotionsIndexComponent extends Crud<any> implements OnInit {
 
   getData(data: any): void {
     console.log(data);
-    this.data = new Map<any, Iproduct2>(data[this.key_paginator].data.map((item: Iproduct2) => [item[this.key], item]));
+    this.data = new Map<any, IPromotions>(data[this.key_paginator].data.map((item: IPromotions) => [item[this.key], item]));
+  }
+
+  openSheetViewProducts(key: string): void {
+    this.sheet.open(SheetFzComponent, {
+      data: this.data.get(key).products.map((item: IProduct) => {
+        return { id: item.id, icon: 'sell', lines: [`${item.name} - (${item.code})`, `Precio: ${item.pivot.price}`, `Cantidad: ${item.pivot.quantity}`] };
+      }
+      )
+    });
   }
 
 }

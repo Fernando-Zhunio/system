@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
+import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { CTemplateSearch } from '../../../../class/ctemplate-search';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { Irequest, Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
@@ -12,7 +13,8 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  styleUrls: ['./index.component.css'],
+  animations: animation_conditional
 })
 export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit {
 

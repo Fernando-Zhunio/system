@@ -1,19 +1,24 @@
 <div>
     <mat-drawer-container class="example-container bg-transparent">
-        <mat-drawer fixedInViewport="true" position="end" mode="over" #drawer class="example-sidenav  col-md-6 position-fixed" >
+        <mat-drawer fixedInViewport="true" position="end" mode="over" #drawer
+            class="example-sidenav  col-md-6 position-fixed">
             <!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p> -->
             <!-- <button  mat-raised-button>
             Toggle extra text
           </button> -->
-          
-          <button mat-mini-fab class="btn-close-sidebar" color="warn" (click)="drawer.toggle()"><mat-icon>close</mat-icon></button>
-            <app-search #search [url]="urlSearchProducts" placeholder="Buscador de productos" (data)="getProducts($event)">
+
+            <button mat-mini-fab class="btn-close-sidebar" color="warn" (click)="drawer.toggle()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <app-search #search [url]="urlSearchProducts" placeholder="Buscador de productos"
+                (data)="getProducts($event)">
                 <ng-container data>
                     <div class="card-columns p-2">
                         <div class="card border-0 rounded-fz shadow" *ngFor="let product of products | keyvalue">
                             <div class="card-body">
                                 <div class="text-primary">{{product.value.name}}</div>
-                                <img class="w-100" [src]="product.value.image || 'assets/img/img_default_null.jpg'" alt="imagen producto">
+                                <img class="w-100" [src]="product.value.image || 'assets/img/img_default_null.jpg'"
+                                    alt="imagen producto">
                                 <div class="my-2">
                                     <mat-chip-list>
                                         <mat-chip>Codigo: {{product.value.code}}</mat-chip>
@@ -22,17 +27,22 @@
                                     </mat-chip-list>
                                 </div>
                                 <div>
-                                    <button *ngIf="!productsSelected.has(product.key); else templateBtnRemove" mat-mini-fab color="accent" (click)="addProductSelected(product.key)"><mat-icon>add</mat-icon></button>
+                                    <button *ngIf="!productsSelected.has(product.key); else templateBtnRemove"
+                                        mat-mini-fab color="accent" (click)="addProductSelected(product.key)">
+                                        <mat-icon>add</mat-icon>
+                                    </button>
                                     <ng-template #templateBtnRemove>
-                                        <button mat-mini-fab color="warn" (click)="removeProductSelected(product.key)"><mat-icon>remove</mat-icon></button>
+                                        <button mat-mini-fab color="warn" (click)="removeProductSelected(product.key)">
+                                            <mat-icon>remove</mat-icon>
+                                        </button>
                                     </ng-template>
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </ng-container>
-                
+
             </app-search>
 
         </mat-drawer>
@@ -43,23 +53,54 @@
                 <form [formGroup]="form" class="row m-0">
                     <mat-form-field class="col-md-12 col-12">
                         <input matInput placeholder="Titulo" formControlName="title">
+                        <mat-error>El Titulo es requerido</mat-error>
+
                     </mat-form-field>
 
                     <mat-form-field class="col-md-4 col-12">
                         <input matInput placeholder="Precio" formControlName="price">
+                        <mat-error>El precio es requerido</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-md-4 col-12">
-                        <mat-select placeholder="Seleccione un tipo de duración" formControlName="duration_type">
-                            <mat-option [value]="duration" *ngFor="let duration of durationType">{{duration | translatefz:'promotions'}}</mat-option>
+                        <mat-select (selectionChange)="selectionDuration($event)" placeholder="Seleccione un tipo de duración" formControlName="duration_type">
+                            <mat-option [value]="duration" *ngFor="let duration of durationType">{{duration |
+                                translatefz:'promotions'}}</mat-option>
                         </mat-select>
+                        <mat-error>El tipo de duración es requerido</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-md-4 col-12">
                         <mat-select placeholder="Seleccione un estado" formControlName="status">
-                            <mat-option [value]="_status" *ngFor="let _status of statuses">{{ _status | translatefz}}</mat-option>
+                            <mat-option [value]="_status" *ngFor="let _status of statuses">{{ _status | translatefz}}
+                            </mat-option>
                         </mat-select>
+                        <mat-error>El estado es requerido</mat-error>
                     </mat-form-field>
+
+                    <!-- <mat-form-field class="col-md-12 col-12">
+                            <input matInput id="dates-range-promotion" placeholder="Rango de fecha" formControlName="date_range_start">
+                        </mat-form-field> -->
+                    <ng-container *ngIf="hasDate">
+                        <mat-form-field class="col-md-6 col-12">
+                            <mat-label>Fecha de inicio</mat-label>
+                            <input disabled matInput [matDatepicker]="picker1" formControlName="date_range_start">
+                            <mat-error>Fecha de inicio con errores, seleccione correctamente la fecha</mat-error>
+                            <mat-hint>Seleccione primero esta fecha para poder ingresar la fecha final</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+    
+                        <mat-form-field class="col-md-6 col-12">
+                            <mat-label>Fecha final</mat-label>
+                            <input disabled [min]="form.get('date_range_start').value" matInput [disabled]="form.get('date_range_start').invalid" [matDatepicker]="picker2" formControlName="date_range_end">
+                            <mat-error>Fecha final con errores, seleccione correctamente la fecha</mat-error>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </ng-container>
+                    
+
 
                     <mat-form-field class="col-md-12 col-12">
                         <textarea matInput placeholder="Nota" formControlName="note"></textarea>
@@ -67,30 +108,39 @@
 
                     <div class="col-12 mb-4 card-body shadow rounded-fz">
                         <h3 class="font-facebook font-2xl my-2">Productos</h3>
+                        <small class="text-danger" [hidden]="form.get('products').value.length > 1">Seleccione por lo menos 2 productos</small>
                         <div class="row">
-                            <mat-list class="col-md-6 col-12" *ngFor="let productSelected of productsSelected | keyvalue">
-                                <mat-list-item >
-                                    <img mat-list-icon [src]="productSelected.value.image || 'assets/img/img_default_null.jpg'" alt="imagen producto">
+                            <mat-list class="col-md-6 col-12"
+                                *ngFor="let productSelected of productsSelected | keyvalue">
+                                <mat-list-item>
+                                    <img mat-list-icon class="img-product"
+                                        [src]="productSelected.value.image || 'assets/img/img_default_null.jpg'"
+                                        alt="imagen producto">
                                     <div mat-line>{{productSelected.value.name}} </div>
                                     <div mat-line> {{productSelected.value.code}} </div>
-                                    <button mat-icon-button color="warn" (click)="removeProductSelected(productSelected.key)"><mat-icon>delete</mat-icon></button>
+                                    <button mat-icon-button color="warn"
+                                        (click)="removeProductSelected(productSelected.key)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
                                     <div mat-line>
                                         <mat-form-field>
-                                            <input matInput [formControlName]="'quantity_'+productSelected.key" placeholder="Cantidad" >
+                                            <input matInput [formControlName]="'quantity_'+productSelected.key"
+                                                placeholder="Cantidad">
                                         </mat-form-field>
                                         <mat-form-field>
-                                            <input matInput [formControlName]="'listPrice_'+productSelected.key" placeholder="Se factura en" >
+                                            <input matInput [formControlName]="'listPrice_'+productSelected.key"
+                                                placeholder="Se factura en">
                                         </mat-form-field>
                                     </div>
-                                </mat-list-item>                                
-                              </mat-list>
+                                </mat-list-item>
+                            </mat-list>
                         </div>
                         <button type="button" mat-flat-button color="accent" (click)="drawer.toggle()">
                             Abrir buscador de producto
                         </button>
                     </div>
 
-                    <button type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="drawer.toggle()">
+                    <button [disabled]="isLoading" type="submit" mat-flat-button color="primary" (click)="saveInServer()">
                         Guardar promoción
                     </button>
                 </form>

@@ -13,6 +13,13 @@
     overflow: initial;
 }
 
+.img-product {
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
+}
+
+
 /* .card-columns {
     column-count: 2;
 } */

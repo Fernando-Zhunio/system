@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { CTemplateSearch } from '../../../../class/ctemplate-search';
 import { Iappointment, Iuser } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { SharedService } from '../../../../services/shared/shared.service';
@@ -13,6 +14,8 @@ import { ModalZoomComponent } from '../tools/modal-zoom/modal-zoom.component';
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css'],
+  animations: animation_conditional
+
 })
 export class IndexComponent
   extends CTemplateSearch<Iappointment>

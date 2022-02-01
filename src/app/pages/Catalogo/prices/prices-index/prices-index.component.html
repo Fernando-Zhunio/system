@@ -64,7 +64,7 @@
                 <div>
                     <app-search-template [filter_data]="{}" [url$]="url" (data)="getData($event)">
                         <ng-container data>
-                            <mat-card class="card shadow rounded-fz border-0" *ngFor="let product of data | keyvalue">
+                            <mat-card @fade class="card shadow rounded-fz border-0" *ngFor="let product of data | keyvalue">
                                 <mat-card-header>
                                     <mat-card-title>{{product.value.name}}</mat-card-title>
                                     <mat-card-subtitle>{{product.value.created_at | date}}</mat-card-subtitle>

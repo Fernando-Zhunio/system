@@ -3,11 +3,14 @@ import { CTemplateSearch } from './../../../../class/ctemplate-search';
 import { Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { SwalService } from '../../../../services/swal.service';
 import { StandartSearchService } from './../../../../services/standart-search.service';
+import { animation_conditional } from '../../../../animations/animate_leave_enter';
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css'],
+  animations: animation_conditional
+
 })
 export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
   constructor(private s_serviceStandart: StandartSearchService) {

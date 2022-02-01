@@ -1,11 +1,11 @@
-<div class="card">
+<div class="card border-0 shadow rounded-fz">
     <div class=" card-body">
         <div class="">
-            Estado : <span class="badge {{ promotion.status }}">{{promotion.status}}</span>
+            <mat-chip> Estado : &nbsp;<span class="text-uppercase {{ promotion.status }}">{{promotion.status}}</span>
+            </mat-chip>
         </div>
         <ng-container *ngIf="promotion.title">
-            <h4 class="title">{{promotion.title}}</h4>
-            <hr>
+            <p class="title font-lg mt-3 border-bottom pb-2">{{promotion.title}}</p>
         </ng-container>
         <div *ngFor="let product of promotion.products">
             <!-- <div class="row"> -->
@@ -26,7 +26,10 @@
             </div>
         </div>
 
-        <div *ngIf="promotion.note" class="note">{{promotion.note }}</div>
+        <div *ngIf="promotion.note" class="my-2">
+            <p class="font-lg">Nota :</p>
+           <span class="text-muted">{{promotion.note }}</span> 
+        </div>
         <!-- <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -54,22 +57,26 @@
                 <tbody>
             </table>
         </div> -->
-        <div *ngIf="promotion.note" class="note">{{ promotion.note }}</div>
+        <!-- <div *ngIf="promotion.note" class="note">{{ promotion.note }}</div> -->
         <div class="">
             <div>
-                <!-- <i class="far fa-clock"></i> --><span class="font-weight-bolder">Duración:</span>
-                <ng-container *ngIf="promotion.duration_type == 'out_stock'">
-                    HASTA AGOTAR STOCK
-                </ng-container>
-                <br>
-                <span class="font-weight-bolder">PRECIO PROMOCION: </span><span class="value">${{promotion.price_formated}}</span>
-                <div><span class="font-weight-bolder">Desde:</span> {{ promotion.start_date | date }} <span class="font-weight-bolder"> Hasta:</span> {{ promotion.end_date | date }}</div>
+                <mat-chip-list>
+                    <mat-chip><span class="font-weight-bolder">Duración: </span><span>{{promotion.duration_type |
+                                translatefz:'promotions'}}</span></mat-chip>
+                    <mat-chip><span class="font-weight-bolder">PRECIO PROMOCION: </span><span
+                            class="value">${{promotion.price_formated}}</span></mat-chip>
+                    <mat-chip><span><span class="font-weight-bolder">Desde:</span> {{ promotion.start_date | date }}
+                            <span class="font-weight-bolder"> Hasta:</span> {{ promotion.end_date | date }}</span>
+                    </mat-chip>
+                    <mat-chip [routerLink]="['/catalogo/promotions']" [queryParams]="{search: promotion.id}"  selected color="accent"><mat-icon>visibility</mat-icon></mat-chip>
+                </mat-chip-list>
+
             </div>
-            <div class="duration_label">
+            <!-- <div class="duration_label">
                 <div class="">
                     Desde: {{ promotion.start_date | date }}<br> Hasta: {{ promotion.end_date | date }}
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- </div> -->

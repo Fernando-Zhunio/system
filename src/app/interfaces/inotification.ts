@@ -22,7 +22,11 @@ export interface INotificationData {
 }
 
 export interface INotification {
-   data: INotificationData; id: string; type: string;
+  data: INotificationData;
+  id?: string;
+  type?: string;
+  read_at?: string;
+  created_at?: string;
 }
 
 export interface Iuser {

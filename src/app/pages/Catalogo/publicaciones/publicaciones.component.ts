@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Echo from 'laravel-echo';
 import { Subscription } from 'rxjs';
 import { subscribeOn } from 'rxjs/operators';
+import { animation_conditional } from '../../../animations/animate_leave_enter';
 import { EchoManager } from '../../../class/echo-manager';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
@@ -16,24 +17,14 @@ import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
 import { Ipublication } from '../../../interfaces/ipublication';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
-import { SharedService } from '../../../services/shared/shared.service';
-import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
 import { SwalService } from '../../../services/swal.service';
-// import SwiperCore from 'swiper/core';
 
 @Component({
   selector: 'app-publicaciones',
   templateUrl: './publicaciones.component.html',
   styleUrls: ['./publicaciones.component.css'],
-  animations: [
-    trigger('fade', [
-      transition(':leave', [
-        style({ transform: 'scale(0)', opacity: '0' }),
-        animate(400),
-      ]),
-    ]),
-  ],
+  animations: animation_conditional,
 })
 export class PublicacionesComponent implements OnInit, OnDestroy {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
@@ -57,8 +48,6 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   constructor(
     private actived_router: ActivatedRoute,
     private snack_bar: MatSnackBar,
-    // private s_standart: StandartSearchService,
-    private s_shared: SharedService,
     public dialog: MatDialog,
     private s_catalogo: CatalogoService,
     private s_mercado_libre: MercadoLibreService,

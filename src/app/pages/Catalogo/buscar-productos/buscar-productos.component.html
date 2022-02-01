@@ -124,7 +124,7 @@
     </div>
 
     <div *ngIf="!isLoad" class="card-columns">
-      <mat-card class="my-1 shadow-sm card rounded-fz card-body border-0" *ngFor="let p of products; index as ind">
+      <mat-card @fade class="my-1 shadow-sm card rounded-fz card-body border-0" *ngFor="let p of products; index as ind">
         <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0 " style="top: 68px;background: inherit">
           <div class="font-weight-light font-2xl mb-2">
             <span class="mr-1" style="color: #f44336; font-weight: bold">#{{ p.id }}</span>{{ p.name }}
@@ -133,7 +133,6 @@
               <mat-icon>create</mat-icon>
             </button>
           </div>
-
         </mat-card-header>
         <mat-card-content>
           <div class="example-sidenav-content">
@@ -190,8 +189,8 @@
                 </ul>
               </div>
 
-              <div *ngIf="p.promotions.length > 0">
-                <h3>Promociones</h3>
+              <div *ngIf="p.promotions.length > 0" class="card-body">
+                <div class="font-faccebook font-3xl my-4">Promociones</div>
                 <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion">
                 </app-promociones>
               </div>

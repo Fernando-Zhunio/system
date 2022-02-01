@@ -41,7 +41,7 @@
     </ng-container>
 
     <ng-container data>
-      <mat-card class="card border-0 shadow rounded-fz" *ngFor="let p of products;">
+      <mat-card @fade class="card border-0 shadow rounded-fz" *ngFor="let p of products;">
         <div class="card-body">
           <div class="header-grid">
             <img class="rounded-circle" [src]="p.photo?.real_permalink || '/assets/img/avatars/profile-user.svg'"

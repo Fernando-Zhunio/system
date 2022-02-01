@@ -5,13 +5,13 @@
   <div class="mb-3 sticky-top-custom">
     <h3 class="date-picker d-flex p-1">
       <div class="container-date shadow px-2">
-          {{dateRange.last_date[0] | date: 'dd MMM yyyy'}}
-          a
-          {{dateRange.last_date[1] | date: 'dd MMM yyyy'}}
-        <span class="px-2">Comparando:</span>  
-          {{dateRange.first_date[0] | date: 'dd MMM yyyy'}}
-          a
-          {{dateRange.first_date[1] | date: 'dd MMM yyyy'}}
+          {{dateRange?.dates_compare.from | date: 'dd MMM yyyy'}}
+         - a -
+          {{dateRange?.dates_compare.to | date: 'dd MMM yyyy'}}
+        <div class="mx-2 center h-100 center bg-warning px-2">Comparando:</div>  
+          {{dateRange?.dates.from | date: 'dd MMM yyyy'}}
+          - a -
+          {{dateRange?.dates.to | date: 'dd MMM yyyy'}}
       </div>
       &nbsp;&nbsp;
       <button mat-mini-fab color="accent" (click)="openDialogDates()">
@@ -65,19 +65,12 @@
       </mat-card>
     </div>
     <div class="body-dashboard">
-
-      <app-sell-chart #chartSell [s_stardart]="s_stardart" [dates]="getDate()"></app-sell-chart>
-      <app-locales-chart  #chartLocales [s_stardart]="s_stardart" [dates]="getDate()"></app-locales-chart>
+      <app-sell-chart #chartSell [s_stardart]="s_standard" [dates]="getDate()"></app-sell-chart>
+      <app-locales-chart  #chartLocales [s_stardart]="s_standard" [dates]="getDate()"></app-locales-chart>
     </div>
     <div class="body-dashboard-2 my-3">
-      <app-product-chart #chartProduct [s_stardart]="s_stardart" [dates]="getDate()"></app-product-chart>
-      <!-- <mat-card class="rounded-fz shadow p-3">
-        <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas por categorias</h3>
-        <div style="height: 400px;" class="d-flex align-items-center position-relative">
-          <canvas id="chart-for-categories"></canvas>
-        </div>
-      </mat-card>  -->
-      <app-category-chart #chartCategory [s_stardart]="s_stardart" [dates]="getDate()"></app-category-chart>
+      <app-product-chart #chartProduct [s_stardart]="s_standard" [dates]="getDate()"></app-product-chart>
+      <app-category-chart #chartCategory [s_stardart]="s_standard" [dates]="getDate()"></app-category-chart>
     </div>
 
     <div class="body-dashboard-3">

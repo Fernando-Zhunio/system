@@ -1,9 +1,6 @@
 <div>
   <app-header-search [filter_data]="{min:min,max:max,'state':state}" [placeholder]="'Escriba el producto a buscar'"
     (isload)="isload = $event" [url]="'catalogs/ml-products'" (products)="loadData($event)">
-    <!-- <button [matMenuTriggerFor]="menu" mat-icon-button>
-      <mat-icon style="font-size: 30px;" type="search">filter_alt</mat-icon>
-    </button> -->
     <mat-chip-list class="ml-1">
       <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
         <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
@@ -42,7 +39,7 @@
   </app-header-search>
 
   <div *ngIf="isload" class="mt-4 card-columns">
-    <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
+    <div @fade *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
       <ngx-skeleton-loader count="1" [theme]="{
               'border-radius': '20px',
           height: '200px'
@@ -67,7 +64,7 @@
 
 
   <div *ngIf="!isload;" class="mt-4 card-columns">
-        <mat-card *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
+        <mat-card @fade *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
             <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
         </mat-card>
     </div>

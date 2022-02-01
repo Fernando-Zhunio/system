@@ -1,21 +1,20 @@
-<h1 matDialogTitle>Fechas de comparacion</h1>
+<h1 matDialogTitle class="font-facebook pl-2 list-group-item-accent-warning">Fechas de comparación</h1>
 
 <mat-dialog-content>
     <div class="grid">
         <div>
-            <div class="center">Fecha Primera</div>
+            <div class="center lead font-facebook mb-2">Hasta</div>
             <div id="date-dashboard-1"></div>
-            <div>Dias: {{daysDate1}}</div>
-
+            <div class="font-weight-lighter">Dias: {{daysDate1}}</div>
         </div>
         <div>
-            <div class="center"><input type="checkbox" [(ngModel)]="isActive">&nbsp; Fecha Segunda &nbsp;
+            <div class="center lead font-facebook mb-2"><input type="checkbox" [(ngModel)]="isActive">&nbsp; Desde &nbsp;
             </div>
             <div [ngClass]="{'disabled-date': !isActive}" id="date-dashboard-2"></div>
-            <div>Dias: {{daysDate2}}</div>
+            <div class="font-weight-lighter">Dias: {{daysDate2}}</div>
         </div>
     </div>
-    <div *ngIf="daysDate1 != daysDate2" class="text-danger">El numero de dias deben ser los iguales</div>
+    <div *ngIf="daysDate1 != daysDate2" class="text-danger">El numero de días deben ser los iguales</div>
 </mat-dialog-content>
 
 <mat-dialog-actions>

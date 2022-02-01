@@ -16,23 +16,23 @@ export class ActionProviderComponent implements OnInit {
   }
 
   createProvider():void{
-    this.sheet.dismiss(EProviderActions.create_provider)
+    this.sheet.dismiss(EProviderActions.create_provider);
   }
 
   createContact():void{
-    this.sheet.dismiss(EProviderActions.create_contact)
+    this.sheet.dismiss(EProviderActions.create_contact);
   }
 
   viewContact():void{
-    this.sheet.dismiss(EProviderActions.view_contact)
+    this.sheet.dismiss(EProviderActions.view_contact);
   }
 
   deleteProvider():void{
-    this.sheet.dismiss(EProviderActions.delete_provider)
+    this.sheet.dismiss(EProviderActions.delete_provider);
   }
 
   editProvider():void{
-    this.sheet.dismiss(EProviderActions.edit_provider)
+    this.sheet.dismiss(EProviderActions.edit_provider);
   }
 
 }

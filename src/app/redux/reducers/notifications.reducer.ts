@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-// import { Inotification } from '../../interfaces/inotification';
 import { addNotification, overrideNotification } from '../actions/notification.action';
 
 export const initialState = [];

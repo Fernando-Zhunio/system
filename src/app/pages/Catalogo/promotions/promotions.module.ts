@@ -17,6 +17,8 @@ import { SearchesModule } from '../../../Modulos/searches/searches.module';
 import { MatListModule } from '@angular/material/list';
 import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
 // import { TranslateModule } from '@ngx-translate/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { SheetFzModule } from '../../../Modulos/sheet-fz/sheet-fz.module';
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.modu
     SearchesModule,
     ReactiveFormsModule,
     TranslatefzModule,
+    MatDatepickerModule,
+    SheetFzModule
     // TranslateModule.forChild({defaultLanguage: 'es'}),
   ]
 })

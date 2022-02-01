@@ -8,11 +8,14 @@ import { NgxMasonryOptions } from 'ngx-masonry';
 import { StorageService } from '../../../services/storage.service';
 import Echo from 'laravel-echo';
 import { EchoManager } from '../../../class/echo-manager';
+import { animation_conditional } from '../../../animations/animate_leave_enter';
 
 @Component({
   selector: 'app-mercado-libre',
   templateUrl: './mercado-libre.component.html',
   styleUrls: ['./mercado-libre.component.css'],
+  animations: animation_conditional
+
 })
 export class MercadoLibreComponent implements OnInit, OnDestroy {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
