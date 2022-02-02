@@ -7,5 +7,5 @@ export interface IversusChart {
     data: any;
     dateRange: {first_date: any[], last_date: any[]};
     create_chart(id, type, datasets?, option?): void;
-    exucute_versus(): void;
+    execute_versus(): void;
 }

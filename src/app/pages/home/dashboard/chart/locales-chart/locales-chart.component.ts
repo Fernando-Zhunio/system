@@ -12,15 +12,13 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 })
 export class LocalesChartComponent extends ManagerChartTop<IstatisticableLocation> implements OnInit {
 
-  constructor(spinner: NgxSpinnerService) {
+  constructor(spinner: NgxSpinnerService, public s_standard: StandartSearchService) {
     super();
     this.spinner = spinner;
   }
 
-  @Input() s_standard: StandartSearchService;
   @Input() dates: { first_date: any[], last_date: any[] };
   key: EKeyDashboard = EKeyDashboard.location_sales;
-  // keyCurrent: EkeyDashboard = EkeyDashboard.location_sales;
   idSpinner = 'loading-chart-location';
   options = {
     responsive: true,

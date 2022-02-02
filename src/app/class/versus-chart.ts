@@ -8,7 +8,6 @@ import { SharedService } from '../services/shared/shared.service';
 import { StandartSearchService } from '../services/standart-search.service';
 import { IversusChart } from '../interfaces/iversus-chart';
 import localeEs from 'air-datepicker/locale/es';
-import { EkeyDashboard } from '../enums/EkeyDashboard.enum';
 
 moment.locale('es');
 Chart.register(...registerables);
@@ -41,7 +40,7 @@ export class VersusChart<DATA> implements IversusChart {
             content() { return 'Aplicar'; },
             onClick: (dp) => {
                 this.dateRange.first_date = this.airDate.selectedDates;
-              this.exucute_versus();
+              this.execute_versus();
             },
           },
         ]
@@ -79,7 +78,7 @@ export class VersusChart<DATA> implements IversusChart {
 
 
 
-    exucute_versus(): void {
+    execute_versus(): void {
         this.isVersus = true;
         const date = this.getDate();
         const request = [];

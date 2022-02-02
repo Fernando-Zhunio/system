@@ -1,10 +1,10 @@
 <div class="versus">
-    <h1 class="font-5xl font-montserrat my-2">Versus de Categorias</h1>
+    <h1 class="font-5xl font-montserrat my-2">Versus de Categorías</h1>
     <div>
       <div [hidden]="isVersus">
         <div class="position-relative">
             <input class="input-search" [(ngModel)]="searchText" type="search" (keydown.enter)="getData()" placeholder="Buscador">
-            <button (click)="exucute_versus()" [disabled]="dataSelect.size < 2"  [matBadge]="dataSelect.size"
+            <button (click)="execute_versus()" [disabled]="dataSelect.size < 2"  [matBadge]="dataSelect.size"
             matBadgePosition="above after"
             matBadgeColor="accent" color="primary" class="btn-compare" mat-button>Comparar ahora!</button>
         </div>

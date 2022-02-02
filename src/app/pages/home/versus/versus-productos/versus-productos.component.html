@@ -4,7 +4,7 @@
       <div [hidden]="isVersus">
         <div class="position-relative">
             <input class="input-search" [(ngModel)]="searchText" type="search" (keydown.enter)="getData()" placeholder="Buscar productos">
-            <button (click)="exucute_versus()" [disabled]="dataSelect.size < 2"  [matBadge]="dataSelect.size"
+            <button (click)="execute_versus()" [disabled]="dataSelect.size < 2"  [matBadge]="dataSelect.size"
             matBadgePosition="above after"
             matBadgeColor="accent" color="primary" class="btn-compare" mat-button>Comparar ahora!</button>
         </div>
@@ -28,7 +28,7 @@
                   </ng-template>
                   <div class="text-center" *ngIf="!isLoading && data.size < 1">
                     <img src="assets/img/respuesta_vacia.svg" alt=""><br>
-                    No se a encontrado ningun producto
+                    No se a encontrado ningún producto
                   </div>
                 </mat-card> 
                 <mat-card class=" rounded-fz border-0 shadow-none">

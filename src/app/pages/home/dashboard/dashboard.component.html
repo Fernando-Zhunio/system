@@ -1,6 +1,6 @@
 <div class="">
   <div>
-    <h1 class="font-montserrat d-inline-block font-5xl m-1">Dashboard</h1>
+    <h1 class="font-montserrat d-inline-block font-5xl my-3">Dashboard</h1>
   </div>
   <div class="mb-3 sticky-top-custom">
     <h3 class="date-picker d-flex p-1">
@@ -25,7 +25,10 @@
   </div>
   <div class="grid-dashboard">
     <div class="header-dashboard mb-3">
-      <mat-card class="item-header header-1 p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow">
+        <div class="loading-header" *ngIf="isLoadingHeader">
+          <div  class="parpadeo">Cangando espere...</div>
+        </div>
         <div class="card-body" style="line-height: 1.2;">
           <div class="font-header-text">Total de ventas</div>
           <div class="font-header-number">{{ total_sell?.total || 0 | currency }} </div>
@@ -34,7 +37,10 @@
             {{total_sell?.growth_percentage || 0}} %</div>
         </div>
       </mat-card>
-      <mat-card class="item-header header-1 p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow">
+        <div class="loading-header" *ngIf="isLoadingHeader">
+          <div class="parpadeo">Cangando espere...</div>
+        </div>
         <div class="card-body" style="line-height: 1.2;">
           <div class="font-header-text">Total valor medio</div>
           <div class="font-header-number">{{ value_middle?.total || 0 | currency }} </div>
@@ -44,7 +50,10 @@
             {{value_middle?.growth_percentage || 0 }} %</div>
         </div>
       </mat-card>
-      <mat-card class="item-header header-1 p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow">
+        <div class="loading-header" *ngIf="isLoadingHeader">
+          <div class="parpadeo">Cangando espere...</div>
+        </div>
         <div class="card-body" style="line-height: 1.2;">
           <div class="font-header-text">Total de Facturas</div>
           <div class="font-header-number">{{ invoice_total?.total || 0 }}</div>
@@ -54,7 +63,10 @@
             {{invoice_total?.growth_percentage || 0 }} %</div>
         </div>
       </mat-card>
-      <mat-card class="item-header header-1 p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow">
+        <div class="loading-header" *ngIf="isLoadingHeader">
+          <div class="parpadeo">Cangando espere...</div>
+        </div>
         <div class="card-body" style="line-height: 1.2;">
           <div class="font-header-text text-truncate">Total de productos vendidos</div>
           <div class="font-header-number">{{ products_sold_count?.total || 0 }}</div>
@@ -66,12 +78,12 @@
       </mat-card>
     </div>
     <div class="body-dashboard">
-      <app-sell-chart #chartSell [s_standard]="s_standard"></app-sell-chart>
-      <app-locales-chart #chartLocales [s_standard]="s_standard" ></app-locales-chart>
+      <app-sell-chart #chartSell></app-sell-chart>
+      <app-locales-chart #chartLocales></app-locales-chart>
     </div>
     <div class="body-dashboard-2 my-3">
-      <app-product-chart #chartProduct [s_standard]="s_standard"></app-product-chart>
-      <app-category-chart #chartCategory [s_standard]="s_standard"></app-category-chart>
+      <app-product-chart #chartProduct ></app-product-chart>
+      <app-category-chart #chartCategory></app-category-chart>
     </div>
 
     <div class="card-columns">

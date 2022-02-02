@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartConfiguration, LinearScale, LineController, LineElement, PointElement, registerables, Title } from 'chart.js';
@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectDatesDashboardComponent } from './modals/select-dates-dashboard/select-dates-dashboard.component';
 // import { EKeyDashboard } from '../../../enums/EkeyDashboard.enum';
 import { HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LocalesChartComponent } from './chart/locales-chart/locales-chart.component';
 import { CategoryChartComponent } from './chart/category-chart/category-chart.component';
 import { Store } from '@ngrx/store';
@@ -45,8 +45,8 @@ interface IsellerTable {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
-  constructor(private store: Store, public s_standard: StandartSearchService, private router: Router, private bottomSheet: MatBottomSheet, private dialogDates: MatDialog) {
+export class DashboardComponent implements OnInit, OnDestroy {
+  constructor(private store: Store, public s_standard: StandartSearchService, private bottomSheet: MatBottomSheet, private dialogDates: MatDialog) {
   }
   @ViewChild('chartSell', { static: true }) chartSellChart: SellChartComponent;
   @ViewChild('chartProduct', { static: true }) chartProductChart: ProductChartComponent;
@@ -93,21 +93,35 @@ export class DashboardComponent implements OnInit {
   invoice_total: IsalesHeader;
   products_sold_count: IsalesHeader;
   readonly keyDashboardDates: string = 'dashboard_dates';
+  isLoadingHeader: boolean = false;
   options = {
     locale: localeEs,
     dateFormat: 'yyyy MMMM dd',
     range: true,
     multipleDatesSeparator: ' A ',
   };
+  notFirstCall: number = 0;
+  unSubscriptedStorePreference: Subscription = null;
 
   ngOnInit(): void {
-    this.store.select(selectPreference).subscribe(preferences => {
-      console.log(preferences);
-      if (preferences && preferences.hasOwnProperty(this.keyDashboardDates) && preferences[this.keyDashboardDates] !== null) {
+    this.unSubscriptedStorePreference =  this.store.select(selectPreference).subscribe(preferences => {
+      console.log(preferences && preferences.hasOwnProperty(this.keyDashboardDates) && typeof preferences[this.keyDashboardDates] === 'object' && preferences[this.keyDashboardDates] !== null)
+      if (preferences && typeof preferences === 'object' && preferences.hasOwnProperty(this.keyDashboardDates) && typeof preferences[this.keyDashboardDates] === 'object' && preferences[this.keyDashboardDates] !== null) {
+        console.log(preferences);
         this.dateRange = preferences[this.keyDashboardDates];
+        if (this.notFirstCall > 1) {
         this.getDateHeader();
-
+        this.chartProductChart.updateChart();
+        this.chartSellChart.updateChart();
+        this.chartLocales.updateChart();
+        this.chartCategory.updateChart();
+        this.updateTableForLocales();
+        this.updateChartTableForCity();
+        this.updateTableForSellers();
+        return;
+        }
       }
+      this.notFirstCall++;
     });
     // this.loadDate();
     this.getDateHeader();
@@ -116,78 +130,21 @@ export class DashboardComponent implements OnInit {
     this.updateTableForSellers();
   }
 
+  ngOnDestroy(): void {
+    if (this.unSubscriptedStorePreference) {
+      this.unSubscriptedStorePreference.unsubscribe();
+    }
+  }
+
   getDateHeader(): void {
     // const date = this.getDate();
+    this.isLoadingHeader = true;
     this.s_standard.index(`dashboard/stats/basic-metrics?start_date`).subscribe(
       (response) => {
         this.assignHeaderDate(response.data);
-
-      }, err => { console.log(err); });
+        this.isLoadingHeader = false;
+      }, err => { console.log(err); this.isLoadingHeader = false; });
   }
-
-  getDate(): any {
-    // const first_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.first_date[1])];
-    // const last_date = [SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[0]), SharedService.convertDateForLaravelOfDataPicker(this.dateRange.last_date[1])];
-    return { first_date: ['2022/01/22', '2022-01-20'], last_date: ['2022-01-15', '2022-01-11'] };
-  }
-
-  loadDate(): void {
-    // try {
-    this.store.select(selectPreference).subscribe(preferences => {
-      console.log(preferences);
-      if (preferences.hasOwnProperty(this.keyDashboardDates) && preferences[this.keyDashboardDates] !== null) {
-        this.dateRange = preferences[this.keyDashboardDates];
-      }
-    });
-    //   const date = JSON.parse(localStorage.getItem('dates_all'));
-    //   const first_date = [];
-    //   first_date[0] = this.isValidDate(date?.first_date[0]) ? date.first_date[0] : new Date(moment(new Date()).subtract(7, 'days').format());
-    //   first_date[1] = this.isValidDate(date?.first_date[1]) ? date.first_date[1] : new Date();
-
-    //   const last_date = [];
-    //   last_date[0] = this.isValidDate(date?.last_date[0]) ? date.last_date[0] : new Date(moment(new Date()).subtract(14, 'days').format());
-    //   last_date[1] = this.isValidDate(date?.last_date[1]) ? date.last_date[1] : new Date(moment(new Date()).subtract(7, 'days').format());
-
-    //   datesAll = { first_date: first_date, last_date: last_date };
-    //   localStorage.setItem('dates_all', JSON.stringify(datesAll));
-    //   this.dateRange = datesAll;
-
-    // }
-    //  catch (error) {
-    //   console.log({ error });
-    //   this.generateDates();
-    // }
-
-
-
-    //   const date = JSON.parse(localStorage.getItem('dates_all'));
-    //   const first_date = [];
-    //    first_date[0] = this.isValidDate(date?.first_date[0]) ? date.first_date[0] : new Date(moment(new Date()).subtract(7, 'days').format());
-    //    first_date[1] = this.isValidDate(date?.first_date[1]) ? date.first_date[1] : new Date();
-
-    //   const last_date = [];
-    //   last_date[0] = this.isValidDate(date?.last_date[0]) ? date.last_date[0] : new Date(moment(new Date()).subtract(14, 'days').format());
-    //   last_date[1] = this.isValidDate(date?.last_date[1]) ? date.last_date[1] : new Date(moment(new Date()).subtract(7, 'days').format());
-
-    //   datesAll = { first_date: first_date, last_date: last_date };
-    //   localStorage.setItem('dates_all', JSON.stringify(datesAll));
-    //   this.dateRange = datesAll;
-    // } catch (e) {
-    //   console.log(e);
-    //   this.generateDates();
-    // }
-  }
-
-  // generateDates(): void {
-  //   const datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
-  //   localStorage.setItem('dates_all', JSON.stringify(datesAll));
-  //   // this.dateRange = datesAll;
-
-  // }
-
-  // isValidDate(date: Date): boolean {
-  //   return moment(new Date(date)).isValid();
-  // }
 
   assignHeaderDate(data: IheaderDashboard): void {
     this.total_sell = data.sales_total;
@@ -201,77 +158,14 @@ export class DashboardComponent implements OnInit {
   }
 
   openDialogDates(): void {
-    const dialogRef = this.dialogDates.open(SelectDatesDashboardComponent,{panelClass: 'rounded-fz'});
-    dialogRef.beforeClosed().subscribe(result => {
-      if (result) {
-        this.dateRange = result;
-        this.getDateHeader();
-
-        // this.chartLocales.dates = this.getDate();
-        this.chartLocales.updateChart();
-
-        // this.chartProductChart.dates = this.getDate();
-        this.chartProductChart.updateChart();
-
-        // this.chartSellChart.dates = this.getDate();
-        this.chartSellChart.updateChart();
-
-        // this.chartCategory.dates = this.getDate();
-        this.chartCategory.updateChart();
-
-        this.updateTableForLocales();
-        this.updateChartTableForCity();
-        // this.updateChartSellForCategories();
-        this.updateTableForSellers();
-      }
-      console.log({result});
-    });
+    this.dialogDates.open(SelectDatesDashboardComponent, { panelClass: 'rounded-fz' });
   }
 
-  //#region Chart Sell of Categories
-  createChartSellOfCategories(): void {
-    const _chart = document.getElementById('chart-for-categories') as any;
-    const ctx = _chart.getContext('2d') as any;
-    const dataChart: ChartConfiguration = {
-      type: 'polarArea',
-      data: {
-        labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
-        datasets: [
-          {
-            label: 'Ventas',
-            data: [1, 1, 1, 1, 1],
-            borderColor: 'rgba(0,200,83,0.5)',
-            borderWidth: 2,
-            backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-      }
-    };
-    this.chartSellForCategories = new Chart(ctx as any, dataChart);
-    this.updateChartSellForCategories();
-  }
-
-  updateChartSellForCategories(key: EKeyDashboard = EKeyDashboard.category_sales): void {
-    const date = this.getDate();
-    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=category-sales&limit=5`)
-    this.suscribeForTop(key)
-      .subscribe((res) => {
-        const data = res.data.data as ItopDashboard<IsellForCategories>[];
-        this.chartSellForCategories.data.labels = data.map(item => item.statisticable.name);
-        this.chartSellForCategories.data.datasets[0].data = data.map(item => item.total);
-        this.chartSellForCategories.update();
-      });
-  }
-  //#endregion Chart Sell of Categories
 
   //#region Table for City
   updateChartTableForCity(): void {
-    const date = this.getDate();
-    this.s_standard.index(`dashboard/stats/sales-by-Cities?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`)
+    // const date = this.getDate();
+    this.s_standard.index(`dashboard/stats/sales-by-Cities`)
 
       .subscribe((res) => {
         const data = res.data as IsellForCity[];
@@ -297,7 +191,7 @@ export class DashboardComponent implements OnInit {
 
   //#region Table for Locales
   updateTableForLocales(page: PageEvent = null): void {
-    const date = this.getDate();
+    // const date = this.getDate();
     // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=10`, page?.pageIndex + 1 || 1)
     this.suscribeForTop(EKeyDashboard.location_sales, null, 'desc', 15, page?.pageIndex + 1 || 1)
       .subscribe((res) => {
@@ -325,7 +219,7 @@ export class DashboardComponent implements OnInit {
 
   //#region Table for Seller
   updateTableForSellers(page: PageEvent = null, key: EKeyDashboard = EKeyDashboard.seller_sales): void {
-    const date = this.getDate();
+    // const date = this.getDate();
     // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=seller-sales&limit=10`, page?.pageIndex + 1 || 1)
     this.suscribeForTop(key, null, 'desc', 15, page?.pageIndex + 1 || 1)
       .subscribe((res) => {
@@ -352,7 +246,7 @@ export class DashboardComponent implements OnInit {
 
 
   suscribeForTop(key: EKeyDashboard, model_id = null, order: 'asc' | 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
-    const date = this.getDate();
+    // const date = this.getDate();
     let params = new HttpParams();
     // if (hasDate) {
     //   params = params.append('start_date', date.first_date[0]);

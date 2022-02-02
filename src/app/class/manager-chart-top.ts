@@ -71,9 +71,6 @@ export abstract class ManagerChartTop<T> {
     if (event) {
       this.key = event.value;
     }
-    // const date = this.dates;
-    // if (this.changedOptions(arg1)) { return; }
-    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=product-sales-count&limit=5${event ? '&order=' + event.value : ''}`)
     this.getQueryChart()
       .subscribe((res) => {
         const data = res.data.data as ItopDashboard<T>[];
@@ -84,25 +81,12 @@ export abstract class ManagerChartTop<T> {
   assignData(data: ItopDashboard<T>[]): void {
   }
 
-  // changeKey(value: any): void {
-  //   this.key[value] = value;
-  //   this.key[this.key.current_key] = false;
-  //   this.key.current_key = value;
-  // }
 
-  // changedOptions(arg1) {
-  //   let isInvalid = false;
-  //   if (arg1?.type == 'key') { if (arg1.value == this.key.current_key) { isInvalid = true; } this.changeKey(arg1.value); }
-  //   return isInvalid;
-  // }
 
   public getQueryChart(moreParams: any = this.moreParams): Observable<any> {
     let params = new HttpParams();
-    // params = params.append('start_date', this.dates.first_date[0]);
-    // params = params.append('end_date', this.dates.first_date[1]);
     params = params.append('key', this.key);
     params = params.append('limit', this._limit.toString());
-    // params = params.append('compare_previous_period', '1');
     if (moreParams) {
       for (const key in moreParams) {
         if (moreParams.hasOwnProperty(key)) {

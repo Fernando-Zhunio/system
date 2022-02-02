@@ -3,16 +3,12 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { Chart, ChartConfiguration } from 'chart.js';
 import * as moment from 'moment';
-import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-// import { EkeyDashboard } from '../../../../../enums/EkeyDashboard.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { IcompareGraph, Idates } from '../../../../../interfaces/idashboard';
-// import { SharedService } from '../../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { IDatesDashboard } from '../../../../../interfaces/idates-dashboard';
-// import { MatChipSelectionChange } from '@angular/material/chips';
 
 @Component({
   selector: 'app-sell-chart',
@@ -21,8 +17,8 @@ import { IDatesDashboard } from '../../../../../interfaces/idates-dashboard';
 })
 export class SellChartComponent implements OnInit {
 
-  constructor(private spinner: NgxSpinnerService) { }
-  @Input() s_standard: StandartSearchService;
+  constructor(private spinner: NgxSpinnerService, public s_standard: StandartSearchService) { }
+  // @Input() s_standard: StandartSearchService;
   // @Input() dates: IDatesDashboard;
   chart: Chart;
   // period: { day: boolean, week: boolean, month: boolean, current_period: 'day'|'week'|'month' } = { day: true, week: false, month: false, current_period: 'day' };

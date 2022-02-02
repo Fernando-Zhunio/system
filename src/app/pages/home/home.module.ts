@@ -6,7 +6,6 @@ import { MomentModule } from 'ngx-moment';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ViewForComponent } from './dashboard/SheetButton/view-for/view-for.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
@@ -18,7 +17,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { CompareCompanyComponent } from './dashboard/compare-company/compare-company.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -38,7 +36,7 @@ import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module'
 import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
-  declarations: [IndexComponent, InicioComponent, DashboardComponent, ViewForComponent, CompareCompanyComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
+  declarations: [IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,

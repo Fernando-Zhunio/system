@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
-import { Chart, ChartConfiguration } from 'chart.js';
 import { ItopDashboard, IstatisticableProduct } from './../../../../../interfaces/idashboard';
-import { MatRadioChange } from '@angular/material/radio';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ManagerChartTop } from '../../../../../class/manager-chart-top';
 import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
@@ -14,11 +12,10 @@ import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.en
 })
 export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct> implements OnInit {
 
-  constructor( spinner: NgxSpinnerService) {
+  constructor( spinner: NgxSpinnerService, public s_standard: StandartSearchService) {
     super();
     this.spinner = spinner;
   }
-  @Input() s_standard: StandartSearchService;
   @Input() dates: {first_date: any[], last_date: any[]};
   key: EKeyDashboard = EKeyDashboard.product_sales;
   // keyCurrent: EkeyDashboard = EkeyDashboard.product_sales;
