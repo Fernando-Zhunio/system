@@ -10,3 +10,8 @@
 .loader-container div {
     border-radius: 20px;
 }
+
+.mat-button-toggle-group {
+    height: 32px;
+    align-items: center;
+  }

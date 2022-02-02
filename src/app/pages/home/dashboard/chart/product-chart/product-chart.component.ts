@@ -5,7 +5,7 @@ import { ItopDashboard, IstatisticableProduct } from './../../../../../interface
 import { MatRadioChange } from '@angular/material/radio';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ManagerChartTop } from '../../../../../class/manager-chart-top';
-import { EkeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
 
 @Component({
   selector: 'app-product-chart',
@@ -18,11 +18,11 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
     super();
     this.spinner = spinner;
   }
-  @Input() s_stardart: StandartSearchService;
+  @Input() s_standard: StandartSearchService;
   @Input() dates: {first_date: any[], last_date: any[]};
-  key: { 'product-sales': boolean, 'product-sales-count': boolean, current_key: 'product-sales' | 'product-sales-count' } = { 'product-sales': true, 'product-sales-count': false, current_key: EkeyDashboard.product_sales };
-  keyCurrent: EkeyDashboard = EkeyDashboard.product_sales;
-  idSpinner = 'isload-chart-product';
+  key: EKeyDashboard = EKeyDashboard.product_sales;
+  // keyCurrent: EkeyDashboard = EkeyDashboard.product_sales;
+  idSpinner = 'loading-chart-product';
 
   ngOnInit(): void {
     this.createChart('chart-product', EtypeGraph.bar);

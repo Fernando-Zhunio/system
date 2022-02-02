@@ -1,16 +1,18 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatRadioChange } from '@angular/material/radio';
+// import { MatRadioChange } from '@angular/material/radio';
 import { MatSort } from '@angular/material/sort';
 import { Chart, ChartConfiguration } from 'chart.js';
 import * as moment from 'moment';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { EkeyDashboard } from '../../../../../enums/EkeyDashboard.enum';
+// import { EkeyDashboard } from '../../../../../enums/EkeyDashboard.enum';
 import { IcompareGraph, Idates } from '../../../../../interfaces/idashboard';
-import { SharedService } from '../../../../../services/shared/shared.service';
+// import { SharedService } from '../../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MatChipSelectionChange } from '@angular/material/chips';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { IDatesDashboard } from '../../../../../interfaces/idates-dashboard';
+// import { MatChipSelectionChange } from '@angular/material/chips';
 
 @Component({
   selector: 'app-sell-chart',
@@ -20,12 +22,14 @@ import { MatChipSelectionChange } from '@angular/material/chips';
 export class SellChartComponent implements OnInit {
 
   constructor(private spinner: NgxSpinnerService) { }
-  @Input() s_stardart: StandartSearchService;
-  @Input() dates: {first_date: any[], last_date: any[]};
+  @Input() s_standard: StandartSearchService;
+  // @Input() dates: IDatesDashboard;
   chart: Chart;
-  period: { day: boolean, week: boolean, month: boolean, current_period: 'day'|'week'|'month' } = { day: true, week: false, month: false, current_period: 'day' };
-  key: { sales: boolean, 'sales-count': boolean, current_key: 'sales'|'sales-count' } = { sales: true, 'sales-count': false, current_key: 'sales' };
+  // period: { day: boolean, week: boolean, month: boolean, current_period: 'day'|'week'|'month' } = { day: true, week: false, month: false, current_period: 'day' };
+  // key: { sales: boolean, 'sales-count': boolean, current_key: 'sales'|'sales-count' } = { sales: true, 'sales-count': false, current_key: 'sales' };
   isLoading: boolean = false;
+  period: 'day'| 'week' | 'month' = 'day';
+  key: 'sales' | 'sales-count' = 'sales';
   // key: EkeyDashboard = EkeyDashboard.sales;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -66,24 +70,19 @@ export class SellChartComponent implements OnInit {
     this.updateChart();
   }
 
-  changePeriod(value: any): void {
-    this.period[value] = true;
-    this.period[this.period.current_period] = false;
-    this.period.current_period = value;
-  }
 
-  changeKey(value: any): void {
-    this.key[value] = value;
-    this.key[this.key.current_key] = false;
-    this.key.current_key = value;
-  }
-
-  public updateChart(arg1: {type: string, value: any} = null): void {
+  public updateChart(event: MatButtonToggleChange = null, type = 'key'): void {
     this.isLoading = true;
-    // if (arg1?.type == 'period') {if (arg1.value == this.period.current_period) {return; } this.changePeriod(arg1.value);  }
-    // if (arg1?.type == 'key') { if (arg1.value == this.key.current_key) {return; } this.changeKey(arg1.value);  }
-    if (this.changedOptions(arg1)) {return; }
-    this.spinner.show('isload-chart-sell');
+    this.spinner.show('loading-chart-sell');
+    
+    if (event) {
+      if (type === 'key') {
+        this.key = event.value;
+      } else if (type === 'period') {
+        this.period = event.value;
+      }
+    }
+
     this.getQueryChart()
     .subscribe((res) => {
       const data = res.data as { dates: Idates, previous_period_stats: IcompareGraph[], selected_period_stats: IcompareGraph[] };
@@ -95,25 +94,29 @@ export class SellChartComponent implements OnInit {
       this.chart.data.labels = data.selected_period_stats.map(item => moment(item.date).format('MMM Do YY'));
       this.chart.update();
       this.isLoading = false;
-      this.spinner.hide('isload-chart-sell');
+      this.spinner.hide('loading-chart-sell');
     });
   }
 
-  changedOptions(arg1) {
-    let isInvalid = false;
-    if (arg1?.type == 'period') {if (arg1.value == this.period.current_period) {isInvalid = true; } this.changePeriod(arg1.value);  }
-    if (arg1?.type == 'key') { if (arg1.value == this.key.current_key) {isInvalid = true; } this.changeKey(arg1.value);  }
-    return isInvalid;
-  }
+  // changedOptions(arg1) {
+  //   let isInvalid = false;
+  //   if (arg1?.type == 'period') {if (arg1.value == this.period.current_period) {isInvalid = true; } this.changePeriod(arg1.value);  }
+  //   if (arg1?.type == 'key') { if (arg1.value == this.key.current_key) {isInvalid = true; } this.changeKey(arg1.value);  }
+  //   return isInvalid;
+  // }
 
   public getQueryChart(): Observable<any> {
     let params = new HttpParams();
-    params = params.append('start_date', this.dates.first_date[0]);
-    params = params.append('end_date', this.dates.first_date[1]);
-    params = params.append('key', this.key.current_key);
+    // params = params.append('start_date', this.dates.first_date[0]);
+    // params = params.append('end_date', this.dates.first_date[1]);
+    params = params.append('key', this.key);
     params = params.append('limit', '5');
     params = params.append('compare_previous_period', '1');
-    params = params.append('period', this.period.current_period);
-    return this.s_stardart.getWithHttpParams(`dashboard/stats/graph`, params);
+    params = params.append('period', this.period);
+    return this.s_standard.getWithHttpParams(`dashboard/stats/graph`, params);
   }
+
+  // selectPeriod(event): void {
+  //   console.log(event)
+  // }
 }

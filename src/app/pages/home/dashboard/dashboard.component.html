@@ -1,17 +1,17 @@
 <div class="">
-    <div>
-      <h1 class="font-montserrat d-inline-block font-5xl m-1">Dashboard</h1>
-    </div>
+  <div>
+    <h1 class="font-montserrat d-inline-block font-5xl m-1">Dashboard</h1>
+  </div>
   <div class="mb-3 sticky-top-custom">
     <h3 class="date-picker d-flex p-1">
       <div class="container-date shadow px-2">
-          {{dateRange?.dates_compare.from | date: 'dd MMM yyyy'}}
-         - a -
-          {{dateRange?.dates_compare.to | date: 'dd MMM yyyy'}}
-        <div class="mx-2 center h-100 center bg-warning px-2">Comparando:</div>  
-          {{dateRange?.dates.from | date: 'dd MMM yyyy'}}
-          - a -
-          {{dateRange?.dates.to | date: 'dd MMM yyyy'}}
+        {{dateRange?.dates_compare.from | date: 'dd MMM yyyy'}}
+        - a -
+        {{dateRange?.dates_compare.to | date: 'dd MMM yyyy'}}
+        <div class="mx-2 center h-100 center bg-warning px-2">Comparando:</div>
+        {{dateRange?.dates.from | date: 'dd MMM yyyy'}}
+        - a -
+        {{dateRange?.dates.to | date: 'dd MMM yyyy'}}
       </div>
       &nbsp;&nbsp;
       <button mat-mini-fab color="accent" (click)="openDialogDates()">
@@ -22,7 +22,7 @@
         <mat-icon>compare</mat-icon>
       </button>
     </h3>
-   </div>
+  </div>
   <div class="grid-dashboard">
     <div class="header-dashboard mb-3">
       <mat-card class="item-header header-1 p-2 row m-0 shadow">
@@ -57,92 +57,94 @@
       <mat-card class="item-header header-1 p-2 row m-0 shadow">
         <div class="card-body" style="line-height: 1.2;">
           <div class="font-header-text text-truncate">Total de productos vendidos</div>
-          <div class="font-header-number">{{ products_sold_count?.total || 0  }}</div>
+          <div class="font-header-number">{{ products_sold_count?.total || 0 }}</div>
           <div class="font-header-text">Comparativa</div>
-          <div class="font-header-number" [ngClass]="products_sold_count?.growth_percentage < 0 ? 'text-warning':'text-success'">
-            {{products_sold_count?.growth_percentage  || 0}} %</div>
+          <div class="font-header-number"
+            [ngClass]="products_sold_count?.growth_percentage < 0 ? 'text-warning':'text-success'">
+            {{products_sold_count?.growth_percentage || 0}} %</div>
         </div>
       </mat-card>
     </div>
     <div class="body-dashboard">
-      <app-sell-chart #chartSell [s_stardart]="s_standard" [dates]="getDate()"></app-sell-chart>
-      <app-locales-chart  #chartLocales [s_stardart]="s_standard" [dates]="getDate()"></app-locales-chart>
+      <app-sell-chart #chartSell [s_standard]="s_standard"></app-sell-chart>
+      <app-locales-chart #chartLocales [s_standard]="s_standard" ></app-locales-chart>
     </div>
     <div class="body-dashboard-2 my-3">
-      <app-product-chart #chartProduct [s_stardart]="s_standard" [dates]="getDate()"></app-product-chart>
-      <app-category-chart #chartCategory [s_stardart]="s_standard" [dates]="getDate()"></app-category-chart>
+      <app-product-chart #chartProduct [s_standard]="s_standard"></app-product-chart>
+      <app-category-chart #chartCategory [s_standard]="s_standard"></app-category-chart>
     </div>
 
-    <div class="body-dashboard-3">
-      <mat-card class="my-2 rounded-fz">
+    <div class="card-columns">
+      <mat-card class="card my-2 rounded-fz">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas por cuidad</h3>
-        <mat-table [dataSource]="dataSourceCity" class="mat-elevation-z8 shadow-none"
-        matSort >
-  
+        <mat-table [dataSource]="dataSourceCity" class="mat-elevation-z8 shadow-none" matSort>
+
           <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef>Local</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Local</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="avg">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Promedio</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element?.avg | currency}} </mat-cell>
-        </ng-container>
-  
-          <ng-container matColumnDef="total" >
-              <mat-header-cell *matHeaderCellDef mat-sort-header>Ventas</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Ventas</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
           </ng-container>
 
           <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumnsCity"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumnsCity;"></mat-row>
-      </mat-table>
+        </mat-table>
       </mat-card>
 
-      <mat-card class="my-2 rounded-fz">
+      <mat-card class="card my-2 rounded-fz">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas por Locales</h3>
         <mat-table [dataSource]="dataSourceLocal" class="mat-elevation-z8 shadow-none">
           <ng-container matColumnDef="company">
-              <mat-header-cell *matHeaderCellDef>Compañia</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.company}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Compañia</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.company}} </mat-cell>
           </ng-container>
-  
+
           <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef>Local</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Local</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
           </ng-container>
-  
+
           <ng-container matColumnDef="total">
-              <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
           </ng-container>
           <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumnsLocal"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumnsLocal;"></mat-row>
-      </mat-table>
-    <mat-paginator *ngIf="ELEMENT_DATA_LOCAL?.length"  (page)="updateTableForLocales($event)" showFirstLastButtons [pageSize]="paginator?.pageSize" [length]="paginator?.length"></mat-paginator>
+        </mat-table>
+        <mat-paginator *ngIf="ELEMENT_DATA_LOCAL?.length" (page)="updateTableForLocales($event)" showFirstLastButtons
+          [pageSize]="paginator?.pageSize" [length]="paginator?.length"></mat-paginator>
       </mat-card>
 
-      <mat-card class="my-2 rounded-fz">
+      <mat-card class="card my-2 rounded-fz">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Mejores Vendedores</h3>
         <mat-table [dataSource]="dataSourceSeller" class="mat-elevation-z8 shadow-none">
           <ng-container matColumnDef="company">
-              <mat-header-cell *matHeaderCellDef>Nombres</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Nombres</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
           </ng-container>
-  
+
           <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef>Alias</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element?.alias}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Alias</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element?.alias}} </mat-cell>
           </ng-container>
-  
+
           <ng-container matColumnDef="total">
-              <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
           </ng-container>
           <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumnsLocal"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumnsLocal;"></mat-row>
-      </mat-table>
-    <mat-paginator *ngIf="ELEMENT_DATA_SELLER?.length" (page)="updateTableForSellers($event)" showFirstLastButtons [pageSize]="paginatorSeller?.pageSize" [length]="paginatorSeller?.length"></mat-paginator>
+        </mat-table>
+        <mat-paginator *ngIf="ELEMENT_DATA_SELLER?.length" (page)="updateTableForSellers($event)" showFirstLastButtons
+          [pageSize]="paginatorSeller?.pageSize" [length]="paginatorSeller?.length"></mat-paginator>
       </mat-card>
     </div>
   </div>

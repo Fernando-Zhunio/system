@@ -7,7 +7,7 @@ import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { IheaderDashboard, IsalesHeader, ISeller, IsellForCategories, IsellForCity, IstatisticableLocation, IstatisticableProduct, ItopDashboard } from '../../../interfaces/idashboard';
-import { SharedService } from '../../../services/shared/shared.service';
+// import { SharedService } from '../../../services/shared/shared.service';
 import * as moment from 'moment';
 import { PageEvent } from '@angular/material/paginator';
 import { SellChartComponent } from './chart/sell-chart/sell-chart.component';
@@ -17,7 +17,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { IndexComponent } from '../versus/index/index.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectDatesDashboardComponent } from './modals/select-dates-dashboard/select-dates-dashboard.component';
-import { EkeyDashboard } from '../../../enums/EkeyDashboard.enum';
+// import { EKeyDashboard } from '../../../enums/EkeyDashboard.enum';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LocalesChartComponent } from './chart/locales-chart/locales-chart.component';
@@ -25,6 +25,7 @@ import { CategoryChartComponent } from './chart/category-chart/category-chart.co
 import { Store } from '@ngrx/store';
 import { selectPreference } from '../../../redux/state/state.selectors';
 import { IDatesDashboard } from '../../../interfaces/idates-dashboard';
+import { EKeyDashboard } from '../../../enums/EkeyDashboard.enum';
 moment.locale('es');
 Chart.register(...registerables);
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
@@ -117,7 +118,7 @@ export class DashboardComponent implements OnInit {
 
   getDateHeader(): void {
     // const date = this.getDate();
-    this.s_standard.search2(`dashboard/stats/basic-metrics?start_date`, this.dateRange).subscribe(
+    this.s_standard.index(`dashboard/stats/basic-metrics?start_date`).subscribe(
       (response) => {
         this.assignHeaderDate(response.data);
 
@@ -177,16 +178,16 @@ export class DashboardComponent implements OnInit {
     // }
   }
 
-  generateDates(): void {
-    const datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
-    localStorage.setItem('dates_all', JSON.stringify(datesAll));
-    // this.dateRange = datesAll;
+  // generateDates(): void {
+  //   const datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };
+  //   localStorage.setItem('dates_all', JSON.stringify(datesAll));
+  //   // this.dateRange = datesAll;
 
-  }
+  // }
 
-  isValidDate(date: Date): boolean {
-    return moment(new Date(date)).isValid();
-  }
+  // isValidDate(date: Date): boolean {
+  //   return moment(new Date(date)).isValid();
+  // }
 
   assignHeaderDate(data: IheaderDashboard): void {
     this.total_sell = data.sales_total;
@@ -200,7 +201,7 @@ export class DashboardComponent implements OnInit {
   }
 
   openDialogDates(): void {
-    const dialogRef = this.dialogDates.open(SelectDatesDashboardComponent);
+    const dialogRef = this.dialogDates.open(SelectDatesDashboardComponent,{panelClass: 'rounded-fz'});
     dialogRef.beforeClosed().subscribe(result => {
       if (result) {
         this.dateRange = result;
@@ -223,6 +224,7 @@ export class DashboardComponent implements OnInit {
         // this.updateChartSellForCategories();
         this.updateTableForSellers();
       }
+      console.log({result});
     });
   }
 
@@ -253,7 +255,7 @@ export class DashboardComponent implements OnInit {
     this.updateChartSellForCategories();
   }
 
-  updateChartSellForCategories(key: EkeyDashboard = EkeyDashboard.category_sales): void {
+  updateChartSellForCategories(key: EKeyDashboard = EKeyDashboard.category_sales): void {
     const date = this.getDate();
     // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=category-sales&limit=5`)
     this.suscribeForTop(key)
@@ -297,7 +299,7 @@ export class DashboardComponent implements OnInit {
   updateTableForLocales(page: PageEvent = null): void {
     const date = this.getDate();
     // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=10`, page?.pageIndex + 1 || 1)
-    this.suscribeForTop(EkeyDashboard.location_sales, null, 'desc', 15, page?.pageIndex + 1 || 1)
+    this.suscribeForTop(EKeyDashboard.location_sales, null, 'desc', 15, page?.pageIndex + 1 || 1)
       .subscribe((res) => {
         this.changedTableForLocales(res.data.data as ItopDashboard<IstatisticableLocation>[]);
         this.paginator.length = res.data.total;
@@ -322,7 +324,7 @@ export class DashboardComponent implements OnInit {
 
 
   //#region Table for Seller
-  updateTableForSellers(page: PageEvent = null, key: EkeyDashboard = EkeyDashboard.seller_sales): void {
+  updateTableForSellers(page: PageEvent = null, key: EKeyDashboard = EKeyDashboard.seller_sales): void {
     const date = this.getDate();
     // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=seller-sales&limit=10`, page?.pageIndex + 1 || 1)
     this.suscribeForTop(key, null, 'desc', 15, page?.pageIndex + 1 || 1)
@@ -349,11 +351,13 @@ export class DashboardComponent implements OnInit {
   //#endregion Table for Seller
 
 
-  suscribeForTop(key: EkeyDashboard, model_id = null, order: 'asc' | 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
+  suscribeForTop(key: EKeyDashboard, model_id = null, order: 'asc' | 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
     const date = this.getDate();
     let params = new HttpParams();
-    params = params.append('start_date', date.first_date[0]);
-    params = params.append('end_date', date.first_date[1]);
+    // if (hasDate) {
+    //   params = params.append('start_date', date.first_date[0]);
+    //   params = params.append('end_date', date.first_date[1]);
+    // }
     params = params.append('key', key);
     params = params.append('order', order);
     params = params.append('limit', limit.toString());
@@ -366,9 +370,9 @@ export class DashboardComponent implements OnInit {
     return this.s_standard.getWithHttpParams(`dashboard/stats/sum`, params);
   }
 
-  getUrlAndQueryStringForCompare(key: EkeyDashboard, period: 'day' | 'week' | 'month' = 'day', model_id = null, compare_previous_period: boolean = false): string {
-    const date = this.getDate();
-    return `dashboard/stats/top?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`;
-  }
+  // getUrlAndQueryStringForCompare(key: EkeyDashboard, period: 'day' | 'week' | 'month' = 'day', model_id = null, compare_previous_period: boolean = false): string {
+  //   const date = this.getDate();
+  //   return `dashboard/stats/top?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`;
+  // }
 
 }

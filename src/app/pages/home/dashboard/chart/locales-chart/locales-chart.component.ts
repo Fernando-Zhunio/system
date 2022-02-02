@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Chart } from 'chart.js';
-import { ChartConfiguration } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ManagerChartTop } from '../../../../../class/manager-chart-top';
-import { EkeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
 import { IstatisticableLocation, ItopDashboard } from '../../../../../interfaces/idashboard';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 
@@ -19,11 +17,11 @@ export class LocalesChartComponent extends ManagerChartTop<IstatisticableLocatio
     this.spinner = spinner;
   }
 
-  @Input() s_stardart: StandartSearchService;
+  @Input() s_standard: StandartSearchService;
   @Input() dates: { first_date: any[], last_date: any[] };
-  key: { 'location-sales': boolean, 'location-sales-count': boolean, current_key: 'location-sales' | 'location-sales-count' } = { 'location-sales': true, 'location-sales-count': false, current_key: EkeyDashboard.location_sales };
+  key: EKeyDashboard = EKeyDashboard.location_sales;
   // keyCurrent: EkeyDashboard = EkeyDashboard.location_sales;
-  idSpinner = 'isload-chart-location';
+  idSpinner = 'loading-chart-location';
   options = {
     responsive: true,
     maintainAspectRatio: false,

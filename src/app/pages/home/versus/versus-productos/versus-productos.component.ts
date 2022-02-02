@@ -3,7 +3,7 @@ import AirDatepicker from 'air-datepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Iproduct2 } from '../../../../interfaces/iproducts';
 import { StandartSearchService } from '../../../../services/standart-search.service';
-import { EkeyDashboard } from '../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard } from '../../../../enums/EkeyDashboard.enum';
 import { VersusChart } from '../../../../class/versus-chart';
 
 @Component({
@@ -18,7 +18,7 @@ export class VersusProductosComponent extends VersusChart<Iproduct2> implements 
   }
   url = 'dashboard/versus/products';
   urlDashboard: string = 'dashboard/stats/graph';
-  key: string = EkeyDashboard.product_sales;
+  key: string = EKeyDashboard.product_sales;
 
   ngOnInit(): void {
     this.airDate = new AirDatepicker('#input-date-products', this.optionsDate as any);

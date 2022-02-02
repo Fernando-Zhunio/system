@@ -1,12 +1,18 @@
-<mat-card class="rounded-fz shadow p-3">
-    <ngx-spinner name="isload-chart-location" bdColor="rgba(0, 0, 0, 0.1)" size="medium" color="rgba(0, 0, 0,0.5)" type="ball-triangle-path" [fullScreen]="false">
-        <p class="mt-5 pt-5 font-montserrat rounded-fz" style="color: #7e7b7b" > Cargando... </p>
+<mat-card class="rounded-fz shadow p-3 overflow-auto">
+    <ngx-spinner name="loading-chart-location" bdColor="rgba(0, 0, 0, 0.1)" size="medium" color="rgba(0, 0, 0,0.5)"
+        type="ball-triangle-path" [fullScreen]="false">
+        <p class="mt-5 pt-5 font-montserrat rounded-fz" style="color: #7e7b7b"> Cargando... </p>
     </ngx-spinner>
     <h3 class="font-montserrat font-3xl font-weight-bolder">Locales</h3>
-    <mat-chip-list selectable="true" aria-label="key selection">
+    <!-- <mat-chip-list selectable="true" aria-label="key selection">
         <mat-chip color="accent" (click)="updateChart({type:'key', value: 'location-sales'})" [selected]="key['location-sales']">Ventas en dolares</mat-chip>
         <mat-chip color="accent" (click)="updateChart({type:'key', value: 'location-sales-count'})" [selected]="key['location-sales-count']">Numero de ventas</mat-chip>
-      </mat-chip-list>
+      </mat-chip-list> -->
+    <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-success"
+        name="key" aria-label="Font Style">
+        <mat-button-toggle color="accent" value="location-sales">Por ventas en dolares</mat-button-toggle>
+        <mat-button-toggle color="accent" value="location-sales-count">Por numero de ventas</mat-button-toggle>
+    </mat-button-toggle-group>
     <div style="height: 400px;" class="d-flex align-items-center position-relative">
         <canvas id="chart-locations"></canvas>
     </div>

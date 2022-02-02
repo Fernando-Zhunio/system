@@ -1,4 +1,4 @@
-export enum EkeyDashboard {
+export enum EKeyDashboard {
     category_sales = 'category-sales',
     category_sales_count = 'category-sales-count',
     city_sales = 'city-sales',

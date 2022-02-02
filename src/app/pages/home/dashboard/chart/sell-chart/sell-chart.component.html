@@ -1,12 +1,13 @@
-<mat-card class="rounded-fz shadow p-3">
+<mat-card class="rounded-fz shadow p-3 overflow-auto">
     
-        <ngx-spinner name="isload-chart-sell" bdColor="rgba(0, 0, 0, 0.1)" size="medium" color="rgba(0, 0, 0,0.5)" type="ball-triangle-path" [fullScreen]="false">
+        <ngx-spinner name="loading-chart-sell" bdColor="rgba(0, 0, 0, 0.1)" size="medium" color="rgba(0, 0, 0,0.5)" type="ball-triangle-path" [fullScreen]="false">
             <p class="mt-5 pt-5 font-montserrat rounded-fz" style="color: #7e7b7b" > Cargando... </p>
         </ngx-spinner>
     
     <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas</h3>
     <div class="d-flex justify-content-between">
-          <mat-chip-list selectable="true" aria-label="period selection">
+
+          <!-- <mat-chip-list selectable="true" aria-label="period selection">
             <mat-chip (click)="updateChart({type:'period', value: 'day'})" [selected]="period.day">Dias</mat-chip>
             <mat-chip (click)="updateChart({type:'period', value: 'week'})" [selected]="period.week">Semana</mat-chip>
             <mat-chip (click)="updateChart({type:'period', value: 'month'})" [selected]="period.month">Meses</mat-chip>
@@ -14,7 +15,19 @@
           <mat-chip-list selectable="true" aria-label="key selection">
               <mat-chip color="accent" (click)="updateChart({type:'key', value: 'sales'})" [selected]="key.sales">Ventas en dolares</mat-chip>
               <mat-chip color="accent" (click)="updateChart({type:'key', value: 'sales-count'})" [selected]="key['sales-count']">Numero de ventas</mat-chip>
-          </mat-chip-list>
+          </mat-chip-list> -->
+
+            <mat-button-toggle-group [(ngModel)]="period" (change)="updateChart($event,'period')" class="rounded-fz border-success" name="period" aria-label="Font Style">
+                <mat-button-toggle color="accent" value="day">Dias</mat-button-toggle>
+                <mat-button-toggle color="accent" value="week">Semanas</mat-button-toggle>
+                <mat-button-toggle color="accent" value="month">Meses</mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-success" name="key" aria-label="Font Style">
+                <mat-button-toggle color="accent" value="sales">Por ventas en dolares</mat-button-toggle>
+                <mat-button-toggle color="accent" value="sales-count">Por numero de ventas</mat-button-toggle>
+            </mat-button-toggle-group>
+
     </div>
     <div style="height: 400px;" class="d-flex align-items-center position-relative">
         <canvas id="chart-sells"></canvas>

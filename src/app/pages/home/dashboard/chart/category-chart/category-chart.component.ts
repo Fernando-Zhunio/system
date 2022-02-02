@@ -3,7 +3,7 @@ import { ManagerChartTop } from '../../../../../class/manager-chart-top';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IsellForCategories, ItopDashboard } from '../../../../../interfaces/idashboard';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
-import { EkeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
 
 @Component({
   selector: 'app-category-chart',
@@ -17,10 +17,9 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
     this.spinner = spinner;
   }
 
-  @Input() s_stardart: StandartSearchService;
+  @Input() s_standard: StandartSearchService;
   @Input() dates: { first_date: any[], last_date: any[] };
-  key: { 'category-sales': boolean, 'category-sales-count': boolean, current_key: 'category-sales' | 'category-sales-count' } = { 'category-sales': true, 'category-sales-count': false, current_key: EkeyDashboard.category_sales };
-  // keyCurrent: EkeyDashboard = EkeyDashboard.product_sales;
+  key: EKeyDashboard = EKeyDashboard.category_sales;
   idSpinner = 'isload-chart-category';
 
   ngOnInit(): void {

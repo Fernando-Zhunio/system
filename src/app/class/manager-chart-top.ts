@@ -1,21 +1,32 @@
 import { HttpParams } from '@angular/common/http';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Chart, ChartConfiguration } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
-import { EtypeGraph } from '../enums/EkeyDashboard.enum';
+import { EKeyDashboard, EtypeGraph } from '../enums/EkeyDashboard.enum';
 import { ItopDashboard } from '../interfaces/idashboard';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
-export class ManagerChartTop<T> {
+export abstract class ManagerChartTop<T> {
   chart: Chart;
-  s_stardart: StandartSearchService;
+  abstract s_standard: StandartSearchService;
   dates: any;
   spinner: NgxSpinnerService;
-  idSpinner: string;
+  abstract idSpinner: string;
   options: any = {
     responsive: true,
     maintainAspectRatio: false,
+    scale: {
+      yAxes: [{ pointLabels: { fontFamily: 'Montserrat, Roboto, sans-serif' } }],
+      xAxes: [
+        {
+          ticks: {
+            fontFamily: 'Red Hat Display, Roboto, sans-serif',
+          }
+        }
+      ]
+    }
   };
   moreParams: object = null;
   private _limit = 5;
@@ -30,7 +41,7 @@ export class ManagerChartTop<T> {
   }
 
   get limit() { return this._limit; }
-  key: any;
+  public abstract key: EKeyDashboard;
 
   createChart(idName, typeChart: EtypeGraph | any, datasets = []): void {
     const _chart = document.getElementById(idName) as any;
@@ -41,7 +52,7 @@ export class ManagerChartTop<T> {
         labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
         datasets: [
           {
-            label: 'Grafico',
+            label: 'Gráfico',
             data: [1, 1, 1, 1, 1],
             borderColor: 'rgba(0,200,83,0.5)',
             borderWidth: 2,
@@ -55,10 +66,13 @@ export class ManagerChartTop<T> {
     this.updateChart();
   }
 
-  updateChart(arg1: { type: string, value: any } = null): void {
+  updateChart(event: MatButtonToggleChange = null): void {
     this.spinner.show(this.idSpinner);
+    if (event) {
+      this.key = event.value;
+    }
     // const date = this.dates;
-    if (this.changedOptions(arg1)) { return; }
+    // if (this.changedOptions(arg1)) { return; }
     // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=product-sales-count&limit=5${event ? '&order=' + event.value : ''}`)
     this.getQueryChart()
       .subscribe((res) => {
@@ -70,23 +84,23 @@ export class ManagerChartTop<T> {
   assignData(data: ItopDashboard<T>[]): void {
   }
 
-  changeKey(value: any): void {
-    this.key[value] = value;
-    this.key[this.key.current_key] = false;
-    this.key.current_key = value;
-  }
+  // changeKey(value: any): void {
+  //   this.key[value] = value;
+  //   this.key[this.key.current_key] = false;
+  //   this.key.current_key = value;
+  // }
 
-  changedOptions(arg1) {
-    let isInvalid = false;
-    if (arg1?.type == 'key') { if (arg1.value == this.key.current_key) { isInvalid = true; } this.changeKey(arg1.value); }
-    return isInvalid;
-  }
+  // changedOptions(arg1) {
+  //   let isInvalid = false;
+  //   if (arg1?.type == 'key') { if (arg1.value == this.key.current_key) { isInvalid = true; } this.changeKey(arg1.value); }
+  //   return isInvalid;
+  // }
 
   public getQueryChart(moreParams: any = this.moreParams): Observable<any> {
     let params = new HttpParams();
-    params = params.append('start_date', this.dates.first_date[0]);
-    params = params.append('end_date', this.dates.first_date[1]);
-    params = params.append('key', this.key.current_key);
+    // params = params.append('start_date', this.dates.first_date[0]);
+    // params = params.append('end_date', this.dates.first_date[1]);
+    params = params.append('key', this.key);
     params = params.append('limit', this._limit.toString());
     // params = params.append('compare_previous_period', '1');
     if (moreParams) {
@@ -96,7 +110,7 @@ export class ManagerChartTop<T> {
         }
       }
     }
-    return this.s_stardart.getWithHttpParams(`dashboard/stats/sum`, params);
+    return this.s_standard.getWithHttpParams(`dashboard/stats/sum`, params);
   }
 
   public ramdonColor(): string {

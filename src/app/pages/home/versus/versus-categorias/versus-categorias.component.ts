@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import AirDatepicker from 'air-datepicker';
-import { Chart } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EkeyDashboard } from '../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard } from '../../../../enums/EkeyDashboard.enum';
 import { Icategory } from '../../../../interfaces/icategory';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { VersusChart } from '../../../../class/versus-chart';
@@ -19,7 +18,7 @@ export class VersusCategoriasComponent extends VersusChart<Icategory> implements
   }
   url = 'dashboard/versus/categories';
   urlDashboard: string = 'dashboard/stats/graph';
-  key: string = EkeyDashboard.category_sales;
+  key: string = EKeyDashboard.category_sales;
 
   ngOnInit(): void {
     this.airDate = new AirDatepicker('#input-date-categories', this.optionsDate as any);
