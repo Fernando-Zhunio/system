@@ -6,8 +6,6 @@
     
     <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas</h3>
     <div class="d-flex justify-content-between">
-
-
             <mat-button-toggle-group [(ngModel)]="period" (change)="updateChart($event,'period')" class="rounded-fz border-success" name="period" aria-label="Font Style">
                 <mat-button-toggle color="accent" value="day">Dias</mat-button-toggle>
                 <mat-button-toggle color="accent" value="week">Semanas</mat-button-toggle>
@@ -18,7 +16,6 @@
                 <mat-button-toggle color="accent" value="sales">Por ventas en dolares</mat-button-toggle>
                 <mat-button-toggle color="accent" value="sales-count">Por numero de ventas</mat-button-toggle>
             </mat-button-toggle-group>
-
     </div>
     <div style="height: 400px;" class="d-flex align-items-center position-relative">
         <canvas id="chart-sells"></canvas>

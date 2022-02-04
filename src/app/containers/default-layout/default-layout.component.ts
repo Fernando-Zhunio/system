@@ -308,9 +308,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-
   downloadStock(url: string): void {
     const url_object = new URL(url);
     const name_file = url_object.searchParams.get('file_name') || 'file_' + Date.now();

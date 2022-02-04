@@ -1,14 +1,14 @@
-<h1 matDialogTitle class="font-facebook pl-2 list-group-item-accent-warning">Fechas de comparación</h1>
+<h1 matDialogTitle class="font-facebook pl-2 list-group-item-accent-warning">Selector de fechas</h1>
 
 <mat-dialog-content>
     <div class="grid">
         <div>
-            <div class="center lead font-facebook mb-2">Hasta</div>
+            <div class="center lead font-facebook mb-2">Fecha</div>
             <div id="date-dashboard-1"></div>
             <div class="font-weight-lighter">Dias: {{daysDate1}}</div>
         </div>
         <div>
-            <div class="center lead font-facebook mb-2"><input type="checkbox" [(ngModel)]="isActive">&nbsp; Desde &nbsp;
+            <div class="center lead font-facebook mb-2"><input type="checkbox" [(ngModel)]="isActive">&nbsp; Fecha a comparar &nbsp;
             </div>
             <div [ngClass]="{'disabled-date': !isActive}" id="date-dashboard-2"></div>
             <div class="font-weight-lighter">Dias: {{daysDate2}}</div>
