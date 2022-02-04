@@ -4,7 +4,7 @@ import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
 export abstract class Crud<T> {
-  router: Router;
+  // router: Router;
   constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar) { }
   abstract url: string;
   isLoading: boolean = false;

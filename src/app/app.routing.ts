@@ -41,7 +41,7 @@ export const routes: Routes = [
     path: 'section-construction',
     component: InConstructionComponent,
     data: {
-      title: 'Seccion en construccion'
+      title: 'Sección en construcción'
     }
   },
   {
@@ -167,6 +167,10 @@ export const routes: Routes = [
       //   path: 'widgets',
       //   loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
       // }
+      {
+        path: 'orders',
+        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
+      },
     ]
   },
   { path: '**', component: P404Component }

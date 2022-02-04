@@ -1,91 +1,92 @@
 // @import "variables";
 @import "~@coreui/coreui/scss/coreui";
-@import '~air-datepicker/air-datepicker.css';
+@import "~air-datepicker/air-datepicker.css";
 
 // @import "custom";
 @import "theme";
-@import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 
-@import '~quill/dist/quill.core.css';
-@import '~quill/dist/quill.bubble.css';
-@import '~quill/dist/quill.snow.css';
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.snow.css";
 
 * {
-    // line-height: 1;
-    font-family: Segoe ui, system-ui, sans-serif;
+  // line-height: 1;
+  font-family: Segoe ui, system-ui, sans-serif;
 }
 
-.app, app-dashboard, app-root {
+.app,
+app-dashboard,
+app-root {
   display: flex;
   flex-direction: column;
   max-height: 100vh !important;
 }
 
 .chat-font {
+  font-family: "Red Hat Display" !important;
+  p {
     font-family: "Red Hat Display" !important;
-    p {
-        font-family: "Red Hat Display" !important;
-        font-weight: 500;
-        font-size: 14px;
-        margin: 0 !important;
-    }
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0 !important;
+  }
 }
 
 .z-index-fix {
-    z-index: 9999 !important;
+  z-index: 9999 !important;
 }
 
-.container-html img{
-    width: 100%;
-    height: 100%;
+.container-html img {
+  width: 100%;
+  height: 100%;
 }
 
 .grid-newsletters img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
-.ngx-daterangepicker-material{
-    z-index: 10000;
+.ngx-daterangepicker-material {
+  z-index: 10000;
 }
 
-.attach .filepond--drop-label{
-    color: #ffc107!important;
-    background-color: #2f353a!important;
-    border-radius: 20px!important;
+.attach .filepond--drop-label {
+  color: #ffc107 !important;
+  background-color: #2f353a !important;
+  border-radius: 20px !important;
 }
-a{
-    text-decoration: none !important;
+a {
+  text-decoration: none !important;
 }
 .markdown p {
-        font-family: "Red Hat Display" !important;
-        font-weight: 500;
-        font-size: 14px;
-        margin: 0 !important;
-
+  font-family: "Red Hat Display" !important;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0 !important;
 }
 
 .font-montserrat {
-    font-family: 'Montserrat', sans-serif !important;
+  font-family: "Montserrat", sans-serif !important;
 }
 
-.justify-end>div {
-    display: block;
+.justify-end > div {
+  display: block;
 }
 
 button {
-    outline: none;
+  outline: none;
 }
 
 a img {
-    object-fit: contain;
-    height: 200px;
+  object-fit: contain;
+  height: 200px;
 }
 
 .navbar-brand-full,
 .navbar-brand,
 .navbar-brand-minimized {
-    height: auto !important;
+  height: auto !important;
 }
 
 // .custom-snack-bar-loader-data {
@@ -140,178 +141,185 @@ a img {
 // }
 
 canvas {
-    outline: none;
+  outline: none;
 }
 
 .mat-card-header-m-0 div {
-    margin: 0;
+  margin: 0;
 }
 
 .mat-tab-labels {
-    background-color: #e4e7ea !important;
+  background-color: #e4e7ea !important;
 }
 
 .font-facebook {
-    font-family: Segoe ui !important;
-    font-weight: 700 !important;
-    line-height: 1;
+  font-family: Segoe ui !important;
+  font-weight: 700 !important;
+  line-height: 1;
 }
 
 .rounded-fz {
-    border-radius: 20px !important;
+  border-radius: 20px !important;
 }
 
 .border-dot {
-    border: 2px dotted #0782d0;
-    border-radius: 30px;
-    height: auto;
-    margin: auto;
+  border: 2px dotted #0782d0;
+  border-radius: 30px;
+  height: auto;
+  margin: auto;
 }
 
 .mat-form-field {
-    line-height: 1.3;
+  line-height: 1.3;
 }
 
 .cdk-overlay-container {
-    z-index: 1020;
+  z-index: 1020;
 }
 
 .z-indez-1020 {
-    z-index: 1020;
+  z-index: 1020;
 }
 
 button {
-    outline: none !important;
+  outline: none !important;
 }
 
 .bg-default {
-    background-color: paleturquoise;
+  background-color: paleturquoise;
 }
-.center{
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .parpadeo {
-    animation: parpadeo 2s infinite;
+  animation: parpadeo 2s infinite;
 }
 
-.opaque-blur{
+.opaque-blur {
   background-color: rgba(255, 255, 255, 0.6);
   /* backdrop-filter: blur(10px); */
   z-index: 100;
 }
 
-.mat-menu-item:hover:not([disabled]), .mat-menu-item.cdk-program-focused:not([disabled]), .mat-menu-item.cdk-keyboard-focused:not([disabled]), .mat-menu-item-highlighted:not([disabled]){
+.mat-menu-item:hover:not([disabled]),
+.mat-menu-item.cdk-program-focused:not([disabled]),
+.mat-menu-item.cdk-keyboard-focused:not([disabled]),
+.mat-menu-item-highlighted:not([disabled]) {
   color: #2f353a;
 }
-.app-header .navbar-brand { position:relative;margin-left:0;left: 0;}
-
-
+.app-header .navbar-brand {
+  position: relative;
+  margin-left: 0;
+  left: 0;
+}
 
 @keyframes parpadeo {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: .5;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {
-    .mat-table {
-        overflow-x: auto;
-    }
-    .mat-cell,
-    .mat-header-cell {
-        word-wrap: initial;
-        display: table-cell;
-        padding: 0px 10px;
-        line-break: unset;
-        width: 100%;
-        white-space: inherit;
-        overflow: hidden;
-        vertical-align: middle;
-        max-width: 200px;
-    }
-    .mat-row,
-    .mat-header-row {
-        display: table-row;
-    }
-    .navbar-brand{
-        width: 30px !important
+  .mat-table {
+    overflow-x: auto;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 10px;
+    line-break: unset;
+    width: 100%;
+    white-space: inherit;
+    overflow: hidden;
+    vertical-align: middle;
+    max-width: 200px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .navbar-brand {
+    width: 30px !important
         ;
-    }
+  }
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
 
-
-
-
 .dark-theme .sidebar .nav-link.active {
-  background-color:  mat-color($dark-bg);
+  background-color: mat-color($dark-bg);
   color: #ffffff;
   border-radius: 10px;
   margin: 2px 5px;
 }
 
 .light-theme .sidebar .nav-link.active {
-    background-color: #e4e5e6;
-    color: #2f353a;
-    border-radius: 10px;
-    margin: 2px 5px;
-  }
-
-.light-theme .app-body{
-  background-color:  #e4e5e6;
+  background-color: #e4e5e6;
+  color: #2f353a;
+  border-radius: 10px;
+  margin: 2px 5px;
 }
 
-.dark-theme .app-body{
-    background-color:  mat-color($dark-bg);
+.light-theme .app-body {
+  background-color: #e4e5e6;
+}
+
+.dark-theme .app-body {
+  background-color: mat-color($dark-bg);
 }
 
 .custom-menu-notification {
-  max-height:75vh !important;
+  max-height: 75vh !important;
 }
 
 .tab-content {
-    border: none;
+  border: none;
 }
 
-.shadow-fz{
-    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
-    transition: 0.5s linear;
+.shadow-fz {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  transition: 0.5s linear;
 }
 
-.shadow-fz:hover{
-box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-    transition: 0.5s linear;
+.shadow-fz:hover {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  transition: 0.5s linear;
 }
 
 .chat-template .nav-tabs {
-    background: #dadada;
+  background: #dadada;
 }
 
 .pulso:hover {
-    color: green;
+  color: green;
 }
 
 .pulso:active {
-    /* transform: scale(.2); */
-    font-size: xx-small;
-    transition: 1s all;
+  /* transform: scale(.2); */
+  font-size: xx-small;
+  transition: 1s all;
 }
 
 .mat-drawer-backdrop {
-    position: fixed !important;
-  }
+  position: fixed !important;
+}
 
-  .mat-dialog-container {
-    border-radius: 20px !important;
-  }
+.mat-dialog-container {
+  border-radius: 20px !important;
+}
+
+// cambia el color del sidebar de los item title
+.sidebar .nav-title {
+  color: #ffeb3b;
+}

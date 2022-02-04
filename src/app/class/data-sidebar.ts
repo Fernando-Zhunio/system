@@ -64,6 +64,7 @@ export class DataSidebar {
     admin_system: 'section_admin_system',
     rrhh: 'section_rrhh',
     home: 'section_home',
+    orders: 'section_orders',
   };
 
   public NavItems = [
@@ -261,6 +262,22 @@ export class DataSidebar {
       tag: this.tags.reports,
     },
     //#endregion
+
+    //#region orders
+    {
+      title: true,
+      name: 'Ordenes',
+    },
+    {
+      name: 'Ordenes',
+      url: '/orders',
+      icon: 'cui-basket-loaded',
+      permission: 'orders.orders.index',
+      tag: this.tags.orders,
+    },
+
+
+    //#endregion orders
 
     //#region info general
     {
