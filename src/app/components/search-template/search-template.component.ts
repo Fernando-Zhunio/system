@@ -9,7 +9,7 @@ import { StandartSearchService } from '../../services/standart-search.service';
   templateUrl: './search-template.component.html',
   styleUrls: ['./search-template.component.css']
 })
-export class SearchTemplateComponent<T> extends CTemplateSearch<T> implements OnInit {
+export class SearchTemplateComponent extends CTemplateSearch<any> implements OnInit {
 
   constructor(private standardService: StandartSearchService, private snackBar: MatSnackBar) {
     super();

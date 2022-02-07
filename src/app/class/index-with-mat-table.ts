@@ -10,6 +10,7 @@ import { SwalService } from "../services/swal.service";
 import { Router } from "@angular/router";
 declare let Swal: any;
 
+// * Esta clase debe ser extendida con el componente IndexWithMatTableComponent
 @Injectable()
 export abstract class IndexWithMatTable<T> {
   constructor(
@@ -22,7 +23,7 @@ export abstract class IndexWithMatTable<T> {
   indexWithMatTableComponent: IndexWithMatTableComponent;
   abstract displayedColumns: string[];
   abstract permissions: { create: string[]; edit: string[]; destroy: string[] };
-  abstract itemRows: { key: string; title: string }[];
+  abstract itemRows: { key: string; title: string,  isEditable: boolean  }[];
   abstract url: string;
   permission_create: any[] = ["super-admin", "admin.users.create"];
   permission_edit: any[] = ["super-admin", "admin.users.edit"];

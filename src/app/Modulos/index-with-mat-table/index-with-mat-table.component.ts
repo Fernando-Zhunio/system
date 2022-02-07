@@ -12,7 +12,6 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { HeaderSearchComponent } from '../../components/header-search/header-search.component';
 import { Ipagination } from '../../interfaces/ipagination';
 import { StandartSearchService } from '../../services/standart-search.service';
-import { SwalService } from '../../services/swal.service';
 
 @Component({
   selector: 'app-index-with-mat-table',
@@ -52,7 +51,7 @@ export class IndexWithMatTableComponent implements OnInit {
   ngOnInit(): void { }
 
   loadData($event): void {
-    console.log('datos cargados');
+    console.log($event.data);
     this.paginator = $event.data;
     this.refreshDataTable(this.paginator.data);
   }
@@ -68,8 +67,7 @@ export class IndexWithMatTableComponent implements OnInit {
   }
 
   onClickEditItem(id, isClose = false): void {
-    console.log(id);
-    
+    // console.log(id);
     this.onClickEdit.emit(id);
     if ( id == 'Sin datos') {
       this.removeItemTable(id);
@@ -164,21 +162,23 @@ export class IndexWithMatTableComponent implements OnInit {
 
   onClickCreateItem(): void {
     this.onClickCreate.emit();
-    const newRow = {};
-    for (const element of this.itemRows) {
-      if (element.isEditable) {
-        newRow[element.key] = '';
-        continue;
-      }
-      newRow[element.key] = 'Sin datos';
-    }
-    newRow['isEditable'] = true;
-    newRow['isCreating'] = true;
-    this.dataSource.data.push(newRow);
-    this.table.renderRows();
-    this.isCreating = true;
-    const scrollBody = document.getElementsByClassName('app-body')[0];
-    scrollBody.scrollTop = scrollBody.scrollHeight;
+   if(this.isEditable) {
+     const newRow = {};
+     for (const element of this.itemRows) {
+       if (element.isEditable) {
+         newRow[element.key] = '';
+         continue;
+       }
+       newRow[element.key] = 'Sin datos';
+     }
+     newRow['isEditable'] = true;
+     newRow['isCreating'] = true;
+     this.dataSource.data.push(newRow);
+     this.table.renderRows();
+     this.isCreating = true;
+     const scrollBody = document.getElementsByClassName('app-body')[0];
+     scrollBody.scrollTop = scrollBody.scrollHeight;
+   }
   }
 
   removeItemTable(id): void {
@@ -190,24 +190,3 @@ export class IndexWithMatTableComponent implements OnInit {
   }
 }
 
-// deleteItem(id): void {
-//   SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar este registro', 'warning').then((result) => {
-//     if (result.isConfirmed) {
-//       this.snack_bar.open('Eliminando registro espere ...');
-//       this.s_standart.destory('admin/countries/' + id).subscribe(res => {
-//         if (res.hasOwnProperty('success') && res.success) {
-//           this.snack_bar.open('registro Eliminado con exito', 'OK', {duration: 2000});
-//           this.removeItemTable(id);
-//         } else {
-//           this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000});
-//         }
-//       }, err => {
-//         console.log(err);
-//         this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000});
-//       });
-//     } else if (
-//       /* Read more about handling dismissals below */
-//       result.dismiss === Swal.DismissReason.cancel
-//     ) {
-//     }
-//   });

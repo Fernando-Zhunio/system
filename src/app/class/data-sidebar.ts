@@ -301,6 +301,13 @@ export class DataSidebar {
       tag: this.tags.admin_system,
     },
     {
+      name: 'Permisos',
+      url: '/administracion-sistema/permissions',
+      icon: 'icon-globe',
+      permission: 'admin.permissions.index',
+      tag: this.tags.admin_system,
+    },
+    {
       name: 'Personas',
       url: '/administracion-sistema/personas',
       icon: 'icon-user',

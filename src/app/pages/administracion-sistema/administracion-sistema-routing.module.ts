@@ -113,6 +113,9 @@ const permission_module_AD = {
     edit: ['super-admin', 'admin.companies.edit'],
     delete: ['super-admin', 'admin.companies.destroy'],
   },
+  permission: {
+    index: ['super-admin', 'admin.permission.index'],
+  }
 };
 
 // export const permission_usuarios_AD:IpermissionStandart = permission_module_AD.usuarios;
@@ -378,7 +381,6 @@ const routes: Routes = [
   // mercado libre admin
   {
     path: 'mercado-libre/cuentas',
-    // component: ADMercadoLibreAdminMainComponents,
     children: [
       {
         path: '',
@@ -426,7 +428,6 @@ const routes: Routes = [
   // Facebook ads manager
   {
     path: 'facebook-ads-manager',
-    // component: ADFacebookAdsManagerMainComponents,
     children: [
       {
         path: '',
@@ -474,7 +475,6 @@ const routes: Routes = [
   // Vtex Sites
   {
     path: 'vtex-sites',
-    // component: ADVtexSitesMainComponents,
     children: [
       {
         path: '',
@@ -513,7 +513,6 @@ const routes: Routes = [
       // Vtex Warehouse
       {
         path: ':id/vtex-warehouses',
-        // component: ADVtexWarehousesMainComponents,
         children: [
           {
             path: '',
@@ -567,7 +566,6 @@ const routes: Routes = [
   // locaciones
   {
     path: 'companies',
-    // component: ADLocationsMainComponents,
     children: [
       {
         path: '',
@@ -618,7 +616,6 @@ const routes: Routes = [
             data: {
               isEdit: true,
               permissions: {
-                // only: permission_module_AD..edit,
               },
             },
           },
@@ -688,10 +685,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./webhooks/webhooks.module').then((m) => m.WebhooksModule),
   },
+  {
+    path: 'permissions',
+    loadChildren: () =>
+      import('./permissions/permissions.module').then((m) => m.PermissionsModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AdminSystemRoutingModule {}
+export class AdminSystemRoutingModule { }

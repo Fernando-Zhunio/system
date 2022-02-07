@@ -13,7 +13,7 @@ import { SwalService } from '../../../../../services/swal.service';
 export class ModalSendCvComponent implements OnInit {
 
   constructor(private s_standard: StandartSearchService) { }
-  @ViewChild(SearchTemplateComponent) appFoo: SearchTemplateComponent<Iuser>;
+  @ViewChild(SearchTemplateComponent) appFoo: SearchTemplateComponent;
 
   url: string = 'rrhh/users';
   placeholder = 'Buscador usuario';
