@@ -1,61 +1,6 @@
 export class DataSidebar {
-  public  NameGroupItem = {
-    section_home: [
-      {
-        title: true,
-        name: 'Home',
-      }
-    ],
-    section_info_general: [
-      {
-        title: true,
-        name: 'Informacion General',
-      },
-    ],
 
-    section_catalogo: [
-      {
-        title: true,
-        name: 'Catalogo',
-      },
-    ],
-
-    section_admin_products: [
-      {
-        title: true,
-        name: 'Administracion de Producto',
-      },
-    ],
-
-    section_imports: [
-      {
-        title: true,
-        name: 'Importaciones',
-      },
-    ],
-
-    section_admin_system: [
-      {
-        title: true,
-        name: 'Administracion del sistema',
-      },
-    ],
-
-    section_report: [
-      {
-        title: true,
-        name: 'Reportes',
-      },
-    ],
-    section_rrhh: [
-      {
-        title: true,
-        name: 'Recursos Humanos',
-      },
-    ],
-  };
-
-  public tags = {
+  public  tags = {
     admin_products: 'section_admin_products',
     catalogs: 'section_catalogo',
     imports: 'section_imports',
@@ -67,7 +12,7 @@ export class DataSidebar {
     orders: 'section_orders',
   };
 
-  public NavItems = [
+  public   NavItems = [
     {
       title: true,
       name: 'Home',
@@ -211,7 +156,7 @@ export class DataSidebar {
       permission: 'catalogs.publications.index',
       tag: this.tags.catalogs,
     },
-   
+
     //#endregion
 
     //#region imports
@@ -391,7 +336,70 @@ export class DataSidebar {
       permission: 'super-admin',
       tag: this.tags.admin_system,
     },
-   
+
     //#endregion
   ];
+  public  NameGroupItem = {
+    section_home: [
+      {
+        title: true,
+        name: 'Home',
+      }
+    ],
+    section_info_general: [
+      {
+        title: true,
+        name: 'Información General',
+      },
+    ],
+
+    section_catalogo: [
+      {
+        title: true,
+        name: 'Catalogo',
+      },
+    ],
+
+    section_admin_products: [
+      {
+        title: true,
+        name: 'Administración de Producto',
+      },
+    ],
+
+    section_imports: [
+      {
+        title: true,
+        name: 'Importaciones',
+      },
+    ],
+
+    section_admin_system: [
+      {
+        title: true,
+        name: 'Administración del sistema',
+      },
+    ],
+
+    section_report: [
+      {
+        title: true,
+        name: 'Reportes',
+      },
+    ],
+    section_rrhh: [
+      {
+        title: true,
+        name: 'Recursos Humanos',
+      },
+    ],
+    section_orders: [
+      {
+        title: true,
+        name: 'Ordenes',
+      },
+    ],
+
+  };
+
 }

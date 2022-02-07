@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import AirDatepicker, { AirDatepickerOptions } from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
-import { loadPreference, setPreference } from '../../../../../redux/actions/preference.action';
-import { selectPreference } from '../../../../../redux/state/state.selectors';
+import { loadPreference } from '../../../../../redux/actions/preference.action';
 import { SharedService } from '../../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from './../../../../../services/swal.service';
@@ -70,7 +69,7 @@ export class SelectDatesDashboardComponent implements OnInit {
 
   saveDates() {
     if (this.daysDate1 != this.daysDate2) {
-      SwalService.swalFire({ title: 'Error de días', text: 'El numero de fechas no coinciden', icon: 'warning' });
+      SwalService.swalFire({ title: 'Error de días', text: 'El numero de días de las fechas no coinciden', icon: 'warning' });
       return;
     }
     if (this.airDate1.selectedDates.length == 2 && this.airDate2.selectedDates.length == 2) {

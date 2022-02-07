@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Router, RouteReuseStrategy } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
 import { INotification, INotificationData } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
@@ -19,7 +19,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { HttpEventType } from '@angular/common/http';
 import { SwPush } from '@angular/service-worker';
 import { ListPermissions } from '../../class/list-permissions';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { addNotification, overrideNotification } from '../../redux/actions/notification.action';
 import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
@@ -68,11 +68,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     state: false,
   };
   public isDownloadStock: boolean = false;
-  // private subscriptionNotification: Subscription;
-  // public notifications: Inotification[] = [];
+
   colorSidebarLeft: string;
-  sidebarData = new DataSidebar();
-  navItems_ = this.sidebarData.NavItems;
+  // sidebarData = new DataSidebar();
+  navItems_ = new DataSidebar().NavItems;
+  // navItems_ = [];
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
   countMessages: any = null;
@@ -233,6 +233,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         this.searchBar = new ListPermissions(this.s_storage);
         this.navItems = this.generateSideBarItems();
       }
+    }, err => {
+      console.log(err);
+      SwalService.swalFire({title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema'});
     });
   }
 
@@ -344,14 +347,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       }, (err) => { this.isProgressDownloadReport = false; });
   }
 
-  // getValueDark(): void {
-  //   if (!localStorage.getItem('isDark')) {
-  //     localStorage.setItem('isDark', JSON.stringify(this.isDark));
-  //   } else {
-  //     this.isDark = JSON.parse(localStorage.getItem('isDark'));
-  //   }
-  // }
-
   changeDark(value) {
     this.isDark = value.target.checked;
     localStorage.setItem('isDark', JSON.stringify(this.isDark));
@@ -419,24 +414,26 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       ...permissionAndRol.permission,
       ...permissionAndRol.rol,
     ];
+
+    // * Si es super usuario retorna todo los item de la clase dataSidebar
     const isSuperAdmin = permissionAndRol.rol.find((x) => x === 'super-admin');
     if (isSuperAdmin !== undefined) {
       return this.navItems_;
     }
 
     const sizePermissionAndRol = mergePermissionAndRol.length;
-    // console.log(mergePermissionAndRol);
 
     for (let j = 0; j < sizePermissionAndRol; j++) {
       const item: INavData = this.navItems_.find(
         (x) => x.permission === mergePermissionAndRol[j]
       );
       if (item !== undefined) {
-        // console.log(item.name);
         new_Item_data[item.tag].push(item);
       }
     }
-    // console.log(new_Item_data);
+    mergePermissionAndRol.forEach((item) => {
+
+    });
 
     let data_return = [];
     const keysTags = Object.keys(new_Item_data);
@@ -445,7 +442,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         data_return.push(...new_Item_data[keysTags[i]]);
       }
     }
-    // console.log(data_return);
     data_return = [
       ...data_return,
     ];
