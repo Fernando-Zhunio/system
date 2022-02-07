@@ -2,11 +2,6 @@
     <mat-drawer-container class="example-container bg-transparent">
         <mat-drawer fixedInViewport="true" position="end" mode="over" #drawer
             class="example-sidenav  col-md-6 position-fixed">
-            <!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p> -->
-            <!-- <button  mat-raised-button>
-            Toggle extra text
-          </button> -->
-
             <button mat-mini-fab class="btn-close-sidebar" color="warn" (click)="drawer.toggle()">
                 <mat-icon>close</mat-icon>
             </button>
@@ -78,9 +73,6 @@
                         <mat-error>El estado es requerido</mat-error>
                     </mat-form-field>
 
-                    <!-- <mat-form-field class="col-md-12 col-12">
-                            <input matInput id="dates-range-promotion" placeholder="Rango de fecha" formControlName="date_range_start">
-                        </mat-form-field> -->
                     <ng-container *ngIf="hasDate">
                         <mat-form-field class="col-md-6 col-12">
                             <mat-label>Fecha de inicio</mat-label>
@@ -108,7 +100,7 @@
 
                     <div class="col-12 mb-4 card-body shadow rounded-fz">
                         <h3 class="font-facebook font-2xl my-2">Productos</h3>
-                        <small class="text-danger" [hidden]="form.get('products').value.length > 1">Seleccione por lo menos 2 productos</small>
+                        <small class="text-danger" [hidden]="form.get('products').value.length > 0">Seleccione por lo menos 1 productos</small>
                         <div class="row">
                             <mat-list class="col-md-6 col-12"
                                 *ngFor="let productSelected of productsSelected | keyvalue">

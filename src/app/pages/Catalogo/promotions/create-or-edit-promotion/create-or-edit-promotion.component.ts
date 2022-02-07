@@ -36,7 +36,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
     duration_type: new FormControl(null, [Validators.required]),
     status: new FormControl(null),
     note: new FormControl(null),
-    products: new FormControl([], [Validators.required, Validators.minLength(2)]),
+    products: new FormControl([], [Validators.required, Validators.minLength(1)]),
     date_range_start: new FormControl(null),
     date_range_end: new FormControl(null),
   });
@@ -129,6 +129,10 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
         data.date_range_start = SharedService.convertDateForLaravelOfDataPicker(data.date_range_start);
         data.date_range_end = SharedService.convertDateForLaravelOfDataPicker(data.date_range_end);
         console.log(data);
+        if (data.date_range_start < data.date_range_end) {
+          SwalService.swalFire({title: 'La fecha de inicio debe ser mayor o igual a la fecha de fin'});
+          return false;
+        }
       } else {
         data.date_range_start = null;
         data.date_range_end = null;
