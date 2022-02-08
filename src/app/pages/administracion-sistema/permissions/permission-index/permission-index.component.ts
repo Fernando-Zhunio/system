@@ -51,7 +51,6 @@ export class PermissionIndexComponent extends IndexWithMatTable<IPermission> imp
     this.dialog.open(GroupsPermissionsIndexComponent).afterClosed().subscribe(res => {
       console.log(res);
       if (res) {
-        
       }
     });
   }
