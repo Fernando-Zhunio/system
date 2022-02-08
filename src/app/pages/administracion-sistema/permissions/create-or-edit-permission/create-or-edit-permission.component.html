@@ -1,21 +1,28 @@
-<mat-nav-list>
-    <a href="https://keep.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Keep</span>
-      <span mat-line>Add to a note</span>
-    </a>
-  
-    <a href="https://docs.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Docs</span>
-      <span mat-line>Embed in a document</span>
-    </a>
-  
-    <a href="https://plus.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Plus</span>
-      <span mat-line>Share with your friends</span>
-    </a>
-  
-    <a href="https://hangouts.google.com/" mat-list-item (click)="openLink($event)">
-      <span mat-line>Google Hangouts</span>
-      <span mat-line>Show to your coworkers</span>
-    </a>
-  </mat-nav-list>
+<div>
+  <h2 class="font-facebook font-4xl">FORMULARIO DE PERMISOS - {{data.isEdit ? "EDITANDO": "CREANDO"}}</h2>
+  <div [formGroup]="form" class="row m-0">
+    <mat-form-field class="col-md-6 col-12">
+      <input formControlName="name" matInput placeholder="Nombre">
+    </mat-form-field>
+    <mat-form-field class="col-md-6 col-12">
+      <input formControlName="title" matInput placeholder="Titulo">
+    </mat-form-field>
+    <mat-form-field class="col-md-6 col-12">
+      <input formControlName="description" matInput placeholder="Descripción">
+    </mat-form-field>
+    <mat-form-field class="col-md-6 col-12">
+      <input formControlName="guard_name" matInput placeholder="Nombre Guard">
+    </mat-form-field>
+    <mat-form-field class="col-md-6 col-12">
+      <mat-select formControlName="group_permission_id" placeholder="Seleccione un grupo">
+        <mat-option *ngFor="let item of groupsPermissions" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div> 
+      <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()">Guardar</button>
+      <button mat-raised-button (click)="close()" color="warn" class="ml-1">Cerrar</button>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,10 @@ import { SwalService } from "../services/swal.service";
 import { Router } from "@angular/router";
 declare let Swal: any;
 
-// * Esta clase debe ser extendida con el componente IndexWithMatTableComponent
+/**
+ * @description Esta clase debe tener el component IndexWithMatTableComponent en su HTML
+ */
+
 @Injectable()
 export abstract class IndexWithMatTable<T> {
   constructor(

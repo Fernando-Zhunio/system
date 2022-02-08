@@ -28,13 +28,13 @@
         <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
           (keydown)="$event.stopPropagation()">
           <mat-form-field>
-            <input formControlName="identification_number" type="text" placeholder="Numero de identificacion" matInput>
+            <input formControlName="identification_number" type="text" placeholder="Numero de identificación" matInput>
           </mat-form-field>
         </div>
         <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
           (keydown)="$event.stopPropagation()">
           <mat-form-field>
-            <input formControlName="profession" type="text" placeholder="Profesion" matInput>
+            <input formControlName="profession" type="text" placeholder="Profesión" matInput>
           </mat-form-field>
         </div>
       </div>
@@ -53,14 +53,14 @@
           </div>
           <div class="font-italic my-1">Correo: <strong>{{p?.email}}</strong></div><br>
           <div class="font-italic my-1">Fecha de nacimiento: <strong>{{p?.birthday | date}}</strong></div><br>
+          <div class="font-italic my-1">Ciudad de nacimiento: <strong>{{p?.birth_city }}</strong></div><br>
           <div class="font-italic my-1">Ciudad de residencia: <strong>{{p?.resident_city }}</strong></div><br>
-          <!-- <div class="font-italic my-1">Este usuario se creo: <strong>{{p?.created_at | date }}</strong></div> -->
-          <div class="font-italic my-1">Tipo de identificacion: <strong>{{p?.identification_type }}</strong></div><br>
-          <div class="font-italic my-1">Numero de identificacion: <strong>{{p?.identification_number }}</strong></div>
+          <div class="font-italic my-1">Tipo de identificación: <strong>{{p?.identification_type }}</strong></div><br>
+          <div class="font-italic my-1">Numero de identificación: <strong>{{p?.identification_number }}</strong></div>
           <br>
           <div class="font-italic my-1">Perfil completado: <strong>{{p?.information_percentage }}</strong></div><br>
           <div class="font-italic my-1">Solicitudes: <strong>{{p?.requests_count }}</strong></div><br>
-          <div class="font-italic my-1">Profesion: <strong>
+          <div class="font-italic my-1">Profesión: <strong>
               <ng-container *ngIf="p?.professions">
                 <ng-container *ngFor="let pp of p?.professions">
                   <span class="badge bg-info font-sm mr-1">{{pp.name}}</span>

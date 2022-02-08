@@ -23,26 +23,26 @@ export class IndexWithMatTableComponent implements OnInit {
     private s_standard: StandartSearchService,
     private snack_bar: MatSnackBar // private dialog: MatDialog
   ) { }
+  @Output() onClickEdit: EventEmitter<number> = new EventEmitter<any>();
+  @Output() onClickDestroy: EventEmitter<number> = new EventEmitter<any>();
+  @Output() onClickCreate: EventEmitter<number> = new EventEmitter<any>();
+  @Output() onClickSaveEditItem: EventEmitter<number> = new EventEmitter<any>();
   @Input() displayedColumns: string[];
 
   @Input() itemRows: { key: string; title: string; isEditable: boolean }[] = [];
   @Input() placeholder: string = 'Buscador';
-  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
-
-  ELEMENT_DATA: any[] = [];
+  @Input() url = 'indefinido';
+  @Input() isEditable = false;
   @Input() permissions: { create: []; edit: []; destroy: [] } = {
     create: [],
     edit: [],
     destroy: [],
   };
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+
+  ELEMENT_DATA: any[] = [];
   dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
-  @Input() url = 'indefinido';
-  @Input() isEditable = false;
-  @Output() onClickEdit: EventEmitter<number> = new EventEmitter<any>();
-  @Output() onClickDestroy: EventEmitter<number> = new EventEmitter<any>();
-  @Output() onClickCreate: EventEmitter<number> = new EventEmitter<any>();
-  @Output() onClickSaveEditItem: EventEmitter<number> = new EventEmitter<any>();
   paginator: Ipagination<any>;
   isLoading: boolean;
   dataLastRevert: any[] = [];
@@ -67,7 +67,6 @@ export class IndexWithMatTableComponent implements OnInit {
   }
 
   onClickEditItem(id, isClose = false): void {
-    // console.log(id);
     this.onClickEdit.emit(id);
     if ( id == 'Sin datos') {
       this.removeItemTable(id);
@@ -76,8 +75,8 @@ export class IndexWithMatTableComponent implements OnInit {
     }
     if (this.isEditable) {
       if (isClose) {
-        let data = this.dataSource.data.find((x) => x['id'] == id);
-        const data_editable = this.getItemEditables();
+        const data = this.dataSource.data.find((x) => x['id'] == id);
+        const data_editable = this.getItemEditable();
         const data_revert = {
           ...this.dataLastRevert.find((x) => x['id'] == id),
           isEditable: false,
@@ -85,65 +84,61 @@ export class IndexWithMatTableComponent implements OnInit {
         data_editable.forEach((element) => {
           data[element.key] = data_revert[element.key];
         });
-        // console.log(data)
         data.isEditable = false;
         const index = this.dataLastRevert.findIndex((x) => x['id'] == id);
         this.dataLastRevert.splice(index, 1);
       } else {
-        let data = this.dataSource.data.find((x) => x['id'] == id);
+        const data = this.dataSource.data.find((x) => x['id'] == id);
         data.isEditable = true;
         this.dataLastRevert.push(Object.assign({}, data));
       }
     }
   }
 
-  getItemEditables(): any[] {
+  getItemEditable(): any[] {
     return this.itemRows.filter((x) => x.isEditable == true);
   }
 
   saveInServer(id, isCreating = false): void {
     if (isCreating) {
-      let data_row = this.dataSource.data.find((x) => x['id'] == id);
-      const name_editables = this.getItemEditables();
-      let data_send = {};
-      name_editables.map((x) => {
+      const data_row = this.dataSource.data.find((x) => x['id'] == id);
+      const name_editable = this.getItemEditable();
+      const data_send = {};
+      name_editable.map((x) => {
         return (data_send[x.key] = data_row[x.key]);
       });
       this.s_standard
         .store(`${this.url}`, { ...data_send })
         .subscribe((res) => {
           if (res.success) {
-            this.snack_bar.open('Guardado con exito', '', {
+            this.snack_bar.open('Guardado con éxito', '', {
               duration: 2000,
             });
-            let data = this.dataSource.data.find((x) => x['id'] == id);
-            // const data_editable = this.getItemEditables();
+            const data = this.dataSource.data.find((x) => x['id'] == id);
             this.itemRows.forEach((element) => {
               data[element.key] = res.data[element.key];
             });
             data.isEditable = false;
             data.isCreating = false;
             this.isCreating = false;
-            // const index = this.dataLastRevert.findIndex((x) => x["id"] == id);
-            // this.dataLastRevert.splice(index, 1);
           }
         });
     } else {
-      let data_row = this.dataSource.data.find((x) => x['id'] == id);
-      const name_editables = this.getItemEditables();
-      let data_send = {};
-      name_editables.map((x) => {
+      const data_row = this.dataSource.data.find((x) => x['id'] == id);
+      const name_editable = this.getItemEditable();
+      const data_send = {};
+      name_editable.map((x) => {
         return (data_send[x.key] = data_row[x.key]);
       });
       this.s_standard
         .updatePut(`${this.url}/${id}`, { ...data_send })
         .subscribe((res) => {
           if (res.success) {
-            this.snack_bar.open('Guardado con exito', '', {
+            this.snack_bar.open('Guardado con éxito', '', {
               duration: 2000,
             });
-            let data = this.dataSource.data.find((x) => x['id'] == id);
-            const data_editable = this.getItemEditables();
+            const data = this.dataSource.data.find((x) => x['id'] == id);
+            const data_editable = this.getItemEditable();
             // const data_revert = {...this.dataLastRevert.find(x => x['id'] == id), isEditable: false};
             data_editable.forEach((element) => {
               data[element.key] = res.data[element.key];
@@ -162,7 +157,7 @@ export class IndexWithMatTableComponent implements OnInit {
 
   onClickCreateItem(): void {
     this.onClickCreate.emit();
-   if(this.isEditable) {
+   if (this.isEditable) {
      const newRow = {};
      for (const element of this.itemRows) {
        if (element.isEditable) {
@@ -188,5 +183,8 @@ export class IndexWithMatTableComponent implements OnInit {
     // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
   }
+
+   index(obj, i) {  return obj ? obj[i] : null}
+
 }
 

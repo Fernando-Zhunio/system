@@ -1,2 +1,3 @@
-<app-index-with-mat-table [url]="url" [itemRows]="itemRows" [displayedColumns]="displayedColumns">
+<app-index-with-mat-table #index (onClickCreate)="openCreateOrEdit($event)" (onClickEdit)="openCreateOrEdit($event, true)" [url]="url" [itemRows]="itemRows" [displayedColumns]="displayedColumns">
 </app-index-with-mat-table>
+<button mat-mini-fab class="btn-add-group" (click)="openDialogGroupPermission()"><mat-icon>account_tree</mat-icon></button>
