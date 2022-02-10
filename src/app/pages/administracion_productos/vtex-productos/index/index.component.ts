@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { Ipagination } from '../../../../interfaces/ipagination';
-import { IproductVtexSku } from '../../../../interfaces/iproducts';
 import { IproductVtex } from './../../../../interfaces/iproducts';
 import { SwiperOptions } from 'swiper';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +23,7 @@ export class IndexComponent implements OnInit {
   min: number; max: number;
   warehouse_ids: any[];
   prefix_id: string;
-  isload: boolean;
+  isLoading: boolean;
   url: string = 'products-admin/vtex/product-vtex';
   paginator: Ipagination<IproductVtex>;
   products: IproductVtex[] = [];

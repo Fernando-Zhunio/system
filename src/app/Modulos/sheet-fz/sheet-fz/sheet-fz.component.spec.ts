@@ -1,6 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { SheetFzComponent } from './sheet-fz.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('SheetFzComponent', () => {
   let component: SheetFzComponent;
@@ -8,7 +11,16 @@ describe('SheetFzComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SheetFzComponent ]
+      declarations: [ SheetFzComponent],
+      imports: [
+  MatBottomSheetModule,
+        HttpClientTestingModule
+      ],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+
+      ]
     })
     .compileComponents();
   }));

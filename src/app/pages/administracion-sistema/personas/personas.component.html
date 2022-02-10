@@ -1,5 +1,5 @@
 <div>
-    <app-header-search [placeholder]="'Escriba la persona a buscar'" (isload)="isload = $event" [url]="'admin/people'" (products)="loadData($event)">
+    <app-header-search [placeholder]="'Escriba la persona a buscar'" (isLoading)="isLoading = $event" [url]="'admin/people'" (products)="loadData($event)">
     </app-header-search>
     <div>
         <div style="margin-bottom: 58px;" class="card-columns">
@@ -8,7 +8,7 @@
             </mat-card>
         </div>
 
-        <mat-paginator [hidden]="isload" *ngIf="peoples.length > 0" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1">
+        <mat-paginator [hidden]="isLoading" *ngIf="peoples.length > 0" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1">
         </mat-paginator>
     </div>
 

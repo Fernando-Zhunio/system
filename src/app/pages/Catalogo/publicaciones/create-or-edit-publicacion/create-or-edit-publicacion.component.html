@@ -12,8 +12,8 @@
     </div>
     <ng-template #templatePublication>
         <div>
-            <h3>Publicacion # {{publication?.id}}</h3>
-            <h2 *ngIf="publication">
+            <h3 class="font-4xl font-facebook mt-3">Publicacion # {{publication?.id}}</h3>
+            <h2 *ngIf="publication" class="font-2xl">
                 {{publication.name}}
                 <button (click)="editName()" mat-mini-fab color="primary">
                     <mat-icon>create</mat-icon>
@@ -106,7 +106,7 @@
                                                     </mat-spinner> Procesando...</div>
                                                 <div class=" col-12 d-flex justify-content-center align-items-center">
                                                     Da click en boton o arrastra para subirlo
-                                                    <button type="button" mat-raised-button (click)="openFileSelector()">Buscar archivo</button>
+                                                    <button type="button" mat-raised-button (click)="openFileSelector()" class="ml-2">Buscar archivo</button>
                                                 </div>
                                                 <small *ngIf="publication?.images.length > 0" class="ml-2 my-2 w-100">Arrastre para
                                                     cambiar la imagen principal</small>

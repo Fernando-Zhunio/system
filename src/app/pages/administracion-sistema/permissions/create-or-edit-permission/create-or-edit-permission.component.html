@@ -1,28 +1,71 @@
 <div>
   <h2 class="font-facebook font-4xl">FORMULARIO DE PERMISOS - {{data.isEdit ? "EDITANDO": "CREANDO"}}</h2>
-  <div [formGroup]="form" class="row m-0">
-    <mat-form-field class="col-md-6 col-12">
-      <input formControlName="name" matInput placeholder="Nombre">
-    </mat-form-field>
-    <mat-form-field class="col-md-6 col-12">
-      <input formControlName="title" matInput placeholder="Titulo">
-    </mat-form-field>
-    <mat-form-field class="col-md-6 col-12">
-      <input formControlName="description" matInput placeholder="Descripción">
-    </mat-form-field>
-    <mat-form-field class="col-md-6 col-12">
-      <input formControlName="guard_name" matInput placeholder="Nombre Guard">
-    </mat-form-field>
-    <mat-form-field class="col-md-6 col-12">
-      <mat-select formControlName="group_permission_id" placeholder="Seleccione un grupo">
-        <mat-option *ngFor="let item of groupsPermissions" [value]="item.id">
-          {{item.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div> 
-      <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()">Guardar</button>
-      <button mat-raised-button (click)="close()" color="warn" class="ml-1">Cerrar</button>
+  <mat-button-toggle-group value="normal" (change)="changeForm($event)" *ngIf="!data.isEdit">
+    <mat-button-toggle value="crud">Crud</mat-button-toggle>
+    <mat-button-toggle selected value="normal">Normal</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <div [ngSwitch]="currentForm">
+    <div *ngSwitchCase="'crud'">
+      <div [formGroup]="formCrud" class="row m-0">
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="name" matInput placeholder="Nombre">
+          <mat-hint>Ejemplo: product-admin.vtex.product-vtex.</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="singular_name" matInput placeholder="Nombre singular">
+          <mat-hint>Ejemplo: Precio [Precio de producto]</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="plural_name" matInput placeholder="Nombre plural">
+          <mat-hint>Ejemplo: Precios [Precios de productos]</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="guard_name" matInput placeholder="Nombre Guard">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="article" matInput placeholder="Articulo">
+          <mat-hint>Ejemplo: un, una</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <mat-select formControlName="group_permission_id" placeholder="Seleccione un grupo">
+            <mat-option *ngFor="let item of groupsPermissions" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()">Guardar</button>
+          <button mat-raised-button (click)="close()" color="warn" class="ml-1">Cerrar</button>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchDefault>
+      <div [formGroup]="form" class="row m-0">
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="name" matInput placeholder="Nombre">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="title" matInput placeholder="Titulo">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="description" matInput placeholder="Descripción">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <input formControlName="guard_name" matInput placeholder="Nombre Guard">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+          <mat-select formControlName="group_permission_id" placeholder="Seleccione un grupo">
+            <mat-option *ngFor="let item of groupsPermissions" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="col-12">
+          <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()">Guardar</button>
+          <button mat-raised-button (click)="close()" color="warn" class="ml-1">Cerrar</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

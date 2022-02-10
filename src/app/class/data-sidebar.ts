@@ -254,7 +254,7 @@ export class DataSidebar {
     {
       name: 'Empresas',
       url: '/administracion-sistema/companies',
-      icon: 'icon-directions',
+      icon: 'icon-home',
       permission: 'admin.companies.index',
       tag: this.tags.admin_system,
     },
@@ -301,9 +301,9 @@ export class DataSidebar {
       tag: this.tags.admin_system,
     },
     {
-      name: 'Permisos',
+      name: 'Permisos y Grupos',
       url: '/administracion-sistema/permissions',
-      icon: 'icon-globe',
+      icon: 'icon-like',
       permission: 'admin.permissions.index',
       tag: this.tags.admin_system,
     },

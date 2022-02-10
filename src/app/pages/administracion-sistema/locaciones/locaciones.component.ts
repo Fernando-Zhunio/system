@@ -38,7 +38,7 @@ export class LocacionesComponent implements OnInit {
   permission_destroy: any[] = ['super-admin', 'admin.users.destroy'];
   dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   paginator: Ipagination<Location>;
-  isload: boolean;
+  isLoading: boolean;
 
   ngOnInit(): void {}
 

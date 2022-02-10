@@ -7,5 +7,14 @@
         "rrhh",
         "swal",
         "vtex"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "db_sidebar",
+            "group": "NovisolutionsCoreUI",
+            "database": "${workspaceFolder:novisolutionsCoreUI}/db_sidebar.db"
+        }
     ]
 }

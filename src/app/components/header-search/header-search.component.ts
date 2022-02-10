@@ -8,6 +8,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StandartSearchService } from '../../services/standart-search.service';
@@ -19,7 +20,7 @@ import { SwalService } from '../../services/swal.service';
   styleUrls: ['./header-search.component.css'],
 })
 export class HeaderSearchComponent implements OnInit, OnDestroy {
-  @Output() isload: EventEmitter<boolean> = new EventEmitter();
+  @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
   @Output() products: EventEmitter<any> = new EventEmitter();
   @Input() url = '';
   @Input() placeholder = 'Escriba el nombre del producto';
@@ -28,6 +29,11 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   @Input() isSticky: boolean = true;
   @Input() init: boolean = true;
   @Input() spinner_name = null;
+  pageEvent: PageEvent = {
+    length: 0,
+    pageIndex: 0,
+    pageSize: 15,
+  };
   productSearch: string = '';
   subscription: Subscription;
   intervalSearch: any;
@@ -48,37 +54,36 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   }
 
   getQueryParams() {
-    let params = {};
-    params = JSON.parse(
+    const params = JSON.parse(
       JSON.stringify(this.activeRoute.snapshot.queryParamMap['params'])
     );
     try {
-      const $event = { pageIndex: 0, pageSize: 15, previousPageIndex: 0 };
-      if (params.hasOwnProperty('search')) { this.productSearch = params['search']; }
-      if (params.hasOwnProperty('pageSize')) {$event.pageSize = Number.parseInt(params['pageSize']);}
-      if (params.hasOwnProperty('page')) { $event.pageIndex = Number.parseInt(params['page']) - 1;}
-      return $event;
+      // const $event = { pageIndex: 0, pageSize: 15, previousPageIndex: 0 };
+      if (params.hasOwnProperty('search')) { this.productSearch = params.search; }
+      if (params.hasOwnProperty('pageSize')) {this.pageEvent.pageSize = params.pageSize; }
+      if (params.hasOwnProperty('page')) { this.pageEvent.pageIndex = parseInt(params.page, 10) - 1; }
     } catch (error) {
       console.log(error);
-      return null;
+      // return null;
     }
+    return this.pageEvent;
   }
 
   buscarInterval(event: Event): void {
    clearTimeout(this.intervalSearch);
-   if (event['keyCode'] === 13) {this.searchBar(); return; }
+   if (event['keyCode'] === 13) {this.searchBarReset(); return; }
    this.intervalSearch = setTimeout(() => {
-      this.searchBar();
+      this.searchBarReset();
     }, 1000);
   }
 
-  searchBar($event = { pageIndex: 0, pageSize: 15, previousPageIndex: 0 }) {
-    this.isload.emit(true);
+  searchBar($event = this.pageEvent, clearParams: boolean = false) {
+    this.isLoading.emit(true);
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.pageEvent = $event;
     this.gotoTop();
-    
     this.subscription = this.s_standard
       .search2(this.url, {
         pageSize: $event.pageSize,
@@ -88,7 +93,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         (response: any) => {
-          this.isload.emit(false);
+          this.isLoading.emit(false);
           this.products.emit(response);
           const queryParams: Params = {
             page: $event.pageIndex + 1,
@@ -102,7 +107,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
           });
         },
         (err) => {
-          this.isload.emit(false);
+          this.isLoading.emit(false);
         }
       );
   }
@@ -127,6 +132,15 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
         'warning'
       );
     }
+  }
+
+  searchBarReset() {
+    this.pageEvent = {
+      length: 0,
+      pageIndex: 0,
+      pageSize: this.pageEvent.pageSize,
+    };
+    this.searchBar(this.pageEvent);
   }
 
   refrescated(): void {

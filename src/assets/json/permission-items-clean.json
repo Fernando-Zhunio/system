@@ -1,0 +1,52 @@
+{
+  "menu": {
+    "home": {
+      "title": { "title": "Inicio", "tag": "home", "icon": null },
+      "items": []
+    },
+    "rrhh": {
+      "title": { "title": "Recursos Humanos", "tag": "rrhh", "icon": null },
+      "items": []
+    },
+    "admin_products": {
+      "title": {
+        "title": "Administración de Productos",
+        "tag": "admin_products",
+        "icon": null
+      },
+      "items": []
+    },
+    "catalogs": {
+      "title": { "title": "Catálogos", "tag": "catalogs", "icon": null },
+      "items": []
+    },
+    "imports": {
+      "title": { "title": "Importaciones", "tag": "imports", "icon": null },
+      "items": []
+    },
+    "reports": {
+      "title": { "title": "Reportes", "tag": "reports", "icon": null },
+      "items": []
+    },
+    "orders": {
+      "title": { "title": "Ordenes", "tag": "orders", "icon": null },
+      "items": []
+    },
+    "info_general": {
+      "title": {
+        "title": "Información General",
+        "tag": "info_general",
+        "icon": null
+      },
+      "items": []
+    },
+    "admin_system": {
+      "title": {
+        "title": "Administración del Sistema",
+        "tag": "admin_system",
+        "icon": null
+      },
+      "items": []
+    }
+  }
+}

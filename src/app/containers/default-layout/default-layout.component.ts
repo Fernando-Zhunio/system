@@ -24,7 +24,30 @@ import { addNotification, overrideNotification } from '../../redux/actions/notif
 import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 import { setPreference } from '../../redux/actions/preference.action';
+import sidebarItems from '/assets/json/permission-items.json';
+import sidebarItemsClear from '/assets/json/permission-items-clean.json';
+import { IPermission } from '../../interfaces/ipermission';
+import { environment } from '../../../environments/environment';
 
+interface ISidebar {
+  menu: {
+    [key: string]: { title: ITitle, items: IItem[] }
+ };
+  options: { background: string };
+}
+interface ITitle {
+  title: string;
+  tag: string;
+  icon?: string;
+}
+
+interface IItem {
+  name: string;
+  url: string;
+  icon: string;
+  permission: string;
+  tag: string;
+}
 @Component({
   selector: 'app-dashboard',
   styleUrls: ['./default-layout.component.css'],
@@ -44,6 +67,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   ) {
     this.notifications$ = this.store.select(selectNotification);
   }
+
+  jsonSidebarItems: ISidebar = sidebarItems;
+  jsonSidebarItemsClean: ISidebar = sidebarItemsClear;
 
   notifications$: Observable<INotification[]>;
 
@@ -227,7 +253,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   getPermissionAndRolesFromServer() {
     this.s_standard.create('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        const permissionAndRol = { rol: res.data.roles, permission: res.data.permissions };
+        const permissionAndRol = { rol: res.data.roles, permission: res.data.permissions.map(i => i.name) };
         this.s_storage.setRolAndPermission(permissionAndRol);
         // console.log(permissionAndRol);
         this.searchBar = new ListPermissions(this.s_storage);
@@ -235,7 +261,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       }
     }, err => {
       console.log(err);
-      SwalService.swalFire({title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema'});
+      SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
     });
   }
 
@@ -246,7 +272,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       .notification((notify: INotification) => {
         this.store.dispatch(addNotification({ notification: notify }));
         if (notify.type == 'App\\Notifications\\NotificationPrice') {
-          this.store.dispatch(generatePrice({data: notify.data}));
+          this.store.dispatch(generatePrice({ data: notify.data }));
         }
         if (notify.type === 'App\\Notifications\\ErrorPriceNotification') {
           this.store.dispatch(idlePrice());
@@ -335,7 +361,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
             document.body.appendChild(a);
             a.setAttribute('style', 'display: none');
             a.href = urlDownload;
-            a.download =  name_file;
+            a.download = name_file;
             a.click();
             window.URL.revokeObjectURL(urlDownload);
             a.remove();
@@ -446,6 +472,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       ...data_return,
     ];
     return data_return;
+  }
+
+
+  generatedSideBarItems(permissions: IPermission): INavData[] {
+
   }
 
 

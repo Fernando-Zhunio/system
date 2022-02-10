@@ -71,7 +71,7 @@ export class BuscarProductosComponent implements OnInit {
 
   post_current: IpostProduct;
   suscrition_api: Subscription;
-  isLoad: boolean = false;
+  isLoading: boolean = false;
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
   paginator: Ipagination<IproductWithVtex>;

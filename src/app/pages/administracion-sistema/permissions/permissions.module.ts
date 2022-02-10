@@ -15,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { GroupsPermissionsIndexComponent } from './groups-permissions/groups-permissions-index/groups-permissions-index.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatSelectModule,
     MatInputModule,
     MatChipsModule,
+    MatCheckboxModule,
+    MatButtonToggleModule
   ],
   entryComponents: [
     CreateOrEditPermissionComponent,

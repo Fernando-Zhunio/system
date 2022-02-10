@@ -35,7 +35,7 @@
   </mat-drawer>
 
   <mat-drawer-content style="overflow: inherit;background-color: transparent;">
-    <div *ngIf="products.length > 0 && !isLoad" class="view-all-name">
+    <div *ngIf="products.length > 0 && !isLoading" class="view-all-name">
       <nav id="nav-go" [ngClass]="is_open_go?'go-on':'go-off'" class="position-absolute  badge-go text-right">
         <div class="text-nowrap" *ngFor="let product of products">
           <a href="javascript:void(0);" (click)="goSpy(product.id)">{{product.name}}</a>
@@ -47,7 +47,7 @@
     </div>
 
     <app-header-search [filter_data]="{min:min,max:max,'warehouse_ids[]':warehouse_ids,prefix_id:prefix_id}"
-      [placeholder]="'Buscador de productos'" (isload)="isLoad = $event" [url]="'catalogs/products'"
+      [placeholder]="'Buscador de productos'" (isLoading)="isLoading = $event" [url]="'catalogs/products'"
       (products)="loadData($event)">
       <mat-chip-list class="ml-1">
         <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
@@ -104,7 +104,7 @@
       </mat-menu>
     </app-header-search>
 
-    <div *ngIf="isLoad" class="card-columns">
+    <div *ngIf="isLoading" class="card-columns">
       <div *ngFor="let item of [1, 2, 3]" class="my-1 card rounded-fz card-body border-0">
         <ngx-skeleton-loader count="1" [theme]="{
             'border-radius': '5px',
@@ -123,7 +123,7 @@
       </div>
     </div>
 
-    <div *ngIf="!isLoad" class="card-columns">
+    <div *ngIf="!isLoading" class="card-columns">
       <mat-card @fade class="my-1 shadow-sm card rounded-fz card-body border-0" *ngFor="let p of products; index as ind">
         <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0 " style="top: 68px;background: inherit">
           <div class="font-weight-light font-2xl mb-2">
@@ -240,7 +240,7 @@
       </mat-card>
     </div>
 
-    <ng-container *ngIf="!isLoad && products.length < 1">
+    <ng-container *ngIf="!isLoading && products.length < 1">
       <div class="row">
         <div class="col-md-6">
           <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%" />
@@ -251,7 +251,7 @@
       </div>
     </ng-container>
 
-    <mat-paginator *ngIf="products.length > 0" [hidden]="isLoad" [pageSizeOptions]="[10, 20, 30]"
+    <mat-paginator *ngIf="products.length > 0" [hidden]="isLoading" [pageSizeOptions]="[10, 20, 30]"
       (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
       [pageIndex]="paginator.current_page-1">
     </mat-paginator>

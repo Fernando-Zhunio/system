@@ -34,7 +34,7 @@ export class UsuariosComponent implements OnInit {
   permission_destroy: any[] = ['super-admin', 'admin.users.destroy'];
   dataSource = new MatTableDataSource<IuserSystem>(this.ELEMENT_DATA);
   paginator: Ipagination<IuserSystem>;
-  isload: boolean;
+  isLoading: boolean;
   users: IuserSystem[];
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class UsuariosComponent implements OnInit {
         this.snack_bar.open('Eliminando usuario espere ...');
         this.s_standart.destory('admin/users/' + id).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
-            this.snack_bar.open('Usuario Eliminado con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('Usuario Eliminado con éxito', 'OK', {duration: 2000});
             this.removeItemTable(id);
           } else {
             this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000});

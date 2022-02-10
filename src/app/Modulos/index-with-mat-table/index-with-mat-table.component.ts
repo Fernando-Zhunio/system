@@ -6,11 +6,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+// import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { HeaderSearchComponent } from '../../components/header-search/header-search.component';
 import { Ipagination } from '../../interfaces/ipagination';
+import { IPermission } from '../../interfaces/ipermission';
 import { StandartSearchService } from '../../services/standart-search.service';
 
 @Component({
@@ -56,8 +57,12 @@ export class IndexWithMatTableComponent implements OnInit {
     this.refreshDataTable(this.paginator.data);
   }
 
-  changePaginator(event): void {
-    this.headerComponent.searchBar(event);
+  changePaginator(event = null): void {
+    if (event) {
+      this.headerComponent.searchBar(event);
+    } else {
+      this.headerComponent.searchBar();
+    }
   }
 
   refreshDataTable(data) {
@@ -183,6 +188,16 @@ export class IndexWithMatTableComponent implements OnInit {
     // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
   }
+
+  // updateItemTable(id, data: IPermission): void {
+  //   const _data: IPermission = this.dataSource.data.find(x => x['id'] == id);
+  //   if (data) {
+  //     this.itemRows.forEach((element) => {
+  //       _data[element.key] = data[element.key];
+  //     });
+  //     console.log(_data, data);
+  //   }
+  // }
 
    index(obj, i) {  return obj ? obj[i] : null}
 

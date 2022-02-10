@@ -1,11 +1,11 @@
-<app-header-search [init]="init" [active_filters_menu]="active_filters_menu" [filter_data]="filter_data" [placeholder]="placeholder" (isload)="isload = $event" [url]="url$"
+<app-header-search [init]="init" [active_filters_menu]="active_filters_menu" [filter_data]="filter_data" [placeholder]="placeholder" (isLoading)="isLoading = $event" [url]="url$"
 (products)="loadData($event)">
 <ng-content select="[menuBar]"></ng-content>
 <ng-content filterMenu select="[filterMenu]"></ng-content>
 
 </app-header-search>
 
-<div  [ngStyle]="{'column-count': columns}" *ngIf="isload" class="mt-4 card-columns">
+<div  [ngStyle]="{'column-count': columns}" *ngIf="isLoading" class="mt-4 card-columns">
   <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
     <ngx-skeleton-loader count="1" [theme]="{
       'border-radius': '20px',
@@ -29,11 +29,11 @@
   </div>
 </div>
 
-<div *ngIf="!isload;" [ngStyle]="{'column-count': columns}" class="mt-4 card-columns">
+<div *ngIf="!isLoading;" [ngStyle]="{'column-count': columns}" class="mt-4 card-columns">
   <ng-content select="[data]"></ng-content>
 </div>
 
-<ng-container *ngIf="!isload && products?.length < 1">
+<ng-container *ngIf="!isLoading && products?.length < 1">
   <div class="row">
     <div class="col-md-6">
       <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
@@ -43,7 +43,7 @@
     </div>
   </div>
 </ng-container>
-<mat-paginator [hidden]="isload" *ngIf="products?.length > 0" [pageSizeOptions]="[10, 20, 30]"
+<mat-paginator [hidden]="isLoading" *ngIf="products?.length > 0" [pageSizeOptions]="[10, 20, 30]"
   (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
   [pageIndex]="paginator.current_page-1">
 </mat-paginator>

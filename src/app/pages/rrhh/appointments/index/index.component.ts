@@ -47,21 +47,21 @@ export class IndexComponent
       'No, cancelar'
     ).then((result) => {
       if (result.isConfirmed) {
-        appointment['isload'] = true;
+        appointment['isLoading'] = true;
         this.s_serviceStandard
           .destory(
             `rrhh/requests/${appointment.request.id}/appointments/${appointment.id}`
           )
           .subscribe(
             (res) => {
-              appointment['isload'] = false;
+              appointment['isLoading'] = false;
               if (res && res.hasOwnProperty('success') && res.success) {
                 const index = this.products.findIndex((i) => i.id === id);
                 this.products.splice(index, 1);
               }
             },
             (err) => {
-              appointment['isload'] = false;
+              appointment['isLoading'] = false;
             }
           );
       }
@@ -110,14 +110,14 @@ export class IndexComponent
     .store(url, { status: 'request_finalist' })
     .subscribe(
       (res1: any) => {
-        appointment['isload'] = false;
+        appointment['isLoading'] = false;
         if (res1 && res1.hasOwnProperty('success') && res1.success) {
           appointment.request.current_status.type_action =
             'request_finalist';
         }
       },
       (err) => {
-        appointment['isload'] = false;
+        appointment['isLoading'] = false;
       }
     );
   }
@@ -132,20 +132,20 @@ export class IndexComponent
         'Si, deseo cambiar a finalista'
       ).then((res) => {
         if (res.isConfirmed) {
-          appointment['isload'] = true;
+          appointment['isLoading'] = true;
           const url = `rrhh/requests/${appointment.request_id}/statuses`;
           this.s_serviceStandard
             .store(url, { status: 'request_finalist' })
             .subscribe(
               (res1: any) => {
-                appointment['isload'] = false;
+                appointment['isLoading'] = false;
                 if (res1 && res1.hasOwnProperty('success') && res1.success) {
                   appointment.request.current_status.type_action =
                     'request_finalist';
                 }
               },
               (err) => {
-                appointment['isload'] = false;
+                appointment['isLoading'] = false;
               }
             );
         }

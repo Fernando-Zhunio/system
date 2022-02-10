@@ -15,7 +15,7 @@ import { SwalService } from '../../../services/swal.service';
 export class PersonasComponent implements OnInit {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   peoples: Cperson[] = [];
-  isload: boolean = false;
+  isLoading: boolean = false;
   paginator: Ipagination<Cperson>;
 
   constructor(

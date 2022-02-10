@@ -25,7 +25,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatMenuModule,
     MatChipsModule,
   ],
-  exports:[
+  exports: [
     HeaderSearchComponent,
   ]
 })

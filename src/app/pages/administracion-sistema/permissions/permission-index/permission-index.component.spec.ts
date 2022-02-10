@@ -40,7 +40,7 @@ describe('PermissionIndexComponent', () => {
     fixture = TestBed.createComponent(PermissionIndexComponent);
     // const app = fixture.componentInstance
     component = fixture.componentInstance;
-    component.data
+    // component.data
     fixture.detectChanges();
   });
 

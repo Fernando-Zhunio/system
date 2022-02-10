@@ -17,7 +17,7 @@ export class TemplateForSearchColumnsComponent extends CTemplateSearch<any[]> im
   @Output() productEmit = new EventEmitter<any>();
   @Input() url:string;
 
-  isload:boolean = false;
+  isLoading: boolean = false;
   // products:any[];
   ngOnInit(): void {
   }

@@ -1,4 +1,4 @@
-<app-header-search [placeholder]="placeholder" (isload)="isLoading = $event" [url]="url" (products)="loadData($event)">
+<app-header-search [placeholder]="placeholder" (isLoading)="isLoading = $event" [url]="url" (products)="loadData($event)">
   <ng-content select="[btnHeader]"></ng-content>
 </app-header-search>
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">

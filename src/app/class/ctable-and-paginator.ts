@@ -9,12 +9,10 @@ import { SwalService } from '../services/swal.service';
 declare let Swal: any;
 
 export class CtableAndPaginator<T> {
-  // @ViewChild(HeaderSearchComponent) headerComponent:HeaderSearchComponent;
-
   ELEMENT_DATA: T[] = [];
   dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
   paginator: Ipagination<T>;
-  isload: boolean;
+  isLoading: boolean;
   displayedColumns: string[];
   snack_bar: MatSnackBar;
   s_standart: StandartSearchService;

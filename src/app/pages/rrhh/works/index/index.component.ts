@@ -24,25 +24,25 @@ export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
   deleteWork(id: number) {
     const work = this.products.find((x) => x.id === id);
     SwalService.swalConfirmation(
-      'Eliminacion Empleo',
+      'Eliminación Empleo',
       '¿Está seguro de eliminar este Empleo?',
       'question',
       'Si, eliminar',
       'No, cancelar'
     ).then((result) => {
       if (result.isConfirmed) {
-    work['isload'] = true;
+    work['isLoading'] = true;
         this.s_serviceStandart
           .destory(`rrhh/works/${work.id}`)
           .subscribe((res) => {
-    work['isload'] = false;
+    work['isLoading'] = false;
             if (res && res.hasOwnProperty('success') && res.success) {
               const index = this.products.findIndex(
                 (i) => i.id == id
               );
               this.products.splice(index, 1);
             }
-          }, (err) => {work['isload'] = false;});
+          }, (err) => {work['isLoading'] = false; });
       }
     });
   }

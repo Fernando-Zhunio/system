@@ -118,8 +118,6 @@ const permission_module_AD = {
   }
 };
 
-// export const permission_usuarios_AD:IpermissionStandart = permission_module_AD.usuarios;
-// export const PERMISSION_ROLES_AD:IpermissionStandart = permission_module_AD.roles;
 
 const routes: Routes = [
   // usuarios

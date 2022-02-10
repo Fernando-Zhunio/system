@@ -24,7 +24,7 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   price_max: number = null;
   aux_page_next = 0;
   hasData: boolean = true;
-  isload: boolean = false;
+  isLoading: boolean = false;
 
   min: string = '';
   max: string = '';

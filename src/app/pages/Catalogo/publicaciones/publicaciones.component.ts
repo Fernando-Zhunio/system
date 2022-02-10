@@ -41,7 +41,7 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   pageSize = 10;
   pageSizeOptions: number[] = [10, 15, 25];
   pageEvent: PageEvent;
-  isload: boolean = true;
+  isLoading: boolean = true;
   aux_page_next: number;
   suscrition_api: Subscription;
   permission_page: IpermissionStandart;

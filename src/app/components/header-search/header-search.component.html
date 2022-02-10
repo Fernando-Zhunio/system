@@ -3,7 +3,7 @@
     <input class="form-control font-header rounded-fz shadow-sm  input-style" [placeholder]="placeholder"
       (keyup)="buscarInterval($event)" [(ngModel)]="productSearch">
       <button (click)="goBack()" class="btn-go-back" mat-mini-fab><mat-icon>arrow_back</mat-icon></button>
-    <button class="position-absolute btn-find" mat-icon-button (click)="searchBar()">
+    <button class="position-absolute btn-find" mat-icon-button (click)="searchBarReset()">
       <mat-icon style="font-size: 30px;" class="text-black-50" type="search">find_replace</mat-icon>
     </button>
     <div class="position-absolute d-flex align-items-center" style="top: 0px;
@@ -23,7 +23,7 @@
         <mat-menu class="w-100" #menu="matMenu" [overlapTrigger]="false">
           <ng-content select="[filterMenu]"></ng-content>
           <div mat-menu-item [disableRipple]="true">
-            <button mat-raised-button (click)="searchBar()">Aplicar filtros</button>
+            <button mat-raised-button (click)="searchBarReset()">Aplicar filtros</button>
           </div>
         </mat-menu>
       </ng-container>

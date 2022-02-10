@@ -138,6 +138,7 @@ export interface Iwork {
   requests?: Irequest[];
   is_expired: boolean;
   expiration_date?: Date;
+  isLoading?: boolean;
 }
 
 export interface Iappointment {
@@ -155,6 +156,7 @@ export interface Iappointment {
   location: any;
   zoom_meet: IzoomMeet;
   request: Irequest;
+  isLoading?: boolean;
 }
 
 interface IzoomMeet {

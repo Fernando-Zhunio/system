@@ -1,6 +1,6 @@
 <div class="mt-4">
   <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">Bodegas de Vtex</h2>
-  <app-header-search [placeholder]="'Buscador de Bodegas Vtex'" (isload)="isload = $event" [url]="urlData" (products)="loadData($event)">
+  <app-header-search [placeholder]="'Buscador de Bodegas Vtex'" (isLoading)="isLoading = $event" [url]="urlData" (products)="loadData($event)">
   </app-header-search>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="id">
