@@ -7,16 +7,9 @@ import { CreateOrEditGroupProductsComponent } from '../reportes/group-products/c
 import { IndexComponent } from './index/index.component';
 import { UsersWebRrhhComponent } from './users-web-rrhh/users-web-rrhh.component';
 
-// @Component({
-//   selector: 'app-rrhh',
-//   template: '<router-outlet></router-outlet>',
-// })
-// export class RrhhMainComponents  {
-// }
 const routes: Routes = [
   {
     path: '',
-    // component: RrhhMainComponents,
     children: [
       {
         path: 'dashboard',

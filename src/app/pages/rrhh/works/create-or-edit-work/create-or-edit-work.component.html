@@ -1,8 +1,8 @@
-<div>
-  <h3 class="font-facebook font-5xl mt-3 font-weight-bold">{{title}}</h3>
+<div class="pb-3">
+  <h3 class="font-5xl mt-3 font-weight-bold">{{title}}</h3>
 
   <mat-card>
-    <form (ngSubmit)="saveOrEditInServer()" [formGroup]="formWork" class="shadow p-4  rounded-fz">
+    <form (ngSubmit)="saveOrEditInServer()" [formGroup]="formWork" class="card-body">
       <div class="row">
   
         <!-- tile -->
@@ -83,7 +83,7 @@
   
           <!-- skills -->
           <div class="col-12 border p-3 my-3 rounded-fz">
-            <div class="font-facebook my-2 font-2xl">Ofrecimientos</div>
+            <div class=" my-2 font-2xl">Ofrecimientos</div>
             <ng-container formArrayName="skills">
               <ng-container *ngFor="let skill of skillsForm.controls; let i = index">
                 <mat-form-field class="w-100" appearance="fill">
@@ -101,7 +101,7 @@
   
           <!-- requeriments -->
           <div class="col-12 border p-3 my-3 rounded-fz">
-            <div class="font-facebook my-2 font-2xl">Requerimientos</div>
+            <div class="my-2 font-2xl">Requerimientos</div>
             <ng-container formArrayName="requiments">
               <ng-container *ngFor="let requeriment of requimentsForm.controls; let i = index">
                 <mat-form-field class="w-100">

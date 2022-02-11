@@ -54,20 +54,20 @@ export class BuscarProductosComponent implements OnInit {
   max: string = '';
   aux_page_next = 0;
 
-  masonryOptions: NgxMasonryOptions = {
-    // columnWidth: 300,
-    gutter: 10,
-    // percentPosition: true,
-    // stamp: string;
-    // fitWidth: true,
-    // originLeft: boolean;
-    // originTop: boolean;
-    // containerStyle: string;
-    // resize: true,
-    // initLayout: boolean;
-    // horizontalOrder: boolean;
-    // animations: NgxMasonryAnimations;
-  };
+  // masonryOptions: NgxMasonryOptions = {
+  //   // columnWidth: 300,
+  //   gutter: 10,
+  //   // percentPosition: true,
+  //   // stamp: string;
+  //   // fitWidth: true,
+  //   // originLeft: boolean;
+  //   // originTop: boolean;
+  //   // containerStyle: string;
+  //   // resize: true,
+  //   // initLayout: boolean;
+  //   // horizontalOrder: boolean;
+  //   // animations: NgxMasonryAnimations;
+  // };
 
   post_current: IpostProduct;
   suscrition_api: Subscription;
@@ -111,7 +111,6 @@ export class BuscarProductosComponent implements OnInit {
     },
     scrollbar: true,
     pagination: false,
-
   };
   permission_page: IpermissionStandart;
   ngOnInit(): void {
@@ -126,7 +125,6 @@ export class BuscarProductosComponent implements OnInit {
           this.prefixes = res.data.prefixes;
           this.warehouses = res.data.warehouses;
         } else {
-
         }
       });
   }
@@ -166,7 +164,7 @@ export class BuscarProductosComponent implements OnInit {
   openDescription(i) {
     const name = this.products[i].name;
     const info = this.products[i].description;
-    this.s_standartSearch.openDescription(name, 'Descripcion', info, false);
+    this.s_standartSearch.openDescription(name, 'Descripción', info, false);
   }
 
   viewWareHouse(index) {
@@ -218,7 +216,7 @@ export class BuscarProductosComponent implements OnInit {
 
   goSpy(id) {
     if (this.current_go == id) return;
-    let element = document.getElementById(id);
+    const element = document.getElementById(id);
     element.classList.remove('anim-go');
 
     this.current_go = id;
@@ -234,7 +232,7 @@ export class BuscarProductosComponent implements OnInit {
   openOrCloseGo(){
     this.is_open_go = !this.is_open_go;
     if (this.is_open_go){
-      this.icon_go = 'close'
+      this.icon_go = 'close';
     }
     else{
       this.icon_go = 'segment';

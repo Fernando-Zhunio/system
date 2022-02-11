@@ -31,40 +31,48 @@ export class PublicationComponent implements OnInit {
   @Input() publication: Ipublication;
   @Output() delete: EventEmitter<any> = new EventEmitter();
   public config: SwiperOptions = {
-    // a11y: { enabled: true },
     direction: 'horizontal',
-    // slidesPerView: 4,
-    breakpoints : {
-      // when window width is >= 320px
+    spaceBetween: 10,
+    breakpoints: {
       320: {
         slidesPerView: 1,
-        spaceBetween: 5
+        spaceBetween: 5,
       },
-      // when window width is >= 480px
       480: {
         slidesPerView: 1,
-        spaceBetween: 5
+        spaceBetween: 5,
       },
-      // when window width is >= 640px
-      600: {
+      601: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      950: {
         slidesPerView: 2,
-        spaceBetween: 10
-      },
-      800: {
-        slidesPerView: 3,
-        spaceBetween: 10
+        spaceBetween: 10,
       },
       1200: {
-        slidesPerView: 4,
-        spaceBetween: 10
-      }
-
+        slidesPerView: 2,
+        spaceBetween: 10,
+      },
+      // 1350: {
+      //   slidesPerView: 3,
+      //   spaceBetween: 10,
+      // },
+      // 1500: {
+      //   slidesPerView: 4,
+      //   spaceBetween: 10,
+      // },
+      1750: {
+        slidesPerView: 5,
+        spaceBetween: 10,
+      },
+      1900: {
+        slidesPerView: 6,
+        spaceBetween: 10,
+      },
     },
-    // keyboard: true,
-    // mousewheel: true,
     scrollbar: true,
-    // navigation: true,
-    pagination: false
+    pagination: false,
   };
 
   ngOnInit(): void {}

@@ -128,10 +128,8 @@ export class CreateOrEditAppointmentComponent implements OnInit {
   changeSelectionType(): void {
     if (this.formAppointment.get('type').value === 'face_to_face') {
       this.formAppointment.get('novi_sys_location_id').enable();
-      // this.formAppointment.get('novi_sys_person_id').enable();
     } else {
       this.formAppointment.get('novi_sys_location_id').disable();
-      // this.formAppointment.get('novi_sys_person_id').disable();
     }
   }
 
@@ -144,7 +142,7 @@ export class CreateOrEditAppointmentComponent implements OnInit {
         this.edit();
       }
     } else {
-      SwalService.swalToast('Por favor llene todos los campos', 'error');
+      SwalService.swalToast('Por favor llene todos los campos en rojo', 'error');
     }
   }
 

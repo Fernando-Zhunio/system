@@ -5,25 +5,6 @@ import { InicioComponent } from './inicio/inicio.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ProfileComponent } from './profile/profile.component';
-// import { IndexComponent } from './versus/index/index.component';
-
-// @Component({
-//   selector: 'app-home_main',
-//   template: '<router-outlet></router-outlet>',
-// })
-// // tslint:disable-next-line: component-class-suffix
-// export class HomeMainComponents  {
-// }
-
-// const permission_module = {
-//   publicaciones: {
-//     index: ['super-admin', 'catalogs.publications.index'],
-//     show: ['super-admin', 'catalogs.publications.show'],
-//     create: ['super-admin', 'catalogs.publications.create'],
-//     edit: ['super-admin', 'catalogs.publications.edit'],
-//     delete: ['super-admin', 'catalogs.publications.destroy']
-//   },
-// };
 
 const routes: Routes = [
   {

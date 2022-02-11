@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { IndexComponent } from './index/index.component';
 import {
   RrhhWorksRoutingModule,
-  RrhhWorksMainComponents,
 } from './works-routing.module';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [IndexComponent, RrhhWorksMainComponents, CreateOrEditWorkComponent],
+  declarations: [IndexComponent, CreateOrEditWorkComponent],
   imports: [
   CommonModule,
     RrhhWorksRoutingModule,

@@ -1,10 +1,9 @@
-<div *ngIf="requestWork">
-  <h2 class="font-facebook font-4xl mt-3">{{title}}</h2>
+<div *ngIf="requestWork" class="pb-3">
+  <h2 class=" font-4xl mt-3">{{title}}</h2>
   <div>
     <div>
-
         <form [formGroup]="formAppointment" (ngSubmit)="saveInServer()">
-          <mat-card class="row m-0  rounded-fz shadow content-appointment p-4">
+          <mat-card class="row m-0  content-appointment p-4">
             <div style="border-radius: 10px;" class="justify-content-between center col-12 p-2 lead my-2 font-3xl">
              <span>Empleo: <strong>{{requestWork.work.title}}</strong></span>
              <button mat-icon-button type="button"  [routerLink]="['/recursos-humanos/works']"
@@ -64,13 +63,12 @@
                         </mat-select>
                       </mat-form-field>
                     </div>
-                    <button mat-raised-button type="submit">Guardar&nbsp;<mat-icon>save</mat-icon></button>
+                    <button mat-raised-button color="primary" type="submit">Guardar&nbsp;<mat-icon>save</mat-icon></button>
                 </div>
               </div>
             </div>
             <div class="col-md-5 col-12 shadow  rounded-fz">
               <div class="card-body">
-                <!-- <img [src]="requestWork?.user?.photo.real_permalink" alt="" class="w-75 rounded-circle"> -->
                 <div class="row">
                   <div class="col-12 lead my-2 border-bottom font-3xl pb-2 ">
                     Solicitante: <strong> {{requestWork?.user?.first_name}} {{requestWork?.user?.last_name}} </strong>
@@ -87,15 +85,6 @@
                   <div class="col-md-5 col-12 center">
                     <img class="w-100 rounded-circle shadow" [src]="requestWork?.user?.photo?.real_permalink"
                       alt="user photo">
-                  </div>
-                  <div class="col-12">
-  
-                    <!-- <mat-chip-list class="ml-1">
-  
-                      <mat-chip selected class="text-truncate bg-primary">
-                        <mat-icon class="text-black-50" type="search">work</mat-icon>
-                      </mat-chip>
-                    </mat-chip-list> -->
                   </div>
                 </div>
               </div>

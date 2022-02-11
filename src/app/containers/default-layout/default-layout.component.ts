@@ -24,10 +24,9 @@ import { addNotification, overrideNotification } from '../../redux/actions/notif
 import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 import { setPreference } from '../../redux/actions/preference.action';
-import sidebarItems from '/assets/json/permission-items.json';
-import sidebarItemsClear from '/assets/json/permission-items-clean.json';
+// import sidebarItems from '/assets/json/permission-items.json';
+// import sidebarItemsClear from '/assets/json/permission-items-clean.json';
 import { IPermission } from '../../interfaces/ipermission';
-import { environment } from '../../../environments/environment';
 
 interface ISidebar {
   menu: {
@@ -40,7 +39,6 @@ interface ITitle {
   tag: string;
   icon?: string;
 }
-
 interface IItem {
   name: string;
   url: string;
@@ -68,8 +66,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.notifications$ = this.store.select(selectNotification);
   }
 
-  jsonSidebarItems: ISidebar = sidebarItems;
-  jsonSidebarItemsClean: ISidebar = sidebarItemsClear;
+  // jsonSidebarItems: ISidebar = sidebarItems;
+  // jsonSidebarItemsClean: ISidebar = sidebarItemsClear;
 
   notifications$: Observable<INotification[]>;
 
@@ -95,7 +93,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   };
   public isDownloadStock: boolean = false;
 
-  colorSidebarLeft: string;
+  // colorSidebarLeft: string;
   // sidebarData = new DataSidebar();
   navItems_ = new DataSidebar().NavItems;
   // navItems_ = [];
@@ -115,7 +113,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.s_standard);
     this.getPermissionAndRolesFromServer();
     this.notificationWeb.canInitSw();
-    this.setSideBarColor();
+    // this.setSideBarColor();
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
     if (!this.user.person) { this.addPersonModal(this.user); }
@@ -183,13 +181,13 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       });
   }
 
-  setSideBarColor(): void {
-    if (localStorage.getItem('color_sidebar_left')) {
-      this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
-    } else {
-      this.colorSidebarLeft = '#054372';
-    }
-  }
+  // setSideBarColor(): void {
+  //   if (localStorage.getItem('color_sidebar_left')) {
+  //     this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
+  //   } else {
+  //     this.colorSidebarLeft = '#054372';
+  //   }
+  // }
 
   newMessage(e): void {
     e ? this.countMessages++ : this.countMessages = null;
@@ -312,10 +310,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeColor(event): void {
-    this.colorSidebarLeft = event.target.value;
-    localStorage.setItem('color_sidebar_left', event.target.value);
-  }
+  // changeColor(event): void {
+  //   this.colorSidebarLeft = event.target.value;
+  //   localStorage.setItem('color_sidebar_left', event.target.value);
+  // }
 
   goRouteNotification(notificationData: INotificationData): void {
     if (notificationData.url) {
@@ -475,9 +473,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
 
-  generatedSideBarItems(permissions: IPermission): INavData[] {
+  // generatedSideBarItems(permissions: IPermission): INavData[] {
 
-  }
+  // }
 
 
 }

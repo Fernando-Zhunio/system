@@ -3,28 +3,20 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CategoriasComponent } from './categorias.component';
 import { CategoriasCreateOrEditComponent } from './categorias-create-or-edit/categorias-create-or-edit.component';
-// import { CategoriasMainComponent } from './categorias-main.component';
-import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { permission_admin_products } from '../../../class/permissions-modules';
 
-// @Component({
-//   selector: 'app-productos',
-//   template: '<router-outlet></router-outlet>',
-
-// })
-// export class CategoriasMainComponents  {
-// }
+const permission_categories = permission_admin_products.categories;
 
 
 const routes: Routes = [
   {
     path: '',
-    // component:CategoriasMainComponents,
     data: {
-      name: 'categorias_main',
+      name: 'categories_main',
       isEdit: false,
       permissions: {
-        only: ["super-admin", "products-admin.categories.index"],
+        only: ['super-admin', permission_categories.index],
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -32,7 +24,7 @@ const routes: Routes = [
       {
         path: '',
         component: CategoriasComponent,
-        data: {name: 'categorias', reuse: true,}
+        data: {name: 'categories', reuse: true,}
       },
       {
         path: 'create',
@@ -40,7 +32,7 @@ const routes: Routes = [
         data: {
           isEdit: false,
           permissions: {
-            only: ["super-admin", "products-admin.categories.create"],
+            only: ['super-admin', 'products-admin.categories.create'],
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -53,7 +45,7 @@ const routes: Routes = [
         data: {
           isEdit: true,
           permissions: {
-            only: ["super-admin", "products-admin.categories.edit"],
+            only: ['super-admin', 'products-admin.categories.edit'],
           },
         },
         canActivate: [NgxPermissionsGuard],

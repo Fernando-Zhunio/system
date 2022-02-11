@@ -1,6 +1,6 @@
 <div>
     <div *ngIf="isEditNamePublication;else templatePublication" class="mb-3">
-        <h2 class="font-facebook font-3xl">Publicaciones</h2>
+        <h2 class="font-weight-bold font-3xl">Publicaciones</h2>
         <form [formGroup]="formName" (ngSubmit)="createPulicationName()">
             <mat-form-field appearance="fill" class="d-block">
                 <mat-label>Ingrese el nombre de la publicacion</mat-label>
@@ -12,7 +12,7 @@
     </div>
     <ng-template #templatePublication>
         <div>
-            <h3 class="font-4xl font-facebook mt-3">Publicacion # {{publication?.id}}</h3>
+            <h3 class="font-4xl font-weight-bold mt-3">Publicacion # {{publication?.id}}</h3>
             <h2 *ngIf="publication" class="font-2xl">
                 {{publication.name}}
                 <button (click)="editName()" mat-mini-fab color="primary">
@@ -20,11 +20,11 @@
                 </button>
             </h2>
         </div>
-            <mat-card [formGroup]="formPublication" class="row d-flex rounded-fz p-md-3 p-2 shadow-lg">
+            <mat-card [formGroup]="formPublication" class="row d-flex  p-md-3 p-2 ">
                 <div #formMain class="col-md-6 px-3">
                     <div>
                         <div>
-                            <div class="font-3xl font-facebook mb-3">Cuentas de mercado libre</div>
+                            <div class="font-3xl font-weight-bold mb-3">Cuentas de mercado libre</div>
                             <mat-form-field class="w-100">
                                 <mat-label>Selecciones Empresas</mat-label>
                                 <mat-select formControlName="mlaccounts" multiple>
@@ -42,7 +42,7 @@
                             </mat-form-field>
                         </div>
                         <div>
-                            <div class="font-3xl font-facebook mb-3">Publicación</div>
+                            <div class="font-3xl font-weight-bold mb-3">Publicación</div>
                             <div class="row">
                                 <mat-form-field class="col-12" appearance="fill">
                                     <mat-label>Titulo</mat-label>
@@ -51,7 +51,7 @@
                                     <mat-hint>Presione enter para buscar</mat-hint>
                                 </mat-form-field>
                                 <div>
-                                    <div class="font-facebook col-12">Seleccione una categoria</div>
+                                    <div class="font-weight-bold col-12">Seleccione una categoria</div>
                                     <div class="col-12">
                                         <div *ngIf="isLoadCategory">
                                             <mat-spinner [diameter]="50">
@@ -101,7 +101,7 @@
                                     <ngx-file-drop contentClassName="h-100" dropZoneClassName="border-dot" accept=".png,.jpeg,.jpg" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
                                         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
                                             <div class="row m-0 p-3 w-100 position-relative">
-                                                <div *ngIf="isLoadPosition" class="load-data position-absolute rounded-fz font-2xl font-facebook w-100 h-100 d-flex align-items-center justify-content-center">
+                                                <div *ngIf="isLoadPosition" class="load-data position-absolute rounded-fz font-2xl font-weight-bold w-100 h-100 d-flex align-items-center justify-content-center">
                                                     <mat-spinner [diameter]="50">
                                                     </mat-spinner> Procesando...</div>
                                                 <div class=" col-12 d-flex justify-content-center align-items-center">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 border-left" [ngStyle]="{'height': alturaAttribute}" style="overflow-y: auto;">
-                    <div class="font-3xl font-facebook mb-3">Atributos</div>
+                    <div class="font-3xl font-weight-bold mb-3">Atributos</div>
                     <div>
                         <h5 class="text-muted" *ngIf="attributes.length == 0">Se mostraran al seleccionar una categoria</h5>
                     </div>
@@ -162,7 +162,7 @@
             </mat-card>
 
         <div class="shadow vh-100 panel-categories pt-3" [ngClass]="isOpenCategoriesTree ? 'open-categories':'close-categories'">
-            <h2 class="list-group-item-accent-warning sticky-top pl-2 bg-white font-facebook py-1 justify-content-between center">Categorías Ml
+            <h2 class="list-group-item-accent-warning sticky-top pl-2 bg-white font-weight-bold py-1 justify-content-between center">Categorías Ml
                 <button mat-icon-button (click)="openOrCloseCategoriesTree()"><mat-icon>close</mat-icon></button>
             </h2>
             <app-list-tree-dynamic (selectedNode)="selectedCategories($event)"></app-list-tree-dynamic>

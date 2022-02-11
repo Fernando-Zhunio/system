@@ -10,3 +10,8 @@ button {
 .btn-view-more {
     cursor: pointer;
 }
+
+.card-columns {
+    column-count: 2 !important;
+}
+

@@ -53,14 +53,15 @@ $dark-primary: mat-palette($mat-yellow, A700, A400, 900);
 // $dark-accent:  mat-palette($mat-gray, 800, 700, 500);
 $dark-accent:  mat-palette($mat-light-green, 900);
 $dark-warn:    mat-palette($mat-deep-orange);
-$dark-bg: mat-palette($mat-grey, 700);
+// $dark-bg: mat-palette($mat-grey, 700);
+$dark-bg: #323232;
 $dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 .dark-theme {
   @include angular-material-theme($dark-theme);
   color: white;
   .app-header {
-    background-color: mat-color($dark-bg);
+    background-color: $dark-bg;
   }
 }
 

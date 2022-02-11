@@ -1,84 +1,113 @@
+<div>
+  <!-- <div class="position-absolute" style="top: -17px;right: 0;z-index: 1;">
+    
+  </div> -->
 
-<mat-card class="my-4 position-relative">
-  <div class="position-absolute" style="top: -17px;right: 0;z-index: 1;">
-    <button [routerLink]="['/catalogo/publicaciones/show',publication.id]" [disabled]="isLoader" color="accent"
-      *ngxPermissionsOnly="permission_page.show" mat-mini-fab>
-      <mat-icon>visibility</mat-icon>
-    </button>
-    <button [routerLink]="['/catalogo/publicaciones/edit',publication.id]" routerLinkActive="router-link-active"
-      [disabled]="isLoader" color="primary" *ngxPermissionsOnly="permission_page.edit" mat-mini-fab>
-      <mat-icon>create</mat-icon>
-    </button>
-    <button [disabled]="isLoader" color="warn" *ngxPermissionsOnly="permission_page.delete"
-      (click)="deletePublication(publication.id)" mat-mini-fab>
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
-  <mat-card-header class="d-block mat-card-header-m-0">
-    <mat-card-title style="display: flex;" class="row">
-      <div class="col-sm-12 justify-content-between">
-        <div>
-          <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{publication.id}}</span>{{publication.name}}
+  <mat-card class="card border-0">
+    <mat-card-header class="d-block mat-card-header-m-0">
+      <mat-card-title style="display: flex;" class="row">
+        <div class="col-sm-12 justify-content-between">
+          <div>
+            <span class="mr-1" style="color:#f44336; font-weight: bold;">#{{publication.id}}</span>{{publication.name}}
+          </div>
+          <div>
+            <div [ngStyle]="matchs_state[publication.status]?.css" class="badge {{publication.status}}">
+              {{matchs_state[publication.status]?.value}}</div>
+          </div>
+          <div *ngIf="publication.errors">
+            <mat-card class="my-1 bg-danger lead" *ngFor="let error of publication.errors">Codigo:{{error.code}} <br>
+              Mensaje: {{error.message}}</mat-card>
+          </div>
         </div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="overflow-auto">
+      <div class="mt-0">
+        <ng-container *ngIf="publication.ml_accounts.length > 0">
+          Cuentas:
+          <mat-chip-list class="badge font-sm mr-1">
+            <mat-chip *ngFor="let account of publication.ml_accounts">{{account.user_name}}</mat-chip>
+          </mat-chip-list>
+        </ng-container>
+        <div class="actions">
+          <button mat-raised-button color="accent" *ngIf="publication.description" (click)="openDescription()">Ver
+            descripción</button>
+          <!-- <button [routerLink]="['/catalogo/publicaciones/show',publication.id]" [disabled]="isLoader" color="accent"
+            *ngxPermissionsOnly="permission_page.show" mat-raised-button>
+           Ver <mat-icon>visibility</mat-icon>
+          </button>
+          <button [routerLink]="['/catalogo/publicaciones/edit',publication.id]" routerLinkActive="router-link-active"
+            [disabled]="isLoader" color="primary" *ngxPermissionsOnly="permission_page.edit" mat-raised-button>
+           Editar <mat-icon>create</mat-icon>
+          </button>
+          <button [disabled]="isLoader" color="warn" *ngxPermissionsOnly="permission_page.delete"
+            (click)="deletePublication(publication.id)" mat-raised-button>
+           Eliminar <mat-icon>delete</mat-icon>
+          </button> -->
 
-        <div>
-          <div [ngStyle]="matchs_state[publication.status]?.css" class="badge {{publication.status}}">
-            {{matchs_state[publication.status]?.value}}</div>
-        </div>
-        <div *ngIf="publication.errors">
-          <mat-card  class="my-1 bg-danger lead" *ngFor="let error of publication.errors">Codigo:{{error.code}} <br>
-          Mensaje: {{error.message}}</mat-card>
+          <button [matMenuTriggerFor]="menuOptions" aria-label="Example icon-button with a menu" color="primary"
+            mat-raised-button>
+            Opciones <mat-icon>settings_suggest</mat-icon>
+          </button>
+
+          <mat-menu #menuOptions="matMenu">
+            <!-- <div class="px-2 my-2 font-3xl">Menu de Opciones</div> -->
+            <button mat-menu-item [routerLink]="['/catalogo/publicaciones/show',publication.id]" [disabled]="isLoader">
+              <mat-icon>visibility</mat-icon>
+              <span>Ver</span>
+            </button>
+            <button mat-menu-item [routerLink]="['/catalogo/publicaciones/edit',publication.id]" [disabled]="isLoader"
+              color="primary" *ngxPermissionsOnly="permission_page.edit">
+              <mat-icon>create</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item [disabled]="isLoader" color="warn" *ngxPermissionsOnly="permission_page.delete"
+              (click)="deletePublication(publication.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
+
         </div>
       </div>
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content class="overflow-auto">
-    <div class="mt-0">
-      <ng-container *ngIf="publication.ml_accounts.length > 0">
-        Cuentas:
-        <mat-chip-list class="badge font-sm mr-1">
-          <mat-chip *ngFor="let account of publication.ml_accounts">{{account.user_name}}</mat-chip>
-        </mat-chip-list>
-      </ng-container>
-      <button mat-raised-button color="accent" *ngIf="publication.description" (click)="openDescription()">Ver
-        descripción</button>
-    </div>
-    <div *ngIf="publication.ml_infos.length > 0 || publication.errors.length > 0" class="body">
-      <div class="row m-0 p-2">
-        <div *ngIf="publication.ml_infos.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="header header-info">
-            <div class="d-flex justify-content-between align-items-center mt-2">
-              <div class="font-facebook font-3xl">
-                Publicaciones
-              </div>
-              <div *ngIf="publication.menu">
-                <div>
-                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                    <mat-icon>more_vert</mat-icon>
-                  </button>
-                  <mat-menu #menu="matMenu">
-                    <div class="px-2 my-2 font-3xl font-facebook">{{publication.menu.type}}</div>
-                    <button (click)="executeMenu(itemMenu.type,publication.id)"
-                      *ngFor="let itemMenu of publication.menu.availablesItems;index as i " mat-menu-item>
-                      <mat-icon>{{itemMenu.icon}}</mat-icon>
-                      <span>{{itemMenu.label}}</span>
+      <div *ngIf="publication.ml_infos.length > 0 || publication.errors.length > 0" class="body">
+        <div class="p-2">
+          <div *ngIf="publication.ml_infos.length > 0">
+            <div class="header header-info">
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class=" font-3xl">
+                  Publicaciones
+                </div>
+                <div *ngIf="publication.menu">
+                  <div>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                      <mat-icon>more_vert</mat-icon>
                     </button>
-                  </mat-menu>
+                    <mat-menu #menu="matMenu">
+                      <div class="px-2 my-2 font-3xl">{{publication.menu.type}}</div>
+                      <button (click)="executeMenu(itemMenu.type,publication.id)"
+                        *ngFor="let itemMenu of publication.menu.availablesItems;index as i " mat-menu-item>
+                        <mat-icon>{{itemMenu.icon}}</mat-icon>
+                        <span>{{itemMenu.label}}</span>
+                      </button>
+                    </mat-menu>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <swiper [config]="config" [useSwiperClass]="false">
-                <mat-card class="shadow rounded-fz p-0" *ngFor="let ml of publication.ml_infos">
-                  <app-ml [ml]="ml"></app-ml>
-                </mat-card>
-              </swiper>
+              <div>
+                <swiper [config]="config" [useSwiperClass]="false">
+                  <mat-card style="background: inherit;" *ngFor="let ml of publication.ml_infos">
+                    <app-ml [ml]="ml"></app-ml>
+                  </mat-card>
+                </swiper>
+              </div>
+
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </mat-card-content>
+    </mat-card-content>
+  </mat-card>
   <!-- <mat-card-actions>
     </mat-card-actions> -->
-</mat-card>
+</div>

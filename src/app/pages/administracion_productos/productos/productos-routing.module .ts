@@ -7,7 +7,6 @@ import { ProductosComponent } from './productos.component';
 const routes: Routes = [
   {
     path: '',
-    // component: ProductosMainComponent,
     data: {name: 'productosMain'},
     children: [
       {

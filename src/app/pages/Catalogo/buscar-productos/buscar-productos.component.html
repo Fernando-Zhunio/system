@@ -124,7 +124,7 @@
     </div>
 
     <div *ngIf="!isLoading" class="card-columns">
-      <mat-card @fade class="my-1 shadow-sm card rounded-fz card-body border-0" *ngFor="let p of products; index as ind">
+      <mat-card @fade class="card border-0" *ngFor="let p of products; index as ind">
         <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0 " style="top: 68px;background: inherit">
           <div class="font-weight-light font-2xl mb-2">
             <span class="mr-1" style="color: #f44336; font-weight: bold">#{{ p.id }}</span>{{ p.name }}
@@ -142,19 +142,11 @@
               placement="bottom"><small><strong>Codigo: </strong>{{ p?.code }}  <i class="far fa-copy"></i></small></mat-chip>
               <mat-chip><small><strong>Código Alt: </strong>{{ p.code_alt }}</small></mat-chip>
               <mat-chip><small><strong>Marca: </strong>{{ p.brand.name }}</small> </mat-chip>
-              <mat-chip><small><strong>Categoria: </strong>{{ p?.category?.name }}</small></mat-chip>
+              <mat-chip><small><strong>Categoría: </strong>{{ p?.category?.name }}</small></mat-chip>
               <mat-chip><small><strong>Secuencia: </strong>{{ p?.sequence?.sequence_number }}</small></mat-chip>
               <mat-chip selected [color]="p.available > 0?'accent':'warn'"><small><strong>Stock para ventas: </strong>{{ p.available }}</small></mat-chip>
             </mat-chip-list>
-            <!-- <small class="font-sm">
-              Tipo: <strong>{{ p.prefix?.type }}</strong> - Código:
-              <strong class="cursor_copy" (click)="copyCodigo(p.code)" tooltip="Click para copiar codigo"
-                placement="bottom">{{ p.code }} <i class="far fa-copy"></i></strong>
-              - Código Alternativo: <strong>{{ p.code_alt }}</strong> -
-              Categoria: <strong>{{ p.category?.name }}</strong> - Marca:
-              <strong>{{ p.brand?.name }}</strong> - Secuencia:
-              <strong>{{ p.sequence?.sequence_number }}</strong><br />
-            </small> -->
+            <hr>
             <div class="mt-2">
               <!-- <div  class="mr-1 my-2 {{p.available > 0?'alert-info':'alert-danger'}}  p-2 rounded text-uppercase" type="button">
                 Stock para ventas: {{ p.available }}
@@ -177,27 +169,25 @@
               ">
               <div *ngIf="p?.last_prices?.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="header">
-                  <div class="font-faccebook font-3xl my-4">Precios</div>
+                  <div class=" font-3xl my-4">Precios</div>
                 </div>
                 <ul class="card-body rounded-fz shadow list-unstyled">
                   <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
-
                         <mat-chip> {{ price.group.name }}:</mat-chip>
-
                     <b>${{ price?.full_price_formated }}</b>
                   </li>
                 </ul>
               </div>
 
               <div *ngIf="p.promotions.length > 0" class="card-body">
-                <div class="font-faccebook font-3xl my-4">Promociones</div>
+                <div class=" font-3xl my-4">Promociones</div>
                 <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion">
                 </app-promociones>
               </div>
 
               <div *ngIf="p.imports.length > 0" class="">
                 <div class="header">
-                  <div class="font-faccebook font-3xl my-4">
+                  <div class=" font-3xl my-4">
                     Historial de importaciones
                   </div>
                 </div>
@@ -211,23 +201,22 @@
             <ng-container *ngIf="p.vtex_skus.length > 0">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="header">
-                  <div class="font-faccebook font-3xl my-4">PÁGINA WEB</div>
+                  <div class=" font-3xl my-4">PÁGINA WEB</div>
                 </div>
               </div>
-              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
               <div class="container">
                 <swiper [config]="config" [useSwiperClass]="false">
-                  <mat-card style="background: inherit;" class="shadow rounded-fz" *ngFor="let i of p.vtex_skus">
+                  <mat-card style="background: inherit;" *ngFor="let i of p.vtex_skus">
                     <app-pagina-web [prestashop_product]="i"></app-pagina-web>
                   </mat-card>
                 </swiper>
               </div>
             </ng-container>
             <div class="overflow-hidden" *ngIf="p.ml_infos.length > 0">
-              <div class="font-faccebook font-3xl my-4">Mercado Libre</div>
+              <div class=" font-3xl my-4">Mercado Libre</div>
               <div class="container mb-3">
                 <swiper [config]="config" [useSwiperClass]="false">
-                  <mat-card style="background: inherit;" class="shadow rounded-fz" *ngFor="let ml of p.ml_infos">
+                  <mat-card style="background: inherit;" *ngFor="let ml of p.ml_infos">
                     <!-- <mat-card> -->
                     <app-ml [ml]="ml"></app-ml>
                     <!-- </mat-card> -->

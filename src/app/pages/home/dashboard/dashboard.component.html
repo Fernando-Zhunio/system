@@ -1,6 +1,6 @@
 <div class="">
   <div>
-    <h1 class="font-montserrat d-inline-block font-5xl my-3">Dashboard</h1>
+    <h1 class="font-montserrat  font-5xl my-3 font-weight-bold">Dashboard</h1>
   </div>
   <div class="mb-3 sticky-top-custom">
     <h3 class="date-picker d-flex p-1">
@@ -25,7 +25,7 @@
   </div>
   <div class="grid-dashboard">
     <div class="header-dashboard mb-3">
-      <mat-card class="item-header p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow-1-fz">
         <div class="loading-header" *ngIf="isLoadingHeader">
           <div  class="parpadeo">Cangando espere...</div>
         </div>
@@ -37,7 +37,7 @@
             {{total_sell?.growth_percentage || 0}} %</div>
         </div>
       </mat-card>
-      <mat-card class="item-header p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow-1-fz ">
         <div class="loading-header" *ngIf="isLoadingHeader">
           <div class="parpadeo">Cangando espere...</div>
         </div>
@@ -50,7 +50,7 @@
             {{value_middle?.growth_percentage || 0 }} %</div>
         </div>
       </mat-card>
-      <mat-card class="item-header p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow-1-fz ">
         <div class="loading-header" *ngIf="isLoadingHeader">
           <div class="parpadeo">Cangando espere...</div>
         </div>
@@ -63,7 +63,7 @@
             {{invoice_total?.growth_percentage || 0 }} %</div>
         </div>
       </mat-card>
-      <mat-card class="item-header p-2 row m-0 shadow">
+      <mat-card class="item-header p-2 row m-0 shadow-1-fz ">
         <div class="loading-header" *ngIf="isLoadingHeader">
           <div class="parpadeo">Cangando espere...</div>
         </div>

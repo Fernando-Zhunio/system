@@ -1,20 +1,14 @@
 import { Component, NgModule } from '@angular/core';
 // import { CommonModule } from "@angular/common";
-import { RouterModule, Routes } from "@angular/router";
-import { NgxPermissionsGuard } from "ngx-permissions";
+import { RouterModule, Routes } from '@angular/router';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { CreateOrEditWorkComponent } from './create-or-edit-work/create-or-edit-work.component';
 import { IndexComponent } from './index/index.component';
 
-@Component({
-  selector: 'app-rrhh-works',
-  template: '<router-outlet></router-outlet>',
-})
-export class RrhhWorksMainComponents  {
-}
+
 const routes: Routes = [
   {
     path: '',
-    component: RrhhWorksMainComponents,
     children: [
       {
         path: '',

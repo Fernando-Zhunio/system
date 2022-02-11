@@ -3,84 +3,14 @@
     height: calc(100vh - 90px);
 }
 
-
-/* .parent {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  grid-column-gap: 10px;
-  grid-row-gap: 7px;
-  }
-
-  .div1 { grid-area: 1 / 5 / 4 / 7; }
-  .div2 { grid-area: 1 / 1 / 6 / 5; }
-  .div3 { grid-area: 4 / 5 / 6 / 7; }
-  .div4 { grid-area: 6 / 1
-   / 8 / 3; }
-  .div5 { grid-area: 6 / 3 / 8 / 5; }
-  .div6 { grid-area: 6 / 5 / 8 / 7; } */
-
-
-/* .parent {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    }
-
-    .div1 { grid-area: 1 / 1 / 3 / 3; }
-    .div2 { grid-area: 1 / 3 / 3 / 5; }
-    .div3 { grid-area: 1 / 5 / 3 / 7; }
-    .div4 { grid-area: 1 / 7 / 3 / 9; }
-    .div5 { grid-area: 3 / 1 / 7 / 6; }
-    .div6 { grid-area: 3 / 6 / 5 / 9; }
-    .div7 { grid-area: 5 / 6 / 7 / 9; } */
-
-/* .parent {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(7, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-}
-
-.div1 {
-    grid-area: 1 / 1 / 3 / 3;
-}
-
-.div2 {
-    grid-area: 1 / 3 / 3 / 5;
-}
-
-.div3 {
-    grid-area: 1 / 5 / 3 / 7;
-}
-
-.div4 {
-    grid-area: 1 / 7 / 3 / 9;
-}
-
-.div5 {
-    grid-area: 3 / 1 / 8 / 6;
-}
-
-.div6 {
-    grid-area: 3 / 6 / 5 / 9;
-}
-
-.div7 {
-    grid-area: 5 / 6 / 8 / 9;
-} */
-
 .parent {
   display: grid;
   grid-template-areas:
   'appointmens appointmens works works persons persons cv cv'
   'lastest-appointments lastest-appointments lastest-appointments lastest-appointments lastest-appointments works-count works-count works-count'
   'lastest-appointments lastest-appointments lastest-appointments lastest-appointments lastest-appointments request-count request-count request-count';
-  gap: 5px;
-  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  /* grid-template-columns: repeat(8, 1fr); */
 }
 
 @media screen and (max-width: 768px) {
@@ -105,7 +35,6 @@
   grid-area: works;
   grid-column: 1fr;
   grid-row: 1fr;
-
 }
 .persons {
   grid-area: persons;
@@ -179,9 +108,7 @@
     text-align: center;
 }
 
-.hp table tbody tr td {
-    padding: 6px;
-}
+
 
 .btn-add-job {
     position: absolute;
@@ -225,4 +152,10 @@
     background-color: #FFF;
     background-image: -webkit-linear-gradient(top, #2ab0ed 0%, #bfe8f9 50%, /* #9fd8ef 51%, */
     #2ab0ed 100%);
+}
+
+.info-dashboard-container > span{
+  display: flex;
+  font-size: 1.5rem !important;
+  margin-top: 10px;
 }
