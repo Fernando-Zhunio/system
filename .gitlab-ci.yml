@@ -59,6 +59,8 @@ staging_build:
     expire_in: 1 month
     paths:
       - node_modules/
+      - /root/.npm/_logs/
+
 
 
 production_build:
@@ -76,6 +78,8 @@ production_build:
     expire_in: 1 month
     paths:
       - node_modules/
+      - /root/.npm/_logs/
+
 
 staging:
   stage: deploy
@@ -83,8 +87,8 @@ staging:
     - *init_ssh
     - sudo apt-get install zip
     - cd ./dist && zip -r ./app.zip .
-    - scp ./app.zip root@104.207.144.7:/var/www/beta.system.novicompu.com/
-    - ssh root@104.207.144.7 'unzip -o /var/www/beta.system.novicompu.com/app.zip -d /var/www/beta.system.novicompu.com/public/'
+    - scp ./app.zip root@104.207.144.7:/var/www/beta.system.novicompu.com/test
+    - ssh root@104.207.144.7 'unzip -o /var/www/beta.system.novicompu.com/test/app.zip -d /var/www/beta.system.novicompu.com/test/public/'
   only:
     - master
   dependencies:
