@@ -48,4 +48,5 @@ Thumbs.db
 *.zip
 # angular.json
 src/environments/environment.ts
+karma.conf.js
 

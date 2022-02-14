@@ -10,7 +10,7 @@ image: getterminus/angular-ci-images:node14
 
 stages:
   - dependencies
-  # - test
+  - test
   - build
   - deploy
 
@@ -22,27 +22,24 @@ npm:
       - node_modules/
   script:
       # - apk add --update npm
-      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+      # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
       - npm install
-      - npm link @angular/cli@9.1.15
-      - npm test --watch=false
   artifacts:
     expire_in: 1 month
     paths:
       - node_modules/
 
-
-# jasmine:
-#   stage: test
+jasmine:
+  stage: test
   
-#   dependencies:
-#     - npm
-#   script:
-#     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-#     # - npm i -g @angular/cli
-#     - npm link @angular/cli@9.1.15
-#     - npm test -- --browsers=/usr/bin/google-chrome-stable --watch=false
+  dependencies:
+    - npm
+  script:
+    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+    - cp karma.staging.conf.js  karma.conf.js
+    - npm link @angular/cli@9.1.15
+    - npm test --watch=false
 
 staging_build:
   stage: build
