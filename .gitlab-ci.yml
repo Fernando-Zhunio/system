@@ -16,6 +16,7 @@ npm:
       - node_modules/
   script:
       - apk add --update npm
+      - apk add git
       - npm install
   artifacts:
     expire_in: 1 month
