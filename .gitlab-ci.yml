@@ -29,10 +29,28 @@ jasmine:
   dependencies:
     - npm
   script:
+    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     - npm i -g @angular/cli
     - ng test
 
-build:
+staging_build:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-build
+    paths:
+      - dist/
+  script:
+    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+    - npm i -g @angular/cli
+    - ng build --prod
+  dependencies:
+    - npm
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+
+production_build:
   stage: build
   cache:
     key: ${CI_COMMIT_REF_SLUG}-build
@@ -41,22 +59,21 @@ build:
   script:
     - npm i -g @angular/cli
     - ng build --prod
-  
   dependencies:
-  - npm
+    - npm
   artifacts:
     expire_in: 1 month
     paths:
       - node_modules/
 
-# staging:
-#   stage: deploy
-#   script:
-#     - *init_ssh
-#   only:
-#     - master
-#   dependencies:
-#     - build
+staging:
+  stage: deploy
+  script:
+    - *init_ssh
+  only:
+    - master
+  dependencies:
+    - build
   
 
 
