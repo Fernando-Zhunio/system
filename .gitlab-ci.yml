@@ -32,7 +32,7 @@ jasmine:
     - npm i -g @angular/cli
     - ng test
 
-build: 
+build:
   stage: build
   cache:
     key: ${CI_COMMIT_REF_SLUG}-build
