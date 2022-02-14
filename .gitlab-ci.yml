@@ -1,5 +1,5 @@
 # docker image
-image: node:14-alpine
+image: getterminus/angular-ci-images:node14
 
 .init_ssh: &init_ssh |
   eval $(ssh-agent -s)
