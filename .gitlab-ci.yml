@@ -32,21 +32,22 @@ jasmine:
     - npm i -g @angular/cli
     - ng test
 
-# build:
-#   stage: build
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}-build
-#     paths:
-#       - dist/
-#   script:
-#     - npm i -g @angular/cli
-#     - ng build --prod
-#    dependencies:
-#     - npm
-#   artifacts:
-#     expire_in: 1 month
-#     paths:
-#       - node_modules/
+build:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-build
+    paths:
+      - dist/
+  script:
+    - npm i -g @angular/cli
+    - ng build --prod
+  
+  dependencies:
+  - npm
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
 
 # staging:
 #   stage: deploy
