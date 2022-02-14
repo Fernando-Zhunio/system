@@ -59,7 +59,6 @@ staging_build:
     expire_in: 1 month
     paths:
       - node_modules/
-      - /root/.npm/_logs/
 
 
 
@@ -78,7 +77,6 @@ production_build:
     expire_in: 1 month
     paths:
       - node_modules/
-      - /root/.npm/_logs/
 
 
 staging:
