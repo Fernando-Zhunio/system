@@ -39,7 +39,7 @@ jasmine:
     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     # - npm i -g @angular/cli
     - npm link @angular/cli@9.1.15
-    - npm test -- --browsers=ChromeHeadless --watch=false
+    - npm test -- --browsers=/usr/bin/google-chrome-stable --watch=false
 
 staging_build:
   stage: build
