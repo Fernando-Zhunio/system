@@ -8,6 +8,12 @@ image: node:14-alpine
   chmod 700 ~/.ssh
   [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
+stages:          # List of stages for jobs, and their order of execution
+  - .pre
+  - test
+  - build
+  - deploy
+
 npm:
   stage: .pre
   cache:
