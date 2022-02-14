@@ -23,11 +23,11 @@ module.exports = function (config) {
     angularCli: {
       environment: "dev",
     },
+    reporters: ["progress", "kjhtml"],
+    port: 9876,
     logLevel: config.LOG_ERROR,
     autoWatch: false,
     // browserNoActivityTimeout: 40000,
-    reporters: ["progress", "kjhtml"],
-    port: 9876,
     colors: true,
     browsers: ["ChromeHeadlessCI"],
     customLaunchers: {
@@ -36,6 +36,6 @@ module.exports = function (config) {
         flags: ["--no-sandbox"],
       },
     },
-    singleRun: false,
+    singleRun: true,
   });
 };

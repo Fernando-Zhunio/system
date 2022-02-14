@@ -26,7 +26,7 @@ npm:
       - apt-get install git
       - npm install
       - npm link @angular/cli@9.1.15
-      - npm test --watch=false
+      - npm test
   artifacts:
     expire_in: 1 month
     paths:
@@ -68,7 +68,7 @@ production_build:
     paths:
       - dist/
   script:
-    - npm i -g @angular/cli
+    - npm link @angular/cli@11.2.6
     - npm build --prod
   dependencies:
     - npm
@@ -81,6 +81,10 @@ staging:
   stage: deploy
   script:
     - *init_ssh
+    - sudo apt-get install zip
+    - cd ./dist && zip -r ./app.zip .
+    - scp ./app.zip root@104.207.144.7:/var/www/beta.system.novicompu.com/
+    - ssh root@104.207.144.7 'unzip -o /var/www/beta.system.novicompu.com/app.zip -d /var/www/beta.system.novicompu.com/public/'
   only:
     - master
   dependencies:
