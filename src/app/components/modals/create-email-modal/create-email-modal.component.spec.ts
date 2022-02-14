@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateEmailModalComponent } from './create-email-modal.component';
+// import { CreateEmailModalComponent } from './create-email-modal.component';
 
-describe('CreateEmailModalComponent', () => {
-  let component: CreateEmailModalComponent;
-  let fixture: ComponentFixture<CreateEmailModalComponent>;
+// describe('CreateEmailModalComponent', () => {
+//   let component: CreateEmailModalComponent;
+//   let fixture: ComponentFixture<CreateEmailModalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CreateEmailModalComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ CreateEmailModalComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateEmailModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(CreateEmailModalComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

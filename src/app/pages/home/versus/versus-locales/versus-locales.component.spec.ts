@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VersusLocalesComponent } from './versus-locales.component';
+// import { VersusLocalesComponent } from './versus-locales.component';
 
-describe('VersusLocalesComponent', () => {
-  let component: VersusLocalesComponent;
-  let fixture: ComponentFixture<VersusLocalesComponent>;
+// describe('VersusLocalesComponent', () => {
+//   let component: VersusLocalesComponent;
+//   let fixture: ComponentFixture<VersusLocalesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ VersusLocalesComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ VersusLocalesComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(VersusLocalesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(VersusLocalesComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

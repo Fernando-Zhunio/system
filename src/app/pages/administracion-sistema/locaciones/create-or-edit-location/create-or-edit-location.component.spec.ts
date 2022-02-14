@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateOrEditLocationComponent } from './create-or-edit-location.component';
+// import { CreateOrEditLocationComponent } from './create-or-edit-location.component';
 
-describe('CreateOrEditLocationComponent', () => {
-  let component: CreateOrEditLocationComponent;
-  let fixture: ComponentFixture<CreateOrEditLocationComponent>;
+// describe('CreateOrEditLocationComponent', () => {
+//   let component: CreateOrEditLocationComponent;
+//   let fixture: ComponentFixture<CreateOrEditLocationComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CreateOrEditLocationComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ CreateOrEditLocationComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateOrEditLocationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(CreateOrEditLocationComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

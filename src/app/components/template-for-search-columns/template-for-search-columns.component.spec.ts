@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemplateForSearchColumnsComponent } from './template-for-search-columns.component';
+// import { TemplateForSearchColumnsComponent } from './template-for-search-columns.component';
 
-describe('TemplateForSearchColumnsComponent', () => {
-  let component: TemplateForSearchColumnsComponent;
-  let fixture: ComponentFixture<TemplateForSearchColumnsComponent>;
+// describe('TemplateForSearchColumnsComponent', () => {
+//   let component: TemplateForSearchColumnsComponent;
+//   let fixture: ComponentFixture<TemplateForSearchColumnsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TemplateForSearchColumnsComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ TemplateForSearchColumnsComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TemplateForSearchColumnsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(TemplateForSearchColumnsComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

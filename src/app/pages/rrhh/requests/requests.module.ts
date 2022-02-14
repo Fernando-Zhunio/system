@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { RequestsRoutingModule, RrhhRequestMainComponents } from './requests-routing.module';
 import { IndexComponent } from './index/index.component';
-import { CreateOrEditRequestComponent } from './create-or-edit-request/create-or-edit-request.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
 import { MatChipsModule } from '@angular/material/chips';
@@ -25,7 +24,7 @@ import { SearchTemplateModule } from '../../../Modulos/search-template/search-te
 
 
 @NgModule({
-  declarations: [RrhhRequestMainComponents, IndexComponent, CreateOrEditRequestComponent],
+  declarations: [RrhhRequestMainComponents, IndexComponent],
   imports: [
     CommonModule,
     RequestsRoutingModule,

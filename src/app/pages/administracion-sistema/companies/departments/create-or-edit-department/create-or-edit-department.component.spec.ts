@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateOrEditDepartmentComponent } from './create-or-edit-department.component';
+// import { CreateOrEditDepartmentComponent } from './create-or-edit-department.component';
 
-describe('CreateOrEditDepartmentComponent', () => {
-  let component: CreateOrEditDepartmentComponent;
-  let fixture: ComponentFixture<CreateOrEditDepartmentComponent>;
+// describe('CreateOrEditDepartmentComponent', () => {
+//   let component: CreateOrEditDepartmentComponent;
+//   let fixture: ComponentFixture<CreateOrEditDepartmentComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CreateOrEditDepartmentComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ CreateOrEditDepartmentComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateOrEditDepartmentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(CreateOrEditDepartmentComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

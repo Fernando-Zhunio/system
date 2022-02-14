@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FacebookAdsManagerComponent } from './facebook-ads-manager.component';
+// import { FacebookAdsManagerComponent } from './facebook-ads-manager.component';
 
-describe('FacebookAdsManagerComponent', () => {
-  let component: FacebookAdsManagerComponent;
-  let fixture: ComponentFixture<FacebookAdsManagerComponent>;
+// describe('FacebookAdsManagerComponent', () => {
+//   let component: FacebookAdsManagerComponent;
+//   let fixture: ComponentFixture<FacebookAdsManagerComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FacebookAdsManagerComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ FacebookAdsManagerComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FacebookAdsManagerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(FacebookAdsManagerComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

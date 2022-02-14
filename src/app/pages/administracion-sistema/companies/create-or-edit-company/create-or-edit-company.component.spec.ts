@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateOrEditCompanyComponent } from './create-or-edit-company.component';
+// import { CreateOrEditCompanyComponent } from './create-or-edit-company.component';
 
-describe('CreateOrEditCompanyComponent', () => {
-  let component: CreateOrEditCompanyComponent;
-  let fixture: ComponentFixture<CreateOrEditCompanyComponent>;
+// describe('CreateOrEditCompanyComponent', () => {
+//   let component: CreateOrEditCompanyComponent;
+//   let fixture: ComponentFixture<CreateOrEditCompanyComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CreateOrEditCompanyComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ CreateOrEditCompanyComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateOrEditCompanyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(CreateOrEditCompanyComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

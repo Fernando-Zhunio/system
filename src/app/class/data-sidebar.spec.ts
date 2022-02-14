@@ -1,7 +1,7 @@
-import { DataSidebar } from './data-sidebar';
+// import { DataSidebar } from './data-sidebar';
 
-describe('DataSidebar', () => {
-  it('should create an instance', () => {
-    expect(new DataSidebar()).toBeTruthy();
-  });
-});
+// describe('DataSidebar', () => {
+//   it('should create an instance', () => {
+//     expect(new DataSidebar()).toBeTruthy();
+//   });
+// });
