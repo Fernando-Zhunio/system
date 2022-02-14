@@ -1,0 +1,68 @@
+# docker image
+image: node:14-alpine
+
+# .init_ssh: &init_ssh |
+#   eval $(ssh-agent -s)
+#   echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+#   mkdir -p ~/.ssh
+#   chmod 700 ~/.ssh
+#   [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+npm:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - node_modules/
+  script:
+      - apk add --update npm
+      - npm install
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+
+# codestyle:
+#   stage: test
+#   dependencies:
+#     - composer
+#   script:
+#     - php ./vendor/bin/phpcs --standard=PSR2 --extensions=php --ignore=app/Traits/Models/ProductScopesTrait.php --exclude=Generic.Files.LineLength app
+
+jasmine:
+  stage: test
+  # Pick zero or more services to be used on all builds.
+  # services:
+  #   - mysql:5.7
+
+  # variables:
+  #   MYSQL_ROOT_PASSWORD: secret
+  #   MYSQL_DATABASE: orders_service
+  #   MYSQL_USER: homestead
+  #   MYSQL_PASSWORD: secret
+  
+  dependencies:
+    - npm
+  script:
+    - npm i -g @angular/cli
+    - ng test
+    # - php artisan migrate
+    # - php artisan db:seed
+    # - php artisan test --coverage-text
+
+# staging:
+#   stage: deploy
+#   script:
+#     - *init_ssh
+#     - php ./vendor/deployer/deployer/bin/dep deploy staging
+#   only:
+#     - master
+  
+# production:
+#   stage: deploy
+#   script:
+#     - *init_ssh
+#     - php ./vendor/deployer/deployer/bin/dep deploy prod
+#   when: manual
+#   only:
+#     - master
