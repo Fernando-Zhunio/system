@@ -79,7 +79,7 @@ staging:
   only:
     - master
   dependencies:
-    - build
+    - staging_build
   
 
 
