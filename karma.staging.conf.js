@@ -25,7 +25,7 @@ module.exports = function (config) {
     },
     logLevel: config.LOG_ERROR,
     autoWatch: false,
-    browserNoActivityTimeout: 40000,
+    // browserNoActivityTimeout: 40000,
     reporters: ["progress", "kjhtml"],
     port: 9876,
     colors: true,

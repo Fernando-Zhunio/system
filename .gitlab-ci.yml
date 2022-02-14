@@ -21,7 +21,6 @@ npm:
     paths:
       - node_modules/
   script:
-      # - apk add --update npm
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - cp karma.staging.conf.js  karma.conf.js
       - apt-get install git
