@@ -26,7 +26,7 @@ npm:
       - apt-get install git
       - npm install
       - npm link @angular/cli@9.1.15
-      - npm test -- --browsers=/usr/bin/google-chrome-stable --watch=false
+      - npm test --watch=false
   artifacts:
     expire_in: 1 month
     paths:
