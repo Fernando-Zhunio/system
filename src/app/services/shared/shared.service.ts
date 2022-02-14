@@ -4,7 +4,7 @@ import { INotification } from '../../interfaces/inotification';
 import { formatDate } from '@angular/common';
 import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
-import { environment } from './../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage.service';
 
 

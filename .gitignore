@@ -47,5 +47,5 @@ testem.log
 Thumbs.db
 *.zip
 # angular.json
-src/enviorments/environment.ts
+src/environments/environment.ts
 
