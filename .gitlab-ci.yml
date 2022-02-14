@@ -10,7 +10,7 @@ image: getterminus/angular-ci-images:node14
 
 stages:
   - dependencies
-  - test
+  # - test
   - build
   - deploy
 
@@ -22,24 +22,27 @@ npm:
       - node_modules/
   script:
       # - apk add --update npm
-      # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+      - cp karma.staging.conf.js  karma.conf.js
       - apt-get install git
       - npm install
+      - npm link @angular/cli@9.1.15
+      - npm test --watch=false
   artifacts:
     expire_in: 1 month
     paths:
       - node_modules/
 
-jasmine:
-  stage: test
+# jasmine:
+#   stage: test
   
-  dependencies:
-    - npm
-  script:
-    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-    - cp karma.staging.conf.js  karma.conf.js
-    - npm link @angular/cli@9.1.15
-    - npm test --watch=false
+#   dependencies:
+#     - npm
+#   script:
+#     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+#     - cp karma.staging.conf.js  karma.conf.js
+#     - npm link @angular/cli@9.1.15
+#     - npm test --watch=false
 
 staging_build:
   stage: build
@@ -50,13 +53,14 @@ staging_build:
   script:
     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     - npm link @angular/cli@11.2.6
-    - npm run build --prod
+    - npm run build
   dependencies:
     - npm
   artifacts:
     expire_in: 1 month
     paths:
       - node_modules/
+
 
 production_build:
   stage: build
