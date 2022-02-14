@@ -76,7 +76,7 @@ export class DataSidebar {
     //#region admin products
     {
       title: true,
-      name: 'Administracion de productos',
+      name: 'Administración de productos',
     },
     {
       name: 'Productos',
@@ -93,7 +93,7 @@ export class DataSidebar {
       tag: this.tags.admin_products,
     },
     {
-      name: 'Categoria',
+      name: 'Categoría',
       url: '/admin-products/categorias',
       icon: 'icon-badge',
       permission: 'products-admin.categories.index',
