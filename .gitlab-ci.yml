@@ -69,7 +69,7 @@ production_build:
       - dist/
   script:
     - npm link @angular/cli@11.2.6
-    - npm build --prod
+    - npm run build --prod
   dependencies:
     - npm
   artifacts:
