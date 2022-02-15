@@ -16,9 +16,9 @@ stages:
 
 npm:
   stage: dependencies
-  # cache:
-  #   paths:
-  #     - node_modules/
+  cache:
+    paths:
+      - node_modules/
   script:
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
@@ -31,11 +31,9 @@ npm:
 
 jasmine:
   stage: test
-
-  # cache:
-  #   paths:
-  #     - node_modules/
-  
+  cache:
+    paths:
+      - node_modules/
   dependencies:
     - npm
   script:
@@ -68,7 +66,7 @@ production_build:
     paths:
       - dist/
   script:
-    - npm link @angular/cli@11.2.6
+    - npm i -g @angular/cli@11.2.6
     - npm run build --prod
   dependencies:
     - npm
@@ -78,19 +76,18 @@ production_build:
       - node_modules/
       - dist/
 
-
-# staging:
-#   stage: deploy
-#   script:
-#     - *init_ssh
-#     - sudo apt-get install -y zip
-#     - cd ./dist && zip -r ./app.zip .
-#     - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
-#     - ssh root@104.207.144.7 'rm -R /var/www/staging-system.novicompu.com/public/* && unzip -o /var/www/staging-system.novicompu.com/app.zip -d /var/www/staging-system.novicompu.com/public/'
-#   only:
-#     - master
-#   dependencies:
-#     - staging_build
+staging:
+  stage: deploy
+  script:
+    - *init_ssh
+    - sudo apt-get install -y zip
+    - cd ./dist && zip -r ./app.zip .
+    - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
+    - ssh root@104.207.144.7 'rm -R /var/www/staging-system.novicompu.com/public/* && unzip -o /var/www/staging-system.novicompu.com/app.zip -d /var/www/staging-system.novicompu.com/public/'
+  only:
+    - master
+  dependencies:
+    - staging_build
   
 
 # production:
