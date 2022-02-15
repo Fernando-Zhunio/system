@@ -11,7 +11,7 @@ image: getterminus/angular-ci-images:node14
 stages:
   - dependencies
   - test
-  # - build
+  - build
   # - deploy
 
 npm:
