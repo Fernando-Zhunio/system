@@ -44,7 +44,6 @@ jasmine:
 staging_build:
   stage: build
   cache:
-    key: ${CI_COMMIT_REF_SLUG}-build
     paths:
       - dist/
   script:
@@ -59,10 +58,12 @@ staging_build:
       - node_modules/
       - dist/
 
+  only:
+    - master
+
 production_build:
   stage: build
   cache:
-    key: ${CI_COMMIT_REF_SLUG}-build
     paths:
       - dist/
   script:
@@ -75,6 +76,8 @@ production_build:
     paths:
       - node_modules/
       - dist/
+  only:
+    - master
 
 staging:
   stage: deploy
@@ -90,16 +93,16 @@ staging:
     - staging_build
   
 
-# production:
-#   stage: deploy
-#   script:
-#     - *init_ssh
-#     - sudo apt-get install -y zip
-#     - cd ./dist && zip -r ./app.zip .
-#     - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
-#     - ssh root@104.207.144.7 'rm -R /var/www/system.novicompu.com/public/* && unzip -o /var/www/system.novicompu.com/app.zip -d /var/www/system.novicompu.com/public/'
-#   when: manual
-#   only:
-#     - master
-#   dependencies:
-#     - production_build
+production:
+  stage: deploy
+  script:
+    - *init_ssh
+    - sudo apt-get install -y zip
+    - cd ./dist && zip -r ./app.zip .
+    - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
+    - ssh root@104.207.144.7 'rm -R /var/www/system.novicompu.com/public/* && unzip -o /var/www/system.novicompu.com/app.zip -d /var/www/system.novicompu.com/public/'
+  when: manual
+  only:
+    - master
+  dependencies:
+    - production_build
