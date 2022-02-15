@@ -59,6 +59,7 @@ staging_build:
     expire_in: 1 month
     paths:
       - node_modules/
+      - dist/
 
 production_build:
   stage: build
@@ -75,6 +76,7 @@ production_build:
     expire_in: 1 month
     paths:
       - node_modules/
+      - dist/
 
 
 staging:
