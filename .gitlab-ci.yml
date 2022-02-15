@@ -25,7 +25,7 @@ npm:
       - cp karma.staging.conf.js  karma.conf.js
       - apt-get install git
       - npm install
-      - npm i -g @angular/cli@9.1.15
+      # - npm i -g @angular/cli@9.1.15 --save
       - npm test
   artifacts:
     expire_in: 1 month
