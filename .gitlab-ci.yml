@@ -31,6 +31,10 @@ npm:
 
 jasmine:
   stage: test
+
+  # cache:
+  #   paths:
+  #     - node_modules/
   
   dependencies:
     - npm
@@ -39,40 +43,40 @@ jasmine:
     - npm i -g @angular/cli@9.1.15
     - npm test
 
-# staging_build:
-#   stage: build
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}-build
-#     paths:
-#       - dist/
-#   script:
-#     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-#     - npm i -g @angular/cli@11.2.6
-#     - npm run build
-#   dependencies:
-#     - npm
-#   artifacts:
-#     expire_in: 1 month
-#     paths:
-#       - node_modules/
-#       - dist/
+staging_build:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-build
+    paths:
+      - dist/
+  script:
+    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+    - npm i -g @angular/cli@11.2.6
+    - npm run build
+  dependencies:
+    - npm
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+      - dist/
 
-# production_build:
-#   stage: build
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}-build
-#     paths:
-#       - dist/
-#   script:
-#     - npm link @angular/cli@11.2.6
-#     - npm build --prod
-#   dependencies:
-#     - npm
-#   artifacts:
-#     expire_in: 1 month
-#     paths:
-#       - node_modules/
-#       - dist/
+production_build:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-build
+    paths:
+      - dist/
+  script:
+    - npm link @angular/cli@11.2.6
+    - npm build --prod
+  dependencies:
+    - npm
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+      - dist/
 
 
 # staging:
