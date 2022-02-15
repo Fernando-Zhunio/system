@@ -17,16 +17,12 @@ stages:
 npm:
   stage: dependencies
   # cache:
-  #   key: ${CI_COMMIT_REF_SLUG}-npm
   #   paths:
   #     - node_modules/
   script:
-      #- cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-      #- cp karma.staging.conf.js  karma.conf.js
+      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
-      #- npm cache clean --force
       - npm install
-      #- npm test
   artifacts:
     expire_in: 1 month
     paths:
@@ -42,9 +38,6 @@ jasmine:
     - cp karma.staging.conf.js  karma.conf.js
     - npm i -g @angular/cli@9.1.15
     - npm test
-
-
-
 
 # staging_build:
 #   stage: build
