@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { CtableAndPaginator } from "./../../../../class/ctable-and-paginator";
+import { CtableAndPaginator } from "../../../../class/ctable-and-paginator";
 import { ActivatedRoute } from "@angular/router";
-import { StandartSearchService } from "./../../../../services/standart-search.service";
+import { StandartSearchService } from "../../../../services/standart-search.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ItableAndPaginator } from "./../../../../interfaces/itable-and-paginator";
-import { CTemplateSearch } from "./../../../../class/ctemplate-search";
-import { HeaderSearchComponent } from "./../../../../components/header-search/header-search.component";
+import { ItableAndPaginator } from "../../../../interfaces/itable-and-paginator";
+import { CTemplateSearch } from "../../../../class/ctemplate-search";
+import { HeaderSearchComponent } from "../../../../components/header-search/header-search.component";
 import { Iproduct3 } from "../../../../interfaces/iproducts";
-import { IvtexResponseProduct } from "./../../../../interfaces/vtex/iproducts";
+import { IvtexResponseProduct } from "../../../../interfaces/vtex/iproducts";
 import { FormGroup } from '@angular/forms';
 
 @Component({

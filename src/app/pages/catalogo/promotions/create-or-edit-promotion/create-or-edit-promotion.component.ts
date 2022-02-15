@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
 import { SearchComponent } from '../../../../components/search/search.component';
 import { StandartSearchService } from '../../../../services/standart-search.service';
-import { SharedService } from './../../../../services/shared/shared.service';
+import { SharedService } from '../../../../services/shared/shared.service';
 import { SwalService } from '../../../../services/swal.service';
 import { IProduct } from '../../../../interfaces/promotion';
 

@@ -35,7 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
 import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
 import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
-import { TemplateSearchModule } from './../../Modulos/template-search/template-search.module';
+import { TemplateSearchModule } from '../../Modulos/template-search/template-search.module';
 import { MatTreeModule } from '@angular/material/tree';
 import { ToolsModule } from '../../Modulos/tools/tools.module';
 // import { PromotionsIndexComponent } from './promotions/promotions-index/promotions-index.component';
