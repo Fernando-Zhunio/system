@@ -102,3 +102,5 @@ production:
   when: manual
   only:
     - master
+  dependencies:
+    - production_build
