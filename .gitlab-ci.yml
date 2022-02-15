@@ -20,8 +20,6 @@ npm:
     paths:
       - node_modules/
   script:
-      - apt-get update
-      - apt-get install -y zip unzip
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
       - npm install
@@ -86,7 +84,7 @@ staging:
   script:
     - *init_ssh
     - apt-get update
-    - apt-get install zip unzip
+    - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
     - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
     - ssh root@104.207.144.7 'rm -R /var/www/staging-system.novicompu.com/public/* && unzip -o /var/www/staging-system.novicompu.com/app.zip -d /var/www/staging-system.novicompu.com/public/'
@@ -101,7 +99,7 @@ production:
   script:
     - *init_ssh
     - apt-get update
-    - apt-get install zip unzip
+    - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
     - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
     - ssh root@104.207.144.7 'rm -R /var/www/system.novicompu.com/public/* && unzip -o /var/www/system.novicompu.com/app.zip -d /var/www/system.novicompu.com/public/'
