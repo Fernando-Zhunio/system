@@ -24,7 +24,7 @@ npm:
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - cp karma.staging.conf.js  karma.conf.js
       - apt-get install git
-      - npm cache clean
+      - npm cache clean --force
       - npm install
       # - npm i -g @angular/cli@9.1.15 --save
       - npm test
