@@ -41,48 +41,47 @@ jasmine:
     - npm i -g @angular/cli@9.1.15
     - npm test
 
-staging_build:
-  stage: build
-  cache:
-    paths:
-      - dist/
-  script:
-    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-    - npm i -g @angular/cli@11.2.6
-    - npm run build
-  dependencies:
-    - npm
-  artifacts:
-    expire_in: 1 month
-    paths:
-      - node_modules/
-      - dist/
+# staging_build:
+#   stage: build
+#   cache:
+#     paths:
+#       - dist/
+#   script:
+    
+#     - npm
+#   artifacts:
+#     expire_in: 1 month
+#     paths:
+#       - node_modules/
+#       - dist/
 
-  only:
-    - master
+#   only:
+#     - master
 
-production_build:
-  stage: build
-  cache:
-    paths:
-      - dist/
-  script:
-    - npm i -g @angular/cli@11.2.6
-    - npm run build --prod
-  dependencies:
-    - npm
-  artifacts:
-    expire_in: 1 month
-    paths:
-      - node_modules/
-      - dist/
-  only:
-    - master
+# production_build:
+#   stage: build
+#   cache:
+#     paths:
+#       - dist/
+#   script:
+    
+#   dependencies:
+#     - npm
+#   artifacts:
+#     expire_in: 1 month
+#     paths:
+#       - node_modules/
+#       - dist/
+#   only:
+#     - master
 
 staging:
   stage: deploy
   script:
     - *init_ssh
+    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+    - npm i -g @angular/cli@11.2.6
+    - npm run build
     - apt-get update
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
@@ -90,14 +89,15 @@ staging:
     - ssh root@104.207.144.7 'rm -R /var/www/staging-system.novicompu.com/public/* && unzip -o /var/www/staging-system.novicompu.com/app.zip -d /var/www/staging-system.novicompu.com/public/'
   only:
     - master
-  dependencies:
-    - staging_build
+
   
 
 production:
   stage: deploy
   script:
     - *init_ssh
+    - npm i -g @angular/cli@11.2.6
+    - npm run build --prod
     - apt-get update
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
@@ -106,5 +106,3 @@ production:
   when: manual
   only:
     - master
-  dependencies:
-    - production_build
