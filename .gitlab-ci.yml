@@ -86,7 +86,7 @@ staging:
     - sudo apt-get install -y zip
     - cd ./dist && zip -r ./app.zip .
     - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
-    - ssh root@104.207.144.7 'unzip -o /var/www/staging-system.novicompu.com/app.zip -d /var/www/staging-system.novicompu.com/public/'
+    - ssh root@104.207.144.7 'rm -R /var/www/staging-system.novicompu.com/public/* && unzip -o /var/www/staging-system.novicompu.com/app.zip -d /var/www/staging-system.novicompu.com/public/'
   only:
     - master
   dependencies:
@@ -100,7 +100,7 @@ production:
     - sudo apt-get install -y zip
     - cd ./dist && zip -r ./app.zip .
     - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
-    - ssh root@104.207.144.7 'unzip -o /var/www/system.novicompu.com/app.zip -d /var/www/system.novicompu.com/public/'
+    - ssh root@104.207.144.7 'rm -R /var/www/system.novicompu.com/public/* && unzip -o /var/www/system.novicompu.com/app.zip -d /var/www/system.novicompu.com/public/'
   when: manual
   only:
     - master
