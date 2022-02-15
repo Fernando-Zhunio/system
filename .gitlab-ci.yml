@@ -25,7 +25,7 @@ npm:
       - cp karma.staging.conf.js  karma.conf.js
       - apt-get install git
       - npm install
-      - npm link @angular/cli@9.1.15
+      - npm i -g @angular/cli@9.1.15
       - npm test
   artifacts:
     expire_in: 1 month
@@ -40,7 +40,7 @@ npm:
 #   script:
 #     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
 #     - cp karma.staging.conf.js  karma.conf.js
-#     - npm link @angular/cli@9.1.15
+#     - npm i -g @angular/cli@9.1.15
 #     - npm test --watch=false
 
 staging_build:
@@ -51,7 +51,7 @@ staging_build:
       - dist/
   script:
     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-    - npm link @angular/cli@11.2.6
+    - npm i -g @angular/cli@11.2.6
     - npm run build
   dependencies:
     - npm
