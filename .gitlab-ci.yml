@@ -12,7 +12,7 @@ stages:
   - dependencies
   - test
   - build
-  # - deploy
+  - deploy
 
 npm:
   stage: dependencies
