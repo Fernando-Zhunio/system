@@ -21,7 +21,7 @@ npm:
       - node_modules/
   script:
       - apt-get update
-      - apt-get install zip unzip
+      - apt-get install -y zip unzip
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
       - npm install
