@@ -81,7 +81,7 @@ staging:
     - *init_ssh
     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     - npm i -g @angular/cli@11.2.6
-    - npm run build
+    - ng build
     - apt-get update
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
@@ -97,7 +97,7 @@ production:
   script:
     - *init_ssh
     - npm i -g @angular/cli@11.2.6
-    - npm run build --prod
+    - ng build --prod
     - apt-get update
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
