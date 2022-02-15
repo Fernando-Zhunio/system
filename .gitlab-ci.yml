@@ -60,8 +60,6 @@ staging_build:
     paths:
       - node_modules/
 
-
-
 production_build:
   stage: build
   cache:
@@ -83,24 +81,24 @@ staging:
   stage: deploy
   script:
     - *init_ssh
-    - sudo apt-get install zip
+    - sudo apt-get install -y zip
     - cd ./dist && zip -r ./app.zip .
-    - scp ./app.zip root@104.207.144.7:/var/www/beta.system.novicompu.com/test
-    - ssh root@104.207.144.7 'unzip -o /var/www/beta.system.novicompu.com/test/app.zip -d /var/www/beta.system.novicompu.com/test/public/'
+    - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
+    - ssh root@104.207.144.7 'unzip -o /var/www/staging-system.novicompu.com/app.zip -d /var/www/staging-system.novicompu.com/public/'
   only:
     - master
   dependencies:
     - staging_build
   
 
-
-
-  
-# production:
-#   stage: deploy
-#   script:
-#     - *init_ssh
-#     - php ./vendor/deployer/deployer/bin/dep deploy prod
-#   when: manual
-#   only:
-#     - master
+production:
+  stage: deploy
+  script:
+    - *init_ssh
+    - sudo apt-get install -y zip
+    - cd ./dist && zip -r ./app.zip .
+    - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
+    - ssh root@104.207.144.7 'unzip -o /var/www/system.novicompu.com/app.zip -d /var/www/system.novicompu.com/public/'
+  when: manual
+  only:
+    - master
