@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RequestsRoutingModule, RrhhRequestMainComponents } from './requests-routing.module';
+import { RequestsRoutingModule } from './requests-routing.module';
 import { IndexComponent } from './index/index.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
@@ -21,10 +21,10 @@ import { MatCardModule } from '@angular/material/card';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
-
+ 
 
 @NgModule({
-  declarations: [RrhhRequestMainComponents, IndexComponent],
+  declarations: [ IndexComponent],
   imports: [
     CommonModule,
     RequestsRoutingModule,
