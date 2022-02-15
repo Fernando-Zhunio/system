@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { IndexWithMatTable } from '../../../../class/index-with-mat-table';
 import { IPermission } from '../../../../interfaces/ipermission';
-import { IndexWithMatTableComponent } from '../../../../Modulos/index-with-mat-table/index-with-mat-table.component';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { CreateOrEditPermissionComponent } from '../create-or-edit-permission/create-or-edit-permission.component';
 import { GroupsPermissionsIndexComponent } from '../groups-permissions/groups-permissions-index/groups-permissions-index.component';
@@ -42,7 +41,7 @@ export class PermissionIndexComponent extends IndexWithMatTable<IPermission> imp
   ngOnInit(): void {
   }
 
-  openCreateOrEdit(id, isEdit: false) {
+  openCreateOrEdit(id, isEdit = false) {
     console.log(id);
     this.btnSheet.open(CreateOrEditPermissionComponent, {
       data: {id, isEdit}
