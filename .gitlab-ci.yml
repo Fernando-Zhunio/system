@@ -16,10 +16,10 @@ stages:
 
 npm:
   stage: dependencies
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}-npm
-    paths:
-      - node_modules/
+  # cache:
+  #   key: ${CI_COMMIT_REF_SLUG}-npm
+  #   paths:
+  #     - node_modules/
   script:
       #- cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       #- cp karma.staging.conf.js  karma.conf.js
