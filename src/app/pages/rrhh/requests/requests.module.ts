@@ -21,7 +21,6 @@ import { MatCardModule } from '@angular/material/card';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
- 
 
 @NgModule({
   declarations: [ IndexComponent],
