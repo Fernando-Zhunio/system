@@ -29,9 +29,9 @@ export class CustomInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (!this.hasInternet()) {
-      return;
-    }
+    // if (!this.hasInternet()) {
+    //   return;
+    // }
     
     let headers = null;
     // * si esta autenticado
@@ -126,16 +126,13 @@ export class CustomInterceptor implements HttpInterceptor {
 
   hasInternet(): boolean {
     const condition = navigator.onLine ? 'online' : 'offline';
-    // console.log(condition);
     if (condition === 'offline') {
       SwalService.swalFire({allowOutsideClick: false, showConfirmButton: true, confirmButtonText: 'Recargar pagina', title: 'No hay conexion a internet', text: 'Por favor revise su conexion a internet', icon: 'warning'}).then((result) => {
         if (result.isConfirmed) {
           window.location.reload();
         }
       });
-
       return false;
-      // throwError('No hay conexion a internet');
     }
     return true;
   }

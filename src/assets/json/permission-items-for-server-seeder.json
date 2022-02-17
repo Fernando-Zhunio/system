@@ -1,0 +1,301 @@
+{
+  "menu": [
+    [
+      {
+        "name": "Inicio",
+        "url": "/home/inicio",
+        "icon": "icon-home",
+        "permission": "home"
+      }
+    ],
+    [
+      {
+        "name": "Dashboard",
+        "url": "/home/dashboard",
+        "icon": "icon-speedometer",
+        "permission": "dashboard"
+      }
+    ],
+    [
+      {
+        "name": "Dashboard Rrhh",
+        "url": "/recursos-humanos/dashboard",
+        "icon": "icon-star",
+        "permission": "rrhh-dashboard"
+      }
+    ],
+    [
+      {
+        "name": "Empleos",
+        "url": "/recursos-humanos/works",
+        "icon": "icon-star",
+        "permission": "rrhh-works"
+      }
+    ],
+    [
+      {
+        "name": "Citas",
+        "url": "/recursos-humanos/appointments",
+        "icon": "icon-star",
+        "permission": "rrhh-appointments"
+      }
+    ],
+    [
+      {
+        "name": "Solicitudes",
+        "url": "/recursos-humanos/requests",
+        "icon": "icon-star",
+        "permission": "rrhh-requests"
+      }
+    ],
+    [
+      {
+        "name": "Usuarios Web",
+        "url": "/recursos-humanos/users-web",
+        "icon": "icon-star",
+        "permission": "rrhh-users-web"
+      }
+    ],
+    [
+      {
+        "name": "Productos",
+        "url": "/admin-products/productos",
+        "icon": "icon-basket",
+        "permission": "products-admin.products.index"
+      }
+    ],
+    [
+      {
+        "name": "Vtex Productos",
+        "url": "/admin-products/vtex-products",
+        "icon": "icon-basket",
+        "permission": "products-admin.products.index"
+      }
+    ],
+    [
+      {
+        "name": "Categoria",
+        "url": "/admin-products/categorias",
+        "icon": "icon-badge",
+        "permission": "products-admin.categories.index"
+      }
+    ],
+    [
+      {
+        "name": "Marcas",
+        "url": "/admin-products/marcas",
+        "icon": "icon-bag",
+        "permission": "products-admin.brands.index"
+      }
+    ],
+    [
+      {
+        "name": "Prefijos",
+        "url": "/admin-products/prefijos",
+        "icon": "fab fa-autoprefixer",
+        "permission": "products-admin.prefixes.index"
+      }
+    ],
+    [
+      {
+        "name": "Buscar producto",
+        "url": "/catalogo/buscar_productos",
+        "icon": "fas fa-search",
+        "permission": "catalogs.products.index"
+      }
+    ],
+    [
+      {
+        "name": "Mercado libre",
+        "url": "/catalogo/mercado-libre",
+        "icon": "far fa-handshake",
+        "permission": "catalogs.ml-products.index"
+      }
+    ],
+//    15
+    [
+      {
+        "name": "Precios",
+        "url": "/catalogo/products/prices",
+        "icon": "fas fa-dollar-sign",
+        "permission": "catalogs.products.prices.index"
+      }
+    ],
+    [
+      {
+        "name": "Promociones",
+        "url": "/catalogo/promotions",
+        "icon": "cui-tags",
+        "permission": "catalogs.promotions.index"
+      }
+    ],
+    [
+      {
+        "name": "Publicaciones",
+        "url": "/catalogo/publicaciones",
+        "icon": "fab fa-telegram-plane",
+        "permission": "catalogs.publications.index"
+      }
+    ],
+    [
+      {
+        "name": "Importaciones",
+        "url": "/importaciones/index",
+        "icon": "icon-briefcase",
+        "permission": "purchase-department.imports.index"
+      }
+    ],
+    [
+      {
+        "name": "Codificar importaciones",
+        "url": "/importaciones/codificar-importaciones",
+        "icon": "far fa-handshake",
+        "permission": "purchase-department.imports.index"
+      }
+    ],
+    [
+      {
+        "name": "Precios y promociones",
+        "url": "/importaciones/precios-promociones",
+        "icon": "icon-briefcase",
+        "permission": "purchase-department.imports.index"
+      }
+    ],
+    [
+      {
+        "name": "Grupo de Productos",
+        "url": "/reports/group-products",
+        "icon": "icon-briefcase",
+        "permission": "reports.group-products.index"
+      }
+    ],
+    [
+      {
+        "name": "Download stock",
+        "url": "/reports/general-stock",
+        "icon": "icon-cloud-download",
+        "permission": "reports.general-stock.export"
+      }
+    ],
+    [
+      {
+        "name": "Ordenes",
+        "url": "/orders",
+        "icon": "cui-basket-loaded",
+        "permission": "orders.orders.index"
+      }
+    ],
+    [
+      {
+        "name": "Organizacion",
+        "url": "/information-general/organizacion",
+        "icon": "icon-briefcase",
+        "permission": "general.organization.index"
+      }
+    ],
+    [
+      {
+        "name": "Chat Bots",
+        "url": "/administracion-sistema/chatbot",
+        "icon": "icon-social-reddit",
+        "permission": "admin.chatbot.index"
+      }
+    ],
+    [
+      {
+        "name": "Empresas",
+        "url": "/administracion-sistema/companies",
+        "icon": "icon-directions",
+        "permission": "admin.companies.index"
+      }
+    ],
+    [
+      {
+        "name": "Facebook Ads Manager",
+        "url": "/administracion-sistema/facebook-ads-manager",
+        "icon": "icon-bag",
+        "permission": "admin.facebook-ads.campaigns.index"
+      }
+    ],
+    [
+      {
+        "name": "Grupo de precios",
+        "url": "/administracion-sistema/prices/groups",
+        "icon": "fas fa-dollar-sign",
+        "permission": "admin.prices.groups.index"
+      }
+    ],
+    [
+      {
+        "name": "Locaciones",
+        "url": "/administracion-sistema/locaciones",
+        "icon": "icon-directions",
+        "permission": "admin.locations.index"
+      }
+    ],
+    [
+      {
+        "name": "Mercado Libre",
+        "url": "/administracion-sistema/mercado-libre/cuentas",
+        "icon": "far fa-handshake",
+        "permission": "ml.accounts.index"
+      }
+    ],
+    [
+      {
+        "name": "Novedades",
+        "url": "/administracion-sistema/newsletter",
+        "icon": "icon-bag",
+        "permission": "newsletters"
+      }
+    ],
+    [
+      {
+        "name": "Países",
+        "url": "/administracion-sistema/paises",
+        "icon": "icon-globe",
+        "permission": "admin.countries.index"
+      }
+    ],
+    [
+      {
+        "name": "Personas",
+        "url": "/administracion-sistema/personas",
+        "icon": "icon-user",
+        "permission": "admin.people.index"
+      }
+    ],
+    [
+      {
+        "name": "Roles",
+        "url": "/administracion-sistema/roles",
+        "icon": "icon-briefcase",
+        "permission": "admin.roles.index"
+      }
+    ],
+    [
+      {
+        "name": "Usuarios",
+        "url": "/administracion-sistema/usuarios",
+        "icon": "icon-user-following",
+        "permission": "admin.users.index"
+      }
+    ],
+    [
+      {
+        "name": "Vtex Sites",
+        "url": "/administracion-sistema/vtex-sites",
+        "icon": "icon-bag",
+        "permission": "admin.vtex.sites.index"
+      }
+    ],
+    [
+      {
+        "name": "Webhooks",
+        "url": "/administracion-sistema/webhooks/webhooks-url",
+        "icon": "icon-wrench",
+        "permission": "super-admin"
+      }
+    ]
+  ]
+}

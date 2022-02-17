@@ -47,6 +47,6 @@ export interface INavData {
   wrapper?: INavWrapper;
   linkProps?: INavLinkProps;
   permission?:string;
-  tag?:string;
+  group_permission_id?:string;
 }
 

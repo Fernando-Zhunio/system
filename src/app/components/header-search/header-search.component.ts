@@ -29,6 +29,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   @Input() isSticky: boolean = true;
   @Input() init: boolean = true;
   @Input() spinner_name = null;
+  @Input() canModifyBarSearch: boolean = true;
   pageEvent: PageEvent = {
     length: 0,
     pageIndex: 0,
@@ -95,16 +96,18 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
         (response: any) => {
           this.isLoading.emit(false);
           this.products.emit(response);
-          const queryParams: Params = {
-            page: $event.pageIndex + 1,
-            pageSize: $event.pageSize,
-            search: this.productSearch,
-          };
-          this.router.navigate([], {
-            relativeTo: this.activeRoute,
-            queryParams: queryParams,
-            replaceUrl: true,
-          });
+          if (this.canModifyBarSearch) {
+            const queryParams: Params = {
+              page: $event.pageIndex + 1,
+              pageSize: $event.pageSize,
+              search: this.productSearch,
+            };
+            this.router.navigate([], {
+              relativeTo: this.activeRoute,
+              queryParams: queryParams,
+              replaceUrl: true,
+            });
+          }
         },
         (err) => {
           this.isLoading.emit(false);

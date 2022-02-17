@@ -688,6 +688,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./permissions/permissions.module').then((m) => m.PermissionsModule),
   },
+  {
+    path: 'sidebar',
+    loadChildren: () =>
+      import('./sidebar/sidebar.module').then((m) => m.SidebarModule),
+  },
 ];
 
 @NgModule({

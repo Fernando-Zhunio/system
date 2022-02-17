@@ -885,7 +885,7 @@ export class ListPermissions {
             return;
         }
         const permissionsUser = permissionsAndRol.user.permission;
-        console.log({permissionsUser}, this.store.getCurrentSession());
+        // console.log({permissionsUser}, this.store.getCurrentSession());
         const permissions = permissionsUser.forEach(permission => {
             if (this.permissionMap.has(permission)) {
                 this.myPermissionMap.set(permission, this.permissionMap.get(permission));

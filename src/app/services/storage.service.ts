@@ -17,18 +17,18 @@ export class StorageService  {
 
   constructor(private router: Router, private s_permissionsService: NgxPermissionsService) {
     this.currentSession = this.loadSessionData();
-    const rolAndPermission = this.getRolAndPermissionUser();
-    let mergeRolAndPermission = [];
-    if (rolAndPermission) {
-      mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
-    }
-     this.s_permissionsService.loadPermissions(mergeRolAndPermission);
+    const permissions = this.getPermissionUser();
+    // let mergeRolAndPermission = [];
+    // if (rolAndPermission) {
+    //   mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission);
+    // }
+     this.s_permissionsService.loadPermissions(permissions);
   }
 
   setCurrentSession(session): void {
     this.currentSession = session;
     localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
-    this.setRolAndPermission();
+    this.setPermission();
   }
 
   setCurrentUser(user: User): void {
@@ -66,22 +66,24 @@ export class StorageService  {
     return (session && session.user) ? session.user : null;
   }
 
-  getCurrentPerson(): Cperson{
+  getCurrentPerson(): Cperson {
     const session = this.getCurrentSession();
     return (session && session.user.person) ? session.user.person : null;
   }
 
-  setRolAndPermission(rol_permission: {'rol': [], 'permission': []}= null) {
-      const rolAndPermission = rol_permission ? rol_permission : this.getRolAndPermissionUser();
-      let mergeRolAndPermission = [];
-      if (rolAndPermission) {
-        mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission)
-      }
+  // setRolAndPermission(rol_permission: {'rol': [], 'permission': []}= null) {
+  setPermission(permissions: any[]= null) {
+      // const rolAndPermission = rol_permission ? rol_permission : this.getRolAndPermissionUser();
+      // const permissions = rol_permission ? rol_permission : this.getRolAndPermissionUser();
+      // let mergeRolAndPermission = [];
+      // if (permissions) {
+      //   permissions = rolAndPermission.rol.concat(rolAndPermission.permission)
+      // }
       const session = this.getCurrentSession();
-      session.user.rol = rolAndPermission.rol;
-      session.user.permission = rolAndPermission.permission;
-       localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
-       this.s_permissionsService.loadPermissions(mergeRolAndPermission);
+      // session.user.rol = rolAndPermission.rol;
+      session.user.permission = permissions;
+      localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
+      this.s_permissionsService.loadPermissions(permissions);
   }
 
   encryptedAes(text: string): string {
@@ -94,9 +96,9 @@ export class StorageService  {
     return null;
   }
 
-  getRolAndPermissionUser(): {'rol': string[], 'permission': string[]} {
+  getPermissionUser(): any[] {
     const user: User = this.getCurrentUser();
-    return (user) ? {rol: user.rol, permission: user.permission} : null;
+    return (user) ? user.permission : null;
   }
 
   isAuthenticated(): boolean {

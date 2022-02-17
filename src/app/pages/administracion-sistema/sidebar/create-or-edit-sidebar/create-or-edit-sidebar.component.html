@@ -1,0 +1,38 @@
+<div>
+    <h2 class="font-4xl mt-3 font-weight-bold d-flex align-items-center"><button mat-mini-fab [routerLink]="['/administracion-sistema/sidebar']"><mat-icon>arrow_back</mat-icon></button>&nbsp; {{title}}</h2>
+    <div>
+        <div>
+            <div>
+                <mat-card>
+                    <div [formGroup]="form" class="row m-0">
+                        <mat-form-field class="col-md-6">
+                            <input matInput placeholder="Nombre" formControlName="name">
+                            <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-6">
+                            <input matInput placeholder="Url" formControlName="url">
+                            <mat-error *ngIf="form.get('url').invalid">Este campo es requerido</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-6">
+                            <input matInput placeholder="Icono" formControlName="icon">
+                            <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
+                        </mat-form-field>
+
+                        <div class="col-md-6">
+                            <mat-form-field class="w-100">
+                                <input type="text" [matAutocomplete]="auto" (keydown.enter)="search($event)" matInput placeholder="Permiso" >
+                                <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
+                            </mat-form-field>
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)" [displayWith]="AutoCompleteDisplay">
+                                <mat-option *ngFor="let permission of permissions | keyvalue" [value]="{id:permission.value.id, name: permission.value.name, description: permission.value.description}">{{permission.value.description}} 
+                                    <small>{{permission.value?.group_permission?.name}}</small>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </div>
+                        <button mat-raised-button color="primary" (click)="saveInServer()" [disabled]="isLoading">Guardar <mat-icon>save</mat-icon></button>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

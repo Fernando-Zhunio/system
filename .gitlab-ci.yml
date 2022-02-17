@@ -57,7 +57,6 @@ staging_build:
     paths:
       - node_modules/
       - dist/
-
   only:
     - master
 

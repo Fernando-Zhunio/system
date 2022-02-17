@@ -1,0 +1,45 @@
+<div>
+    <h2 class="font-4xl font-weight-bold mt-3">Items Sidebar</h2>
+    <div>
+        <div>
+            <!-- <app-search-template placeholder="Buscador de novedades de la pagina" [url$]="url" (data)="getData($event)">
+                <ng-container menuBar>
+                    <mat-chip-list class="ml-1">
+                        <mat-chip [routerLink]="['../create']">
+                            <mat-icon>add_circle_outline</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </ng-container>
+
+                <ng-container data>
+                    <mat-card *ngFor="let item of data | keyvalue" class="card  border-0 ">
+                        <div class="card-body">
+                            <h3 class="font-2xl">{{item.value.name}}</h3>
+                            <p class="container-info">
+                                <span>Ruta: </span> <strong>{{item.value.url}}</strong><br>
+                                <span>Permiso: </span> <strong>{{item.value?.permission?.name || 'sin permiso'}}</strong><br>
+                                <span>Icono: </span> <strong>{{item.value.icon}} <i class="nav-icon" [class]="item.value.icon"></i></strong><br>
+                                <span>Creado: </span> <strong>{{item.value.created_at}}</strong><br>
+                            </p>
+                            <div class="d-flex">
+                                <button mat-raised-button color="accent" [routerLink]="['./item',item.value.id,'edit']">
+                                   Editar <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-raised-button (click)="deleteData(item.value.id)" color="warn" class="ml-1">
+                                   Eliminar <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </mat-card>
+                </ng-container>
+            </app-search-template> -->
+            <app-index-with-mat-table
+             [itemRows]="itemRows" [url]="url"
+             [displayedColumns]="displayedColumns"
+             (onClickDestroy)="deleteItem($event)"
+             (onClickEdit)="editItem($event)"
+            (onClickCreate)="createItem()"
+             ></app-index-with-mat-table>
+        </div>
+    </div>
+</div>

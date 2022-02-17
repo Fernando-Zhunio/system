@@ -10,6 +10,7 @@ export abstract class CreateOrEdit<T> {
     public data: T = null;
     public urlEdit = null;
     public abstract urlSave;
+    public loadCreate: boolean = true;
     public form: FormGroup = null;
     isLoading: boolean = false;
     public params = null;
@@ -28,7 +29,9 @@ export abstract class CreateOrEdit<T> {
             } else {
                 this.status = 'create';
                 this.title += ' Creando';
-                this.loaderDataForCreate();
+                if (this.loadCreate) {
+                    this.loaderDataForCreate();
+                }
             }
         });
     }
@@ -62,6 +65,7 @@ export abstract class CreateOrEdit<T> {
     }
 
     setData(data = null) {
+        this.form.patchValue(data);
         // this.form.setValue(data);
     }
 
@@ -77,7 +81,7 @@ export abstract class CreateOrEdit<T> {
                             this.go();
                         }, error => {
                             this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                            SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
                         });
                         break;
                     case 'edit':
@@ -86,7 +90,7 @@ export abstract class CreateOrEdit<T> {
                             this.go();
                         }, error => {
                             this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
+                            SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
                         });
                         break;
                     default:
@@ -120,7 +124,13 @@ export abstract class CreateOrEdit<T> {
     }
 
     go() { }
-    getDataForSendServer(): any { }
+    getDataForSendServer(): any {
+        if(this.form.valid) {
+            return this.form.value;
+        } else {
+            SwalService.swalFire({ text: 'Por favor complete todos los campos', icon: 'error' });
+        }
+     }
     goBack() {
         this.location.back();
     }

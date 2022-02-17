@@ -26,12 +26,13 @@ import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 import { setPreference } from '../../redux/actions/preference.action';
 // import sidebarItems from '/assets/json/permission-items.json';
 // import sidebarItemsClear from '/assets/json/permission-items-clean.json';
-import { IPermission } from '../../interfaces/ipermission';
+import { IGroupPermission, IPermission } from '../../interfaces/ipermission';
+import { AllItemsSidebar } from '../../class/permissionsAll';
 
 interface ISidebar {
   menu: {
     [key: string]: { title: ITitle, items: IItem[] }
- };
+  };
   options: { background: string };
 }
 interface ITitle {
@@ -95,7 +96,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   // colorSidebarLeft: string;
   // sidebarData = new DataSidebar();
-  navItems_ = new DataSidebar().NavItems;
+  // navItems_ = new DataSidebar().NavItems;
   // navItems_ = [];
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
@@ -111,7 +112,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.setImgCompanies();
     this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.s_standard);
-    this.getPermissionAndRolesFromServer();
+    this.getPermissionFromServer();
     this.notificationWeb.canInitSw();
     // this.setSideBarColor();
     this.user = this.s_storage.getCurrentUser();
@@ -248,14 +249,16 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  getPermissionAndRolesFromServer() {
+  getPermissionFromServer() {
     this.s_standard.create('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        const permissionAndRol = { rol: res.data.roles, permission: res.data.permissions.map(i => i.name) };
-        this.s_storage.setRolAndPermission(permissionAndRol);
-        // console.log(permissionAndRol);
+        const permissions = res.data.my_permissions;
+        const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
+                                  [permissions] : permissions;
+        this.s_storage.setPermission(array_permissions);
         this.searchBar = new ListPermissions(this.s_storage);
-        this.navItems = this.generateSideBarItems();
+        // this.navItems = this.generateSideBarItems(permissions, res.data.permissions.groups_permissions);
+        this.navItems = res.data.item_sidebar;
       }
     }, err => {
       console.log(err);
@@ -309,11 +312,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  // changeColor(event): void {
-  //   this.colorSidebarLeft = event.target.value;
-  //   localStorage.setItem('color_sidebar_left', event.target.value);
-  // }
 
   goRouteNotification(notificationData: INotificationData): void {
     if (notificationData.url) {
@@ -431,46 +429,85 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
 
-  generateSideBarItems(): INavData[] {
-    const new_Item_data = new DataSidebar().NameGroupItem;
-    const permissionAndRol = this.s_storage.getRolAndPermissionUser();
-    const mergePermissionAndRol: string[] = [
-      ...permissionAndRol.permission,
-      ...permissionAndRol.rol,
-    ];
+  // generateSideBarItems(permissions: IPermission[], groups_permissions: IGroupPermission[]): INavData[] {
+  //   // const new_Item_data = new DataSidebar().NameGroupItem;
+  //   // const permissionAndRol = this.s_storage.getRoPermissionUser();
+  //   // const mergePermissionAndRol: string[] = [
+  //   //   ...permissionAndRol.permission,
+  //   //   ...permissionAndRol.rol,
+  //   // ];
 
-    // * Si es super usuario retorna todo los item de la clase dataSidebar
-    const isSuperAdmin = permissionAndRol.rol.find((x) => x === 'super-admin');
-    if (isSuperAdmin !== undefined) {
-      return this.navItems_;
-    }
+  //   // * Si es super usuario retorna todo los item de la clase dataSidebar
+  //   // const isSuperAdmin = permissions.find((x) => x === 'super-admin');
+  //   if (permissions == 'super-admin') {
+  //     return this.navItems_;
+  //   }
 
-    const sizePermissionAndRol = mergePermissionAndRol.length;
+  //   const allNavPermissions = new Map(AllItemsSidebar);
+  //   const itemForNav: any[] = [];
+  //   permissions.forEach((item) => {
+  //     if (allNavPermissions.has(item.name)) {
+  //       itemForNav.push({...allNavPermissions.get(item.name), group_permission_id: item.group_permission_id || 'others'});
+  //     }
+  //   });
+  //   console.log(itemForNav);
+  //   const groupByPermissions = SharedService.groupBy(itemForNav, 'group_permission_id');
+  //   console.log(groupByPermissions);
+  //   let navItems = [];
 
-    for (let j = 0; j < sizePermissionAndRol; j++) {
-      const item: INavData = this.navItems_.find(
-        (x) => x.permission === mergePermissionAndRol[j]
-      );
-      if (item !== undefined) {
-        new_Item_data[item.tag].push(item);
-      }
-    }
-    mergePermissionAndRol.forEach((item) => {
+  //   for (const i in groupByPermissions) {
+  //     const name = groups_permissions.find((x: any) => x.id == i)?.name;
+  //     if (name) {
+  //       console.log(name);
+  //       navItems = navItems.concat(
+  //         [{
+  //           title: true,
+  //           name
+  //         }, ...groupByPermissions[i]]);
+  //     }
+  //   }
 
-    });
+  //   if (groupByPermissions.hasOwnProperty('others')) {
+  //     navItems = navItems.concat(
+  //       [
+  //         {title: true, name:'Otros'},
+  //         ...groupByPermissions['others']
+  //       ]
+  //     )
+  //   }
 
-    let data_return = [];
-    const keysTags = Object.keys(new_Item_data);
-    for (let i = 0; i < keysTags.length; i++) {
-      if (new_Item_data[keysTags[i]].length > 1) {
-        data_return.push(...new_Item_data[keysTags[i]]);
-      }
-    }
-    data_return = [
-      ...data_return,
-    ];
-    return data_return;
-  }
+    // console.log(navItems);
+
+    // return navItems;
+
+
+
+    // for (let j = 0; j < sizePermissionAndRol; j++) {
+    //   const item: INavData = this.navItems_.find(
+    //     (x) => x.permission === mergePermissionAndRol[j]
+    //   );
+    //   if (item !== undefined) {
+    //     new_Item_data[item.tag].push(item);
+    //   }
+    // }
+    // mergePermissionAndRol.forEach((item) => {
+    //   if (allNavPermissions.has(item)) {
+    //     itemForNav.push(allNavPermissions.get(item));
+    //   }
+    // });
+
+    // let data_return = [];
+    // const keysTags = Object.keys(new_Item_data);
+    // for (let i = 0; i < keysTags.length; i++) {
+    //   if (new_Item_data[keysTags[i]].length > 1) {
+    //     data_return.push(...new_Item_data[keysTags[i]]);
+    //   }
+    // }
+    // data_return = [
+    //   ...data_return,
+    // ];
+    // return data_return;
+  // }
 
 
   // generatedSideBarItems(permissions: IPermission): INavData[] {

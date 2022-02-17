@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<div *ngIf="!isLoading;" [ngStyle]="{'column-count': columns}" class="mt-4 card-columns">
+<div *ngIf="!isLoading;" [ngStyle]="{'column-count': columns}" [ngClass]="{'card-columns': withCardColumns}" class="mt-4 ">
   <ng-content select="[data]"></ng-content>
 </div>
 

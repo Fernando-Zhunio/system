@@ -1,6 +1,6 @@
 "use strict";
 
-// const fs = require("fs");
+const fs = require("fs");
 
 const tags = {
   admin_products: "admin_products",
@@ -12,7 +12,7 @@ const tags = {
   rrhh: "rrhh",
   home: "home",
   orders: "orders",
-  others:"others",
+  others: "others",
 };
 const tagsTitle = {
   admin_products: {
@@ -366,46 +366,49 @@ const menuItem = [
 
 function generateJsonMenu() {
   let menuClean = {};
-  let menu = {};
+  let menu = [];
   menuItem.forEach((item) => {
     if (item.hasOwnProperty("permission")) {
-      const _item = {
-        [item.name]: {
+      const _item = [
+        {
           name: item.name,
           url: item.url,
           icon: item.icon,
           permission: item.permission,
-          tag: item.tag,
-        },
-      };
-      if (menu[item.tag]) menu[item.tag].push(_item);
-      else {
-        menu[item.tag] = [_item];
-      }
-      
+        }
+      ];
+      // if (menu[item.tag])
+       menu.push(_item); 
+      // else {
+      //   menu[item.tag] = [_item];
+      // }
     }
   });
 
-  for (const property in tagsTitle) {
-    if (menu[property]) {
-      menu[property] = {
-        title: tagsTitle[property],
-        items: [menu[property]],
-      }
-      menuClean[property] = {
-        title: tagsTitle[property],
-        items: [],
-      };
-      
-    }
-  };
   let data = JSON.stringify({ menu });
-  let dataClean = JSON.stringify({ menuClean });
-  fs.writeFileSync("src/assets/json/permission-items.json", data);
-  fs.writeFileSync("src/assets/json/permission-items-clean.json", dataClean);
+  console.log(menu);
+  // let dataClean = JSON.stringify({ menuClean });
+  fs.writeFileSync("src/assets/json/permission-items-for-server-seeder.json", data);
 
-  return "Exito al generar archivos!"
+  // for (const property in tagsTitle) {
+  //   if (menu[property]) {
+  //     menu[property] = {
+  //       title: tagsTitle[property],
+  //       items: [menu[property]],
+  //     }
+  //     menuClean[property] = {
+  //       title: tagsTitle[property],
+  //       items: [],
+  //     };
+
+  //   }
+  // };
+  // let data = JSON.stringify({ menu });
+  // let dataClean = JSON.stringify({ menuClean });
+  // fs.writeFileSync("src/assets/json/permission-items.json", data);
+  // fs.writeFileSync("src/assets/json/permission-items-clean.json", dataClean);
+
+  return "Exito al generar archivos!";
 }
-
 
 console.log(generateJsonMenu());

@@ -12,7 +12,7 @@ export class DataSidebar {
     orders: 'section_orders',
   };
 
-  public   NavItems = [
+  public NavItems = [
     {
       title: true,
       name: 'Home',

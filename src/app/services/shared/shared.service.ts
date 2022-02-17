@@ -30,7 +30,7 @@ export class SharedService {
     this._appointmentWork = appointmentWork;
   }
 
-  constructor(private Http: HttpClient, private s_storage: StorageService) { }
+  constructor(private Http: HttpClient) { }
 
   public urlServer = environment.server;
 
@@ -40,6 +40,19 @@ export class SharedService {
   private _appointmentWork: Iappointment = null;
 
   public static dates_of_dashboard: { start_date: Date, end_date: Date } = null;
+
+  /**
+   * Metodo agrupador de arrays
+   * @param array array de clave y valor
+   * @param key clave
+   * @returns Objeto de clave y valor con array de agrupaciones
+   */
+  public static groupBy(array, key) {
+    return array.reduce(function (rv, x) {
+      (rv[x[key]] = rv[x[key]] || []).push(x);
+      return rv;
+    }, {});
+  }
 
 
   /**

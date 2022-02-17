@@ -21,6 +21,7 @@ export class SearchTemplateComponent extends CTemplateSearch<any> implements OnI
   @Input() active_filters_menu: boolean = false;
   @Input() key_paginator: string = null;
   @Input() columns = 4;
+  @Input() withCardColumns: boolean = true;
   @Output() _isLoading = new EventEmitter<boolean>();
   @Output() data = new EventEmitter<any>();
 
