@@ -85,10 +85,6 @@ staging:
     - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
     - currentDate=`date '+%F %T'`
     - ssh root@104.207.144.7 "cd /var/www/staging-system.novicompu.com/ && mkdir tmp && unzip -o ./app.zip -d  ./tmp/ && mv ./public ./'$currentDate' && mv ./tmp ./public"
-
-  cache:
-    paths:
-      - dist/
   only:
     - master
 
@@ -106,9 +102,6 @@ production:
     - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
     - currentDate=`date '+%F %T'`
     - ssh root@104.207.144.7 "cd /var/www/system.novicompu.com/ && mkdir tmp && unzip -o ./app.zip -d  ./tmp/ && mv ./public ./'$currentDate' && mv ./tmp ./public"
-  cache:
-    paths:
-      - dist/
   when: manual
   only:
     - master
