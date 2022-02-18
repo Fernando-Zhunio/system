@@ -2,7 +2,7 @@
   [navbarBrandFull]="{src: imgCompany.url, width: imgCompany.size, height: imgCompany.size, alt: 'Novisolutions'}"
   [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
-  <div class="d-none d-md-block position-relative search-page-container">
+  <!-- <div class="d-none d-md-block position-relative search-page-container">
     <input (keydown)="searchPage($event)" (blur)="closeSearch()" type="search" class="search-page rounded-fz"
       placeholder="Buscar pagina">
     <mat-card [hidden]="pageSearch.length < 1"
@@ -16,8 +16,7 @@
         </mat-list-option>
       </mat-selection-list>
     </mat-card>
-
-  </div>
+  </div> -->
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none">
       <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -60,7 +59,6 @@
           </div>
           <hr>
         </div>
-
       </mat-menu>
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">

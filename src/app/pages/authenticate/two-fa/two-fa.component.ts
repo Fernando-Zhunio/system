@@ -48,37 +48,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     const data = this.active_router.snapshot.data.response.data;
     this.user = data.user;
     this.token = data.token.token;
-
     this.config.leftTime = 300 - data.time_sub;
-
-    // const time_rest = (300 - resta) / 60;
-    // const min = Math.trunc(time_rest);
-    // const seg = Math.trunc((time_rest - min) * 60);
-    // this.count_down.hour = min.toString();
-    // this.count_down.min = seg.toString();
-    // this.count_down_entero.hour = min;
-    // this.count_down_entero.min = seg;
-    // this.suscribir_reloj = interval(1000).subscribe((res) => {
-    //   this.count_down_entero.min--;
-    //   if (this.count_down_entero.min < 0) {
-    //     this.count_down_entero.min = 59;
-    //     this.count_down_entero.hour--;
-    //     this.count_down.hour = this.count_down_entero.hour
-    //       .toString()
-    //       .padStart(2, '0');
-    //     if (this.count_down_entero.hour < 0) {
-    //       this.count_down.hour = '00';
-    //       this.count_down.min = '00';
-    //       this.suscribir_reloj.unsubscribe();
-    //       this.router.navigate(['/login']);
-    //       console.log('terminando');
-    //       return;
-    //     }
-    //   }
-    //   this.count_down.min = this.count_down_entero.min
-    //     .toString()
-    //     .padStart(2, '0');
-    // });
   }
 
   handleEvent(event) {
@@ -102,7 +72,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
             const user: User = new User(
               res.data.user.id,
               res.data.user.name,
-              [], [],
+              null,
               res.data.companies,
               res.data.company_company_id,
               res.data.user.person,

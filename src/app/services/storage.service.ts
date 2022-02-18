@@ -16,13 +16,16 @@ export class StorageService  {
   private currentSession: Session = null;
 
   constructor(private router: Router, private s_permissionsService: NgxPermissionsService) {
-    this.currentSession = this.loadSessionData();
-    const permissions = this.getPermissionUser();
     // let mergeRolAndPermission = [];
     // if (rolAndPermission) {
-    //   mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission);
-    // }
-     this.s_permissionsService.loadPermissions(permissions);
+      //   mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission);
+      // }
+      this.currentSession = this.loadSessionData();
+      const permissions = this.getPermissionUser();
+      if (this.currentSession && permissions ) {
+        console.log(permissions);
+      this.s_permissionsService.loadPermissions(permissions);
+    }
   }
 
   setCurrentSession(session): void {
@@ -48,6 +51,7 @@ export class StorageService  {
       sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('currentUser')));
     } catch (e) {
       this.logout();
+      throw "Error al cargar la sesion";
     }
     return (sessionStr) ? <Session>sessionStr : null;
   }
@@ -71,16 +75,8 @@ export class StorageService  {
     return (session && session.user.person) ? session.user.person : null;
   }
 
-  // setRolAndPermission(rol_permission: {'rol': [], 'permission': []}= null) {
-  setPermission(permissions: any[]= null) {
-      // const rolAndPermission = rol_permission ? rol_permission : this.getRolAndPermissionUser();
-      // const permissions = rol_permission ? rol_permission : this.getRolAndPermissionUser();
-      // let mergeRolAndPermission = [];
-      // if (permissions) {
-      //   permissions = rolAndPermission.rol.concat(rolAndPermission.permission)
-      // }
+  setPermission(permissions: any[]= []) {
       const session = this.getCurrentSession();
-      // session.user.rol = rolAndPermission.rol;
       session.user.permission = permissions;
       localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
       this.s_permissionsService.loadPermissions(permissions);
@@ -98,7 +94,7 @@ export class StorageService  {
 
   getPermissionUser(): any[] {
     const user: User = this.getCurrentUser();
-    return (user) ? user.permission : null;
+    return (user) ? user?.permission : null;
   }
 
   isAuthenticated(): boolean {

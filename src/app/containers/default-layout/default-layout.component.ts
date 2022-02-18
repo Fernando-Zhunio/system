@@ -128,9 +128,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
 
-  searchPage(event): void {
-    this.pageSearch = this.searchBar.searchRoute(event.target.value);
-  }
+  // searchPage(event): void {
+  //   this.pageSearch = this.searchBar.searchRoute(event.target.value);
+  // }
 
   goPage(page): void {
     this.route.navigate([page]);
@@ -241,7 +241,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
           [permissions] : permissions;
         this.s_storage.setPermission(array_permissions);
-        this.searchBar = new ListPermissions(this.s_storage);
+        // this.searchBar = new ListPermissions(this.s_storage);
         this.navItems = res.data.item_sidebar;
       }
     }, err => {
