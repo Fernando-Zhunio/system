@@ -37,9 +37,6 @@ export class RedirectToComponent implements OnInit {
       }
       return;
     }
-    // console.log('token', token);
-
-    // this.route.snapshot.queryParamMap.get
     if (token) {
       const headers = new HttpHeaders({
         Authorization: 'Bearer ' + token,
@@ -59,8 +56,9 @@ export class RedirectToComponent implements OnInit {
               const user: User = new User(
                 res.data.user.id,
                 res.data.user.name,
-                res.data.permissions,
-                res.data.roles,
+                // res.data.permissions,
+                null,
+                // res.data.roles,
                 res.data.companies,
                 res.data.company_company_id,
                 res.data.user.person,
