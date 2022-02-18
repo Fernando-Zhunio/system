@@ -16,9 +16,9 @@ stages:
 
 npm:
   stage: dependencies
-  # cache:
-  #   paths:
-  #     - node_modules/
+  cache:
+    paths:
+      - node_modules/
   script:
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
@@ -36,13 +36,8 @@ jasmine:
   script:
     - cp karma.staging.conf.js  karma.conf.js
     - npm i -g @angular/cli@9.1.15
-    - npm test --reporters junit
+    - npm test
     
-  artifacts:
-    when: always
-    reports:
-      junit:
-        - junit.xml
 
 # staging_build:
 #   stage: build
