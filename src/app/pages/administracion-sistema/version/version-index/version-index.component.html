@@ -1,8 +1,11 @@
 <div>
-    <h2 class="font-4xl font-weight-bold">Version del sistema</h2>
+    <h2 class="font-4xl font-weight-bold my-2">Version del sistema</h2>
     <div>
-        <app-index-with-mat-table>
-            
+        <app-index-with-mat-table [url]="url" 
+        [displayedColumns]="displayedColumns"
+        [itemRows]="itemRows"
+        [isEditable]="true"
+        >
         </app-index-with-mat-table>
     </div>
 </div>

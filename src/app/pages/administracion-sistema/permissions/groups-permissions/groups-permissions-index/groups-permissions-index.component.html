@@ -1,5 +1,11 @@
-<app-index-with-mat-table (onClickDestroy)="deleteItem($event)" [url]="url" [isEditable]="true" [displayedColumns]="displayedColumns" [itemRows]="itemRows">
-    <!-- <ng-container btnHeader>
-        <mat-chip class="mr-1" ><mat-icon>add</mat-icon></mat-chip>
-    </ng-container> -->
-</app-index-with-mat-table>
+<h2 mat-dialog-title class="font-4xl font-weight-bold">Grupo de permisos</h2>
+<div>
+    <div mat-dialog-content>
+        <app-index-with-mat-table (onClickDestroy)="deleteItem($event)" [url]="url" [isEditable]="true"
+            [displayedColumns]="displayedColumns" [itemRows]="itemRows">
+        </app-index-with-mat-table>
+    </div>
+    <div mat-dialog-actions>
+        <button color="warn" mat-raised-button mat-dialog-close cdkFocusInitial>Cerrar</button>
+    </div>
+</div>

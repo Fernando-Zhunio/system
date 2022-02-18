@@ -689,6 +689,11 @@ const routes: Routes = [
       import('./permissions/permissions.module').then((m) => m.PermissionsModule),
   },
   {
+    path: 'version-app',
+    loadChildren: () =>
+      import('./version/version.module').then((m) => m.VersionModule),
+  },
+  {
     path: 'sidebar',
     loadChildren: () =>
       import('./sidebar/sidebar.module').then((m) => m.SidebarModule),

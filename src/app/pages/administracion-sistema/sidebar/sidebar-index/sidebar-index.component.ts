@@ -27,8 +27,6 @@ export class SidebarIndexComponent extends IndexWithMatTable<any> /* Crud<any> *
     super(s_standard, snack, router);
   }
 
-
-
   ngOnInit(): void {
   }
 

@@ -123,6 +123,14 @@ export class StorageService  {
     return  JSON.parse(this.decryptAes(localStorage.getItem('users-chat')));
   }
 
+  // setVersionApp(version: string): void {
+  //   localStorage.setItem('version-app', this.encryptedAes(version));
+  // }
+
+  // getVersionApp(): string {
+  //   return  this.decryptAes(localStorage.getItem('version-app'));
+  // }
+
 }
 
 

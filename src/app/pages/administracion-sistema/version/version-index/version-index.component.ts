@@ -18,10 +18,16 @@ interface IVersionApp {
   styleUrls: ['./version-index.component.css']
 })
 export class VersionIndexComponent extends IndexWithMatTable<any> implements OnInit {
-  displayedColumns: string[];
+  displayedColumns: string[] = ['id', 'version', 'description', 'actions'];
   permissions: { create: string[]; edit: string[]; destroy: string[]; };
-  itemRows: { key: string; title: string; isEditable: boolean; }[];
-  url: string = 'version-frontend';
+  itemRows: { key: string; title: string; isEditable: boolean; }[] = [
+    { key: 'id', title: 'Id', isEditable: false },
+    { key: 'version', title: 'Version', isEditable: true },
+    { key: 'description', title: 'Descripción', isEditable: true },
+    { key: 'created_at', title: 'Creado', isEditable: false },
+    { key: 'acciones', title: 'Acciones', isEditable: false },
+  ];
+  url: string = 'admin/version-frontend';
 
   constructor( s_standard: StandartSearchService, snackbar: MatSnackBar, router: Router) { 
     super( s_standard, snackbar, router );

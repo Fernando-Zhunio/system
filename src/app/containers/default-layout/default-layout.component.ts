@@ -8,8 +8,6 @@ import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
-import { DataSidebar } from '../../class/data-sidebar';
-import { INavData } from '../../interfaces/inav-data';
 import { MatDialog } from '@angular/material/dialog';
 import { AddInfoPersonModalComponent } from '../../components/modals/add-info-person-modal/add-info-person-modal.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -24,10 +22,8 @@ import { addNotification, overrideNotification } from '../../redux/actions/notif
 import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 import { setPreference } from '../../redux/actions/preference.action';
-// import sidebarItems from '/assets/json/permission-items.json';
-// import sidebarItemsClear from '/assets/json/permission-items-clean.json';
-import { IGroupPermission, IPermission } from '../../interfaces/ipermission';
-import { AllItemsSidebar } from '../../class/permissionsAll';
+import { compare } from 'compare-versions';
+import { environment } from '../../../environments/environment';
 
 interface ISidebar {
   menu: {
@@ -112,7 +108,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.setImgCompanies();
     this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.s_standard);
-    this.getPermissionFromServer();
+    this.getPermissionAndVersionServer();
     this.notificationWeb.canInitSw();
     // this.setSideBarColor();
     this.user = this.s_storage.getCurrentUser();
@@ -249,21 +245,43 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  getPermissionFromServer() {
+  getPermissionAndVersionServer() {
     this.s_standard.create('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
+        this.validateVersion(res.data.last_version_frontend.version, res.data.last_version_frontend.description);
         const permissions = res.data.my_permissions;
         const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
-                                  [permissions] : permissions;
+          [permissions] : permissions;
         this.s_storage.setPermission(array_permissions);
         this.searchBar = new ListPermissions(this.s_storage);
-        // this.navItems = this.generateSideBarItems(permissions, res.data.permissions.groups_permissions);
         this.navItems = res.data.item_sidebar;
       }
     }, err => {
       console.log(err);
       SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
     });
+  }
+
+  validateVersion(latestVersion: string, message: string): void {
+    try {
+
+      const current_version = environment.appVersion;
+      console.log(current_version, latestVersion);
+      const isNewVersion = compare(current_version, latestVersion, '<'); // true
+      if (isNewVersion) {
+        SwalService.swalFire({allowOutsideClick: false, showConfirmButton: true, title: 'Nueva de version', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info'})
+          .then((res) => {
+            console.log(res);
+            if (res.isConfirmed) {
+              console.log('Confirmado');
+              location.reload();
+            }
+          }).catch(() => { });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   suscribeNotifications(user): void {
@@ -476,37 +494,37 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   //     )
   //   }
 
-    // console.log(navItems);
+  // console.log(navItems);
 
-    // return navItems;
+  // return navItems;
 
 
 
-    // for (let j = 0; j < sizePermissionAndRol; j++) {
-    //   const item: INavData = this.navItems_.find(
-    //     (x) => x.permission === mergePermissionAndRol[j]
-    //   );
-    //   if (item !== undefined) {
-    //     new_Item_data[item.tag].push(item);
-    //   }
-    // }
-    // mergePermissionAndRol.forEach((item) => {
-    //   if (allNavPermissions.has(item)) {
-    //     itemForNav.push(allNavPermissions.get(item));
-    //   }
-    // });
+  // for (let j = 0; j < sizePermissionAndRol; j++) {
+  //   const item: INavData = this.navItems_.find(
+  //     (x) => x.permission === mergePermissionAndRol[j]
+  //   );
+  //   if (item !== undefined) {
+  //     new_Item_data[item.tag].push(item);
+  //   }
+  // }
+  // mergePermissionAndRol.forEach((item) => {
+  //   if (allNavPermissions.has(item)) {
+  //     itemForNav.push(allNavPermissions.get(item));
+  //   }
+  // });
 
-    // let data_return = [];
-    // const keysTags = Object.keys(new_Item_data);
-    // for (let i = 0; i < keysTags.length; i++) {
-    //   if (new_Item_data[keysTags[i]].length > 1) {
-    //     data_return.push(...new_Item_data[keysTags[i]]);
-    //   }
-    // }
-    // data_return = [
-    //   ...data_return,
-    // ];
-    // return data_return;
+  // let data_return = [];
+  // const keysTags = Object.keys(new_Item_data);
+  // for (let i = 0; i < keysTags.length; i++) {
+  //   if (new_Item_data[keysTags[i]].length > 1) {
+  //     data_return.push(...new_Item_data[keysTags[i]]);
+  //   }
+  // }
+  // data_return = [
+  //   ...data_return,
+  // ];
+  // return data_return;
   // }
 
 

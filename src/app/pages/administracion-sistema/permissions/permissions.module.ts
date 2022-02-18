@@ -40,7 +40,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatInputModule,
     MatChipsModule,
     MatCheckboxModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
   entryComponents: [
     CreateOrEditPermissionComponent,

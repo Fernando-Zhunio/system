@@ -18,7 +18,7 @@ export class GroupsPermissionsIndexComponent extends IndexWithMatTable<any> impl
 
   constructor(private standard: StandartSearchService, private snack: MatSnackBar, public router: Router, private btnSheet: MatBottomSheet) {
     super(standard, snack, router);
-    this.displayedColumns = ['id', 'name', 'slug', 'actions'];
+    this.displayedColumns = ['id', 'name', 'slug', 'position', 'actions'];
     this.permissions = {
       create: ['super-admin', 'admin.permissions.create'],
       edit: ['super-admin', 'admin.permissions.edit'],
@@ -28,6 +28,7 @@ export class GroupsPermissionsIndexComponent extends IndexWithMatTable<any> impl
       { key: 'id', title: 'Id', isEditable: false },
       { key: 'name', title: 'Nombre', isEditable: true },
       { key: 'slug', title: 'Slug', isEditable: true },
+      { key: 'position', title: 'Posición', isEditable: true },
       { key: 'acciones', title: 'Acciones', isEditable: false },
     ];
    }
