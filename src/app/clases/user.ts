@@ -4,7 +4,6 @@ export class User {
     name: string;
     email: string;
     permission: any;
-    rol: any;
     companies: any;
     company_company_id: string;
     person: Cperson;

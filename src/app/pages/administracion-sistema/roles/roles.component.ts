@@ -18,17 +18,17 @@ export class RolesComponent extends CtableAndPaginator<IrolSystem> implements On
 
   constructor(public activated_route: ActivatedRoute, public s_standart: StandartSearchService, public snack_bar: MatSnackBar) { super() }
   displayedColumns: string[] = [
-    "id",
-    "name",
+    'id',
+    'name',
     // "guard_name",
-    "title",
-    "description",
-    "permissions_count",
-    "acciones",
+    'title',
+    'description',
+    'permissions_count',
+    'acciones',
   ];
-  wordMain: string = "rol";
+  wordMain: string = 'rol';
 
-  urlDelete: string = "admin/roles/";
+  urlDelete: string = 'admin/roles/';
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   permissions: IpermissionStandart;
 
