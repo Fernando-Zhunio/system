@@ -63,9 +63,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.notifications$ = this.store.select(selectNotification);
   }
 
-  // jsonSidebarItems: ISidebar = sidebarItems;
-  // jsonSidebarItemsClean: ISidebar = sidebarItemsClear;
-
   notifications$: Observable<INotification[]>;
 
   @HostBinding('class') componentCssClass;
@@ -110,7 +107,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.s_standard);
     this.getPermissionAndVersionServer();
     this.notificationWeb.canInitSw();
-    // this.setSideBarColor();
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
     if (!this.user.person) { this.addPersonModal(this.user); }
@@ -188,7 +184,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         const notifications = res.data.notifications;
         // ? Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
         this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
-
         if (notifications.length > 0) {
           // ? Si hay notificaciones sin leer */
           const countNotification = notifications.filter((notification) => !notification.read_at).length;
@@ -239,7 +234,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   getPermissionAndVersionServer() {
     this.s_standard.create('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        this.validateVersion(res.data.last_version_frontend.version, res.data.last_version_frontend.description);
+        if (res.data?.last_version_frontend?.version) {
+          this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
+        }
         const permissions = res.data.my_permissions;
         const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
           [permissions] : permissions;
@@ -255,12 +252,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   validateVersion(latestVersion: string, message: string): void {
     try {
-
       const current_version = environment.appVersion;
       console.log(current_version, latestVersion);
       const isNewVersion = compare(current_version, latestVersion, '<'); // true
       if (isNewVersion) {
-        SwalService.swalFire({allowOutsideClick: false, showConfirmButton: true, title: 'Nueva de version', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info'})
+        SwalService.swalFire({ allowOutsideClick: false, showConfirmButton: true, title: 'Nueva de version', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
           .then((res) => {
             console.log(res);
             if (res.isConfirmed) {
@@ -427,12 +423,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
     this.s_auth.changedCompany(idCompany).subscribe((res) => {
       if (res.success) {
-        SwalService.swalToast('Compañia cambiada con exito');
+        SwalService.swalToast('Compañía cambiada con éxito');
         this.company_select = this.companies[index].name;
         this.s_storage.setCompanyUser(idCompany);
-        // this.route.navigate(['/']).then(() => {
-        //   this.s_custom_reusing['cache'] = {};
-        // });
       }
     });
   }
