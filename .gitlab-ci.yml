@@ -36,7 +36,13 @@ jasmine:
   script:
     - cp karma.staging.conf.js  karma.conf.js
     - npm i -g @angular/cli@9.1.15
-    - npm test
+    - npm test --reporters junit
+    
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml
 
 # staging_build:
 #   stage: build
