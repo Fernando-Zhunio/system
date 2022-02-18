@@ -16,7 +16,7 @@ export const environment = {
   domain_serve: 'ws-system.novicompu.com',
   portSocket_chat: 8443,
   domain_serve_chat: 'chat-system.novicompu.com',
-  VAPID_PUBLIC_KEY: "BERzQbYAFmTV6wVKcm5vXp8GC0tx-XRjXzki54EbVUJNERkMduFQIVMwYL7Kx01vvTuVupswuRUUFfPFut-sSo8",
+  VAPID_PUBLIC_KEY: 'BERzQbYAFmTV6wVKcm5vXp8GC0tx-XRjXzki54EbVUJNERkMduFQIVMwYL7Kx01vvTuVupswuRUUFfPFut-sSo8',
   mapbox_key: 'pk.eyJ1IjoiZmVybmFuZG8xOTkxIiwiYSI6ImNrOGRlcHF2czBxd28zbW5wa3hsaTZnaWcifQ.g1IjAr-9rd65D5W93ftlew',
   weather_key: '49a2c8b7cceb6f9a5b4f67b25975bb49',
   img_not_default: 'https://mec-s1-p.mlstatic.com/935743-MEC44870123773_022021-O.jpg',

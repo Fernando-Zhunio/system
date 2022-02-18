@@ -25,24 +25,24 @@ import { setPreference } from '../../redux/actions/preference.action';
 import { compare } from 'compare-versions';
 import { environment } from '../../../environments/environment';
 
-interface ISidebar {
-  menu: {
-    [key: string]: { title: ITitle, items: IItem[] }
-  };
-  options: { background: string };
-}
-interface ITitle {
-  title: string;
-  tag: string;
-  icon?: string;
-}
-interface IItem {
-  name: string;
-  url: string;
-  icon: string;
-  permission: string;
-  tag: string;
-}
+// interface ISidebar {
+//   menu: {
+//     [key: string]: { title: ITitle, items: IItem[] }
+//   };
+//   options: { background: string };
+// }
+// interface ITitle {
+//   title: string;
+//   tag: string;
+//   icon?: string;
+// }
+// interface IItem {
+//   name: string;
+//   url: string;
+//   icon: string;
+//   permission: string;
+//   tag: string;
+// }
 @Component({
   selector: 'app-dashboard',
   styleUrls: ['./default-layout.component.css'],
@@ -134,7 +134,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   searchPage(event): void {
     this.pageSearch = this.searchBar.searchRoute(event.target.value);
-    // console.log(event.target.value, this.pageSearch);
   }
 
   goPage(page): void {
@@ -178,14 +177,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       });
   }
 
-  // setSideBarColor(): void {
-  //   if (localStorage.getItem('color_sidebar_left')) {
-  //     this.colorSidebarLeft = localStorage.getItem('color_sidebar_left');
-  //   } else {
-  //     this.colorSidebarLeft = '#054372';
-  //   }
-  // }
-
   newMessage(e): void {
     e ? this.countMessages++ : this.countMessages = null;
   }
@@ -195,11 +186,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.store.dispatch(overrideNotification({ notifications: res.data.notifications }));
         const notifications = res.data.notifications;
-        // ** Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
+        // ? Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
         this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
 
         if (notifications.length > 0) {
-          // ** Si hay notificaciones sin leer */
+          // ? Si hay notificaciones sin leer */
           const countNotification = notifications.filter((notification) => !notification.read_at).length;
           this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
         }
