@@ -31,9 +31,6 @@ npm:
 
 jasmine:
   stage: test
-  cache:
-    paths:
-      - node_modules/
   dependencies:
     - npm
   script:
