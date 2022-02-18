@@ -16,9 +16,9 @@ stages:
 
 npm:
   stage: dependencies
-  cache:
-    paths:
-      - node_modules/
+  # cache:
+  #   paths:
+  #     - node_modules/
   script:
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
