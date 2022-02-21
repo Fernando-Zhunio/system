@@ -167,7 +167,7 @@ registerLocaleData(localeEs, 'es');
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preference: preferenceReducer }),
     EffectsModule.forRoot([PreferenceEffects]),
     StoreDevtoolsModule.instrument({}),
-  ], 
+  ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,

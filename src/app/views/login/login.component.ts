@@ -24,7 +24,7 @@ export class LoginComponent {
   });
   formRecuperacionCuenta: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email])
-  })
+  });
 
   login(): void {
     if (this.formLogin.valid) {

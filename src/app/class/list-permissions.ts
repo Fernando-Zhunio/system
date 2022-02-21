@@ -860,56 +860,56 @@ export class ListPermissions {
             }
         ];
 
-    permissionMap: Map<string, IPermission> = new Map<string, IPermission>();
-    myPermissionMap: Map<string, IPermission> = new Map<string, IPermission>();
-    constructor(public store: StorageService) {
-        this.transformPermissionsInMap();
-        this.getMyPermissions();
-    }
+    // permissionMap: Map<string, IPermission> = new Map<string, IPermission>();
+    // myPermissionMap: Map<string, IPermission> = new Map<string, IPermission>();
+    // constructor(public store: StorageService) {
+    //     this.transformPermissionsInMap();
+    //     this.getMyPermissions();
+    // }
 
-    isSuperAdmin: boolean = false;
+    // isSuperAdmin: boolean = false;
 
-    transformPermissionsInMap() {
-        this.permissions.forEach(permission => {
-            this.permissionMap.set(permission.name, permission);
-        });
-    }
+    // transformPermissionsInMap() {
+    //     this.permissions.forEach(permission => {
+    //         this.permissionMap.set(permission.name, permission);
+    //     });
+    // }
 
-    getMyPermissions() {
-        this.myPermissionMap.clear();
-        const permissionsAndRol = this.store.getCurrentSession();
-        if (permissionsAndRol.user.rol.findIndex(rol => rol === 'super-admin') !== -1) {
-            this.isSuperAdmin = true;
-            console.log('Soy super admin');
-            this.myPermissionMap = this.permissionMap;
-            return;
-        }
-        const permissionsUser = permissionsAndRol.user.permission;
-        // console.log({permissionsUser}, this.store.getCurrentSession());
-        const permissions = permissionsUser.forEach(permission => {
-            if (this.permissionMap.has(permission)) {
-                this.myPermissionMap.set(permission, this.permissionMap.get(permission));
-            }
-        }
-        );
-        return permissions;
-    }
+    // getMyPermissions() {
+    //     this.myPermissionMap.clear();
+    //     const permissionsAndRol = this.store.getCurrentSession();
+    //     if (permissionsAndRol.user.rol.findIndex(rol => rol === 'super-admin') !== -1) {
+    //         this.isSuperAdmin = true;
+    //         console.log('Soy super admin');
+    //         this.myPermissionMap = this.permissionMap;
+    //         return;
+    //     }
+    //     const permissionsUser = permissionsAndRol.user.permission;
+    //     // console.log({permissionsUser}, this.store.getCurrentSession());
+    //     const permissions = permissionsUser.forEach(permission => {
+    //         if (this.permissionMap.has(permission)) {
+    //             this.myPermissionMap.set(permission, this.permissionMap.get(permission));
+    //         }
+    //     }
+    //     );
+    //     return permissions;
+    // }
 
-    searchRoute(name: string) {
-        const searchData = [];
-        if (name.trim() === '') {
-            return [];
-        }
-        const search = name.toLowerCase();
-        // console.log(this.permissionMap);
+    // searchRoute(name: string) {
+    //     const searchData = [];
+    //     if (name.trim() === '') {
+    //         return [];
+    //     }
+    //     const search = name.toLowerCase();
+    //     // console.log(this.permissionMap);
         
-        this.myPermissionMap.forEach((value, key) => {
-            if (value.title.toLowerCase().includes(search) || value.description.toLowerCase().includes(search)) {
-                searchData.push(value);
-            }
-        });
-        return searchData;
-    }
+    //     this.myPermissionMap.forEach((value, key) => {
+    //         if (value.title.toLowerCase().includes(search) || value.description.toLowerCase().includes(search)) {
+    //             searchData.push(value);
+    //         }
+    //     });
+    //     return searchData;
+    // }
 
 }
 
