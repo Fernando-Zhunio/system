@@ -4,24 +4,15 @@
         <p class="mt-5 pt-5 font-montserrat rounded-fz" style="color: #7e7b7b"> Cargando... </p>
     </ngx-spinner>
     <h3 class="font-montserrat font-3xl font-weight-bolder">Productos</h3>
-    <!-- <mat-chip-list selectable="true" aria-label="key selection">
-        <mat-chip color="accent" (click)="updateChart({type:'key', value: 'product-sales'})"
-            [selected]="key['product-sales']">Ventas en dolares</mat-chip>
-        <mat-chip color="accent" (click)="updateChart({type:'key', value: 'product-sales-count'})"
-            [selected]="key['product-sales-count']">Numero de ventas</mat-chip>
-    </mat-chip-list> -->
-    <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-success"
+
+    <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-light"
         name="key" aria-label="Font Style">
         <mat-button-toggle color="accent" value="product-sales">Por ventas en dolares</mat-button-toggle>
         <mat-button-toggle color="accent" value="product-sales-count">Por numero de ventas</mat-button-toggle>
     </mat-button-toggle-group>
-   <!-- <div class="d-flex align-items-center">
-         <mat-radio-group (change)="updateChart($event)" [(ngModel)]="for" aria-label="Select an option">
-            <mat-radio-button value="desc">Mas vendidos</mat-radio-button>
-            <mat-radio-button value="asc">Menos vendidos</mat-radio-button>
-        </mat-radio-group> 
-    </div>-->
+
     <div style="height: 400px;" class="d-flex align-items-center position-relative">
-        <canvas style="height: 400px;" id="chart-product"></canvas>
+        <!-- <canvas style="height: 400px;" id="chart-product"></canvas> -->
+        <div echarts [options]="options" [loading]="isLoading" [merge]="updateOptions"  theme="macarons" class="demo-chart w-100"></div>
     </div>
 </mat-card>

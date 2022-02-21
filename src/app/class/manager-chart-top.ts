@@ -12,26 +12,27 @@ export abstract class ManagerChartTop<T> {
   chart: Chart;
   abstract s_standard: StandartSearchService;
   dates: any;
+  isLoading = false;
+  updateOptions: any;
   spinner: NgxSpinnerService;
   abstract idSpinner: string;
-  options: any = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scale: {
-      yAxes: [{ pointLabels: { fontFamily: 'Montserrat, Roboto, sans-serif' } }],
-      xAxes: [
-        {
-          ticks: {
-            fontFamily: 'Red Hat Display, Roboto, sans-serif',
-          }
-        }
-      ]
-    }
-  };
+  // options: any = {
+  //   responsive: true,
+  //   maintainAspectRatio: false,
+  //   scale: {
+  //     yAxes: [{ pointLabels: { fontFamily: 'Montserrat, Roboto, sans-serif' } }],
+  //     xAxes: [
+  //       {
+  //         ticks: {
+  //           fontFamily: 'Red Hat Display, Roboto, sans-serif',
+  //         }
+  //       }
+  //     ]
+  //   }
+  // };
   moreParams: object = null;
   private _limit = 5;
-
-
+  abstract options;
   set limit(value: number) {
     if (value > 15) {
       SwalService.swalFire({ title: 'Error', text: 'El limite máximo es 15', icon: 'error' });
@@ -44,30 +45,30 @@ export abstract class ManagerChartTop<T> {
   public abstract key: EKeyDashboard;
 
   createChart(idName, typeChart: EtypeGraph | any, datasets = []): void {
-    const _chart = document.getElementById(idName) as any;
-    const ctx = _chart.getContext('2d') as any;
-    const dataChart: ChartConfiguration = {
-      type: typeChart,
-      data: {
-        labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
-        datasets: [
-          {
-            label: 'Gráfico',
-            data: [1, 1, 1, 1, 1],
-            borderColor: 'rgba(0,200,83,0.5)',
-            borderWidth: 2,
-            backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
-          }
-        ]
-      },
-      options: this.options
-    };
-    this.chart = new Chart(ctx as any, dataChart);
+    // const _chart = document.getElementById(idName) as any;
+    // const ctx = _chart.getContext('2d') as any;
+    // const dataChart: ChartConfiguration = {
+    //   type: typeChart,
+    //   data: {
+    //     labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
+    //     datasets: [
+    //       {
+    //         label: 'Gráfico',
+    //         data: [1, 1, 1, 1, 1],
+    //         borderColor: 'rgba(0,200,83,0.5)',
+    //         borderWidth: 2,
+    //         backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
+    //       }
+    //     ]
+    //   },
+    //   options: this.options
+    // };
+    // this.chart = new Chart(ctx as any, dataChart);
     this.updateChart();
   }
 
   updateChart(event: MatButtonToggleChange = null): void {
-    this.spinner.show(this.idSpinner);
+    // this.spinner.show(this.idSpinner);
     if (event) {
       this.key = event.value;
     }
@@ -78,9 +79,7 @@ export abstract class ManagerChartTop<T> {
       });
   }
 
-  assignData(data: ItopDashboard<T>[]): void {
-  }
-
+   abstract assignData(data: ItopDashboard<T>[]);
 
 
   public getQueryChart(moreParams: any = this.moreParams): Observable<any> {

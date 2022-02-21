@@ -83,16 +83,6 @@ td{
     display: grid;
     grid-template-columns: 60% 40%;
     grid-gap: 15px;
-    color: rgba(255, 99, 132, 0.2);
-    color: rgba(54, 162, 235, 0.2);
-    color: rgba(255, 206, 86, 0.2);
-    color: rgba(75, 192, 192, 0.2);
-    color: rgba(153, 102, 255, 0.2);
-    color: rgba(255, 159, 64, 0.2);
-    
-    color: rgb(112, 221, 98);
-
-
 }
 
 .body-dashboard-2{
@@ -142,7 +132,6 @@ td{
     .body-dashboard, .body-dashboard-2, .body-dashboard-3{
         grid-template-columns: 100%;
     }
-    
 }
 
 .btn-header {
@@ -166,9 +155,7 @@ td{
     position: relative;
     background-color: #002A36;
     color: white;
-
   border-radius: 30px !important;
-    
 }
 
 .item-header img {
@@ -236,4 +223,9 @@ td{
     backdrop-filter: blur(3px);
     font-family: 'Montserrat';
     font-size: 1.5em;
+}
+
+.table-best-seller{
+    height: 400px;
+    overflow-y: auto;
 }

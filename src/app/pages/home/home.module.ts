@@ -34,6 +34,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-chart.component';
 import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module';
 import { ProfileComponent } from './profile/profile.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
@@ -64,7 +65,10 @@ import { ProfileComponent } from './profile/profile.component';
     MatNativeDateModule,
     MatDialogModule,
     MatButtonToggleModule,
-    MarkdownModule
+    MarkdownModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   entryComponents: [SelectDatesDashboardComponent, IndexComponent]
 })

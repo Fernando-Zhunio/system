@@ -79,7 +79,32 @@
     </div>
     <div class="body-dashboard">
       <app-sell-chart #chartSell></app-sell-chart>
-      <app-locales-chart #chartLocales></app-locales-chart>
+
+      <mat-card class="bg-transparent shadow-none">
+        <h3 class="text-monospace font-4xl font-weight-bolder">Mejores Vendedores</h3>
+        <mat-table [dataSource]="dataSourceSeller" class="mat-elevation-z8 table-best-seller bg-transparent shadow-none scrollbar-fz">
+          <ng-container matColumnDef="company">
+            <mat-header-cell *matHeaderCellDef>Nombres</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Alias</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element?.alias}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <mat-header-cell *matHeaderCellDef>Ventas</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.total | currency}} </mat-cell>
+          </ng-container>
+          <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumnsLocal"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsLocal;"></mat-row>
+        </mat-table>
+        <mat-paginator *ngIf="ELEMENT_DATA_SELLER?.length" (page)="updateTableForSellers($event)" showFirstLastButtons
+          [pageSize]="paginatorSeller?.pageSize" [length]="paginatorSeller?.length"></mat-paginator>
+      </mat-card>
+
+      <!-- <app-locales-chart #chartLocales></app-locales-chart> -->
     </div>
     <div class="body-dashboard-2 my-3">
       <app-product-chart #chartProduct ></app-product-chart>
@@ -115,7 +140,7 @@
         <h3 class="font-montserrat font-3xl font-weight-bolder">Ventas por Locales</h3>
         <mat-table [dataSource]="dataSourceLocal" class="mat-elevation-z8 shadow-none">
           <ng-container matColumnDef="company">
-            <mat-header-cell *matHeaderCellDef>Compañia</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Compañía</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.company}} </mat-cell>
           </ng-container>
 
@@ -135,7 +160,7 @@
           [pageSize]="paginator?.pageSize" [length]="paginator?.length"></mat-paginator>
       </mat-card>
 
-      <mat-card class="card my-2 rounded-fz">
+      <!-- <mat-card class="card my-2 rounded-fz">
         <h3 class="font-montserrat font-3xl font-weight-bolder">Mejores Vendedores</h3>
         <mat-table [dataSource]="dataSourceSeller" class="mat-elevation-z8 shadow-none">
           <ng-container matColumnDef="company">
@@ -157,7 +182,7 @@
         </mat-table>
         <mat-paginator *ngIf="ELEMENT_DATA_SELLER?.length" (page)="updateTableForSellers($event)" showFirstLastButtons
           [pageSize]="paginatorSeller?.pageSize" [length]="paginatorSeller?.length"></mat-paginator>
-      </mat-card>
+      </mat-card> -->
     </div>
   </div>
 </div>

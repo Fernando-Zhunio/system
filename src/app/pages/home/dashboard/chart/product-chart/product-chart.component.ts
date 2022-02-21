@@ -4,6 +4,7 @@ import { ItopDashboard, IstatisticableProduct } from './../../../../../interface
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ManagerChartTop } from '../../../../../class/manager-chart-top';
 import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
+import { EChartsOption } from 'echarts';
 
 @Component({
   selector: 'app-product-chart',
@@ -11,6 +12,46 @@ import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.en
   styleUrls: ['./product-chart.component.css']
 })
 export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct> implements OnInit {
+  options: EChartsOption = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985'
+        }
+      }
+    },
+    legend: {
+      data: ['Actual', 'Anterior']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        data: ['Actual', 'Anterior']
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    series: [
+      {
+        name: 'Actual',
+        type: 'bar',
+        // stack: 'counts',
+        data: [1,1]
+      }
+    ]
+  };
 
   constructor( spinner: NgxSpinnerService, public s_standard: StandartSearchService) {
     super();
@@ -38,48 +79,5 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
     this.chart.update();
     this.spinner.hide(this.idSpinner);
   }
-
-   //#region Chart Product
-  //  createChart(): void {
-  //   const _chart = document.getElementById('chart-product') as any;
-  //   const ctx = _chart.getContext('2d') as any;
-  //   console.log(ctx);
-  //   const dataChart: ChartConfiguration = {
-  //     type: 'bar',
-  //     data: {
-  //       labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
-  //       datasets: [
-  //         {
-  //           label: 'Ventas',
-  //           data: [0, 0, 0, 0, 0],
-  //           // backgroundColor: 'rgba(0,200,83,0.5)',
-  //           borderColor: 'rgba(0,200,83,0.5)',
-  //           borderWidth: 2,
-  //           backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)'] 
-  //         }]
-  //     },
-  //     options: {
-  //       responsive: true,
-  //       maintainAspectRatio: false,
-  //   }};
-  //   this.chart = new Chart(ctx as any,  dataChart);
-  //   this.updateChart();
-  // }
-
-  // updateChart(event: MatRadioChange = null): void {
-  //   this.spinner.show('isload-chart-product');
-
-  //   const date = this.dates;
-  //   this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=product-sales-count&limit=5${event ? '&order=' + event.value : ''}`).subscribe((res) => {
-  //     const data = res.data.data as ItopDashboard<IstatisticableProduct>[];
-  //     this.chart.data.datasets[0].data = [];
-  //     this.chart.data.datasets[0].data =  data.map(item => item._total);
-  //     this.chart.data.labels = data.map(item => item.statisticable.code + ' - ' + item.statisticable.name.split(' ')[0]);
-  //     this.chart.update();
-  //     this.spinner.hide('isload-chart-product');
-  //   });
-  // }
-
-  //#endregion Chart Product
 
 }
