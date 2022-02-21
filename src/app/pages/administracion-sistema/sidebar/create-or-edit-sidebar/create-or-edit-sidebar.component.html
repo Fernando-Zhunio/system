@@ -20,7 +20,8 @@
 
                         <div class="col-md-6">
                             <mat-form-field class="w-100">
-                                <input type="text" [matAutocomplete]="auto" (keydown.enter)="search($event)" matInput placeholder="Permiso" >
+                                <input type="text" [formControl]="controlPermission" [matAutocomplete]="auto" (keydown.enter)="search($event)" matInput placeholder="Permiso" >
+                                <button mat-icon-button matSuffix [routerLink]="['/administracion-sistema/permissions']" ><mat-icon>add</mat-icon></button>
                                 <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
                             </mat-form-field>
                             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)" [displayWith]="AutoCompleteDisplay">

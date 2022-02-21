@@ -14,6 +14,7 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   public title: string = 'Sidebar Item';
   public urlSave: any = 'admin/sidebar';
   urlPermission: string = 'admin/sidebar/permissions';
+  controlPermission: FormControl = new FormControl('');
   loadCreate: boolean = false;
   permissions: Map<any, IPermission>;
   form: FormGroup = new FormGroup({
@@ -22,7 +23,7 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
     icon: new FormControl(null, [Validators.required]),
     permission_id: new FormControl(null, [Validators.required]),
     // name: new FormControl(null, [Validators.required]),
-  })
+  });
   constructor( router_activated: ActivatedRoute, private standard: StandartSearchService, router: Router) {
     super(router_activated, standard, router);
    }
@@ -49,6 +50,7 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
 
   optionSelected($event) {
     this.form.get('permission_id').setValue($event.option.value.id);
+    this.controlPermission.setValue(this.permissions.get($event.option.value.id)?.name);
   }
 
   setData(data): void {

@@ -168,7 +168,7 @@ export const routes: Routes = [
       //   loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
       // }
       {
-        path: 'orders',
+        path: 'system-orders',
         loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
       },
     ]
