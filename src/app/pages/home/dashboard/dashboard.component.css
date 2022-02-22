@@ -87,7 +87,7 @@ td{
 
 .body-dashboard-2{
     display: grid;
-    grid-template-columns: 65% 35%;
+    grid-template-columns: 50% 50%;
     grid-gap: 15px;
 }
 
@@ -225,7 +225,8 @@ td{
     font-size: 1.5em;
 }
 
-.table-best-seller{
+.table-custom{
     height: 400px;
     overflow-y: auto;
+    background-color: transparent;
 }

@@ -17,6 +17,47 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
     this.spinner = spinner;
   }
 
+  options: any = {
+    legend: {
+      top: 'bottom'
+    },
+
+    series: [
+      {
+        name: 'Nightingale Chart',
+        type: 'pie',
+        radius: '55%',
+        center: ['50%', '50%'],
+        roseType: 'area',
+        itemStyle: {
+          borderRadius: 8
+        },
+        data: [
+          { value: 40, name: 'rose 1' },
+          { value: 38, name: 'rose 2' },
+          { value: 32, name: 'rose 3' },
+          { value: 30, name: 'rose 4' },
+          { value: 28, name: 'rose 5' },
+          { value: 26, name: 'rose 6' },
+          { value: 22, name: 'rose 7' },
+          { value: 18, name: 'rose 8' }
+        ],
+        // label: {
+        //   show: true,
+        //   precision: 1,
+        //   position: 'right',
+        //   valueAnimation: true,
+        //   fontFamily: 'monospace'
+        // },
+        // label: {
+        //   position: 'inner',
+        //   fontSize: 10,
+        //   show: true,
+        // },
+      }
+    ]
+  };
+
   // @Input() s_standard: StandartSearchService;
   @Input() dates: { first_date: any[], last_date: any[] };
   key: EKeyDashboard = EKeyDashboard.category_sales;
@@ -27,15 +68,39 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
   }
 
   assignData(data: ItopDashboard<IsellForCategories>[]): void {
-    this.chart.data.datasets = [];
-    this.chart.data.datasets.push({
-      data: data.map((item: any) => item._total),
-      backgroundColor: data.map(i => this.ramdonColor()),
-      borderColor: data.map(i => this.ramdonColor()),
-    });
-    this.chart.data.labels = data.map(item => item.statisticable.name);
-    this.chart.update();
-    this.spinner.hide(this.idSpinner);
+
+    // this.updateOptions.series.data = data.map((item) => {
+    //   return { value: item._total, name: item.statisticable.name };
+    // }).sort(function (a, b) {
+    //   return a.value - b.value;
+    // });
+    // return;
+    this.updateOptions = {
+      series: [
+        {
+          label: {
+            formatter: '{c} - {b}   {{d}%}  ',
+          },
+          data: data.map((item) => {
+            return { value: item._total, name: item.statisticable.name };
+          })
+            // [
+            //   { value: 535, name: 'Cargando' },
+            //   { value: 100, name: 'Cargando1' },
+            //   { value: 1000, name: 'Cargando' }
+            // ],
+        }
+      ]
+    };
+    // this.chart.data.datasets = [];
+    // this.chart.data.datasets.push({
+    //   data: data.map((item: any) => item._total),
+    //   backgroundColor: data.map(i => this.randomColor()),
+    //   borderColor: data.map(i => this.randomColor()),
+    // });
+    // this.chart.data.labels = data.map(item => item.statisticable.name);
+    // this.chart.update();
+    // this.spinner.hide(this.idSpinner);
   }
 
 }

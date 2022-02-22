@@ -32,7 +32,23 @@ export abstract class ManagerChartTop<T> {
   // };
   moreParams: object = null;
   private _limit = 5;
-  abstract options;
+   options = {
+    tooltip: {},
+    // legend: {
+    //   data: ['sales']
+    // },
+    xAxis: {
+      data: ['Cargando', 'Cargando', 'Cargando', 'Cargando', 'Cargando']
+    },
+    yAxis: {},
+    series: [
+      {
+        name: 'sales',
+        type: 'bar',
+        data: [5, 20, 36, 10, 10, 20]
+      }
+    ]
+  };
   set limit(value: number) {
     if (value > 15) {
       SwalService.swalFire({ title: 'Error', text: 'El limite máximo es 15', icon: 'error' });
@@ -68,14 +84,16 @@ export abstract class ManagerChartTop<T> {
   }
 
   updateChart(event: MatButtonToggleChange = null): void {
-    // this.spinner.show(this.idSpinner);
     if (event) {
       this.key = event.value;
     }
+    this.isLoading = true;
     this.getQueryChart()
+
       .subscribe((res) => {
         const data = res.data.data as ItopDashboard<T>[];
         this.assignData(data);
+        this.isLoading = false;
       });
   }
 
@@ -96,7 +114,7 @@ export abstract class ManagerChartTop<T> {
     return this.s_standard.getWithHttpParams(`dashboard/stats/sum`, params);
   }
 
-  public ramdonColor(): string {
+  public randomColor(): string {
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {

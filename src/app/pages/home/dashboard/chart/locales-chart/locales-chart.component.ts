@@ -20,47 +20,79 @@ export class LocalesChartComponent extends ManagerChartTop<IstatisticableLocatio
   @Input() dates: { first_date: any[], last_date: any[] };
   key: EKeyDashboard = EKeyDashboard.location_sales;
   idSpinner = 'loading-chart-location';
-  options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    display: true,
-    plugins: {
-      datalabels: {
-        display: true,
-        backgroundColor: '#ccc',
-        borderRadius: 3,
-        font: {
-          color: 'red',
-          weight: 'bold',
-        }
-      },
-      doughnutlabel: {
-        labels: [{
-          text: '550',
-          font: {
-            size: 20,
-            weight: 'bold'
-          }
-        }, {
-          text: 'total'
-        }]
-      }
-    }
+  // options = {
+  //   responsive: true,
+  //   maintainAspectRatio: false,
+  //   display: true,
+  //   plugins: {
+  //     datalabels: {
+  //       display: true,
+  //       backgroundColor: '#ccc',
+  //       borderRadius: 3,
+  //       font: {
+  //         color: 'red',
+  //         weight: 'bold',
+  //       }
+  //     },
+  //     doughnutlabel: {
+  //       labels: [{
+  //         text: '550',
+  //         font: {
+  //           size: 20,
+  //           weight: 'bold'
+  //         }
+  //       }, {
+  //         text: 'total'
+  //       }]
+  //     }
+  //   }
+  // };
+
+  options: any = {
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      show: true,
+      position: 'bottom',
+      // orient: 'vertical',
+      
+    },
+    series: [],
   };
   ngOnInit(): void {
     this.createChart('chart-locations', EtypeGraph.doughnut);
   }
 
   assignData(data: ItopDashboard<IstatisticableLocation>[]): void {
-    this.chart.data.datasets = [];
-    this.chart.data.datasets.push({
-      data: data.map((item: any) => item._total),
-      backgroundColor: data.map(i => this.ramdonColor()),
-      borderColor: data.map(i => this.ramdonColor()),
-    });
-    this.chart.data.labels = data.map(item => item.statisticable.name);
-    this.chart.update();
-    this.spinner.hide(this.idSpinner);
+    this.updateOptions = {
+      series: [{
+        name: 'Locales',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+        },
+        data: data.map((item) => {
+          return { value: item._total, name: item.statisticable.name };
+        })
+      }],
+
+    }
+    // this.chart.data.datasets = [];
+    // this.chart.data.datasets.push({
+    //   data: data.map((item: any) => item._total),
+    //   backgroundColor: data.map(i => this.ramdonColor()),
+    //   borderColor: data.map(i => this.ramdonColor()),
+    // });
+    // this.chart.data.labels = data.map(item => item.statisticable.name);
+    // this.chart.update();
+    // this.spinner.hide(this.idSpinner);
   }
 
 }

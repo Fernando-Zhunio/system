@@ -64,19 +64,18 @@ export class SellChartComponent implements OnInit {
       {
         name: 'Actual',
         type: 'line',
-        // stack: 'counts',
         areaStyle: { color: '#009688' },
-        data: [1,1]
+        data: [0]
       },
       {
         name: 'Anterior',
         type: 'line',
-        // stack: 'counts',
         areaStyle: { color: '#6a7985' },
-        data: [1,1]
+        data: [0]
       },
     ]
   };
+
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
