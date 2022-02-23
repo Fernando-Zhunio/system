@@ -67,6 +67,6 @@ import * as echarts from 'echarts';
     MarkdownModule,
     NgxEchartsModule.forRoot({echarts})
   ],
-  // entryComponents: [SelectDatesDashboardComponent, IndexComponent]
+  entryComponents: [SelectDatesDashboardComponent, IndexComponent]
 })
 export class HomeModule { }
