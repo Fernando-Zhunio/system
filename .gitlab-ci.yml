@@ -35,7 +35,7 @@ jasmine:
     - npm
   script:
     - cp karma.staging.conf.js  karma.conf.js
-    - npm i -g @angular/cli@9.1.15
+    - npm i -g @angular/cli
     - npm test
     
 
@@ -78,7 +78,7 @@ staging:
   script:
     - *init_ssh
     - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-    - npm i -g @angular/cli@11.2.6
+    - npm i -g @angular/cli
     - ng build
     - apt-get update
     - apt-get install -y zip unzip
@@ -95,7 +95,7 @@ production:
   stage: deploy
   script:
     - *init_ssh
-    - npm i -g @angular/cli@11.2.6
+    - npm i -g @angular/cli
     - ng build --prod
     - apt-get update
     - apt-get install -y zip unzip
