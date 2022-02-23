@@ -89,7 +89,7 @@
     "ngx-pagination": "^5.0.0",
     "ngx-perfect-scrollbar": "^9.0.0",
     "ngx-permissions": "^8.1.1",
-    "ngx-quill": "^8.0.0",
+    "ngx-quill": "^12.0.1",
     "ngx-skeleton-loader": "^2.9.1",
     "ngx-sortablejs": "^11.1.0",
     "ngx-spinner": "^9.0.2",
