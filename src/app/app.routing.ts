@@ -10,13 +10,13 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { InConstructionComponent } from './views/in-construction/in-construction.component';
+// import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
-
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 export const routes: Routes = [
   {
     path: '',
@@ -37,13 +37,13 @@ export const routes: Routes = [
       title: 'Page 500'
     }
   },
-  {
-    path: 'section-construction',
-    component: InConstructionComponent,
-    data: {
-      title: 'Sección en construcción'
-    }
-  },
+  // {
+  //   path: 'section-construction',
+  //   component: InConstructionComponent,
+  //   data: {
+  //     title: 'Sección en construcción'
+  //   }
+  // },
   {
     path: 'login',
     component: LoginComponent,
@@ -169,7 +169,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-exports: [ RouterModule ]
+  imports: [ RouterModule.forRoot(routes), LoadingBarModule ],
+exports: [ RouterModule, LoadingBarModule ]
 })
 export class AppRoutingModule {}
