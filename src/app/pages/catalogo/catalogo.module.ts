@@ -41,7 +41,7 @@ import { ToolsModule } from '../../Modulos/tools/tools.module';
 // import { PromotionsIndexComponent } from './promotions/promotions-index/promotions-index.component';
 
 @NgModule({
-  declarations: [ RepublicarCuentasModalComponent, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent, /* PromotionsIndexComponent */],
+  declarations: [ RepublicarCuentasModalComponent, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent],
   imports: [
   CommonModule,
     CatalogoRoutingModule,
@@ -78,6 +78,6 @@ import { ToolsModule } from '../../Modulos/tools/tools.module';
     ToolsModule,
   ],
   // providers: [{ provide: RouteReuseStrategy, useClass: CustomReusingStrategy }]
-  entryComponents:[RepublicarCuentasModalComponent]
+  // entryComponents:[RepublicarCuentasModalComponent]
 })
 export class CatalogoModule { }

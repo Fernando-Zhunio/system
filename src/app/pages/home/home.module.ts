@@ -12,7 +12,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatChipsModule } from '@angular/material/chips';
-// import { CompareProductComponent } from './dashboard/modals/compare-product/compare-product.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -35,7 +34,7 @@ import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-c
 import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module';
 import { ProfileComponent } from './profile/profile.component';
 import { NgxEchartsModule } from 'ngx-echarts';
-
+import * as echarts from 'echarts';
 @NgModule({
   declarations: [IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
   imports: [
@@ -66,10 +65,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatDialogModule,
     MatButtonToggleModule,
     MarkdownModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    })
+    NgxEchartsModule.forRoot({echarts})
   ],
-  entryComponents: [SelectDatesDashboardComponent, IndexComponent]
+  // entryComponents: [SelectDatesDashboardComponent, IndexComponent]
 })
 export class HomeModule { }

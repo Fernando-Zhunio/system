@@ -23,7 +23,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
-import { NgxMasonryModule } from 'ngx-masonry';
+// import { NgxMasonryModule } from 'ngx-masonry';
 
 
 
@@ -52,7 +52,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
     MatSnackBarModule,
     MatToolbarModule,
     HeaderSearchModule,
-    NgxMasonryModule
+    // NgxMasonryModule
 
   ]
 })

@@ -91,7 +91,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
 import {  NgxEmojiPickerModule  } from 'ngx-emoji-picker';
-
 import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PopoverModule } from 'ngx-bootstrap/popover';
@@ -110,6 +109,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { preferenceReducer } from './redux/reducers/preference.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
+// import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 
 registerLocaleData(localeEs, 'es');
@@ -167,6 +167,7 @@ registerLocaleData(localeEs, 'es');
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preference: preferenceReducer }),
     EffectsModule.forRoot([PreferenceEffects]),
     StoreDevtoolsModule.instrument({}),
+    // LoadingBarRouterModule
   ],
   declarations: [
     AppComponent,
