@@ -5,7 +5,7 @@
         <mat-card>
           <button mat-mini-fab class="add-btn" (click)="addUserSelect(item.key)" [disabled]="dataSelectMap.has(item.key)"><mat-icon>add</mat-icon></button>
           <mat-card-header>
-            {{item.value.first_name}}
+            <!-- {{item.value.first_name}} -->
             <div *ngIf="item.value?.photo?.real_permalink" class="img-avatar" [ngStyle]="{'background-image': 'url('+item.value?.photo?.real_permalink+')'}" mat-card-avatar></div>
             <mat-card-title>{{item.value.first_name}} {{item.value.last_name}}</mat-card-title>
             <mat-card-subtitle>{{item.value.email}}</mat-card-subtitle>

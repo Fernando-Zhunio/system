@@ -4,6 +4,10 @@ import { CTemplateSearch } from '../../class/ctemplate-search';
 import { StandartSearchService } from '../../services/standart-search.service';
 // import { SwalService } from '../../services/swal.service';
 
+/**
+ * @selector menu-bar menuBar
+ * @selector filter-menu filterMenu
+ */
 @Component({
   selector: 'app-search-template',
   templateUrl: './search-template.component.html',

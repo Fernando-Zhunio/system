@@ -22,17 +22,19 @@ export abstract class CreateOrEdit<T> {
 
     init() {
         this.act_router.data.subscribe(data => {
-            if (data.isEdit) {
-                this.status = 'edit';
-                this.title += ' Editando';
-                this.edit();
-            } else {
-                this.status = 'create';
-                this.title += ' Creando';
-                if (this.loadCreate) {
-                    this.loaderDataForCreate();
-                }
-            }
+            const isEdit = data.isEdit;
+            this.title += isEdit ? 'Editando' : 'Creando';
+            this.status = isEdit ? 'edit' : 'create';
+            isEdit ? (this.edit()) : this.loaderDataForCreate();
+            // if (data.isEdit) {
+                // this.status = 'edit';
+                // this.title += ' Editando';
+                // this.edit();
+            // } else {
+                // this.status = 'create';
+                // this.title += ' Creando';
+            //     this.loaderDataForCreate();
+            // }
         });
     }
 
