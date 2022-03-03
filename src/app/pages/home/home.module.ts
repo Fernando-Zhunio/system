@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HomeRoutingModule} from './home-routing.module';
+import { HomeRoutingModule } from './home-routing.module';
 import { InicioComponent } from './inicio/inicio.component';
 import { MomentModule } from 'ngx-moment';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,12 +29,15 @@ import { CategoryChartComponent } from './dashboard/chart/category-chart/categor
 import { IndexComponent } from './versus/index/index.component';
 import { SelectDatesDashboardComponent } from './dashboard/modals/select-dates-dashboard/select-dates-dashboard.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-chart.component';
 import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module';
 import { ProfileComponent } from './profile/profile.component';
 import { NgxEchartsModule } from 'ngx-echarts';
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
+export function chartModule(): any {
+  return import('echarts');
+}
 @NgModule({
   declarations: [IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
   imports: [
@@ -65,7 +68,10 @@ import * as echarts from 'echarts';
     MatDialogModule,
     MatButtonToggleModule,
     MarkdownModule,
-    NgxEchartsModule.forRoot({echarts})
+    // NgxEchartsModule.forRoot({echarts})
+    NgxEchartsModule.forRoot({
+      echarts: chartModule
+    })
   ],
   entryComponents: [SelectDatesDashboardComponent, IndexComponent]
 })
