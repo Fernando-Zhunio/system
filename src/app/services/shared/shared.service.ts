@@ -7,7 +7,6 @@ import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,8 +19,6 @@ export class SharedService {
     this._requestWork = userWork;
   }
 
-  public static disabled_loader: boolean = false;
-
   public get appointmentWork(): Iappointment {
     return this._appointmentWork;
   }
@@ -32,14 +29,16 @@ export class SharedService {
 
   constructor(private Http: HttpClient) { }
 
+  public static disabled_loader: boolean = false;
+
+  public static dates_of_dashboard: { start_date: Date, end_date: Date } = null;
+
   public urlServer = environment.server;
 
   private notifications = new BehaviorSubject<INotification[]>([]);
   public currentNotifications = this.notifications.asObservable();
   private _requestWork: Irequest = null;
   private _appointmentWork: Iappointment = null;
-
-  public static dates_of_dashboard: { start_date: Date, end_date: Date } = null;
 
   /**
    * Metodo agrupador de arrays
@@ -94,6 +93,16 @@ export class SharedService {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  }
+
+
+  public static scrollBottom() {
+    try {
+      const element = document.getElementsByClassName('app-body')[0];
+      element.scrollTop = element.scrollHeight - element.clientHeight;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   changeNotifications(notify: INotification[]) {

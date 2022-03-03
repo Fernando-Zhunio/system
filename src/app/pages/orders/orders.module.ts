@@ -16,13 +16,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslatefzModule } from '../../Modulos/translatefz/translatefz.module';
 import {MatStepperModule} from '@angular/material/stepper';
 import { SearchesModule } from '../../Modulos/searches/searches.module';
+import { ClientComponent } from './components/client/client.component';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CreateOrEditAddressClientComponent } from './components/create-or-edit-address-client/create-or-edit-address-client.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
 @NgModule({
-  declarations: [OrdersIndexComponent, CreateOrEditOrderComponent],
+  declarations: [OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, CreateOrEditAddressClientComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     RouterModule,
     OrdersRoutingModule,
     SearchTemplateModule,
@@ -37,6 +42,10 @@ import { SearchesModule } from '../../Modulos/searches/searches.module';
     MatStepperModule,
     SearchesModule,
     TranslatefzModule,
-  ]
+    MatListModule,
+    MatProgressSpinnerModule,
+    MatDialogModule
+  ],
+  entryComponents: [CreateOrEditAddressClientComponent]
 })
 export class OrdersModule { }

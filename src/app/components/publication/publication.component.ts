@@ -54,20 +54,20 @@ export class PublicationComponent implements OnInit {
         slidesPerView: 2,
         spaceBetween: 10,
       },
-      // 1350: {
-      //   slidesPerView: 3,
-      //   spaceBetween: 10,
-      // },
-      // 1500: {
-      //   slidesPerView: 4,
-      //   spaceBetween: 10,
-      // },
+      1350: {
+        slidesPerView: 2,
+        spaceBetween: 10,
+      },
+      1500: {
+        slidesPerView: 2,
+        spaceBetween: 10,
+      },
       1750: {
-        slidesPerView: 5,
+        slidesPerView: 2,
         spaceBetween: 10,
       },
       1900: {
-        slidesPerView: 6,
+        slidesPerView: 3,
         spaceBetween: 10,
       },
     },

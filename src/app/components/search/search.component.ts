@@ -13,7 +13,7 @@ export class SearchComponent implements OnInit {
   constructor(private s_standart: StandartSearchService) { }
 
   @Input() classes: string = '';
-  @Input() title: string = 'Buscador';
+  @Input() title: string = null;
   @Input() placeholder: string = 'Buscador';
   @Input() url: string;
   @Input() init: boolean = true;
