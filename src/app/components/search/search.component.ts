@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
   textSearch: string = '';
   ngOnInit(): void {
     this.paginator.length = 0;
-    this.paginator.pageIndex = 1;
+    this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
     if (this.init) {
       this.search();
@@ -44,6 +44,7 @@ export class SearchComponent implements OnInit {
         this.paginator.length = response.data.total;
         this.paginator.pageIndex = response.data.current_page - 1;
         this.paginator.pageSize = response.data.per_page;
+        // console.log(this.paginator);
         this.data.emit(response.data);
       },
       (error) => {
@@ -55,7 +56,7 @@ export class SearchComponent implements OnInit {
 
   searchText(): void {
     const params = {
-      pageIndex: 1,
+      pageIndex: 0,
       pageSize: this.paginator.pageSize,
       length: 0
     };

@@ -1,20 +1,20 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { CreateOrEditOrderComponent } from './create-or-edit-order.component';
+// import { ClientsIndexComponent } from './clients-index.component';
 
-// describe('CreateOrEditOrderComponent', () => {
-//   let component: CreateOrEditOrderComponent;
-//   let fixture: ComponentFixture<CreateOrEditOrderComponent>;
+// describe('ClientsIndexComponent', () => {
+//   let component: ClientsIndexComponent;
+//   let fixture: ComponentFixture<ClientsIndexComponent>;
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       declarations: [ CreateOrEditOrderComponent ]
+//       declarations: [ ClientsIndexComponent ]
 //     })
 //     .compileComponents();
 //   });
 
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(CreateOrEditOrderComponent);
+//     fixture = TestBed.createComponent(ClientsIndexComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });

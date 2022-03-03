@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslatefzModule } from '../../Modulos/translatefz/translatefz.module';
+import {MatStepperModule} from '@angular/material/stepper';
+import { SearchesModule } from '../../Modulos/searches/searches.module';
 
 
 
@@ -32,7 +34,9 @@ import { TranslatefzModule } from '../../Modulos/translatefz/translatefz.module'
     MatButtonModule,
     ReactiveFormsModule,
     MatSelectModule,
-    TranslatefzModule
+    MatStepperModule,
+    SearchesModule,
+    TranslatefzModule,
   ]
 })
 export class OrdersModule { }

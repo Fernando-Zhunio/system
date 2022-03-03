@@ -20,21 +20,20 @@ export abstract class CreateOrEdit<T> {
     constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
     }
 
-    init() {
+    init(loadCreate: boolean = true) {
         this.act_router.data.subscribe(data => {
             const isEdit = data.isEdit;
-            this.title += isEdit ? 'Editando' : 'Creando';
-            this.status = isEdit ? 'edit' : 'create';
-            isEdit ? (this.edit()) : this.loaderDataForCreate();
-            // if (data.isEdit) {
-                // this.status = 'edit';
-                // this.title += ' Editando';
-                // this.edit();
-            // } else {
-                // this.status = 'create';
-                // this.title += ' Creando';
-            //     this.loaderDataForCreate();
-            // }
+            if (isEdit) {
+                this.status = 'edit';
+                this.title += ' Editando';
+                this.edit();
+            } else {
+                this.status = 'create';
+                this.title += ' Creando';
+                if (loadCreate) {
+                    this.loaderDataForCreate();
+                }
+            }
         });
     }
 
@@ -63,7 +62,7 @@ export abstract class CreateOrEdit<T> {
         this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-        } , error => { this.isLoading = false; });
+        }, error => { this.isLoading = false; });
     }
 
     setData(data = null) {
@@ -75,7 +74,7 @@ export abstract class CreateOrEdit<T> {
         const data_send = this.getDataForSendServer();
         if (data_send) {
             this.isLoading = true;
-            if (this.isFormParams){
+            if (this.isFormParams) {
                 switch (this.status) {
                     case 'create':
                         this.standard_service.uploadFormData(this.urlSave, data_send).subscribe(data => {
@@ -126,13 +125,14 @@ export abstract class CreateOrEdit<T> {
     }
 
     go() { }
+
     getDataForSendServer(): any {
-        if(this.form.valid) {
+        if (this.form.valid) {
             return this.form.value;
         } else {
             SwalService.swalFire({ text: 'Por favor complete todos los campos', icon: 'error' });
         }
-     }
+    }
     goBack() {
         this.location.back();
     }

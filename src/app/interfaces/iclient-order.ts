@@ -1,4 +1,5 @@
 export interface IClientOrder {
+    id: number;
     first_name: string;
     last_name: string;
     doc_type: string;

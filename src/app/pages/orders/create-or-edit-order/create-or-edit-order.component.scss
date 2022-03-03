@@ -11,3 +11,16 @@
     left: 0;
     backdrop-filter: blur(2px);
 }
+
+.client-container {
+
+    div{
+        border-bottom: 1px solid #dadada;
+        margin-bottom: 8px;
+    }
+    div span {
+        color: #4caf50;
+        font-style: italic;
+        font-size: 15px;
+    }
+}
