@@ -16,18 +16,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MlModule } from '../../Modulos/ml/ml.module';
 import { InvoiceCreateOrEditComponent } from '../../components/invoice-create-or-edit/invoice-create-or-edit.component';
+import { InConstructionComponent } from '../../views/in-construction/in-construction.component';
 
 @NgModule({
-  declarations: [ ProveedoresComponent, CreateImportComponent,InvoiceCreateOrEditComponent,EditImportComponent],
+  declarations: [InConstructionComponent, ProveedoresComponent, CreateImportComponent, InvoiceCreateOrEditComponent, EditImportComponent],
   imports: [
     CommonModule,
     ImportacionesRoutingModule,

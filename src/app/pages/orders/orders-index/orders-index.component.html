@@ -1,12 +1,17 @@
+
 <div>
-    <h2 class="font-4xl font-weight-bold my-2">Sistema de Ordenes </h2>
+    <h2 class="font-4xl font-weight-bold mt-2 m-0">Sistema de Ordenes </h2>
     <div>
         <div>
             <app-search-template [url$]="url" (data)="getData($event)">
-
+                <ng-container menuBar>
+                    <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active"  selected color="accent" class="ml-1">
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </ng-container>
             </app-search-template>
         </div>
-        <div class="card-columns"> 
+        <div class="card-columns">
             <mat-card class="card">
                 <div>
                     <div class="node"></div>

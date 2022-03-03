@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Component } from '@angular/core';
 import { PublicacionesComponent } from './publicaciones/publicaciones.component';
 import { CreateOrEditPublicacionComponent } from './publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';

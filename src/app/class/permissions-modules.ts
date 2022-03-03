@@ -21,3 +21,19 @@ export const permission_admin_products = {
         delete: 'products-admin.categories.delete',
     }
 };
+
+export const permissionsModuleOrders = {
+    index: ['super-admin', 'system-orders.index'],
+    show: ['super-admin', 'system-orders.show'],
+    create: ['super-admin', 'system-orders.create'],
+    edit: ['super-admin', 'system-orders.edit'],
+    delete: ['super-admin', 'system-orders.delete'],
+};
+
+export const permissionsModuleOrdersClients = {
+    index: ['super-admin', 'system-orders.clients.index'],
+    show: ['super-admin', 'system-orders.clients.show'],
+    create: ['super-admin', 'system-orders.clients.create'],
+    edit: ['super-admin', 'system-orders.clients.edit'],
+    delete: ['super-admin', 'system-orders.clients.delete'],
+};

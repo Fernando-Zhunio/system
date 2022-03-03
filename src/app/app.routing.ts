@@ -10,13 +10,13 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { InConstructionComponent } from './views/in-construction/in-construction.component';
+// import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
-
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 export const routes: Routes = [
   {
     path: '',
@@ -37,13 +37,13 @@ export const routes: Routes = [
       title: 'Page 500'
     }
   },
-  {
-    path: 'section-construction',
-    component: InConstructionComponent,
-    data: {
-      title: 'Sección en construcción'
-    }
-  },
+  // {
+  //   path: 'section-construction',
+  //   component: InConstructionComponent,
+  //   data: {
+  //     title: 'Sección en construcción'
+  //   }
+  // },
   {
     path: 'login',
     component: LoginComponent,
@@ -77,13 +77,10 @@ export const routes: Routes = [
     data: {
       title: 'pageRedirect'
     },
-    // canActivate:[AuthGuard]
   },
   {
     path: 'sesion-ml',
     component: OkLoginComponent,
-
-    // canActivate: [NgxPermissionsGuard],
   },
   {
     path: 'authetication',
@@ -101,7 +98,6 @@ export const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
-
       },
       {
         path: 'catalogo',
@@ -130,18 +126,22 @@ export const routes: Routes = [
       {
         path: 'recursos-humanos',
         loadChildren: () => import('./pages/rrhh/rrhh.module').then(m => m.RrhhModule),
-        // data: {
-        //   isEdit: true,
-          // permissions: {
-          //   only: ['super-admin', 'rrhh'],
-          // },
-        // },
-        // canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'chats',
         loadChildren: () => import('./pages/chats/chats.module').then(m => m.ChatsModule),
       },
+      // {
+      //   path: 'icons',
+      //   loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
+      // },
+      {
+        path: 'orders',
+        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
+      },
+
+
+
 
       // {
       //   path: 'charts',
@@ -151,10 +151,6 @@ export const routes: Routes = [
       //   path: 'dashboard',
       //   loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       // },
-      {
-        path: 'icons',
-        loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
-      },
       // {
       //   path: 'notifications',
       //   loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
@@ -177,7 +173,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-exports: [ RouterModule ]
+  imports: [ RouterModule.forRoot(routes), LoadingBarModule ],
+exports: [ RouterModule, LoadingBarModule ]
 })
 export class AppRoutingModule {}

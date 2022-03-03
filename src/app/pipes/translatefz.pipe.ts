@@ -7,8 +7,8 @@ import { trans } from '../class/translations';
 export class TranslatefzPipe implements PipeTransform {
 
   transform(value: string, ...args: string[]): unknown {
-    console.log(value);
-    console.log(args[0]);
+    // console.log(value);
+    // console.log(args[0]);
     console.log(trans(value, 'promotions'));
     args[0] = args[0] || 'default';
     return trans(value, args[0]);

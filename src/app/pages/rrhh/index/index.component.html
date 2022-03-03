@@ -1,133 +1,139 @@
 <div>
-  <div class="content-grid">
+  <div class="mt-3">
     <div class="container h-100">
-      <div class="parent h-100">
-        <!-- Solicitudes -->
-        <mat-card class="appointmens item-grid shadow lead  p-3 ">
-          <div class="h-100">
-            <div class="grid-tag">
-              <span><img src="/assets/img/dashboard_rrhh/resume.svg" class="w-75" alt=""></span>
-              <span class="font-tag">Total de Solicitudes <br> <strong>{{requestCount}}</strong></span>
+      <div class=" h-100">
+
+        <div class="headers-dashboard">
+          <!-- Solicitudes -->
+          <mat-card class=" ">
+            <div class="h-100">
+              <div class="grid-tag">
+                <span><img src="/assets/img/dashboard_rrhh/resume.svg" class="w-75" alt=""></span>
+                <span class="font-tag">Total de Solicitudes <br> <strong>{{requestCount}}</strong></span>
+              </div>
             </div>
-          </div>
-        </mat-card>
-        <!-- Empleos -->
-        <mat-card class="works item-grid shadow lead  p-3 ">
-          <div class="h-100">
-            <div class="grid-tag">
-              <span><img src="/assets/img/dashboard_rrhh/suitcase.svg" class="w-75" alt=""></span>
-              <span class="font-tag">Total de Empleos<br> <strong>{{workCount}}</strong></span>
+          </mat-card>
+          <!-- Empleos -->
+          <mat-card class=" ">
+            <div class="h-100">
+              <div class="grid-tag">
+                <span><img src="/assets/img/dashboard_rrhh/suitcase.svg" class="w-75" alt=""></span>
+                <span class="font-tag">Total de Empleos<br> <strong>{{workCount}}</strong></span>
+              </div>
             </div>
-          </div>
-        </mat-card>
-        <!-- Personas -->
-        <mat-card class="persons item-grid shadow lead p-3 ">
-          <div class="h-100">
-            <div class="grid-tag">
-              <span><img src="/assets/img/dashboard_rrhh/group.svg" class="w-75" alt=""></span>
-              <span class="font-tag">Total de Personas <br> <strong>{{userCount}}</strong></span>
+          </mat-card>
+          <!-- Personas -->
+          <mat-card class=" ">
+            <div class="h-100">
+              <div class="grid-tag">
+                <span><img src="/assets/img/dashboard_rrhh/group.svg" class="w-75" alt=""></span>
+                <span class="font-tag">Total de Personas <br> <strong>{{userCount}}</strong></span>
+              </div>
             </div>
-          </div>
-        </mat-card>
-        <!-- Falta -->
-        <mat-card class="cv item-grid shadow lead p-3 ">
-          <div class="h-100">
-            <div class="grid-tag">
-              <span><img src="/assets/img/dashboard_rrhh/cv.svg" class="w-75" alt=""></span>
-              <span class="font-tag">Total de HV <br> <strong>{{cvCount}}</strong></span>
+          </mat-card>
+          <!-- Falta -->
+          <mat-card class=" ">
+            <div class="h-100">
+              <div class="grid-tag">
+                <span><img src="/assets/img/dashboard_rrhh/cv.svg" class="w-75" alt=""></span>
+                <span class="font-tag">Total de HV <br> <strong>{{cvCount}}</strong></span>
+              </div>
             </div>
-          </div>
-        </mat-card>
-        <!-- Solicitudes -->
-        <mat-card class="lastest-appointments position-relative">
-          <div class="p-md-3 p-0">
-            <div class="font-5xl">Ultimas solicitudes</div>
-            <div class="comment-content rounded-fz p-md-3 p-0">
-              <div *ngFor="let request of requests" class="p-1">
-                <div class="rounded-fz shadow p-3 position-relative">
-                  <button mat-icon-button color="primary" [routerLink]="['../requests']" [queryParams]="{'search':request.id}" class="btn-view-appointment"><mat-icon>visibility</mat-icon></button>
-                  <div class="header-grid">
-                    <img class="rounded-circle" [src]="request.user.photo.real_permalink || '/assets/img/avatars/profile-user.svg'" alt="image user">
-                    <div class="font-2xl ">{{request.user.first_name}} {{request.user.last_name}}
-                      <br>
-                      <small class="badge bg-orange font-sm">{{request.created_at | date}}</small>
+          </mat-card>
+          <!-- Solicitudes -->
+        </div>
+
+        <div class="body-dashboard">
+          <mat-card class=" mt-3 position-relative">
+            <div class="p-md-3 p-0">
+              <div class="font-5xl" style="line-height: 1;">Ultimas solicitudes</div>
+              <div class="comment-content rounded-fz p-md-3 p-0">
+                <div *ngFor="let request of requests" class="p-1">
+                  <div class="rounded-fz shadow p-3 position-relative">
+                    <button mat-icon-button color="primary" [routerLink]="['../requests']" [queryParams]="{'search':request.id}" class="btn-view-appointment"><mat-icon>visibility</mat-icon></button>
+                    <div class="header-grid">
+                      <img class="rounded-circle" [src]="request.user.photo.real_permalink || '/assets/img/avatars/profile-user.svg'" alt="image user">
+                      <div class="font-2xl ">{{request.user.first_name}} {{request.user.last_name}}
+                        <br>
+                        <small class="badge bg-orange font-sm">{{request.created_at | date}}</small>
+                      </div>
+                    </div>
+                    <div class="font-italic my-1">Solicitud de empleo: <strong>{{request.work.title}}</strong></div>
+                    <div *ngIf="request.comment">
+                      <p class="font-italic">Comentario: <strong>{{request.comment}}</strong></p>
                     </div>
                   </div>
-                  <div class="font-italic my-1">Solicitud de empleo: <strong>{{request.work.title}}</strong></div>
-                  <div *ngIf="request.comment">
-                    <p class="font-italic">Comentario: <strong>{{request.comment}}</strong></p>
-                  </div>
                 </div>
               </div>
+              <button [routerLink]="['../requests']" class="btn-add-request" mat-fab><mat-icon>visibility</mat-icon></button>
             </div>
-            <button [routerLink]="['../requests']" class="btn-add-request" mat-fab><mat-icon>visibility</mat-icon></button>
-          </div>
-        </mat-card>
-        <!-- Empleos -->
-        <mat-card class="works-count">
-          <div class="card-body">
-              <div class="font-4xl border-bottom pb-3">Empleos</div>
-              <div class="row center">
-                <div class="col-md-7 info-dashboard-container lead">
-                    <span>
-                      <i class="far fa-paper-plane"></i>
-                      Disponibles&nbsp;
-                      <span class="badge bg-warning"> {{statesWorkCount[enumStatus.ACTION_WORK_AVAILABLE].count}}</span>
-                    </span>
-                    <span>
-                      <i class="far fa-thumbs-down"></i>
-                      Expirados&nbsp;
-                      <span class="badge bg-warning">{{statesWorkCount[enumStatus.ACTION_WORK_EXPIRED].count}}</span>
-                    </span>
-                </div>
-                <div class="col-md-5 ">
-                  <img src="/assets/img/dashboard_rrhh/employee.svg" class="w-75 m-3" alt="">
-                </div>
-              </div>
-          </div>
-
-          <button [routerLink]="['../works']" class="btn-add-job" mat-fab>
-            <mat-icon>construction</mat-icon>
-          </button>
-        </mat-card>
-
-        <!-- Postulaciones -->
-        <mat-card class="request-count">
-            <div class="card-body">
-              <div class="font-4xl border-bottom pb-3">Postulantes</div>
-              <div class="row center">
-                <div class="col-md-8 info-dashboard-container lead">
-                      <span>
-                        <i class="far fa-paper-plane"></i>
-                          Postulado&nbsp;
-                          <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_POSTULATE].count}}</span>
-                      </span>
+          </mat-card>
+          <div>
+            <!-- Empleos -->
+            <mat-card class="mt-3">
+              <div class="card-body">
+                  <div class="font-4xl border-bottom pb-3">Empleos</div>
+                  <div class="row center">
+                    <div class="col-md-7 info-dashboard-container lead">
+                        <span>
+                          <i class="far fa-paper-plane"></i>
+                          Disponibles&nbsp;
+                          <span class="badge bg-warning"> {{statesWorkCount[enumStatus.ACTION_WORK_AVAILABLE].count}}</span>
+                        </span>
                         <span>
                           <i class="far fa-thumbs-down"></i>
-                          Cv Vistos&nbsp;
-                          <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_CV_VIEWED].count}}</span>
+                          Expirados&nbsp;
+                          <span class="badge bg-warning">{{statesWorkCount[enumStatus.ACTION_WORK_EXPIRED].count}}</span>
                         </span>
-                        <span>
-                          <i class="far fa-thumbs-up"></i>
-                          En proceso&nbsp;
-                          <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_IN_PROCESS].count}}</span>
-                        </span>
-                        <span>
-                          <i class="far fa-thumbs-up"></i>
-                          Finalista&nbsp;
-                          <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_FINALIST].count}}</span>
-                        </span>
-                </div>
-                <div class="col-md-4 col-12">
-                  <img src="/assets/img/dashboard_rrhh/team.svg" class="w-75 m-3" alt="">
-                </div>
-                <!-- <small class="pl-3 font-sm text-truncate font-italic col-8">{{bestRequestsCount[0]?.title}}</small> -->
+                    </div>
+                    <div class="col-md-5 ">
+                      <img src="/assets/img/dashboard_rrhh/employee.svg" class="w-75 m-3" alt="">
+                    </div>
+                  </div>
               </div>
-            </div>
-          <button [routerLink]="['../appointments']" class="btn-add-request" mat-fab>
-            <mat-icon>visibility</mat-icon>
-          </button>
-        </mat-card>
+              <button [routerLink]="['../works']" class="btn-add-job" mat-fab>
+                <mat-icon>construction</mat-icon>
+              </button>
+            </mat-card>
+            <!-- Postulaciones -->
+            <mat-card class="mt-3">
+                <div class="card-body">
+                  <div class="font-4xl border-bottom pb-3">Postulantes</div>
+                  <div class="row center">
+                    <div class="col-md-8 info-dashboard-container lead">
+                          <span>
+                            <i class="far fa-paper-plane"></i>
+                              Postulado&nbsp;
+                              <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_POSTULATE].count}}</span>
+                          </span>
+                            <span>
+                              <i class="far fa-thumbs-down"></i>
+                              Cv Vistos&nbsp;
+                              <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_CV_VIEWED].count}}</span>
+                            </span>
+                            <span>
+                              <i class="far fa-thumbs-up"></i>
+                              En proceso&nbsp;
+                              <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_IN_PROCESS].count}}</span>
+                            </span>
+                            <span>
+                              <i class="far fa-thumbs-up"></i>
+                              Finalista&nbsp;
+                              <span class="badge bg-warning">{{statesRequestCount[enumStatus.ACTION_REQUEST_FINALIST].count}}</span>
+                            </span>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <img src="/assets/img/dashboard_rrhh/team.svg" class="w-75 m-3" alt="">
+                    </div>
+                    <!-- <small class="pl-3 font-sm text-truncate font-italic col-8">{{bestRequestsCount[0]?.title}}</small> -->
+                  </div>
+                </div>
+              <button [routerLink]="['../appointments']" class="btn-add-request" mat-fab>
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </mat-card>
+          </div>
+        </div>
       </div>
     </div>
   </div>

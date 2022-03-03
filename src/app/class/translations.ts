@@ -10,11 +10,24 @@ const trans_es_default = {
     closed: 'Cerrado',
 };
 
-export const _transfz:  {} = {
-    promotions: {...trans_es_promotions},
-    default: {...trans_es_default}
+const trans_es_order_types = {
+        'default': 'Por defecto',
+        'receivable': 'Por cobrar',
+        'payment_with_retention': 'Por pago por retención',
+        'reservation_paid' : 'Por reserva pagada'
 };
 
+export const _transfz:  {} = {
+    promotions: {...trans_es_promotions},
+    default: {...trans_es_default},
+    orders: trans_es_order_types
+};
+
+/**
+ * @param value  valor
+ * @param name nombre del la seccion
+ * @returns traduccion
+ */
 export function trans(value, name) {
     if ( _transfz[name])
     {

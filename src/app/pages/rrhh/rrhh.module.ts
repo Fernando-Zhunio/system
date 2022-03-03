@@ -21,7 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
-  declarations: [IndexComponent, UsersWebRrhhComponent, ],
+  declarations: [IndexComponent, UsersWebRrhhComponent ],
   imports: [
 CommonModule,
     RrhhRoutingModule,
@@ -30,7 +30,6 @@ CommonModule,
     MatCardModule,
     MatToolbarModule,
     RouterModule,
-    // HeaderSearchModule,
     MatChipsModule,
     MatMenuModule,
     MatFormFieldModule,

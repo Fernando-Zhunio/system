@@ -22,7 +22,7 @@ import { Ipagination } from '../../../interfaces/ipagination';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
 import { ActivatedRoute } from '@angular/router';
-import { NgxMasonryOptions } from 'ngx-masonry';
+// import { NgxMasonryOptions } from 'ngx-masonry';
 import { animation_conditional } from '../../../animations/animate_leave_enter';
 
 @Component({

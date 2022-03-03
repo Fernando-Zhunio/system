@@ -4,7 +4,7 @@ import { ImlInfo } from '../../../interfaces/iml-info';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { Ipagination } from '../../../interfaces/ipagination';
 import { SharedService } from '../../../services/shared/shared.service';
-import { NgxMasonryOptions } from 'ngx-masonry';
+// import { NgxMasonryOptions } from 'ngx-masonry';
 import { StorageService } from '../../../services/storage.service';
 import Echo from 'laravel-echo';
 import { EchoManager } from '../../../class/echo-manager';
@@ -38,19 +38,19 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   ) {}
 
   paginator: Ipagination<ImlInfo>;
-  masonryOptions: NgxMasonryOptions = {
-    gutter: 10,
-    // percentPosition: true,
-    // stamp: string;
-    // fitWidth: true,
-    // originLeft: boolean;
-    // originTop: boolean;
-    // containerStyle: string;
-    // resize: true,
-    // initLayout: boolean;
-    // horizontalOrder: boolean;
-    // animations: NgxMasonryAnimations;
-  };
+  // masonryOptions: NgxMasonryOptions = {
+  //   gutter: 10,
+  //   // percentPosition: true,
+  //   // stamp: string;
+  //   // fitWidth: true,
+  //   // originLeft: boolean;
+  //   // originTop: boolean;
+  //   // containerStyle: string;
+  //   // resize: true,
+  //   // initLayout: boolean;
+  //   // horizontalOrder: boolean;
+  //   // animations: NgxMasonryAnimations;
+  // };
 
   mlInfos: ImlInfo[] = [];
 

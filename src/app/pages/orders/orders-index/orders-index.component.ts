@@ -14,7 +14,7 @@ export class OrdersIndexComponent extends Crud<any> implements OnInit {
     super( s_standard, snackbar );
   }
 
-  url: string = '/orders';
+  url: string = 'system-orders/orders';
 
   ngOnInit(): void {
   }

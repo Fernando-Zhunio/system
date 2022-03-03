@@ -1,16 +1,16 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { EMPTY, Observable } from "rxjs";
-import { environment } from "../../environments/environment";
-import { map, catchError } from "rxjs/operators";
-import { SwalService } from "./swal.service";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { EMPTY, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { map, catchError } from 'rxjs/operators';
+import { SwalService } from './swal.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(private http: HttpClient,
-     private s_swal:SwalService
+     private s_swal: SwalService
      ) {}
 
     //  createHeader(){
@@ -26,23 +26,23 @@ export class AuthService {
   server = environment.server;
 
   login(email, password): Observable<any> {
-    return this.http.post(this.server + "auth/login", { email, password });
+    return this.http.post(this.server + 'auth/login', { email, password });
   }
 
   recuperationPassword(email): Observable<any> {
-    return this.http.post(this.server + "auth/password/email", { email });
+    return this.http.post(this.server + 'auth/password/email', { email });
   }
 
   saveToken(token) {
-    return localStorage.setItem("token", token);
+    return localStorage.setItem('token', token);
   }
 
   getToken() {
-    return localStorage.getItem("token");
+    return localStorage.getItem('token');
   }
 
   logout() {
-    return this.http.get(this.server + "auth/logout");
+    return this.http.get(this.server + 'auth/logout');
   }
 
   changedCompany(company):Observable<any>{

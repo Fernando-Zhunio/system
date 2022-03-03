@@ -73,12 +73,12 @@ import { HeaderSearchModule } from './Modulos/header-search/header-search.module
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { CreateProviderOrContactComponent } from './components/modals/create-provider-or-contact/create-provider-or-contact.component';
 import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
-import { InConstructionComponent } from './views/in-construction/in-construction.component';
+// import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { CustomReusingStrategy } from './class/custom-reusing-strategy';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -91,7 +91,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
 import {  NgxEmojiPickerModule  } from 'ngx-emoji-picker';
-
 import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PopoverModule } from 'ngx-bootstrap/popover';
@@ -110,6 +109,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { preferenceReducer } from './redux/reducers/preference.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
+// import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 
 registerLocaleData(localeEs, 'es');
@@ -167,7 +168,8 @@ registerLocaleData(localeEs, 'es');
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preference: preferenceReducer }),
     EffectsModule.forRoot([PreferenceEffects]),
     StoreDevtoolsModule.instrument({}),
-  ], 
+    LoadingBarRouterModule,
+  ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
@@ -183,7 +185,7 @@ registerLocaleData(localeEs, 'es');
     InvoiceItemModalComponent,
     CreateProviderOrContactComponent,
     SearchProductModalComponent,
-    InConstructionComponent,
+    // InConstructionComponent,
     RedirectToComponent,
     SnackBarLoaderComponent,
     OkLoginComponent,
