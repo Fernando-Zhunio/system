@@ -77,7 +77,7 @@ staging:
   stage: deploy
   script:
     - *init_ssh
-    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+    # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     - npm i -g @angular/cli
     - ng b --configuration staging
     - apt-get update
