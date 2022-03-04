@@ -13,14 +13,22 @@ const trans_es_default = {
 const trans_es_order_types = {
         'default': 'Por defecto',
         'receivable': 'Por cobrar',
-        'payment_with_retention': 'Por pago por retención',
+        'payment_with_retention': 'Por pago con retención',
         'reservation_paid' : 'Por reserva pagada'
+};
+
+const trans_es_order_channels = {
+    'webstore': 'Pagina Web',
+    'whatsapp': 'Whatsapp',
+    'marketplace': 'Tienda',
+    'other' : 'Otro medio'
 };
 
 export const _transfz:  {} = {
     promotions: {...trans_es_promotions},
     default: {...trans_es_default},
-    orders: trans_es_order_types
+    orders: trans_es_order_types,
+    order_channels: trans_es_order_channels
 };
 
 /**

@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
@@ -74,6 +75,28 @@ export abstract class CreateOrEdit<T> {
         const data_send = this.getDataForSendServer();
         if (data_send) {
             this.isLoading = true;
+            let url = this.urlSave;
+            let observable: Observable<any>;
+            if (this.status === 'edit') {
+                url += `/${this.getId()}`;
+                observable = this.standard_service.methodPut(url, data_send);
+            } else {
+                observable = this.standard_service.methodPost(url, data_send);
+            }
+            observable.subscribe(data => {
+                this.isLoading = false;
+                this.go();
+            }, error => {
+                console.log(error);
+                this.isLoading = false;
+                SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
+            });
+
+            return;
+
+
+
+
             if (this.isFormParams) {
                 switch (this.status) {
                     case 'create':
@@ -124,7 +147,7 @@ export abstract class CreateOrEdit<T> {
         }
     }
 
-    go() { }
+    go<T= any>(data: T = null) { }
 
     getDataForSendServer(): any {
         if (this.form.valid) {

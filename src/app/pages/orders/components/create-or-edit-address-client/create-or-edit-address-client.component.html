@@ -1,48 +1,42 @@
-<h1 mat-dialog-title>Hi {{data.name}}</h1>
-<div mat-dialog-content>
-    <p>What's your favorite animal?</p>
+<h1 mat-dialog-title>{{title}} {{data.client.first_name}} {{data.client.last_name}}</h1>
+<div [formGroup]="form" mat-dialog-content >
 
-    <mat-form-field>
-        <mat-label>Nombre 1 *</mat-label>
-        <input matInput formControlName="first_name">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Nombre 2 *</mat-label>
-        <input matInput formControlName="last_name">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Calle *</mat-label>
-        <input matInput formControlName="street">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Numero </mat-label>
-        <input matInput formControlName="number">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Vecindario </mat-label>
-        <input matInput formControlName="neighborhood">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Ciudad *</mat-label>
-        <input matInput formControlName="city">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Estado o provincia *</mat-label>
-        <input matInput formControlName="state">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Codigo Zip </mat-label>
-        <input matInput formControlName="zip_code">
-    </mat-form-field>
+    <div class="row m-0">
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Nombre de la persona que recibe *</mat-label>
+            <input type="text" matInput formControlName="first_name">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Apellido de la persona que recibe *</mat-label>
+            <input type="text" matInput formControlName="last_name">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Calle *</mat-label>
+            <input type="address" matInput formControlName="street">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Numero </mat-label>
+            <input type="text" matInput formControlName="number">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Vecindario </mat-label>
+            <input type="text" matInput formControlName="neighborhood">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Ciudad *</mat-label>
+            <input type="text" matInput formControlName="city">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Estado o provincia *</mat-label>
+            <input matInput formControlName="state">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Codigo Zip </mat-label>
+            <input type="text" matInput formControlName="zip_code">
+        </mat-form-field>
+    </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="saveInServer()">Guardar</button>
-    <button mat-button mat-dialog-close cdkFocusInitial color="warn">Cerrar</button>
+    <button mat-raised-button [disabled]="isLoading" color="primary" class="mr-1" (click)="saveInServer()">Guardar</button>
+    <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn">Cerrar</button>
 </div>

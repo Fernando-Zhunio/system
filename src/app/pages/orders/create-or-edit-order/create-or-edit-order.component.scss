@@ -25,8 +25,14 @@
     }
 }
 
+.max-height-500 {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
 @media (min-width: 576px){
 .card-columns {
     column-count: 4;
 }
 }
+

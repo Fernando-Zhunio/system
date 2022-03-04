@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../class/create-or-edit';
@@ -9,6 +9,10 @@ import { SharedService } from '../../../services/shared/shared.service';
 import { IClientAddressOrder } from '../../../interfaces/iclient-address-order';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
+import { CreateOrEditAddressClientComponent } from '../components/create-or-edit-address-client/create-or-edit-address-client.component';
+import { MatSelectionListChange } from '@angular/material/list';
+import { MatHorizontalStepper, MatStepper } from '@angular/material/stepper';
+import { IOrder } from '../../../interfaces/iorder';
 
 @Component({
   selector: 'app-create-or-edit-order',
@@ -18,18 +22,28 @@ import { MatDialog } from '@angular/material/dialog';
 export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnInit {
   public title: string = 'Orden ';
   public urlSave: any = 'system-orders/orders';
+  @ViewChild('stepper') stepper: MatHorizontalStepper;
+
   loadCreate: boolean = false;
   typesOrders: any[] = [];
+  channelsOrders: any[] = [];
   clientOrders: ClientOrderClass = new ClientOrderClass();
+  order: IOrder = null;
   form: FormGroup = new FormGroup({
+    id: new FormControl({ value: null, disabled: true }, [Validators.required]),
     type: new FormControl(null, [Validators.required]),
     client_id: new FormControl(null, [Validators.required]),
     address_id: new FormControl(null, [Validators.required]),
     channel_id: new FormControl(null, [Validators.required]),
+    tax: new FormControl('12', [Validators.required]),
   });
 
   get clientSelected(): IClientOrder {
     return this.clientOrders.client;
+  }
+
+  get addressSelected(): IClientAddressOrder {
+    return this.clientOrders.address;
   }
 
   set clientSelected(client: IClientOrder) {
@@ -43,6 +57,17 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     }
   }
 
+  set addressSelected(address: IClientAddressOrder) {
+    if (address) {
+      this.form.get('address_id').setValue(address.id);
+      this.clientOrders.address = address;
+      SharedService.scrollBottom();
+    } else {
+      this.form.get('address_id').setValue(null);
+      this.clientOrders.address = null;
+    }
+  }
+
   constructor(private dialog: MatDialog, private activatedRouter: ActivatedRoute, router: Router, standard: StandartSearchService) {
     super(activatedRouter, standard, router);
   }
@@ -51,12 +76,11 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     this.init();
   }
 
-
-
   setData(data): void {
     if (this.status === 'create') {
       console.log(data);
-      this.typesOrders = data.data;
+      this.typesOrders = data.data.types;
+      this.channelsOrders = data.data.channels;
     }
   }
 
@@ -66,10 +90,18 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     console.log(this.clientOrders);
   }
 
-  selectedClient($key): void {
-    console.log(this.clientOrders.data.get($key));
-    this.clientSelected = this.clientOrders.data.get($key);
+  selectedClient(event: MatSelectionListChange): void {
+    const key = event.options[0].value;
+    console.log(event, key);
+    this.clientSelected = this.clientOrders.data.get(key);
     console.log(this.form.get('client_id').value);
+  }
+
+  selectedAddress(event: MatSelectionListChange): void {
+    const key = event.options[0].value;
+    console.log(event, key);
+    this.addressSelected = this.clientOrders.addressesData.get(key);
+    console.log(this.form.get('address_id').value);
   }
 
   removeClientSelected(): void {
@@ -83,6 +115,28 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     }
   }
 
+  openDialogCreateOrEdit(address_id: number = null): void {
+    this.dialog.open(CreateOrEditAddressClientComponent, {
+      data: {
+        isoObligate: this.clientOrders.addressesData.size < 1,
+        client: this.clientSelected,
+        address_id
+      },
+      disableClose: true
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.clientOrders.addressesData.set(res.id, res);
+      }
+      console.log(res);
+    });
+  }
+
+  go(data:IOrder): void {
+    this.order = data;
+    this.form.get('id').setValue(data.id);
+    this.stepper.next();
+    
+  }
 
 }
 
@@ -93,8 +147,9 @@ class ClientOrderClass {
   data: Map<number, IClientOrder> = new Map<number, IClientOrder>();
   title = 'Buscador Clientes';
   client: IClientOrder = null;
+  address: IClientAddressOrder = null;
   isLoadingAddresses: boolean = false;
-  addressesClientOrder: IClientAddressOrder[] = [];
+  addressesData: Map<number, IClientAddressOrder> = new Map<number, IClientAddressOrder>();
 
   getAddresses(standard_service: StandartSearchService): void {
     this.isLoadingAddresses = true;
@@ -102,13 +157,13 @@ class ClientOrderClass {
     standard_service.index(urlAddressClient).subscribe(res => {
       console.log(res);
       this.isLoadingAddresses = false;
-      this.addressesClientOrder = res.data.data;
+      if (res?.data?.data?.length > 0) {
+        this.addressesData = new Map(res.data.data.map(item => [item['id'], item]));
+      }
     }, err => {
       this.isLoadingAddresses = false;
       console.log(err);
     });
   }
-
-  openDialogCreateOrEdit
 
 }
