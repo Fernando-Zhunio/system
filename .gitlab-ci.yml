@@ -20,14 +20,14 @@ npm:
     paths:
       - node_modules/
   script:
-      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+      # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
       - apt-get install git
       - npm install
   artifacts:
     expire_in: 1 month
     paths:
       - node_modules/
-      - ./src/environments/environment.ts
+      # - ./src/environments/environment.ts
 
 jasmine:
   stage: test
@@ -77,9 +77,9 @@ staging:
   stage: deploy
   script:
     - *init_ssh
-    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+    # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     - npm i -g @angular/cli
-    - ng build
+    - ng b --configuration staging
     - apt-get update
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
@@ -89,7 +89,6 @@ staging:
   only:
     - master
 
-  
 
 production:
   stage: deploy
