@@ -131,12 +131,12 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     });
   }
 
-  go(data:IOrder): void {
-    this.order = data;
-    this.form.get('id').setValue(data.id);
-    this.stepper.next();
+  // go(data:IOrder): void {
+  //   this.order = data;
+  //   this.form.get('id').setValue(data.id);
+  //   this.stepper.next();
     
-  }
+  // }
 
 }
 
