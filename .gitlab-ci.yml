@@ -27,7 +27,7 @@ npm:
     expire_in: 1 month
     paths:
       - node_modules/
-      # - ./src/environments/environment.ts
+      - ./src/environments/environment.ts
 
 jasmine:
   stage: test
