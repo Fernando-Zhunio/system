@@ -3,7 +3,7 @@
     <div class="mt-3 pb-3">
         <mat-card>
             <mat-horizontal-stepper #stepper (selectionChange)="changeStepper($event)" linear #stepper>
-                <mat-step label="client" [stepControl]="form.get('client_id')" [editable]="true">
+                <mat-step label="client" [stepControl]="form.get('client_id')" [editable]="isEditStep">
                     <div>
                         <ng-template matStepLabel>Asignar Cliente</ng-template>
                         <div class="row">
@@ -51,7 +51,7 @@
                     </div>
                 </mat-step>
 
-                <mat-step label="address" [stepControl]="form.get('address_id')" [editable]="true">
+                <mat-step label="address" [stepControl]="form.get('address_id')" [editable]="isEditStep">
                     <div>
                         <ng-template matStepLabel>Asignar Dirección</ng-template>
                         <div *ngIf="form.get('client_id').valid">
@@ -87,8 +87,10 @@
                                         </mat-selection-list>
                                     </mat-card>
                                     <div *ngIf="clientOrders.isLoadingAddresses">
-                                        <mat-spinner></mat-spinner>
-                                        Cargando direcciones...
+                                        <div class="d-flex justify-content-center">
+                                            <span class="font-2xl">Cargando direcciones...</span>
+                                            <mat-spinner [diameter]="25"></mat-spinner>
+                                        </div>
                                     </div>
                                     <div
                                         *ngIf="!clientOrders.isLoadingAddresses && clientOrders.addressesData.size < 1">
@@ -126,7 +128,7 @@
                     </div>
                 </mat-step>
 
-                <mat-step label="order-save" [stepControl]="form" [editable]="false">
+                <mat-step label="order-save" [stepControl]="form" [editable]="isEditStep">
                     <ng-template matStepLabel>Guardar Orden</ng-template>
                     <div [formGroup]="form" class="row">
                         <mat-form-field class="col-md-6">
@@ -139,8 +141,8 @@
 
                         <mat-form-field class="col-md-6">
                             <mat-select formControlName="channel_id" placeholder="Tipo de canal">
-                                <mat-option *ngFor="let channel of channelsOrders" [value]="channel">
-                                    {{channel | translatefz: 'order_channels'}}
+                                <mat-option *ngFor="let channel of channelsOrders" [value]="channel.id">
+                                    {{channel.name | translatefz: 'order_channels'}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -170,8 +172,10 @@
                 </mat-step>
 
                 <mat-step>
-                    <ng-template matStepLabel>Asignar productos</ng-template>
-                    <p>You are now done.</p>
+                    <ng-template matStepLabel>Asignar productos a la orden</ng-template>
+                    <div *ngIf="!isEditStep">
+                        <app-add-item-template [address]="addressSelected" [order]="order" [client]="clientSelected"></app-add-item-template>
+                    </div>
                     <div>
                         <button mat-button matStepperPrevious>Atrás</button>
                         <button mat-button (click)="stepper.reset()">Reset</button>

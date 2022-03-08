@@ -21,11 +21,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreateOrEditAddressClientComponent } from './components/create-or-edit-address-client/create-or-edit-address-client.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AddItemTemplateComponent } from './components/add-item-template/add-item-template.component';
+import {CdkTableModule} from '@angular/cdk/table';
+import { CreateOrEditDiscountOrTaxOrderComponent } from './components/create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
 
 
 
 @NgModule({
-  declarations: [OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, CreateOrEditAddressClientComponent],
+  declarations: [OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, CreateOrEditAddressClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent],
   imports: [
   CommonModule,
     RouterModule,
@@ -44,8 +47,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     TranslatefzModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
   ],
-  entryComponents: [CreateOrEditAddressClientComponent]
+  entryComponents: [CreateOrEditAddressClientComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })
 export class OrdersModule { }

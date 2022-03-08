@@ -85,7 +85,7 @@ export abstract class CreateOrEdit<T> {
             }
             observable.subscribe(data => {
                 this.isLoading = false;
-                this.go();
+                this.go(data?.data);
             }, error => {
                 console.log(error);
                 this.isLoading = false;
@@ -147,7 +147,7 @@ export abstract class CreateOrEdit<T> {
         }
     }
 
-    go<T= any>(data: T = null) { }
+    go(data = null) { }
 
     getDataForSendServer(): any {
         if (this.form.valid) {

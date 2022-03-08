@@ -1,6 +1,11 @@
 .input-style{
   padding-left: 84px;
   height: 45px;
+  border-radius: 11px;
+  background-color: #F1F3F4;
+  font-weight: 600 !important;
+  font-size: 1.2rem !important;
+
 }
 
 .btn-find{
@@ -9,13 +14,13 @@
   height: 100%;
 }
 
-.font-header{
-  font-family: Segoe ui !important;
+/* .font-header{ */
+  /* font-family: Segoe ui !important; */
   /* font-weight: 700 !important; */
-  font-size: 1.2rem !important;
-  font-weight: 300;
-  border: 2px solid #cdcdcd;
-}
+  /* font-size: 1.2rem !important;
+  font-weight: 300; */
+  /* border: 2px solid #cdcdcd; */
+/* } */
 
 .shadow-header{
   box-shadow: 0px 0px 10px 5px rgb(120 118 118 / 75%);

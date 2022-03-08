@@ -29,6 +29,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   channelsOrders: any[] = [];
   clientOrders: ClientOrderClass = new ClientOrderClass();
   order: IOrder = null;
+  isEditStep: boolean = true;
   form: FormGroup = new FormGroup({
     id: new FormControl({ value: null, disabled: true }, [Validators.required]),
     type: new FormControl(null, [Validators.required]),
@@ -79,8 +80,8 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   setData(data): void {
     if (this.status === 'create') {
       console.log(data);
-      this.typesOrders = data.data.types;
-      this.channelsOrders = data.data.channels;
+      this.typesOrders = data.types;
+      this.channelsOrders = data.channels;
     }
   }
 
@@ -131,13 +132,12 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     });
   }
 
-  // go(data:IOrder): void {
-  //   this.order = data;
-  //   this.form.get('id').setValue(data.id);
-  //   this.stepper.next();
-    
-  // }
-
+  go(data: IOrder): void {
+    this.order = data;
+    this.form.get('id').setValue(data.id);
+    this.isEditStep = false;
+    this.stepper.next();
+  }
 }
 
 

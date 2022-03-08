@@ -1,0 +1,236 @@
+<div>
+  <h2 class="my-0">Orden # {{order.id}}</h2>
+  <div class="mb-2">
+    <mat-chip-list>
+      <mat-chip>{{channel(order.channel_id)}}</mat-chip>
+      <mat-chip>{{order.type | translatefz:'orders'}}</mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="grid-info">
+    <div class="section-order">
+      <h3 class="font-3xl font-weight-bold">Datos del cliente</h3>
+      <div class="container-info">
+        <div><span>Nombres del cliente:</span> {{client.first_name}} {{client.last_name}}</div>
+        <div><span>Tipo de documento:</span> {{client.doc_type}}</div>
+        <div><span>Numero de identificación:</span> {{client.doc_id}}</div>
+        <div><span>Correo electrónico:</span> {{client.email}}</div>
+        <div><span>Teléfono</span>: {{client.phone}}</div>
+        <div><span>Ciudad:</span> {{client.city}}</div>
+        <div><span>Estado o provincia:</span> {{client.state}}</div>
+        <div><span>País:</span> {{client.country}}</div>
+      </div>
+    </div>
+    <div class="section-order">
+      <h3 class="font-3xl font-weight-bold">Datos de la dirección</h3>
+      <div class="container-info">
+        <div><span>Nombres de la persona que recibe:</span> {{address.first_name}} {{address.last_name}}</div>
+        <div><span>Calles:</span> {{address.street}}</div>
+        <div><span>Numero:</span> {{address.number}}</div>
+        <div><span>Vecindario:</span> {{address.neighborhood}}</div>
+        <div><span>Ciudad</span>: {{address.city}}</div>
+        <div><span>Estado o provincia:</span> {{address.state}}</div>
+        <div><span>Codigo zip:</span> {{address.zip_code}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="my-3 section-order">
+    <h3 class="font-3xl font-weight-bold">Productos</h3>
+    <div>
+      <div [formGroup]="classOrderItem.form">
+        <!-- <div *ngIf="isLoadingItem" class="loader-item">Cargando espere <mat-spinner diameter="20">
+          </mat-spinner>
+        </div> -->
+        <div class="row">
+          <mat-form-field class="col-md-5">
+            <input matInput formControlName="product" placeholder="Producto">
+            <button mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="col-md-2">
+            <input matInput formControlName="price" type="number" placeholder="Precio">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+          <mat-form-field class="col-md-2">
+            <input matInput type="number" formControlName="quantity" placeholder="Cantidad">
+          </mat-form-field>
+          <div class="col-md-3">
+            <button [disabled]="classOrderItem.form.invalid || isLoadingItem || classOrderItem.isEditingItem" color="primary" mat-raised-button
+             (click)="createOrEditItemOrder()" >Agregar</button>
+          </div>
+        </div>
+        <div class="editing-item" *ngIf="classOrderItem.isEditingItem">
+          <div>
+            <h4 class="parpadeo">Editando</h4>
+            <div [formGroup]="classOrderItem.formEdit" class="row">
+              <mat-form-field class="col-md-5">
+                <input matInput formControlName="product" placeholder="Producto">
+                <button mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+                  <mat-icon>search</mat-icon>
+                </button>
+              </mat-form-field>
+              <mat-form-field class="col-md-2">
+                <input matInput formControlName="price" type="number" placeholder="Precio">
+                <span matPrefix>$&nbsp;</span>
+              </mat-form-field>
+              <mat-form-field class="col-md-2">
+                <input matInput formControlName="quantity" type="number" placeholder="Cantidad">
+              </mat-form-field>
+              <div>
+                <button [disabled]="classOrderItem.form.invalid || isLoadingItem" color="primary" mat-raised-button
+                  (click)="createOrEditItemOrder()">Actualizar</button>
+                  <button [disabled]="isLoadingItem" color="warn" mat-raised-button
+                  (click)="classOrderItem.disabledEditingItemOrder()">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <h4 class="font-2xl font-weight-bold">Lista de productos</h4>
+        <div>
+          <div data>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Producto</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Acciones</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of itemsOrder | keyvalue">
+                  <td class="py-0">
+                    <img class="img-product-item" mat-list-avatar [src]="item.value.product.value?.img || 'assets/img/img_default_null.jpg'"
+                      alt="imagen producto">
+                  </td>
+                  <td>
+                    {{item.value.product?.code}} - {{item.value.product?.name}}
+                  </td>
+                  <td class="text-muted">${{item.value.price}}</td>
+                  <td class="text-muted">{{item.value.quantity}}</td>
+                  <td>
+                    <mat-chip-list>
+                      <mat-chip (click)="classOrderItem.enabledEditingItemOrder(item.key)" selected color="accent">Editar &nbsp; <mat-icon>edit</mat-icon>
+                      </mat-chip>
+                      <mat-chip selected (click)="deleteItemOrder(order.id, item.key)" color="warn">Eliminar &nbsp; <mat-icon>delete</mat-icon>
+                      </mat-chip>
+                    </mat-chip-list>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-footer">
+    <div class="my-3 section-order">
+      <div>
+        <h3 class="font-3xl font-weight-bold">Impuestos y descuentos</h3>
+        <button color="accent" mat-raised-button (click)="openDialogCreateOrEditDiscountOrTax()">Añadir monto <mat-icon>add</mat-icon></button>
+      </div>
+      <div>
+        <!-- <mat-list>
+          <mat-list-item *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
+            <div mat-line>{{discountOrTax.value.type | translatefz:'orders'}}</div>
+            <div mat-line>{{discountOrTax.value.amount_type | translatefz:'orders'}}</div>
+            <div mat-line>
+              <mat-chip-list>
+                <mat-chip selected color="accent" (click)="openDialogCreateOrEditDiscountOrTax(discountOrTax.key)">Editar &nbsp; <mat-icon>edit</mat-icon>
+                </mat-chip>
+                <mat-chip selected color="warn">Eliminar &nbsp; <mat-icon>delete</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </mat-list-item>
+        </mat-list> -->
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Tipo de Monto</th>
+              <th>Nombre</th>
+              <th>Monto</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
+              <td>{{discountOrTax.value.type | translatefz:'orders'}}</td>
+              <td>{{discountOrTax.value.amount_type | translatefz:'orders'}}</td>
+              <td>{{discountOrTax.value.name}}</td>
+              <td>{{discountOrTax.value.amount}}</td>
+              <td>
+                <mat-chip-list>
+                  <mat-chip selected color="accent" (click)="openDialogCreateOrEditDiscountOrTax(discountOrTax.key)">Editar &nbsp; <mat-icon>edit</mat-icon>
+                  </mat-chip>
+                  <mat-chip selected color="warn">Eliminar &nbsp; <mat-icon>delete</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="my-3 section-order">
+      <h3 class="font-3xl font-weight-bold">Totales</h3>
+      <div>
+        <!-- <div><span>Subtotal: </span>&nbsp;$ {{order.subtotal}}</div>
+        <div><span>Impuestos: </span>&nbsp;$ {{order.tax}}</div>
+        <div><span>Descuento: </span>&nbsp;$ {{order.discount}}</div>
+        <div><span>Retención: </span>&nbsp;$ {{order.retention}}</div>
+        <div><span>Total: </span>&nbsp;$ {{order.total}}</div>
+        <div><span>Total pagado: </span>&nbsp;$ {{order.total_paid}}</div> -->
+
+        <table>
+          <tbody class="text-uppercase">
+            <tr>
+              <td>Subtotal:&nbsp;</td>
+              <td>$ {{order.subtotal}}</td>
+            </tr>
+            <tr>
+              <td>Descuento:&nbsp;</td>
+              <td>$ {{order.discount}}</td>
+            </tr>
+            <tr>
+              <td>Impuestos:&nbsp;</td>
+              <td>$ {{order.tax}}</td>
+            </tr>
+            <tr>
+              <td>Retención:&nbsp;</td>
+              <td>$ {{order.retention}}</td>
+            </tr>
+            <tr>
+              <td>Total:&nbsp;</td>
+              <td>$ {{order.total}}</td>
+            </tr>
+            <tr>
+              <td>Total pagado:&nbsp;</td>
+              <td>$ {{order.total_paid}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-5 col-9">
+  <div>
+    <app-search [url]="urlProducts" placeholder="Buscador de productos" (data)="getDataProducts($event)">
+      <mat-selection-list data [multiple]="false" (selectionChange)="selectedProduct($event)">
+        <mat-list-option [value]="product.key" *ngFor="let product of products | keyvalue">
+          <img mat-list-avatar [src]="product.value?.img || 'assets/img/img_default_null.jpg'" alt="imagen producto">
+          <div mat-line>{{product.value.name}}</div>
+          <div mat-line>{{product.value.code}}</div>
+          <!-- <div mat-line><button mat-raised-button>seleccionar este producto</button></div> -->
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
+    </app-search>
+  </div>
+</div>

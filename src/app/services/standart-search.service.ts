@@ -60,7 +60,10 @@ export class StandartSearchService {
   }
 
 
-
+/**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodPush or methodGetPaginate
+   */
   store(url, params): Observable<Iresponse> {
     return this.http.post<Iresponse>(this.end_point + url, { ...params });
   }
@@ -156,12 +159,20 @@ export class StandartSearchService {
     return this.http.put<Iresponse>(this.end_point + url, params);
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodPut
+   */
   uploadImg(url, img, name = 'image'): Observable<any> {
     const form = new FormData();
     form.append(name, img);
     return this.http.post(this.end_point + url, form);
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodPost or methodGetPaginate
+   */
   /**
    *
    * @param url
@@ -194,11 +205,11 @@ export class StandartSearchService {
 
 
   // new code
-  public methodGet<T = any>(url, params: HttpParams = null): Observable<IResponse<T>> {
+  public methodGet<T = any>(url, params: any = null): Observable<IResponse<T>> {
     return this.http.get<IResponse<T>>(this.end_point + url, { params });
   }
 
-  public methodGetPaginate<T = any>(url, params: HttpParams = null): Observable<IResponse<IPaginate<T>>> {
+  public methodGetPaginate<T = any>(url, params: any = null): Observable<IResponse<IPaginate<T>>> {
     return this.http.get<IResponse<IPaginate<T>>>(this.end_point + url, { params });
   }
 

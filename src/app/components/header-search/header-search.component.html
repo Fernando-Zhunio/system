@@ -1,6 +1,6 @@
 <div class=" p-0 card-body row" [ngClass]="{'sticky-top': isSticky}" style="z-index: 2;">
   <div class="position-relative col-12 w-100 p-3 overflow-hidden">
-    <input class="form-control font-header rounded-fz shadow-sm  input-style" [placeholder]="placeholder"
+    <input class="form-control shadow-sm  input-style" [placeholder]="placeholder"
       (keyup)="buscarInterval($event)" [(ngModel)]="productSearch">
       <button (click)="goBack()" class="btn-go-back" mat-mini-fab><mat-icon>arrow_back</mat-icon></button>
     <button class="position-absolute btn-find" mat-icon-button (click)="searchBarReset()">
