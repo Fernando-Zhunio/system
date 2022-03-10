@@ -10,6 +10,7 @@ import { AdditionalAmountsEntity, IItemOrder, IOrder } from '../../../../interfa
 import { IProduct } from '../../../../interfaces/promotion';
 import { SwalService } from '../../../../services/swal.service';
 import { CreateOrEditDiscountOrTaxOrderComponent } from '../create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
+import { ShippingOrderSectionComponent } from '../shipping-order-section/shipping-order-section.component';
 import { IPaginate, StandartSearchService } from './../../../../services/standart-search.service';
 
 @Component({
@@ -39,11 +40,12 @@ export class AddItemTemplateComponent implements OnInit {
   classOrderItem: OrderItem;
 
   channel(id) {
-    return this.channels.find(x => x.id === id) || 'Sin canal';
+    console.log(this.channels.find(x => x.id === id).name || 'Sin canal');
+    return this.channels.find(x => x.id === id)?.name;
   }
 
   type(id) {
-    return this.types.find(x => x.id === id) || 'Sin tipo';
+    return this.types.find(x => x.id === id);
   }
 
   ngOnInit() {
@@ -79,7 +81,23 @@ export class AddItemTemplateComponent implements OnInit {
 
     }).beforeClosed().subscribe(res => {
       if (res) {
+        if (this.discountsAndTaxes.has(res.id)){
+          this.discountsAndTaxes.delete(res.id);
+        }
         this.discountsAndTaxes.set(res.id, res);
+        this.getOrder();
+      }
+    });
+  }
+
+  openDialogShipping(id: number = null): void {
+    this.dialog.open(ShippingOrderSectionComponent, {
+      width: '500px',
+      data: { shipping_id: id, order: this.order },
+      disableClose: true,
+    }).beforeClosed().subscribe(res => {
+      if (res) {
+        this.getOrder();
       }
     });
   }
@@ -97,6 +115,42 @@ export class AddItemTemplateComponent implements OnInit {
     this.classOrderItem.deleteItemOrder(order_id, id, this.getOrder.bind(this));
   }
 
+  deleteAdditionalAmount(id: number): void {
+    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el Monto?', 'warning').then(res => {
+      if (res.isConfirmed) {
+        this.standard.methodDelete(`system-orders/orders/${this.order.id}/additional-amount/${id}`).subscribe(res => {
+          if (res?.success) {
+            SwalService.swalFire({ title: 'Eliminado', text: 'Monto eliminado', icon: 'success' });
+            this.discountsAndTaxes.delete(id);
+            this.getOrder();
+          }
+        });
+      }
+    });
+  }
+
+  deleteShipping(id: number): void {
+    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el Envió?', 'warning').then(res => {
+      if (res.isConfirmed) {
+        this.standard.methodDelete(`system-orders/orders/${this.order.id}/shippings/${id}`).subscribe(res => {
+          if (res?.success) {
+            SwalService.swalFire({ title: 'Eliminado', text: 'Envió eliminado', icon: 'success' });
+            // this.discountsAndTaxes.delete(id);
+            if (res?.success) {
+              const index = this.order.shippings.findIndex(x => x.id === id);
+              if (index !== -1) {
+                this.order.shippings.splice(index, 1);
+              }
+
+            }
+
+            this.getOrder();
+          }
+        });
+      }
+    });
+  }
+
   getOrder(): void {
     this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
       if (res.success) {
@@ -105,6 +159,8 @@ export class AddItemTemplateComponent implements OnInit {
       }
     });
   }
+
+
 }
 
 
@@ -170,7 +226,7 @@ class OrderItem {
         }
         if (this.isEditingItem) {
           this.disabledEditingItemOrder();
-          SwalService.swalFire({ title: 'Actualizado', text: 'Item actualizado', icon: 'success' });
+          SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
         }
         this.itemsOrder.set(item.id, item);
         if (callback) {

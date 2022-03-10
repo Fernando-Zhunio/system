@@ -174,7 +174,7 @@
                 <mat-step>
                     <ng-template matStepLabel>Asignar productos a la orden</ng-template>
                     <div *ngIf="!isEditStep">
-                        <app-add-item-template [address]="addressSelected" [order]="order" [client]="clientSelected"></app-add-item-template>
+                        <app-add-item-template [channels]="channelsOrders" [address]="addressSelected" [order]="order" [client]="clientSelected"></app-add-item-template>
                     </div>
                     <div>
                         <button mat-button matStepperPrevious>Atrás</button>
@@ -185,3 +185,4 @@
         </mat-card>
     </div>
 </div>
+<app-state-flow-order></app-state-flow-order>

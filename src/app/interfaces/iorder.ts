@@ -14,6 +14,8 @@
 //     deleted_at?: string;
 // }
 
+import { Iwarehouse } from "./iwarehouse";
+
 export interface IItemOrder {
     product_id: number;
     quantity: string;
@@ -54,17 +56,17 @@ export interface IItemOrder {
     code: string;
     code_alt: string;
     user_id: number;
-    old_code?: null;
+    old_code?: any;
     available: number;
-    image?: null;
-    cubicweight?: null;
-    weight?: null;
-    height?: null;
-    width?: null;
-    length?: null;
+    image?: any;
+    cubicweight?: any;
+    weight?: any;
+    height?: any;
+    width?: any;
+    length?: any;
     created_at: string;
     updated_at: string;
-    deleted_at?: null;
+    deleted_at?: any;
   }
 
 
@@ -82,11 +84,12 @@ export interface IItemOrder {
     total_paid: number;
     created_at: string;
     updated_at: string;
+    shippings: IShipping[];
     client: Client;
-    shipping_address: ShippingAddress;
-    payments?: (null)[] | null;
-    additional_amounts?: (AdditionalAmountsEntity)[] | null;
-    items?:  (ItemsEntity)[] | null;
+    shipping_address: IShippingAddress;
+    payments?: (any)[] | any;
+    additional_amounts?: (AdditionalAmountsEntity)[] | any;
+    items?:  (ItemsEntity)[] | any;
   }
   export interface Client {
     id: number;
@@ -99,11 +102,11 @@ export interface IItemOrder {
     city: string;
     state: string;
     country: string;
-    novisys_id?: null;
+    novisys_id?: any;
     created_at: string;
     updated_at: string;
   }
-  export interface ShippingAddress {
+  export interface IShippingAddress {
     id: number;
     first_name: string;
     last_name: string;
@@ -125,6 +128,24 @@ export interface IItemOrder {
     amount: number;
     description: string;
     order_id: number;
+    created_at: string;
+    updated_at: string;
+  }
+
+   export interface IShipping {
+    id: number;
+    type: string;
+    status: string;
+    amount: number;
+    cubicweight?: any;
+    weight?: any;
+    height?: any;
+    width?: any;
+    length?: any;
+    tracking_number: string;
+    order_id: number;
+    origin_warehouse_id?: any;
+    origin_warehouse: Iwarehouse;
     created_at: string;
     updated_at: string;
   }

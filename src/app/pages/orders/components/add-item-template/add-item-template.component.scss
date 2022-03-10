@@ -1,17 +1,28 @@
 
-.grid-info {
+// .grid-info {
+//     display: grid;
+//     grid-template-columns: 50% 50%;
+//     gap: 10px;
+// }
+.section-order {
+    border: 3px solid #dadadaa1;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+}
+
+.grid-two-columns {
     display: grid;
     grid-template-columns: 50% 50%;
     gap: 10px;
 }
-.section-order {
-    border: 1px solid rgb(14, 124, 175);
-    border-radius: 15px;
-    padding: 10px;
+
+.container-info table tbody tr > td span {
+ color: #00838F;
 }
 
-.container-info div span {
- color: #00838F;
+.container-info {
+    font-size: 15px;
 }
 
 .loader-item {
@@ -31,7 +42,7 @@
     top: 0;
     right: 0;
     z-index: 9999;
-    width: 300px;
+    // width: 300px;
     background-color: white;
     height: 100vh;
     overflow-y: auto;
@@ -46,7 +57,7 @@
 }
 
 h3 {
-    border-bottom: 1px solid #0e7caf;
+    border-bottom: 2px solid #0e7caf;
     padding-bottom: 4px;
 }
 

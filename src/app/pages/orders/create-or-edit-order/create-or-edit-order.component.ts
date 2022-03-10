@@ -39,6 +39,9 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     tax: new FormControl('12', [Validators.required]),
   });
 
+  shippingTypes: any[] = [];
+  shippingStatues: any[] = [];
+
   get clientSelected(): IClientOrder {
     return this.clientOrders.client;
   }
@@ -80,9 +83,9 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   setData(data): void {
     if (this.status === 'create') {
       console.log(data);
-      this.typesOrders = data.types;
-      this.channelsOrders = data.channels;
     }
+    this.typesOrders = data.types;
+    this.channelsOrders = data.channels;
   }
 
   getData($event): void {

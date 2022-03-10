@@ -42,19 +42,22 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
       this.state = 'create';
       this.title = 'Agregando ' + this.title;
     }
+    this.init();
   }
 
   init(): void {
+    this.isLoading = true;
     let observer: Observable<any>;
     if (this.data?.id) {
       this.state = 'edit';
-      observer = this.s_standard.methodGet<any>(`system-orders/orders/additional-amounts/edit`);
+      observer = this.s_standard.methodGet<any>(`system-orders/orders/${this.data.order.id}/additional-amounts/${this.data.id}/edit`);
     } else {
-      observer = this.s_standard.methodGet<any>(`system-orders/orders/${this.data.order.id}/additional-amounts/create`);
+      observer = this.s_standard.methodGet<any>(`system-orders/orders/additional-amounts/create`);
     }
     observer.subscribe(res => {
       this.fillData(res.data);
-    });
+    this.isLoading = false;
+    }, err => { console.log(err); this.isLoading = false; });
   }
 
   fillData(data: any): void {
@@ -75,13 +78,13 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
       this.isLoading = true;
       let observable: Observable<any>;
       if (this.state === 'create') {
-        observable = this.s_standard.methodPost<any>(`system-orders/orders/ ${this.data.id}/discounts-and-taxes`, this.form.value);
+        observable = this.s_standard.methodPost<any>(`system-orders/orders/${this.data.order.id}/additional-amount`, this.form.value);
       } else {
-        observable = this.s_standard.methodPut<any>(`system-orders/orders/ ${this.data.id}/discounts-and-taxes/${this.data.order.id}`, this.form.value);
+        observable = this.s_standard.methodPut<any>(`system-orders/orders/${this.data.order.id}/additional-amount/${this.data.id}`, this.form.value);
       }
       observable.subscribe(res => {
         this.isLoading = false;
-        this.dialogRef.close(res);
+        this.dialogRef.close(res.data);
       }
       , err => {
         this.isLoading = false;

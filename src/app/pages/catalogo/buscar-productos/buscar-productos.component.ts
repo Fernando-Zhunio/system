@@ -54,21 +54,6 @@ export class BuscarProductosComponent implements OnInit {
   max: string = '';
   aux_page_next = 0;
 
-  // masonryOptions: NgxMasonryOptions = {
-  //   // columnWidth: 300,
-  //   gutter: 10,
-  //   // percentPosition: true,
-  //   // stamp: string;
-  //   // fitWidth: true,
-  //   // originLeft: boolean;
-  //   // originTop: boolean;
-  //   // containerStyle: string;
-  //   // resize: true,
-  //   // initLayout: boolean;
-  //   // horizontalOrder: boolean;
-  //   // animations: NgxMasonryAnimations;
-  // };
-
   post_current: IpostProduct;
   suscrition_api: Subscription;
   isLoading: boolean = false;
@@ -149,7 +134,6 @@ export class BuscarProductosComponent implements OnInit {
 
   copyCodigo(code) {
     this.clipboard.copy(code);
-    // SwalService.swalToast("Codigo: "+code+" copiado","success")
     this.snack_bar.open('Codigo ' + code + ' copiado', 'OK', {
       duration: 2000,
     });
@@ -200,7 +184,7 @@ export class BuscarProductosComponent implements OnInit {
       },
       (err) => {
         this.messagePost =
-          'Ups! ocurrio un problema al cargar el post intentalo otra vez';
+          'Ups! ocurrió un problema al cargar el post intentalo otra vez';
       }
     );
   }
@@ -215,7 +199,7 @@ export class BuscarProductosComponent implements OnInit {
 
 
   goSpy(id) {
-    if (this.current_go == id) return;
+    if (this.current_go == id) {return; }
     const element = document.getElementById(id);
     element.classList.remove('anim-go');
 
@@ -223,18 +207,17 @@ export class BuscarProductosComponent implements OnInit {
     const forScroll = document.getElementsByClassName('app-body')
     const dist = element.getBoundingClientRect().y;
     const current_position = forScroll[0].scrollTop;
-    const viewHeigth = window.screen.height;
-    const go = dist + current_position - (viewHeigth / 2);
+    const viewHeight = window.screen.height;
+    const go = dist + current_position - (viewHeight / 2);
     forScroll[0].scrollTop = go;
     element.classList.add('anim-go');
   }
 
   openOrCloseGo(){
     this.is_open_go = !this.is_open_go;
-    if (this.is_open_go){
+    if (this.is_open_go) {
       this.icon_go = 'close';
-    }
-    else{
+    } else {
       this.icon_go = 'segment';
     }
   }

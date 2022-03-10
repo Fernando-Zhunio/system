@@ -2,57 +2,112 @@
   <h2 class="my-0">Orden # {{order.id}}</h2>
   <div class="mb-2">
     <mat-chip-list>
-      <mat-chip>{{channel(order.channel_id)}}</mat-chip>
-      <mat-chip>{{order.type | translatefz:'orders'}}</mat-chip>
+      <mat-chip>Canal: {{channel(order.channel_id) | translatefz:'order_channels'}}</mat-chip>
+      <mat-chip>Tipo de orden: {{order.type | translatefz:'orders'}}</mat-chip>
     </mat-chip-list>
+    <div>
+      <div>
+        <div class="node"></div>
+      </div>
+    </div>
   </div>
-  <div class="grid-info">
+  <div class="grid-two-columns">
     <div class="section-order">
       <h3 class="font-3xl font-weight-bold">Datos del cliente</h3>
       <div class="container-info">
-        <div><span>Nombres del cliente:</span> {{client.first_name}} {{client.last_name}}</div>
-        <div><span>Tipo de documento:</span> {{client.doc_type}}</div>
-        <div><span>Numero de identificación:</span> {{client.doc_id}}</div>
-        <div><span>Correo electrónico:</span> {{client.email}}</div>
-        <div><span>Teléfono</span>: {{client.phone}}</div>
-        <div><span>Ciudad:</span> {{client.city}}</div>
-        <div><span>Estado o provincia:</span> {{client.state}}</div>
-        <div><span>País:</span> {{client.country}}</div>
+        <table>
+          <tbody>
+            <tr>
+              <td><span>Nombres del cliente : </span></td>
+              <td>{{client.first_name}} {{client.last_name}}</td>
+            </tr>
+            <tr>
+              <td><span>Tipo de documento :</span></td>
+              <td>{{client.doc_type}}</td>
+            </tr>
+            <tr>
+              <td><span>Numero de identificación :</span></td>
+              <td>{{client.doc_id}}</td>
+            </tr>
+            <tr>
+              <td><span>Correo electrónico :</span></td>
+              <td>{{client.email}}</td>
+            </tr>
+            <tr>
+              <td><span>Teléfono :</span></td>
+              <td>{{client.phone}}</td>
+            </tr>
+            <tr>
+              <td><span>Ciudad :</span></td>
+              <td>{{client.city}}</td>
+            </tr>
+            <tr>
+              <td><span>Estado o provincia :</span></td>
+              <td>{{client.state}}</td>
+            </tr>
+            <tr>
+              <td><span>País :</span></td>
+              <td>{{client.country}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="section-order">
       <h3 class="font-3xl font-weight-bold">Datos de la dirección</h3>
       <div class="container-info">
-        <div><span>Nombres de la persona que recibe:</span> {{address.first_name}} {{address.last_name}}</div>
-        <div><span>Calles:</span> {{address.street}}</div>
-        <div><span>Numero:</span> {{address.number}}</div>
-        <div><span>Vecindario:</span> {{address.neighborhood}}</div>
-        <div><span>Ciudad</span>: {{address.city}}</div>
-        <div><span>Estado o provincia:</span> {{address.state}}</div>
-        <div><span>Codigo zip:</span> {{address.zip_code}}</div>
+        <table>
+          <tbody>
+            <tr>
+              <td><span>Nombres de la persona que recibe : </span></td>
+              <td>{{address.first_name}} {{address.last_name}}</td>
+            </tr>
+            <tr>
+              <td><span>Calles :</span></td>
+              <td>{{address?.street}}</td>
+            </tr>
+            <tr>
+              <td><span>Numero :</span></td>
+              <td>{{address?.number}}</td>
+            </tr>
+            <tr>
+              <td><span>Vecindario :</span></td>
+              <td>{{address?.neighborhood}}</td>
+            </tr>
+            <tr>
+              <td><span>Ciudad :</span></td>
+              <td>{{address?.city}}</td>
+            </tr>
+            <tr>
+              <td><span>Estado o provincia :</span></td>
+              <td>{{address?.state}}</td>
+            </tr>
+            <tr>
+              <td><span>Codigo zip :</span></td>
+              <td>{{address?.zip_code}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  <div class="my-3 section-order">
+  <div class="mt-3 section-order">
     <h3 class="font-3xl font-weight-bold">Productos</h3>
     <div>
       <div [formGroup]="classOrderItem.form">
-        <!-- <div *ngIf="isLoadingItem" class="loader-item">Cargando espere <mat-spinner diameter="20">
-          </mat-spinner>
-        </div> -->
         <div class="row">
           <mat-form-field class="col-md-5">
-            <input matInput formControlName="product" placeholder="Producto">
-            <button mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+            <input appearance="outline" matInput formControlName="product" placeholder="Producto">
+            <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
               <mat-icon>search</mat-icon>
             </button>
           </mat-form-field>
           <mat-form-field class="col-md-2">
-            <input matInput formControlName="price" type="number" placeholder="Precio">
+            <input appearance="outline" matInput formControlName="price" type="number" placeholder="Precio">
             <span matPrefix>$&nbsp;</span>
           </mat-form-field>
           <mat-form-field class="col-md-2">
-            <input matInput type="number" formControlName="quantity" placeholder="Cantidad">
+            <input appearance="outline" matInput type="number" formControlName="quantity" placeholder="Cantidad">
           </mat-form-field>
           <div class="col-md-3">
             <button [disabled]="classOrderItem.form.invalid || isLoadingItem || classOrderItem.isEditingItem" color="primary" mat-raised-button
@@ -64,8 +119,8 @@
             <h4 class="parpadeo">Editando</h4>
             <div [formGroup]="classOrderItem.formEdit" class="row">
               <mat-form-field class="col-md-5">
-                <input matInput formControlName="product" placeholder="Producto">
-                <button mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+                <input matInput disabled formControlName="product" placeholder="Producto">
+                <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
                   <mat-icon>search</mat-icon>
                 </button>
               </mat-form-field>
@@ -90,7 +145,7 @@
         <div>
           <div data>
             <table class="table">
-              <thead>
+              <thead class="text-primary">
                 <tr>
                   <th>Imagen</th>
                   <th>Producto</th>
@@ -125,31 +180,58 @@
       </div>
     </div>
   </div>
-  <div class="grid-footer">
+
+
+  <div class="mt-3 section-order">
+    <h3 class="font-3xl font-weight-bold">Envió</h3>
+    <button color="accent" class="mb-1" mat-raised-button (click)="openDialogShipping()">Agregar envió <mat-icon>add</mat-icon></button>
+    <div>
+      <table class="table overflow-auto">
+        <thead>
+          <tr>
+            <th>Tipo de envío</th>
+            <th>Monto</th>
+            <th>Peso cubico</th>
+            <th>Peso</th>
+            <th>Altura</th>
+            <th>Ancho</th>
+            <th>Largo</th>
+            <th>Bodega</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let shipping of order.shippings">
+            <td>{{shipping.type}}</td>
+            <td>{{shipping.amount}}</td>
+            <td>{{shipping.cubicweight}}</td>
+            <td>{{shipping.weight}}</td>
+            <td>{{shipping.height}}</td>
+            <td>{{shipping.width}}</td>
+            <td>{{shipping.length}}</td>
+            <td>{{shipping.origin_warehouse_id+ "-"+ shipping.origin_warehouse.name}}</td>
+            <td>
+              <mat-chip-list>
+                <mat-chip selected color="accent" (click)="openDialogShipping(shipping.id)">Editar &nbsp; <mat-icon>edit</mat-icon>
+                </mat-chip>
+                <mat-chip selected color="warn" (click)="deleteShipping(shipping.id)">Eliminar &nbsp; <mat-icon>delete</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid-two-columns">
     <div class="my-3 section-order">
       <div>
         <h3 class="font-3xl font-weight-bold">Impuestos y descuentos</h3>
-        <button color="accent" mat-raised-button (click)="openDialogCreateOrEditDiscountOrTax()">Añadir monto <mat-icon>add</mat-icon></button>
+        <button color="accent" class="mb-1" mat-raised-button (click)="openDialogCreateOrEditDiscountOrTax()">Agregar monto <mat-icon>add</mat-icon></button>
       </div>
       <div>
-        <!-- <mat-list>
-          <mat-list-item *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
-            <div mat-line>{{discountOrTax.value.type | translatefz:'orders'}}</div>
-            <div mat-line>{{discountOrTax.value.amount_type | translatefz:'orders'}}</div>
-            <div mat-line>
-              <mat-chip-list>
-                <mat-chip selected color="accent" (click)="openDialogCreateOrEditDiscountOrTax(discountOrTax.key)">Editar &nbsp; <mat-icon>edit</mat-icon>
-                </mat-chip>
-                <mat-chip selected color="warn">Eliminar &nbsp; <mat-icon>delete</mat-icon>
-                </mat-chip>
-              </mat-chip-list>
-            </div>
-          </mat-list-item>
-        </mat-list> -->
-
         <table class="table">
           <thead>
-            <tr>
+            <tr class="text-primary">
               <th>Tipo</th>
               <th>Tipo de Monto</th>
               <th>Nombre</th>
@@ -167,7 +249,7 @@
                 <mat-chip-list>
                   <mat-chip selected color="accent" (click)="openDialogCreateOrEditDiscountOrTax(discountOrTax.key)">Editar &nbsp; <mat-icon>edit</mat-icon>
                   </mat-chip>
-                  <mat-chip selected color="warn">Eliminar &nbsp; <mat-icon>delete</mat-icon>
+                  <mat-chip selected color="warn" (click)="deleteAdditionalAmount(discountOrTax.key)">Eliminar &nbsp; <mat-icon>delete</mat-icon>
                   </mat-chip>
                 </mat-chip-list>
               </td>
@@ -176,16 +258,9 @@
         </table>
       </div>
     </div>
-    <div class="my-3 section-order">
+    <div class="mt-3 section-order">
       <h3 class="font-3xl font-weight-bold">Totales</h3>
       <div>
-        <!-- <div><span>Subtotal: </span>&nbsp;$ {{order.subtotal}}</div>
-        <div><span>Impuestos: </span>&nbsp;$ {{order.tax}}</div>
-        <div><span>Descuento: </span>&nbsp;$ {{order.discount}}</div>
-        <div><span>Retención: </span>&nbsp;$ {{order.retention}}</div>
-        <div><span>Total: </span>&nbsp;$ {{order.total}}</div>
-        <div><span>Total pagado: </span>&nbsp;$ {{order.total_paid}}</div> -->
-
         <table>
           <tbody class="text-uppercase">
             <tr>
@@ -212,6 +287,10 @@
               <td>Total pagado:&nbsp;</td>
               <td>$ {{order.total_paid}}</td>
             </tr>
+            <tr>
+              <td>Costo de envió:&nbsp;</td>
+              <td>$ {{order.shipping}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -219,7 +298,7 @@
   </div>
 </div>
 
-<div [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-5 col-9">
+<div [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-7 col-9">
   <div>
     <app-search [url]="urlProducts" placeholder="Buscador de productos" (data)="getDataProducts($event)">
       <mat-selection-list data [multiple]="false" (selectionChange)="selectedProduct($event)">
@@ -227,7 +306,6 @@
           <img mat-list-avatar [src]="product.value?.img || 'assets/img/img_default_null.jpg'" alt="imagen producto">
           <div mat-line>{{product.value.name}}</div>
           <div mat-line>{{product.value.code}}</div>
-          <!-- <div mat-line><button mat-raised-button>seleccionar este producto</button></div> -->
           <mat-divider></mat-divider>
         </mat-list-option>
       </mat-selection-list>

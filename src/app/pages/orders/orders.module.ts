@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslatefzModule } from '../../Modulos/translatefz/translatefz.module';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -22,15 +22,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreateOrEditAddressClientComponent } from './components/create-or-edit-address-client/create-or-edit-address-client.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddItemTemplateComponent } from './components/add-item-template/add-item-template.component';
-import {CdkTableModule} from '@angular/cdk/table';
 import { CreateOrEditDiscountOrTaxOrderComponent } from './components/create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
-
-
+import { ShippingOrderSectionComponent } from './components/shipping-order-section/shipping-order-section.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { StateFlowOrderComponent } from './components/state-flow-order/state-flow-order.component';
 
 @NgModule({
-  declarations: [OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, CreateOrEditAddressClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent],
+  declarations: [OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, CreateOrEditAddressClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
   imports: [
-  CommonModule,
+CommonModule,
     RouterModule,
     OrdersRoutingModule,
     SearchTemplateModule,
@@ -41,6 +42,7 @@ import { CreateOrEditDiscountOrTaxOrderComponent } from './components/create-or-
     MatFormFieldModule,
     MatButtonModule,
     ReactiveFormsModule,
+    FormsModule,
     MatSelectModule,
     MatStepperModule,
     SearchesModule,
@@ -48,6 +50,8 @@ import { CreateOrEditDiscountOrTaxOrderComponent } from './components/create-or-
     MatListModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatAutocompleteModule,
+    NgxMatSelectSearchModule,
   ],
   entryComponents: [CreateOrEditAddressClientComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })

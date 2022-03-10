@@ -1,4 +1,4 @@
-<h1 matDialogTitle>{{title}}</h1>
+<h1 matDialogTitle class="font-weight-bold">{{title}}</h1>
 
 <mat-dialog-content>
     <div [formGroup]="form" class="row">
@@ -6,7 +6,6 @@
             <input matInput required placeholder="Descripción" formControlName="name">
         </mat-form-field>
         <mat-form-field  class="col-md-6">
-            <input matInput required placeholder="Tipo" >
             <mat-select placeholder="Tipo" formControlName="type">
                 <mat-option *ngFor="let type of types" [value]="type">
                     {{type | translatefz:'orders'}}
@@ -15,8 +14,7 @@
         </mat-form-field>
 
         <mat-form-field  class="col-md-6">
-            <input matInput required placeholder="Tipo de monto" >
-            <mat-select placeholder="Tipo" formControlName="amount_type">
+            <mat-select placeholder="Tipo de monto" formControlName="amount_type">
                 <mat-option *ngFor="let typesAmount of typesAmounts" [value]="typesAmount">
                     {{typesAmount | translatefz:'orders'}}
                 </mat-option>
@@ -29,6 +27,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button mat-button color="warn" matDialogClose>Cerrar</button>
-    <button mat-button (click)="saveInServer()" color="primary">Guardar <mat-icon>save</mat-icon></button>
+    <button mat-raised-button [disabled]="isLoading" color="warn" matDialogClose>Cerrar</button>
+    <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()" color="primary">Guardar <mat-icon>save</mat-icon></button>
 </mat-dialog-actions>
