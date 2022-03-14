@@ -5,6 +5,7 @@
       <mat-chip>Canal: {{channel(order.channel_id) | translatefz:'order_channels'}}</mat-chip>
       <mat-chip>Tipo de orden: {{order.type | translatefz:'orders'}}</mat-chip>
     </mat-chip-list>
+    <app-state-flow-order [newStatus]="order.status"></app-state-flow-order>
     <div>
       <div>
         <div class="node"></div>
@@ -298,7 +299,8 @@
   </div>
 </div>
 
-<div [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-7 col-9">
+<div [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-6 col-9">
+  <button mat-mini-fab class="close-search-product-btn"><mat-icon>close</mat-icon></button>
   <div>
     <app-search [url]="urlProducts" placeholder="Buscador de productos" (data)="getDataProducts($event)">
       <mat-selection-list data [multiple]="false" (selectionChange)="selectedProduct($event)">

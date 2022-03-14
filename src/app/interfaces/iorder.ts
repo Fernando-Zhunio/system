@@ -73,6 +73,7 @@ export interface IItemOrder {
   export interface IOrder {
     id: number;
     type: string;
+    status: string;
     channel_id: number;
     client_id: number;
     shipping: number;

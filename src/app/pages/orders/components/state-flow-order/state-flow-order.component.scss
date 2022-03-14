@@ -1,0 +1,33 @@
+.node {
+    background-color: #dadada;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.arrow {
+    width: 30px;
+    height: 2px;
+    border-top: 2px solid black;
+    position: relative;
+}
+.arrow::after{
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: 4px;
+    width: 10px;
+    height: 1px;
+    transform: rotate(-27deg);
+    background-color: #f31717;
+}
+
+.arrow::before{
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: -4px;
+    width: 10px;
+    height: 1px;
+    transform: rotate(27deg);
+    background-color: #f31717;
+}

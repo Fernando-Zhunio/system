@@ -1,5 +1,5 @@
 
-<textarea  id="code" >
+<!-- <textarea  id="code" >
   st=>start: Start:>http://www.google.com[blank]
 e=>end:>http://www.google.com
 op1=>operation: My Operation
@@ -16,4 +16,12 @@ para(path1, bottom)->sub1(right)->op1
 para(path2, top)->op1
 </textarea>
 
-<div id="canvas"></div>
+<div id="canvas"></div> -->
+
+<div class="d-flex">
+  <div  class="center" *ngFor="let status of statuses | keyvalue;let i = index">
+    <div [ngClass]="{'active': status.value.enabled}" [class]="status.key" class="node">{{i + ":" + status.value.name}}</div>
+    <div *ngIf="i < 4" class="arrow">
+    </div>
+  </div>
+</div>
