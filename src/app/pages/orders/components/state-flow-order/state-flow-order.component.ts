@@ -8,26 +8,28 @@ import * as FlowChart from 'flowchart.js';
 export class StateFlowOrderComponent implements OnInit {
 
   constructor() { }
-  @Input() newStatus: string;
+  @Input() newStatus: string = null;
   currentStatus = 'created';
- statuses: any = {
-   created: {name: 'Creado', enabled: false},
-   paid: {name: 'Pagado', enabled: false},
-   partially_paid: {name: 'Parcialmente pagado', enabled: false},
-   cancelled: {name: 'Cancelado', enabled: false},
-   refunded: {name: 'Reembolsado', enabled: false},
- };
+  statuses: any = [
+    { type: 'created', name: 'Creado', enabled: false  },
+    { type: 'paid', name: 'Pagado', enabled: false },
+    { type: 'partially_paid', name: 'Parcialmente pagado', enabled: false },
+    { type: 'cancelled', name: 'Cancelado', enabled: false } ,
+    { type: 'refunded', name: 'Reembolsado', enabled: false } ,
+  ];
   ngOnInit() {
+    console.log(this.newStatus);
     if (this.newStatus) {
-      this.statuses[this.newStatus].enabled = true;
-      this.statuses[this.currentStatus].enabled = false;
+      this.statuses.find(x => x.type == this.newStatus).enabled = true;
       this.currentStatus = this.newStatus;
+    } else {
+      this.statuses.find(x => x.type == this.currentStatus).enabled = true;
     }
   }
 
   changeStatus(status: string) {
-    this.statuses[this.currentStatus].enabled = false;
-    this.statuses[status].enabled = true;
+    this.statuses.find(x => x.type == this.currentStatus).enabled = false;
+    this.statuses.find(x => x.type == status).enabled = true;
     this.currentStatus = status;
   }
 

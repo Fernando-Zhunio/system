@@ -40,7 +40,7 @@ export class AddItemTemplateComponent implements OnInit {
   classOrderItem: OrderItem;
 
   channel(id) {
-    console.log(this.channels.find(x => x.id === id).name || 'Sin canal');
+    // console.log(this.channels.find(x => x.id === id).name || 'Sin canal');
     return this.channels.find(x => x.id === id)?.name;
   }
 

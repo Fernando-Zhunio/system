@@ -1,4 +1,4 @@
-<h1 class="font-facebook list-group-item-accent-warning pl-2" matDialogTitle>Lista de Precios
+<h1 class="list-group-item-accent-warning pl-2" matDialogTitle><span class="font-weight-bold">Lista de Precios</span>
   <br>
   <small>{{product_name}}</small>
 </h1>
@@ -13,7 +13,7 @@
             <th>Precio</th>
             <th>precio con impuestos</th>
             <th>Estado</th>
-            <th>Accion</th>
+            <th>Acción</th>
             <th>Creado</th>
             <th>Opciones</th>
           </tr>
@@ -25,7 +25,7 @@
               <td>{{price?.status}}</td>
               <td>{{price?.action}}</td>
               <td>{{price?.created_at | date}}</td>
-              <td><button mat-icon-button color="warn" (click)="deletePrice(price?.id, price.price_group_id)"><mat-icon>delete</mat-icon></button></td>
+              <td><button *ngxPermissionsOnly="permissions.delete" mat-icon-button color="warn" (click)="deletePrice(price?.id, price.price_group_id)"><mat-icon>delete</mat-icon></button></td>
             </tr>
   
           </tbody>

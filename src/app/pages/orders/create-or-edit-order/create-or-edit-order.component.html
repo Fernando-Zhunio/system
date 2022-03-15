@@ -25,7 +25,6 @@
                                                 [multiple]="false">
                                                 <mat-list-option [value]="client.key"
                                                     *ngFor="let client of clientOrders.data | keyvalue">
-                                                    <mat-icon mat-list-icon>person</mat-icon>
                                                     <button [routerLink]="['/orders/clients',client.key,'edit']"  class="bg-gray-200" mat-list-avatar color="accent" mat-icon-button><mat-icon>edit</mat-icon></button>
                                                     <div mat-line>{{client.value.first_name}} {{client.value.last_name}}
                                                     </div>
@@ -73,7 +72,7 @@
                                             <!-- <div mat-subheader>Clientes</div> -->
                                             <mat-list-option [value]="address.key"
                                                 *ngFor="let address of clientOrders.addressesData | keyvalue">
-                                                <mat-icon mat-list-icon>person</mat-icon>
+                                                <!-- <mat-icon mat-list-icon>person</mat-icon> -->
                                                 <div mat-line class="font-weight-bold">{{address.value.first_name}}
                                                     {{address.value.last_name}}
                                                 </div>
@@ -177,12 +176,11 @@
                         <app-add-item-template [channels]="channelsOrders" [address]="addressSelected" [order]="order" [client]="clientSelected"></app-add-item-template>
                     </div>
                     <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button (click)="stepper.reset()">Reset</button>
+                        <button color="primary" mat-raised-button [routerLink]="['/orders']">Finalizar</button>
                     </div>
                 </mat-step>
             </mat-horizontal-stepper>
         </mat-card>
     </div>
 </div>
-<app-state-flow-order></app-state-flow-order>
+<!-- <app-state-flow-order></app-state-flow-order> -->

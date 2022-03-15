@@ -5,13 +5,45 @@
         <div>
             <app-search-template [url$]="url" (data)="getData($event)">
                 <ng-container menuBar>
-                    <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active"  selected color="accent" class="ml-1">
+                    <mat-chip [routerLink]="['./create']"  selected color="accent" class="ml-1">
                         <mat-icon>add</mat-icon>
                     </mat-chip>
                 </ng-container>
+                <ng-container data>
+                    <mat-card class="card" *ngFor="let order of data | keyvalue">
+                        <div>
+                            <div class="order-header m-2"><span>Orden #{{order.value.id}}</span> <small class="font-weight-bold text-info">{{order.value.created_at | date}}</small></div>
+                            <div>
+                                <mat-chip-list>
+                                    <mat-chip>Tipo: {{order.value.type | translatefz: 'orders'}}</mat-chip>
+                                    <mat-chip>Estado: {{order.value.status | translatefz: 'orders'}}</mat-chip>
+                                </mat-chip-list>
+                            </div>
+                            <h3 class="font-2xl font-weight-bold m-1">Cliente</h3>
+                            <div>
+                                <div>{{order.value.client.first_name +" "+ order.value.client.last_name}}</div>
+                                <div>Email: {{order.value.client.email}}</div>
+                                <div>Teléfono: {{order.value.client.phone}}</div>
+                                <div>{{order.value.client.state}} - {{order.value.client.city}}</div>
+                                <div>{{order.value.client.doc_id}}</div>
+                            </div>
+                            <h3 class="font-2xl font-weight-bold m-1">Detalles</h3>
+                            <div>
+                                <div>Número de productos: {{order.value.items_count}}</div>
+                                <div>Número de pagos: {{order.value.payments_count}}</div>
+                                <div>Total: {{order.value.total}}</div>
+                                <div>Total pagado: {{order.value.total_paid}}</div>
+                            </div>
+                            <div>
+                                <button color="accent" class="mr-1" mat-raised-button>Ver detalles </button>
+                                <button color="accent" mat-raised-button>Editar <mat-icon>edit</mat-icon></button>
+                            </div>
+                        </div>
+                    </mat-card>
+                </ng-container>
             </app-search-template>
         </div>
-        <div class="card-columns">
+        <!-- <div class="card-columns">
             <mat-card class="card">
                 <div>
                     <div class="node"></div>
@@ -21,6 +53,6 @@
                     <div class="node"></div>
                 </div>
             </mat-card>
-        </div>
+        </div> -->
     </div>
 </div>

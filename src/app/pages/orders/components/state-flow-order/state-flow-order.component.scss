@@ -1,33 +1,46 @@
 .node {
     background-color: #dadada;
-    padding: 5px;
+    color: rgb(119, 117, 117);
+    padding: 6px 10px;
     border-radius: 20px;
+    margin-left: 1px;
+    white-space: nowrap;
 }
 
 .arrow {
     width: 30px;
-    height: 2px;
-    border-top: 2px solid black;
+    height: 3px;
+    /* border-top: 3px solid black; */
     position: relative;
+    background: black;
+    border-radius: 2px;
+
 }
 .arrow::after{
     content: "";
     position: absolute;
     right: 0px;
     top: 4px;
-    width: 10px;
-    height: 1px;
+    width: 14px;
+    height: 2px;
     transform: rotate(-27deg);
-    background-color: #f31717;
+    background-color: black;
+    border-radius: 2px 2px 3px 1px;
 }
 
 .arrow::before{
     content: "";
     position: absolute;
     right: 0px;
-    top: -4px;
-    width: 10px;
-    height: 1px;
+    top: -3px;
+    width: 14px;
+    height: 2px;
     transform: rotate(27deg);
-    background-color: #f31717;
+    background-color: black;
+    border-radius: 2px 3px 2px;
+}
+
+.active{
+    color: rgb(230, 230, 15);
+    background-color: rgb(44, 44, 112);
 }

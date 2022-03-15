@@ -1,0 +1,30 @@
+<div>
+  <button color="accent" (click)="openDialog()" mat-raised-button class="mb-1">Agregar pago <mat-icon>add</mat-icon></button>
+  <div>
+    <table class="table overflow-auto">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Monto</th>
+          <th>Estado</th>
+          <th># Orden</th>
+          <th>Creada</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of paymentOrderMap | keyvalue">
+          <td>{{ payment.value.type | translatefz:'orders' }}</td>
+          <td>{{ payment.value.amount }}</td>
+          <td>{{ payment.value.status | translatefz: 'orders' }}</td>
+          <td>{{ payment.value.order_id }}</td>
+          <td>{{ payment.value.created_at }}</td>
+          <td>
+            <button mat-icon-button color="primary" (click)="openDialog(payment.key)" ><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button color="warn" (click)="deleteItem(payment.value.order_id, payment.key)" ><mat-icon>delete</mat-icon></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

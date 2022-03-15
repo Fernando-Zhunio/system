@@ -36,10 +36,10 @@ export class ShippingOrderSectionComponent implements OnInit {
   form: FormGroup = new FormGroup({
     type: new FormControl(null, [Validators.required]),
     amount: new FormControl(0, [Validators.required]),
-    weight: new FormControl(null, [Validators.required]),
-    height: new FormControl(null, [Validators.required]),
-    width: new FormControl(null, [Validators.required]),
-    length: new FormControl(null, [Validators.required]),
+    weight: new FormControl(0, [Validators.required]),
+    height: new FormControl(0, [Validators.required]),
+    width: new FormControl(0, [Validators.required]),
+    length: new FormControl(0, [Validators.required]),
     origin_warehouse_id: new FormControl(null, [Validators.required]),
   });
   isLoading = false;

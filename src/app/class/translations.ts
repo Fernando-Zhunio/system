@@ -27,6 +27,19 @@ const trans_es_order = {
     receivable: 'Por cobrar',
     payment_with_retention: 'Por pago con retención',
     reservation_paid : 'Por reserva pagada',
+
+    credit_card: 'Tarjeta de crédito',
+    cash: 'Efectivo',
+    debit_card: 'Tarjeta de débito',
+    wire: 'Transferencia',
+    wire_transfer: 'Transferencia',
+    paymentez: 'Paymentez',
+
+    pending: 'Pendiente',
+    paid: 'Pagado',
+    refunded: 'Reembolsado',
+    cancelled: 'Cancelado',
+    created: 'Creado',
 }
 
 const trans_es_order_channels = {
@@ -49,8 +62,7 @@ export const _transfz:  {} = {
  * @returns traduccion
  */
 export function trans(value, name) {
-    if ( _transfz[name])
-    {
+    if ( _transfz[name]) {
         return _transfz[name][value];
     }
     return 'no se a podido traducir';

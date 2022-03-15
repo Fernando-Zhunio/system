@@ -13,6 +13,7 @@ import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { Crud } from '../../../../class/crud';
+import { prices_permission_module } from '../../../../class/permissions-modules/prices-permissions';
 import { INotificationData } from '../../../../interfaces/inotification';
 import { IPrice, IPriceGroup, IProductPrice } from '../../../../interfaces/iprice';
 import { downloadPrice, generatingPrice, idlePrice } from '../../../../redux/actions/price.action';
@@ -48,6 +49,7 @@ export class PricesIndexComponent
   }
 
   @ViewChild(MatDrawer) sidenavPrice: MatDrawer;
+  permissions = prices_permission_module;
   EPriceState = EPriceState;
   isLoadingFilePrices: boolean = false;
   url: string = 'catalogs/products/prices';

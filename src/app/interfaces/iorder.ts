@@ -122,7 +122,7 @@ export interface IItemOrder {
     updated_at: string;
   }
 
-  export interface IPayments{
+  export interface IPaymentOrder {
     id: number;
     type: 'credit_card' | 'cash' | 'debit_card' | 'wire' | 'paymentez';
     status: 'pending' | 'paid' | 'refunded' | 'cancelled';
@@ -131,6 +131,7 @@ export interface IItemOrder {
     order_id: number;
     created_at: string;
     updated_at: string;
+    order: IOrder;
   }
 
    export interface IShipping {

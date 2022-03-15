@@ -27,9 +27,10 @@ import { ShippingOrderSectionComponent } from './components/shipping-order-secti
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { StateFlowOrderComponent } from './components/state-flow-order/state-flow-order.component';
-
+import { PaymentOrderComponent } from './components/payment-order/payment-order.component';
+import { CreateOrEditPaymentOrderComponent } from './components/payment-order/create-or-edit-payment-order/create-or-edit-payment-order.component';
 @NgModule({
-  declarations: [OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, CreateOrEditAddressClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
+  declarations: [CreateOrEditPaymentOrderComponent, PaymentOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, CreateOrEditAddressClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
   imports: [
 CommonModule,
     RouterModule,
@@ -53,6 +54,6 @@ CommonModule,
     MatAutocompleteModule,
     NgxMatSelectSearchModule,
   ],
-  entryComponents: [CreateOrEditAddressClientComponent, CreateOrEditDiscountOrTaxOrderComponent]
+  entryComponents: [CreateOrEditPaymentOrderComponent, CreateOrEditAddressClientComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })
 export class OrdersModule { }

@@ -18,10 +18,12 @@ para(path2, top)->op1
 
 <div id="canvas"></div> -->
 
-<div class="d-flex">
-  <div  class="center" *ngFor="let status of statuses | keyvalue;let i = index">
-    <div [ngClass]="{'active': status.value.enabled}" [class]="status.key" class="node">{{i + ":" + status.value.name}}</div>
-    <div *ngIf="i < 4" class="arrow">
+<div class="center overflow-auto">
+  <ng-container *ngFor="let status of statuses;let i = index">
+    <div  class="center">
+      <div [ngClass]="{'active': status.enabled}" [class]="status.type" class="node">{{status.name}}</div>
     </div>
-  </div>
+    <div *ngIf="i < statuses.length - 1" class="arrow">
+    </div>
+  </ng-container>
 </div>

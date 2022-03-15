@@ -1,0 +1,24 @@
+<h1 matDialogTitle class="font-weight-bold">{{title}}</h1>
+
+<mat-dialog-content>
+    <div [formGroup]="form" class="row m-0">
+      <mat-form-field class="col-md-6">
+        <mat-select placeholder="Seleccione un tipo de pago" formControlName="type">
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{type | translatefz:'orders'}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-md-6">
+        <input matInput placeholder="Monto" type="number" formControlName="amount">
+      </mat-form-field>
+      <mat-form-field class="col-12">
+        <textarea matInput  placeholder="Descripción" formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button color="warn" mat-raised-button matDialogClose>Cerrar</button>
+    <button [disabled]="isLoading" (click)="saveInServer()" [disabled]="form.invalid" color="primary" mat-raised-button>Guardar</button>
+</mat-dialog-actions>

@@ -16,7 +16,7 @@ export abstract class Crud<T> {
       .then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
-          this.standardService.destory(`${this.url}/${id}`).subscribe(
+          this.standardService.methodDelete(`${this.url}/${id}`).subscribe(
             (response) => {
               this.isLoading = false;
               this.snackBar.open('Registro eliminado', 'OK', { duration: 1500 });
@@ -33,7 +33,7 @@ export abstract class Crud<T> {
 
   index() {
     this.isLoading = true;
-    this.standardService.index(this.url).subscribe(
+    this.standardService.methodGet(this.url).subscribe(
       (response) => {
         this.isLoading = false;
         this.getData(response);
