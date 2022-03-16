@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { TwoFAComponent } from './two-fa/two-fa.component';
 import { CountdownModule } from 'ngx-countdown';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { CountdownModule } from 'ngx-countdown';
     MatInputModule,
     MatButtonModule,
     CountdownModule,
+    NgxSpinnerModule
   ]
 })
 export class AuthenticateModule { }

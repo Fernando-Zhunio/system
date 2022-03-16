@@ -412,9 +412,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   logout(): void {
     this.s_auth.logout().subscribe((res: any) => {
       if (res.success) {
-        this.s_storage.logout();
       }
     });
+    this.s_storage.logout();
   }
 
   changeCompany(idCompany, index): void {

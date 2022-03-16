@@ -27,6 +27,8 @@ export class SharedService {
     this._appointmentWork = appointmentWork;
   }
 
+  public static navItems = null;
+
   constructor(private Http: HttpClient) { }
 
   public static disabled_loader: boolean = false;

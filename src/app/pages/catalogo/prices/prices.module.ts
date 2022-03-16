@@ -23,7 +23,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
   declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
   imports: [
     CommonModule,
-    RouterModule,
+    // RouterModule,
     PricesRoutingModule,
     SearchTemplateModule,
     ConvertsModule,

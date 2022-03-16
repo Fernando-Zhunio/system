@@ -1,7 +1,8 @@
 export const prices_permission_module = {
-      index: ['super-admin', 'catalogs.products.prices.index'],
-      show: ['super-admin', 'catalogs.products.prices.show'],
-      create: ['super-admin', 'catalogs.products.prices.create'],
-      edit: ['super-admin', 'catalogs.products.prices.edit'],
-      delete: ['super-admin', 'catalogs.products.prices.destroy']
+      index: ['super-admin', 'catalogs.products.index'],
+      show: ['super-admin', 'catalogs.products.show'],
+      create: ['super-admin', 'catalogs.products.create'],
+      edit: ['super-admin', 'catalogs.products.edit'],
+      delete: ['super-admin', 'catalogs.products.destroy']
 };
+

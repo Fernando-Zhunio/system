@@ -6,16 +6,6 @@ import { PricesIndexComponent } from './prices-index/prices-index.component';
 
 const permissions_module = prices_permission_module;
 
-// export const permission_module = {
-//   prices: {
-//     index: ['super-admin', 'catalogs.products.prices.index'],
-//     show: ['super-admin', 'catalogs.products.prices.show'],
-//     create: ['super-admin', 'catalogs.products.prices.create'],
-//     edit: ['super-admin', 'catalogs.products.prices.edit'],
-//     delete: ['super-admin', 'catalogs.products.prices.destroy']
-//   },
-// };
-
 const routes: Routes = [
   {
     path: 'prices',

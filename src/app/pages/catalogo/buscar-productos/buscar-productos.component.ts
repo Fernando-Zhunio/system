@@ -24,6 +24,7 @@ import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
 import { ActivatedRoute } from '@angular/router';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { animation_conditional } from '../../../animations/animate_leave_enter';
+import { search_product_permission_module } from '../../../class/permissions-modules/search-products-permissions';
 
 @Component({
   selector: 'app-buscar-productos',
@@ -44,7 +45,7 @@ export class BuscarProductosComponent implements OnInit {
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
-  permission_edit = ['super-admin', 'products-admin.products.edit'];
+  // permission_edit = ['super-admin', 'products-admin.products.edit'];
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
 
@@ -97,11 +98,12 @@ export class BuscarProductosComponent implements OnInit {
     scrollbar: true,
     pagination: false,
   };
-  permission_page: IpermissionStandart;
+  permission = search_product_permission_module;
+
   ngOnInit(): void {
-    this.actived_router.data.subscribe((res) => {
-      this.permission_page = res.permissions.all;
-    });
+    // this.actived_router.data.subscribe((res) => {
+    //   this.permission_page = res.permissions.all;
+    // });
 
     this.s_standartSearch
       .show('catalogs/products/get-data-filter')

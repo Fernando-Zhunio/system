@@ -13,16 +13,17 @@ import { SwalService } from '../services/swal.service';
 import { StorageService } from '../services/storage.service';
 import { SharedService } from '../services/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 declare let Swal: any;
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
   constructor(
-    // private route: Router,
     private s_storage: StorageService,
     public s_shared: SharedService,
-    private snack_bar: MatSnackBar
+    private snack_bar: MatSnackBar,
+    private router: Router
   ) {}
 
   intercept(
@@ -72,11 +73,11 @@ export class CustomInterceptor implements HttpInterceptor {
         this.snack_bar.dismiss();
         switch (err.status) {
           case 401:
-            if (this.s_storage.isAuthenticated()) { this.s_storage.logout(); }
             SwalService.swalToast(
               'Error de credenciales comprueben que sean correctas',
               'warning'
-            );
+              );
+              this.s_storage.logout();
             break;
           case 403:
             SwalService.swalToast(
@@ -100,6 +101,7 @@ export class CustomInterceptor implements HttpInterceptor {
               'El servidor no pudo encontrar el contenido solicitado. 404',
               'warning'
             );
+            this.router.navigate(['/404']);
             break;
           case 500:
             SwalService.swalToast(
