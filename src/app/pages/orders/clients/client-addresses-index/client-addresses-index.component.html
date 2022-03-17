@@ -1,0 +1,57 @@
+<h2 class="font-4xl font-weight-bold my-2">Direcciones del cliente</h2>
+<!-- <small>{{client}}</small> -->
+<div>
+  <div>
+    <app-search-template [url$]="url" (data)="getData($event)">
+      <mat-chip class="ml-1" selected menuBar color="accent" (click)="openDialogCreateOrEdit()"><mat-icon>add</mat-icon></mat-chip>
+      <ng-container data>
+        <mat-card class="card" *ngFor="let address of data | keyvalue">
+          <small>Persona que recibe la orden solicitada</small>
+          <h3 class="mb-1 font-2xl text-info">{{address.value.first_name +' '+ address.value.last_name}}</h3>
+          <!-- <div><span>Numero de orden:</span><span>{{address?.value?.order_id}}</span></div> -->
+          <div class="container-info">
+            <div>
+              <span>Calles:</span>
+              <span>{{address.value.street}}</span>
+            </div>
+            <div>
+              <span>Ciudad:</span>
+              <span>{{address.value.city}}</span>
+            </div>
+            <div>
+              <span>Estado:</span>
+              <span>{{address.value.state}}</span>
+            </div>
+            <!-- <div>
+              <span>País:</span>
+              <span>{{address.value.country}}</span>
+            </div> -->
+            <div>
+              <span>Código Postal:</span>
+              <span>{{address.value.zip_code}} <span class="badge bg-warning"
+                  *ngIf="!address.value.zip_code">Vació</span></span>
+            </div>
+            <div>
+              <span>Vecindario:</span>
+              <span>{{address?.value?.neighborhood}} <span class="badge bg-warning"
+                  *ngIf="!address.value.neighborhood">Vació</span></span>
+            </div>
+            <div>
+              <span>Numero:</span>
+              <span>{{address?.value?.number}} <span class="badge bg-warning"
+                  *ngIf="!address.value.number">Vació</span></span>
+            </div>
+          </div>
+          <div>
+            <button color="primary" (click)="openDialogCreateOrEdit(address.key)" mat-icon-button>
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="deleteData(address.key)" color="warn" mat-icon-button>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </ng-container>
+    </app-search-template>
+  </div>
+</div>

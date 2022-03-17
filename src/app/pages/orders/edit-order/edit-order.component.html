@@ -1,1 +1,98 @@
 <h2 class="font-weight-bold font-4xl my-2">Editando order #{{id}}</h2>
+
+<div>
+    <div class="grid-header mb-2">
+        <mat-card>
+            <div class="d-flex align-items-center justify-content-between">
+                <h3 class="font-weight-bold font-2xl my-1">Cliente</h3>
+                <div>
+                    <button color="primary" mat-icon-button [routerLink]="['/system-orders/clients/create']" ><mat-icon>add</mat-icon></button>
+                    <button color="accent" mat-icon-button [routerLink]="['/system-orders/clients', order?.client_id, 'edit']" ><mat-icon>edit</mat-icon></button>
+                    <button color="primary" mat-icon-button (click)="openSelectClient()"><mat-icon>sync</mat-icon></button>
+                </div>
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Nombres:</td>
+                        <td>{{order?.client?.first_name+ ' '+ order?.client.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{order?.client?.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Teléfono:</td>
+                        <td>{{order?.client?.phone}}</td>
+                    </tr>
+                    <tr>
+                        <td>País:</td>
+                        <td>{{order?.client?.country}}</td>
+                    </tr>
+                    <tr>
+                        <td>Dirección:</td>
+                        <td>{{order?.client?.state+ ' - '+ order?.client.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>Tipo de Documento:</td>
+                        <td>{{order?.client?.doc_type}}</td>
+                    </tr>
+                    <tr>
+                        <td>Documento:</td>
+                        <td>{{order?.client?.doc_id}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </mat-card>
+        <mat-card>
+            <div class="d-flex align-items-center justify-content-between">
+                <h3 class="font-weight-bold font-2xl my-1">Dirección de envió</h3>
+                <div>
+                    <!-- <button mat-icon-fab (click)="openDialogAddress()"><mat-icon>add</mat-icon></button>
+                    <button mat-icon-fab (click)="openDialogAddress(order.shipping_address.id)"><mat-icon>edit</mat-icon></button> -->
+                    <button mat-icon-button (click)="openDialogAddress()"><mat-icon>sync</mat-icon></button>
+                </div>
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Nombres que recibe:</td>
+                        <td>{{order?.shipping_address?.first_name+ ' '+ order?.shipping_address.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Estado o provincia:</td>
+                        <td>{{order?.shipping_address?.state}}</td>
+                    </tr>
+                    <tr>
+                        <td>Cuidad:</td>
+                        <td>{{order?.shipping_address?.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>Vecindario:</td>
+                        <td>{{order?.shipping_address?.neighborhood}} <span *ngIf="!order?.shipping_address?.neighborhood" class="badge bg-warning">Vació</span></td>
+                    </tr>
+                    <tr>
+                        <td>Numero</td>
+                        <td>{{order?.shipping_address?.number}} <span *ngIf="!order?.shipping_address?.number" class="badge bg-warning">Vació</span></td>
+                    </tr>
+                    <tr>
+                        <td>Código postal:</td>
+                        <td>{{order?.shipping_address?.zip_code}} <span *ngIf="!order?.shipping_address?.zip_code" class="badge bg-warning">Vació</span></td>
+                    </tr>
+                    <tr>
+                        <td>Calle:</td>
+                        <td>{{order?.shipping_address?.street}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-card>
+    </div>
+    <div class="mb-2">
+        <mat-card>
+            <!-- <h3 class="font-weight-bold font-2xl my-1">Productos</h3> -->
+            <app-add-products-order [items]="items" [order]="order"></app-add-products-order>
+
+        </mat-card>
+    </div>
+</div>

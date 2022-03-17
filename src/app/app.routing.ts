@@ -132,7 +132,7 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/chats/chats.module').then(m => m.ChatsModule),
       },
       {
-        path: 'orders',
+        path: 'system-orders',
         loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
       },
       // {

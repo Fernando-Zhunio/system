@@ -9,7 +9,7 @@ import { SharedService } from '../../../services/shared/shared.service';
 import { IClientAddressOrder } from '../../../interfaces/iclient-address-order';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateOrEditAddressClientComponent } from '../components/create-or-edit-address-client/create-or-edit-address-client.component';
+import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 import { MatSelectionListChange } from '@angular/material/list';
 import { MatHorizontalStepper, MatStepper } from '@angular/material/stepper';
 import { IOrder } from '../../../interfaces/iorder';
@@ -122,14 +122,14 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   openDialogCreateOrEdit(address_id: number = null): void {
     this.dialog.open(CreateOrEditAddressClientComponent, {
       data: {
-        isoObligate: this.clientOrders.addressesData.size < 1,
-        client: this.clientSelected,
+        isoObligate: false,
+        client_id: this.clientSelected.id,
         address_id
       },
       disableClose: true
-    }).afterClosed().subscribe(res => {
-      if (res) {
-        this.clientOrders.addressesData.set(res.id, res);
+    }).beforeClosed().subscribe(res => {
+      if (res?.success) {
+        this.clientOrders.addressesData.set(res.data.id, res.data);
       }
       console.log(res);
     });

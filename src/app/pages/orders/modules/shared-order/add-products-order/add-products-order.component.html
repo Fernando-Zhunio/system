@@ -1,0 +1,103 @@
+<div class="mt-3 section-order">
+  <h3 class="font-3xl font-weight-bold">Productos</h3>
+  <div>
+    <div [formGroup]="form">
+      <div class="row">
+        <mat-form-field class="col-md-5">
+          <input disabled matInput formControlName="product" placeholder="Producto">
+          <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field class="col-md-2">
+          <input appearance="outline" matInput formControlName="price" type="number" placeholder="Precio">
+          <span matPrefix>$&nbsp;</span>
+        </mat-form-field>
+        <mat-form-field class="col-md-2">
+          <input appearance="outline" matInput type="number" formControlName="quantity" placeholder="Cantidad">
+        </mat-form-field>
+        <div class="col-md-3">
+          <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
+           (click)="createOrEditItemOrder()" >Agregar</button>
+        </div>
+      </div>
+      <div class="editing-item" *ngIf="isEditingItem">
+        <div>
+          <h4 class="parpadeo">Editando</h4>
+          <div [formGroup]="formEdit" class="row">
+            <mat-form-field class="col-md-5">
+              <input matInput [disabled]="true" formControlName="product" placeholder="Producto">
+              <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-form-field class="col-md-2">
+              <input matInput formControlName="price" type="number" placeholder="Precio">
+              <span matPrefix>$&nbsp;</span>
+            </mat-form-field>
+            <mat-form-field class="col-md-2">
+              <input matInput formControlName="quantity" type="number" placeholder="Cantidad">
+            </mat-form-field>
+            <div>
+              <button [disabled]="form.invalid || isLoading" color="primary" mat-raised-button
+                (click)="createOrEditItemOrder()">Actualizar</button>
+                <button [disabled]="isLoading" color="warn" mat-raised-button
+                (click)="disabledEditingItemOrder()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <h4 class="font-2xl font-weight-bold">Lista de productos</h4>
+      <div>
+        <div data>
+          <table class="table">
+            <thead class="text-primary">
+              <tr>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of items | keyvalue">
+                <td class="py-0">
+                  <img class="img-product-item" mat-list-avatar [src]="item.value.product.value?.img || 'assets/img/img_default_null.jpg'"
+                    alt="imagen producto">
+                </td>
+                <td>
+                  {{item.value.product?.code}} - {{item.value.product?.name}}
+                </td>
+                <td class="text-muted">${{item.value.price}}</td>
+                <td class="text-muted">{{item.value.quantity}}</td>
+                <td>
+                    <button mat-icon-button color="primary" (click)="enabledEditingItemOrder(item.key)"><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button color="warn"  (click)="deleteItemOrder(order.id, item.key)"><mat-icon>delete</mat-icon></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-6 col-9">
+  <div class="position-fixed"><button (click)="isOpenSearchProducts = !isOpenSearchProducts" mat-mini-fab class="close-search-product-btn bg-gray-300"><mat-icon>close</mat-icon></button></div>
+  <div>
+    <div>
+      <app-search [url]="urlProducts" placeholder="Buscador de productos" (data)="getDataProducts($event)">
+        <mat-selection-list data [multiple]="false" (selectionChange)="selectedProduct($event)">
+          <mat-list-option [value]="product.key" *ngFor="let product of products | keyvalue">
+            <img mat-list-avatar [src]="product.value?.img || 'assets/img/img_default_null.jpg'" alt="imagen producto">
+            <div mat-line>{{product.value.name}}</div>
+            <div mat-line>{{product.value.code}}</div>
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </mat-selection-list>
+      </app-search>
+    </div>
+  </div>
+</div>

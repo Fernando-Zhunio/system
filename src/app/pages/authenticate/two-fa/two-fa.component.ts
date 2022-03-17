@@ -81,7 +81,9 @@ export class TwoFAComponent implements OnInit, OnDestroy {
             );
             session.user = user;
             this.s_storage.setCurrentSession(session);
-            this.getPermissionAndVersionServer();
+            this.router.navigate(['/home/inicio']);
+
+            // this.getPermissionAndVersionServer();
           } else {
             SwalService.swalToast(
               'Error  verifique su contraseña o email',
@@ -99,54 +101,54 @@ export class TwoFAComponent implements OnInit, OnDestroy {
 
   }
 
-  getPermissionAndVersionServer() {
-    return this.s_standart.methodGet('user/permissions-roles')
-      .subscribe((res) => {
-        this.spinner.show('spinner-tf');
-        console.log('Response 1 - ', res);
-        console.log({ res });
-        if (res && res.hasOwnProperty('success') && res.success) {
-          if (res.data?.last_version_frontend?.version) {
-            this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
-          }
-          const permissions = res.data.my_permissions;
-          const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
-            [permissions] : permissions;
-          this.s_storage.setPermission(array_permissions);
-          SharedService.navItems = res.data.item_sidebar;
-          this.router.navigate(['/home/inicio']);
-        }
+  // getPermissionAndVersionServer() {
+  //   return this.s_standart.methodGet('user/permissions-roles')
+  //     .subscribe((res) => {
+  //       this.spinner.show('spinner-tf');
+  //       console.log('Response 1 - ', res);
+  //       console.log({ res });
+  //       if (res && res.hasOwnProperty('success') && res.success) {
+  //         if (res.data?.last_version_frontend?.version) {
+  //           this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
+  //         }
+  //         const permissions = res.data.my_permissions;
+  //         const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
+  //           [permissions] : permissions;
+  //         this.s_storage.setPermission(array_permissions);
+  //         SharedService.navItems = res.data.item_sidebar;
+  //         this.router.navigate(['/home/inicio']);
+  //       }
 
-      }, (err) => {
-        console.log(err);
-        this.spinner.show('spinner-tf');
-        SwalService.swalFire({ allowOutsideClick: false, confirmButtonText: 'Cerrar sesión', title: 'Error', text: "Error, presioné ctrl + f5 para limpiar el cache, \n Cierre e inicie sesion, \n si no se soluciona el problema consulta al administrador del sistema", icon: 'error' })
-          .then(res => {
-            if (res.isConfirmed) {
-              this.s_storage.logout();
-            }
-          });
-        throw err;
-      });
-  }
+  //     }, (err) => {
+  //       console.log(err);
+  //       this.spinner.show('spinner-tf');
+  //       SwalService.swalFire({ allowOutsideClick: false, confirmButtonText: 'Cerrar sesión', title: 'Error', text: "Error, presioné ctrl + f5 para limpiar el cache, \n Cierre e inicie sesion, \n si no se soluciona el problema consulta al administrador del sistema", icon: 'error' })
+  //         .then(res => {
+  //           if (res.isConfirmed) {
+  //             this.s_storage.logout();
+  //           }
+  //         });
+  //       throw err;
+  //     });
+  // }
 
-  validateVersion(latestVersion: string, message: string): void {
-    try {
-      const current_version = environment.appVersion;
-      console.log(current_version, latestVersion);
-      const isNewVersion = compare(current_version, latestVersion, '<'); // true
-      if (isNewVersion) {
-        SwalService.swalFire({ allowOutsideClick: false, showConfirmButton: true, title: 'Nueva de version', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
-          .then((res) => {
-            console.log(res);
-            if (res.isConfirmed) {
-              console.log('Confirmado');
-              location.reload();
-            }
-          }).catch(() => { });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // validateVersion(latestVersion: string, message: string): void {
+  //   try {
+  //     const current_version = environment.appVersion;
+  //     console.log(current_version, latestVersion);
+  //     const isNewVersion = compare(current_version, latestVersion, '<'); // true
+  //     if (isNewVersion) {
+  //       SwalService.swalFire({ allowOutsideClick: false, showConfirmButton: true, title: 'Nueva de version', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
+  //         .then((res) => {
+  //           console.log(res);
+  //           if (res.isConfirmed) {
+  //             console.log('Confirmado');
+  //             location.reload();
+  //           }
+  //         }).catch(() => { });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 }

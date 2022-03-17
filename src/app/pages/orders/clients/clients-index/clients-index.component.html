@@ -1,1 +1,36 @@
-<p>clients-index works!</p>
+<h2 class="font-weight-bold font-4xl my-2">Clientes</h2>
+<div>
+    <div>
+        <app-search-template [url$]="url" (data)="getData($event)">
+            <ng-container menuBar>
+                <mat-chip [routerLink]="['./create']"  selected color="accent" class="ml-1">
+                    <mat-icon>add</mat-icon>
+                </mat-chip>
+            </ng-container>
+            <ng-container data>
+                <mat-card class="card" *ngFor="let client of data | keyvalue">
+                    <h3 class="mb-1 font-2xl text-info">{{client.value.first_name + ' ' + client.value.last_name}}</h3>
+                    <div class="container-info">
+                        <div><span>Email:</span><span>{{client.value.email}}</span></div>
+                        <div><span>Documento:</span><span>{{client.value.doc_id}}</span></div>
+                        <div><span>Teléfono:</span><span>{{client.value.phone}}</span></div>
+                        <div><span>País:</span><span>{{client.value.country}}</span></div>
+                        <div><span>Dirección:</span><span>{{client.value.state + ' - ' + client.value.city}}</span></div>
+                        <div><span>Tipo de Documento:</span><span>{{client.value.doc_type}}</span></div>
+                        <div><span>Fecha de creación:</span><span>{{client.value.created_at | date: 'dd/MM/yyyy'}}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button color="primary" [routerLink]="['/system-orders/clients',client.key,'edit']"
+                            routerLinkActive="router-link-active" mat-raised-button>
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button color="accent" [routerLink]="['/system-orders/clients', client.key, 'addresses']"
+                             mat-raised-button>Direcciones<mat-icon>fmd_good
+                            </mat-icon></button>
+                    </div>
+                </mat-card>
+            </ng-container>
+        </app-search-template>
+    </div>
+</div>

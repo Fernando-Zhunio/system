@@ -14,7 +14,7 @@
 //     deleted_at?: string;
 // }
 
-import { Iwarehouse } from "./iwarehouse";
+import { Iwarehouse } from './iwarehouse';
 
 export interface IItemOrder {
     product_id: number;
@@ -86,13 +86,13 @@ export interface IItemOrder {
     created_at: string;
     updated_at: string;
     shippings: IShipping[];
-    client: Client;
+    client: IClientOrder;
     shipping_address: IShippingAddress;
     payments?: (any)[] | any;
     additional_amounts?: (AdditionalAmountsEntity)[] | any;
     items?:  (ItemsEntity)[] | any;
   }
-  export interface Client {
+  export interface IClientOrder {
     id: number;
     first_name: string;
     last_name: string;
@@ -148,6 +148,14 @@ export interface IItemOrder {
     order_id: number;
     origin_warehouse_id?: any;
     origin_warehouse: Iwarehouse;
+    created_at: string;
+    updated_at: string;
+  }
+
+  export interface IChannelOrder {
+    id: number;
+    name: string;
+    type: string;
     created_at: string;
     updated_at: string;
   }

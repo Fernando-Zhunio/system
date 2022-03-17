@@ -9,7 +9,7 @@ import { OrdersIndexComponent } from './orders-index/orders-index.component';
 const permissionsModuleRoutes = permissionsModuleOrders;
 const routes = [
   {
-    path: '',
+    path: 'orders',
     component: OrdersIndexComponent,
     data: {
       permissions: permissionsModuleRoutes.index
@@ -17,7 +17,7 @@ const routes = [
     canActivate: [NgxPermissionsGuard],
   },
   {
-    path: 'create',
+    path: 'orders/create',
     component: CreateOrEditOrderComponent,
     data: {
       permissions: permissionsModuleRoutes.create
@@ -25,17 +25,17 @@ const routes = [
     canActivate: [NgxPermissionsGuard],
   },
   {
-    path: 'clients',
-    loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
-  },
-  {
-    path: ':order_id/edit',
+    path: 'orders/:order_id/edit',
     component: EditOrderComponent,
     data: {
       permissions: permissionsModuleRoutes.edit
     },
     canActivate: [NgxPermissionsGuard],
-  }
+  },
+  {
+    path: 'clients',
+    loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
+  },
 ];
 
 @NgModule({

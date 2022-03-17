@@ -1,0 +1,29 @@
+.grid-header {
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 10px));
+    gap: 10px;
+    font-weight: bold;
+    tr {
+        font-size: 17px;
+        line-height: 1.7;
+    }
+    tr :nth-child(1){
+        color: gray;
+    }
+    tr :nth-child(2){
+        color: rgb(37, 42, 58);
+        padding-left: 5px;
+    }
+}
+
+table {
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .grid-header {
+        grid-template-columns: 100%;
+    }
+}

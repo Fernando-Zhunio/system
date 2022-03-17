@@ -217,7 +217,7 @@ export class StandartSearchService {
     return this.http.post<IResponse<T>>(this.end_point + url,  params );
   }
 
-  public methodPut<T = any>(url, params: HttpParams = null): Observable<IResponse<T>> {
+  public methodPut<T = any>(url, params: any = null): Observable<IResponse<T>> {
     return this.http.put<IResponse<T>>(this.end_point + url, params );
   }
 

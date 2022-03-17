@@ -36,7 +36,7 @@
                             </div>
                             <div>
                                 <button color="accent" class="mr-1" mat-raised-button>Ver detalles </button>
-                                <button color="accent" mat-raised-button>Editar <mat-icon>edit</mat-icon></button>
+                                <button color="accent" [routerLink]="['/system-orders/orders',order.key, 'edit']"  mat-raised-button>Editar <mat-icon>edit</mat-icon></button>
                             </div>
                         </div>
                     </mat-card>

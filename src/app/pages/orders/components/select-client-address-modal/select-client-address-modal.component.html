@@ -1,0 +1,33 @@
+<h1 matDialogTitle>Selector de Dirección <br>
+  <small>{{dataExternal?.client?.first_name + ' ' + dataExternal?.client?.last_name}}</small>
+</h1>
+
+<mat-dialog-content class="position-relative">
+  <div *ngIf="isLoading" class="loader">
+    <div class="parpadeo">Espere cambiando dirección de cliente</div>
+  </div>
+  <app-search placeholder="Buscador de direccoines" (data)="getData($event)" [url]="url">
+    <ng-container data>
+      <mat-card class="max-height-500">
+        <mat-selection-list (selectionChange)="selectedAddress($event)" [multiple]="false">
+          <mat-list-option [value]="address.id" *ngFor="let address of addresses">
+            <div mat-line class="font-weight-bold">{{address?.first_name}}
+              {{address?.last_name}}
+            </div>
+            <div mat-line>{{address?.street}} - {{address?.state}}</div>
+            <!-- <button mat-list-avatar color="accent" class="bg-gray-200" mat-icon-button
+              (click)="openDialogCreateOrEdit(address.id)">
+              <mat-icon>edit</mat-icon>
+            </button> -->
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-card>
+    </ng-container>
+  </app-search>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button [disabled]="isLoading" mat-raised-button matDialogClose color="warn">Cerrar</button>
+  <!-- <button [disabled]="isLoading" mat-raised-button (click)="selectedClient()" color="primary">Guardar</button> -->
+</mat-dialog-actions>
