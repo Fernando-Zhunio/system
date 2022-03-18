@@ -85,7 +85,7 @@ export interface IItemOrder {
     total_paid: number;
     created_at: string;
     updated_at: string;
-    shippings: IShipping[];
+    shippings: IShippingOrder[];
     client: IClientOrder;
     shipping_address: IShippingAddress;
     payments?: (any)[] | any;
@@ -134,7 +134,7 @@ export interface IItemOrder {
     order: IOrder;
   }
 
-   export interface IShipping {
+   export interface IShippingOrder {
     id: number;
     type: string;
     status: string;

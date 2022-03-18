@@ -40,6 +40,11 @@ const trans_es_order = {
     refunded: 'Reembolsado',
     cancelled: 'Cancelado',
     created: 'Creado',
+    generated_guide: 'Generando guía',
+    shipped: 'Enviado',
+    in_transit: 'En tránsito',
+    delivered: 'Entregado',
+    returned: 'Devuelto',
 }
 
 const trans_es_order_channels = {

@@ -14,8 +14,8 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class DepartmentIndexComponent extends Crud<IDepartment> implements OnInit {
   url: string;
 
-  constructor(standardService: StandartSearchService, snackBar: MatSnackBar, private act_router: ActivatedRoute) {
-    super(standardService, snackBar);
+  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar, private act_router: ActivatedRoute) {
+    super();
     this.url = `admin/companies/${this.getParam()}/departments`;
   }
 

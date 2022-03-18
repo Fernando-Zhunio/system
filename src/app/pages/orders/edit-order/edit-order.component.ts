@@ -5,7 +5,6 @@ import { IChannelOrder, IItemOrder, IOrder } from '../../../interfaces/iorder';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SelectClientAddressModalComponent } from '../components/select-client-address-modal/select-client-address-modal.component';
 import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
-import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 
 @Component({
   selector: 'app-edit-order',

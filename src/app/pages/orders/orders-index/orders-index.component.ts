@@ -10,8 +10,8 @@ import { StandartSearchService } from '../../../services/standart-search.service
 })
 export class OrdersIndexComponent extends Crud<any> implements OnInit {
 
-  constructor(s_standard: StandartSearchService, snackbar: MatSnackBar) {
-    super( s_standard, snackbar );
+  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
+    super();
   }
 
   url: string = 'system-orders/orders';

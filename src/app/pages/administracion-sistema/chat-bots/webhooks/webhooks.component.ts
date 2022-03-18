@@ -15,7 +15,7 @@ export class WebhooksComponent extends Crud<IChatWebhook> implements OnInit {
   url: string;
 
   constructor(protected activated_route: ActivatedRoute, protected standardService: StandartSearchService, protected snackBar: MatSnackBar)  {
-    super( standardService, snackBar);
+    super();
     this.url = `admin/chatbot/${this.getParam('chatbot_id')}/webhooks`;
     this.title = this.getQueryParams('name');
   }

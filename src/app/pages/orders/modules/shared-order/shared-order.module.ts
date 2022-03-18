@@ -10,10 +10,15 @@ import { AddProductsOrderComponent } from './add-products-order/add-products-ord
 import { SearchesModule } from '../../../../Modulos/searches/searches.module';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { ShippingsComponent } from './shippings/shippings.component';
+import { TranslatefzModule } from './../../../../Modulos/translatefz/translatefz.module';
+import { MatSelectModule } from '@angular/material/select';
+import { GenerateGuideServientregaComponent } from './tools/generate-guide-servientrega/generate-guide-servientrega.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
@@ -22,12 +27,17 @@ import { MatIconModule } from '@angular/material/icon';
     SearchesModule,
     MatListModule,
     MatIconModule,
+    TranslatefzModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule
   ],
   exports: [
     CreateOrEditAddressClientComponent,
-    AddProductsOrderComponent
+    AddProductsOrderComponent,
+    ShippingsComponent,
+    GenerateGuideServientregaComponent,
   ],
-  declarations: [CreateOrEditAddressClientComponent, AddProductsOrderComponent],
-  entryComponents: [CreateOrEditAddressClientComponent]
+  declarations: [GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
+  entryComponents: [GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
 })
 export class SharedOrderModule { }

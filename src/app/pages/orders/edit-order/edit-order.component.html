@@ -49,8 +49,6 @@
             <div class="d-flex align-items-center justify-content-between">
                 <h3 class="font-weight-bold font-2xl my-1">Dirección de envió</h3>
                 <div>
-                    <!-- <button mat-icon-fab (click)="openDialogAddress()"><mat-icon>add</mat-icon></button>
-                    <button mat-icon-fab (click)="openDialogAddress(order.shipping_address.id)"><mat-icon>edit</mat-icon></button> -->
                     <button mat-icon-button (click)="openDialogAddress()"><mat-icon>sync</mat-icon></button>
                 </div>
             </div>
@@ -92,7 +90,11 @@
         <mat-card>
             <!-- <h3 class="font-weight-bold font-2xl my-1">Productos</h3> -->
             <app-add-products-order [items]="items" [order]="order"></app-add-products-order>
-
+        </mat-card>
+    </div>
+    <div class="mb-2">
+        <mat-card>
+            <app-shippings [order_id]="order?.id" [shippings]="order?.shippings"></app-shippings>
         </mat-card>
     </div>
 </div>

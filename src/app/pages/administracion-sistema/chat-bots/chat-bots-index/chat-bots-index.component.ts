@@ -13,8 +13,8 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 })
 export class ChatBotsIndexComponent extends Crud<IChatbot> implements OnInit {
 
-    constructor( standardService: StandartSearchService, snackBar: MatSnackBar,  private clipboard: Clipboard) {
-      super(standardService, snackBar);
+    constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar,  private clipboard: Clipboard) {
+      super();
    }
 
   url: string = 'admin/chatbot';

@@ -1,0 +1,104 @@
+<h1 matDialogTitle>Creador de Guiás de Servientrega</h1>
+
+<mat-dialog-content>
+    <div [formGroup]="form" class="row m-0">
+      <mat-form-field class="col-md-4">
+        <mat-select required formControlName="id_ciudad_destino" placeholder="Cuidad de destino">
+          <mat-option>
+            <ngx-mat-select-search  [searching]="isLoadingCity" placeholderLabel="Buscador de cuidad" [formControl]="formSearchCity"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let city of searchCities" [value]="city.id">
+            {{city.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <mat-select required formControlName="id_ciudad_origen" placeholder="Cuidad de origen">
+          <mat-option>
+            <ngx-mat-select-search  [searching]="isLoadingCity" placeholderLabel="Buscador de cuidad" [formControl]="formSearchCity"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let city of searchCities" [value]="city.id">
+            {{city.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input formControlName="direccion1_remite" matInput placeholder="Dirección del remitente 1">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required formControlName="telefono1_remite" matInput placeholder="Teléfono remitente 1">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input  formControlName="telefono2_remite" matInput placeholder="Teléfono remitente 2">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required formControlName="razon_social_desti_ne" matInput placeholder="Razón social">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required  formControlName="nombre_destinatario_ne" matInput placeholder="Nombre del destinatario">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required  formControlName="apellido_destinatar_ne" matInput placeholder="Apellido del destinatario">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required  formControlName="direccion1_destinat_ne" matInput placeholder="Dirección del destinatario">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input  formControlName="sector_destinat_ne" matInput placeholder="Sector del destinatario">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required formControlName="telefono1_destinat_ne" matInput placeholder="Teléfono del destinatario">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input  formControlName="telefono2_destinat_ne" matInput placeholder="Teléfono del destinatario">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required formControlName="contenido" matInput placeholder="Descripción del contenido">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input type="number" required formControlName="numero_piezas" matInput placeholder="Numero de piezas">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input type="number" required formControlName="valor_mercancia" matInput placeholder="Valor de la mercancía">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input type="number" required formControlName="valor_asegurado" matInput placeholder="Valor asegurado">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input type="number" formControlName="largo" matInput placeholder="Largo">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input type="number" formControlName="ancho" matInput placeholder="Ancho">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input type="number" formControlName="alto" matInput placeholder="alto">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required type="number" formControlName="peso_fisico" matInput placeholder="Peso físico">
+      </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button matDialogClose [disabled]="isLoading" mat-raised-button color="warn">Cerrar</button>
+    <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()" color="primary">Guardar</button>
+</mat-dialog-actions>

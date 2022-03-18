@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { Observable, Subscription } from 'rxjs';
-import { IOrder, IShipping } from '../../../../interfaces/iorder';
+import { IOrder, IShippingOrder } from '../../../../interfaces/iorder';
 import { Iwarehouse } from '../../../../interfaces/iwarehouse';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -22,7 +22,7 @@ const routes_api_shipping = {
   templateUrl: './shipping-order-section.component.html',
   styleUrls: ['./shipping-order-section.component.scss']
 })
-export class ShippingOrderSectionComponent implements OnInit {
+export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   types: any[] = [];
   title = 'Envíos';
   subscription: Subscription = null;
@@ -30,30 +30,30 @@ export class ShippingOrderSectionComponent implements OnInit {
   // warehouse_select: Iwarehouse = null;
   formSearch = new FormControl(null);
   searching = false;
-  shipping: IShipping = null;
+  shipping: IShippingOrder = null;
   intervalSearch: any;
   noEntriesFoundLabel = 'No se encontraron registros';
   form: FormGroup = new FormGroup({
     type: new FormControl(null, [Validators.required]),
     amount: new FormControl(0, [Validators.required]),
     weight: new FormControl(0, [Validators.required]),
-    height: new FormControl(0, [Validators.required]),
-    width: new FormControl(0, [Validators.required]),
-    length: new FormControl(0, [Validators.required]),
+    height: new FormControl(0),
+    width: new FormControl(0),
+    length: new FormControl(0),
     origin_warehouse_id: new FormControl(null, [Validators.required]),
   });
   isLoading = false;
   status: 'edit' | 'create' = 'create';
   constructor(private standard: StandartSearchService, public dialogRef: MatDialogRef<ShippingOrderSectionComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { order: IOrder, shipping_id: number }) { }
+    @Inject(MAT_DIALOG_DATA) public dataExterna: { order_id: number, shipping_id: number }) { }
 
   ngOnInit() {
     let observe: Observable<any>;
     this.isLoading = true;
-    if (this.data?.shipping_id) {
+    if (this.dataExterna?.shipping_id) {
       this.status = 'edit';
       this.title = 'Editando ' + this.title;
-      observe = this.standard.methodGet(routes_api_shipping.edit(this.data.order.id, this.data.shipping_id));
+      observe = this.standard.methodGet(routes_api_shipping.edit(this.dataExterna.order_id, this.dataExterna.shipping_id));
     } else {
       this.status = 'create';
       this.title = 'Creando ' + this.title;
@@ -67,7 +67,6 @@ export class ShippingOrderSectionComponent implements OnInit {
         if (this.status === 'edit') {
           this.shipping = data.shipping;
           this.fillData(this.shipping);
-          // this.warehouse_select = this.warehouses.find(x => x.id === this.shipping.origin_warehouse_id);
         }
       }
       this.isLoading = false;
@@ -79,6 +78,12 @@ export class ShippingOrderSectionComponent implements OnInit {
         this.buscarInterval(value);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   fillData(data): void {
@@ -93,17 +98,21 @@ export class ShippingOrderSectionComponent implements OnInit {
       origin_warehouse_id: data.origin_warehouse_id,
     });
     this.selectWarehouse(data.origin_warehouse_id);
+    this.selectionType({ value: data.type });
   }
 
-  selectionType(event: MatSelectChange): void {
+  selectionType(event: MatSelectChange | any): void {
     console.log(event);
-    const id = event.value;
     if (event.value == 'pickup') {
-      this.form.get('amount').setValue(0);
       this.form.get('weight').disable();
       this.form.get('height').disable();
       this.form.get('width').disable();
       this.form.get('length').disable();
+      this.form.get('amount').setValue(0);
+      this.form.get('weight').setValue(0);
+      this.form.get('height').setValue(0);
+      this.form.get('width').setValue(0);
+      this.form.get('length').setValue(0);
     } else {
       this.form.get('amount').enable();
       this.form.get('weight').enable();
@@ -137,18 +146,18 @@ export class ShippingOrderSectionComponent implements OnInit {
   }
 
   saveInServer(): void {
-    const data = this.form.value;
+    const dataSend = this.form.value;
     if (this.form.valid) {
       this.isLoading = true;
       let observable: Observable<any>;
       if (this.status === 'create') {
-        observable = this.standard.methodPost(routes_api_shipping.store(this.data.order.id), data);
+        observable = this.standard.methodPost(routes_api_shipping.store(this.dataExterna.order_id), dataSend);
       } else {
-        observable = this.standard.methodPut(routes_api_shipping.update(this.data.order.id, this.data.shipping_id), data);
+        observable = this.standard.methodPut(routes_api_shipping.update(this.dataExterna.order_id, this.dataExterna.shipping_id), dataSend);
       }
       observable.subscribe(res => {
         console.log(res);
-        this.dialogRef.close(res.data);
+        this.dialogRef.close(res);
       }, err => {
         this.isLoading = false;
         console.log(err);

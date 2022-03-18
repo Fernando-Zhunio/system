@@ -19,8 +19,8 @@ export class PromotionsIndexComponent extends Crud<IPromotions> implements OnIni
   url: string;
   key_paginator: string = 'promotions';
 
-  constructor(private s_standartService: StandartSearchService, private s_snackBar: MatSnackBar, private sheet: MatBottomSheet) {
-    super(s_standartService, s_snackBar);
+  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar, private sheet: MatBottomSheet) {
+    super();
     this.url = 'catalogs/promotions';
   }
 
