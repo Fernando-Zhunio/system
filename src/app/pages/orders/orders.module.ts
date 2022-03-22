@@ -27,14 +27,14 @@ import { ShippingOrderSectionComponent } from './components/shipping-order-secti
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { StateFlowOrderComponent } from './components/state-flow-order/state-flow-order.component';
-import { PaymentOrderComponent } from './components/payment-order/payment-order.component';
-import { CreateOrEditPaymentOrderComponent } from './components/payment-order/create-or-edit-payment-order/create-or-edit-payment-order.component';
 import { EditOrderComponent } from './edit-order/edit-order.component';
 import { SelectClientModalComponent } from './components/select-client-modal/select-client-modal.component';
 import { SelectClientAddressModalComponent } from './components/select-client-address-modal/select-client-address-modal.component';
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 @NgModule({
-  declarations: [SelectClientAddressModalComponent, SelectClientModalComponent, EditOrderComponent, CreateOrEditPaymentOrderComponent, PaymentOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
+  declarations: [SelectClientAddressModalComponent, SelectClientModalComponent, EditOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -58,7 +58,8 @@ import { SharedOrderModule } from './modules/shared-order/shared-order.module';
     MatAutocompleteModule,
     NgxMatSelectSearchModule,
     SharedOrderModule,
+    MatExpansionModule,
   ],
-  entryComponents: [SelectClientAddressModalComponent, SelectClientModalComponent, CreateOrEditPaymentOrderComponent, CreateOrEditDiscountOrTaxOrderComponent]
+  entryComponents: [SelectClientAddressModalComponent, SelectClientModalComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })
 export class OrdersModule { }

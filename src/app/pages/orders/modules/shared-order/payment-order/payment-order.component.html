@@ -1,0 +1,62 @@
+<div>
+  <div class="mt-3 section-order">
+    <h3 class="font-3xl font-weight-bold">Pagos</h3>
+    <button color="accent" (click)="openDialog()" mat-raised-button class="mb-1">Agregar pago <mat-icon>add</mat-icon>
+      </button>
+    <div class="overflow-auto">
+      <table class="table overflow-auto">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Monto</th>
+            <th>Estado</th>
+            <th>Archivos</th>
+            <th># Orden</th>
+            <th>Creada</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of paymentsMap | keyvalue">
+            <td>{{ payment.value.type | translatefz:'orders' }}</td>
+            <td>$ {{ payment.value.amount }}</td>
+            <td>
+              <span class="badge font-xs {{payment.value.status}}"
+                *ngIf="payment.value.status != 'pending' || payment.value.type == 'paymentez'; else templateChangePayment">{{
+                payment.value.status | translatefz: 'orders' }}</span>
+              <ng-template #templateChangePayment>
+                <span>
+                  <mat-select [value]="payment.value.status"
+                    (selectionChange)="changeStatusPayment($event, payment.key)" placeholder="Cambio de estado">
+                    <mat-option value="pending">Pendiente</mat-option>
+                    <mat-option value="paid">Pagado</mat-option>
+                    <mat-option value="cancelled">Cancelado</mat-option>
+                  </mat-select>
+                </span>
+              </ng-template>
+            </td>
+            <td><button mat-icon-button [matBadge]="'0'"><mat-icon>visibility</mat-icon></button></td>
+            <td>{{ payment.value.order_id }}</td>
+            <td>{{ payment.value.created_at | date }}</td>
+            <td>
+              <button mat-icon-button color="primary" (click)="openDialog(payment.key)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteItem(payment.value.order_id, payment.key)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-raised-button color="accent" (click)="uploadFile(payment.key)">Agregar
+                archivo &nbsp;<mat-icon>post_add</mat-icon></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="isOpenUploadFile" class="upload-file-paid">
+    <button class="btn-close-filepond" color="warn" mat-icon-button (click)="isOpenUploadFile = !isOpenUploadFile">
+        <mat-icon >close</mat-icon>
+    </button>
+    <file-pond #myPondPaid [options]="pondOptions"  (onprocessfiles)="successFiles($event)" [className]="'m-0 w-75'">
+    </file-pond>
+  </div>

@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let shipping of shippings">
-          <td>{{shipping.type}}</td>
+          <td class="{{shipping.type}}">{{shipping.type}}</td>
           <td colspan="1">
             <ng-container>
               <span class="badge {{shipping.status}} font-xs" *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus">
@@ -44,12 +44,17 @@
           <td>{{shipping?.length}}</td>
           <td>{{shipping?.origin_warehouse_id+ "-"+ shipping?.origin_warehouse?.name}}</td>
           <td>
+            <ng-container *ngIf="shipping.status == 'pending' && !shipping.tracking_number">
               <button mat-icon-button color="primary" (click)="openDialogShipping(shipping.id)"><mat-icon>edit</mat-icon></button>
-              <button mat-icon-button color="warn"  (click)="deleteShipping(shipping.id)"><mat-icon>delete</mat-icon></button>
-              <button *ngIf="shipping.type == 'servientrega' && !shipping.tracking_number;else templateDeleteGuie" mat-raised-button color="warn"  (click)="openGenerateGuide(shipping.id)">Generar guiá<mat-icon>grading</mat-icon></button>
-              <ng-template #templateDeleteGuie>
+              <button mat-icon-button color="warn" *ngIf="!shipping.tracking_number" (click)="deleteShipping(shipping.id)"><mat-icon>delete</mat-icon></button>
+            </ng-container>
+            <ng-container *ngIf="shipping.type == 'servientrega'">
+              <button  *ngIf="!shipping.tracking_number; else templateDeleteGuie" mat-raised-button color="primary"  (click)="openGenerateGuide(shipping.id)">Generar guiá<mat-icon>grading</mat-icon></button>
+              <ng-template #templateDeleteGuie >
                 <button mat-raised-button color="warn"  (click)="deleteGuie(shipping.id)">Eliminar guiá<mat-icon>delete</mat-icon></button>
               </ng-template>
+            </ng-container>
+            
         </tr>
       </tbody>
     </table>

@@ -3,7 +3,7 @@
 <mat-dialog-content>
     <div [formGroup]="form" class="row m-0">
       <mat-form-field class="col-md-6">
-        <mat-select placeholder="Seleccione un tipo de pago" formControlName="type">
+        <mat-select [disabled]="isEdit" placeholder="Seleccione un tipo de pago" formControlName="type">
           <mat-option *ngFor="let type of types" [value]="type">
             {{type | translatefz:'orders'}}
           </mat-option>

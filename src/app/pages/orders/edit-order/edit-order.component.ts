@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
-import { IChannelOrder, IItemOrder, IOrder } from '../../../interfaces/iorder';
+import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../interfaces/iorder';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SelectClientAddressModalComponent } from '../components/select-client-address-modal/select-client-address-modal.component';
 import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
@@ -16,9 +17,13 @@ export class EditOrderComponent implements OnInit {
   constructor(private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog) { }
   readonly id = this.activated_router.snapshot.params['order_id'];
   order: IOrder = null;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   items:  Map<number, IItemOrder> = new Map<number, IItemOrder>();
   types: any[] = [];
   channels: IChannelOrder[] = [];
+  paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
+  discountsAndTaxes: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
+
   ngOnInit() {
     console.log(this.id);
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
@@ -28,6 +33,8 @@ export class EditOrderComponent implements OnInit {
         this.items = new Map<number, IItemOrder>(data.data.order.items.map(item => [item.id, item]));
         this.channels = data.data.channels;
         this.types = data.data.types;
+        this.paymentsMap = new Map<number, IPaymentOrder>(this.order.payments.map(item => [item.id, item]));
+        this.discountsAndTaxes = new Map<number, any>(this.order.additional_amounts.map(item => [item.id, item]));
       }
     });
   }

@@ -6,9 +6,16 @@
             <div class="d-flex align-items-center justify-content-between">
                 <h3 class="font-weight-bold font-2xl my-1">Cliente</h3>
                 <div>
-                    <button color="primary" mat-icon-button [routerLink]="['/system-orders/clients/create']" ><mat-icon>add</mat-icon></button>
-                    <button color="accent" mat-icon-button [routerLink]="['/system-orders/clients', order?.client_id, 'edit']" ><mat-icon>edit</mat-icon></button>
-                    <button color="primary" mat-icon-button (click)="openSelectClient()"><mat-icon>sync</mat-icon></button>
+                    <button color="primary" mat-icon-button [routerLink]="['/system-orders/clients/create']">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <button color="accent" mat-icon-button
+                        [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button color="primary" mat-icon-button (click)="openSelectClient()">
+                        <mat-icon>sync</mat-icon>
+                    </button>
                 </div>
             </div>
             <table>
@@ -49,7 +56,9 @@
             <div class="d-flex align-items-center justify-content-between">
                 <h3 class="font-weight-bold font-2xl my-1">Dirección de envió</h3>
                 <div>
-                    <button mat-icon-button (click)="openDialogAddress()"><mat-icon>sync</mat-icon></button>
+                    <button mat-icon-button (click)="openDialogAddress()">
+                        <mat-icon>sync</mat-icon>
+                    </button>
                 </div>
             </div>
             <table>
@@ -68,15 +77,19 @@
                     </tr>
                     <tr>
                         <td>Vecindario:</td>
-                        <td>{{order?.shipping_address?.neighborhood}} <span *ngIf="!order?.shipping_address?.neighborhood" class="badge bg-warning">Vació</span></td>
+                        <td>{{order?.shipping_address?.neighborhood}} <span
+                                *ngIf="!order?.shipping_address?.neighborhood" class="badge bg-warning">Vació</span>
+                        </td>
                     </tr>
                     <tr>
                         <td>Numero</td>
-                        <td>{{order?.shipping_address?.number}} <span *ngIf="!order?.shipping_address?.number" class="badge bg-warning">Vació</span></td>
+                        <td>{{order?.shipping_address?.number}} <span *ngIf="!order?.shipping_address?.number"
+                                class="badge bg-warning">Vació</span></td>
                     </tr>
                     <tr>
                         <td>Código postal:</td>
-                        <td>{{order?.shipping_address?.zip_code}} <span *ngIf="!order?.shipping_address?.zip_code" class="badge bg-warning">Vació</span></td>
+                        <td>{{order?.shipping_address?.zip_code}} <span *ngIf="!order?.shipping_address?.zip_code"
+                                class="badge bg-warning">Vació</span></td>
                     </tr>
                     <tr>
                         <td>Calle:</td>
@@ -86,9 +99,135 @@
             </table>
         </mat-card>
     </div>
-    <div class="mb-2">
+    <div class="m-3 text-right sticky-top pt-2">
+        <button mat-raised-button color="accent" (click)="accordion.openAll()">Expandir todo</button>
+        <button mat-raised-button color="accent" (click)="accordion.closeAll()">Contraer todo</button>
+      </div>
+
+
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Productos
+                </mat-panel-title>
+                <mat-panel-description>
+                    Agregar, editar o eliminar productos de la orden
+                    <mat-icon>precision_manufacturing</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-add-products-order [items]="items" [order]="order"></app-add-products-order>
+        </mat-expansion-panel>
+       
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Envíos
+                </mat-panel-title>
+                <mat-panel-description>
+                    Agregar, editar o eliminar envíos de la orden
+                    <mat-icon>local_shipping</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+
+            <app-shippings [order_id]="order?.id" [shippings]="order?.shippings"></app-shippings>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Pagos
+                </mat-panel-title>
+                <mat-panel-description>
+                    Agregar, editar o eliminar pagos de la orden
+                    <mat-icon>attach_money</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-payment-order [order_id]="order?.id" [paymentsMap]="paymentsMap"></app-payment-order>
+
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Descuentos e impuestos
+                </mat-panel-title>
+                <mat-panel-description>
+                    Agregar, editar o eliminar descuentos e impuestos de la orden
+                    <mat-icon>discount</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-discount-tax-order [order_id]="order?.id" [discountsAndTaxes]="discountsAndTaxes"></app-discount-tax-order>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Transferencias
+                </mat-panel-title>
+                <mat-panel-description>
+                    Agregar o eliminar transferencias de la orden
+                    <mat-icon>move_up</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <!-- <app-discount-tax-order [order_id]="order?.id" ></app-discount-tax-order> -->
+            <app-transference-order [order_id]="order?.id" ></app-transference-order>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="col-md-3 p-0 mt-3">
         <mat-card>
-            <!-- <h3 class="font-weight-bold font-2xl my-1">Productos</h3> -->
+            <div>
+                <div class="mt-3 section-order">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="font-3xl font-weight-bold">Totales</h3>
+                        <button mat-icon-button><mat-icon>unfold_more</mat-icon></button>
+                    </div>
+                  <div>
+                    <table>
+                      <tbody class="text-uppercase">
+                        <tr>
+                          <td>Subtotal:&nbsp;</td>
+                          <td>$ {{order?.subtotal}}</td>
+                        </tr>
+                        <tr>
+                          <td>Descuento:&nbsp;</td>
+                          <td>$ {{order?.discount}}</td>
+                        </tr>
+                        <tr>
+                          <td>Impuestos:&nbsp;</td>
+                          <td>$ {{order?.tax}}</td>
+                        </tr>
+                        <tr>
+                          <td>Retención:&nbsp;</td>
+                          <td>$ {{order?.retention}}</td>
+                        </tr>
+                        <tr>
+                          <td>Total:&nbsp;</td>
+                          <td>$ {{order?.total}}</td>
+                        </tr>
+                        <tr>
+                          <td>Total pagado:&nbsp;</td>
+                          <td>$ {{order?.total_paid}}</td>
+                        </tr>
+                        <tr>
+                          <td>Costo de envió:&nbsp;</td>
+                          <td>$ {{order?.shipping}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+
+
+
+
+    <!-- <div class="mb-2">
+        <mat-card>
             <app-add-products-order [items]="items" [order]="order"></app-add-products-order>
         </mat-card>
     </div>
@@ -97,4 +236,9 @@
             <app-shippings [order_id]="order?.id" [shippings]="order?.shippings"></app-shippings>
         </mat-card>
     </div>
+    <div class="mb-2">
+        <mat-card>
+            <app-payment-order [order_id]="order?.id" [paymentsMap]="paymentsMap"></app-payment-order>
+        </mat-card>
+    </div> -->
 </div>

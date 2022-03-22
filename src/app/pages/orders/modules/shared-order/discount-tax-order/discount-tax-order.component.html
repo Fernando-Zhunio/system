@@ -1,0 +1,31 @@
+<div class="my-3 section-order">
+  <div>
+    <h3 class="font-3xl font-weight-bold">Impuestos y descuentos</h3>
+    <button color="accent" class="mb-1" mat-raised-button (click)="openDialogCreateOrEditDiscountOrTax()">Agregar monto <mat-icon>add</mat-icon></button>
+  </div>
+  <div>
+    <table class="table">
+      <thead>
+        <tr class="text-primary">
+          <th>Tipo</th>
+          <th>Tipo de Monto</th>
+          <th>Nombre</th>
+          <th>Monto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
+          <td>{{discountOrTax.value.type | translatefz:'orders'}}</td>
+          <td>{{discountOrTax.value.amount_type | translatefz:'orders'}}</td>
+          <td>{{discountOrTax.value.name}}</td>
+          <td>{{discountOrTax.value.amount}}</td>
+          <td>
+              <button mat-icon-button color="primary"  (click)="openDialogCreateOrEditDiscountOrTax(discountOrTax.key)" ><mat-icon>edit</mat-icon></button>
+              <button mat-icon-button color="warn" (click)="deleteAdditionalAmount(discountOrTax.key)"><mat-icon>delete</mat-icon></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -15,10 +15,16 @@ import { TranslatefzModule } from './../../../../Modulos/translatefz/translatefz
 import { MatSelectModule } from '@angular/material/select';
 import { GenerateGuideServientregaComponent } from './tools/generate-guide-servientrega/generate-guide-servientrega.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { PaymentOrderComponent } from './payment-order/payment-order.component';
+import { CreateOrEditPaymentOrderComponent } from './payment-order/create-or-edit-payment-order/create-or-edit-payment-order.component';
+import { FilePondModule } from 'ngx-filepond';
+import { MatBadgeModule } from '@angular/material/badge';
+import { DiscountTaxOrderComponent } from './discount-tax-order/discount-tax-order.component';
+import { TransferenceOrderComponent } from './transference-order/transference-order.component';
 
 @NgModule({
   imports: [
-  CommonModule,
+    CommonModule,
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
@@ -29,15 +35,21 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatIconModule,
     TranslatefzModule,
     MatSelectModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    FilePondModule,
+    MatBadgeModule,
   ],
   exports: [
     CreateOrEditAddressClientComponent,
     AddProductsOrderComponent,
     ShippingsComponent,
     GenerateGuideServientregaComponent,
+    PaymentOrderComponent,
+    CreateOrEditPaymentOrderComponent,
+    DiscountTaxOrderComponent,
+    TransferenceOrderComponent,
   ],
-  declarations: [GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
-  entryComponents: [GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
+  declarations: [TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
+  entryComponents: [CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
 })
 export class SharedOrderModule { }

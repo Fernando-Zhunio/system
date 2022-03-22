@@ -15,7 +15,7 @@
                                         busque
                                         y seleccione un cliente para poder continuar</div>
                                     <span moreTitle inputBtn>
-                                        <button [routerLink]="['../clients/create']" mat-raised-button
+                                        <button [routerLink]="['/system-orders/clients/create']" mat-raised-button
                                             color="accent">Crear
                                             cliente <mat-icon>person_add_alt_1</mat-icon></button>
                                     </span>
@@ -173,7 +173,8 @@
                 <mat-step>
                     <ng-template matStepLabel>Asignar productos a la orden</ng-template>
                     <div *ngIf="!isEditStep">
-                        <app-add-item-template [channels]="channelsOrders" [address]="addressSelected" [order]="order" [client]="clientSelected"></app-add-item-template>
+                        <!-- <app-add-item-template [channels]="channelsOrders" [address]="addressSelected" [order]="order" [client]="clientSelected"></app-add-item-template> -->
+                        <app-edit-order></app-edit-order>
                     </div>
                     <div>
                         <button color="primary" mat-raised-button [routerLink]="['/orders']">Finalizar</button>

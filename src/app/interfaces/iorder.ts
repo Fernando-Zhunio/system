@@ -27,7 +27,7 @@ export interface IItemOrder {
     order: IOrder;
     product: Product;
   }
-  export interface AdditionalAmountsEntity {
+  export interface IDiscountAndTaxes {
     id: number;
     type: string;
     amount_type: string;
@@ -89,7 +89,7 @@ export interface IItemOrder {
     client: IClientOrder;
     shipping_address: IShippingAddress;
     payments?: (any)[] | any;
-    additional_amounts?: (AdditionalAmountsEntity)[] | any;
+    additional_amounts?: (IDiscountAndTaxes)[] | any;
     items?:  (ItemsEntity)[] | any;
   }
   export interface IClientOrder {

@@ -95,7 +95,7 @@ export class ShippingsComponent implements OnInit {
   deleteGuie(id: number): void {
     const indexShipping = this.shippings.findIndex(x => x.id === id);
     if (indexShipping !== -1) {
-    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el Guía?', 'warning').then(res => {
+    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar la guía?', 'warning').then(res => {
       if (res.isConfirmed) {
         this.standard.methodDelete(`system-orders/orders/${this.order_id}/shippings/${this.shippings[indexShipping].id}/servientrega`).subscribe(res => {
           if (res?.success) {

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { AdditionalAmountsEntity, IOrder } from '../../../../interfaces/iorder';
+import { IDiscountAndTaxes, IOrder } from '../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
 
@@ -20,7 +20,7 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
   constructor(
     private s_standard: StandartSearchService,
     public dialogRef: MatDialogRef<CreateOrEditDiscountOrTaxOrderComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { order: IOrder, id: number }
+    @Inject(MAT_DIALOG_DATA) public data: { order_id: number, id: number }
   ) { }
 
   form: FormGroup = new FormGroup({
@@ -32,7 +32,7 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
   types: any[] = [];
   typesAmounts: any[] = [];
 
-  additionalAmount: AdditionalAmountsEntity = null;
+  additionalAmount: IDiscountAndTaxes = null;
 
   ngOnInit() {
     if (this.data.id) {
@@ -50,7 +50,7 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
     let observer: Observable<any>;
     if (this.data?.id) {
       this.state = 'edit';
-      observer = this.s_standard.methodGet<any>(`system-orders/orders/${this.data.order.id}/additional-amounts/${this.data.id}/edit`);
+      observer = this.s_standard.methodGet<any>(`system-orders/orders/${this.data.order_id}/additional-amounts/${this.data.id}/edit`);
     } else {
       observer = this.s_standard.methodGet<any>(`system-orders/orders/additional-amounts/create`);
     }
@@ -78,9 +78,9 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
       this.isLoading = true;
       let observable: Observable<any>;
       if (this.state === 'create') {
-        observable = this.s_standard.methodPost<any>(`system-orders/orders/${this.data.order.id}/additional-amount`, this.form.value);
+        observable = this.s_standard.methodPost<any>(`system-orders/orders/${this.data.order_id}/additional-amount`, this.form.value);
       } else {
-        observable = this.s_standard.methodPut<any>(`system-orders/orders/${this.data.order.id}/additional-amount/${this.data.id}`, this.form.value);
+        observable = this.s_standard.methodPut<any>(`system-orders/orders/${this.data.order_id}/additional-amount/${this.data.id}`, this.form.value);
       }
       observable.subscribe(res => {
         this.isLoading = false;
