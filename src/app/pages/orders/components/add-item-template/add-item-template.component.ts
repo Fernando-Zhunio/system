@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { IClientAddressOrder } from '../../../../interfaces/iclient-address-order';
 import { IClientOrder } from '../../../../interfaces/iclient-order';
 // import { IItemOrder } from '../../../../interfaces/iitem-order';
-import { AdditionalAmountsEntity, IItemOrder, IOrder } from '../../../../interfaces/iorder';
+import {  IDiscountAndTaxes, IItemOrder, IOrder } from '../../../../interfaces/iorder';
 import { IProduct } from '../../../../interfaces/promotion';
 import { SwalService } from '../../../../services/swal.service';
 import { CreateOrEditDiscountOrTaxOrderComponent } from '../create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
@@ -33,7 +33,7 @@ export class AddItemTemplateComponent implements OnInit {
   get isLoadingItem() {
     return this.classOrderItem.isLoadingItem;
   }
-  discountsAndTaxes: Map<number, AdditionalAmountsEntity> = new Map<number, AdditionalAmountsEntity>();
+  discountsAndTaxes: Map<number, IDiscountAndTaxes> = new Map<number, IDiscountAndTaxes>();
   products: Map<number, IProduct> = new Map<number, IProduct>();
   urlProducts: string = 'system-orders/products';
   isOpenSearchProducts: boolean = false;
@@ -155,7 +155,7 @@ export class AddItemTemplateComponent implements OnInit {
     this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
       if (res.success) {
         this.order = res.data;
-        this.discountsAndTaxes = new Map<number, AdditionalAmountsEntity>(this.order.additional_amounts.map(x => [x.id, x]));
+        this.discountsAndTaxes = new Map<number, IDiscountAndTaxes>(this.order.additional_amounts.map(x => [x.id, x]));
       }
     });
   }

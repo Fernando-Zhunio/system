@@ -45,6 +45,7 @@ const trans_es_order = {
     in_transit: 'En tránsito',
     delivered: 'Entregado',
     returned: 'Devuelto',
+    confirmed: 'Confirmado',
 }
 
 const trans_es_order_channels = {

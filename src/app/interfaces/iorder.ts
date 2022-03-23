@@ -1,18 +1,4 @@
-// export interface IOrder {
-//     id: number;
-//     type: string;
-//     client_id: string;
-//     channel_id: string;
-//     subtotal: string;
-//     discount: string;
-//     retention: string;
-//     tax: string;
-//     total: string;
-//     total_paid: string;
-//     created_at: string;
-//     updated_at: string;
-//     deleted_at?: string;
-// }
+
 
 import { Iwarehouse } from './iwarehouse';
 
@@ -91,6 +77,7 @@ export interface IItemOrder {
     payments?: (any)[] | any;
     additional_amounts?: (IDiscountAndTaxes)[] | any;
     items?:  (ItemsEntity)[] | any;
+    transfers?: ITransference[];
   }
   export interface IClientOrder {
     id: number;
@@ -159,3 +146,39 @@ export interface IItemOrder {
     created_at: string;
     updated_at: string;
   }
+
+  export interface ITransference {
+    id: number;
+    doc_id: string;
+    status: string;
+    is_manual: number;
+    memo: string;
+    creation_date: string;
+    transfer_date: string;
+    origin_warehouse_id: number;
+    destination_warehouse_id: number;
+    created_at: string;
+    updated_at: string;
+    origin_warehouse: IOriginWarehouse;
+    destination_warehouse: IOriginWarehouse;
+    items?: ItemsEntity[];
+    pivot?: IPivot;
+  }
+  export interface IOriginWarehouse {
+    id: number;
+    code: string;
+    name: string;
+    city: string;
+    address: string;
+    local_code: string;
+    principal: string;
+    type: string;
+    location_id?: null;
+    created_at: string;
+    updated_at: string;
+  }
+  export interface IPivot {
+    order_id: number;
+    inventory_transfer_id: number;
+  }
+  

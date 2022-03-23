@@ -21,6 +21,7 @@ import { FilePondModule } from 'ngx-filepond';
 import { MatBadgeModule } from '@angular/material/badge';
 import { DiscountTaxOrderComponent } from './discount-tax-order/discount-tax-order.component';
 import { TransferenceOrderComponent } from './transference-order/transference-order.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { TransferenceOrderComponent } from './transference-order/transference-or
     NgxMatSelectSearchModule,
     FilePondModule,
     MatBadgeModule,
+    MatCardModule,
   ],
   exports: [
     CreateOrEditAddressClientComponent,
@@ -48,6 +50,7 @@ import { TransferenceOrderComponent } from './transference-order/transference-or
     CreateOrEditPaymentOrderComponent,
     DiscountTaxOrderComponent,
     TransferenceOrderComponent,
+
   ],
   declarations: [TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
   entryComponents: [CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]

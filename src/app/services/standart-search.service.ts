@@ -213,7 +213,7 @@ export class StandartSearchService {
     return this.http.get<IResponse<IPaginate<T>>>(this.end_point + url, { params });
   }
 
-  public methodPost<T = any>(url, params: HttpParams = null): Observable<IResponse<T>> {
+  public methodPost<T = any>(url, params: any = null): Observable<IResponse<T>> {
     return this.http.post<IResponse<T>>(this.end_point + url,  params );
   }
 

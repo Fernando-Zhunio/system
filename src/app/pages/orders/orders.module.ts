@@ -32,11 +32,12 @@ import { SelectClientModalComponent } from './components/select-client-modal/sel
 import { SelectClientAddressModalComponent } from './components/select-client-address-modal/select-client-address-modal.component';
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [SelectClientAddressModalComponent, SelectClientModalComponent, EditOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     RouterModule,
     OrdersRoutingModule,
     SearchTemplateModule,
@@ -59,6 +60,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     NgxMatSelectSearchModule,
     SharedOrderModule,
     MatExpansionModule,
+    MatBadgeModule
   ],
   entryComponents: [SelectClientAddressModalComponent, SelectClientModalComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })
