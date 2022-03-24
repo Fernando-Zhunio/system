@@ -5,6 +5,7 @@ import { IShippingOrder } from '../../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
 import { ShippingOrderSectionComponent } from '../../../components/shipping-order-section/shipping-order-section.component';
+import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
 import { GenerateGuideServientregaComponent } from '../tools/generate-guide-servientrega/generate-guide-servientrega.component';
 
 @Component({
@@ -95,19 +96,32 @@ export class ShippingsComponent implements OnInit {
   deleteGuie(id: number): void {
     const indexShipping = this.shippings.findIndex(x => x.id === id);
     if (indexShipping !== -1) {
-    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar la guía?', 'warning').then(res => {
-      if (res.isConfirmed) {
-        this.standard.methodDelete(`system-orders/orders/${this.order_id}/shippings/${this.shippings[indexShipping].id}/servientrega`).subscribe(res => {
-          if (res?.success) {
-            SwalService.swalFire({ title: 'Eliminado', text: 'Guía eliminada', icon: 'success' });
+      SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar la guía?', 'warning').then(res => {
+        if (res.isConfirmed) {
+          this.standard.methodDelete(`system-orders/orders/${this.order_id}/shippings/${this.shippings[indexShipping].id}/servientrega`).subscribe(res => {
+            if (res?.success) {
+              SwalService.swalFire({ title: 'Eliminado', text: 'Guía eliminada', icon: 'success' });
               this.shippings[indexShipping] = res.data;
-          }
+            }
+          });
+        }
+      });
+    } else {
+      SwalService.swalFire({ title: 'Error', text: 'No se encontró el Envió', icon: 'error' });
+    }
+  }
+
+  openDialogHistoryStatus(id: number): void {
+    this.standard.methodGet(`system-orders/orders/${this.order_id}/shippings/${id}/statuses`)
+    .subscribe(res => {
+      if (res?.success) {
+        this.dialog.open(HistoryStatusesComponent, {
+          width: '500px',
+          data: { title: 'Historial de Envíos del #' + id.toString(), list: res.data },
+          disableClose: true,
         });
       }
     });
-  } else {
-    SwalService.swalFire({ title: 'Error', text: 'No se encontró el Envió', icon: 'error' });
-  }
   }
 
 }

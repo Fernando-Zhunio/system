@@ -23,7 +23,7 @@ export class EditOrderComponent implements OnInit {
   channels: IChannelOrder[] = [];
   paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
   discountsAndTaxes: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
-
+  hideTotals = true;
   ngOnInit() {
     console.log(this.id);
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {

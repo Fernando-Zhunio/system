@@ -5,13 +5,12 @@
     font-weight: bold;
     tr {
         font-size: 17px;
-        line-height: 1.7;
+        line-height: 1.5;
     }
     tr :nth-child(1){
         color: gray;
     }
     tr :nth-child(2){
-        color: rgb(37, 42, 58);
         padding-left: 5px;
     }
 }
@@ -39,7 +38,19 @@ table {
     margin-left: 8px;
   }
 
-
+.totals {
+  position: fixed;
+    bottom: 10px;
+    right: 33px;
+  .mat-card {
+    background: #ff9800;
+    border-radius: 13px !important;
+    opacity: .6;
+  }
+  .mat-card:hover {
+    opacity: 1;
+  }
+}
 
 @media screen and (max-width: 768px) {
     .grid-header {

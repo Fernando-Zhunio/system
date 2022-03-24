@@ -48,13 +48,18 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   ngOnInit() {
+    this.fillForm();
     this.isLoading = true;
     this.standard.methodGet('system-orders/orders/shippings/servientrega/cities').subscribe(res => {
       this.isLoading = false;
       console.log(res);
       this.cities = res.data;
       this.isLoadingCity = false;
-    }, err => { this.isLoadingCity = false; this.isLoading = false; });
+    }, err => {
+      this.isLoadingCity = false; this.isLoading = false;
+      SwalService.swalToast({ icon: 'error', title: 'Error', text: 'Se produjo un error al conectarse a los servidores de Servientra, vuelva a intentarlo' });
+      this.dialogRef.close();
+    });
     this.subscriptionCity = this.formSearchCity.valueChanges.subscribe(value => {
       console.log(value);
       if (value.length > 2) {
@@ -62,13 +67,23 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
         console.log(this.searchCities);
       }
     });
-
   }
 
   ngOnDestroy(): void {
     if (this.subscriptionCity) {
       this.subscriptionCity.unsubscribe();
     }
+  }
+
+  fillForm(): void {
+    const data = this.dataExternal.shipping;
+    this.form.patchValue({
+      ancho: data.width,
+      alto: data.height,
+      largo: data.length,
+      peso_fisico: data.weight,
+      direccion1_remite: data?.origin_warehouse?.address
+    });
   }
 
   buscarInterval(text): void {

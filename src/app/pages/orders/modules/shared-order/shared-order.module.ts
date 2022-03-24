@@ -22,6 +22,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { DiscountTaxOrderComponent } from './discount-tax-order/discount-tax-order.component';
 import { TransferenceOrderComponent } from './transference-order/transference-order.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { HistoryStatusesComponent } from './history-statuses/history-statuses.component';
 
 @NgModule({
   imports: [
@@ -40,6 +42,7 @@ import { MatCardModule } from '@angular/material/card';
     FilePondModule,
     MatBadgeModule,
     MatCardModule,
+    MatChipsModule,
   ],
   exports: [
     CreateOrEditAddressClientComponent,
@@ -50,9 +53,9 @@ import { MatCardModule } from '@angular/material/card';
     CreateOrEditPaymentOrderComponent,
     DiscountTaxOrderComponent,
     TransferenceOrderComponent,
-
+    HistoryStatusesComponent,
   ],
-  declarations: [TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
-  entryComponents: [CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
+  declarations: [HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
+  entryComponents: [HistoryStatusesComponent,CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
 })
 export class SharedOrderModule { }

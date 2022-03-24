@@ -3,182 +3,198 @@
 import { Iwarehouse } from './iwarehouse';
 
 export interface IItemOrder {
-    product_id: number;
-    quantity: string;
-    price: number;
-    order_id: number;
-    updated_at: string;
-    created_at: string;
-    id: number;
-    order: IOrder;
-    product: Product;
-  }
-  export interface IDiscountAndTaxes {
-    id: number;
-    type: string;
-    amount_type: string;
-    amount: string;
-    order_id: number;
-    created_at: string;
-    updated_at: string;
-  }
-  export interface ItemsEntity {
-    id: number;
-    product_id: number;
-    order_id: number;
-    quantity: number;
-    price: number;
-    created_at: string;
-    updated_at: string;
-  }
-  export interface Product {
-    id: number;
-    name: string;
-    description: string;
-    category_id: number;
-    brand_id: number;
-    sequence_id: number;
-    prefix_id: number;
-    code: string;
-    code_alt: string;
-    user_id: number;
-    old_code?: any;
-    available: number;
-    image?: any;
-    cubicweight?: any;
-    weight?: any;
-    height?: any;
-    width?: any;
-    length?: any;
-    created_at: string;
-    updated_at: string;
-    deleted_at?: any;
-  }
+  product_id: number;
+  quantity: string;
+  price: number;
+  order_id: number;
+  updated_at: string;
+  created_at: string;
+  id: number;
+  order: IOrder;
+  product: Product;
+}
+export interface IDiscountAndTaxes {
+  id: number;
+  type: string;
+  amount_type: string;
+  amount: string;
+  order_id: number;
+  created_at: string;
+  updated_at: string;
+}
+export interface ItemsEntity {
+  id: number;
+  product_id: number;
+  order_id: number;
+  quantity: number;
+  price: number;
+  created_at: string;
+  updated_at: string;
+}
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  category_id: number;
+  brand_id: number;
+  sequence_id: number;
+  prefix_id: number;
+  code: string;
+  code_alt: string;
+  user_id: number;
+  old_code?: any;
+  available: number;
+  image?: any;
+  cubicweight?: any;
+  weight?: any;
+  height?: any;
+  width?: any;
+  length?: any;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: any;
+}
 
 
-  export interface IOrder {
-    id: number;
-    type: string;
-    status: string;
-    channel_id: number;
-    client_id: number;
-    shipping: number;
-    subtotal: number;
-    discount: number;
-    retention: number;
-    tax: number;
-    total: number;
-    total_paid: number;
-    created_at: string;
-    updated_at: string;
-    shippings: IShippingOrder[];
-    client: IClientOrder;
-    shipping_address: IShippingAddress;
-    payments?: (any)[] | any;
-    additional_amounts?: (IDiscountAndTaxes)[] | any;
-    items?:  (ItemsEntity)[] | any;
-    transfers?: ITransference[];
-  }
-  export interface IClientOrder {
-    id: number;
-    first_name: string;
-    last_name: string;
-    doc_type: string;
-    doc_id: string;
-    email: string;
-    phone: string;
-    city: string;
-    state: string;
-    country: string;
-    novisys_id?: any;
-    created_at: string;
-    updated_at: string;
-  }
-  export interface IShippingAddress {
-    id: number;
-    first_name: string;
-    last_name: string;
-    street: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    zip_code: string;
-    order_id: number;
-    created_at: string;
-    updated_at: string;
-  }
+export interface IOrder {
+  id: number;
+  type: string;
+  status: string;
+  channel_id: number;
+  client_id: number;
+  shipping: number;
+  subtotal: number;
+  discount: number;
+  retention: number;
+  tax: number;
+  total: number;
+  total_paid: number;
+  created_at: string;
+  updated_at: string;
+  shippings: IShippingOrder[];
+  client: IClientOrder;
+  shipping_address: IShippingAddress;
+  payments?: (any)[] | any;
+  additional_amounts?: (IDiscountAndTaxes)[] | any;
+  items?: (ItemsEntity)[] | any;
+  transfers?: ITransference[];
+  statuses: IStatus[];
+}
+export interface IClientOrder {
+  id: number;
+  first_name: string;
+  last_name: string;
+  doc_type: string;
+  doc_id: string;
+  email: string;
+  phone: string;
+  city: string;
+  state: string;
+  country: string;
+  novisys_id?: any;
+  created_at: string;
+  updated_at: string;
+}
+export interface IShippingAddress {
+  id: number;
+  first_name: string;
+  last_name: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  order_id: number;
+  created_at: string;
+  updated_at: string;
+}
 
-  export interface IPaymentOrder {
-    id: number;
-    type: 'credit_card' | 'cash' | 'debit_card' | 'wire' | 'paymentez';
-    status: 'pending' | 'paid' | 'refunded' | 'cancelled';
-    amount: number;
-    description: string;
-    order_id: number;
-    created_at: string;
-    updated_at: string;
-    order: IOrder;
-  }
+export interface IPaymentOrder {
+  id: number;
+  type: 'credit_card' | 'cash' | 'debit_card' | 'wire' | 'paymentez';
+  status: 'pending' | 'paid' | 'refunded' | 'cancelled';
+  amount: number;
+  description: string;
+  order_id: number;
+  created_at: string;
+  updated_at: string;
+  order: IOrder;
+  statuses: IStatus[];
+}
 
-   export interface IShippingOrder {
-    id: number;
-    type: string;
-    status: string;
-    amount: number;
-    cubicweight?: any;
-    weight?: any;
-    height?: any;
-    width?: any;
-    length?: any;
-    tracking_number: string;
-    order_id: number;
-    origin_warehouse_id?: any;
-    origin_warehouse: Iwarehouse;
-    created_at: string;
-    updated_at: string;
-  }
+export interface IShippingOrder {
+  id: number;
+  type: string;
+  status: string;
+  amount: number;
+  cubicweight?: any;
+  weight?: any;
+  height?: any;
+  width?: any;
+  length?: any;
+  tracking_number: string;
+  order_id: number;
+  origin_warehouse_id?: any;
+  origin_warehouse: Iwarehouse;
+  created_at: string;
+  updated_at: string;
+  statuses: IStatus[];
+}
 
-  export interface IChannelOrder {
-    id: number;
-    name: string;
-    type: string;
-    created_at: string;
-    updated_at: string;
-  }
+export interface IChannelOrder {
+  id: number;
+  name: string;
+  type: string;
+  created_at: string;
+  updated_at: string;
+}
 
-  export interface ITransference {
-    id: number;
-    doc_id: string;
-    status: string;
-    is_manual: number;
-    memo: string;
-    creation_date: string;
-    transfer_date: string;
-    origin_warehouse_id: number;
-    destination_warehouse_id: number;
-    created_at: string;
-    updated_at: string;
-    origin_warehouse: IOriginWarehouse;
-    destination_warehouse: IOriginWarehouse;
-    items?: ItemsEntity[];
-    pivot?: IPivot;
-  }
-  export interface IOriginWarehouse {
-    id: number;
-    code: string;
-    name: string;
-    city: string;
-    address: string;
-    local_code: string;
-    principal: string;
-    type: string;
-    location_id?: null;
-    created_at: string;
-    updated_at: string;
-  }
-  export interface IPivot {
-    order_id: number;
-    inventory_transfer_id: number;
-  }
-  
+export interface ITransference {
+  id: number;
+  doc_id: string;
+  status: string;
+  is_manual: number;
+  memo: string;
+  creation_date: string;
+  transfer_date: string;
+  origin_warehouse_id: number;
+  destination_warehouse_id: number;
+  created_at: string;
+  updated_at: string;
+  origin_warehouse: IOriginWarehouse;
+  destination_warehouse: IOriginWarehouse;
+  items?: IItemOrder[];
+  pivot?: IPivot;
+  statuses: IStatus[];
+
+}
+export interface IOriginWarehouse {
+  id: number;
+  code: string;
+  name: string;
+  city: string;
+  address: string;
+  local_code: string;
+  principal: string;
+  type: string;
+  location_id?: null;
+  created_at: string;
+  updated_at: string;
+}
+export interface IPivot {
+  order_id: number;
+  inventory_transfer_id: number;
+}
+
+export interface IStatus {
+  id: number;
+  type: string;
+  reason?: string;
+  user_id?: number;
+  user: any;
+  statusable_type: string;
+  statusable_id: number;
+  created_at: string;
+  updated_at: string;
+}

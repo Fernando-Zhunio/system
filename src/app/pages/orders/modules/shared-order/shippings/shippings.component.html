@@ -22,17 +22,20 @@
           <td class="{{shipping.type}}">{{shipping.type}}</td>
           <td colspan="1">
             <ng-container>
-              <span class="badge {{shipping.status}} font-xs" *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus">
-                {{shipping.status | translatefz: 'orders'}}
+              <span class="badge {{shipping.status}} font-xs center" (click)="openDialogHistoryStatus(shipping.id)" *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus">
+                {{shipping.status | translatefz: 'orders'}} <mat-icon class="cp">manage_search</mat-icon>
               </span>
               <ng-template #templateSelectStatus>
-                <span>
-                  <mat-select [value]="shipping.status" (selectionChange)="changeStatusShipping($event,shipping.id)" placeholder="Cambio de estado">
-                    <mat-option value="pending">Pendiente</mat-option>
-                    <mat-option value="delivered">Entregado</mat-option>
-                    <mat-option value="cancelled">Cancelado</mat-option>
-                  </mat-select>
-                </span>
+                <div class="d-flex">
+                  <mat-form-field>
+                    <mat-select [value]="shipping.status" (selectionChange)="changeStatusShipping($event,shipping.id)" placeholder="Cambio de estado">
+                      <mat-option value="pending">Pendiente</mat-option>
+                      <mat-option value="delivered">Entregado</mat-option>
+                      <mat-option value="cancelled">Cancelado</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <button mat-icon-button matSuffix (click)="openDialogHistoryStatus(shipping.id)" ><mat-icon>manage_search</mat-icon></button>
+                </div>
               </ng-template>
             </ng-container>
           </td>

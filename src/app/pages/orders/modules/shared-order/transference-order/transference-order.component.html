@@ -4,7 +4,7 @@
     <div>
       <div>
         <div class="row m-0">
-          <div class="col-md-6 p-2" *ngFor="let transfer of transfers">
+          <div class="col-md-6 p-2" *ngFor="let transfer of transfers;let index= index">
             <mat-card>
               <div class="d-md-flex justify-content-between align-items-center">
                 <div>Estado: <span class="badge font-sm {{transfer.status}}"> {{transfer.status | translatefz:
@@ -14,19 +14,26 @@
               <p>
                 <span>Memo:</span> {{transfer.memo}}
               </p>
-              <div>
-                <!-- <div *ngFor="let item of transfer.items">
-                  <div>
-                    <div>{{item.}}</div>
-                    <div>{{item.quantity}}</div>
-                  </div>
-                </div> -->
-              </div>
-              <div class="bg-warning rounded-lg p-2">
+              <hr>
+              <div class="rounded-lg p-2">
                 <div>Bodega de origen: <span class="text-danger">  {{transfer.origin_warehouse?.code}} -
                     {{transfer.origin_warehouse?.name}}</span></div>
                 <div>Bodega de destino: <span class="text-success">  {{transfer.destination_warehouse?.code}} -
                     {{transfer.destination_warehouse?.name}}</span></div>
+              </div>
+              <div>
+                <div>
+                    <button type="button" data-toggle="collapse" attr.data-target="#collapseExample{{index}}" aria-expanded="false" attr.aria-controls="collapseExample{{index}}">Productos <span class="badge bg-github">{{transfer?.items?.length}}</span></button>
+                </div>
+                <div class="collapse" id="collapseExample{{index}}">
+                  <div *ngFor="let item of transfer?.items">
+                    <div>
+                      <div>{{item?.product.name}}</div>
+                      <div>Código:{{item?.product.code}}</div>
+                      <div>Cantidad:{{item.quantity}}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </mat-card>
           </div>
@@ -49,5 +56,20 @@
 
       </div>
     </div>
+   
+  </div>
+  </div>
+<!-- </div> -->
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Link with href
+  </a>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Button with data-target
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
   </div>
 </div>
