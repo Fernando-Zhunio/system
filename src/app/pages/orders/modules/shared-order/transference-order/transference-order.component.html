@@ -9,31 +9,39 @@
               <div class="d-md-flex justify-content-between align-items-center">
                 <div>Estado: <span class="badge font-sm {{transfer.status}}"> {{transfer.status | translatefz:
                     'orders'}}</span></div>
-                <div class="text-success">Doc ID:<span>  {{transfer.doc_id}}</span></div>
+                <div class="text-success">Doc ID:<span> {{transfer.doc_id}}</span></div>
               </div>
               <p>
                 <span>Memo:</span> {{transfer.memo}}
               </p>
               <hr>
               <div class="rounded-lg p-2">
-                <div>Bodega de origen: <span class="text-danger">  {{transfer.origin_warehouse?.code}} -
+                <div>Bodega de origen: <span class="text-danger"> {{transfer.origin_warehouse?.code}} -
                     {{transfer.origin_warehouse?.name}}</span></div>
-                <div>Bodega de destino: <span class="text-success">  {{transfer.destination_warehouse?.code}} -
+                <div>Bodega de destino: <span class="text-success"> {{transfer.destination_warehouse?.code}} -
                     {{transfer.destination_warehouse?.name}}</span></div>
               </div>
               <div>
-                <div>
-                    <button type="button" data-toggle="collapse" attr.data-target="#collapseExample{{index}}" aria-expanded="false" attr.aria-controls="collapseExample{{index}}">Productos <span class="badge bg-github">{{transfer?.items?.length}}</span></button>
-                </div>
-                <div class="collapse" id="collapseExample{{index}}">
-                  <div *ngFor="let item of transfer?.items">
-                    <div>
-                      <div>{{item?.product.name}}</div>
-                      <div>Código:{{item?.product.code}}</div>
-                      <div>Cantidad:{{item.quantity}}</div>
+                <mat-accordion *ngIf="transfer?.items?.length > 0">
+                  <mat-expansion-panel class="rounded-fz shadow">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Productos <span class="font-sm badge bg-warning">{{transfer?.items?.length}}</span>
+                      </mat-panel-title>
+                      <!-- <mat-panel-description>
+                        Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                      </mat-panel-description> -->
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let item of transfer?.items">
+                      <div>
+                        <div>{{item?.product.name}}</div>
+                        <div><span class="text-muted">Código:</span> {{item?.product.code}}</div>
+                        <div><span class="text-muted">Cantidad:</span> {{item.quantity}}</div>
+                      </div>
+                      <hr>
                     </div>
-                  </div>
-                </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
               </div>
             </mat-card>
           </div>
@@ -56,20 +64,8 @@
 
       </div>
     </div>
-   
-  </div>
-  </div>
-<!-- </div> -->
-<p>
-  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Link with href
-  </a>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Button with data-target
-  </button>
-</p>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+
   </div>
 </div>
+<!-- </div> -->
+

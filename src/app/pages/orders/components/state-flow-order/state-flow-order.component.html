@@ -1,29 +1,40 @@
-
-<!-- <textarea  id="code" >
-  st=>start: Start:>http://www.google.com[blank]
-e=>end:>http://www.google.com
-op1=>operation: My Operation
-sub1=>subroutine: My Subroutine
-cond=>condition: Yes
-or No?:>http://www.google.com
-io=>inputoutput: catch something...
-para=>parallel: parallel tasks
-
-st->op1->cond
-cond(yes)->io->e
-cond(no)->para
-para(path1, bottom)->sub1(right)->op1
-para(path2, top)->op1
-</textarea>
-
-<div id="canvas"></div> -->
-
-<div class="center overflow-auto">
-  <ng-container *ngFor="let status of statuses;let i = index">
-    <div  class="center">
-      <div [ngClass]="{'active': status.enabled}" [class]="status.type" class="node">{{status.name}}</div>
-    </div>
-    <div *ngIf="i < statuses.length - 1" class="arrow">
-    </div>
-  </ng-container>
+<div>
+  <div class="flow">
+    <ng-container *ngFor="let state of statuses;let odd=odd">
+      <div *ngIf="!odd;else templateNotOdd">
+        <span></span>
+        <span class="bola center position-relative">
+          <span></span>
+        </span>
+        <span class="flow-item-right">
+          <span>
+            <span class="font-lg">{{state.type | translatefz: 'orders'}}</span><br>
+            <span class="font-xs">Por: {{state?.user?.name}}</span>
+          </span>
+          <span>
+            <span>{{state.created_at | date:'dd'}}</span>
+            <br>{{state.created_at | date:'MM/yyyy'}}
+          </span>
+        </span>
+      </div>
+      <ng-template #templateNotOdd>
+        <div>
+          <span  class="flow-item-left ">
+            <span>
+              <span>{{state.created_at | date:'dd'}}</span>
+              <br>{{state.created_at | date:'MM/yyyy'}}
+            </span>
+            <span>
+              <span class="font-lg">{{state.type | translatefz: 'orders'}}</span><br>
+              <span class="font-xs">Por: {{state?.user?.name}}</span>
+            </span>
+          </span>
+          <span class="bola center position-relative">
+            <span></span>
+          </span>
+          <span></span>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
 </div>

@@ -1,11 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
+import { DomSanitizer } from '@angular/platform-browser';
 import { IShippingOrder } from '../../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
 import { ShippingOrderSectionComponent } from '../../../components/shipping-order-section/shipping-order-section.component';
 import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
+import { SelectedViewServientregaPdfComponent } from '../selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
 import { GenerateGuideServientregaComponent } from '../tools/generate-guide-servientrega/generate-guide-servientrega.component';
 
 @Component({
@@ -15,11 +18,14 @@ import { GenerateGuideServientregaComponent } from '../tools/generate-guide-serv
 })
 export class ShippingsComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private standard: StandartSearchService) { }
+  constructor(private btnSheet: MatBottomSheet, private dialog: MatDialog, private standard: StandartSearchService, protected _sanitizer: DomSanitizer) { }
   @Input() shippings: IShippingOrder[] = [];
   @Input() order_id: number;
-  @Output() change = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>();
+  @Output() change = new EventEmitter<string>();
+  // @Output() delete = new EventEmitter<any>();
+  isOpenCv = false;
+  encoded_pdf: any;
+
 
   ngOnInit() {
   }
@@ -32,14 +38,15 @@ export class ShippingsComponent implements OnInit {
     }).beforeClosed().subscribe(res => {
       console.log({ res });
       if (res?.success) {
-        if (id) {
-          const index = this.shippings.findIndex(x => x.id === id);
-          if (index !== -1) {
-            this.shippings[index] = res.data;
-          }
-        } else {
-          this.shippings.push(res.data);
-        }
+        // if (id) {
+        //   const index = this.shippings.findIndex(x => x.id === id);
+        //   if (index !== -1) {
+        //     this.shippings[index] = res.data;
+        //   }
+        // } else {
+        //   this.shippings.push(res.data);
+        // }
+        this.change.emit('create or update');
       }
     });
   }
@@ -52,13 +59,13 @@ export class ShippingsComponent implements OnInit {
             SwalService.swalFire({ title: 'Eliminado', text: 'Envió eliminado', icon: 'success' });
             // this.discountsAndTaxes.delete(id);
             if (res?.success) {
-              const index = this.shippings.findIndex(x => x.id === id);
-              if (index !== -1) {
-                this.shippings.splice(index, 1);
-              }
-
+              // const index = this.shippings.findIndex(x => x.id === id);
+              // if (index !== -1) {
+              //   this.shippings.splice(index, 1);
+              // }
+              this.change.emit('delete');
             }
-            this.delete.emit(res);
+            // this.delete.emit(res);
           }
         });
       }
@@ -69,10 +76,11 @@ export class ShippingsComponent implements OnInit {
     console.log({ select, id });
     this.standard.methodPut(`system-orders/orders/${this.order_id}/shippings/${id}/status`, { status: select.value }).subscribe(res => {
       if (res?.success) {
-        const index = this.shippings.findIndex(x => x.id === id);
-        if (index !== -1) {
-          this.shippings[index].status = select.value;
-        }
+        this.change.emit('update status');
+        // const index = this.shippings.findIndex(x => x.id === id);
+        // if (index !== -1) {
+        //   this.shippings[index].status = select.value;
+        // }
       }
     });
   }
@@ -85,7 +93,8 @@ export class ShippingsComponent implements OnInit {
       }).beforeClosed().subscribe(res => {
         console.log({ res });
         if (res?.success) {
-          this.shippings[indexShipping] = res.data;
+          // this.shippings[indexShipping] = res.data;
+          this.change.emit('generate guide');
         }
       });
     } else {
@@ -101,7 +110,8 @@ export class ShippingsComponent implements OnInit {
           this.standard.methodDelete(`system-orders/orders/${this.order_id}/shippings/${this.shippings[indexShipping].id}/servientrega`).subscribe(res => {
             if (res?.success) {
               SwalService.swalFire({ title: 'Eliminado', text: 'Guía eliminada', icon: 'success' });
-              this.shippings[indexShipping] = res.data;
+              // this.shippings[indexShipping] = res.data;
+              this.change.emit('delete guide');
             }
           });
         }
@@ -113,15 +123,49 @@ export class ShippingsComponent implements OnInit {
 
   openDialogHistoryStatus(id: number): void {
     this.standard.methodGet(`system-orders/orders/${this.order_id}/shippings/${id}/statuses`)
-    .subscribe(res => {
-      if (res?.success) {
-        this.dialog.open(HistoryStatusesComponent, {
-          width: '500px',
-          data: { title: 'Historial de Envíos del #' + id.toString(), list: res.data },
-          disableClose: true,
-        });
-      }
-    });
+      .subscribe(res => {
+        if (res?.success) {
+          this.dialog.open(HistoryStatusesComponent, {
+            width: '500px',
+            data: { title: 'Historial de Envíos del #' + id.toString(), list: res.data },
+            disableClose: true,
+          });
+        }
+      });
   }
 
+  openViewPdf(id: number): void {
+    this.btnSheet.open(SelectedViewServientregaPdfComponent).afterDismissed()
+      .subscribe(res => {
+        if (res) {
+          let url = null;
+          switch (res) {
+            case 'docs':
+              url = `system-orders/orders/${this.order_id}/shippings/${id}/servientrega/tracking-pdf`;
+              break;
+            case 'labels':
+              url = `system-orders/orders/${this.order_id}/shippings/${id}/servientrega/label-pdf`;
+              break;
+            case 'stickers':
+              url = `system-orders/orders/${this.order_id}/shippings/${id}/servientrega/sticker-pdf`;
+              break;
+            default:
+              url = `system-orders/orders/shippings/servientrega/manifest-pdf?date=${res}`;
+              break;
+          }
+          // this.encoded_pdf = this._sanitizer.bypassSecurityTrustResourceUrl(res.data);
+          // this.isOpenCv = true;
+          this.standard.methodGet(url)
+            .subscribe(res => {
+              if (res?.success) {
+                this.isOpenCv = true;
+                const byteArray = new Uint8Array(atob(res.data.encoded_pdf).split('').map(char => char.charCodeAt(0)));
+                const blob = new Blob([byteArray], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                this.encoded_pdf = this._sanitizer.bypassSecurityTrustResourceUrl(url);
+              }
+            });
+        }
+      });
+  }
 }

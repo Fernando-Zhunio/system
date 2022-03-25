@@ -27,7 +27,7 @@ export class TransferenceOrderComponent implements OnInit {
       this.standard.methodPost('system-orders/orders/' + this.order_id + '/transfers', { doc_id: this.formControl.value }).subscribe(
         (response: any) => {
           if (response.success) {
-            this.transfers.push(response.data);
+            // this.transfers.push(response.data);
             this.change.emit('transfers');
             this.isOpenAddTransfer = false;
             this.formControl.reset();
@@ -41,18 +41,17 @@ export class TransferenceOrderComponent implements OnInit {
   }
 
   deleteTransfer(id: number): void {
-
     SwalService.swalConfirmation('Precaución', '¿Está seguro de eliminar la transferencia?', 'info', 'Si, eliminar', 'No, cancelar').then(
       (result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
           this.standard.methodDelete('system-orders/orders/' + this.order_id + '/transfers/' + id).subscribe(
             (response: any) => {
-              if (response.success) {
-                const transfers = this.transfers.find(item => item.id == id);
-                if (transfers) {
-                  this.transfers.splice(this.transfers.indexOf(transfers), 1);
-                }
+              if (response?.success) {
+                // const transfers = this.transfers.find(item => item.id == id);
+                // if (transfers) {
+                //   this.transfers.splice(this.transfers.indexOf(transfers), 1);
+                // }
                 this.change.emit('transfers');
               }
               this.isLoading = false;
@@ -64,5 +63,4 @@ export class TransferenceOrderComponent implements OnInit {
       }
     );
   }
-
 }

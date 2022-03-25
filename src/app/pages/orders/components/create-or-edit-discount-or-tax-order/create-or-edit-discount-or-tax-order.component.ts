@@ -78,13 +78,13 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
       this.isLoading = true;
       let observable: Observable<any>;
       if (this.state === 'create') {
-        observable = this.s_standard.methodPost<any>(`system-orders/orders/${this.data.order_id}/additional-amount`, this.form.value);
+        observable = this.s_standard.methodPost<any>(`system-orders/orders/${this.data.order_id}/additional-amounts`, this.form.value);
       } else {
-        observable = this.s_standard.methodPut<any>(`system-orders/orders/${this.data.order_id}/additional-amount/${this.data.id}`, this.form.value);
+        observable = this.s_standard.methodPut<any>(`system-orders/orders/${this.data.order_id}/additional-amounts/${this.data.id}`, this.form.value);
       }
       observable.subscribe(res => {
         this.isLoading = false;
-        this.dialogRef.close(res.data);
+        this.dialogRef.close(res);
       }
       , err => {
         this.isLoading = false;

@@ -33,6 +33,7 @@ import { SelectClientAddressModalComponent } from './components/select-client-ad
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
+import { NgxTimelineAlbeModule } from 'ngx-timeline-albe';
 
 @NgModule({
   declarations: [SelectClientAddressModalComponent, SelectClientModalComponent, EditOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
@@ -60,7 +61,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     NgxMatSelectSearchModule,
     SharedOrderModule,
     MatExpansionModule,
-    MatBadgeModule
+    MatBadgeModule,
+    NgxTimelineAlbeModule
   ],
   entryComponents: [SelectClientAddressModalComponent, SelectClientModalComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })

@@ -13,7 +13,7 @@ export class DiscountTaxOrderComponent implements OnInit {
 
   @Input() discountsAndTaxes: Map<number, any> = new Map<number, any>();
   @Input() order_id: any;
-  @Output() eventOccurrence: EventEmitter<any> = new EventEmitter<any>();
+  @Output() change = new EventEmitter<string>();
 
   constructor(private dialog: MatDialog, private standard: StandartSearchService) { }
 
@@ -29,12 +29,13 @@ export class DiscountTaxOrderComponent implements OnInit {
       disableClose: true,
 
     }).beforeClosed().subscribe(res => {
-      if (res) {
-        if (this.discountsAndTaxes.has(res.id)){
-          this.discountsAndTaxes.delete(res.id);
-        }
-        this.discountsAndTaxes.set(res.id, res);
-        this.eventOccurrence.emit('updated');
+      if (res?.success) {
+        // if (this.discountsAndTaxes.has(res.id)){
+        //   this.discountsAndTaxes.delete(res.id);
+        // }
+        // this.discountsAndTaxes.set(res.id, res);
+        // this.eventOccurrence.emit('updated');
+         this.change.emit('updated');
       }
     });
   }
@@ -42,11 +43,12 @@ export class DiscountTaxOrderComponent implements OnInit {
   deleteAdditionalAmount(id: number): void {
     SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el Monto?', 'warning').then(res => {
       if (res.isConfirmed) {
-        this.standard.methodDelete(`system-orders/orders/${this.order_id}/additional-amount/${id}`).subscribe(res => {
+        this.standard.methodDelete(`system-orders/orders/${this.order_id}/additional-amounts/${id}`).subscribe(res => {
           if (res?.success) {
             SwalService.swalFire({ title: 'Eliminado', text: 'Monto eliminado', icon: 'success' });
-            this.discountsAndTaxes.delete(id);
-            this.eventOccurrence.emit('updated');
+            // this.discountsAndTaxes.delete(id);
+            // this.eventOccurrence.emit('updated');
+            this.change.emit('delete');
           }
         });
       }

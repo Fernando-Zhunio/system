@@ -1,46 +1,126 @@
 .node {
-    background-color: #dadada;
-    color: rgb(119, 117, 117);
-    padding: 6px 10px;
-    border-radius: 20px;
-    margin-left: 1px;
-    white-space: nowrap;
+  background-color: #dadada;
+  color: rgb(119, 117, 117);
+  padding: 6px 10px;
+  border-radius: 20px;
+  margin-left: 1px;
+  white-space: nowrap;
 }
 
 .arrow {
-    width: 30px;
-    height: 3px;
-    /* border-top: 3px solid black; */
-    position: relative;
-    background: black;
-    border-radius: 2px;
-
+  width: 30px;
+  height: 3px;
+  /* border-top: 3px solid black; */
+  position: relative;
+  background: black;
+  border-radius: 2px;
 }
-.arrow::after{
-    content: "";
-    position: absolute;
-    right: 0px;
-    top: 4px;
-    width: 14px;
-    height: 2px;
-    transform: rotate(-27deg);
+.arrow::after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  top: 4px;
+  width: 14px;
+  height: 2px;
+  transform: rotate(-27deg);
+  background-color: black;
+  border-radius: 2px 2px 3px 1px;
+}
+
+.arrow::before {
+  content: "";
+  position: absolute;
+  right: 0px;
+  top: -3px;
+  width: 14px;
+  height: 2px;
+  transform: rotate(27deg);
+  background-color: black;
+  border-radius: 2px 3px 2px;
+}
+
+.active {
+  color: rgb(230, 230, 15);
+  background-color: rgb(44, 44, 112);
+}
+
+// .flow {
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+.flow > div {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  > span:nth-child(2) {
     background-color: black;
-    border-radius: 2px 2px 3px 1px;
+    // width: 2px;
+    height: 100%;
+  }
 }
 
-.arrow::before{
-    content: "";
-    position: absolute;
-    right: 0px;
-    top: -3px;
-    width: 14px;
-    height: 2px;
-    transform: rotate(27deg);
-    background-color: black;
-    border-radius: 2px 3px 2px;
+.flow > div:nth-child(even) {
+  // bg-danger
+  > span:nth-child(1) {
+    margin-left: auto !important;
+    padding: 1rem !important;
+    margin: 1rem;
+    width: 50%;
+    // text-align: right;
+    //   background-color: #f86c6b !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    border-radius: 10px;
+  }
 }
 
-.active{
-    color: rgb(230, 230, 15);
-    background-color: rgb(44, 44, 112);
+.flow > div:nth-child(odd) {
+  > span:nth-child(3) {
+    padding: 1rem !important;
+    margin: 1rem;
+    width: 50%;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    border-radius: 10px;
+  }
+}
+
+.bola > span {
+  width: 43px;
+  height: 23px;
+  background: #ff9800;
+  position: absolute;
+  border-radius: 20px;
+  border: solid 10px;
+}
+
+.flow-item-right {
+  display: flex;
+  > span:nth-child(1) {
+    width: calc(100% - 45px);
+  }
+  > span:nth-child(2) {
+    width: 45px;
+    border-left: 1px solid #c8ced3;
+    padding-left: 0.25rem;
+    margin-left: 0.25rem !important;
+    span {
+      font-size: 25px;
+    }
+  }
+}
+
+.flow-item-left {
+  display: flex;
+  > span:nth-child(2) {
+    width: calc(100% - 45px);
+  }
+  > span:nth-child(1) {
+    width: 55px;
+    border-right: 1px solid #c8ced3;
+    padding-right: 0.25rem;
+    margin-right: 0.25rem;
+    span {
+      font-size: 25px;
+    }
+  }
 }

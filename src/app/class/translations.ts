@@ -46,6 +46,20 @@ const trans_es_order = {
     delivered: 'Entregado',
     returned: 'Devuelto',
     confirmed: 'Confirmado',
+
+    payment_paid: 'Pagado',
+    payment_partially_paid: 'Parcialmente pagado',
+    payment_refunded: 'Reembolsado',
+    payment_partially_refunded: 'Parcialmente reembolsado',
+
+    shipping_shipped: 'Enviado',
+    shipping_partially_shipped: 'Parcialmente enviado',
+    shipping_partially_delivered: 'Parcialmente entregado',
+    shipping_returned: 'Devuelto',
+    shipping_partially_returned: 'Parcialmente devuelto',
+
+
+
 }
 
 const trans_es_order_channels = {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectionListChange } from '@angular/material/list';
 import { Observable } from 'rxjs';
@@ -17,6 +17,7 @@ export class AddProductsOrderComponent implements OnInit {
   constructor(private standard: StandartSearchService) { }
   @Input() order: IOrder;
   @Input() items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
+  @Output() change = new EventEmitter<string>();
   itemEditing: IItemOrder;
   isOpenSearchProducts = false;
   isEditingItem = false;
@@ -59,18 +60,17 @@ export class AddProductsOrderComponent implements OnInit {
     }
     observer.subscribe(res => {
       if (res?.success) {
-        const item = res.data;
-        if (this.items.has(item.id)) {
-          this.items.delete(item.id);
-        }
-        if (this.isEditingItem) {
-          this.disabledEditingItemOrder();
-          SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
-        }
-        this.items.set(item.id, item);
-        // if (callback) {
-        //   callback(item);
+        // const item = res.data;
+        // if (this.items.has(item.id)) {
+        //   this.items.delete(item.id);
         // }
+        // if (this.isEditingItem) {
+        //   this.disabledEditingItemOrder();
+        //   SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
+        // }
+        // this.items.set(item.id, item);
+        this.change.emit('change');
+
       }
       this.isLoading = false;
     }, err => {
@@ -103,10 +103,11 @@ export class AddProductsOrderComponent implements OnInit {
         this.standard.methodDelete(`system-orders/orders/${order_id}/items/${id}`).subscribe(res => {
           if (res?.success) {
             SwalService.swalFire({ title: 'Eliminado', text: 'Item eliminado', icon: 'success' });
-            this.items.delete(id);
+            // this.items.delete(id);
             // if (callback) {
             //   callback();
             // }
+            this.change.emit('change');
           }
         });
       }

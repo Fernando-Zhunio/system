@@ -6,6 +6,7 @@ import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../inter
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SelectClientAddressModalComponent } from '../components/select-client-address-modal/select-client-address-modal.component';
 import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
+import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
 
 @Component({
   selector: 'app-edit-order',
@@ -18,25 +19,50 @@ export class EditOrderComponent implements OnInit {
   readonly id = this.activated_router.snapshot.params['order_id'];
   order: IOrder = null;
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  items:  Map<number, IItemOrder> = new Map<number, IItemOrder>();
+  items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   types: any[] = [];
   channels: IChannelOrder[] = [];
   paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
   discountsAndTaxes: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
   hideTotals = true;
+  data: any = null;
+  statuses: any[] = [];
+  pipeTrans = new TranslatefzPipe();
   ngOnInit() {
-    console.log(this.id);
+    this.getStatuses();
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
       console.log(data);
       if (data?.success) {
         this.order = data.data.order;
-        this.items = new Map<number, IItemOrder>(data.data.order.items.map(item => [item.id, item]));
         this.channels = data.data.channels;
         this.types = data.data.types;
-        this.paymentsMap = new Map<number, IPaymentOrder>(this.order.payments.map(item => [item.id, item]));
-        this.discountsAndTaxes = new Map<number, any>(this.order.additional_amounts.map(item => [item.id, item]));
+        this.fillData();
       }
     });
+  }
+
+  getStatuses(): void {
+    this.standard.methodGet(`system-orders/orders/${this.id}/statuses`).subscribe(res => {
+      if (res.success) {
+        if (res.data?.length > 0) {
+          this.statuses = res.data;
+        }
+      }
+    });
+  }
+
+  fillData(): void {
+    if (this.order?.items && this.order.items.length > 0) {
+      this.items = new Map<number, IItemOrder>(this.order.items.map(item => [item.id, item]));
+    }
+    // this.items = new Map<number, IItemOrder>(data.data.order.items.map(item => [item.id, item]));
+    if (this.order.payments && this.order.payments.length > 0) {
+      this.paymentsMap = new Map<number, IPaymentOrder>(this.order.payments.map(item => [item.id, item]));
+    }
+    if (this.order.additional_amounts && this.order.additional_amounts.length > 0) {
+      console.log(this.order.additional_amounts);
+      this.discountsAndTaxes = new Map<number, any>(this.order.additional_amounts.map(item => [item.id, item]));
+    }
   }
 
   openSelectClient(): void {
@@ -62,19 +88,6 @@ export class EditOrderComponent implements OnInit {
     });
   }
   openDialogAddress(address_id: number = null): void {
-    // this.dialog.open(CreateOrEditAddressClientComponent, {
-    //   data: {
-    //     client_id: this.order.client_id,
-    //     order_id: this.order.id,
-    //     address_id
-    //   },
-    //   disableClose: true,
-    // }).beforeClosed().subscribe(data1 => {
-    //   console.log(data1);
-    //   // if (data1?.success) {
-    //   //   this.order = data1.data;
-    //   // }
-    // });
     this.dialog.open(SelectClientAddressModalComponent, {
       data: {
         client: this.order.client,
@@ -96,6 +109,15 @@ export class EditOrderComponent implements OnInit {
         this.order = data.data.order;
         this.channels = data.data.channels;
         this.types = data.data.types;
+      }
+    });
+  }
+
+  getOrder(): void {
+    this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
+      if (res.success) {
+        this.order = res.data;
+        this.fillData();
       }
     });
   }

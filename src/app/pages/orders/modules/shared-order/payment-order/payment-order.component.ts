@@ -21,7 +21,9 @@ export class PaymentOrderComponent implements OnInit {
   @ViewChild('myPondPaid') myPond: any;
   @Input() order_id: number;
   @Input() paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
-  @Output() getTotalPayment: EventEmitter<string> = new EventEmitter<string>();
+  // @Output() getTotalPayment: EventEmitter<string> = new EventEmitter<string>();
+  @Output() change = new EventEmitter<string>();
+
   isOpenUploadFile = false;
   idUploadFile: number = null;
   urlUploadFile: string = 'api/';
@@ -64,9 +66,10 @@ export class PaymentOrderComponent implements OnInit {
       disableClose: true
     }).afterClosed().subscribe(x => {
       if (x && x?.success) {
-        const payment = x.data;
-        this.paymentsMap.set(payment.id, payment);
-        this.getTotalPayment.emit('create or update');
+        // const payment = x.data;
+        // this.paymentsMap.set(payment.id, payment);
+        // this.getTotalPayment.emit('create or update');
+        this.change.emit('create or update');
       }
     });
   }
@@ -76,8 +79,10 @@ export class PaymentOrderComponent implements OnInit {
       if (result.isConfirmed) {
         this.standard.methodDelete(`system-orders/orders/${order_id}/payments/${id}`).subscribe(data => {
           SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Se elimino correctamente' });
-          this.paymentsMap.delete(id);
-          this.getTotalPayment.emit('delete');
+          // this.paymentsMap.delete(id);
+          // this.getTotalPayment.emit('delete');
+          this.change.emit('delete');
+
         });
       }
     });
@@ -93,8 +98,9 @@ export class PaymentOrderComponent implements OnInit {
         this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, {status: event.value}).subscribe(data => {
           if (data?.success) {
             SwalService.swalFire({ icon: 'success', title: 'Cambiado', text: 'Se cambio correctamente' });
-            this.paymentsMap.set(id, data.data);
-            this.getTotalPayment.emit('change status');
+            // this.paymentsMap.set(id, data.data);
+            // this.getTotalPayment.emit('change status');
+            this.change.emit('change status');
           }
         });
       }
@@ -106,8 +112,8 @@ export class PaymentOrderComponent implements OnInit {
     this.pondOptions.server = {url: `system-orders/orders/${this.order_id}/payments/${id}/attachments`};
     this.idUploadFile = id;
     this.isOpenUploadFile = true;
-
     this.urlUploadFile = `system-orders/orders/${this.order_id}/payments/${id}/attachments`;
+    this.change.emit('upload file');
   }
 
   successFiles(event): void {

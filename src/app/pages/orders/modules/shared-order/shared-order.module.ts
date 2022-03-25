@@ -24,6 +24,9 @@ import { TransferenceOrderComponent } from './transference-order/transference-or
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { HistoryStatusesComponent } from './history-statuses/history-statuses.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { SelectedViewServientregaPdfComponent } from './selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 
 @NgModule({
   imports: [
@@ -43,6 +46,8 @@ import { HistoryStatusesComponent } from './history-statuses/history-statuses.co
     MatBadgeModule,
     MatCardModule,
     MatChipsModule,
+    MatExpansionModule,
+    MatBottomSheetModule,
   ],
   exports: [
     CreateOrEditAddressClientComponent,
@@ -54,8 +59,9 @@ import { HistoryStatusesComponent } from './history-statuses/history-statuses.co
     DiscountTaxOrderComponent,
     TransferenceOrderComponent,
     HistoryStatusesComponent,
+    SelectedViewServientregaPdfComponent,
   ],
-  declarations: [HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
-  entryComponents: [HistoryStatusesComponent,CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
+  declarations: [SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
+  entryComponents: [SelectedViewServientregaPdfComponent, HistoryStatusesComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
 })
 export class SharedOrderModule { }
