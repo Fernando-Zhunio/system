@@ -2,80 +2,66 @@
   <h3 class="font-3xl font-weight-bold">Envió</h3>
   <button color="accent" class="mb-1" mat-raised-button (click)="openDialogShipping()">Agregar envió <mat-icon>add
     </mat-icon></button>
-  <div class="overflow-auto">
-    <table class="table overflow-auto">
-      <thead>
-        <tr>
-          <th>Tipo de envío</th>
-          <th colspan="1">Estado</th>
-          <th>Monto</th>
-          <th>Peso cubico</th>
-          <th>Peso</th>
-          <th>Altura</th>
-          <th>Ancho</th>
-          <th>Largo</th>
-          <th>Bodega</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let shipping of shippings">
-          <td class="{{shipping.type}}">{{shipping.type}}</td>
-          <td colspan="1">
-            <ng-container>
-              <span class="badge {{shipping.status}} font-xs center" (click)="openDialogHistoryStatus(shipping.id)"
-                *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus">
-                {{shipping.status | translatefz: 'orders'}} <mat-icon class="cp">manage_search</mat-icon>
-              </span>
-              <ng-template #templateSelectStatus>
-                <div class="d-flex">
-                  <mat-form-field>
-                    <mat-select [value]="shipping.status" (selectionChange)="changeStatusShipping($event,shipping.id)"
-                      placeholder="Cambio de estado">
-                      <mat-option value="pending">Pendiente</mat-option>
-                      <mat-option value="delivered">Entregado</mat-option>
-                      <mat-option value="cancelled">Cancelado</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <button mat-icon-button matSuffix (click)="openDialogHistoryStatus(shipping.id)">
-                    <mat-icon>manage_search</mat-icon>
-                  </button>
-                </div>
-              </ng-template>
-            </ng-container>
-          </td>
-          <td>$ {{shipping.amount}}</td>
-          <td>{{shipping?.cubicweight}}</td>
-          <td>{{shipping?.weight}}</td>
-          <td>{{shipping?.height}}</td>
-          <td>{{shipping?.width}}</td>
-          <td>{{shipping?.length}}</td>
-          <td>{{shipping?.origin_warehouse_id+ "-"+ shipping?.origin_warehouse?.name}}</td>
-          <td>
-            <ng-container *ngIf="shipping.status == 'pending' && !shipping.tracking_number">
-              <button mat-icon-button color="primary" (click)="openDialogShipping(shipping.id)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" *ngIf="!shipping.tracking_number"
-                (click)="deleteShipping(shipping.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </ng-container>
-            <ng-container *ngIf="shipping.type == 'servientrega'">
-              <button *ngIf="!shipping.tracking_number; else templateDeleteGuie" mat-raised-button color="primary"
-                (click)="openGenerateGuide(shipping.id)">Generar guiá<mat-icon>grading</mat-icon></button>
-              <ng-template #templateDeleteGuie>
-                <button mat-raised-button color="warn" (click)="deleteGuie(shipping.id)">Eliminar guiá<mat-icon>delete
-                  </mat-icon></button>
-                <!-- <button mat-icon-button  color="warn" (click)="openViewPdf(shipping.id)"><mat-icon>picture_as_pdf</mat-icon></button> -->
-                <button mat-icon-button  color="accent" (click)="openViewPdf(shipping.id)"><mat-icon>picture_as_pdf</mat-icon></button>
-                <!-- <button mat-raised-button color="accent" (click)="openViewPdf(shipping.id)">Ver Docs<mat-icon>picture_as_pdf
-                  </mat-icon></button> -->
-              </ng-template>
-            </ng-container>
-        </tr>
-      </tbody>
-    </table>
+  <hr>
+  <div class="card-columns" style="column-count: 4;">
+    <mat-card class="card" *ngFor="let shipping of shippings">
+      <div>
+        <span [class]="shipping.type">{{shipping.type}}</span>
+      </div>
+      <div>
+        <div class="badge font-sm {{shipping.status}}" *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus"><span>Estado:
+            {{shipping.status | translatefz: 'orders'}} </span></div>
+        <ng-template #templateSelectStatus>
+          <div class="d-flex">
+            <mat-form-field>
+              <mat-select [value]="shipping.status" (selectionChange)="changeStatusShipping($event,shipping.id)"
+                placeholder="Cambio de estado">
+                <mat-option value="pending">Pendiente</mat-option>
+                <mat-option value="delivered">Entregado</mat-option>
+                <mat-option value="cancelled">Cancelado</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button matSuffix (click)="openDialogHistoryStatus(shipping.id)">
+              <mat-icon>manage_search</mat-icon>
+            </button>
+          </div>
+        </ng-template>
+        <table>
+          <tbody class="body-info">
+            <tr><td>Creado: </td><td>{{shipping.created_at | date}}</td></tr>
+            <tr><td>Monto: </td><td>$ {{shipping.amount}}</td></tr>
+            <tr><td>Peso cubico: </td><td>{{shipping?.cubicweight}}</td></tr>
+            <tr><td>Peso: </td><td>{{shipping?.weight}}</td></tr>
+            <tr><td>Altura: </td><td>{{shipping?.height}}</td></tr>
+            <tr><td>Ancho: </td><td>{{shipping?.width}}</td></tr>
+            <tr><td>Longitud: </td><td>{{shipping?.length}}</td></tr>
+            <tr><td>Bodegas: </td><td>{{shipping?.origin_warehouse_id+ "-"+ shipping?.origin_warehouse?.name}}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <ng-container *ngIf="shipping.status == 'pending' && !shipping.tracking_number">
+          <button mat-icon-button color="primary" (click)="openDialogShipping(shipping.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" *ngIf="!shipping.tracking_number"
+            (click)="deleteShipping(shipping.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
+        <ng-container *ngIf="shipping.type == 'servientrega'">
+          <button *ngIf="!shipping.tracking_number; else templateDeleteGuie" mat-raised-button color="primary"
+            (click)="openGenerateGuide(shipping.id)">Generar guiá<mat-icon>grading</mat-icon></button>
+          <ng-template #templateDeleteGuie>
+            <button mat-raised-button color="warn" (click)="deleteGuie(shipping.id)">Eliminar guiá<mat-icon>delete
+              </mat-icon></button>
+            <button mat-icon-button color="accent" (click)="openViewPdf(shipping.id)">
+              <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+          </ng-template>
+        </ng-container>
+      </div>
+    </mat-card>
   </div>
 </div>
 
@@ -89,7 +75,6 @@
         <div class="col-md-12">
           <div class="display-4 h-100">
             <iframe width='100%' height='100%' [src]='encoded_pdf'></iframe>
-            <!-- <ngx-doc-viewer [url]="cv" viewer="mammoth" style="width:100%;height:100%;"></ngx-doc-viewer> -->
           </div>
         </div>
       </div>

@@ -66,7 +66,10 @@
     margin-left: auto !important;
     padding: 1rem !important;
     margin: 1rem;
-    width: 50%;
+    // width: 50%;
+    min-width: 250px;
+    max-width: 500px;
+    width: fit-content;
     // text-align: right;
     //   background-color: #f86c6b !important;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
@@ -78,7 +81,9 @@
   > span:nth-child(3) {
     padding: 1rem !important;
     margin: 1rem;
-    width: 50%;
+    min-width: 250px;
+    max-width: 500px;
+    width: fit-content;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
     border-radius: 10px;
   }

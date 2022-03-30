@@ -231,7 +231,8 @@ button {
 
 .light-theme .app-body {
   // background-color: #ffffff;
-  background-color: white;
+  background-color: #F2F6FC;
+  
 }
 
 .dark-theme .app-body {
@@ -359,3 +360,7 @@ mat-chip {
   font-weight: inherit !important;
 }
 // #endregion font-weight input material
+
+.shadow-filter {
+  filter: drop-shadow(0px 1px 3px rgba(60,64,67,0.3));
+}

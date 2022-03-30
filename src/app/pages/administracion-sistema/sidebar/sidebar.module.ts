@@ -15,11 +15,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { IndexWithMatTableModule } from '../../../Modulos/index-with-mat-table/index-with-mat-table.module';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatSelectModule } from '@angular/material/select';
+import { SearchesModule } from './../../../Modulos/searches/searches.module';
 
 @NgModule({
   declarations: [SidebarIndexComponent, CreateOrEditSidebarComponent],
   imports: [
-  CommonModule,
+CommonModule,
     SidebarRoutingModule,
     SearchTemplateModule,
     MatCardModule,
@@ -33,6 +36,9 @@ import { IndexWithMatTableModule } from '../../../Modulos/index-with-mat-table/i
     MatAutocompleteModule,
     MatChipsModule,
     IndexWithMatTableModule,
+    NgxMatSelectSearchModule,
+    MatSelectModule,
+    SearchesModule
   ]
 })
 export class SidebarModule { }

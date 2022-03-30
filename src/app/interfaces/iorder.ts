@@ -115,6 +115,7 @@ export interface IPaymentOrder {
   type: 'credit_card' | 'cash' | 'debit_card' | 'wire' | 'paymentez';
   status: 'pending' | 'paid' | 'refunded' | 'cancelled';
   amount: number;
+  link_to_pay: string;
   description: string;
   order_id: number;
   created_at: string;

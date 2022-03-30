@@ -43,15 +43,33 @@ table {
   bottom: 10px;
   right: 33px;
   .mat-card {
-    background: #ff9800;
+    background: gold;
     border-radius: 13px !important;
     // opacity: 0.6;
   }
-  // .mat-card:hover {
-  //   opacity: 1;
-  // }
 }
 
+.btn-created-order {
+  position: fixed;
+  bottom: 10px;
+  button {
+    background: rgb(13, 128, 179);
+    background: linear-gradient(
+      90deg,
+      rgba(13, 128, 179, 1) 25%,
+      rgba(48, 167, 119, 0.9475140397956058) 74%
+    );
+    color: white;
+  }
+  // left: 10px;
+}
+
+.mat-expansion-panel {
+  
+  border-radius: 20px !important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  margin: 0.5rem !important;
+}
 
 @media screen and (max-width: 768px) {
   .grid-header {

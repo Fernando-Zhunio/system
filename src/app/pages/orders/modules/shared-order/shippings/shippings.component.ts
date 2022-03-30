@@ -3,7 +3,8 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IShippingOrder } from '../../../../../interfaces/iorder';
+import { IClientOrder } from '../../../../../interfaces/iclient-order';
+import { IShippingAddress, IShippingOrder } from '../../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
 import { ShippingOrderSectionComponent } from '../../../components/shipping-order-section/shipping-order-section.component';
@@ -21,8 +22,9 @@ export class ShippingsComponent implements OnInit {
   constructor(private btnSheet: MatBottomSheet, private dialog: MatDialog, private standard: StandartSearchService, protected _sanitizer: DomSanitizer) { }
   @Input() shippings: IShippingOrder[] = [];
   @Input() order_id: number;
+  @Input() shipping_address: IShippingAddress;
+  @Input() client: IClientOrder;
   @Output() change = new EventEmitter<string>();
-  // @Output() delete = new EventEmitter<any>();
   isOpenCv = false;
   encoded_pdf: any;
 
@@ -38,14 +40,6 @@ export class ShippingsComponent implements OnInit {
     }).beforeClosed().subscribe(res => {
       console.log({ res });
       if (res?.success) {
-        // if (id) {
-        //   const index = this.shippings.findIndex(x => x.id === id);
-        //   if (index !== -1) {
-        //     this.shippings[index] = res.data;
-        //   }
-        // } else {
-        //   this.shippings.push(res.data);
-        // }
         this.change.emit('create or update');
       }
     });
@@ -57,15 +51,9 @@ export class ShippingsComponent implements OnInit {
         this.standard.methodDelete(`system-orders/orders/${this.order_id}/shippings/${id}`).subscribe(res => {
           if (res?.success) {
             SwalService.swalFire({ title: 'Eliminado', text: 'Envió eliminado', icon: 'success' });
-            // this.discountsAndTaxes.delete(id);
             if (res?.success) {
-              // const index = this.shippings.findIndex(x => x.id === id);
-              // if (index !== -1) {
-              //   this.shippings.splice(index, 1);
-              // }
               this.change.emit('delete');
             }
-            // this.delete.emit(res);
           }
         });
       }
@@ -89,7 +77,7 @@ export class ShippingsComponent implements OnInit {
     const indexShipping = this.shippings.findIndex(x => x.id === id);
     if (indexShipping !== -1) {
       this.dialog.open(GenerateGuideServientregaComponent, {
-        data: { shipping: this.shippings[indexShipping], order_id: this.order_id },
+        data: { client: this.client, shipping_address: this.shipping_address, shipping: this.shippings[indexShipping], order_id: this.order_id },
       }).beforeClosed().subscribe(res => {
         console.log({ res });
         if (res?.success) {
@@ -153,8 +141,6 @@ export class ShippingsComponent implements OnInit {
               url = `system-orders/orders/shippings/servientrega/manifest-pdf?date=${res}`;
               break;
           }
-          // this.encoded_pdf = this._sanitizer.bypassSecurityTrustResourceUrl(res.data);
-          // this.isOpenCv = true;
           this.standard.methodGet(url)
             .subscribe(res => {
               if (res?.success) {

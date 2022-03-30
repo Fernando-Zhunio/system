@@ -27,6 +27,7 @@ import { HistoryStatusesComponent } from './history-statuses/history-statuses.co
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SelectedViewServientregaPdfComponent } from './selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { InvoicesOrderComponent } from './invoices-order/invoices-order.component';
 
 @NgModule({
   imports: [
@@ -60,8 +61,9 @@ import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
     TransferenceOrderComponent,
     HistoryStatusesComponent,
     SelectedViewServientregaPdfComponent,
+    InvoicesOrderComponent,
   ],
-  declarations: [SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent],
+  declarations: [SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent, InvoicesOrderComponent],
   entryComponents: [SelectedViewServientregaPdfComponent, HistoryStatusesComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
 })
 export class SharedOrderModule { }

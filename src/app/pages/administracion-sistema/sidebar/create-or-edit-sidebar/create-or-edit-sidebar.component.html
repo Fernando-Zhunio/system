@@ -1,5 +1,8 @@
 <div>
-    <h2 class="font-4xl mt-3 font-weight-bold d-flex align-items-center"><button mat-mini-fab [routerLink]="['/administracion-sistema/sidebar']"><mat-icon>arrow_back</mat-icon></button>&nbsp; {{title}}</h2>
+    <h2 class="font-4xl mt-3 font-weight-bold d-flex align-items-center"><button mat-mini-fab
+            [routerLink]="['/administracion-sistema/sidebar']">
+            <mat-icon>arrow_back</mat-icon>
+        </button>&nbsp; {{title}}</h2>
     <div>
         <div>
             <div>
@@ -20,20 +23,30 @@
 
                         <div class="col-md-6">
                             <mat-form-field class="w-100">
-                                <input type="text" [formControl]="controlPermission" [matAutocomplete]="auto" (keydown.enter)="search($event)" matInput placeholder="Permiso" >
+                                <input (click)="isOpenSearchPermission = !isOpenSearchPermission" type="text" readonly [formControl]="formPermission"  matInput placeholder="Permiso" >
                                 <button mat-icon-button matSuffix [routerLink]="['/administracion-sistema/permissions']" ><mat-icon>add</mat-icon></button>
                                 <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
                             </mat-form-field>
-                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)" [displayWith]="AutoCompleteDisplay">
-                                <mat-option *ngFor="let permission of permissions | keyvalue" [value]="{id:permission.value.id, name: permission.value.name, description: permission.value.description}">{{permission.value.description}} 
-                                    <small>{{permission.value?.group_permission?.name}}</small>
-                                </mat-option>
-                            </mat-autocomplete>
                         </div>
-                        <button mat-raised-button color="primary" (click)="saveInServer()" [disabled]="isLoading">Guardar <mat-icon>save</mat-icon></button>
+                        <button mat-raised-button color="primary" (click)="saveInServer()"
+                            [disabled]="isLoading">Guardar <mat-icon>save</mat-icon></button>
                     </div>
                 </mat-card>
             </div>
         </div>
+    </div>
+</div>
+
+<div [hidden]="!isOpenSearchPermission" class="search-permission">
+    <button (click)="isOpenSearchPermission = !isOpenSearchPermission" mat-mini-fab color="warn" class="btn-close-search-product"><mat-icon>close</mat-icon></button>
+    <div class="col-md-6 col-8 overflow-auto">
+        <app-search placeholder="Buscador de permisos" [url]="urlPermission" (data)="getData($event)">
+            <mat-selection-list [multiple]="false" data (selectionChange)="selectPermission($event)">
+                <mat-list-option [value]="permission.id" mat-line *ngFor="let permission of permissions">
+                    <div mat-line>{{permission?.name}}</div>
+                    <div mat-line class="border-bottom">{{permission?.description}}</div>
+                </mat-list-option>
+            </mat-selection-list>
+        </app-search>
     </div>
 </div>

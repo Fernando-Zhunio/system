@@ -4,6 +4,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../interfaces/iorder';
 import { StandartSearchService } from '../../../services/standart-search.service';
+import { SwalService } from '../../../services/swal.service';
 import { SelectClientAddressModalComponent } from '../components/select-client-address-modal/select-client-address-modal.component';
 import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
 import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
@@ -84,7 +85,6 @@ export class EditOrderComponent implements OnInit {
           }
         });
       }
-
     });
   }
   openDialogAddress(address_id: number = null): void {
@@ -120,6 +120,17 @@ export class EditOrderComponent implements OnInit {
         this.fillData();
       }
     });
+  }
+
+  changeStatusCreated(): void {
+    const url = 'system-orders/orders/' + this.order.id + '/change-status';
+    this.standard.methodPut(url, { status: 'created' }).subscribe(res => {
+      if (res?.success) {
+        this.getOrder();
+      }
+    }
+    );
+
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CTemplateSearch } from '../../class/ctemplate-search';
-import { StandartSearchService } from '../../services/standart-search.service';
+import { IPaginate, StandartSearchService } from '../../services/standart-search.service';
 // import { SwalService } from '../../services/swal.service';
 
 /**
@@ -15,7 +15,7 @@ import { StandartSearchService } from '../../services/standart-search.service';
 })
 export class SearchTemplateComponent extends CTemplateSearch<any> implements OnInit {
 
-  constructor(private standardService: StandartSearchService, private snackBar: MatSnackBar) {
+  constructor() {
     super();
   }
   @Input() filter_data: object = {};
@@ -27,7 +27,7 @@ export class SearchTemplateComponent extends CTemplateSearch<any> implements OnI
   @Input() columns = 4;
   @Input() withCardColumns: boolean = true;
   @Output() _isLoading = new EventEmitter<boolean>();
-  @Output() data = new EventEmitter<any>();
+  @Output() data = new EventEmitter<any[]>();
 
   ngOnInit(): void {
 // console.log(this.filter_data);

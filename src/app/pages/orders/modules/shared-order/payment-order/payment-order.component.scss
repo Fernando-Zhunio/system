@@ -40,3 +40,13 @@
 
     cursor: pointer;
 }
+
+.body-info tr  {
+    td:nth-child(1) {
+     font-weight: bold;
+     color: gray;
+    }
+    a {
+        word-break: break-all;
+    }
+ }

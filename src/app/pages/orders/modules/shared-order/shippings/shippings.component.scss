@@ -32,7 +32,14 @@
 
 .servientrega {
   // background-color: #009225 !important;
-  color: #009225;
+  background: green;
+    color: white;
+    padding: 2px 5px;
+    margin: 5px;
+    display: inline-block;
+    transform: skewX(-24deg);
+    text-transform: uppercase;
+    font-family: unset;
 }
 
 .open-cv {
@@ -81,3 +88,23 @@
   background: white;
   height: 100vh;
 }
+
+.pickup{
+  background: rgb(0, 204, 255);
+  color: white;
+  padding: 2px 5px;
+  margin: 5px;
+  display: inline-block;
+  // transform: skewX(-24deg);
+  text-transform: uppercase;
+  border-radius: 5px;
+  // font-family: unset;
+}
+
+.body-info tr  {
+   td:nth-child(1) {
+    font-weight: bold;
+    color: gray;
+  }
+}
+

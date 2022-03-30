@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-between my-3">
     <h2 class="font-weight-bold font-4xl ">Editando order #{{id}}</h2>
-    <div class="">Estado: <span class="badge {{order?.status}} font-lg bg-secondary">{{order?.status | translatefz: 'orders'}}</span>
+    <div class="">Estado: <span class="badge {{order?.status}} font-lg bg-secondary">{{order?.status | translatefz:
+            'orders'}}</span>
     </div>
 </div>
 
@@ -103,6 +104,11 @@
             </table>
         </mat-card>
     </div>
+    <div>
+        <h3 class="font-4xl text-center mt-4">Estados</h3>
+        <app-state-flow-order [statuses]="statuses"></app-state-flow-order>
+    </div>
+
 
     <mat-card class="mt-3">
         <div class="d-flex justify-content-between align-items-center my-2">
@@ -137,9 +143,7 @@
                         Envíos
                     </mat-panel-title>
                     <mat-panel-description>
-                        <span>Gestionar envíos de la orden
-                            <!-- <span class="badge">{{order?.shippings}}</span> -->
-                        </span>
+                        <span>Gestionar envíos de la orden</span>
                         <span class="center">
                             <span class="badge bg-warning font-lg mr-1">{{order?.shippings?.length || 0}}</span>
                             <mat-icon>
@@ -148,7 +152,8 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <app-shippings (change)="getOrder()" [order_id]="order?.id" [shippings]="order?.shippings"></app-shippings>
+                <app-shippings (change)="getOrder()" [client]="order?.client" [shipping_address]="order?.shipping_address" [order_id]="order?.id" [shippings]="order?.shippings">
+                </app-shippings>
 
             </mat-expansion-panel>
 
@@ -166,13 +171,14 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-payment-order (change)="getOrder()" [order_id]="order?.id" [paymentsMap]="paymentsMap"></app-payment-order>
+                <app-payment-order (change)="getOrder()" [order_id]="order?.id" [paymentsMap]="paymentsMap">
+                </app-payment-order>
 
             </mat-expansion-panel>
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        Descuentos e impuestos
+                        Impuestos y Descuentos
                     </mat-panel-title>
                     <mat-panel-description>
                         Agregar, editar o eliminar descuentos e impuestos de la orden
@@ -183,7 +189,8 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-discount-tax-order (change)="getOrder()" [order_id]="order?.id" [discountsAndTaxes]="discountsAndTaxes">
+                <app-discount-tax-order (change)="getOrder()" [order_id]="order?.id"
+                    [discountsAndTaxes]="discountsAndTaxes">
                 </app-discount-tax-order>
             </mat-expansion-panel>
             <mat-expansion-panel>
@@ -201,17 +208,36 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <!-- <app-discount-tax-order [order_id]="order?.id" ></app-discount-tax-order> -->
-                <app-transference-order (change)="getOrder()" [order_id]="order?.id" [transfers]="order?.transfers"></app-transference-order>
+                <app-transference-order (change)="getOrder()" [order_id]="order?.id" [transfers]="order?.transfers">
+                </app-transference-order>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Facturas
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Agregar o eliminar facturas de la orden
+                        <span class="center">
+                            <span class="badge bg-warning font-lg mr-1">{{order?.additional_amounts?.length || 0}}</span>
+                            <mat-icon>
+                                receipt</mat-icon>
+                        </span>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-invoices-order (change)="getOrder()" [order_id]="order?.id">
+                </app-invoices-order>
             </mat-expansion-panel>
         </mat-accordion>
     </mat-card>
 
     <div class="totals">
-        <mat-card class="center p-1 px-3">
+        <mat-card class="center p-0 px-3">
             <div>
                 <div class=" section-order">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="font-2xl font-weight-bold m-0">Totales <span [hidden]="!hideTotals">:
+                        <h3 class=" font-weight-bold m-0">Totales <span [hidden]="!hideTotals">:
                                 ${{order?.total}}</span></h3>
                         <button mat-icon-button (click)="hideTotals = !hideTotals">
                             <mat-icon>unfold_more</mat-icon>
@@ -257,5 +283,6 @@
     </div>
 </div>
 
-<!-- <ngx-timeline [itens]="statuses" ></ngx-timeline> -->
-<app-state-flow-order [statuses]="statuses"></app-state-flow-order>
+<div *ngIf="order?.status == 'init'" class="btn-created-order">
+    <button mat-raised-button (click)="changeStatusCreated()">Generar order <mat-icon>playlist_add</mat-icon></button>
+</div>

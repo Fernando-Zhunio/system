@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { StandartSearchService } from '../../../../../../services/standart-search.service';
 import { IOrder, IShippingOrder } from '../../../../../../interfaces/iorder';
 import { SwalService } from './../../../../../../services/swal.service';
+import { IShippingAddress } from './../../../../../../interfaces/iorder';
+import { IClientOrder } from '../../../../../../interfaces/iclient-order';
 
 @Component({
   selector: 'app-generate-guide-servientrega',
@@ -13,7 +15,7 @@ import { SwalService } from './../../../../../../services/swal.service';
 })
 export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
 
-  constructor(private standard: StandartSearchService, @Inject(MAT_DIALOG_DATA) private dataExternal: { order_id: number, shipping: IShippingOrder }, private dialogRef: MatDialogRef<GenerateGuideServientregaComponent>) { }
+  constructor(private standard: StandartSearchService, @Inject(MAT_DIALOG_DATA) private dataExternal: { client: IClientOrder, shipping_address: IShippingAddress, order_id: number, shipping: IShippingOrder }, private dialogRef: MatDialogRef<GenerateGuideServientregaComponent>) { }
 
   form: FormGroup = new FormGroup({
     id_ciudad_destino: new FormControl(null, [Validators.required]),
@@ -38,13 +40,17 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
     peso_fisico: new FormControl(null, [Validators.required]),
   });
   formSearchCity = new FormControl(null);
+  formSearchDestinoCity = new FormControl(null);
 
   subscriptionCity: Subscription;
+  subscriptionDestinoCity: Subscription;
+
   isLoadingCity = false;
   intervalSearch: any;
 
   cities = [];
   searchCities = [];
+  searchDestinoCities = [];
   isLoading = false;
 
   ngOnInit() {
@@ -61,11 +67,10 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       this.dialogRef.close();
     });
     this.subscriptionCity = this.formSearchCity.valueChanges.subscribe(value => {
-      console.log(value);
-      if (value.length > 2) {
         this.searchCities = this.searchCity(value);
-        console.log(this.searchCities);
-      }
+    });
+    this.subscriptionDestinoCity = this.formSearchDestinoCity.valueChanges.subscribe(value => {
+        this.searchDestinoCities = this.searchCity(value);
     });
   }
 
@@ -73,29 +78,38 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
     if (this.subscriptionCity) {
       this.subscriptionCity.unsubscribe();
     }
+
+    if (this.subscriptionDestinoCity) {
+      this.subscriptionDestinoCity.unsubscribe();
+    }
   }
 
   fillForm(): void {
-    const data = this.dataExternal.shipping;
+    const data = this.dataExternal;
     this.form.patchValue({
-      ancho: data.width,
-      alto: data.height,
-      largo: data.length,
-      peso_fisico: data.weight,
-      direccion1_remite: data?.origin_warehouse?.address
+      ancho: data.shipping.width,
+      alto: data.shipping.height,
+      largo: data.shipping.length,
+      peso_fisico: data.shipping.weight,
+      direccion1_remite: data.shipping?.origin_warehouse?.address,
+      telefono1_remite: data.client.phone,
+      nombre_destinatario_ne: data.shipping_address.first_name,
+      apellido_destinatar_ne: data.shipping_address.last_name,
+      direccion1_destinat_ne: `${data.shipping_address.state}, ${data.shipping_address.city} ${data.shipping_address?.neighborhood }  ${data.shipping_address?.street}`,
+      sector_destinat_ne: `${data.shipping_address?.neighborhood }  ${data.shipping_address?.street}`,
+      // direccion1_remite: `${data.client?.country }, ${data.client.state}, ${data.client.city} `,
     });
   }
 
-  buscarInterval(text): void {
-    this.isLoadingCity = true;
-    clearTimeout(this.intervalSearch);
-    this.intervalSearch = setTimeout(() => {
-      this.searchCity(text);
-    }, 1000);
-  }
+  // buscarInterval(text): void {
+  //   this.isLoadingCity = true;
+  //   clearTimeout(this.intervalSearch);
+  //   this.intervalSearch = setTimeout(() => {
+  //     this.searchCity(text);
+  //   }, 1000);
+  // }
 
   searchCity(text): any[] {
-    console.log(text);
     return this.cities.filter(item => item.nombre.toLowerCase().includes(text.toLowerCase()));
   }
 

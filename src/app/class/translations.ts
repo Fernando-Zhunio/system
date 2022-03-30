@@ -57,6 +57,11 @@ const trans_es_order = {
     shipping_partially_delivered: 'Parcialmente entregado',
     shipping_returned: 'Devuelto',
     shipping_partially_returned: 'Parcialmente devuelto',
+    generated: 'Generado',
+    in_review: 'En revisión',
+    rejected: 'Rechazado',
+    expired: 'Expirado',
+    init: 'Iniciado',
 
 
 

@@ -5,9 +5,9 @@
       <mat-form-field class="col-md-4">
         <mat-select required formControlName="id_ciudad_destino" placeholder="Cuidad de destino">
           <mat-option>
-            <ngx-mat-select-search  [searching]="isLoadingCity" placeholderLabel="Buscador de cuidad" [formControl]="formSearchCity"></ngx-mat-select-search>
+            <ngx-mat-select-search  [searching]="isLoadingCity" placeholderLabel="Buscador de cuidad" [formControl]="formSearchDestinoCity"></ngx-mat-select-search>
           </mat-option>
-          <mat-option *ngFor="let city of searchCities" [value]="city.id">
+          <mat-option *ngFor="let city of searchDestinoCities" [value]="city.id">
             {{city.nombre}}
           </mat-option>
         </mat-select>
