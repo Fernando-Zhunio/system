@@ -29,6 +29,8 @@ export class EditOrderComponent implements OnInit {
   data: any = null;
   statuses: any[] = [];
   pipeTrans = new TranslatefzPipe();
+  isPublishing = false;
+
   ngOnInit() {
     this.getStatuses();
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
@@ -122,15 +124,23 @@ export class EditOrderComponent implements OnInit {
     });
   }
 
-  changeStatusCreated(): void {
-    const url = 'system-orders/orders/' + this.order.id + '/change-status';
-    this.standard.methodPut(url, { status: 'created' }).subscribe(res => {
+  changeStatusPublish(): void {
+    this.isPublishing = true;
+    const url = `system-orders/orders/${this.order.id}/publish`;
+    this.standard.methodPost(url).subscribe(res => {
       if (res?.success) {
         this.getOrder();
+        this.getStatuses();
+        this.isPublishing = false;
       }
+    }, err => {
+      console.log(err);
+      this.isPublishing = false;
     }
     );
-
   }
 
+  deleteOrder(): void {
+
+  }
 }

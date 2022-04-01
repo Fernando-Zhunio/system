@@ -40,7 +40,7 @@ export abstract class CreateOrEdit<T> {
 
     edit() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
+        this.standard_service.methodGet(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -60,7 +60,7 @@ export abstract class CreateOrEdit<T> {
 
     loaderDataForCreate() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
+        this.standard_service.methodGet(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -89,7 +89,7 @@ export abstract class CreateOrEdit<T> {
             }, error => {
                 console.log(error);
                 this.isLoading = false;
-                SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
+                // SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
             });
 
             return;

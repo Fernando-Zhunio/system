@@ -79,6 +79,7 @@ export interface IOrder {
   items?: (ItemsEntity)[] | any;
   transfers?: ITransference[];
   statuses: IStatus[];
+  invoices: IInvoice[];
 }
 export interface IClientOrder {
   id: number;
@@ -196,6 +197,97 @@ export interface IStatus {
   user: any;
   statusable_type: string;
   statusable_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IInvoice {
+  id: number;
+  code: string;
+  number: string;
+  status: string;
+  data?: IInvoiceData | null;
+  created_at: string;
+  updated_at: string;
+  pivot: IPivotInvoice;
+}
+export interface IPivotInvoice {
+  order_id: number;
+  invoice_id: number;
+}
+
+//** Data invoice interface ****************************************************************/
+export interface IInvoiceData {
+  number: number;
+  code: string;
+  seller_code: string;
+  status: string;
+  total_amount_without_taxes: number;
+  total_amount: number;
+  client_id: number;
+  warehouse_id: number;
+  user_id: number;
+  date: string;
+  updated_at: string;
+  created_at: string;
+  id: number;
+  items?: IInvoiceDataItem[] | [];
+  warehouse: Warehouse;
+  client: Client;
+  user: User;
+}
+
+export interface IInvoiceDataItem {
+  id: number;
+  product_id: number;
+  invoice_id: number;
+  quantity: number;
+  price: number;
+  created_at: string;
+  updated_at: string;
+  product: IProductInvoice;
+}
+export interface IProductInvoice {
+  id: number;
+  code: string;
+  name: string;
+  type: string;
+  description: string;
+  available: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Warehouse {
+  id: number;
+  code: string;
+  name: string;
+  city?: null;
+  address?: null;
+  local_code: string;
+  principal: string;
+  type: string;
+  created_at: string;
+  updated_at: string;
+}
+export interface Client {
+  id: number;
+  code: string;
+  name: string;
+  identification: string;
+  address: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+}
+export interface User {
+  id: number;
+  first_name: string;
+  last_name: string;
+  code: string;
+  nickname: string;
+  email?: null;
+  email_verified_at?: null;
   created_at: string;
   updated_at: string;
 }

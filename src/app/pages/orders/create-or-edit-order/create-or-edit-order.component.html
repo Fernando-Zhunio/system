@@ -25,7 +25,7 @@
                                                 [multiple]="false">
                                                 <mat-list-option [value]="client.key"
                                                     *ngFor="let client of clientOrders.data | keyvalue">
-                                                    <button [routerLink]="['/orders/clients',client.key,'edit']"  class="bg-gray-200" mat-list-avatar color="accent" mat-icon-button><mat-icon>edit</mat-icon></button>
+                                                    <button [routerLink]="['/system-orders/orders/clients',client.key,'edit']"  class="bg-gray-200" mat-list-avatar color="accent" mat-icon-button><mat-icon>edit</mat-icon></button>
                                                     <div mat-line>{{client.value.first_name}} {{client.value.last_name}}
                                                     </div>
                                                     <div mat-line>{{client.value.email}} - {{client.value.doc_id}}

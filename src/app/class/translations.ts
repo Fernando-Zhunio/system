@@ -63,9 +63,10 @@ const trans_es_order = {
     expired: 'Expirado',
     init: 'Iniciado',
 
+    published: 'Publicado',
+    canceled: 'Cancelado',
 
-
-}
+};
 
 const trans_es_order_channels = {
     'webstore': 'Pagina Web',

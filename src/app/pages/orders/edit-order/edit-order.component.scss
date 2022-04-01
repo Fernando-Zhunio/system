@@ -52,7 +52,7 @@ table {
 .btn-created-order {
   position: fixed;
   bottom: 10px;
-  button {
+  button:nth-child(1) {
     background: rgb(13, 128, 179);
     background: linear-gradient(
       90deg,

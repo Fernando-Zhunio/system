@@ -194,7 +194,7 @@
                 </app-discount-tax-order>
             </mat-expansion-panel>
             <mat-expansion-panel>
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header> 
                     <mat-panel-title>
                         Transferencias
                     </mat-panel-title>
@@ -220,13 +220,13 @@
                     <mat-panel-description>
                         Agregar o eliminar facturas de la orden
                         <span class="center">
-                            <span class="badge bg-warning font-lg mr-1">{{order?.additional_amounts?.length || 0}}</span>
+                            <span class="badge bg-warning font-lg mr-1">{{order?.invoices?.length || 0}}</span>
                             <mat-icon>
                                 receipt</mat-icon>
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-invoices-order (change)="getOrder()" [order_id]="order?.id">
+                <app-invoices-order (change)="getOrder()" [invoices]="order?.invoices" [order_id]="order?.id">
                 </app-invoices-order>
             </mat-expansion-panel>
         </mat-accordion>
@@ -283,6 +283,7 @@
     </div>
 </div>
 
-<div *ngIf="order?.status == 'init'" class="btn-created-order">
-    <button mat-raised-button (click)="changeStatusCreated()">Generar order <mat-icon>playlist_add</mat-icon></button>
+<div  class="btn-created-order">
+    <button [disabled]="isPublishing" mat-raised-button (click)="changeStatusPublish()">{{order?.status == 'init' ? 'Publicar y enviar correos electrónicos': 'Reenviar correos electrónicos'}}</button>
+    <button *ngIf="order?.status == 'init'" [disabled]="isPublishing" color="warn" mat-raised-button (click)="deleteOrder()" class="ml-1">Cancelar orden<mat-icon>delete</mat-icon></button>
 </div>
