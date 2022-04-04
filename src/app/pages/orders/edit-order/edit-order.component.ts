@@ -5,9 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../interfaces/iorder';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
-import { SelectClientAddressModalComponent } from '../components/select-client-address-modal/select-client-address-modal.component';
+import { SelectClientAddressModalComponent } from '../modules/shared-order/select-client-address-modal/select-client-address-modal.component';
 import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
 import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
+import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-order',
@@ -16,7 +18,7 @@ import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
 })
 export class EditOrderComponent implements OnInit {
 
-  constructor(private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog) { }
   readonly id = this.activated_router.snapshot.params['order_id'];
   order: IOrder = null;
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -32,6 +34,7 @@ export class EditOrderComponent implements OnInit {
   isPublishing = false;
 
   ngOnInit() {
+    this.spinner.show();
     this.getStatuses();
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
       console.log(data);
@@ -40,7 +43,15 @@ export class EditOrderComponent implements OnInit {
         this.channels = data.data.channels;
         this.types = data.data.types;
         this.fillData();
+        this.spinner.hide();
       }
+    }, err => {
+      this.spinner.hide();
+      SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Error al cargar la orden, por favor intente de nuevo recargando la pagina', confirmButtonText: 'Recargar la pagina'}).then(res => {
+        if (res.isConfirmed) {
+          window.location.reload();
+        }
+      });
     });
   }
 
@@ -89,7 +100,7 @@ export class EditOrderComponent implements OnInit {
       }
     });
   }
-  openDialogAddress(address_id: number = null): void {
+  openDialogAddress(): void {
     this.dialog.open(SelectClientAddressModalComponent, {
       data: {
         client: this.order.client,
@@ -138,6 +149,17 @@ export class EditOrderComponent implements OnInit {
       this.isPublishing = false;
     }
     );
+  }
+
+  addClientAddress(id = null): void {
+    this.dialog.open(CreateOrEditAddressClientComponent, {
+      data: { client_id: this.order.client_id, address_id: id, url: 'system-orders/orders/' + this.order.id + '/shipping-address' },
+    }).beforeClosed()
+      .subscribe(data => {
+        if (data?.success) {
+          this.getOrder();
+        }
+      });
   }
 
   deleteOrder(): void {

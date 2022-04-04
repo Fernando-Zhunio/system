@@ -1,0 +1,95 @@
+<h1 matDialogTitle class="font-weight-bold">Archivos</h1>
+
+<mat-dialog-content>
+  <div>
+    <button mat-raised-button color="accent" (click)="isOpenCreate = ! isOpenCreate">Agregar archivo</button>
+  </div>
+  <div *ngIf="files.length > 0 && !isLoading" class="card-columns">
+    <mat-card [ngSwitch]="file.type" *ngFor="let file of files">
+      <div *ngSwitchCase="'image'">
+        <img class="w-100" [src]="file.permalink" alt="imagen">
+      </div>
+      <div *ngSwitchCase="'video'">
+        <video class="w-100" [src]="file.permalink"></video>
+      </div>
+      <div *ngSwitchDefault>
+        <button mat-raised-button (click)="openDoc()">Ver documento</button>
+      </div>
+    </mat-card>
+    <div>
+      <app-view-doc></app-view-doc>
+    </div>
+  </div>
+  <div *ngIf="isLoading" class="text-center">
+    <div class="parpadeo text-center font-3xl ">Espere cargando archivos...</div>
+  </div>
+  <div *ngIf="!isLoading && files.length < 1">
+    <app-search-null></app-search-null>
+  </div>
+  <div>
+    <app-view-corner (close)="isOpenCreate = false" [isOpen]="isOpenCreate">
+      <div content>
+        <div>
+          <h2 class="font-weight-bold font-4xl p-md-4 p-2">Guardando Archivo</h2>
+          <mat-card>
+          <mat-form-field class="w-100">
+            <textarea [formControl]="formControlDescription" matInput placeholder="Ingrese una descripción" ></textarea>
+          </mat-form-field>
+          <div>
+              <button mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar Archivo</button>
+              <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+              <div *ngIf="fileSend?.file" class="m-3 p-3 shadow rounded-fz">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="center">
+                      <div>
+                        <div class="font-weight-bold font-2xl">Archivo</div>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>Nombre:</td>
+                              <td>{{fileSend.file.name}}</td>
+                            </tr>
+                            <tr>
+                              <td>Tamaño:</td>
+                              <td>{{fileSend.file.size}}</td>
+                            </tr>
+                            <tr>
+                              <td>Tipo:</td>
+                              <td>{{fileSend.file.type}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <img *ngIf="fileSend.file.type.includes('image'); else templateOtherFile" class="w-50" [src]="fileSend.base64" alt="imagen">
+                    <ng-template #templateOtherFile>
+                        <div>
+                          <span>
+                            <div class="text-center">
+                              <i class="fas fa-file-{{fileSend.file.type.split('/')[1]}} fa-5x"></i>
+                            </div>
+                          </span>
+                        </div>
+                      </ng-template>
+
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button (click)="saveFileInServer()" color="primary" mat-raised-button>Guardar</button>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </app-view-corner>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button matDialogClose color="warn">Cerrar</button>
+  <!-- <button mat-raised-button color="primary">Guardar</button> -->
+</mat-dialog-actions>

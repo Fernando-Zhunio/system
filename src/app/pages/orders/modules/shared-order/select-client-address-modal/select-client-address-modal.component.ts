@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
-import { IClientOrder, IShippingAddress } from '../../../../interfaces/iorder';
-import { StandartSearchService } from '../../../../services/standart-search.service';
-import { SwalService } from '../../../../services/swal.service';
+import { IClientOrder, IShippingAddress } from '../../../../../interfaces/iorder';
+import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { SwalService } from '../../../../../services/swal.service';
 
 @Component({
   selector: 'app-select-client-address-modal',

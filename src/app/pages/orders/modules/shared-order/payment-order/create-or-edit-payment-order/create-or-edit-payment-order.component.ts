@@ -44,4 +44,8 @@ export class CreateOrEditPaymentOrderComponent extends CreateOrEditModal impleme
     }
   }
 
+  generateUrlCreate(): string {
+    return `system-orders/orders/payments/create`;
+  }
+
 }

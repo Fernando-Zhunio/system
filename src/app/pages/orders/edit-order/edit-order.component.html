@@ -61,9 +61,20 @@
             <div class="d-flex align-items-center justify-content-between">
                 <h3 class="font-weight-bold font-2xl my-1">Dirección de envió</h3>
                 <div>
-                    <button mat-icon-button (click)="openDialogAddress()">
+
+                        <!-- <button color="primary" mat-icon-button (click)="addClientAddress()">
+                            <mat-icon>add</mat-icon>
+                        </button> -->
+                        <button color="accent" mat-icon-button
+                            (click)="addClientAddress(order.shipping_address.address_id)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button color="primary" mat-icon-button (click)="openDialogAddress()">
+                            <mat-icon>sync</mat-icon>
+                        </button>
+                    <!-- <button mat-icon-button (click)="openDialogAddress()">
                         <mat-icon>sync</mat-icon>
-                    </button>
+                    </button> -->
                 </div>
             </div>
             <table>
@@ -285,5 +296,5 @@
 
 <div  class="btn-created-order">
     <button [disabled]="isPublishing" mat-raised-button (click)="changeStatusPublish()">{{order?.status == 'init' ? 'Publicar y enviar correos electrónicos': 'Reenviar correos electrónicos'}}</button>
-    <button *ngIf="order?.status == 'init'" [disabled]="isPublishing" color="warn" mat-raised-button (click)="deleteOrder()" class="ml-1">Cancelar orden<mat-icon>delete</mat-icon></button>
+    <button *ngIf="order?.status == 'init'" [disabled]="isPublishing" color="warn" mat-raised-button (click)="deleteOrder()" class="mr-1">Cancelar orden<mat-icon>delete</mat-icon></button>
 </div>

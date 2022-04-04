@@ -28,6 +28,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SelectedViewServientregaPdfComponent } from './selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { InvoicesOrderComponent } from './invoices-order/invoices-order.component';
+import { SelectClientAddressModalComponent } from './select-client-address-modal/select-client-address-modal.component';
+import { FilesPaymentsOrderComponent } from './payment-order/filesPaymentsOrder/filesPaymentsOrder.component';
+import { ToolsModule } from '../../../../Modulos/tools/tools.module';
 
 @NgModule({
   imports: [
@@ -49,6 +52,7 @@ import { InvoicesOrderComponent } from './invoices-order/invoices-order.componen
     MatChipsModule,
     MatExpansionModule,
     MatBottomSheetModule,
+    ToolsModule,
   ],
   exports: [
     CreateOrEditAddressClientComponent,
@@ -62,8 +66,10 @@ import { InvoicesOrderComponent } from './invoices-order/invoices-order.componen
     HistoryStatusesComponent,
     SelectedViewServientregaPdfComponent,
     InvoicesOrderComponent,
+    SelectClientAddressModalComponent,
+    FilesPaymentsOrderComponent
   ],
-  declarations: [SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent, InvoicesOrderComponent],
+  declarations: [FilesPaymentsOrderComponent, SelectClientAddressModalComponent, SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent, InvoicesOrderComponent],
   entryComponents: [SelectedViewServientregaPdfComponent, HistoryStatusesComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
 })
 export class SharedOrderModule { }

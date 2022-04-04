@@ -42,7 +42,7 @@
               <mat-icon>delete</mat-icon>
             </button>
           </ng-container>
-          <button mat-raised-button color="accent" (click)="uploadFile(payment.key)">Agregar
+          <button mat-raised-button color="accent" (click)="lookFiles(payment.key)">Ver
             archivo &nbsp;<mat-icon>post_add</mat-icon></button>
         </div>
       </mat-card>
@@ -99,10 +99,13 @@
       </table>
     </div> -->
   </div>
-  <div *ngIf="isOpenUploadFile" class="upload-file-paid">
+  <!-- <div *ngIf="isOpenUploadFile" class="upload-file-paid">
     <button class="btn-close-filepond" color="warn" mat-icon-button (click)="isOpenUploadFile = !isOpenUploadFile">
       <mat-icon>close</mat-icon>
     </button>
-    <file-pond #myPondPaid [options]="pondOptions" (onprocessfiles)="successFiles($event)" [className]="'m-0 w-75'">
+    <file-pond #myPondPaid [options]="pondOptions" (onprocessfiles)="successFiles($event)" (onaddfile)="addFileEvent($event)" [className]="'m-0 w-75'">
     </file-pond>
-  </div>
+    <mat-card>
+      <h3>Agregar</h3>
+    </mat-card>
+  </div> -->

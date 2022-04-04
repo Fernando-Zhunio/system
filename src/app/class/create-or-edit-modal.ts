@@ -30,7 +30,7 @@ export abstract class CreateOrEditModal implements OnInit {
             observable = this.standard.methodGet(this.generateUrlEdit());
         } else if (this.hasDataCreate) {
             this.title += ' - Creando';
-            observable = this.standard.methodGet(`${this.urlCrud}/create`);
+            observable = this.standard.methodGet(this.generateUrlCreate());
         }
         if (observable) {
             this.isLoading = true;
@@ -45,6 +45,10 @@ export abstract class CreateOrEditModal implements OnInit {
 
     generateUrlEdit(): string {
         return `${this.urlCrud}/${this.getId()}/edit`;
+    }
+
+    generateUrlCreate(): string {
+        return `${this.urlCrud}/create`;
     }
     generateUrlUpdate(): string {
         return `${this.urlCrud}/${this.getId()}`;

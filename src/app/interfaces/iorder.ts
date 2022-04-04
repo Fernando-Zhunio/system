@@ -98,6 +98,7 @@ export interface IClientOrder {
 }
 export interface IShippingAddress {
   id: number;
+  address_id: number;
   first_name: string;
   last_name: string;
   street: string;
@@ -291,3 +292,18 @@ export interface User {
   created_at: string;
   updated_at: string;
 }
+
+export interface IAttachmentPaymentOrder {
+  id: number;
+  type: string;
+  file: string;
+  original_name: string;
+  description: string;
+  mime_type: string;
+  attributes?: (null)[] | null;
+  created_at: string;
+  updated_at: string;
+  ext: string;
+  permalink: string;
+}
+

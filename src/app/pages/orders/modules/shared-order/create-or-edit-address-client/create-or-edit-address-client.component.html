@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{title}}</h1>
+<h1 mat-dialog-title class="font-weight-bold">{{title}}</h1>
 <div [formGroup]="form" mat-dialog-content >
 
     <div class="row m-0">
@@ -37,6 +37,6 @@
     </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-raised-button [disabled]="isLoading" color="primary" class="mr-1" (click)="saveInServer()">Guardar</button>
     <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn">Cerrar</button>
+    <button mat-raised-button [disabled]="isLoading" color="primary" class="ml-1" (click)="saveInServer()">Guardar</button>
 </div>

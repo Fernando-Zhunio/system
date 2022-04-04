@@ -26,7 +26,7 @@ export class CreateOrEditAddressClientComponent implements OnInit {
     zip_code: new FormControl(null),
   });
   constructor(public dialogRef: MatDialogRef<CreateOrEditAddressClientComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { isObligate: boolean, client_id: number, address_id?: number}, private s_standard: StandartSearchService) {
+    @Inject(MAT_DIALOG_DATA) public data: { client_id: number, address_id?: number, url?: string}, private s_standard: StandartSearchService) {
   }
 
   ngOnInit(): void {
@@ -38,7 +38,6 @@ export class CreateOrEditAddressClientComponent implements OnInit {
       } else {
           this.status = 'create';
           this.title += ' Creando';
-          // this.fillForm(this.data.client);
       }
   }
 
@@ -59,16 +58,18 @@ export class CreateOrEditAddressClientComponent implements OnInit {
     this.isLoading = true;
     let url = 'system-orders/clients/' + this.data.client_id + '/addresses';
     let observable: Observable<any>;
-    if (this.status === 'edit' && this.data.address_id) {
-       url += '/' + this.data.address_id;
+    if (this.status === 'edit') {
+      if (this.data?.url) {
+        url = this.data.url;
+      } else {
+        url += '/' + this.data.address_id;
+       }
       observable = this.s_standard.methodPut(url, this.form.value);
     } else {
       observable = this.s_standard.methodPost(url, this.form.value);
     }
     observable.subscribe(res => {
       console.log(res);
-      // const address = res.data.data as IClientAddressOrder;
-      // this.isLoading = false;
       this.dialogRef.close(res);
     }, err => {
       this.isLoading = false;

@@ -8,6 +8,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { FilePondOptions } from 'filepond';
 import { environment } from '../../../../../../environments/environment';
 import { StorageService } from '../../../../../services/storage.service';
+import { FilePondComponent } from 'ngx-filepond/filepond.component';
+import { FilesPaymentsOrderComponent } from './filesPaymentsOrder/filesPaymentsOrder.component';
 // import { FilePondComponent } from 'ngx-filepond/filepond.component';
 
 @Component({
@@ -18,7 +20,7 @@ import { StorageService } from '../../../../../services/storage.service';
 export class PaymentOrderComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private standard: StandartSearchService, private s_storage: StorageService) { }
-  @ViewChild('myPondPaid') myPond: any;
+  // @ViewChild('myPondPaid') myPond: FilePondComponent;
   @Input() order_id: number;
   @Input() paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
   // @Output() getTotalPayment: EventEmitter<string> = new EventEmitter<string>();
@@ -27,31 +29,36 @@ export class PaymentOrderComponent implements OnInit {
   isOpenUploadFile = false;
   idUploadFile: number = null;
   urlUploadFile: string = 'api/';
-  pondOptions: FilePondOptions = {
-    allowMultiple: true,
-    labelIdle: 'Arrastre o presione aquí',
-    name: 'file',
-    maxParallelUploads: 5,
-    server: {
-      url: `${environment.server}`,
-      process: {
-        // url: 'storage/attachments/upload',
-        url: this.urlUploadFile,
-        headers: {
-          Authorization: `Bearer ${this.s_storage.getCurrentToken()}`,
-          Accept: 'application/json',
-        },
-        onload: (response: any) => {
-          const data = JSON.parse(response);
-          // this.sendOneMessage(null, [data.id]);
-          return data.id;
-        }
-      },
-    }
-  };
+  // pondOptions: FilePondOptions = {
+  //   allowMultiple: true,
+  //   labelIdle: 'Arrastre o presione aquí',
+  //   name: 'file',
+  //   maxParallelUploads: 5,
+  //   server: {
+  //     url: `${environment.server}`,
+  //     process: {
+  //       url: this.urlUploadFile,
+  //       headers: {
+  //         Authorization: `Bearer ${this.s_storage.getCurrentToken()}`,
+  //         Accept: 'application/json',
+  //       },
+  //       onload: (response: any) => {
+  //         const data = JSON.parse(response);
+  //         // this.sendOneMessage(null, [data.id]);
+  //         return data.id;
+  //       },
+  //       // ondata: (formData) => {
+  //       //   formData.append('file', this.myPond.getFiles()[0].file);
+  //       //   return formData;
+  //       // }
+
+  //     },
+  //   },
+  // };
   hasFile = false;
 
   ngOnInit() {
+    
   }
 
 
@@ -70,6 +77,20 @@ export class PaymentOrderComponent implements OnInit {
         // this.paymentsMap.set(payment.id, payment);
         // this.getTotalPayment.emit('create or update');
         this.change.emit('create or update');
+      }
+    });
+  }
+
+  lookFiles(id): void {
+    this.hasFile = true;
+    this.dialog.open(FilesPaymentsOrderComponent, {
+      data: {
+        order_id: this.order_id,
+        payment_id: id
+      }
+    }).beforeClosed().subscribe(x => {
+      if (x?.success) {
+        this.change.emit('add file');
       }
     });
   }
@@ -109,11 +130,11 @@ export class PaymentOrderComponent implements OnInit {
   }
 
   uploadFile(id): void {
-    this.pondOptions.server = {url: `system-orders/orders/${this.order_id}/payments/${id}/attachments`};
-    this.idUploadFile = id;
-    this.isOpenUploadFile = true;
-    this.urlUploadFile = `system-orders/orders/${this.order_id}/payments/${id}/attachments`;
-    this.change.emit('upload file');
+    // this.pondOptions.server = {url: `system-orders/orders/${this.order_id}/payments/${id}/attachments`};
+    // this.idUploadFile = id;
+    // this.isOpenUploadFile = true;
+    // this.urlUploadFile = `system-orders/orders/${this.order_id}/payments/${id}/attachments`;
+    // this.change.emit('upload file');
   }
 
   successFiles(event): void {

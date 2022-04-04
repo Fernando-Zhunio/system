@@ -9,7 +9,8 @@
         <span [class]="shipping.type">{{shipping.type}}</span>
       </div>
       <div>
-        <div class="badge font-sm {{shipping.status}}" *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus"><span>Estado:
+        <div class="badge font-sm {{shipping.status}}"
+          *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus"><span>Estado:
             {{shipping.status | translatefz: 'orders'}} </span></div>
         <ng-template #templateSelectStatus>
           <div class="d-flex">
@@ -28,14 +29,38 @@
         </ng-template>
         <table>
           <tbody class="body-info">
-            <tr><td>Creado: </td><td>{{shipping.created_at | date}}</td></tr>
-            <tr><td>Monto: </td><td>$ {{shipping.amount}}</td></tr>
-            <tr><td>Peso cubico: </td><td>{{shipping?.cubicweight}}</td></tr>
-            <tr><td>Peso: </td><td>{{shipping?.weight}}</td></tr>
-            <tr><td>Altura: </td><td>{{shipping?.height}}</td></tr>
-            <tr><td>Ancho: </td><td>{{shipping?.width}}</td></tr>
-            <tr><td>Longitud: </td><td>{{shipping?.length}}</td></tr>
-            <tr><td>Bodegas: </td><td>{{shipping?.origin_warehouse_id+ "-"+ shipping?.origin_warehouse?.name}}</td></tr>
+            <tr>
+              <td>Creado: </td>
+              <td>{{shipping.created_at | date}}</td>
+            </tr>
+            <tr>
+              <td>Monto: </td>
+              <td>$ {{shipping.amount}}</td>
+            </tr>
+            <tr>
+              <td>Peso cubico: </td>
+              <td>{{shipping?.cubicweight}}</td>
+            </tr>
+            <tr>
+              <td>Peso: </td>
+              <td>{{shipping?.weight}}</td>
+            </tr>
+            <tr>
+              <td>Altura: </td>
+              <td>{{shipping?.height}}</td>
+            </tr>
+            <tr>
+              <td>Ancho: </td>
+              <td>{{shipping?.width}}</td>
+            </tr>
+            <tr>
+              <td>Longitud: </td>
+              <td>{{shipping?.length}}</td>
+            </tr>
+            <tr>
+              <td>Bodegas: </td>
+              <td>{{shipping?.origin_warehouse_id+ "-"+ shipping?.origin_warehouse?.name}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -44,8 +69,7 @@
           <button mat-icon-button color="primary" (click)="openDialogShipping(shipping.id)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" *ngIf="!shipping.tracking_number"
-            (click)="deleteShipping(shipping.id)">
+          <button mat-icon-button color="warn" *ngIf="!shipping.tracking_number" (click)="deleteShipping(shipping.id)">
             <mat-icon>delete</mat-icon>
           </button>
         </ng-container>
@@ -80,3 +104,4 @@
       </div>
     </div>
   </div>
+</div>

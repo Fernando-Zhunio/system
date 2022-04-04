@@ -29,14 +29,15 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { StateFlowOrderComponent } from './components/state-flow-order/state-flow-order.component';
 import { EditOrderComponent } from './edit-order/edit-order.component';
 import { SelectClientModalComponent } from './components/select-client-modal/select-client-modal.component';
-import { SelectClientAddressModalComponent } from './components/select-client-address-modal/select-client-address-modal.component';
+// import { SelectClientAddressModalComponent } from './modules/shared-order/select-client-address-modal/select-client-address-modal.component';
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
+// import { ToolsModule } from '../../Modulos/tools/tools.module';
 // import { NgxTimelineAlbeModule } from 'ngx-timeline-albe';
 
 @NgModule({
-  declarations: [SelectClientAddressModalComponent, SelectClientModalComponent, EditOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
+  declarations: [ SelectClientModalComponent, EditOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
   imports: [
   CommonModule,
     RouterModule,
@@ -62,8 +63,9 @@ import { MatBadgeModule } from '@angular/material/badge';
     SharedOrderModule,
     MatExpansionModule,
     MatBadgeModule,
+    // ToolsModule,
     // NgxTimelineAlbeModule
   ],
-  entryComponents: [SelectClientAddressModalComponent, SelectClientModalComponent, CreateOrEditDiscountOrTaxOrderComponent]
+  entryComponents: [ SelectClientModalComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })
 export class OrdersModule { }
