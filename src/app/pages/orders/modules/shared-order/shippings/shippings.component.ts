@@ -21,6 +21,7 @@ export class ShippingsComponent implements OnInit {
 
   constructor(private btnSheet: MatBottomSheet, private dialog: MatDialog, private standard: StandartSearchService, protected _sanitizer: DomSanitizer) { }
   @Input() shippings: IShippingOrder[] = [];
+  @Input() isCancelled: boolean;
   @Input() order_id: number;
   @Input() shipping_address: IShippingAddress;
   @Input() client: IClientOrder;

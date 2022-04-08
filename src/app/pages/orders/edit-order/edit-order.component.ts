@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../interfaces/iorder';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
@@ -18,7 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class EditOrderComponent implements OnInit {
 
-  constructor(private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   readonly id = this.activated_router.snapshot.params['order_id'];
   order: IOrder = null;
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -163,6 +163,14 @@ export class EditOrderComponent implements OnInit {
   }
 
   deleteOrder(): void {
-
+      SwalService.swalFire({icon: 'warning', title: '¿Estas seguro?', text: 'Esta acción no se puede deshacer', showCancelButton: true, confirmButtonText: 'Si, eliminar orden', cancelButtonText: 'No, cancelar'}).then(res => {
+        if (res.isConfirmed) {
+          this.standard.methodPost(`system-orders/orders/${this.order.id}/cancel`).subscribe((res1: any) => {
+            if (res1.success) {
+              this.router.navigate(['/system-orders/orders']);
+            }
+          });
+        }
+      });
   }
 }

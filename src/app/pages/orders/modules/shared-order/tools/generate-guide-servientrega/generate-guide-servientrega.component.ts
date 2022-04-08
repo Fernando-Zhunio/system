@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { StandartSearchService } from '../../../../../../services/standart-search.service';
-import { IOrder, IShippingOrder } from '../../../../../../interfaces/iorder';
+import { IShippingOrder } from '../../../../../../interfaces/iorder';
 import { SwalService } from './../../../../../../services/swal.service';
 import { IShippingAddress } from './../../../../../../interfaces/iorder';
 import { IClientOrder } from '../../../../../../interfaces/iclient-order';
@@ -20,7 +20,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
   form: FormGroup = new FormGroup({
     id_ciudad_destino: new FormControl(null, [Validators.required]),
     id_ciudad_origen: new FormControl(null, [Validators.required]),
-    direccion1_remite: new FormControl(null),
+    direccion1_remite: new FormControl(null, [Validators.required]),
     telefono1_remite: new FormControl(null, [Validators.required]),
     telefono2_remite: new FormControl(null),
     razon_social_desti_ne: new FormControl(null, [Validators.required]),

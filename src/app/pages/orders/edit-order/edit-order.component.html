@@ -10,7 +10,7 @@
         <mat-card>
             <div class="d-flex align-items-center justify-content-between">
                 <h3 class="font-weight-bold font-2xl my-1">Cliente</h3>
-                <div>
+                <div *ngIf="order?.status !='cancelled'">
                     <button color="primary" mat-icon-button [routerLink]="['/system-orders/clients/create']">
                         <mat-icon>add</mat-icon>
                     </button>
@@ -60,7 +60,7 @@
         <mat-card>
             <div class="d-flex align-items-center justify-content-between">
                 <h3 class="font-weight-bold font-2xl my-1">Dirección de envió</h3>
-                <div>
+                <div *ngIf="order?.status !='cancelled'">
 
                         <!-- <button color="primary" mat-icon-button (click)="addClientAddress()">
                             <mat-icon>add</mat-icon>
@@ -145,7 +145,7 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-add-products-order (change)="getOrder()" [items]="items" [order]="order"></app-add-products-order>
+                <app-add-products-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [items]="items" [order]="order"></app-add-products-order>
             </mat-expansion-panel>
 
             <mat-expansion-panel>
@@ -163,7 +163,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <app-shippings (change)="getOrder()" [client]="order?.client" [shipping_address]="order?.shipping_address" [order_id]="order?.id" [shippings]="order?.shippings">
+                <app-shippings [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [client]="order?.client" [shipping_address]="order?.shipping_address" [order_id]="order?.id" [shippings]="order?.shippings">
                 </app-shippings>
 
             </mat-expansion-panel>
@@ -182,7 +182,7 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-payment-order (change)="getOrder()" [order_id]="order?.id" [paymentsMap]="paymentsMap">
+                <app-payment-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [order_id]="order?.id" [paymentsMap]="paymentsMap">
                 </app-payment-order>
 
             </mat-expansion-panel>
@@ -200,12 +200,12 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-discount-tax-order (change)="getOrder()" [order_id]="order?.id"
+                <app-discount-tax-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [order_id]="order?.id"
                     [discountsAndTaxes]="discountsAndTaxes">
                 </app-discount-tax-order>
             </mat-expansion-panel>
             <mat-expansion-panel>
-                <mat-expansion-panel-header> 
+                <mat-expansion-panel-header>
                     <mat-panel-title>
                         Transferencias
                     </mat-panel-title>
@@ -218,8 +218,7 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <!-- <app-discount-tax-order [order_id]="order?.id" ></app-discount-tax-order> -->
-                <app-transference-order (change)="getOrder()" [order_id]="order?.id" [transfers]="order?.transfers">
+                <app-transference-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [order_id]="order?.id" [transfers]="order?.transfers">
                 </app-transference-order>
             </mat-expansion-panel>
 
@@ -237,7 +236,7 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-invoices-order (change)="getOrder()" [invoices]="order?.invoices" [order_id]="order?.id">
+                <app-invoices-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [invoices]="order?.invoices" [order_id]="order?.id">
                 </app-invoices-order>
             </mat-expansion-panel>
         </mat-accordion>
@@ -246,7 +245,7 @@
     <div class="totals">
         <mat-card class="center p-0 px-3">
             <div>
-                <div class=" section-order">
+                <div class="section-order">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class=" font-weight-bold m-0">Totales <span [hidden]="!hideTotals">:
                                 ${{order?.total}}</span></h3>
@@ -295,6 +294,6 @@
 </div>
 
 <div  class="btn-created-order">
-    <button [disabled]="isPublishing" mat-raised-button (click)="changeStatusPublish()">{{order?.status == 'init' ? 'Publicar y enviar correos electrónicos': 'Reenviar correos electrónicos'}}</button>
+    <button *ngIf="order?.status != 'cancelled'" [disabled]="isPublishing" mat-raised-button (click)="changeStatusPublish()">{{order?.status == 'init' ? 'Publicar y enviar correos electrónicos': 'Reenviar correos electrónicos'}}</button>
     <button *ngIf="order?.status == 'init'" [disabled]="isPublishing" color="warn" mat-raised-button (click)="deleteOrder()" class="mr-1">Cancelar orden<mat-icon>delete</mat-icon></button>
 </div>

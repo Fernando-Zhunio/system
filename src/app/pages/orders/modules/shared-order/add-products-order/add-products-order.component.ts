@@ -17,6 +17,7 @@ export class AddProductsOrderComponent implements OnInit {
   constructor(private standard: StandartSearchService) { }
   @Input() order: IOrder;
   @Input() items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
+  @Input() isCancelled: boolean;
   @Output() change = new EventEmitter<string>();
   itemEditing: IItemOrder;
   isOpenSearchProducts = false;
@@ -64,10 +65,10 @@ export class AddProductsOrderComponent implements OnInit {
         // if (this.items.has(item.id)) {
         //   this.items.delete(item.id);
         // }
-        // if (this.isEditingItem) {
-        //   this.disabledEditingItemOrder();
-        //   SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
-        // }
+        if (this.isEditingItem) {
+          this.disabledEditingItemOrder();
+          SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
+        }
         // this.items.set(item.id, item);
         this.change.emit('change');
 

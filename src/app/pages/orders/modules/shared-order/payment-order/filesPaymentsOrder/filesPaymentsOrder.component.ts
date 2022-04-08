@@ -21,6 +21,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
   urlServer = environment.server;
   files: IAttachmentPaymentOrder[] = [];
   formControlDescription = new FormControl();
+  re = /(?:\.([^.]+))?$/;
 
   fileSend: { base64: string, file: File } = { file: null, base64: null };
   @ViewChild(ViewDocComponent) viewDoc: ViewDocComponent;
@@ -66,13 +67,13 @@ export class FilesPaymentsOrderComponent implements OnInit {
   }
 
   saveFileInServer(): void {
-    if(this.fileSend.file) {
+    if (this.fileSend.file) {
       this.isLoading = true;
       const form: FormData = new FormData();
-       form.append('file', this.fileSend.file);
-       if(this.formControlDescription.value) {
-         form.append('description', this.formControlDescription.value);
-       }
+      form.append('file', this.fileSend.file);
+      if (this.formControlDescription.value) {
+        form.append('description', this.formControlDescription.value);
+      }
       this.standard.methodPost(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/attachments`, form).subscribe(
         (response: any) => {
           if (response.success) {
@@ -87,8 +88,30 @@ export class FilesPaymentsOrderComponent implements OnInit {
         }
       );
     } else {
-      SwalService.swalFire({title: 'Error', text: 'Debe seleccionar un archivo', icon: 'error'});
+      SwalService.swalFire({ title: 'Error', text: 'Debe seleccionar un archivo', icon: 'error' });
     }
+  }
+
+  removeFile(file_id: number){
+    SwalService.swalFire({title: 'Eliminar archivo', text: '¿Está seguro de eliminar el archivo?', icon: 'warning', confirmButtonText: 'SI, eliminar', cancelButtonText: 'NO, cancelar', showCancelButton: true }).then(
+      (result) => {
+        if (result.isConfirmed) {
+          this.isLoading = true;
+          this.standard.methodDelete(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/attachments/${file_id}`).subscribe(
+            (response: any) => {
+              if (response?.success) {
+                this.getFiles();
+              }
+              this.isLoading = false;
+            },
+            (error: any) => {
+              console.log(error);
+              this.isLoading = false;
+            }
+          );
+        }
+      }
+    );
   }
 
 

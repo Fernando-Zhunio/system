@@ -14,6 +14,7 @@ export class InvoicesOrderComponent implements OnInit {
   constructor(private standard: StandartSearchService) { }
 
   @Input() invoices: IInvoice[] = [];
+  @Input() isCancelled: boolean;
   isOpenAddInvoice = false;
   isLoading = false;
   formControl = new FormControl(null, [Validators.required]);
@@ -50,8 +51,6 @@ export class InvoicesOrderComponent implements OnInit {
           (response: any) => {
             if (response.success) {
               this.change.emit('invoice');
-              // this.isOpenAddInvoice = false;
-              // this.formControl.reset();
             }
             this.isLoading = false;
           }, err => {

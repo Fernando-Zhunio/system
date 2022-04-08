@@ -1,6 +1,6 @@
 <div class="mt-3 section-order">
   <h3 class="font-3xl font-weight-bold">Envió</h3>
-  <button color="accent" class="mb-1" mat-raised-button (click)="openDialogShipping()">Agregar envió <mat-icon>add
+  <button *ngIf="!isCancelled" color="accent" class="mb-1" mat-raised-button (click)="openDialogShipping()">Agregar envió <mat-icon>add
     </mat-icon></button>
   <hr>
   <div class="card-columns" style="column-count: 4;">
@@ -15,14 +15,14 @@
         <ng-template #templateSelectStatus>
           <div class="d-flex">
             <mat-form-field>
-              <mat-select [value]="shipping.status" (selectionChange)="changeStatusShipping($event,shipping.id)"
+              <mat-select [disabled]="isCancelled" [value]="shipping.status" (selectionChange)="changeStatusShipping($event,shipping.id)"
                 placeholder="Cambio de estado">
                 <mat-option value="pending">Pendiente</mat-option>
                 <mat-option value="delivered">Entregado</mat-option>
                 <mat-option value="cancelled">Cancelado</mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button matSuffix (click)="openDialogHistoryStatus(shipping.id)">
+            <button *ngIf="!isCancelled" mat-icon-button matSuffix (click)="openDialogHistoryStatus(shipping.id)">
               <mat-icon>manage_search</mat-icon>
             </button>
           </div>
@@ -64,7 +64,7 @@
           </tbody>
         </table>
       </div>
-      <div>
+      <div *ngIf="!isCancelled">
         <ng-container *ngIf="shipping.status == 'pending' && !shipping.tracking_number">
           <button mat-icon-button color="primary" (click)="openDialogShipping(shipping.id)">
             <mat-icon>edit</mat-icon>

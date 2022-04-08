@@ -12,6 +12,7 @@ import { CreateOrEditDiscountOrTaxOrderComponent } from '../../../components/cre
 export class DiscountTaxOrderComponent implements OnInit {
 
   @Input() discountsAndTaxes: Map<number, any> = new Map<number, any>();
+  @Input() isCancelled: boolean;
   @Input() order_id: any;
   @Output() change = new EventEmitter<string>();
 

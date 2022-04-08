@@ -22,8 +22,8 @@ export class PaymentOrderComponent implements OnInit {
   constructor(private dialog: MatDialog, private standard: StandartSearchService, private s_storage: StorageService) { }
   // @ViewChild('myPondPaid') myPond: FilePondComponent;
   @Input() order_id: number;
+  @Input() isCancelled: boolean;
   @Input() paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
-  // @Output() getTotalPayment: EventEmitter<string> = new EventEmitter<string>();
   @Output() change = new EventEmitter<string>();
 
   isOpenUploadFile = false;

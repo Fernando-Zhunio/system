@@ -28,9 +28,6 @@
                       <mat-panel-title>
                         Productos <span class="font-sm badge bg-warning">{{transfer?.items?.length}}</span>
                       </mat-panel-title>
-                      <!-- <mat-panel-description>
-                        Currently I am {{panelOpenState ? 'open' : 'closed'}}
-                      </mat-panel-description> -->
                     </mat-expansion-panel-header>
                     <div *ngFor="let item of transfer?.items">
                       <div>
@@ -46,21 +43,24 @@
             </mat-card>
           </div>
         </div>
-        <button class="mt-2" mat-raised-button color="accent" (click)="isOpenAddTransfer = !isOpenAddTransfer">Agregar
-          manualmente</button>
-        <div class="add-transfer-container" *ngIf="isOpenAddTransfer">
-          <button (click)="isOpenAddTransfer = !isOpenAddTransfer" class="btn-close-add-transfer" mat-mini-fab
-            color="warn">
-            <mat-icon>close</mat-icon>
-          </button>
-          <div>
-            <mat-form-field>
-              <input [formControl]="formControl" matInput placeholder="Doc Id de la transacción">
-            </mat-form-field>
-            <button [disabled]="isLoading || formControl.invalid" color="primary" mat-raised-button
-              (click)="addTransferManually()">enviar</button>
+        <ng-container *ngIf="!isCancelled">
+          <button class="mt-2" mat-raised-button color="accent" (click)="isOpenAddTransfer = !isOpenAddTransfer">Agregar
+            manualmente</button>
+          <div class="add-transfer-container" *ngIf="isOpenAddTransfer">
+            <button (click)="isOpenAddTransfer = !isOpenAddTransfer" class="btn-close-add-transfer" mat-mini-fab
+              color="warn">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div>
+              <mat-form-field>
+                <input [formControl]="formControl" matInput placeholder="Doc Id de la transacción">
+              </mat-form-field>
+              <button [disabled]="isLoading || formControl.invalid" color="primary" mat-raised-button
+                (click)="addTransferManually()">enviar</button>
+            </div>
           </div>
-        </div>
+        </ng-container>
+        
 
       </div>
     </div>

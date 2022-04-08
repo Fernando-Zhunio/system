@@ -33,11 +33,12 @@ import { SelectClientModalComponent } from './components/select-client-modal/sel
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
+import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
 // import { ToolsModule } from '../../Modulos/tools/tools.module';
 // import { NgxTimelineAlbeModule } from 'ngx-timeline-albe';
 
 @NgModule({
-  declarations: [ SelectClientModalComponent, EditOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
+  declarations: [DashboardOrdersComponent, SelectClientModalComponent, EditOrderComponent, OrdersIndexComponent, CreateOrEditOrderComponent, ClientComponent, AddItemTemplateComponent, CreateOrEditDiscountOrTaxOrderComponent, ShippingOrderSectionComponent, StateFlowOrderComponent],
   imports: [
   CommonModule,
     RouterModule,

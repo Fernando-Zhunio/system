@@ -29,6 +29,7 @@ interface Iswal {
   | 'bottom-start'
   | 'bottom-end';
   showConfirmButton?: boolean;
+  showCancelButton?: boolean;
   timer?: number;
   title?: string;
   width?: string;

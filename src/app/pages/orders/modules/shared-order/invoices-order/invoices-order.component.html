@@ -12,7 +12,8 @@
                                         'orders'}}</span></div>
                                 <div class="text-success">Doc ID:<span> {{invoice.number}}</span></div>
                                 <div>
-                                    <button color="warn" (click)="unlink(invoice.id)" mat-button>Desvincular factura</button>
+                                    <button *ngIf="!isCancelled" color="warn" (click)="unlink(invoice.id)"
+                                        mat-button>Desvincular factura</button>
                                 </div>
                             </div>
                             <hr>
@@ -49,7 +50,7 @@
                                                 </tbody>
                                             </table>
                                             <ng-container *ngIf="invoice.data?.items?.length > 0">
-                                                
+
                                                 <hr>
                                                 <h3 class="font-2xl font-weight-bold">Productos</h3>
                                                 <div *ngFor="let item of invoice.data?.items">
@@ -95,7 +96,7 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-    
+
                                                         </ng-container>
                                                         <!-- <div>{{item.invoice_id}}</div>
                                                         <div><span>Cantidad:</span>{{item.invoice_id}}</div>
@@ -114,23 +115,24 @@
                         </mat-card>
                     </div>
                 </div>
-                <button class="mt-2" mat-raised-button color="accent"
-                    (click)="isOpenAddInvoice = !isOpenAddInvoice">Agregar
-                    manualmente</button>
-                <div class="add-invoice-container" *ngIf="isOpenAddInvoice">
-                    <button (click)="isOpenAddInvoice = !isOpenAddInvoice" class="btn-close-add-invoice" mat-mini-fab
-                        color="warn">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                    <div>
-                        <mat-form-field>
-                            <input [formControl]="formControl" matInput placeholder="Doc Id de la factura">
-                        </mat-form-field>
-                        <button [disabled]="isLoading || formControl.invalid" color="primary" mat-raised-button
-                            (click)="addTransferManually()">enviar</button>
+                <ng-container *ngIf="!isCancelled">
+                    <button class="mt-2" mat-raised-button color="accent"
+                        (click)="isOpenAddInvoice = !isOpenAddInvoice">Agregar
+                        manualmente</button>
+                    <div class="add-invoice-container" *ngIf="isOpenAddInvoice">
+                        <button (click)="isOpenAddInvoice = !isOpenAddInvoice" class="btn-close-add-invoice"
+                            mat-mini-fab color="warn">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <div>
+                            <mat-form-field>
+                                <input [formControl]="formControl" matInput placeholder="Doc Id de la factura">
+                            </mat-form-field>
+                            <button [disabled]="isLoading || formControl.invalid" color="primary" mat-raised-button
+                                (click)="addTransferManually()">enviar</button>
+                        </div>
                     </div>
-                </div>
-
+                </ng-container>
             </div>
         </div>
 

@@ -13,6 +13,8 @@ export class TransferenceOrderComponent implements OnInit {
 
   constructor(private standard: StandartSearchService) { }
   @Input() transfers: ITransference[] = [];
+  @Input() isCancelled: boolean;
+
   @Input() order_id: number;
   isOpenAddTransfer = false;
   isLoading = false;

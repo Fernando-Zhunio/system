@@ -1,7 +1,7 @@
 <div>
   <div class="mt-3 section-order">
     <h3 class="font-3xl font-weight-bold">Pagos</h3>
-    <button color="accent" (click)="openDialog()" mat-raised-button class="mb-1">Agregar pago <mat-icon>add</mat-icon>
+    <button *ngIf="!isCancelled" color="accent" (click)="openDialog()" mat-raised-button class="mb-1">Agregar pago <mat-icon>add</mat-icon>
     </button>
     <hr>
     <div class="card-columns" style="column-count: 4;">
@@ -16,7 +16,7 @@
           <ng-template #templateChangePayment>
             <span class="mt-2">
               <mat-form-field>
-                <mat-select [value]="payment.value.status" (selectionChange)="changeStatusPayment($event, payment.key)"
+                <mat-select [disabled]="isCancelled" [value]="payment.value.status" (selectionChange)="changeStatusPayment($event, payment.key)"
                   placeholder="Cambio de estado">
                   <mat-option value="pending">Pendiente</mat-option>
                   <mat-option value="paid">Pagado</mat-option>
@@ -33,7 +33,7 @@
             </tbody>
           </table>
         </div>
-        <div>
+        <div *ngIf="!isCancelled">
           <ng-container *ngIf="payment.value.status == 'pending' || payment.value.type != 'paymentez'">
             <button mat-icon-button color="primary" (click)="openDialog(payment.key)">
               <mat-icon>edit</mat-icon>
