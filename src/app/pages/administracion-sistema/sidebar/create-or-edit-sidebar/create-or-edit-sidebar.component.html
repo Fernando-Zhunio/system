@@ -42,7 +42,7 @@
     <div class="col-md-6 col-8 overflow-auto">
         <app-search placeholder="Buscador de permisos" [url]="urlPermission" (data)="getData($event)">
             <mat-selection-list [multiple]="false" data (selectionChange)="selectPermission($event)">
-                <mat-list-option [value]="permission.id" mat-line *ngFor="let permission of permissions">
+                <mat-list-option [value]="permission?.id" mat-line *ngFor="let permission of permissions">
                     <div mat-line>{{permission?.name}}</div>
                     <div mat-line class="border-bottom">{{permission?.description}}</div>
                 </mat-list-option>

@@ -10,6 +10,7 @@ import { SelectClientModalComponent } from '../components/select-client-modal/se
 import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
 import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
 
 @Component({
   selector: 'app-edit-order',
@@ -68,14 +69,19 @@ export class EditOrderComponent implements OnInit {
   fillData(): void {
     if (this.order?.items && this.order.items.length > 0) {
       this.items = new Map<number, IItemOrder>(this.order.items.map(item => [item.id, item]));
+    } else if (this.order.items.length < 1) {
+      this.items.clear();
     }
     // this.items = new Map<number, IItemOrder>(data.data.order.items.map(item => [item.id, item]));
     if (this.order.payments && this.order.payments.length > 0) {
       this.paymentsMap = new Map<number, IPaymentOrder>(this.order.payments.map(item => [item.id, item]));
+    } else if (this.order.payments.length < 1) {
+      this.paymentsMap.clear();
     }
     if (this.order.additional_amounts && this.order.additional_amounts.length > 0) {
-      console.log(this.order.additional_amounts);
       this.discountsAndTaxes = new Map<number, any>(this.order.additional_amounts.map(item => [item.id, item]));
+    } else if (this.order.additional_amounts.length < 1) {
+      this.discountsAndTaxes.clear();
     }
   }
 

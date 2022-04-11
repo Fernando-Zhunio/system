@@ -72,9 +72,11 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   setData(data): void {
     if (this.status === 'edit') {
       this.form.patchValue(data);
-      this.permissions.push(data.permission);
-      this.formPermission.setValue(`${data.permission.name} - ${data.permission.description}`);
-      this.form.get('permission_id').setValue(data.permission.id);
+      if (data?.permission) {
+        this.permissions.push(data.permission);
+        this.formPermission.setValue(`${data.permission.name} - ${data.permission.description}`);
+        this.form.get('permission_id').setValue(data.permission.id);
+      }
     }
   }
 

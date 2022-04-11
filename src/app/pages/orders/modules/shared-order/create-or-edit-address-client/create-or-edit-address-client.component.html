@@ -10,6 +10,10 @@
             <mat-label>Apellido de la persona que recibe *</mat-label>
             <input type="text" matInput formControlName="last_name">
         </mat-form-field>
+        <mat-form-field class="col-md-6">
+            <input matInput formControlName="company" placeholder="Razón social">
+            <!-- <mat-error *ngIf="form.get('company').invalid">Este campo es requerido</mat-error> -->
+        </mat-form-field>
         <mat-form-field class="col-md-6 col-12">
             <mat-label>Calle *</mat-label>
             <input type="address" matInput formControlName="street">

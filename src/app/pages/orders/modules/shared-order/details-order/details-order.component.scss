@@ -1,0 +1,16 @@
+.details-header {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 10px;
+}
+
+.totals {
+    display: flex;
+    flex-wrap: wrap;
+  div span:nth-child(2) {
+    background: aquamarine;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+  }
+}

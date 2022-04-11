@@ -1,0 +1,244 @@
+<h1 class="font-weight-bold " matDialogTitle><span>Detalles de la orden # {{data.order_id}} <span class="ml-2 badge bg-info">{{order?.status | translatefz:'orders'}}</span></span> <span><button matDialogClose color="warn" mat-mini-fab><mat-icon>close</mat-icon></button></span></h1>
+
+<mat-dialog-content>
+    <div class="text-center">
+        <span class="font-weight-bold parpadeo font-2xl">Cargando espere</span>
+    </div>
+    <div *ngIf="order">
+        <div class="details-header">
+            <div class="card-body shadow rounded-fz">
+                <h2 class="font-weight-bold mb-1">Datos del cliente</h2>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Nombres:
+                            </td>
+                            <td>
+                                {{order?.client.first_name}} {{order.client.last_name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>{{order.client?.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Teléfono:</td>
+                            <td>{{order.client?.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td>Dirección:</td>
+                            <td>{{order.client?.country}}, {{order.client?.state}}, {{order.client?.city}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo de documento:</td>
+                            <td>{{order.client.doc_type}}</td>
+                        </tr>
+                        <tr>
+                            <td># documento</td>
+                            <td>{{order.client.doc_id}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body shadow rounded-fz">
+                <h2 class="font-weight-bold mb-1">Dirección de envió</h2>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Nombres que recibe:</td>
+                            <td>{{order?.shipping_address?.first_name }} {{order?.shipping_address.last_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Estado o provincia:</td>
+                            <td>{{order?.shipping_address?.state}}</td>
+                        </tr>
+                        <tr>
+                            <td>Cuidad:</td>
+                            <td>{{order?.shipping_address?.city}}</td>
+                        </tr>
+                        <tr>
+                            <td>Vecindario:</td>
+                            <td>{{order?.shipping_address?.neighborhood}} <span
+                                    *ngIf="!order?.shipping_address?.neighborhood" class="badge bg-warning">Vació</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Numero</td>
+                            <td>{{order?.shipping_address?.number}} <span *ngIf="!order?.shipping_address?.number"
+                                    class="badge bg-warning">Vació</span></td>
+                        </tr>
+                        <tr>
+                            <td>Código postal:</td>
+                            <td>{{order?.shipping_address?.zip_code}} <span *ngIf="!order?.shipping_address?.zip_code"
+                                    class="badge bg-warning">Vació</span></td>
+                        </tr>
+                        <tr>
+                            <td>Calle:</td>
+                            <td>{{order?.shipping_address?.street}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mt-4 card-body shadow rounded-fz">
+            <div>
+                <h2 class="font-weight-bold mb-1">Productos</h2>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item *ngFor="let item of order?.items">
+                            <img mat-list-avatar [src]="item.product.image | nullFz:['img']" alt="">
+                            <div mat-line>{{item.product.name}}</div>
+                            <div mat-line>Cantidad: {{item.quantity}}</div>
+                            <div mat-line>Precio: {{item.price}}</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="order?.items?.length < 1">
+                    <div class="alert alert-info" role="alert">
+                        Esta orden no contiene productos
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 card-body shadow rounded-fz">
+            <div>
+                <h2 class="font-weight-bold mb-1">Envíos</h2>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item *ngFor="let ship of order?.shippings">
+                            <div mat-line>Tipo: {{ship.type | translatefz:'orders'}}</div>
+                            <div mat-line>Monto: {{ship.amount}}</div>
+                            <div mat-line>Bodega: {{ship?.origin_warehouse?.name}}</div>
+                            <div mat-line>Tracking id: {{ship?.tracking_number}}</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="order?.shippings?.length < 1">
+                    <div class="alert alert-info" role="alert">
+                        Esta orden no contiene envíos
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 card-body shadow rounded-fz">
+            <div>
+                <h2 class="font-weight-bold mb-1">Pagos</h2>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item *ngFor="let payment of order?.payments">
+                            <div mat-line>Tipo: {{payment.type | translatefz:'orders'}}</div>
+                            <div mat-line>Monto: {{payment.amount}}</div>
+                            <div mat-line>Link de pago: <a [href]="payment?.link_to_pay">{{payment?.link_to_pay}}</a></div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="order?.payments?.length < 1">
+                    <div class="alert alert-info" role="alert">
+                        Esta orden no contiene pagos
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 card-body shadow rounded-fz">
+            <div>
+                <h2 class="font-weight-bold mb-1">Impuestos y descuentos</h2>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item *ngFor="let additional_amount of order?.additional_amounts">
+                            <div mat-line>Tipo: {{additional_amount.type | translatefz:'orders'}}</div>
+                            <div mat-line>Monto: {{additional_amount.amount}}</div>
+                            <div mat-line>Tipo de Monto: {{additional_amount?.amount_type}}</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="order?.additional_amounts?.length < 1">
+                    <div class="alert alert-info" role="alert">
+                        Esta orden no contiene impuesto o descuentos
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 card-body shadow rounded-fz">
+            <div>
+                <h2 class="font-weight-bold mb-1">Transferencias</h2>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item *ngFor="let transfer of order?.transfers">
+                            <div mat-line>Estado: {{transfer.status | translatefz:'orders'}}</div>
+                            <div mat-line>Creada: {{transfer.creation_date | date}}</div>
+                            <div mat-line>Transferido: {{transfer?.transfer_date}}</div>
+                            <div mat-line>Bodega de origen: {{transfer?.origin_warehouse?.name}}</div>
+                            <div mat-line>Bodega de destino: {{transfer?.destination_warehouse?.name}}</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="order?.transfers?.length < 1">
+                    <div class="alert alert-info" role="alert">
+                        Esta orden no contiene transferencias
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 card-body shadow rounded-fz">
+            <div>
+                <h2 class="font-weight-bold mb-1">Facturas</h2>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item *ngFor="let invoice of order?.invoices">
+                            <div mat-line>Codigo: {{invoice.code}}</div>
+                            <div mat-line>Numero: {{invoice.number}}</div>
+                            <div mat-line>Estado: {{invoice?.status | translatefz:'orders'}}</div>
+                            <!-- <div mat-line>Bodega de origen: {{transfer?.origin_warehouse?.name}}</div>
+                            <div mat-line>Bodega de destino: {{transfer?.destination_warehouse?.name}}</div> -->
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div *ngIf="order?.invoices?.length < 1">
+                    <div class="alert alert-info" role="alert">
+                        Esta orden no contiene facturas
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <!-- <button mat-button matDialogClose color="warn">Cerrar</button> -->
+    <!-- <button mat-button>Action</button> -->
+    <div *ngIf="order">
+        <div>
+            <div class="text-uppercase totals">
+                <div>
+                    <span>Subtotal:&nbsp;</span>
+                    <span>$ {{order?.subtotal}}</span>
+                </div>
+                <div>
+                    <span>Descuento:&nbsp;</span>
+                    <span>$ {{order?.discount}}</span>
+                </div>
+                <div>
+                    <span>Impuestos:&nbsp;</span>
+                    <span>$ {{order?.tax}}</span>
+                </div>
+                <div>
+                    <span>Retención:&nbsp;</span>
+                    <span>$ {{order?.retention}}</span>
+                </div>
+                <div>
+                    <span>Total:&nbsp;</span>
+                    <span>$ {{order?.total}}</span>
+                </div>
+                <div>
+                    <span>Total pagado:&nbsp;</span>
+                    <span>$ {{order?.total_paid}}</span>
+                </div>
+                <div>
+                    <span>Costo de envió:&nbsp;</span>
+                    <span>$ {{order?.shipping}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-actions>

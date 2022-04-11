@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as FlowChart from 'flowchart.js';
+// import * as FlowChart from 'flowchart.js';
 import { IStatus } from '../../../../interfaces/iorder';
 import { TranslatefzPipe } from './../../../../pipes/translatefz.pipe';
 @Component({

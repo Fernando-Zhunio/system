@@ -24,6 +24,7 @@ export class CreateOrEditAddressClientComponent implements OnInit {
     city: new FormControl(null, [Validators.required]),
     state: new FormControl(null, [Validators.required]),
     zip_code: new FormControl(null),
+    company: new FormControl(null)
   });
   constructor(public dialogRef: MatDialogRef<CreateOrEditAddressClientComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { client_id: number, address_id?: number, url?: string}, private s_standard: StandartSearchService) {

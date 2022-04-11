@@ -43,6 +43,7 @@ export abstract class CreateOrEdit<T> {
         this.standard_service.methodGet(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
+            alert(this.isLoading);
         }, error => { this.isLoading = false; });
     }
 
@@ -91,59 +92,7 @@ export abstract class CreateOrEdit<T> {
                 this.isLoading = false;
                 // SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
             });
-
             return;
-
-
-
-
-            if (this.isFormParams) {
-                switch (this.status) {
-                    case 'create':
-                        this.standard_service.uploadFormData(this.urlSave, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    case 'edit':
-                        this.standard_service.uploadFormData(`${this.urlSave}/${this.getId()}`, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                switch (this.status) {
-                    case 'create':
-                        this.standard_service.store(this.urlSave, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            // SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    case 'edit':
-                        this.standard_service.updatePut(`${this.urlSave}/${this.getId()}`, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            // SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
     }
 
