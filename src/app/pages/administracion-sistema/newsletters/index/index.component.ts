@@ -12,9 +12,9 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 })
 export class IndexComponent extends Crud<Inewsletter> implements OnInit {
 
-  constructor(standardService: StandartSearchService,
-    snackBar: MatSnackBar, public router: Router) {
-    super(standardService, snackBar);
+  constructor(protected standardService: StandartSearchService,
+   protected snackBar: MatSnackBar, public router: Router) {
+    super();
   }
 
   newsletters: Map<number, Inewsletter>  = new Map<number, Inewsletter>();

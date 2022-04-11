@@ -11,8 +11,8 @@ import { IPriceGroup } from './../../../../interfaces/iprice';
 })
 export class PricesGroupIndexComponent extends Crud<IPriceGroup> implements OnInit {
 
-  constructor( s_standard: StandartSearchService, snakBar: MatSnackBar ) {
-    super(s_standard, snakBar);
+  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar ) {
+    super();
   }
   url: string = 'admin/prices/groups';
 

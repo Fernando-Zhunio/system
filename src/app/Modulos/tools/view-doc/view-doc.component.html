@@ -1,0 +1,16 @@
+<div *ngIf="isOpenCv" [ngClass]="isOpenCv?'open-cv':'close-cv'" class="section-cv">
+  <div class="content-cv">
+    <button class="btn-close-cv bg-dark" (click)="isOpenCv = false" mat-mini-fab>
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="container-cv shadow p-3">
+      <div class="row h-100">
+        <div class="col-md-12">
+          <div class="display-4 h-100">
+            <iframe width='100%' height='100%' [src]="encoded_pdf"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

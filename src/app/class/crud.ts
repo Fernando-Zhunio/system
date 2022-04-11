@@ -5,7 +5,9 @@ import { SwalService } from '../services/swal.service';
 
 export abstract class Crud<T> {
   // router: Router;
-  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar) { }
+  protected abstract standardService: StandartSearchService;
+  protected abstract snackBar: MatSnackBar;
+  constructor() { }
   abstract url: string;
   isLoading: boolean = false;
   data: Map<any, T> = new Map<any, T>();
@@ -16,24 +18,24 @@ export abstract class Crud<T> {
       .then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
-          this.standardService.destory(`${this.url}/${id}`).subscribe(
+          this.standardService.methodDelete(`${this.url}/${id}`).subscribe(
             (response) => {
               this.isLoading = false;
               this.snackBar.open('Registro eliminado', 'OK', { duration: 1500 });
-              this.deleteItem(id);
+              this.customDeleteItem(id);
             }
           );
         }
       });
   }
 
-  deleteItem(id: number) {
+  customDeleteItem(id: number) {
     this.data.delete(id);
   }
 
   index() {
     this.isLoading = true;
-    this.standardService.index(this.url).subscribe(
+    this.standardService.methodGet(this.url).subscribe(
       (response) => {
         this.isLoading = false;
         this.getData(response);
@@ -45,6 +47,7 @@ export abstract class Crud<T> {
   }
 
   getData(data) {
+    console.log(data);
     this.data = new Map<any, T>(data.map((item: T) => [item[this.key], item]));
   }
 

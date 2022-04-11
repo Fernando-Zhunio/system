@@ -2,14 +2,19 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { permissionsModuleOrders } from '../../class/permissions-modules';
-import { CreateOrEditClientOrderComponent } from './clients/create-or-edit-client-order/create-or-edit-client-order.component';
 import { CreateOrEditOrderComponent } from './create-or-edit-order/create-or-edit-order.component';
+import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
+import { EditOrderComponent } from './edit-order/edit-order.component';
 import { OrdersIndexComponent } from './orders-index/orders-index.component';
 
 const permissionsModuleRoutes = permissionsModuleOrders;
 const routes = [
   {
-    path: '',
+    path: 'dashboard-orders',
+    component: DashboardOrdersComponent
+  },
+  {
+    path: 'orders',
     component: OrdersIndexComponent,
     data: {
       permissions: permissionsModuleRoutes.index
@@ -17,7 +22,7 @@ const routes = [
     canActivate: [NgxPermissionsGuard],
   },
   {
-    path: 'create',
+    path: 'orders/create',
     component: CreateOrEditOrderComponent,
     data: {
       permissions: permissionsModuleRoutes.create
@@ -25,10 +30,21 @@ const routes = [
     canActivate: [NgxPermissionsGuard],
   },
   {
+    path: 'orders/:order_id/edit',
+    component: EditOrderComponent,
+    data: {
+      permissions: permissionsModuleRoutes.edit
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+  {
     path: 'clients',
     loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
-
-  }
+  },
+  {
+    path: 'servientrega',
+    loadChildren: () => import('./servientrega/servientrega.module').then(m => m.ServientregaModule),
+  },
 ];
 
 @NgModule({

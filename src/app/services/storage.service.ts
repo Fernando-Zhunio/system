@@ -16,11 +16,12 @@ export class StorageService  {
   private currentSession: Session = null;
 
   constructor(private router: Router, private s_permissionsService: NgxPermissionsService) {
-    // let mergeRolAndPermission = [];
-    // if (rolAndPermission) {
-      //   mergeRolAndPermission = rolAndPermission.rol.concat(rolAndPermission.permission);
-      // }
+
       this.currentSession = this.loadSessionData();
+      if (!this.currentSession) {
+        this.logout();
+        return;
+      }
       const permissions = this.getPermissionUser();
       if (this.currentSession && permissions ) {
         console.log(permissions);
@@ -30,7 +31,7 @@ export class StorageService  {
 
   setCurrentSession(session): void {
     this.currentSession = session;
-    localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
+    localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(session)));
     this.setPermission();
   }
 
@@ -42,18 +43,18 @@ export class StorageService  {
 
   setCompanyUser(id_company) {
     this.currentSession.user.company_company_id = id_company;
-    localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(this.currentSession)));
+    localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(this.currentSession)));
   }
 
-  loadSessionData(): Session {
+  loadSessionData(): Session | null {
     let sessionStr = null;
     try {
-      sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('currentUser')));
+      sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('914068895aa792bc7577dab10e7cf4e4')));
     } catch (e) {
       this.logout();
-      throw "Error al cargar la sesion";
+      throw Error('Error al cargar la sesión');
     }
-    return (sessionStr) ? <Session>sessionStr : null;
+    return  sessionStr;
   }
 
   getCurrentSession(): Session {
@@ -78,7 +79,7 @@ export class StorageService  {
   setPermission(permissions: any[]= []) {
       const session = this.getCurrentSession();
       session.user.permission = permissions;
-      localStorage.setItem('currentUser', this.encryptedAes(JSON.stringify(session)));
+      localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(session)));
       this.s_permissionsService.loadPermissions(permissions);
   }
 

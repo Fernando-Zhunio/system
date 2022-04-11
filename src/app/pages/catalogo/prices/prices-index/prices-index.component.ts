@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -8,11 +7,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FilePondOptions } from 'filepond';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { Crud } from '../../../../class/crud';
+import { prices_permission_module } from '../../../../class/permissions-modules/prices-permissions';
 import { INotificationData } from '../../../../interfaces/inotification';
 import { IPrice, IPriceGroup, IProductPrice } from '../../../../interfaces/iprice';
 import { downloadPrice, generatingPrice, idlePrice } from '../../../../redux/actions/price.action';
@@ -43,11 +42,12 @@ export class PricesIndexComponent
     private s_shared: SharedService,
     private store: Store,
   ) {
-    super(standardService, snackBar);
+    super();
     this.stateFilePrices$ = this.store.select(selectPrice);
   }
 
   @ViewChild(MatDrawer) sidenavPrice: MatDrawer;
+  permissions = prices_permission_module;
   EPriceState = EPriceState;
   isLoadingFilePrices: boolean = false;
   url: string = 'catalogs/products/prices';
@@ -93,7 +93,7 @@ export class PricesIndexComponent
   };
   ngOnInit(): void {
 
-    this.standardService.index(`${this.url}/prices-group`).subscribe((res: any) => {
+    this.standardService.methodGet(`${this.url}/prices-group`).subscribe((res: any) => {
       this.generateTemplateForm(res.data);
       this.pricesGroup = res.data;
     });
@@ -128,7 +128,7 @@ export class PricesIndexComponent
     switch (this.stateFilePrices.status) {
       case EPriceState.Idle:
         this.store.dispatch(generatingPrice());
-        this.standardService.index(`${this.url}/export-file`).subscribe((res) => {
+        this.standardService.methodGet(`${this.url}/export-file`).subscribe((res) => {
           SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
         }, err => {
           SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
@@ -181,7 +181,7 @@ export class PricesIndexComponent
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       this.standardService
-        .show(`catalogs/products/${key}/prices/edit?type=full`)
+        .methodGet(`catalogs/products/${key}/prices/edit?type=full`)
         .subscribe((res: any) => {
           this.data.get(key).last_prices = res.data.last_prices;
         });
@@ -206,7 +206,7 @@ export class PricesIndexComponent
   saveInServer(): void {
     this.isLoadingNewPrice = true;
     this.standardService
-      .store(
+      .methodPost(
         `catalogs/products/${this.dataPriceModify.id}/prices`,
         this.form.value
       )

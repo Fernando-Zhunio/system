@@ -1,0 +1,59 @@
+
+
+<h1 matDialogTitle class="font-weight-bold">{{title}}</h1>
+
+<mat-dialog-content>
+  <div [formGroup]="form" class="grid-shipping">
+
+    <mat-form-field>
+      <mat-select formControlName="origin_warehouse_id" placeholder="Bodega de origen">
+        <mat-option>
+          <ngx-mat-select-search [noEntriesFoundLabel]="noEntriesFoundLabel " [searching]="searching" placeholderLabel="Buscador bodega" [formControl]="formSearch"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+          {{warehouse.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-select (selectionChange)="selectionType($event)" placeholder="Tipos" formControlName="type">
+        <mat-option *ngFor="let type of types" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Monto" [readonly]="form.get('type').value == 'pickup'" formControlName="amount">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Peso" formControlName="weight">
+      <div matSuffix>Kg</div>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Altura" formControlName="height">
+      <div matSuffix>cm</div>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Ancho" formControlName="width">
+      <div matSuffix>cm</div>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Largo" formControlName="length">
+      <div matSuffix>cm</div>
+    </mat-form-field>
+
+    <!-- <div *ngIf="warehouse_select"><mat-chip>Bodega seleccionada:  {{warehouse_select.name + ' - ' + warehouse_select.city + ' - ' + warehouse_select.code }}</mat-chip></div> -->
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button [disabled]="isLoading" color="warn" matDialogClose >Cerrar</button>
+    <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()" color="primary">Guardar</button>
+</mat-dialog-actions>

@@ -11,8 +11,8 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class WebhookUrlIndexComponent extends Crud<any> implements OnInit {
   url: string = 'admin/webhooks/webhooks-url';
 
-  constructor( protected s_standard: StandartSearchService, protected snack: MatSnackBar) {
-    super( s_standard, snack );
+  constructor( protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
+    super();
   }
 
   ngOnInit(): void {

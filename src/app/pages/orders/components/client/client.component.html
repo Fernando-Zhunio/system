@@ -1,0 +1,32 @@
+<mat-card class="card border-0">
+    <div class="card-body client-container">
+        <div>
+            <span><i class="fas fa-user"></i> Nombres: &nbsp;</span>{{client.first_name}}
+        </div>
+        <div>
+            <span><i class="fas fa-user"></i> Apellido: &nbsp;</span>{{client.last_name}}
+        </div>
+        <div>
+            <span><i class="fas fa-id-card"></i> Tipo de documento: &nbsp;</span>{{client.doc_type}}
+        </div>
+        <div>
+            <span><i class="fas fa-file-invoice"></i> Numero de documento: &nbsp;</span>{{client.doc_id}}
+        </div>
+        <div>
+            <span><i class="fas fa-envelope-open-text"></i> Correo electrónico: &nbsp;</span>{{client.email}}
+        </div>
+        <div>
+            <span><i class="fas fa-phone"></i> Teléfono: &nbsp;</span>{{client.phone}}
+        </div>
+        <div>
+            <span><i class="fas fa-city"></i> Cuidad: &nbsp;</span>{{client.city}}
+        </div>
+        <div>
+            <span><i class="fas fa-city"></i> Estado: &nbsp;</span>{{client.state}}
+        </div>
+        <div>
+            <span><i class="fas fa-flag"></i> País: &nbsp;</span>{{client.country}}
+        </div>
+        <ng-content select="[btn]"></ng-content>
+    </div>
+</mat-card>

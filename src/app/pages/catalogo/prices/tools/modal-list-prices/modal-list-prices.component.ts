@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { prices_permission_module } from '../../../../../class/permissions-modules/prices-permissions';
 import { IProductPrice } from '../../../../../interfaces/iprice';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
@@ -15,7 +16,9 @@ export class ModalListPricesComponent implements OnInit {
 
   isLoading: boolean = false;
   data: any;
-  product_name: string = ''
+  product_name: string = '';
+  permissions = prices_permission_module;
+
 
   last_product: IProductPrice = null;
   ngOnInit(): void {
@@ -23,8 +26,7 @@ export class ModalListPricesComponent implements OnInit {
     this.standard.show(`catalogs/products/${this.info.id}/prices`).subscribe(
       (res: any) => {
         this.isLoading = false;
-        this.data = this.groupBy(res.data, 'price_group_id',);
-        // console.log(this.data);      
+        this.data = this.groupBy(res.data, 'price_group_id');
       }
     );
   }
@@ -51,9 +53,5 @@ export class ModalListPricesComponent implements OnInit {
     );
   }
 
-
-  // closeDialog() {
-  //   this.info.dialogRef.close();
-  // }
 
 }

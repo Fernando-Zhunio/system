@@ -5,6 +5,7 @@ import { ClientsIndexComponent } from './clients-index/clients-index.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { permissionsModuleOrdersClients } from '../../../class/permissions-modules';
 import { CreateOrEditClientOrderComponent } from './create-or-edit-client-order/create-or-edit-client-order.component';
+import { ClientAddressesIndexComponent } from './client-addresses-index/client-addresses-index.component';
 
 const permissionsModulesRoutes = permissionsModuleOrdersClients;
 
@@ -34,6 +35,14 @@ const routes: Routes = [
       permissions: permissionsModulesRoutes.edit
     },
     canActivate: [NgxPermissionsGuard],
+  },
+  {
+    path: ':client_id/addresses',
+    component: ClientAddressesIndexComponent,
+    data: {
+      // permissions: permissionsModulesRoutes.edit
+    },
+    // canActivate: [NgxPermissionsGuard],
   }
 ];
 

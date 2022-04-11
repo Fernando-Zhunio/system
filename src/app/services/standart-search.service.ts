@@ -7,6 +7,25 @@ import { environment } from '../../environments/environment';
 import { InfoViewComponent } from '../components/modals/info-view/info-view.component';
 import { Iresponse } from '../interfaces/Imports/invoice-item';
 
+export interface IResponse<T = any> {
+  success: boolean;
+  data: T;
+}
+
+export interface IPaginate<T> {
+  current_page: number;
+  data: T[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  next_page_url: string;
+  path: string;
+  per_page: number;
+  prev_page_url?: string;
+  to: number;
+  total: number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -16,28 +35,51 @@ export class StandartSearchService {
 
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
-  index(url, page: any= '1', pageSize= '10'): Observable<Iresponse> {
-    return this.http.get<Iresponse>(this.end_point + url, {params: {page, pageSize}});
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
+  index(url, page: any = '1', pageSize = '10'): Observable<Iresponse> {
+    return this.http.get<Iresponse>(this.end_point + url, { params: { page, pageSize } });
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
   create(url): Observable<Iresponse> {
     return this.http.get<Iresponse>(this.end_point + url);
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
   getWithHttpParams(url, param: HttpParams): Observable<any> {
-    return this.http.get(this.end_point + url, {params: param});
+    return this.http.get(this.end_point + url, { params: param });
   }
 
 
-
- store(url, params): Observable<Iresponse> {
-  return this.http.post<Iresponse>(this.end_point + url, {...params});
+/**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodPush or methodGetPaginate
+   */
+  store(url, params): Observable<Iresponse> {
+    return this.http.post<Iresponse>(this.end_point + url, { ...params });
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
   search2(url: string, params) {
-    return this.http.get<Iresponse>(this.end_point + url, {params: {...params}});
+    return this.http.get<Iresponse>(this.end_point + url, { params: { ...params } });
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
   search(search, pageSize, state, price_min, price_max, url): Observable<any> {
     let params = new HttpParams();
     params = params.append('page', '1');
@@ -52,9 +94,13 @@ export class StandartSearchService {
       // params = params.set('page','1');
     }
     // return this.http.get<any>(this.end_point+'catalogs/ml-products',{params:{page,search,pageSize}});
-    return this.http.get<any>(this.end_point + url, {params});
+    return this.http.get<any>(this.end_point + url, { params });
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
   nextPageSearch(page, search, pageSize, status, min, max, url): Observable<any> {
     let params = new HttpParams();
     params = params.append('page', page);
@@ -67,41 +113,66 @@ export class StandartSearchService {
     if (search != null) {
       params = params.append('search', search);
     }
-    return this.http.get<any>(this.end_point + url, {params});
+    return this.http.get<any>(this.end_point + url, { params });
   }
 
- public  openDescription(name, title, info, isHtml= true) {
+  public openDescription(name, title, info, isHtml = true) {
     this.dialog.open(InfoViewComponent, {
-           data: {name, title, info, isHtml},
-         });
+      data: { name, title, info, isHtml },
+    });
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
   searchOnly(url, search): Observable<any> {
     let params = new HttpParams();
     params = params.append('search', search);
-    return this.http.get(this.end_point + url, {params});
+    return this.http.get(this.end_point + url, { params });
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodGet or methodGetPaginate
+   */
   show(url): Observable<Iresponse> {
     return this.http.get<Iresponse>(this.end_point + url);
   }
+
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodDelete
+   */
   destory(url): Observable<Iresponse> {
     return this.http.delete<Iresponse>(this.end_point + url);
-    }
+  }
 
-  updatePut(url, params, with_descomposition= true): Observable<Iresponse> {
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodPut
+   */
+  updatePut(url, params, with_descomposition = true): Observable<Iresponse> {
     if (with_descomposition) {
-      params = {...params};
+      params = { ...params };
     }
     return this.http.put<Iresponse>(this.end_point + url, params);
   }
 
-  uploadImg(url, img, name= 'image'): Observable<any> {
-       const form = new FormData();
-       form.append(name, img);
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodPut
+   */
+  uploadImg(url, img, name = 'image'): Observable<any> {
+    const form = new FormData();
+    form.append(name, img);
     return this.http.post(this.end_point + url, form);
   }
 
+  /**
+   * @deprecated Este metodo esta en desuso
+   *  @use methodPost or methodGetPaginate
+   */
   /**
    *
    * @param url
@@ -124,13 +195,34 @@ export class StandartSearchService {
 
   //#region  convert date
   public formatDate(date): any {
-    return  formatDate(
-        new Date(date),
-        'yyyy/MM/dd',
-        'en'
-      );
+    return formatDate(
+      new Date(date),
+      'yyyy/MM/dd',
+      'en'
+    );
+  }
+  //#endregion
+
+
+  // new code
+  public methodGet<T = any>(url, params: any = null): Observable<IResponse<T>> {
+    return this.http.get<IResponse<T>>(this.end_point + url, { params });
   }
 
-  //#endregion
+  public methodGetPaginate<T = any>(url, params: any = null): Observable<IResponse<IPaginate<T>>> {
+    return this.http.get<IResponse<IPaginate<T>>>(this.end_point + url, { params });
+  }
+
+  public methodPost<T = any>(url, params: any = null): Observable<IResponse<T>> {
+    return this.http.post<IResponse<T>>(this.end_point + url,  params );
+  }
+
+  public methodPut<T = any>(url, params: any = null): Observable<IResponse<T>> {
+    return this.http.put<IResponse<T>>(this.end_point + url, params );
+  }
+
+  public methodDelete<T = IResponse>(url): Observable<T> {
+    return this.http.delete<T>(this.end_point + url);
+  }
 
 }

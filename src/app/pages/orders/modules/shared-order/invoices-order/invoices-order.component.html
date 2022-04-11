@@ -1,0 +1,141 @@
+<div>
+    <div class="mt-3 section-order">
+        <h3 class="font-3xl font-weight-bold">Facturas</h3>
+        <div>
+            <div>
+                <div class="row m-0">
+                    <div class="col-md-6 p-2" *ngFor="let invoice of invoices;let index= index">
+                        <mat-card>
+                            <div class="d-md-flex justify-content-between align-items-center">
+                                <div>Estado: <span class="badge font-sm {{invoice.status}}"> {{invoice.status |
+                                        translatefz:
+                                        'orders'}}</span></div>
+                                <div class="text-success">Doc ID:<span> {{invoice.number}}</span></div>
+                                <div>
+                                    <button *ngIf="!isCancelled" color="warn" (click)="unlink(invoice.id)"
+                                        mat-button>Desvincular factura</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="rounded-lg p-2">
+                                <div>Codigo: <span class="text-success">{{invoice?.code}} </span></div>
+                                <div>Numero: <span class="text-success">{{invoice?.number}} </span></div>
+                                <div>Estado: <span class="bg-success badge font-lg">{{invoice?.status}} </span></div>
+                            </div>
+                            <div>
+                                <mat-accordion *ngIf="invoice?.data">
+                                    <mat-expansion-panel class="rounded-fz shadow">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title class="text-info font-weight-bold">
+                                                Ver Detalles <span class="font-sm badge bg-warning">Items:
+                                                    &nbsp;{{invoice?.data.items?.length}}</span>
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <div class="data-info-invoice">
+                                            <h3 class="font-3xl">Datos</h3>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Codigo vendedor:</td>
+                                                        <td>{{invoice?.data.seller_code}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Estado:</td>
+                                                        <td>{{invoice?.data?.status}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total de monto con impuestos:</td>
+                                                        <td>{{invoice?.data?.total_amount_without_taxes}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <ng-container *ngIf="invoice.data?.items?.length > 0">
+
+                                                <hr>
+                                                <h3 class="font-2xl font-weight-bold">Productos</h3>
+                                                <div *ngFor="let item of invoice.data?.items">
+                                                    <div>
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Id invoice:</td>
+                                                                    <td>{{item.invoice_id}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Cantidad:</td>
+                                                                    <td>{{item.quantity}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Precio:</td>
+                                                                    <td>{{item.price}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <ng-container *ngIf="invoice.data?.items?.length > 0">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Id Producto:</td>
+                                                                        <td>{{item.product.id}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Nombre:</td>
+                                                                        <td>{{item.product.name}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Codigo:</td>
+                                                                        <td>{{item.product.code}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Disponibles:</td>
+                                                                        <td>{{item.product.available}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Tipo:</td>
+                                                                        <td>{{item.product.type}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </ng-container>
+                                                        <!-- <div>{{item.invoice_id}}</div>
+                                                        <div><span>Cantidad:</span>{{item.invoice_id}}</div>
+                                                        <div>{{item?.product.name}}</div>
+                                                        <div><span class="text-muted">Código:</span> {{item?.product.code}}
+                                                        </div>
+                                                        <div><span class="text-muted">Cantidad:</span> {{item.quantity}}</div> -->
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <ng-container *ngIf="!isCancelled">
+                    <button class="mt-2" mat-raised-button color="accent"
+                        (click)="isOpenAddInvoice = !isOpenAddInvoice">Agregar
+                        manualmente</button>
+                    <div class="add-invoice-container" *ngIf="isOpenAddInvoice">
+                        <button (click)="isOpenAddInvoice = !isOpenAddInvoice" class="btn-close-add-invoice"
+                            mat-mini-fab color="warn">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <div>
+                            <mat-form-field>
+                                <input [formControl]="formControl" matInput placeholder="Doc Id de la factura">
+                            </mat-form-field>
+                            <button [disabled]="isLoading || formControl.invalid" color="primary" mat-raised-button
+                                (click)="addTransferManually()">enviar</button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- </div> -->

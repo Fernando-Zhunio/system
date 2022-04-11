@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Crud } from '../../../../class/crud';
+import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
   selector: 'app-clients-index',
   templateUrl: './clients-index.component.html',
   styleUrls: ['./clients-index.component.scss']
 })
-export class ClientsIndexComponent implements OnInit {
+export class ClientsIndexComponent extends Crud<any> implements OnInit {
 
-  constructor() { }
+
+  constructor( protected standardService: StandartSearchService, protected snackBar: MatSnackBar ) {
+    super();
+   }
+  url = 'system-orders/clients';
 
   ngOnInit(): void {
   }

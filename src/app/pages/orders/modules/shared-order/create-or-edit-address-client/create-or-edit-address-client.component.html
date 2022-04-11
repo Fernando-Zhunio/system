@@ -1,0 +1,46 @@
+<h1 mat-dialog-title class="font-weight-bold">{{title}}</h1>
+<div [formGroup]="form" mat-dialog-content >
+
+    <div class="row m-0">
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Nombre de la persona que recibe *</mat-label>
+            <input type="text" matInput formControlName="first_name">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Apellido de la persona que recibe *</mat-label>
+            <input type="text" matInput formControlName="last_name">
+        </mat-form-field>
+        <mat-form-field class="col-md-6">
+            <input matInput formControlName="company" placeholder="Razón social">
+            <!-- <mat-error *ngIf="form.get('company').invalid">Este campo es requerido</mat-error> -->
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Calle *</mat-label>
+            <input type="address" matInput formControlName="street">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Numero </mat-label>
+            <input type="text" matInput formControlName="number">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Vecindario </mat-label>
+            <input type="text" matInput formControlName="neighborhood">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Ciudad *</mat-label>
+            <input type="text" matInput formControlName="city">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Estado o provincia *</mat-label>
+            <input matInput formControlName="state">
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12">
+            <mat-label>Codigo Zip </mat-label>
+            <input type="text" matInput formControlName="zip_code">
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn">Cerrar</button>
+    <button mat-raised-button [disabled]="isLoading" color="primary" class="ml-1" (click)="saveInServer()">Guardar</button>
+</div>

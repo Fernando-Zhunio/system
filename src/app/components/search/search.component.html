@@ -1,13 +1,14 @@
 <div>
-    <div>
+    <div *ngIf="title">
         <h2 class="my-2 font-3xl">{{title}} <ng-content select="[moreTitle]"></ng-content>
         </h2>
     </div>
     <div class="sticky-top">
         <div class="p-2 position-relative center">
-            <input (keydown.enter)="searchText()" [(ngModel)]="textSearch" class="input-default" type="search">
+            <input [placeholder]="placeholder" (keydown.enter)="searchText()" [(ngModel)]="textSearch" class="input-default" type="search">
             <div class="content-btns">
                 <button (click)="searchText()" class="btn-default"><i class="fas fa-search"></i></button>
+                <ng-content select="[inputBtn]"></ng-content>
             </div>
         </div>
         <div>
@@ -19,8 +20,10 @@
             <ng-content select="[data]"></ng-content>
         </div>
         <div class="text-center" *ngIf="isLoading">
-            <p class="font-2xl">Cargando espere ...</p>
-            <mat-spinner class="m-auto"></mat-spinner>
+            <div class="d-flex text-muted justify-content-center my-2">
+                <p class="font-2xl">Cargando espere ...</p>
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
         </div>
         <div *ngIf="paginator.length <= 0 && !isLoading">
             <h2 class="text-center">No hay resultados</h2>

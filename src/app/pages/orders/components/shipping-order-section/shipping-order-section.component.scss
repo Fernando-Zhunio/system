@@ -1,0 +1,12 @@
+.grid-shipping {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .grid-shipping {
+        grid-template-columns: 100%;
+    }
+
+}

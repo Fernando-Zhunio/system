@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
@@ -39,9 +40,10 @@ export abstract class CreateOrEdit<T> {
 
     edit() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
+        this.standard_service.methodGet(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
+            alert(this.isLoading);
         }, error => { this.isLoading = false; });
     }
 
@@ -59,7 +61,7 @@ export abstract class CreateOrEdit<T> {
 
     loaderDataForCreate() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
+        this.standard_service.methodGet(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -74,57 +76,27 @@ export abstract class CreateOrEdit<T> {
         const data_send = this.getDataForSendServer();
         if (data_send) {
             this.isLoading = true;
-            if (this.isFormParams) {
-                switch (this.status) {
-                    case 'create':
-                        this.standard_service.uploadFormData(this.urlSave, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    case 'edit':
-                        this.standard_service.uploadFormData(`${this.urlSave}/${this.getId()}`, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    default:
-                        break;
-                }
+            let url = this.urlSave;
+            let observable: Observable<any>;
+            if (this.status === 'edit') {
+                url += `/${this.getId()}`;
+                observable = this.standard_service.methodPut(url, data_send);
             } else {
-                switch (this.status) {
-                    case 'create':
-                        this.standard_service.store(this.urlSave, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            // SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    case 'edit':
-                        this.standard_service.updatePut(`${this.urlSave}/${this.getId()}`, data_send).subscribe(data => {
-                            this.isLoading = false;
-                            this.go();
-                        }, error => {
-                            this.isLoading = false;
-                            // SwalService.swalFire({ text: 'Ocurrio un error al guardar', icon: 'error' });
-                        });
-                        break;
-                    default:
-                        break;
-                }
+                observable = this.standard_service.methodPost(url, data_send);
             }
+            observable.subscribe(data => {
+                this.isLoading = false;
+                this.go(data?.data);
+            }, error => {
+                console.log(error);
+                this.isLoading = false;
+                // SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
+            });
+            return;
         }
     }
 
-    go() { }
+    go(data = null) { }
 
     getDataForSendServer(): any {
         if (this.form.valid) {

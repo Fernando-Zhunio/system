@@ -296,7 +296,6 @@ const routes: Routes = [
             },
             canActivate: [NgxPermissionsGuard],
           },
-
         ],
       },
       {
@@ -561,7 +560,7 @@ const routes: Routes = [
     },
     canActivate: [NgxPermissionsGuard],
   },
-  // locaciones
+  // companies
   {
     path: 'companies',
     children: [
@@ -570,7 +569,7 @@ const routes: Routes = [
         component: IndexCompanies,
         data: {
           permissions: {
-            only: permission_module_AD.companies.index,
+            // only: permission_module_AD.companies.index,
           },
         },
         canActivate: [NgxPermissionsGuard],
@@ -645,12 +644,12 @@ const routes: Routes = [
         ],
       },
     ],
-    data: {
-      permissions: {
-        only: permission_module_AD.location.index,
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: permission_module_AD.location.index,
+    //   },
+    // },
+    // canActivate: [NgxPermissionsGuard],
   },
   {
     path: 'newsletter',

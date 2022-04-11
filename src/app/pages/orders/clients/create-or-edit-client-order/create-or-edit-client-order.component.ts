@@ -24,6 +24,7 @@ export class CreateOrEditClientOrderComponent extends CreateOrEdit<any> implemen
     city: new FormControl(null, [Validators.required]),
     state: new FormControl(null, [Validators.required]),
     country: new FormControl('Ecuador', [Validators.required]),
+    company: new FormControl(null),
   });
 
   constructor(public location: Location, private activeRouter: ActivatedRoute, private standardService: StandartSearchService, router: Router) {

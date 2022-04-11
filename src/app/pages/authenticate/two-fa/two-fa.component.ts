@@ -2,14 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountdownConfig } from 'ngx-countdown';
-import { Subscription } from 'rxjs';
 import { Session } from '../../../clases/session';
 import { User } from '../../../clases/user';
 import { Iuser } from '../../../interfaces/inotification';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
 import { SwalService } from '../../../services/swal.service';
-import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../../../environments/environment';
+import { compare } from 'compare-versions';
+import { SharedService } from '../../../services/shared/shared.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-two-fa',
@@ -22,13 +24,12 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     private active_router: ActivatedRoute,
     private router: Router,
     private s_storage: StorageService,
-    private dialog: MatDialog
-  ) {}
+    private spinner: NgxSpinnerService,
+  ) { }
 
   hide: boolean = true;
   hide2: boolean = true;
-  isLoad = false;
-  regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+  isLoading = false;
 
   formPassword: FormGroup = new FormGroup({
     code: new FormControl('', [Validators.required]),
@@ -60,11 +61,12 @@ export class TwoFAComponent implements OnInit, OnDestroy {
 
   SaveInServer(): void {
     if (this.formPassword.valid) {
-      this.isLoad = true;
+      this.isLoading = true;
       this.s_standart
-        .store('auth/email-two-factor/' + this.token, this.formPassword.value)
+        .methodPost('auth/email-two-factor/' + this.token, this.formPassword.value)
         .subscribe((res) => {
-          if (res.hasOwnProperty('success') && res.success) {
+          if (res.hasOwnProperty('success') && res?.success) {
+            this.spinner.show('spinner-tf');
             const session: Session = new Session();
             session.token = res.data.access_token;
             session.expires_at = res.data.expires_at;
@@ -80,23 +82,73 @@ export class TwoFAComponent implements OnInit, OnDestroy {
             session.user = user;
             this.s_storage.setCurrentSession(session);
             this.router.navigate(['/home/inicio']);
+
+            // this.getPermissionAndVersionServer();
           } else {
             SwalService.swalToast(
-              'Error de autenticacion verifique su contraseña o email',
+              'Error  verifique su contraseña o email',
               'warning'
             );
           }
-          this.isLoad = false;
+          this.isLoading = false;
         }, (err) => {
-          this.isLoad = false;
+          this.isLoading = false;
         });
     }
   }
 
   ngOnDestroy(): void {
 
-    // if (this.suscribir_reloj) {
-    // this.suscribir_reloj.unsubscribe();
-    // }
   }
+
+  // getPermissionAndVersionServer() {
+  //   return this.s_standart.methodGet('user/permissions-roles')
+  //     .subscribe((res) => {
+  //       this.spinner.show('spinner-tf');
+  //       console.log('Response 1 - ', res);
+  //       console.log({ res });
+  //       if (res && res.hasOwnProperty('success') && res.success) {
+  //         if (res.data?.last_version_frontend?.version) {
+  //           this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
+  //         }
+  //         const permissions = res.data.my_permissions;
+  //         const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
+  //           [permissions] : permissions;
+  //         this.s_storage.setPermission(array_permissions);
+  //         SharedService.navItems = res.data.item_sidebar;
+  //         this.router.navigate(['/home/inicio']);
+  //       }
+
+  //     }, (err) => {
+  //       console.log(err);
+  //       this.spinner.show('spinner-tf');
+  //       SwalService.swalFire({ allowOutsideClick: false, confirmButtonText: 'Cerrar sesión', title: 'Error', text: "Error, presioné ctrl + f5 para limpiar el cache, \n Cierre e inicie sesion, \n si no se soluciona el problema consulta al administrador del sistema", icon: 'error' })
+  //         .then(res => {
+  //           if (res.isConfirmed) {
+  //             this.s_storage.logout();
+  //           }
+  //         });
+  //       throw err;
+  //     });
+  // }
+
+  // validateVersion(latestVersion: string, message: string): void {
+  //   try {
+  //     const current_version = environment.appVersion;
+  //     console.log(current_version, latestVersion);
+  //     const isNewVersion = compare(current_version, latestVersion, '<'); // true
+  //     if (isNewVersion) {
+  //       SwalService.swalFire({ allowOutsideClick: false, showConfirmButton: true, title: 'Nueva de version', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
+  //         .then((res) => {
+  //           console.log(res);
+  //           if (res.isConfirmed) {
+  //             console.log('Confirmado');
+  //             location.reload();
+  //           }
+  //         }).catch(() => { });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 }

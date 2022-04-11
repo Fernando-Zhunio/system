@@ -14,12 +14,20 @@
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
+                    <input matInput formControlName="company" placeholder="Razón social">
+                    <mat-error *ngIf="form.get('company').invalid">Este campo es requerido</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-md-4">
                     <mat-select formControlName="doc_type" placeholder="Tipo de documento *">
                         <mat-option value="ci">
                             Cedula de Identidad
                         </mat-option>
                         <mat-option value="passport">
                             Pasaporte
+                        </mat-option>
+                        <mat-option value="ruc">
+                            Ruc
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="form.get('doc_type').invalid">Este campo es requerido</mat-error>

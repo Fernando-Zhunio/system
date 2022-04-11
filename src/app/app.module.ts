@@ -1,5 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { BrowserModule, platformBrowser } from '@angular/platform-browser';
+import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import {
   LocationStrategy,
   HashLocationStrategy,
@@ -47,7 +47,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
 
-import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -90,14 +90,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
-import {  NgxEmojiPickerModule  } from 'ngx-emoji-picker';
+import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UsersGroupsChatModalComponent } from './components/chat-template/users-groups-chat-modal/users-groups-chat-modal.component';
 import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
@@ -109,8 +109,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { preferenceReducer } from './redux/reducers/preference.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
-// import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { StorageService } from './services/storage.service';
+import { EMPTY } from 'rxjs';
+
+
+
+function getPermissionAndVersionServer(st: StorageService) {
+  return () => EMPTY;
+}
 
 
 registerLocaleData(localeEs, 'es');
@@ -219,6 +226,12 @@ registerLocaleData(localeEs, 'es');
     },
     // { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
     { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: getPermissionAndVersionServer,
+      multi: true,
+      deps: [ StorageService ]
+    }
   ],
   entryComponents: [
     InfoViewComponent,
@@ -233,4 +246,5 @@ registerLocaleData(localeEs, 'es');
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
+

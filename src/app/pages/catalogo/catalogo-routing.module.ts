@@ -19,107 +19,96 @@ const permission_module = {
 };
 
 const routes: Routes = [
-       { path: 'mercado-libre',
-        data: {name: 'mercado_libre_ll'},
-        // component:MarcasMainComponents,
-        loadChildren: () => import('./mercado-libre/mercado-libre.module').then(m => m.MercadoLibreModule),
-        // data: {  reuse:true,}
+  {
+    path: 'mercado-libre',
+    data: { name: 'mercado_libre_ll' },
+    loadChildren: () => import('./mercado-libre/mercado-libre.module').then(m => m.MercadoLibreModule),
+  },
+  {
+    path: 'buscar_productos',
+    loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule),
+  },
+  {
+    path: 'publicaciones',
+    component: PublicacionesComponent,
+    data: {
+      name: 'publicaciones',
+      reuse: true,
+      permissions: {
+        only: ['super-admin', permission_module.publicaciones.index],
+        all: permission_module.publicaciones
       },
-      {
-        path: 'buscar_productos',
-        data: {name: 'bucar_products_ll'},
-        // component:MarcasMainComponents,
-        loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule),
+    },
+  },
+  {
+    path: 'publicaciones/menu-multi-publicaciones',
+    component: MenuMultiPublicationComponent,
+    data: {
+      isEdit: false,
+      permissions: {
+        only: ['super-admin', 'catalogs.publications.menu-multi'],
       },
-      {
-        path: 'publicaciones',
-        component: PublicacionesComponent,
-        data: {
-          // isEdit: false,
-          name: 'publicaciones',
-          reuse: true,
-          permissions: {
-            only: ['super-admin', permission_module.publicaciones.index],
-            all: permission_module.publicaciones
-          },
-        },
-        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+  {
+    path: 'publicaciones/multi-publicaciones',
+    component: CreateOrEditMultipublicationComponent,
+    data: {
+      isEdit: false,
+      permissions: {
+        only: ['super-admin', 'catalogs.publications.multi'],
       },
-      {
-        path: 'publicaciones/menu-multi-publicaciones',
-        component: MenuMultiPublicationComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: ['super-admin', 'catalogs.publications.menu-multi'],
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+  {
+    path: 'publicaciones/edit/:id',
+    component: CreateOrEditPublicacionComponent,
+    data: {
+      isEdit: true,
+      permissions: {
+        only: ['super-admin', 'catalogs.publications.edit'],
       },
-        {
-        path: 'publicaciones/multi-publicaciones',
-        component: CreateOrEditMultipublicationComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: ['super-admin', 'catalogs.publications.multi'],
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+  {
+    path: 'publicaciones/create',
+    component: CreateOrEditPublicacionComponent,
+    data: {
+      isEdit: false,
+      permissions: {
+        only: ['super-admin', 'catalogs.publications.create'],
       },
-      {
-        path: 'publicaciones/edit/:id',
-        component: CreateOrEditPublicacionComponent,
-        data: {
-          isEdit: true,
-          permissions: {
-            only: ['super-admin', 'catalogs.publications.edit'],
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+  {
+    path: 'publicaciones/show/:id',
+    component: ShowPublicationComponent,
+    data: {
+      permissions: {
+        only: permission_module.publicaciones.show,
+        all: permission_module.publicaciones
       },
-      {
-        path: 'publicaciones/create',
-        component: CreateOrEditPublicacionComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: ['super-admin', 'catalogs.publications.create'],
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      },
-
-      {
-        path: 'publicaciones/show/:id',
-        component: ShowPublicationComponent,
-        data: {
-          permissions: {
-            only: permission_module.publicaciones.show,
-            all: permission_module.publicaciones
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-        // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
-      },
-      {
-        path: 'products',
-        data: {name: 'prices'},
-        loadChildren: () => import('./prices/prices.module').then(m => m.PricesModule),
-      },
-      {
-        path: 'promotions',
-        data: {name: 'promotions'},
-        loadChildren: () => import('./promotions/promotions.module').then(m => m.PromotionsModule),
-      }
+    },
+    canActivate: [NgxPermissionsGuard],
+    // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
+  },
+  {
+    path: 'products',
+    loadChildren: () => import('./prices/prices.module').then(m => m.PricesModule),
+  },
+  {
+    path: 'promotions',
+    data: { name: 'promotions' },
+    loadChildren: () => import('./promotions/promotions.module').then(m => m.PromotionsModule),
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-exports: [RouterModule]
+  exports: [RouterModule]
 })
-export class CatalogoRoutingModule {}
+export class CatalogoRoutingModule { }

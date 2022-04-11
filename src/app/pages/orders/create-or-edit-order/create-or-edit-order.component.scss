@@ -21,6 +21,18 @@
     div span {
         color: #4caf50;
         font-style: italic;
-        font-size: 15px;
+        font-size: 12px;
     }
 }
+
+.max-height-500 {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+@media (min-width: 576px){
+.card-columns {
+    column-count: 4;
+}
+}
+

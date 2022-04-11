@@ -1,40 +1,40 @@
 <div class="w-100">
     <mat-drawer-container style="position: inherit;" class="example-container bg-transparent">
         <mat-drawer #drawer class="example-sidenav" style="top: 0;height: 100vh;" mode="over" position="end">
-            <button mat-mini-fab class="btn-close-modify-price" (click)="drawer.toggle()">
-                <mat-icon>close</mat-icon>
-            </button>
-            <div>
-                <h2 class="font-facebook font-2x1 list-group-item-accent-warning text-muted pl-2">
-                    {{dataPriceModify?.name}}</h2>
-            </div>
-            <div>
-                <div class="text-center" *ngIf="dataPriceModify.isLoading; else templateModifyPrice">
-                    <div class="text-center">Cargando espere...</div><br>
-                    <mat-spinner></mat-spinner>
+            <ng-container *ngxPermissionsOnly="permissions.edit">
+                <button mat-mini-fab class="btn-close-modify-price" (click)="drawer.toggle()">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <div>
+                    <h2 class="font-facebook font-2x1 list-group-item-accent-warning text-muted pl-2">
+                        {{dataPriceModify?.name}}</h2>
                 </div>
-                <ng-template #templateModifyPrice>
-                    <div class="d-flex justify-content-center">
-                        <form (ngSubmit)="saveInServer()" [formGroup]="form">
-                            <div class=" font-xl">Antes de impuestos</div>
-                            <mat-form-field *ngFor="let group of pricesGroup">
-                                <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name"
-                                    (keyup)="addOrRemoveTax(group.id)" [formControlName]="'price_group_'+group.id">
-                            </mat-form-field>
-
-                            <div class=" font-xl">Despues de impuestos</div>
-                            <mat-form-field *ngFor="let group of pricesGroup">
-                                <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name"
-                                    (keyup)="addOrRemoveTax(group.id, true)"
-                                    [formControlName]="'tax_price_group_'+group.id">
-                            </mat-form-field>
-
-                            <button mat-raised-button color="primary" [disabled]="isLoadingNewPrice"
-                                type="submit">Guardar <mat-icon>save</mat-icon></button>
-                        </form>
+                <div>
+                    <div class="text-center" *ngIf="dataPriceModify.isLoading; else templateModifyPrice">
+                        <div class="text-center">Cargando espere...</div><br>
+                        <mat-spinner></mat-spinner>
                     </div>
-                </ng-template>
-            </div>
+                    <ng-template #templateModifyPrice>
+                        <div class="d-flex justify-content-center">
+                            <form (ngSubmit)="saveInServer()" [formGroup]="form">
+                                <div class=" font-xl">Antes de impuestos</div>
+                                <mat-form-field *ngFor="let group of pricesGroup">
+                                    <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name"
+                                        (keyup)="addOrRemoveTax(group.id)" [formControlName]="'price_group_'+group.id">
+                                </mat-form-field>
+                                <div class=" font-xl">Después de impuestos</div>
+                                <mat-form-field *ngFor="let group of pricesGroup">
+                                    <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name"
+                                        (keyup)="addOrRemoveTax(group.id, true)"
+                                        [formControlName]="'tax_price_group_'+group.id">
+                                </mat-form-field>
+                                <button mat-raised-button color="primary" [disabled]="isLoadingNewPrice"
+                                    type="submit">Guardar <mat-icon>save</mat-icon></button>
+                            </form>
+                        </div>
+                    </ng-template>
+                </div>
+            </ng-container>
         </mat-drawer>
 
         <mat-drawer-content class="example-sidenav-content w-100">
@@ -83,7 +83,7 @@
                                                     {{price.group.name}}:
                                                     <mat-chip>${{price.full_price_formated}}</mat-chip>
                                                 </div>
-                                                <button mat-mini-fab (click)="openSidenavPriceForEdit(product.key)"
+                                                <button *ngxPermissionsOnly="permissions.edit" mat-mini-fab (click)="openSidenavPriceForEdit(product.key)"
                                                     color="accent">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>

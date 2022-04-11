@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { IProduct } from '../../interfaces/iproducts';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { Ipagination } from './../../interfaces/ipagination';
 
@@ -13,7 +14,7 @@ export class SearchComponent implements OnInit {
   constructor(private s_standart: StandartSearchService) { }
 
   @Input() classes: string = '';
-  @Input() title: string = 'Buscador';
+  @Input() title: string = null;
   @Input() placeholder: string = 'Buscador';
   @Input() url: string;
   @Input() init: boolean = true;
@@ -38,8 +39,8 @@ export class SearchComponent implements OnInit {
       per_page: pageEvent.pageSize,
       search: this.textSearch
     };
-    this.s_standart.search2(this.url, params).subscribe(
-      (response: {success: boolean, data: Ipagination<any>}) => {
+    this.s_standart.methodGetPaginate<IProduct>(this.url, params).subscribe(
+      (response) => {
         this.isLoading = false;
         this.paginator.length = response.data.total;
         this.paginator.pageIndex = response.data.current_page - 1;

@@ -1,0 +1,28 @@
+<h1 matDialogTitle>Selector de clientes y direcciones</h1>
+
+<mat-dialog-content class="position-relative">
+  <div *ngIf="isLoading" class="loader"><div class="parpadeo">Espere cambiando de cliente</div></div>
+    <app-search  placeholder="Buscador de clientes" (data)="getData($event)" [url]="url">
+      <ng-container data>
+        <mat-card class="max-height-500">
+            <mat-selection-list (selectionChange)="selectedClient($event)"
+                [multiple]="false">
+                <mat-list-option [value]="client.id"
+                    *ngFor="let client of clients ">
+                    <button [routerLink]="['/orders/clients',client.id,'edit']"  class="bg-gray-200" mat-list-avatar color="accent" mat-icon-button><mat-icon>edit</mat-icon></button>
+                    <div mat-line>{{client.first_name}} {{client.last_name}}
+                    </div>
+                    <div mat-line>{{client.email}} - {{client.doc_id}}
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-option>
+            </mat-selection-list>
+        </mat-card>
+    </ng-container>
+    </app-search>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button [disabled]="isLoading" mat-raised-button matDialogClose color="warn">Cerrar</button>
+    <!-- <button [disabled]="isLoading" mat-raised-button (click)="selectedClient()" color="primary">Guardar</button> -->
+</mat-dialog-actions>

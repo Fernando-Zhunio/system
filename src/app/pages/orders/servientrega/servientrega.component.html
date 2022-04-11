@@ -1,0 +1,74 @@
+<div>
+  <h2 class="font-weight-bold font-4xl mt-3">Servientrega envíos</h2>
+  <div>
+    <app-search-template [url$]="url" (data)="getData($event)">
+       <ng-container data>
+        <mat-card *ngFor="let shipping of shippings" class="card">
+          <!-- <mat-card-header>
+            <mat-card-title>
+              <h3>{{shipping.}}</h3>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{shipping.description}}</p>
+            <p>{{shipping.price}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="addShipping(shipping)">Agregar</button>
+          </mat-card-actions> -->
+          <mat-chip>{{shipping.status | translatefz: 'orders'}}</mat-chip>
+          <div>
+            <table>
+              <tbody class="body-info">
+                <tr>
+                  <td>Monto:</td>
+                  <td>{{shipping.amount}}</td>
+                </tr>
+                <tr>
+                  <td>Numero de tracking:</td>
+                  <td>{{shipping.tracking_number}}</td>
+                </tr>
+                <tr>
+                  <td>Bodega origen:</td>
+                  <td>{{shipping?.origin_warehouse.name}}</td>
+                </tr>
+                <tr>
+                  <td># orden:</td>
+                  <td>{{shipping.order_id}}</td>
+                </tr>
+                <tr>
+                  <td>Creado:</td>
+                  <td>{{shipping.created_at | date}}</td>
+                </tr>
+                <tr>
+                  <td>Tipo:</td>
+                  <td>{{shipping.type}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <button (click)="openViewPdf(shipping.order_id, shipping.id)" mat-icon-button><mat-icon>picture_as_pdf</mat-icon></button>
+          </div>
+        </mat-card>
+       </ng-container>
+    </app-search-template>
+  </div>
+</div>
+
+<div *ngIf="isOpenCv" [ngClass]="isOpenCv?'open-cv':'close-cv'" class="section-cv">
+  <div class="content-cv">
+    <button class="btn-close-cv bg-dark" (click)="isOpenCv = false" mat-mini-fab>
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="container-cv shadow p-3">
+      <div class="row h-100">
+        <div class="col-md-12">
+          <div class="display-4 h-100">
+            <iframe width='100%' height='100%' [src]='encoded_pdf'></iframe>
+            <!-- <ngx-doc-viewer [url]="cv" viewer="mammoth" style="width:100%;height:100%;"></ngx-doc-viewer> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

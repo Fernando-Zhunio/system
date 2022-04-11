@@ -12,11 +12,10 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 })
 export class IndexComponent extends Crud<ICompany> implements OnInit {
 
-  constructor(standard: StandartSearchService, snackBar: MatSnackBar, public router: Router) {
-    super(standard, snackBar);
+  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar, public router: Router) {
+    super();
   }
   url: string = 'admin/companies';
   ngOnInit(): void {
   }
-
 }

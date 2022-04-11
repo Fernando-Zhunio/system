@@ -1,0 +1,122 @@
+<h1 matDialogTitle class="font-weight-bold">Archivos</h1>
+
+<mat-dialog-content>
+  <div>
+    <button  mat-raised-button color="accent" (click)="isOpenCreate = ! isOpenCreate">Agregar archivo</button>
+  </div>
+  <div class="card-columns mt-2">
+    <mat-card [ngSwitch]="file.type" class="card position-relative" *ngFor="let file of files">
+      <div class="btns-action">
+        <button mat-icon-button color="warn" class="bg-ro-fz" (click)="removeFile(file.id)"><mat-icon>delete</mat-icon></button>
+      </div>
+      <div *ngSwitchCase="'image'">
+        <img class="w-100" [src]="file.permalink" alt="imagen">
+      </div>
+
+      <div *ngSwitchCase="'video'">
+        <video class="w-100" [src]="file.permalink"></video>
+      </div>
+      <div *ngSwitchDefault>
+        <div>
+          <span class="center align-items-end">
+            <span class="position-relative">
+              <i class="fas fa-file fa-8x" style="color: #010148;"></i>
+              <div class="text-ext-file mb-2 font-3xl">{{file.ext}}</div>
+            </span>
+          </span>
+        </div>
+        <div class="text-center mt-2">
+          <a *ngIf="file.ext != 'pdf'; else templateFilePdf" color="warning" [href]="file.permalink" target="_blank" mat-raised-button>Descargar documento</a>
+          <ng-template #templateFilePdf>
+            <button color="info" mat-raised-button (click)="openDoc()">Ver documento</button>
+            <app-view-doc [file]="file.permalink"></app-view-doc>
+          </ng-template>
+
+        </div>
+      </div>
+      <div class="card-body" *ngIf="file?.description">
+        <h3 class="font-2xl text-muted mt-3 font-weight-bold mb-1">Descripción</h3>
+        <p>{{file.description}}</p>
+      </div>
+    </mat-card>
+    <div>
+    </div>
+  </div>
+  <div *ngIf="isLoading" class="text-center">
+    <div class="parpadeo text-center font-3xl ">Espere cargando archivos...</div>
+  </div>
+  <div *ngIf="!isLoading && files.length < 1">
+    <app-search-null></app-search-null>
+  </div>
+  <div>
+    <app-view-corner (close)="isOpenCreate = false" [isOpen]="isOpenCreate">
+      <div content>
+        <div>
+          <h2 class="font-weight-bold font-4xl p-md-4 p-2">Añadir Archivo</h2>
+          <mat-card>
+            <mat-form-field class="w-100">
+              <textarea [formControl]="formControlDescription" matInput
+                placeholder="Ingrese una descripción"></textarea>
+            </mat-form-field>
+            <div>
+              <button mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar Archivo</button>
+
+              <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+              <div *ngIf="fileSend?.file" class="m-3 p-3 shadow rounded-fz">
+                <div class="row">
+                  <div class="col-md-6 center">
+                    <div>
+                      <div>
+                        <div class="font-weight-bold font-2xl">Archivo</div>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>Nombre:</td>
+                              <td>{{fileSend.file.name}}</td>
+                            </tr>
+                            <tr>
+                              <td>Tamaño:</td>
+                              <td>{{fileSend.file.size}}</td>
+                            </tr>
+                            <tr>
+                              <td>Tipo:</td>
+                              <td>{{fileSend.file.type}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <img *ngIf="fileSend.file.type.includes('image'); else templateOtherFile"
+                      class="w-50 shadow-all-fz rounded-fz" [src]="fileSend.base64" alt="imagen">
+                    <ng-template #templateOtherFile>
+                      <div>
+                        <span class="center align-items-end">
+                          <span class="position-relative">
+                            <i class="fas fa-file fa-5x" style="color: #010148;"></i>
+                            <div class="text-ext-file">{{re.exec(fileSend.file.name)[1]}}</div>
+                          </span>
+                        </span>
+                      </div>
+                    </ng-template>
+
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button [disabled]="isLoading || !fileSend.file" (click)="saveFileInServer()" color="primary"
+                  mat-raised-button class="mt-2">Guardar</button>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </app-view-corner>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button matDialogClose color="warn">Cerrar</button>
+  <!-- <button mat-raised-button color="primary">Guardar</button> -->
+</mat-dialog-actions>

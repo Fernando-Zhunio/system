@@ -1,25 +1,81 @@
+
 <div>
     <h2 class="font-4xl font-weight-bold mt-2 m-0">Sistema de Ordenes </h2>
     <div>
         <div>
             <app-search-template [url$]="url" (data)="getData($event)">
                 <ng-container menuBar>
-                    <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active"  selected color="accent" class="ml-1">
+                    <mat-chip [routerLink]="['./create']"  selected color="accent" class="ml-1">
                         <mat-icon>add</mat-icon>
                     </mat-chip>
                 </ng-container>
+                <ng-container data>
+                    <mat-card class="card" *ngFor="let order of data | keyvalue">
+                        <div>
+                            <div class="order-header m-2"><span>Orden #{{order.value.id}}</span> <small class="font-weight-bold text-info">{{order.value.created_at | date}}</small></div>
+                            <div>
+                                <mat-chip-list>
+                                    <mat-chip>Tipo: {{order.value.type | translatefz: 'orders'}}</mat-chip>
+                                    <mat-chip>Estado: {{order.value.status | translatefz: 'orders'}}</mat-chip>
+                                </mat-chip-list>
+                            </div>
+                            <h3 class="font-2xl font-weight-bold m-1">Cliente</h3>
+                            <div>
+                                <div>{{order.value.client?.first_name +" "+ order.value.client?.last_name}}</div>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Email:</td>
+                                            <td>{{order.value.client.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Teléfono:</td>
+                                            <td>{{order.value.client.phone}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dirección:</td>
+                                            <td>{{order.value.client.state}} - {{order.value.client.city}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Doc ID:</td>
+                                            <td>{{order.value.client.doc_id}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                               
+                                <!-- <div>{{order.value.client.doc_id}}</div> -->
+                            </div>
+                            <h3 class="font-2xl font-weight-bold m-1">Detalles</h3>
+                            <div>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Número de productos:</td>
+                                            <td>{{order.value.items_count}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Número de pagos:</td>
+                                            <td>{{order.value.payments_count}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total:</td>
+                                            <td>${{order.value.total}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total pagado:</td>
+                                            <td>${{order.value.total_paid}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <button color="warning" class="mr-1" (click)="openDetailOrder(order.key)" mat-raised-button>Ver detalles </button>
+                                <button color="accent" [routerLink]="['/system-orders/orders',order.key, 'edit']"  mat-raised-button>Editar <mat-icon>edit</mat-icon></button>
+                            </div>
+                        </div>
+                    </mat-card>
+                </ng-container>
             </app-search-template>
-        </div>
-        <div class="card-columns">
-            <mat-card class="card">
-                <div>
-                    <div class="node"></div>
-                    <div class="line"></div>
-                    <div class="node"></div>
-                    <div class="line"></div>
-                    <div class="node"></div>
-                </div>
-            </mat-card>
         </div>
     </div>
 </div>

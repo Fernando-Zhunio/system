@@ -6,29 +6,30 @@ interface Iswal {
   grow?: 'row' | 'column' | 'fullscreen' | 'false';
   icon?: 'warning' | 'error' | 'success' | 'info' | 'question';
   input?:
-    | 'text'
-    | 'email'
-    | 'password'
-    | 'number'
-    | 'tel'
-    | 'range'
-    | 'textarea'
-    | 'select'
-    | 'radio'
-    | 'checkbox'
-    | 'file'
-    | 'url';
+  | 'text'
+  | 'email'
+  | 'password'
+  | 'number'
+  | 'tel'
+  | 'range'
+  | 'textarea'
+  | 'select'
+  | 'radio'
+  | 'checkbox'
+  | 'file'
+  | 'url';
   position?:
-    | 'top'
-    | 'top-start'
-    | 'top-end'
-    | 'center'
-    | 'center-start'
-    | 'center-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'bottom-end';
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'center'
+  | 'center-start'
+  | 'center-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end';
   showConfirmButton?: boolean;
+  showCancelButton?: boolean;
   timer?: number;
   title?: string;
   width?: string;
@@ -36,6 +37,8 @@ interface Iswal {
   html?: string;
   confirmButtonText?: string;
   allowOutsideClick?: boolean;
+  allowEscapeKey?: boolean;
+  cancelButtonText?: string;
 }
 declare let Swal: any;
 
@@ -43,8 +46,16 @@ declare let Swal: any;
   providedIn: 'root',
 })
 export class SwalService {
-  constructor(private route: Router) {}
+  constructor(private route: Router) { }
 
+  /**
+   * 
+   * @param allowEscapeKey  Si se establece en falso, el usuario no puede descartar la ventana emergente presionando la tecla Esc. También puede pasar una función personalizada que devuelva un valor booleano, p. si desea deshabilitar la tecla Esc para el estado de carga de una ventana emergente.
+   *  @param allowOutsideClick Si se establece en false , el usuario no puede descartar la ventana emergente haciendo clic fuera de ella.
+También puede pasar una función personalizada que devuelva un valor booleano, por ejemplo, si desea deshabilitar los clics externos para el estado de carga de una ventana emergente.
+    * @param cancelButtonText Use esto para cambiar el texto en el botón "Denegar".
+   * @returns 
+   */
   public static swalFire(
     // title,
     // icon = "success",
@@ -56,9 +67,11 @@ export class SwalService {
       position: 'top-end',
       timer: 1500,
       showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
     }
-  ): Promise<{isConfirmed: boolean,isDenied: boolean}> {
-   return Swal.fire(iswal);
+  ): Promise<{ isConfirmed: boolean, isDenied: boolean }> {
+    return Swal.fire(iswal);
   }
 
   /**
@@ -76,7 +89,7 @@ export class SwalService {
     icon = 'success',
     confirmTexBtnt = 'Si, deseo eliminar',
     cancelTextBtn = 'No, cancelar'
-  ): Promise<{isConfirmed: boolean, dismiss: boolean}> {
+  ): Promise<{ isConfirmed: boolean, dismiss: boolean }> {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mr-1',
@@ -108,7 +121,7 @@ export class SwalService {
     });
   }
 
-  public static swalToast(title, icon = 'success', position = 'top-end', top= 50) {
+  public static swalToast(title, icon = 'success', position = 'top-end', top = 50) {
     const title_html = `<div class="d-flex font-weight-bold">${title}</div>`;
 
     const Toast = Swal.mixin({
@@ -147,7 +160,7 @@ export class SwalService {
     position = 'top-end',
     callback = null
   ) {
-    if (icon === 'default') {icon = 'success'; }
+    if (icon === 'default') { icon = 'success'; }
     const Toast = Swal.mixin({
       toast: true,
       position,

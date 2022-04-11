@@ -1,0 +1,40 @@
+<div>
+  <div class="flow">
+    <ng-container *ngFor="let state of statuses;let odd=odd">
+      <div *ngIf="!odd;else templateNotOdd">
+        <span></span>
+        <span class="bola center position-relative">
+          <span></span>
+        </span>
+        <span class="flow-item-right">
+          <span>
+            <span class="font-lg">{{state.type | translatefz: 'orders'}}</span><br>
+            <span class="font-xs">Por: {{state?.user?.name}}</span>
+          </span>
+          <span>
+            <span>{{state.created_at | date:'dd'}}</span>
+            <br>{{state.created_at | date:'MM/yyyy'}}
+          </span>
+        </span>
+      </div>
+      <ng-template #templateNotOdd>
+        <div>
+          <span  class="flow-item-left ">
+            <span>
+              <span>{{state.created_at | date:'dd'}}</span>
+              <br>{{state.created_at | date:'MM/yyyy'}}
+            </span>
+            <span>
+              <span class="font-lg">{{state.type | translatefz: 'orders'}}</span><br>
+              <span class="font-xs">Por: {{state?.user?.name}}</span>
+            </span>
+          </span>
+          <span class="bola center position-relative">
+            <span></span>
+          </span>
+          <span></span>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

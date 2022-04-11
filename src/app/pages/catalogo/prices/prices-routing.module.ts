@@ -1,20 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { CreateOrEditPriceComponent } from './create-or-edit-price/create-or-edit-price.component';
+import { prices_permission_module } from '../../../class/permissions-modules/prices-permissions';
 import { PricesIndexComponent } from './prices-index/prices-index.component';
 
-
-
-const permission_module = {
-  prices: {
-    index: ['super-admin', 'catalogs.products.prices.index'],
-    show: ['super-admin', 'catalogs.products.prices.show'],
-    create: ['super-admin', 'catalogs.products.prices.create'],
-    edit: ['super-admin', 'catalogs.products.prices.edit'],
-    delete: ['super-admin', 'catalogs.products.prices.destroy']
-  },
-};
+const permissions_module = prices_permission_module;
 
 const routes: Routes = [
   {
@@ -22,26 +12,11 @@ const routes: Routes = [
     component: PricesIndexComponent,
     data: {
       permissions: {
-        only: permission_module.prices.index,
+        only: permissions_module.index,
       },
     },
     canActivate: [NgxPermissionsGuard],
   },
-  // {
-  //   path: ':product_id/prices/create',
-  //   component: CreateOrEditPriceComponent,
-  //   data: {
-  //     isEdit: false
-  //   }
-  // },
-  // {
-  //   path: ':product_id/prices/edit',
-  //   component: CreateOrEditPriceComponent,
-  //   data: {
-  //     // permission: permission_module.publicaciones.edit,
-  //     isEdit: true
-  //   }
-  // }
 ];
 
 @NgModule({

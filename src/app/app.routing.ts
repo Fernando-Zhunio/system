@@ -93,7 +93,7 @@ export const routes: Routes = [
     data: {
       title: 'Home'
     },
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
@@ -131,17 +131,19 @@ export const routes: Routes = [
         path: 'chats',
         loadChildren: () => import('./pages/chats/chats.module').then(m => m.ChatsModule),
       },
+      {
+        path: 'system-orders',
+        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
+      },
+      // {
+      //   path: 'system-orders',
+      //   loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
+      // },
+
       // {
       //   path: 'icons',
       //   loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
       // },
-      {
-        path: 'orders',
-        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
-      },
-
-
-
 
       // {
       //   path: 'charts',
@@ -163,6 +165,7 @@ export const routes: Routes = [
       //   path: 'widgets',
       //   loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
       // }
+      
     ]
   },
   { path: '**', component: P404Component }

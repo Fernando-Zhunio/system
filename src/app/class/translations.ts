@@ -11,16 +11,75 @@ const trans_es_default = {
 };
 
 const trans_es_order_types = {
-        'default': 'Por defecto',
-        'receivable': 'Por cobrar',
-        'payment_with_retention': 'Por pago por retención',
-        'reservation_paid' : 'Por reserva pagada'
+        default: 'Por defecto',
+        receivable: 'Por cobrar',
+        payment_with_retention: 'Por pago con retención',
+        reservation_paid : 'Por reserva pagada'
+};
+
+const trans_es_order = {
+    tax: 'Impuestos',
+    percent: 'Porcentaje',
+    retention: 'Retención',
+    discount: 'Descuento',
+    fixed: 'Fijo',
+    default: 'Por defecto',
+    receivable: 'Por cobrar',
+    payment_with_retention: 'Por pago con retención',
+    reservation_paid : 'Por reserva pagada',
+
+    credit_card: 'Tarjeta de crédito',
+    cash: 'Efectivo',
+    debit_card: 'Tarjeta de débito',
+    wire: 'Transferencia',
+    wire_transfer: 'Transferencia',
+    paymentez: 'Paymentez',
+
+    pending: 'Pendiente',
+    paid: 'Pagado',
+    refunded: 'Reembolsado',
+    cancelled: 'Cancelado',
+    created: 'Creado',
+    generated_guide: 'Generando guía',
+    shipped: 'Enviado',
+    in_transit: 'En tránsito',
+    delivered: 'Entregado',
+    returned: 'Devuelto',
+    confirmed: 'Confirmado',
+
+    payment_paid: 'Pagado',
+    payment_partially_paid: 'Parcialmente pagado',
+    payment_refunded: 'Reembolsado',
+    payment_partially_refunded: 'Parcialmente reembolsado',
+
+    shipping_shipped: 'Enviado',
+    shipping_partially_shipped: 'Parcialmente enviado',
+    shipping_partially_delivered: 'Parcialmente entregado',
+    shipping_returned: 'Devuelto',
+    shipping_partially_returned: 'Parcialmente devuelto',
+    generated: 'Generado',
+    in_review: 'En revisión',
+    rejected: 'Rechazado',
+    expired: 'Expirado',
+    init: 'Iniciado',
+
+    published: 'Publicado',
+    canceled: 'Cancelado',
+
+};
+
+const trans_es_order_channels = {
+    'webstore': 'Pagina Web',
+    'whatsapp': 'Whatsapp',
+    'marketplace': 'Tienda',
+    'other' : 'Otro medio'
 };
 
 export const _transfz:  {} = {
     promotions: {...trans_es_promotions},
     default: {...trans_es_default},
-    orders: trans_es_order_types
+    orders: trans_es_order,
+    order_channels: trans_es_order_channels
 };
 
 /**
@@ -29,9 +88,8 @@ export const _transfz:  {} = {
  * @returns traduccion
  */
 export function trans(value, name) {
-    if ( _transfz[name])
-    {
+    if ( _transfz[name]) {
         return _transfz[name][value];
     }
-    return 'no encontrado';
+    return 'no se a podido traducir';
 };

@@ -1,0 +1,46 @@
+.open-cv {
+    transform: translateX(0%);
+    transition: transform 0.3s;
+  }
+  
+  .close-cv {
+    transform: translateX(100%);
+    transition: transform 0.3s;
+  }
+
+  .section-cv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    background: white;
+  }
+
+  .content-cv {
+    width: 100vw;
+    height: 100vh;
+    /* position: relative; */
+    top: 0;
+    right: 0;
+    position: absolute;
+    background: #ffffff26;
+    /* z-index: 10000; */
+    backdrop-filter: blur(2px);
+  }
+
+  .btn-close-cv {
+    position: absolute;
+    right: calc(70% + 3px);
+    z-index: 1;
+    top: 5px;
+  }
+
+  .container-cv {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70%;
+    background: white;
+    height: 100vh;
+  }

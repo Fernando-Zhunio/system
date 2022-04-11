@@ -17,12 +17,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ModalListPricesComponent } from './tools/modal-list-prices/modal-list-prices.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FilePondModule } from 'ngx-filepond';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
   imports: [
     CommonModule,
-    RouterModule,
+    // RouterModule,
     PricesRoutingModule,
     SearchTemplateModule,
     ConvertsModule,
@@ -36,7 +37,8 @@ import { FilePondModule } from 'ngx-filepond';
     MatSidenavModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    FilePondModule
+    FilePondModule,
+    NgxPermissionsModule
   ],
   entryComponents: [ModalListPricesComponent]
 })
