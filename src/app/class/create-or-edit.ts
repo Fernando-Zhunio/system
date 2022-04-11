@@ -43,7 +43,7 @@ export abstract class CreateOrEdit<T> {
         this.standard_service.methodGet(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-            alert(this.isLoading);
+            // alert(this.isLoading);
         }, error => { this.isLoading = false; });
     }
 

@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from '../../../../../../../environments/environment';
-import { CreateOrEditModal } from '../../../../../../class/create-or-edit-modal';
+// import { CreateOrEditModal } from '../../../../../../class/create-or-edit-modal';
 import { IAttachmentPaymentOrder } from '../../../../../../interfaces/iorder';
 import { ViewDocComponent } from '../../../../../../Modulos/tools/view-doc/view-doc.component';
 import { SharedService } from '../../../../../../services/shared/shared.service';

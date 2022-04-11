@@ -2,18 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServientregaComponent } from './servientrega.component';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
-import { ServientregaRoutes } from './servientrega.routing';
+// import { ServientregaRoutes } from './servientrega.routing';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslatefzModule } from './../../../Modulos/translatefz/translatefz.module';
 import { SharedOrderModule } from '../modules/shared-order/shared-order.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ServientregaRoutingModule } from './servientrega.routing';
 
 @NgModule({
   imports: [
   CommonModule,
-    ServientregaRoutes,
+  ServientregaRoutingModule,
     SearchTemplateModule,
     MatCardModule,
     MatChipsModule,

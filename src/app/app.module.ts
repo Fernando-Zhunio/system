@@ -3,7 +3,6 @@ import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/cor
 import {
   LocationStrategy,
   HashLocationStrategy,
-
   PathLocationStrategy,
 } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -47,7 +46,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
 
-import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -115,9 +114,9 @@ import { EMPTY } from 'rxjs';
 
 
 
-function getPermissionAndVersionServer(st: StorageService) {
-  return () => EMPTY;
-}
+// function getPermissionAndVersionServer(st: StorageService) {
+//   return () => EMPTY;
+// }
 
 
 registerLocaleData(localeEs, 'es');
@@ -226,12 +225,12 @@ registerLocaleData(localeEs, 'es');
     },
     // { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
     { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: getPermissionAndVersionServer,
-      multi: true,
-      deps: [ StorageService ]
-    }
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: getPermissionAndVersionServer,
+    //   multi: true,
+    //   deps: [ StorageService ]
+    // }
   ],
   entryComponents: [
     InfoViewComponent,

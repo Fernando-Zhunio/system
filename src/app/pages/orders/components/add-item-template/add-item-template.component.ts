@@ -40,7 +40,6 @@ export class AddItemTemplateComponent implements OnInit {
   classOrderItem: OrderItem;
 
   channel(id) {
-    // console.log(this.channels.find(x => x.id === id).name || 'Sin canal');
     return this.channels.find(x => x.id === id)?.name;
   }
 
@@ -71,14 +70,12 @@ export class AddItemTemplateComponent implements OnInit {
     }
   }
 
-  openDialogCreateOrEditDiscountOrTax(id: number): void {
+  openDialogCreateOrEditDiscountOrTax(id: number = null): void {
     console.log(id);
     this.dialog.open(CreateOrEditDiscountOrTaxOrderComponent, {
       width: '500px',
       data: { id, order: this.order },
-
       disableClose: true,
-
     }).beforeClosed().subscribe(res => {
       if (res) {
         if (this.discountsAndTaxes.has(res.id)){

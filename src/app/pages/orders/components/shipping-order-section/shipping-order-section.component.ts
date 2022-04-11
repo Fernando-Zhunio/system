@@ -8,6 +8,7 @@ import { IOrder, IShippingOrder } from '../../../../interfaces/iorder';
 import { Iwarehouse } from '../../../../interfaces/iwarehouse';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
+
 const routes_api_shipping = {
   index: (order: number) => `system-orders/orders/${order}/shippings`,
   create: `system-orders/orders/shippings/create`,
@@ -27,7 +28,6 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   title = 'Envíos';
   subscription: Subscription = null;
   warehouses: Iwarehouse[] = [];
-  // warehouse_select: Iwarehouse = null;
   formSearch = new FormControl(null);
   searching = false;
   shipping: IShippingOrder = null;

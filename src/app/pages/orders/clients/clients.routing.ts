@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientsIndexComponent } from './clients-index/clients-index.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';

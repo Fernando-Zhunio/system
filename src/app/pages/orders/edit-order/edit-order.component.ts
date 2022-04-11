@@ -10,7 +10,7 @@ import { SelectClientModalComponent } from '../components/select-client-modal/se
 import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
 import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
+// import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
 
 @Component({
   selector: 'app-edit-order',

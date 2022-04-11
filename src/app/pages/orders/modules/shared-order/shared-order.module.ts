@@ -26,7 +26,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { HistoryStatusesComponent } from './history-statuses/history-statuses.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SelectedViewServientregaPdfComponent } from './selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { InvoicesOrderComponent } from './invoices-order/invoices-order.component';
 import { SelectClientAddressModalComponent } from './select-client-address-modal/select-client-address-modal.component';
 import { FilesPaymentsOrderComponent } from './payment-order/filesPaymentsOrder/filesPaymentsOrder.component';

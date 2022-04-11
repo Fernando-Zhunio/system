@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 // import * as FlowChart from 'flowchart.js';
 import { IStatus } from '../../../../interfaces/iorder';
-import { TranslatefzPipe } from './../../../../pipes/translatefz.pipe';
+// import { TranslatefzPipe } from './../../../../pipes/translatefz.pipe';
 @Component({
   selector: 'app-state-flow-order',
   templateUrl: './state-flow-order.component.html',
@@ -10,8 +10,8 @@ import { TranslatefzPipe } from './../../../../pipes/translatefz.pipe';
 export class StateFlowOrderComponent implements OnInit {
 
   constructor() { }
-  translateFz = new TranslatefzPipe;
-  // @Input() newStatus: string = null;
+  // translateFz = new TranslatefzPipe;
+  @Input() newStatus: string = null;
   currentStatus = 'created';
   @Input() statuses: IStatus[] = [
     // { type: 'created', name: 'Creado', enabled: false  },
