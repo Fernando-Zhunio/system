@@ -69,7 +69,7 @@ export class AddProductsOrderComponent implements OnInit {
           this.disabledEditingItemOrder();
           SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
         }
-        // this.items.set(item.id, item);
+        // this.items.set(item., item);
         this.change.emit('change');
 
       }

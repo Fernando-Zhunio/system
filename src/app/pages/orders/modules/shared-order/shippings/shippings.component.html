@@ -10,7 +10,7 @@
       </div>
       <div>
         <div class="badge font-sm {{shipping.status}}"
-          *ngIf="shipping.status != 'pending' || shipping.type != 'pickup';else templateSelectStatus"><span>Estado:
+          *ngIf="shipping.type != 'pickup' || ( shipping.status == 'delivered' || shipping.status == 'cancelled');else templateSelectStatus"><span>Estado:
             {{shipping.status | translatefz: 'orders'}} </span></div>
         <ng-template #templateSelectStatus>
           <div class="d-flex">

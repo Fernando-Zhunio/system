@@ -1,8 +1,8 @@
 <div class="mt-3 ">
   <h3 class="font-3xl font-weight-bold">Productos</h3>
   <div>
-    <div [formGroup]="form">
-      <div *ngIf="!isCancelled" class="row">
+    <div>
+      <div [formGroup]="form" *ngIf="!isCancelled" class="row">
         <mat-form-field appearance="fill" class="col-md-5">
           <input readonly matInput formControlName="product" placeholder="Producto">
           <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
@@ -10,15 +10,15 @@
           </button>
         </mat-form-field>
         <mat-form-field appearance="fill" class="col-md-2">
-          <input  matInput formControlName="price" type="number" placeholder="Precio">
+          <input matInput formControlName="price" type="number" placeholder="Precio">
           <span matPrefix>$&nbsp;</span>
         </mat-form-field>
         <mat-form-field appearance="fill" class="col-md-2">
           <input  matInput type="number" formControlName="quantity" placeholder="Cantidad">
         </mat-form-field>
         <div class="col-md-3">
-          <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
-           (click)="createOrEditItemOrder()" >Agregar</button>
+          <button type="submit" [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
+           (click)="createOrEditItemOrder()">Agregar</button>
         </div>
       </div>
       <ng-container *ngIf="!isCancelled">
@@ -65,7 +65,7 @@
             <tbody>
               <tr *ngFor="let item of items | keyvalue">
                 <td class="py-0">
-                  <img class="img-product-item" mat-list-avatar [src]="item.value.product.value?.img || 'assets/img/img_default_null.jpg'"
+                  <img class="img-product-item" mat-list-avatar [src]="item.value.product?.image || 'assets/img/img_default_null.jpg'"
                     alt="imagen producto">
                 </td>
                 <td>
@@ -93,7 +93,7 @@
       <app-search [url]="urlProducts" placeholder="Buscador de productos" (data)="getDataProducts($event)">
         <mat-selection-list data [multiple]="false" (selectionChange)="selectedProduct($event)">
           <mat-list-option [value]="product.key" *ngFor="let product of products | keyvalue">
-            <img mat-list-avatar [src]="product.value?.img || 'assets/img/img_default_null.jpg'" alt="imagen producto">
+            <img mat-list-avatar [src]="product.value?.image || 'assets/img/img_default_null.jpg'" alt="imagen producto">
             <div mat-line>{{product.value.name}}</div>
             <div mat-line>{{product.value.code}}</div>
             <mat-divider></mat-divider>

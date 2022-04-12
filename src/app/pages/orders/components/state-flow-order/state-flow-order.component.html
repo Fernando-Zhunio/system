@@ -9,7 +9,7 @@
         <span class="flow-item-right">
           <span>
             <span class="font-lg">{{state.type | translatefz: 'orders'}}</span><br>
-            <span class="font-xs">Por: {{state?.user?.name}}</span>
+            <span class="font-xs">Por: {{state?.user?.name || 'Novisolutions'}}</span>
           </span>
           <span>
             <span>{{state.created_at | date:'dd'}}</span>
