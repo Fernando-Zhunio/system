@@ -81,6 +81,7 @@ staging:
     - npm install
     # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     - npm i -g @angular/cli
+    - npx ngcc
     - ng b --configuration staging
     - apt-get update
     - apt-get install -y zip unzip
