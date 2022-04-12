@@ -1,16 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { CreateOrEditPaymentOrderComponent } from './create-or-edit-payment-order/create-or-edit-payment-order.component';
-import { IOrder, IPaymentOrder } from './../../../../../interfaces/iorder';
+import { IPaymentOrder } from './../../../../../interfaces/iorder';
 import { SwalService } from '../../../../../services/swal.service';
 import { MatSelectChange } from '@angular/material/select';
-import { FilePondOptions } from 'filepond';
-import { environment } from '../../../../../../environments/environment';
 import { StorageService } from '../../../../../services/storage.service';
-import { FilePondComponent } from 'ngx-filepond/filepond.component';
 import { FilesPaymentsOrderComponent } from './filesPaymentsOrder/filesPaymentsOrder.component';
-// import { FilePondComponent } from 'ngx-filepond/filepond.component';
 
 @Component({
   selector: 'app-payment-order',
@@ -29,37 +25,9 @@ export class PaymentOrderComponent implements OnInit {
   isOpenUploadFile = false;
   idUploadFile: number = null;
   urlUploadFile: string = 'api/';
-  // pondOptions: FilePondOptions = {
-  //   allowMultiple: true,
-  //   labelIdle: 'Arrastre o presione aquí',
-  //   name: 'file',
-  //   maxParallelUploads: 5,
-  //   server: {
-  //     url: `${environment.server}`,
-  //     process: {
-  //       url: this.urlUploadFile,
-  //       headers: {
-  //         Authorization: `Bearer ${this.s_storage.getCurrentToken()}`,
-  //         Accept: 'application/json',
-  //       },
-  //       onload: (response: any) => {
-  //         const data = JSON.parse(response);
-  //         // this.sendOneMessage(null, [data.id]);
-  //         return data.id;
-  //       },
-  //       // ondata: (formData) => {
-  //       //   formData.append('file', this.myPond.getFiles()[0].file);
-  //       //   return formData;
-  //       // }
-
-  //     },
-  //   },
-  // };
   hasFile = false;
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
 
 
@@ -100,10 +68,7 @@ export class PaymentOrderComponent implements OnInit {
       if (result.isConfirmed) {
         this.standard.methodDelete(`system-orders/orders/${order_id}/payments/${id}`).subscribe(data => {
           SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Se elimino correctamente' });
-          // this.paymentsMap.delete(id);
-          // this.getTotalPayment.emit('delete');
           this.change.emit('delete');
-
         });
       }
     });

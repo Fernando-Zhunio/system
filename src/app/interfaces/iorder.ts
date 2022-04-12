@@ -136,6 +136,7 @@ export interface IShippingOrder {
   height?: any;
   width?: any;
   length?: any;
+  tracking_link: string;
   tracking_number: string;
   order_id: number;
   origin_warehouse_id?: any;
