@@ -65,4 +65,22 @@ export class TransferenceOrderComponent implements OnInit {
       }
     );
   }
+
+  unlink(id): void {
+    SwalService.swalFire({icon: 'info', title: 'Precaución', text: '¿Está seguro de querer desvincular esta transferencia de la orden?', confirmButtonText: 'Si, desvincular', cancelButtonText: 'No, cancelar'}).then(res => {
+      if (res.isConfirmed) {
+        this.isLoading = true;
+        this.standard.methodDelete('system-orders/orders/' + this.order_id + '/transfers/' + id).subscribe(
+          (response: any) => {
+            if (response.success) {
+              this.change.emit('invoice');
+            }
+            this.isLoading = false;
+          }, err => {
+            this.isLoading = false;
+          }
+        );
+      }
+    });
+  }
 }

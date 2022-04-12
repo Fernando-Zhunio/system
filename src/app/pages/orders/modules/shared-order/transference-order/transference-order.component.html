@@ -10,6 +10,10 @@
                 <div>Estado: <span class="badge font-sm {{transfer.status}}"> {{transfer.status | translatefz:
                     'orders'}}</span></div>
                 <div class="text-success">Doc ID:<span> {{transfer.doc_id}}</span></div>
+                <div>
+                  <button *ngIf="!isCancelled" color="warn" (click)="unlink(transfer.id)"
+                      mat-button>Desvincular factura</button>
+              </div>
               </div>
               <p>
                 <span>Memo:</span> {{transfer.memo}}

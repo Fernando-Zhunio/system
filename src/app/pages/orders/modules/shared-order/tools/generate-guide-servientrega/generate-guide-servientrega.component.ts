@@ -92,7 +92,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       largo: data.shipping.length,
       peso_fisico: data.shipping.weight,
       direccion1_remite: data.shipping?.origin_warehouse?.address,
-      telefono1_remite: data.client.phone,
+      telefono1_destinat_ne: data.client.phone,
       nombre_destinatario_ne: data.shipping_address.first_name,
       apellido_destinatar_ne: data.shipping_address.last_name,
       direccion1_destinat_ne: `${data.shipping_address.state}, ${data.shipping_address.city} ${data.shipping_address?.neighborhood }  ${data.shipping_address?.street}`,

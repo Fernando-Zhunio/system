@@ -1,7 +1,7 @@
 <h1 class="font-weight-bold " matDialogTitle><span>Detalles de la orden # {{data.order_id}} <span class="ml-2 badge bg-info">{{order?.status | translatefz:'orders'}}</span></span> <span><button matDialogClose color="warn" mat-mini-fab><mat-icon>close</mat-icon></button></span></h1>
 
 <mat-dialog-content>
-    <div class="text-center">
+    <div *ngIf="isLoading" class="text-center">
         <span class="font-weight-bold parpadeo font-2xl">Cargando espere</span>
     </div>
     <div *ngIf="order">

@@ -3,22 +3,22 @@
 <mat-dialog-content>
     <div [formGroup]="form" class="row m-0">
       <mat-form-field class="col-md-4">
-        <mat-select required formControlName="id_ciudad_destino" placeholder="Cuidad de destino">
-          <mat-option>
-            <ngx-mat-select-search  [searching]="isLoadingCity" placeholderLabel="Buscador de cuidad" [formControl]="formSearchDestinoCity"></ngx-mat-select-search>
-          </mat-option>
-          <mat-option *ngFor="let city of searchDestinoCities" [value]="city.id">
-            {{city.nombre}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-md-4">
         <mat-select required formControlName="id_ciudad_origen" placeholder="Cuidad de origen">
           <mat-option>
             <ngx-mat-select-search  [searching]="isLoadingCity" placeholderLabel="Buscador de cuidad" [formControl]="formSearchCity"></ngx-mat-select-search>
           </mat-option>
           <mat-option *ngFor="let city of searchCities" [value]="city.id">
+            {{city.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field class="col-md-4">
+        <mat-select required formControlName="id_ciudad_destino" placeholder="Cuidad de destino">
+          <mat-option>
+            <ngx-mat-select-search  [searching]="isLoadingCity" placeholderLabel="Buscador de cuidad" [formControl]="formSearchDestinoCity"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let city of searchDestinoCities" [value]="city.id">
             {{city.nombre}}
           </mat-option>
         </mat-select>

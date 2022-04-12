@@ -142,19 +142,27 @@ export class EditOrderComponent implements OnInit {
   }
 
   changeStatusPublish(): void {
-    this.isPublishing = true;
-    const url = `system-orders/orders/${this.order.id}/publish`;
-    this.standard.methodPost(url).subscribe(res => {
-      if (res?.success) {
-        this.getOrder();
-        this.getStatuses();
-        this.isPublishing = false;
+    const text = (this.order.status == 'init') ? '¿Está seguro de cambiar el estado de la orden?' : 'Esta seguro de enviar las notificaciones de la orden?';
+    SwalService.swalFire({title: 'Atención', text , icon: 'warning', showCancelButton: true, confirmButtonText: 'Si, Enviar', cancelButtonText: 'No, Cancelar'}).then(res => {
+      if (res.isConfirmed) {
+        this.isPublishing = true;
+        const url = `system-orders/orders/${this.order.id}/publish`;
+        this.standard.methodPost(url).subscribe(res => {
+          if (res?.success) {
+            this.getOrder();
+            if (this.order.status == 'init') {
+              this.getStatuses();
+            }
+            this.isPublishing = false;
+            SwalService.swalFire({icon: 'success', title: 'Éxito', text: 'Se ha enviado la notificación de la orden', confirmButtonText: 'Aceptar'});
+          }
+        }, err => {
+          console.log(err);
+          this.isPublishing = false;
+        }
+        );
       }
-    }, err => {
-      console.log(err);
-      this.isPublishing = false;
-    }
-    );
+    });
   }
 
   addClientAddress(id = null): void {

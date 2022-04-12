@@ -19,7 +19,7 @@ import { SearchesModule } from '../../Modulos/searches/searches.module';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ShippingOrderSectionComponent } from './components/shipping-order-section/shipping-order-section.component';
+// import { ShippingOrderSectionComponent } from './components/shipping-order-section/shipping-order-section.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { StateFlowOrderComponent } from './components/state-flow-order/state-flow-order.component';
@@ -32,13 +32,13 @@ import { EditOrderComponent } from './edit-order/edit-order.component';
 import { AddItemTemplateComponent } from './components/add-item-template/add-item-template.component';
 import { CreateOrEditDiscountOrTaxOrderComponent } from './components/create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
+// import { SelectClientAddressModalComponent } from './modules/shared-order/select-client-address-modal/select-client-address-modal.component';
 @NgModule({
   declarations: [DashboardOrdersComponent,
     SelectClientModalComponent, EditOrderComponent,
     OrdersIndexComponent, CreateOrEditOrderComponent,
     ClientComponent, AddItemTemplateComponent,
-    CreateOrEditDiscountOrTaxOrderComponent,
-    ShippingOrderSectionComponent, StateFlowOrderComponent],
+    CreateOrEditDiscountOrTaxOrderComponent, StateFlowOrderComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -64,8 +64,6 @@ import { SharedOrderModule } from './modules/shared-order/shared-order.module';
     SharedOrderModule,
     MatExpansionModule,
     MatBadgeModule,
-    // ToolsModule,
-    // NgxTimelineAlbeModule
   ],
   entryComponents: [SelectClientModalComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })
