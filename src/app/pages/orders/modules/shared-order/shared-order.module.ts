@@ -32,7 +32,7 @@ import { SelectClientAddressModalComponent } from './select-client-address-modal
 import { FilesPaymentsOrderComponent } from './payment-order/filesPaymentsOrder/filesPaymentsOrder.component';
 import { ToolsModule } from '../../../../Modulos/tools/tools.module';
 import { DetailsOrderComponent } from './details-order/details-order.component';
-import { NullModule } from '../../../../Modulos/tools/null/Null.module';
+import { NullModule } from '../../../../Modulos/tools/null/null.module';
 
 @NgModule({
   imports: [
