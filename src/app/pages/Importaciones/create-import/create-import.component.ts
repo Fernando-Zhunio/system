@@ -103,7 +103,9 @@ export class CreateImportComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.suscribe_status.unsubscribe();
+    if (this.suscribe_status) {
+      this.suscribe_status.unsubscribe();
+    }
   }
 
 

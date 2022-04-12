@@ -17,11 +17,11 @@ export class StorageService  {
 
   constructor(private router: Router, private s_permissionsService: NgxPermissionsService) {
 
-      this.currentSession = this.loadSessionData();
-      if (!this.currentSession) {
-        this.logout();
-        return;
-      }
+    this.currentSession = this.loadSessionData();
+    if (!this.currentSession) {
+      this.logout();
+      return;
+    }
       const permissions = this.getPermissionUser();
       if (this.currentSession && permissions ) {
         console.log(permissions);
@@ -61,10 +61,7 @@ export class StorageService  {
     return this.currentSession;
   }
 
-  removeCurrentSession(): void {
-    this.currentSession = null;
-    localStorage.clear();
-  }
+ 
 
   getCurrentUser(): User {
     const session: Session = this.getCurrentSession();
@@ -110,6 +107,11 @@ export class StorageService  {
   logout(): void {
     this.removeCurrentSession();
     this.router.navigate(['/login']);
+  }
+
+  removeCurrentSession(): void {
+    this.currentSession = null;
+    localStorage.clear();
   }
 
   setUsersChat(users): void {

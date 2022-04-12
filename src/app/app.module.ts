@@ -114,9 +114,10 @@ import { EMPTY } from 'rxjs';
 
 
 
-// function getPermissionAndVersionServer(st: StorageService) {
-//   return () => EMPTY;
-// }
+ function  getPermissionAndVersionServer(st: StorageService) {
+  return () => EMPTY;
+ }
+
 
 
 registerLocaleData(localeEs, 'es');
@@ -225,12 +226,13 @@ registerLocaleData(localeEs, 'es');
     },
     // { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
     { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: getPermissionAndVersionServer,
-    //   multi: true,
-    //   deps: [ StorageService ]
-    // }
+
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => getPermissionAndVersionServer,
+      multi: true,
+      deps: [ StorageService ]
+    }
   ],
   entryComponents: [
     InfoViewComponent,
