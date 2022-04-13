@@ -9,34 +9,34 @@ image: getterminus/angular-ci-images:node14
   [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
 stages:
-  # - dependencies
-  # - test
-  # - build
+  - dependencies
+  - test
+  - build
   - deploy
 
-# npm:
-#   stage: dependencies
-#   cache:
-#     paths:
-#       - node_modules/
-#   script:
-#       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-#       - apt-get install git
-#       - npm install
-#   artifacts:
-#     expire_in: 1 month
-#     paths:
-#       - node_modules/
-#       - ./src/environments/environment.ts
+npm:
+  stage: dependencies
+  cache:
+    paths:
+      - node_modules/
+  script:
+      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+      - apt-get install git
+      - npm install
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+      - ./src/environments/environment.ts
 
-# jasmine:
-#   stage: test
-#   dependencies:
-#     - npm
-#   script:
-#     - cp karma.staging.conf.js  karma.conf.js
-#     - npm i -g @angular/cli
-#     - npm test
+jasmine:
+  stage: test
+  dependencies:
+    - npm
+  script:
+    - cp karma.staging.conf.js  karma.conf.js
+    - npm i -g @angular/cli
+    - npm test
     
 
 # staging_build:
@@ -77,11 +77,8 @@ staging:
   stage: deploy
   script:
     - *init_ssh
-    - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
-    - npm install
     # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
     - npm i -g @angular/cli
-    - npx ngcc
     - ng b --configuration staging
     - apt-get update
     - apt-get install -y zip unzip
@@ -93,18 +90,18 @@ staging:
     - master
 
 
-# production:
-#   stage: deploy
-#   script:
-#     - *init_ssh
-#     - npm i -g @angular/cli
-#     - ng build --prod
-#     - apt-get update
-#     - apt-get install -y zip unzip
-#     - cd ./dist && zip -r ./app.zip .
-#     - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
-#     - currentDate=`date '+%F %T'`
-#     - ssh root@104.207.144.7 "cd /var/www/system.novicompu.com/ && mkdir tmp && unzip -o ./app.zip -d  ./tmp/ && mv ./public ./'$currentDate' && mv ./tmp ./public"
-#   when: manual
-#   only:
-#     - master
+production:
+  stage: deploy
+  script:
+    - *init_ssh
+    - npm i -g @angular/cli
+    - ng build --prod
+    - apt-get update
+    - apt-get install -y zip unzip
+    - cd ./dist && zip -r ./app.zip .
+    - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
+    - currentDate=`date '+%F %T'`
+    - ssh root@104.207.144.7 "cd /var/www/system.novicompu.com/ && mkdir tmp && unzip -o ./app.zip -d  ./tmp/ && mv ./public ./'$currentDate' && mv ./tmp ./public"
+  when: manual
+  only:
+    - master
