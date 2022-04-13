@@ -308,3 +308,54 @@ export interface IAttachmentPaymentOrder {
   permalink: string;
 }
 
+
+export interface ITransactionPaymentOrder {
+  id: number;
+  transaction_id: string;
+  status: string;
+  status_detail: string;
+  message: string;
+  description: string;
+  date: string;
+  paid_date: string;
+  amount: number;
+  full_data: FullData;
+  payment_id: number;
+  created_at: string;
+  updated_at: string;
+}
+export interface FullData {
+  transaction: ITransaction;
+  user: IUserPaymentOrder;
+  card: ICardPaymentOrder;
+  token: string;
+}
+export interface ITransaction {
+  status: string;
+  order_description: string;
+  payment_method_type: string;
+  authorization_code: string;
+  dev_reference: string;
+  carrier_code: string;
+  status_detail: string;
+  installments: string;
+  amount: string;
+  paid_date: string;
+  application_code: string;
+  date: string;
+  message: string;
+  stoken: string;
+  id: string;
+  ltp_id: string;
+}
+export interface IUserPaymentOrder {
+  id: string;
+  email: string;
+}
+export interface ICardPaymentOrder {
+  bin: string;
+  origin: string;
+  holder_name: string;
+  type: string;
+  number: string;
+}

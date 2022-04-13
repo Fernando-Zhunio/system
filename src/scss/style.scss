@@ -40,6 +40,14 @@ app-root {
   }
 }
 
+.title-line {
+  border-bottom: 2px solid rgb(0 0 0 / 87%);
+}
+
+.font-2xl, .font-3xl, .font-4xl, .font-5xl {
+  line-height: 1 !important;
+}
+
 .z-index-fix {
   z-index: 9999 !important;
 }
@@ -231,7 +239,7 @@ button {
  .app-body {
   // background-color: #ffffff;
   background-color: #F2F6FC;
-  
+
 }
 
 .dark-theme .app-body {
@@ -370,7 +378,7 @@ mat-form-field, mat-chip,  .mat-button, .mat-raised-button  {
   right: 10px;
 }
 
-// add color to angular material 
+// add color to angular material
 
 // success color
 .mat-success {

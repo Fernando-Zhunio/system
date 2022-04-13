@@ -30,13 +30,10 @@ export class CustomInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // if (!this.hasInternet()) {
-    //   return;
-    // }
-    
     let headers = null;
     // * si esta autenticado
-    if (this.s_storage.isAuthenticated()) {
+    const isAuthenticated = this.s_storage.isAuthenticated();
+    if (isAuthenticated) {
       headers = this.createHeader();
     } else {
       headers = new HttpHeaders({
@@ -48,16 +45,6 @@ export class CustomInterceptor implements HttpInterceptor {
     if  (SharedService.disabled_loader) {
       SharedService.disabled_loader = false;
     } else {
-       // Activa spinner cargando
-    //   swal = Swal.fire({
-    //   position: 'bottom-end',
-    //   toast: true,
-    //   showConfirmButton: false,
-    //   title: '<div class="d-flex">Cargando <div style="display:block;margin:0 0 0 15px" class="swal2-loader d-block ml-2 mr-1"></div></div>',
-    //   customClass: {
-    //     popup: 'p-2',
-    //   },
-    // });
     this.snack_bar.open('Espere un momento...');
     }
 
@@ -65,7 +52,6 @@ export class CustomInterceptor implements HttpInterceptor {
 
     return next.handle(newResquest).pipe(
       finalize(() => {
-        // if (swal) {swal.close(); }
         this.snack_bar.dismiss();
       }),
       catchError((err) => {
@@ -91,7 +77,7 @@ export class CustomInterceptor implements HttpInterceptor {
               SwalService.swalToast(err.error.data, 'warning');
             } else {
               SwalService.swalToast(
-                'Contenido no valido codigo 422',
+                'Contenido no valido código 422',
                 'warning'
               );
             }
@@ -101,7 +87,11 @@ export class CustomInterceptor implements HttpInterceptor {
               'El servidor no pudo encontrar el contenido solicitado. 404',
               'warning'
             );
-            this.router.navigate(['/404']);
+            if (isAuthenticated) {
+              this.router.navigate(['/system/404']);
+            } else {
+              this.router.navigate(['/404']);
+            }
             break;
           case 500:
             SwalService.swalToast(
@@ -115,7 +105,7 @@ export class CustomInterceptor implements HttpInterceptor {
               SwalService.swalToast(err.error.data, 'warning');
             } else {
               SwalService.swalToast(
-                'Ups! Ocurrio un problema intentalo de nuevo,codigo: 500',
+                'Ups! Ocurrió un problema intentalo de nuevo, código: 500',
                 'warning'
               );
             }

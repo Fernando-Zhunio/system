@@ -1,14 +1,12 @@
 <div class="">
-  <div class="container ">
-    <div class="row m-0 w-100 vh-100 d-flex align-items-center">
-      <div class="col-md-6">
-        <p class="lead">Oops!, Lo siento esta pagina no fue encontrada</p>
-        <div>
-          <a mat-raised-button [routerLink]="['/home/inicio']" color="primary">Volver al inicio</a>
-        </div>
+  <div class="container">
+    <div class="vh-100 d-flex flex-md-column justify-content-center align-items-center">
+      <img class="col-md-6" src="assets/img/respuesta_vacia.svg" alt="page not fount">
+      <div>
+        <p class="font-5xl">Oops!, Lo siento esta pagina no fue encontrada</p>
       </div>
-      <div class="col-md-6">
-        <img src="assets/img/respuesta_vacia.svg" alt="page not fount">
+      <div >
+        <a mat-raised-button [routerLink]="['/home/inicio']" color="primary">Volver al inicio</a>
       </div>
     </div>
   </div>

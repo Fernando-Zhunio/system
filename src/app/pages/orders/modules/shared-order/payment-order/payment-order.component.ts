@@ -7,6 +7,7 @@ import { SwalService } from '../../../../../services/swal.service';
 import { MatSelectChange } from '@angular/material/select';
 import { StorageService } from '../../../../../services/storage.service';
 import { FilesPaymentsOrderComponent } from './filesPaymentsOrder/filesPaymentsOrder.component';
+import { TransactionsPaymentComponent } from './transactions-payment/transactions-payment.component';
 
 @Component({
   selector: 'app-payment-order',
@@ -84,8 +85,6 @@ export class PaymentOrderComponent implements OnInit {
         this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, {status: event.value}).subscribe(data => {
           if (data?.success) {
             SwalService.swalFire({ icon: 'success', title: 'Cambiado', text: 'Se cambio correctamente' });
-            // this.paymentsMap.set(id, data.data);
-            // this.getTotalPayment.emit('change status');
             this.change.emit('change status');
           }
         });
@@ -104,6 +103,17 @@ export class PaymentOrderComponent implements OnInit {
 
   successFiles(event): void {
     this.hasFile = false;
+  }
+
+  lookTransaction(id): void {
+    // this.standard.methodGet(`system-orders/orders/${this.order_id}/payments/${id}/transactions`).subscribe(data => {
+    //   if (data?.success) {
+
+    //   }
+    // });
+    this.dialog.open(TransactionsPaymentComponent, {
+      data: {order_id: this.order_id, payment_id: id}
+    });
   }
 
 }

@@ -19,5 +19,25 @@
             "group": "NovisolutionsCoreUI",
             "database": "${workspaceFolder:novisolutionsCoreUI}/db_sidebar.db"
         }
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#005269",
+        "activityBar.activeBorder": "#200019",
+        "activityBar.background": "#005269",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#200019",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "sash.hoverBorder": "#005269",
+        "statusBar.background": "#002a36",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#005269",
+        "statusBarItem.remoteBackground": "#002a36",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#002a36",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#002a3699",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#002a36"
 }

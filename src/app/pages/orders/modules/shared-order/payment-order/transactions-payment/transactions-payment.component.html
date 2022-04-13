@@ -1,0 +1,215 @@
+<h1 matDialogTitle class="title-line font-weight-bold font-italic">Transacciones</h1>
+
+<mat-dialog-content>
+  <div class="position-relative">
+    <div [hidden]="!isLoading">
+      <div class="h-100 d-flex justify-content-center align-items-center">
+        <p class="font-3xl text-center">Cargando datos espere...</p>
+      </div>
+    </div>
+    <div [hidden]="isLoading">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Fecha de pago</th>
+            <th>Monto</th>
+            <th>Email usuario</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions">
+            <td>{{ transaction.status }}</td>
+            <td>{{ transaction?.date | date }}</td>
+            <td>{{ transaction?.paid_date | date }}</td>
+            <td>$ {{ transaction?.amount }}</td>
+            <td>{{ transaction?.full_data?.user?.email }}</td>
+            <td>
+              <button color="info" mat-button (click)="moreInfo(transaction.id)">Ver mas <mat-icon>visibility</mat-icon></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div [hidden]="hiddenDetails" *ngIf="detailsTransaction" class="more-info">
+      <div>
+        <h3 class="d-flex justify-content-between m-2 font-weight-bold font-2xl">Detalles <button color="warn" mat-icon-button (click)="hiddenDetails = !hiddenDetails"><mat-icon>close</mat-icon></button></h3>
+        <div class="card-body shadow rounded-fz">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Estado:</strong>
+                </td>
+                <td>
+                  {{ detailsTransaction?.status }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Detalles del estado:</strong>
+                </td>
+                <td>
+                  {{ detailsTransaction?.status_detail }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Mensaje:</strong>
+                </td>
+                <td>
+                  {{ detailsTransaction?.message }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Descripción:</strong>
+                </td>
+                <td>
+                  {{ detailsTransaction?.description }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Fecha:</strong>
+                </td>
+                <td>
+                  {{ detailsTransaction?.date | date }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Fecha de pago:</strong>
+                </td>
+                <td>
+                  {{ detailsTransaction?.paid_date | date }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Monto:</strong>
+                </td>
+                <td>
+                  $ {{ detailsTransaction?.amount }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Email usuario:</strong>
+                </td>
+                <td>
+                  {{ detailsTransaction?.full_data?.user?.email }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="my-4">
+        <h3 class="font-2xl font-weight-bold m-2">Usuario</h3>
+        <div class="card-body shadow rounded-fz">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Usuario id:</td>
+                  <td>{{ detailsTransaction?.full_data?.user?.id }}</td>
+                </tr>
+                <tr>
+                  <td>Usuario email:</td>
+                  <td>{{ detailsTransaction?.full_data?.user?.email }}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-2xl font-weight-bold m-2">Tarjeta</h3>
+
+        <div style="width: 380px; height: 200px;" class="card-body card-paid d-flex flex-column justify-content-between mb-3 rounded-fz shadow-all-fz">
+          <div><i class="text-muted fa fas fa-2x fa-microchip"></i></div>
+          <div class="font-2xl">{{detailsTransaction?.full_data?.card?.bin}} xxxx 0000 {{detailsTransaction?.full_data?.card?.number}}</div>
+          <div class="d-flex justify-content-between">
+            <div class="font-2xl text-capitalize text-muted text-truncate">{{ detailsTransaction?.full_data?.card.holder_name }}</div>
+            <div>
+              <img [src]="cards.getCard(detailsTransaction?.full_data?.card.type).url" alt="card client">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-4">
+        <h3 class="font-2xl font-weight-bold m-2">Transacción</h3>
+        <div class="card-body shadow rounded-fz">
+          <table>
+            <tbody>
+              <tr>
+                <td>Descripción Orden:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.order_description }}</td>
+              </tr>
+              <tr>
+                <td>Tipo de método de pago:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction.payment_method_type }}</td>
+              </tr>
+              <tr>
+                <td>Codigo autorización:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction.authorization_code }}</td>
+              </tr>
+              <tr>
+                <td>Dev Referencia:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.dev_reference }}</td>
+              </tr>
+              <tr>
+                <td>Código carrier:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.carrier_code }}</td>
+              </tr>
+              <tr>
+                <td>Detalle del estado:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.status_detail }}</td>
+              </tr>
+              <tr>
+                <td>Cuotas:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.installments }}</td>
+              </tr>
+              <tr>
+                <td>Monto:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.amount }}</td>
+              </tr>
+              <tr>
+                <td>Cuotas:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.installments }}</td>
+              </tr>
+              <tr>
+                <td>Código aplicación:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.application_code }}</td>
+              </tr>
+              <tr>
+                <td>Fecha:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.date }}</td>
+              </tr>
+              <tr>
+                <td>Fecha de pago:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.paid_date }}</td>
+              </tr>
+              <tr>
+                <td>Stoken:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.stoken }}</td>
+              </tr>
+              <tr>
+                <td>Ltp_id:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.ltp_id }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button color="warn" matDialogClose>Cerrar</button>
+  <!-- <button mat-button>Action</button> -->
+
+</mat-dialog-actions>

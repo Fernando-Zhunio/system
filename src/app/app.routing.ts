@@ -56,7 +56,7 @@ export const routes: Routes = [
     path: 'recuperation-password',
     component: FormRecuperationPasswordComponent,
     canLoad: [RecuperatePasswordGuard],
-    resolve: {user: RecuperatePasswordGuard},
+    resolve: { user: RecuperatePasswordGuard },
     data: {
       title: 'Recuperation password Page'
     },
@@ -165,14 +165,14 @@ export const routes: Routes = [
       //   path: 'widgets',
       //   loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
       // }
-      
+      { path: 'system/404', component: P404Component }
     ]
   },
   { path: '**', component: P404Component }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes), LoadingBarModule ],
-exports: [ RouterModule, LoadingBarModule ]
+  imports: [RouterModule.forRoot(routes), LoadingBarModule],
+  exports: [RouterModule, LoadingBarModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
