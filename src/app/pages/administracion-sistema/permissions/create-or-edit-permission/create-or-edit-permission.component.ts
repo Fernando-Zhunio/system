@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { ActivatedRoute, Router } from '@angular/router';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class CreateOrEditPermissionComponent {
   public title: string;
   public urlSave: any;
   isLoading: boolean = false;
-  currentForm: 'crud' | 'normal' = 'normal';
+  currentForm: 'crud' | 'normal' = 'crud';
 
   constructor(private s_standard: StandartSearchService, @Inject(MAT_BOTTOM_SHEET_DATA) public data: { id: number, isEdit: boolean }, private sheet: MatBottomSheetRef) {
     this.isLoading = true;

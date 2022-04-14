@@ -30,6 +30,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   @Input() init: boolean = true;
   @Input() spinner_name = null;
   @Input() canModifyBarSearch: boolean = true;
+  @Input() title = 'Pagina Novisolutions';
   pageEvent: PageEvent = {
     length: 0,
     pageIndex: 0,

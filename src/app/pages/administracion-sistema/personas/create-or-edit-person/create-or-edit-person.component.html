@@ -1,12 +1,12 @@
 <div class="mt-4">
-    <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">{{title}} <button mat-mini-fab (click)="goBack()">
+    <h2 class="font-5xl d-flex align-items-center"><button mat-mini-fab (click)="goBack()">
       <mat-icon>keyboard_backspace</mat-icon>
-    </button></h2>
+    </button> &nbsp;{{title}}</h2>
 
     <mat-horizontal-stepper linear #stepper>
         <mat-step [completed]="isCompletedFormPerson" [editable]="false">
             <form [formGroup]="form_person" class=" rounded-fz border-0 card-body">
-                
+
                 <ng-template matStepLabel>Formulario de persona</ng-template>
                 <div class="row">
                     <mat-form-field class="col-md-6">
@@ -162,7 +162,7 @@
                                 <button mat-mini-fab color="accent" color="warn" (click)="deleteItem(item.id)">
                     <mat-icon>delete</mat-icon>
                   </button>
-    
+
                             </td>
                         </tr>
                     </tbody>

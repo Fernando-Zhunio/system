@@ -1,4 +1,4 @@
-<app-search-template (data)="getData($event)" [filter_data]="{}" [url$]="'admin/companies'" [placeholder]="'Buscador de compañías'">
+<app-search-template title="Compañías" (data)="getData($event)" [filter_data]="{}" [url$]="'admin/companies'" [placeholder]="'Buscador de compañías'">
     <ng-container data>
         <mat-card class="card card-body border-0 rounded-fz" *ngFor="let company of data | keyvalue">
             <mat-card-header>
@@ -19,7 +19,7 @@
     </ng-container>
     <ng-container menuBar>
         <mat-chip-list class="ml-1">
-            <mat-chip [routerLink]="['./create']" ><mat-icon>add</mat-icon></mat-chip>
+            <mat-chip class="mat-btn-add" [routerLink]="['./create']" ><mat-icon>add_business</mat-icon>&nbsp; Agregar compañía</mat-chip>
         </mat-chip-list>
     </ng-container>
 </app-search-template>

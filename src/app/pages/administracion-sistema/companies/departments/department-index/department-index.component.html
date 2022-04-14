@@ -1,10 +1,6 @@
-<div>
-    <h1 class="m-0 mt-3">
-        Departamentos de {{company?.name}}
-    </h1>
-</div>
-<app-search-template [key_paginator]="'departments'" (data)="getData($event)" [filter_data]="{}" [url$]="url"
-    [placeholder]="'Buscador de departamentos'">
+
+<app-search-template title="Departamentos de {{company?.name}}" [key_paginator]="'departments'" (data)="getData($event)" [filter_data]="{}" [url$]="url"
+    [placeholder]="'Buscar departamentos'">
     <ng-container data>
         <mat-card class="card card-body border-0 rounded-fz" *ngFor="let department of data | keyvalue">
             <mat-card-header>
@@ -31,8 +27,8 @@
     </ng-container>
     <ng-container menuBar>
         <mat-chip-list class="ml-1">
-            <mat-chip [routerLink]="['./create']">
-                <mat-icon>add</mat-icon>
+            <mat-chip class="mat-btn-add" [routerLink]="['./create']">
+                <mat-icon>addchart</mat-icon> &nbsp; Agregar departamento
             </mat-chip>
         </mat-chip-list>
     </ng-container>

@@ -1,80 +1,84 @@
-<div class="mt-4">
-    <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">Locaciones</h2>
-    <app-header-search [placeholder]="'Escriba la locacion a buscar'" (isLoading)="isLoading = $event" [url]="'admin/locations'" (products)="loadData($event)">
-    </app-header-search>
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-        </ng-container>
+<div class="">
+  <!-- <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">Locaciones</h2>
+  <app-header-search [placeholder]="'Escriba la locacion a buscar'" (isLoading)="isLoading = $event"
+    [url]="'admin/locations'" (products)="loadData($event)">
+  </app-header-search> -->
 
+  <app-search-template title="Locaciones" [columns]="1" placeholder="Escriba la locación a buscar" [url$]="'admin/locations'" (data)="loadData($event)">
+    <ng-container data>
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
         <!-- Position Column -->
         <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
         </ng-container>
-
         <!-- Position Column -->
         <ng-container matColumnDef="type">
-            <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
         </ng-container>
-
         <!-- Name Column -->
         <ng-container matColumnDef="address">
-            <mat-header-cell *matHeaderCellDef> Direccion </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.address}}
-            </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Direccion </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.address}}
+          </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="latitude">
-            <mat-header-cell *matHeaderCellDef> Latitud </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.latitude}}
-            </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Latitud </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.latitude}}
+          </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="longitude">
-            <mat-header-cell *matHeaderCellDef> Longitud </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.longitude}}
-            </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Longitud </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.longitude}}
+          </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="city">
-            <mat-header-cell *matHeaderCellDef> Ciudad </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.city.name}}
-            </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Ciudad </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.city.name}}
+          </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="company">
-            <mat-header-cell *matHeaderCellDef> Compañia </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.company.name}}
-            </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Compañía </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.company.name}}
+          </mat-cell>
         </ng-container>
-
-
         <ng-container matColumnDef="acciones">
-            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
-            <mat-cell *matCellDef="let element;let ind = index">
-                <button *ngxPermissionsOnly="permission_edit" mat-icon-button color="primary" [routerLink]="['./edit',element.id]">
-          <mat-icon>edit</mat-icon>
-        </button>
-                <button mat-icon-button color="warn" *ngxPermissionsOnly="permission_destroy" (click)="deleteItem(element.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-            </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+          <mat-cell *matCellDef="let element;let ind = index">
+            <button *ngxPermissionsOnly="permission_edit" mat-icon-button color="primary"
+              [routerLink]="['./edit',element.id]">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" *ngxPermissionsOnly="permission_destroy"
+              (click)="deleteItem(element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
         </ng-container>
-        <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+        <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-    <!-- <mat-paginator #matPaginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator> -->
-    <mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1"></mat-paginator>
+      </mat-table>
+    </ng-container>
 
-    <button *ngxPermissionsOnly="permission_create" mat-fab style="position: fixed;bottom: 10px;right: 10px;" [routerLink]="['./create']">
+    <ng-container *ngxPermissionsOnly="permission_create" menuBar>
+          <mat-chip class="ml-1 mat-btn-add" [routerLink]="['./create']"><mat-icon>add_location_alt</mat-icon>&nbsp;Agregar locación</mat-chip>
+    </ng-container>
+
+  </app-search-template>
+
+  <!-- <mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1"></mat-paginator> -->
+
+  <!-- <button *ngxPermissionsOnly="permission_create" mat-fab style="position: fixed;bottom: 10px;right: 10px;"
+    [routerLink]="['./create']">
     <mat-icon>add</mat-icon>
-  </button>
+  </button> -->
 </div>

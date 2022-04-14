@@ -29,8 +29,9 @@ export class CtableAndPaginator<T> {
   }
 
   loadData($event): void {
-    this.paginator = $event.data;
-    this.refreshDataTable(this.paginator.data);
+    // this.paginator = $event.data;
+    // this.refreshDataTable(this.paginator.data);
+    this.refreshDataTable($event);
   }
 
   removeItemTable(id): void {

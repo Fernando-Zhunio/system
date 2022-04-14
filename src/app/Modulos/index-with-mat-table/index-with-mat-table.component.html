@@ -1,5 +1,16 @@
-<app-header-search [placeholder]="placeholder" (isLoading)="isLoading = $event" [url]="url" (products)="loadData($event)">
-  <ng-content select="[btnHeader]"></ng-content>
+<app-header-search [title]="title" [placeholder]="placeholder" (isLoading)="isLoading = $event" [url]="url" (products)="loadData($event)">
+  <ng-content select="[btnHeader]">
+  </ng-content>
+
+  <ng-container>
+    <mat-chip class="mat-btn-add ml-1" (click)="onClickCreateItem()" [disabled]="isCreating" *ngxPermissionsOnly="permissions.create">
+      <mat-icon>{{icon}}</mat-icon>&nbsp;{{textBtnAdd}}
+    </mat-chip>
+    <ng-content select="[buttonsHeader]"></ng-content>
+
+  </ng-container>
+
+
 </app-header-search>
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -8,7 +19,6 @@
     <mat-cell *matCellDef="let element">
       <span *ngIf="!element?.isEditable || !item.isEditable; else editableTemplate">
         {{item.key.split('.').reduce(index, element)}}
-        <!-- {{element[item.key]}} -->
       </span>
       <ng-template #editableTemplate>
         <input [placeholder]="item.title" class="input-editable" type="text" [(ngModel)]="element[item.key]" />
@@ -24,7 +34,7 @@
           (click)="onClickEditItem(element.id)">
           <mat-icon>edit</mat-icon>
         </button>
-      </ng-container> 
+      </ng-container>
       <ng-template #editableTemplateBtn>
         <button color="warn" *ngxPermissionsOnly="permissions.edit" mat-icon-button
           (click)="onClickEditItem(element.id, true)">
@@ -46,11 +56,8 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 <!-- <mat-paginator #matPaginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator> -->
-<mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)"
-  showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
-  [pageIndex]="paginator.current_page-1"></mat-paginator>
+<mat-paginator *ngIf="ELEMENT_DATA?.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)"
+  showFirstLastButtons [pageSize]="paginator?.per_page" [length]="paginator?.total"
+  [pageIndex]="paginator?.current_page-1"></mat-paginator>
 
-<button [disabled]="isCreating" *ngxPermissionsOnly="permissions.create" mat-mini-fab style="position: fixed;bottom: 30px;right: 10px;"
-  (click)="onClickCreateItem()">
-  <mat-icon>add</mat-icon>
-</button>
+

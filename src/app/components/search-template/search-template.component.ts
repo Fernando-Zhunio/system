@@ -21,6 +21,7 @@ export class SearchTemplateComponent extends CTemplateSearch<any> implements OnI
   @Input() filter_data: object = {};
   @Input() placeholder: string = 'Buscador';
   @Input() url$: string;
+  @Input() title = 'Pagina Novisolutions';
   @Input() init: boolean = true;
   @Input() active_filters_menu: boolean = false;
   @Input() key_paginator: string = null;

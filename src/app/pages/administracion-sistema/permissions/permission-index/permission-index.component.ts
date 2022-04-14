@@ -64,4 +64,6 @@ export class PermissionIndexComponent extends IndexWithMatTable<IPermission> imp
     });
   }
 
+
+
 }

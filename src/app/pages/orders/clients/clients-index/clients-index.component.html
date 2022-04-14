@@ -1,10 +1,10 @@
-<h2 class="font-weight-bold font-4xl my-2">Clientes</h2>
+<!-- <h2 class="font-weight-bold font-4xl my-2">Clientes</h2> -->
 <div>
     <div>
-        <app-search-template [url$]="url" (data)="getData($event)">
+        <app-search-template title="Clientes" [url$]="url" (data)="getData($event)">
             <ng-container menuBar>
-                <mat-chip [routerLink]="['./create']"  selected color="accent" class="ml-1">
-                    <mat-icon>add</mat-icon>
+                <mat-chip class="mat-btn-add" [routerLink]="['./create']"  selected color="accent" class="ml-1">
+                    <mat-icon>add</mat-icon> &nbsp;Agregar cliente
                 </mat-chip>
             </ng-container>
             <ng-container data>
@@ -23,11 +23,11 @@
                     <div>
                         <button color="primary" [routerLink]="['/system-orders/clients',client.key,'edit']"
                             routerLinkActive="router-link-active" mat-raised-button>
-                            <mat-icon>edit</mat-icon>
+                            <mat-icon>edit</mat-icon>&nbsp;Editar
                         </button>
                         <button color="accent" [routerLink]="['/system-orders/clients', client.key, 'addresses']"
-                             mat-raised-button>Direcciones<mat-icon>fmd_good
-                            </mat-icon></button>
+                             mat-raised-button><mat-icon>fmd_good
+                            </mat-icon>&nbsp;Direcciones</button>
                     </div>
                 </mat-card>
             </ng-container>

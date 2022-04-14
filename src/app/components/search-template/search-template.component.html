@@ -1,11 +1,11 @@
-<app-header-search [init]="init" [active_filters_menu]="active_filters_menu" [filter_data]="filter_data" [placeholder]="placeholder" (isLoading)="isLoading = $event" [url]="url$"
+<app-header-search [title]="title" [init]="init" [active_filters_menu]="active_filters_menu" [filter_data]="filter_data" [placeholder]="placeholder" (isLoading)="isLoading = $event" [url]="url$"
 (products)="loadData($event)">
 <ng-content select="[menuBar]"></ng-content>
 <ng-content filterMenu select="[filterMenu]"></ng-content>
 
 </app-header-search>
 
-<div  [ngStyle]="{'column-count': columns}" *ngIf="isLoading" class="mt-4 card-columns">
+<div  [ngStyle]="{'column-count': columns}" *ngIf="isLoading" class="mt-2 card-columns">
   <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
     <ngx-skeleton-loader count="1" [theme]="{
       'border-radius': '20px',
@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<div *ngIf="!isLoading;" [ngStyle]="{'column-count': columns}" [ngClass]="{'card-columns': withCardColumns}" class="mt-4 ">
+<div *ngIf="!isLoading;" [ngStyle]="{'column-count': columns}" [ngClass]="{'card-columns': withCardColumns}" class="mt-0">
   <ng-content select="[data]"></ng-content>
 </div>
 

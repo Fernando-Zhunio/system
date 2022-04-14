@@ -1,10 +1,4 @@
- <div>
-    <!-- <button *ngxPermissionsOnly="permission_page.create" mat-fab color="accent" style="    position: fixed;
-    z-index: 1;
-    right: 25px;
-    bottom: 113px;">
-    <mat-icon>add</mat-icon>
-  </button> -->
+ <!-- <div>
     <app-header-search [filter_data]="{state:filter_state}" [placeholder]="'Escribe la publicación a buscar'" (isLoading)="isLoading = $event" [url]="'catalogs/publications'" (products)="loadData($event)">
         <mat-chip-list class="ml-1">
             <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
@@ -67,116 +61,32 @@
     </ng-container>
     <mat-paginator *ngIf="products.length > 0" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1">
     </mat-paginator>
-</div>
-<!-- <div class="card" id="publication-content" product_id="{{$p->id}}">
-
-        <div class="header"> -->
-
-<!-- <h2>
-                <span style="color:#f44336; font-weight: bold;">#{{$p->id}}</span> {{$p->name}}
-                @if($p->description)
-                    <small><i>{{ str_limit($p->description, $limit = 150, $end = '...') }}</i></small>
-                @endif
-            </h2> -->
-<!-- <div class="m-t-5">
-            <span class="badge {{$p->status}}">{{trans('publication.status-'.$p->status)}}</span>
-
-            @if($p->mlAccounts->count() > 0)
-            Cuentas:
-
-            @foreach ($p->mlAccounts as $account)
-            <span class="badge {{$p->status}}">{{$account->user_name}}</span>
-            @endforeach
-            @endif
-        </div> -->
-
-
-<!-- @php ( $route = 'catalogs.publications.edit')
-        @can($route)
-        <ul class="header-dropdown m-r--5">
-            <li class="dropdown">
-                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                </a>
-
-                <ul class="dropdown-menu pull-right">
-                    @can($route)
-                    <li><a href="{{ route($route, $p->id) }}">Editar Publicación</a></li>
-                    @endcan
-
-                    <li><a href="#" class="delete" id="{{$p->id}}">Eliminar Publicación</a></li>
-                </ul>
-            </li>
-        </ul>
-        @endcan -->
-
-<!-- </div> -->
-
-<!-- @if($p->mlInfos->count() > 0 || $p->errors->count() > 0)
-    <div class="body">
-
-        <div class="row">
-
-            @if($p->mlInfos->count() > 0)
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="header header-info">
-                    <h2>
-                        Publicaciones
-                    </h2>
-                    @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1)
-                    <div class="options-bar">
-                        <h2>Acciones</h2>
-                        <div class="btn-group item-options">
-                            <button type="button" class="btn btn-xs bg-orange waves-effect"><i
-                                    class="material-icons">settings</i></button>
-                            <button type="button" class="btn btn-xs bg-orange waves-effect dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="material-icons">keyboard_arrow_down</i>
-
-                            </button>
-                            <ul class="dropdown-menu">{!!
-                                App\Http\Controllers\Catalogue\Product\ProductMlController::renderMlMenuItems($p,
-                                'publication') !!}</ul>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-                @if(getMenuAvailableMlItems()->count() > 0 && $p->mlInfos->count() > 1)
-                <div class="mobile-padding"></div>
-                @endif
-            </div>
-            @endif
-            {{-- Ml --}}
-            <div id="ml-items-content">
-                @foreach($p->mlInfos as $ml)
-
-
-                @include('admin.catalogs.ml.mlInfosItem')
-                <div class="more-ml-info" style="display: none;"></div>
-
-
-                @endforeach
-            </div>
-
-
-
-        </div>
-
-        @if ($p->errors->count() > 0)
-        @foreach ($p->errors as $e)
-        <div class="alert alert-danger">
-            <strong>Error Code: {{ $e->code }} </strong> {{ $e->message }} [{{ $e->references }}] <strong>Account: {{
-                $e->mlAccount->user_name }}</strong>
-            - {{ $e->created_at }}
-            .
-        </div>
-        @endforeach
-        @endif
-
-    </div>
-    @endif -->
-<!--
-</div>
-</div>
 </div> -->
+
+<div>
+  <app-search-template title="Publicaciones" [active_filters_menu]="true" [filter_data]="{state:filter_state}" [columns]="2" placeholder="Buscar publicación " [url$]="'catalogs/publications'" (data)="loadData($event)">
+    <ng-container  data>
+      <ng-container *ngFor="let p of products">
+        <app-publication  [permission_page]="permission_page"  [publication]="p" (delete)="destroyPublication($event)"></app-publication>
+      </ng-container>
+  </ng-container>
+  <ng-container filterMenu>
+    <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" class="h-100">
+      <mat-form-field class="w-100">
+          <mat-label>Estado</mat-label>
+          <mat-select type="text" #select_warehouse [(ngModel)]="filter_state">
+              <mat-option value="0">Todos</mat-option>
+              <mat-option *ngFor="let state of states" [value]="state.slug">
+                  {{ state.name }}</mat-option>
+          </mat-select>
+      </mat-form-field>
+  </div>
+  </ng-container>
+  <ng-container menuBar>
+    <mat-chip class="ml-1 bg-stack-overflow text-white" *ngxPermissionsOnly="permission_page.create"  (click)="goNewPublication()">
+      <mat-icon>post_add</mat-icon> Nueva publicación
+  </mat-chip>
+  </ng-container>
+
+  </app-search-template>
+</div>

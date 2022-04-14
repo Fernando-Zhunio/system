@@ -37,7 +37,7 @@ export class LocacionesComponent implements OnInit {
   permission_edit: any[] = ['super-admin', 'admin.users.edit'];
   permission_destroy: any[] = ['super-admin', 'admin.users.destroy'];
   dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
-  paginator: Ipagination<Location>;
+  // paginator: Ipagination<Location>;
   isLoading: boolean;
 
   ngOnInit(): void {}
@@ -88,8 +88,8 @@ export class LocacionesComponent implements OnInit {
 
   //#endregion
   loadData($event): void {
-    this.paginator = $event.data;
-    this.refreshDataTable(this.paginator.data);
+    // this.paginator = $event.data;
+    this.refreshDataTable($event);
   }
 
   changePaginator(event): void {

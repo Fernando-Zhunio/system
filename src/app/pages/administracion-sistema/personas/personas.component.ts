@@ -50,8 +50,9 @@ export class PersonasComponent implements OnInit {
   }
 
   loadData($event): void {
-    this.paginator = $event.data;
-    this.peoples = this.paginator.data;
+    // this.paginator = $event.data;
+    // this.peoples = this.paginator.data;
+    this.peoples = $event;
   }
 
   changePaginator(event): void {

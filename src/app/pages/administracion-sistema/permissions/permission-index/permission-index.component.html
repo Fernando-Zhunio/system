@@ -1,3 +1,6 @@
-<app-index-with-mat-table #matTable (onClickDestroy)="deleteItem($event)" (onClickCreate)="openCreateOrEdit($event)" (onClickEdit)="openCreateOrEdit($event, true)" [url]="url" [itemRows]="itemRows" [displayedColumns]="displayedColumns">
+<app-index-with-mat-table icon="admin_panel_settings" title="Permisos" textBtnAdd="Agregar permiso" #matTable (onClickDestroy)="deleteItem($event)" (onClickCreate)="openCreateOrEdit($event)" (onClickEdit)="openCreateOrEdit($event, true)" [url]="url" [itemRows]="itemRows" [displayedColumns]="displayedColumns">
+ <ng-container buttonsHeader>
+  <mat-chip class="mat-btn-add ml-1"  (click)="openDialogGroupPermission()"><mat-icon>account_tree</mat-icon>&nbsp;Agregar grupo</mat-chip>
+ </ng-container>
 </app-index-with-mat-table>
-<button mat-mini-fab class="btn-add-group" (click)="openDialogGroupPermission()"><mat-icon>account_tree</mat-icon></button>
+<!-- <button mat-mini-fab class="btn-add-group" (click)="openDialogGroupPermission()"><mat-icon>account_tree</mat-icon></button> -->

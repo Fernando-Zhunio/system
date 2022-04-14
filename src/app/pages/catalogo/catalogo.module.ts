@@ -38,6 +38,7 @@ import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or
 import { TemplateSearchModule } from '../../Modulos/template-search/template-search.module';
 import { MatTreeModule } from '@angular/material/tree';
 import { ToolsModule } from '../../Modulos/tools/tools.module';
+import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
 // import { PromotionsIndexComponent } from './promotions/promotions-index/promotions-index.component';
 
 @NgModule({
@@ -76,6 +77,7 @@ import { ToolsModule } from '../../Modulos/tools/tools.module';
     TemplateSearchModule,
     MatTreeModule,
     ToolsModule,
+    SearchTemplateModule,
   ],
   // providers: [{ provide: RouteReuseStrategy, useClass: CustomReusingStrategy }]
   // entryComponents:[RepublicarCuentasModalComponent]

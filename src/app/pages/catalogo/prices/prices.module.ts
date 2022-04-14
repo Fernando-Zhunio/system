@@ -38,7 +38,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     MatProgressSpinnerModule,
     MatDialogModule,
     FilePondModule,
-    NgxPermissionsModule
+    NgxPermissionsModule,
   ],
   entryComponents: [ModalListPricesComponent]
 })

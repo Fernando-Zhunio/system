@@ -1,6 +1,6 @@
 <div>
-  <h2 class="font-facebook font-4xl">FORMULARIO DE PERMISOS - {{data.isEdit ? "EDITANDO": "CREANDO"}}</h2>
-  <mat-button-toggle-group value="normal" (change)="changeForm($event)" *ngIf="!data.isEdit">
+  <h2 class="font-weight-bold font-3xl">Formulario de permisos - {{data.isEdit ? "EDITANDO": "CREANDO"}}</h2>
+  <mat-button-toggle-group value="crud" (change)="changeForm($event)" *ngIf="!data.isEdit">
     <mat-button-toggle value="crud">Crud</mat-button-toggle>
     <mat-button-toggle selected value="normal">Normal</mat-button-toggle>
   </mat-button-toggle-group>

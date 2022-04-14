@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { CtableAndPaginator } from '../../../class/ctable-and-paginator';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';

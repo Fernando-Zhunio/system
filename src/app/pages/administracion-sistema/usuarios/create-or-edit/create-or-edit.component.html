@@ -1,10 +1,13 @@
 <div class="mt-4">
-  <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning d-inline-block">
-    {{title}}
-  </h2>
-  <button mat-mini-fab (click)="goBack()" class="mb-2">
-    <mat-icon>keyboard_return</mat-icon>
-  </button>
+  <div class="d-flex align-items-center">
+    <button mat-mini-fab (click)="goBack()" class="mb-2">
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+    <span class="font-4xl">
+     &nbsp;{{title}}
+    </span>
+
+  </div>
   <mat-card>
     <mat-card-content>
       <div *ngIf="!(state == 'edit')" class="col-12">

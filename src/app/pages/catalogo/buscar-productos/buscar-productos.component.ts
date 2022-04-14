@@ -95,7 +95,7 @@ export class BuscarProductosComponent implements OnInit {
         spaceBetween: 10,
       },
     },
-    scrollbar: true,
+    scrollbar: false,
     pagination: false,
   };
   permission = search_product_permission_module;
@@ -143,8 +143,10 @@ export class BuscarProductosComponent implements OnInit {
   }
 
   loadData($event): void {
-    this.paginator = $event.data;
-    this.products = this.paginator.data;
+    console.log($event);
+    // this.paginator = $event.data;
+    // this.products = this.paginator.data;
+    this.products = $event;
   }
 
   openDescription(i) {

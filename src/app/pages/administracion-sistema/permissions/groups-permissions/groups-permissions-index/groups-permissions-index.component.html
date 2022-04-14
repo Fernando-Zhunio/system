@@ -1,7 +1,7 @@
-<h2 mat-dialog-title class="font-4xl font-weight-bold">Grupo de permisos</h2>
+<!-- <h2 mat-dialog-title class="font-4xl font-weight-bold">Grupo de permisos</h2> -->
 <div>
     <div mat-dialog-content>
-        <app-index-with-mat-table (onClickDestroy)="deleteItem($event)" [url]="url" [isEditable]="true"
+        <app-index-with-mat-table  (onClickCreate)="creating()" title="Grupo de permisos" (onClickDestroy)="deleteItem($event)" [url]="url" [isEditable]="true"
             [displayedColumns]="displayedColumns" [itemRows]="itemRows">
         </app-index-with-mat-table>
     </div>

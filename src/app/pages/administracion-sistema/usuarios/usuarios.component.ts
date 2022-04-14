@@ -75,8 +75,9 @@ export class UsuariosComponent implements OnInit {
 
   //#endregion
   loadData($event): void {
-    this.paginator = $event.data;
-    this.refreshDataTable(this.paginator.data);
+    // this.paginator = $event.data;
+    // this.refreshDataTable(this.paginator.data);
+    this.refreshDataTable($event);
   }
 
   changePaginator(event): void {

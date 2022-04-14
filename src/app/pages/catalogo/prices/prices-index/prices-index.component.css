@@ -11,7 +11,7 @@
     height: calc(100vh - 55px);
     position: fixed;
     top: 55px;
-    max-width: 300px;
+    /* min-width: 300px; */
 }
 
 mat-form-field {

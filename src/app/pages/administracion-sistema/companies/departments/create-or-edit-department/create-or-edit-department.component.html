@@ -13,38 +13,9 @@
            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
               <button mat-icon-button disabled></button>
                <mat-radio-button [value]="node.id" (change)="changeValueSelectDepartment($event, node)" class="checklist-leaf-node"
-                           
-                            >{{node.name}}</mat-radio-button> 
-            </mat-tree-node>
-          
-            <!-- <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
-              <button mat-icon-button disabled></button>
-              <mat-form-field>
-                <mat-label>New item...</mat-label>
-                <input matInput #itemValue placeholder="Ex. Lettuce">
-              </mat-form-field>
-              <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
-            </mat-tree-node> -->
-            <!-- <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-                <button mat-icon-button disabled></button>
-                {{node.name}}
-                <mat-checkbox class="checklist-leaf-node">
-                {{node.item}}
-            </mat-checkbox> 
-              </mat-tree-node> -->
 
-            <!-- <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-                <button mat-icon-button matTreeNodeToggle
-                        [attr.aria-label]="'toggle ' + node.name">
-                  <mat-icon class="mat-icon-rtl-mirror">
-                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                  </mat-icon>
-                </button>
-                <mat-checkbox class="checklist-leaf-node"
-                           
-                >{{node.name}}</mat-checkbox> 
-              </mat-tree-node> -->
-          
+                            >{{node.name}}</mat-radio-button>
+            </mat-tree-node>
             <mat-tree-node isExpanded="true" class="align-items-baseline" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
               <button mat-icon-button matTreeNodeToggle>
                 <mat-icon class="mat-icon-rtl-mirror">

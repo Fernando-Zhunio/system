@@ -71,7 +71,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public navItems = null;
   public url_img = '';
   public companies = [];
-  public company_select = null;
+  // public company_select = null;
   public isDark: boolean = false;
   public TYPE_NOTY_SOUND = 'general_notification_sound';
   public hideUsersChat: boolean = false;
@@ -111,7 +111,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.setPreferences();
     if (!this.user.person) { this.addPersonModal(this.user); }
     this.getNotification();
-    this.companiesGestion(this.user);
+    // this.companiesGestion(this.user);
     this.suscribeNotifications(this.user);
   }
 
@@ -200,24 +200,24 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  companiesGestion(user): void {
-    const username = user.name.replace(' ', '+');
-    this.url_img = 'https://ui-avatars.com/api/?name=' + username;
-    this.companies = user.companies;
-    localStorage.setItem('companies', JSON.stringify(this.companies));
-    const id_company = user.company_company_id;
-    const index = this.companies.findIndex((x) => x.id == id_company);
-    if (index == -1) {
-      this.companies.push({ id: 'all', name: 'Todas las empresas' });
-      this.company_select = 'Todas las empresas';
-    } else {
-      this.company_select = this.companies[index].name;
-      const indexAll = this.companies.findIndex((x) => x.id == 'all');
-      if (indexAll == -1) {
-        this.companies.push({ id: 'all', name: 'Todas las empresas' });
-      }
-    }
-  }
+  // companiesGestion(user): void {
+  //   const username = user.name.replace(' ', '+');
+  //   this.url_img = 'https://ui-avatars.com/api/?name=' + username;
+  //   this.companies = user.companies;
+  //   localStorage.setItem('companies', JSON.stringify(this.companies));
+  //   const id_company = user.company_company_id;
+  //   const index = this.companies.findIndex((x) => x.id == id_company);
+  //   if (index == -1) {
+  //     this.companies.push({ id: 'all', name: 'Todas las empresas' });
+  //     this.company_select = 'Todas las empresas';
+  //   } else {
+  //     this.company_select = this.companies[index].name;
+  //     const indexAll = this.companies.findIndex((x) => x.id == 'all');
+  //     if (indexAll == -1) {
+  //       this.companies.push({ id: 'all', name: 'Todas las empresas' });
+  //     }
+  //   }
+  // }
 
   setPreferences(): void {
     this.s_standard.index('user/preferences/ajax').subscribe((res) => {
@@ -417,18 +417,18 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.s_storage.logout();
   }
 
-  changeCompany(idCompany, index): void {
-    if (this.company_select === this.companies[index].name) {
-      return;
-    }
-    this.s_auth.changedCompany(idCompany).subscribe((res) => {
-      if (res.success) {
-        SwalService.swalToast('Compañía cambiada con éxito');
-        this.company_select = this.companies[index].name;
-        this.s_storage.setCompanyUser(idCompany);
-      }
-    });
-  }
+  // changeCompany(idCompany, index): void {
+  //   if (this.company_select === this.companies[index].name) {
+  //     return;
+  //   }
+  //   this.s_auth.changedCompany(idCompany).subscribe((res) => {
+  //     if (res.success) {
+  //       SwalService.swalToast('Compañía cambiada con éxito');
+  //       this.company_select = this.companies[index].name;
+  //       this.s_storage.setCompanyUser(idCompany);
+  //     }
+  //   });
+  // }
 
 
   // generateSideBarItems(permissions: IPermission[], groups_permissions: IGroupPermission[]): INavData[] {

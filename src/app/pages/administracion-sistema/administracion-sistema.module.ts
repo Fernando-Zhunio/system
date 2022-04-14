@@ -140,7 +140,8 @@ import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/inde
     MatTreeModule,
     MatRadioModule,
     QuillModule.forRoot(),
-    IndexWithMatTableModule
+    IndexWithMatTableModule,
+    // SearchTemplateModule
   ],
 
   entryComponents: [

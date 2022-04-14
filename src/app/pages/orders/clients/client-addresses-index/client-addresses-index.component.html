@@ -1,9 +1,9 @@
-<h2 class="font-4xl font-weight-bold my-2">Direcciones del cliente</h2>
+<!-- <h2 class="font-4xl font-weight-bold my-2">Direcciones del cliente</h2> -->
 <!-- <small>{{client}}</small> -->
 <div>
   <div>
-    <app-search-template [url$]="url" (data)="getData($event)">
-      <mat-chip class="ml-1" selected menuBar color="accent" (click)="openDialogCreateOrEdit()"><mat-icon>add</mat-icon></mat-chip>
+    <app-search-template title="Direcciones del cliente" [url$]="url" (data)="getData($event)">
+      <mat-chip class="mat-btn-add ml-1" menuBar color="accent" (click)="openDialogCreateOrEdit()"><mat-icon>add</mat-icon>&nbsp; Agregar dirección</mat-chip>
       <ng-container data>
         <mat-card class="card" *ngFor="let address of data | keyvalue">
           <small>Persona que recibe la orden solicitada</small>

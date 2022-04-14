@@ -1,13 +1,13 @@
 <div>
-    <div>
+    <!-- <div>
         <h1 class="m-0 mt-3 font-4xl">Webhook de Chatbot - {{title}}</h1>
-    </div>
+    </div> -->
     <div>
-        <app-search-template [url$]="url" (data)="getData($event)">
+        <app-search-template title="Webhook" [url$]="url" (data)="getData($event)">
             <ng-container menuBar>
                 <mat-chip-list class="ml-1">
-                    <mat-chip [routerLink]="['./create']">
-                        <mat-icon>add_circle_outline</mat-icon>
+                    <mat-chip class="mat-btn-add" [routerLink]="['./create']">
+                        <mat-icon>webhook</mat-icon>&nbsp; Agregar Webhook
                     </mat-chip>
                 </mat-chip-list>
             </ng-container>
@@ -28,7 +28,7 @@
                     </mat-card-content>
                 </mat-card>
             </ng-container>
-            
+
         </app-search-template>
     </div>
 </div>

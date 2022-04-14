@@ -49,4 +49,9 @@ export class MercadoLibreAdminComponent extends CtableAndPaginator<IAccountMl> i
   });
   }
 
+  loadData($event): void {
+    // this.paginator = $event.data;
+    this.refreshDataTable($event);
+  }
+
 }

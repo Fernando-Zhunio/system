@@ -1,13 +1,9 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import Echo from 'laravel-echo';
 import { Subscription } from 'rxjs';
-import { subscribeOn } from 'rxjs/operators';
 import { animation_conditional } from '../../../animations/animate_leave_enter';
 import { EchoManager } from '../../../class/echo-manager';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
@@ -37,10 +33,10 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   productSearch: string = null;
   products = [];
   menu = [];
-  length = 100;
-  pageSize = 10;
-  pageSizeOptions: number[] = [10, 15, 25];
-  pageEvent: PageEvent;
+  // length = 100;
+  // pageSize = 10;
+  // pageSizeOptions: number[] = [10, 15, 25];
+  // pageEvent: PageEvent;
   isLoading: boolean = true;
   aux_page_next: number;
   suscrition_api: Subscription;
@@ -145,13 +141,14 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   }
 
   loadData($event): void {
-    this.paginator = $event.data;
-    this.products = this.paginator.data;
+    // this.paginator = $event.data;
+    // this.products = this.paginator.data;
+    this.products = $event;
   }
 
-  changePaginator(event): void {
-    this.headerComponent.searchBar(event);
-  }
+  // changePaginator(event): void {
+  //   this.headerComponent.searchBar(event);
+  // }
 
   destroyPublication(event): void {
     const index = this.products.findIndex((x) => x.id == event.id);
@@ -160,8 +157,8 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     }
   }
 
-  applyFilter() {
-    this.headerComponent.searchBar();
-  }
+  // applyFilter() {
+  //   this.headerComponent.searchBar();
+  // }
 
 }

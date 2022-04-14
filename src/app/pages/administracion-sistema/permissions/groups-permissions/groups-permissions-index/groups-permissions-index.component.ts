@@ -37,4 +37,10 @@ export class GroupsPermissionsIndexComponent extends IndexWithMatTable<any> impl
 
   }
 
+  creating(): void {
+    // alert('creando');
+    const scrollModal = document.getElementsByClassName('mat-dialog-content')[0];
+    scrollModal.scrollTop = scrollModal.scrollHeight;
+  }
+
 }

@@ -19,13 +19,15 @@ import { MlModule } from '../../../Modulos/ml/ml.module';
 import { PostModule } from '../../../Modulos/post.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {ClipboardModule} from '@angular/cdk/clipboard';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { ClipboardModule} from '@angular/cdk/clipboard';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
+import { TemplateSearchModule } from '../../../Modulos/template-search/template-search.module';
+import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 // import { NgxMasonryModule } from 'ngx-masonry';
 // import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
 // import { SimpleScrollSpyModule } from "angular-simple-scroll-spy";
@@ -61,6 +63,8 @@ import { HeaderSearchModule } from '../../../Modulos/header-search/header-search
     PostModule,
     SwiperModule,
     HeaderSearchModule,
+    // TemplateSearchModule
+    SearchTemplateModule,
     // NgxMasonryModule,
     // SimpleScrollSpyModule,
     ]

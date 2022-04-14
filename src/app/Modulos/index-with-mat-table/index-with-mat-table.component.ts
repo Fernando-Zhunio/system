@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { HeaderSearchComponent } from '../../components/header-search/header-search.component';
 import { Ipagination } from '../../interfaces/ipagination';
-import { IPermission } from '../../interfaces/ipermission';
 import { StandartSearchService } from '../../services/standart-search.service';
 
 @Component({
@@ -29,10 +28,13 @@ export class IndexWithMatTableComponent implements OnInit {
   @Output() onClickCreate: EventEmitter<number> = new EventEmitter<any>();
   @Output() onClickSaveEditItem: EventEmitter<number> = new EventEmitter<any>();
   @Input() displayedColumns: string[];
+  @Input() title = 'Pagina Novisolutions';
 
   @Input() itemRows: { key: string; title: string; isEditable: boolean }[] = [];
   @Input() placeholder: string = 'Buscador';
   @Input() url = 'indefinido';
+  @Input() textBtnAdd = 'Agregar';
+  @Input() icon = 'add';
   @Input() isEditable = false;
   @Input() permissions: { create: []; edit: []; destroy: [] } = {
     create: [],
@@ -73,7 +75,7 @@ export class IndexWithMatTableComponent implements OnInit {
 
   onClickEditItem(id, isClose = false): void {
     this.onClickEdit.emit(id);
-    if ( id == 'Sin datos') {
+    if (id == 'Sin datos') {
       this.removeItemTable(id);
       this.isCreating = false;
       return;
@@ -161,24 +163,28 @@ export class IndexWithMatTableComponent implements OnInit {
   }
 
   onClickCreateItem(): void {
-    this.onClickCreate.emit();
-   if (this.isEditable) {
-     const newRow = {};
-     for (const element of this.itemRows) {
-       if (element.isEditable) {
-         newRow[element.key] = '';
-         continue;
-       }
-       newRow[element.key] = 'Sin datos';
-     }
-     newRow['isEditable'] = true;
-     newRow['isCreating'] = true;
-     this.dataSource.data.push(newRow);
-     this.table.renderRows();
-     this.isCreating = true;
-     const scrollBody = document.getElementsByClassName('app-body')[0];
-     scrollBody.scrollTop = scrollBody.scrollHeight;
-   }
+    if (!this.isCreating) {
+      this.onClickCreate.emit();
+      if (this.isEditable) {
+        const newRow = {};
+        for (const element of this.itemRows) {
+          if (element.isEditable) {
+            newRow[element.key] = '';
+            continue;
+          }
+          newRow[element.key] = 'Sin datos';
+        }
+        newRow['isEditable'] = true;
+        newRow['isCreating'] = true;
+        this.dataSource.data.push(newRow);
+        this.table.renderRows();
+        this.isCreating = true;
+        const scrollBody = document.getElementsByClassName('app-body')[0];
+        scrollBody.scrollTop = scrollBody.scrollHeight;
+
+      }
+
+    }
   }
 
   removeItemTable(id): void {
@@ -199,7 +205,7 @@ export class IndexWithMatTableComponent implements OnInit {
   //   }
   // }
 
-   index(obj, i) {  return obj ? obj[i] : null}
+  index(obj, i) { return obj ? obj[i] : null }
 
 }
 

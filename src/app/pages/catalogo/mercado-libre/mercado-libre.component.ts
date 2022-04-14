@@ -32,7 +32,7 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   echo: Echo;
   constructor(
     private s_mercado_libre: MercadoLibreService,
-    private s_shared: SharedService,
+    // private s_shared: SharedService,
     private s_storage: StorageService,
     // private s_standart: StandartSearchService
   ) {}
@@ -67,7 +67,6 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
   listener(e: {event: string, item: ImlInfo}): void {
 
     if (e.event == 'updated') {
-
       const indexPublication = this.mlInfos.findIndex((item) => item.id === e.item.id);
       if (indexPublication !== -1) {
         this.mlInfos[indexPublication] = e.item;
@@ -95,8 +94,10 @@ export class MercadoLibreComponent implements OnInit, OnDestroy {
 
 
   loadData($event): void {
-    this.paginator = $event.data;
-    this.mlInfos = this.paginator.data;
+    // this.paginator = $event.data;
+    // this.mlInfos = this.paginator.data;
+    this.mlInfos = $event
+    ;
   }
 
   changePaginator(event): void {

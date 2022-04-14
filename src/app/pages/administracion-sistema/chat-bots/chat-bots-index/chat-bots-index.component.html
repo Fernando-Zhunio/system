@@ -1,14 +1,14 @@
 
 <div>
-    <div class="">
+    <!-- <div class="">
         <h1 class="m-0 font-4xl mt-3">Chatbots</h1>
-    </div>
+    </div> -->
     <div>
-        <app-search-template [url$]="url" (data)="getData($event)">
+        <app-search-template title="Chatbots" [url$]="url" (data)="getData($event)">
             <ng-container menuBar>
                 <mat-chip-list class="ml-1">
-                    <mat-chip [routerLink]="['./create']">
-                        <mat-icon>add_circle_outline</mat-icon>
+                    <mat-chip class="mat-btn-add" [routerLink]="['./create']">
+                        <mat-icon>smart_toy</mat-icon>&nbsp;Agregar Chatbot
                     </mat-chip>
                 </mat-chip-list>
             </ng-container>
@@ -33,14 +33,14 @@
                         </button>
                         <button mat-mini-fab (click)="deleteData(chatbot.key)"  color="warn">
                             <mat-icon >delete</mat-icon>
-                        </button>  
+                        </button>
                         <button mat-mini-fab [routerLink]="['./',chatbot.key,'webhooks']" [queryParams]="{name: chatbot.value.info.name}"  color="primary">
                             <mat-icon>webhook</mat-icon>
-                        </button>                  
-                    </mat-card-actions> 
+                        </button>
+                    </mat-card-actions>
                 </mat-card>
             </ng-container>
-            
+
         </app-search-template>
     </div>
 </div>

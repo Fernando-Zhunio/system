@@ -33,6 +33,7 @@ export class PublicationComponent implements OnInit {
   public config: SwiperOptions = {
     direction: 'horizontal',
     spaceBetween: 10,
+    draggable: true,
     breakpoints: {
       320: {
         slidesPerView: 1,
@@ -71,7 +72,7 @@ export class PublicationComponent implements OnInit {
         spaceBetween: 10,
       },
     },
-    scrollbar: true,
+    scrollbar: false,
     pagination: false,
   };
 
@@ -81,7 +82,7 @@ export class PublicationComponent implements OnInit {
     this.dialog.open(InfoViewComponent, {
       data: {
         name: this.publication.name,
-        title: 'Descripcion',
+        title: 'Descripción',
         info: this.publication.description,
       },
     });
@@ -90,17 +91,17 @@ export class PublicationComponent implements OnInit {
 
 
   deletePublication(idPublication): void {
-    SwalService.swalConfirmation('Eliminar publicacion', 'Esta seguro de eliminar esta publicacion?', 'warning').then((result) => {
+    SwalService.swalConfirmation('Eliminar publicación', 'Esta seguro de eliminar esta publicación?', 'warning').then((result) => {
       if (result.isConfirmed) {
         const snack = this.snack_bar.open('Eliminando espere ...');
         this.isLoader = true;
-          this.s_standart.destory('catalogs/publications/' + idPublication).subscribe(
+          this.s_standart.methodDelete('catalogs/publications/' + idPublication).subscribe(
           res => {
             snack.dismiss();
             this.isLoader = false;
             if (res.success) {
               this.delete.emit(res.data);
-              this.snack_bar.open('Eliminado con exito', 'OK', {duration: 2000});
+              this.snack_bar.open('Eliminado con éxito', 'OK', {duration: 2000});
             } else {
               this.snack_bar.open('Error al eliminar', 'Error', {duration: 2000});
             }

@@ -1,11 +1,12 @@
 .input-style{
   padding-left: 84px;
   height: 45px;
-  border-radius: 11px;
+  border-radius: 20px;
   background-color: #F1F3F4;
   font-weight: 600 !important;
-  font-size: 1.2rem !important;
-
+  font-size: 1rem !important;
+  min-width: 350px;
+  max-width: 100%;
 }
 
 .btn-find{
