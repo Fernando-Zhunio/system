@@ -137,7 +137,7 @@
                         Productos
                     </mat-panel-title>
                     <mat-panel-description>
-                        <span>Gestionar productos de la orden </span>
+                        <span class="d-md-inline-block d-none">Gestionar productos de la orden </span>
                         <span class="center">
                             <span class="badge bg-warning font-lg mr-1">{{items?.size || 0}}</span>
                             <mat-icon>
@@ -145,7 +145,7 @@
                         </span>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-add-products-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [items]="items" [order]="order"></app-add-products-order>
+                <app-add-products-order [isCancelled]="order?.status == 'cancelled'" (changeOrder)="getOrder()" [items]="items" [order]="order"></app-add-products-order>
             </mat-expansion-panel>
 
             <mat-expansion-panel>
@@ -154,7 +154,7 @@
                         Envíos
                     </mat-panel-title>
                     <mat-panel-description>
-                        <span>Gestionar envíos de la orden</span>
+                        <span class="d-md-inline-block d-none">Gestionar envíos de la orden</span>
                         <span class="center">
                             <span class="badge bg-warning font-lg mr-1">{{order?.shippings?.length || 0}}</span>
                             <mat-icon>
@@ -174,7 +174,7 @@
                         Pagos
                     </mat-panel-title>
                     <mat-panel-description>
-                        Agregar, editar o eliminar pagos de la orden
+                        <span class="d-md-inline-block d-none">Agregar, editar o eliminar pagos de la orden</span>
                         <span class="center">
                             <span class="badge bg-warning font-lg mr-1">{{paymentsMap?.size || 0}}</span>
                             <mat-icon>
@@ -192,7 +192,7 @@
                         Impuestos y Descuentos
                     </mat-panel-title>
                     <mat-panel-description>
-                        Agregar, editar o eliminar descuentos e impuestos de la orden
+                        <span class="d-md-inline-block d-none">Agregar, editar o eliminar descuentos e impuestos de la orden</span>
                         <span class="center">
                             <span class="badge bg-warning font-lg mr-1">{{discountsAndTaxes?.size || 0}}</span>
                             <mat-icon>
@@ -210,7 +210,7 @@
                         Transferencias
                     </mat-panel-title>
                     <mat-panel-description>
-                        Agregar o eliminar transferencias de la orden
+                        <span class="d-md-inline-block d-none">Agregar o eliminar transferencias de la orden</span>
                         <span class="center">
                             <span class="badge bg-warning font-lg mr-1">{{order?.transfers?.length || 0}}</span>
                             <mat-icon>
@@ -228,7 +228,7 @@
                         Facturas
                     </mat-panel-title>
                     <mat-panel-description>
-                        Agregar o eliminar facturas de la orden
+                        <span class="d-md-inline-block d-none">Agregar o eliminar facturas de la orden</span>
                         <span class="center">
                             <span class="badge bg-warning font-lg mr-1">{{order?.invoices?.length || 0}}</span>
                             <mat-icon>

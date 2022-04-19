@@ -4,6 +4,7 @@ import { Iwarehouse } from './iwarehouse';
 
 export interface IItemOrder {
   product_id: number;
+  description: string;
   quantity: string;
   price: number;
   order_id: number;

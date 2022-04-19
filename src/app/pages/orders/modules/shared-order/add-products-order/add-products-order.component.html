@@ -2,27 +2,30 @@
   <h3 class="font-3xl font-weight-bold">Productos</h3>
   <div>
     <div>
-      <div [formGroup]="form" *ngIf="!isCancelled" class="row">
-        <mat-form-field appearance="fill" class="col-md-5">
+      <div [formGroup]="form" *ngIf="!isCancelled" class="product-item d-md-flex d-block card-body">
+        <mat-form-field appearance="fill">
           <input readonly matInput formControlName="product" placeholder="Producto">
           <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="col-md-2">
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="description" placeholder="Descripción">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
           <input matInput formControlName="price" type="number" placeholder="Precio">
           <span matPrefix>$&nbsp;</span>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="col-md-2">
+        <mat-form-field appearance="fill">
           <input  matInput type="number" formControlName="quantity" placeholder="Cantidad">
         </mat-form-field>
-        <div class="col-md-3">
-          <button type="submit" [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
-           (click)="createOrEditItemOrder()">Agregar</button>
+        <div class="pt-md-2 col">
+          <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
+           (click)="createOrEditItemOrder()">Agregar producto</button>
         </div>
       </div>
       <ng-container *ngIf="!isCancelled">
-        <div class="editing-item" *ngIf="isEditingItem">
+        <div  *ngIf="isEditingItem" class="editing-item product-item  d-md-flex d-block card-body">
           <div>
             <h4 class="parpadeo font-weight-bold">Editando</h4>
             <div [formGroup]="formEdit" class="row">
@@ -39,6 +42,9 @@
               <mat-form-field appearance="fill" class="col-md-2">
                 <input matInput formControlName="quantity" type="number" placeholder="Cantidad">
               </mat-form-field>
+              <mat-form-field appearance="fill" class="col-md-2">
+                <textarea matInput type="number" formControlName="description" placeholder="Descripción"></textarea>
+              </mat-form-field>
               <div>
                 <button [disabled]="form.invalid || isLoading" color="primary" mat-raised-button
                   (click)="createOrEditItemOrder()">Actualizar</button>
@@ -53,11 +59,12 @@
       <h4 class="font-2xl font-weight-bold">Lista de productos</h4>
       <div>
         <div data>
-          <table class="table">
+          <table class="table table-responsive d-md-table table-borderless table-striped">
             <thead class="text-primary">
               <tr>
                 <th>Imagen</th>
                 <th>Producto</th>
+                <th>Descripción</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
                 <th>Acciones</th>
@@ -71,6 +78,7 @@
                 <td>
                   {{item.value.product?.code}} - {{item.value.product?.name}}
                 </td>
+                <td>{{item.value?.description}}</td>
                 <td class="text-muted">${{item.value.price}}</td>
                 <td class="text-muted">{{item.value.quantity}}</td>
                 <td>

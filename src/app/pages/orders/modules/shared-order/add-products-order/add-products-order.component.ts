@@ -18,7 +18,7 @@ export class AddProductsOrderComponent implements OnInit {
   @Input() order: IOrder;
   @Input() items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   @Input() isCancelled: boolean;
-  @Output() change = new EventEmitter<string>();
+  @Output() changeOrder = new EventEmitter<string>();
   itemEditing: IItemOrder;
   isOpenSearchProducts = false;
   isEditingItem = false;
@@ -29,11 +29,13 @@ export class AddProductsOrderComponent implements OnInit {
     product: new FormControl({ value: null, disabled: true }, [Validators.required]),
     product_id: new FormControl(null, [Validators.required]),
     quantity: new FormControl(null, [Validators.required]),
+    description: new FormControl(null),
     price: new FormControl(null, [Validators.required]),
   });
   formEdit: FormGroup = new FormGroup({
     product: new FormControl({ value: null, disabled: true }, [Validators.required]),
     product_id: new FormControl(null, [Validators.required]),
+    description: new FormControl(null),
     quantity: new FormControl(null, [Validators.required]),
     price: new FormControl(null, [Validators.required]),
   });
@@ -61,17 +63,11 @@ export class AddProductsOrderComponent implements OnInit {
     }
     observer.subscribe(res => {
       if (res?.success) {
-        // const item = res.data;
-        // if (this.items.has(item.id)) {
-        //   this.items.delete(item.id);
-        // }
         if (this.isEditingItem) {
           this.disabledEditingItemOrder();
           SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
         }
-        // this.items.set(item., item);
-        this.change.emit('change');
-
+        this.changeOrder.emit('change');
       }
       this.isLoading = false;
     }, err => {
@@ -90,10 +86,11 @@ export class AddProductsOrderComponent implements OnInit {
     this.isEditingItem = true;
     this.form.disable();
     this.formEdit.enable();
-    this.formEdit.setValue({
+    this.formEdit.patchValue({
       product_id: this.itemEditing.product_id,
       quantity: this.itemEditing.quantity,
       price: this.itemEditing.price,
+      description: this.itemEditing.description,
       product: this.itemEditing.product.code + '-' + this.itemEditing.product.name,
     });
   }
@@ -104,11 +101,7 @@ export class AddProductsOrderComponent implements OnInit {
         this.standard.methodDelete(`system-orders/orders/${order_id}/items/${id}`).subscribe(res => {
           if (res?.success) {
             SwalService.swalFire({ title: 'Eliminado', text: 'Item eliminado', icon: 'success' });
-            // this.items.delete(id);
-            // if (callback) {
-            //   callback();
-            // }
-            this.change.emit('change');
+            this.changeOrder.emit('change');
           }
         });
       }

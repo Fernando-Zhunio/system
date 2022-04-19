@@ -132,7 +132,8 @@ export class EditOrderComponent implements OnInit {
     });
   }
 
-  getOrder(): void {
+  getOrder($event = null): void {
+    // console.log($event);
     this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
       if (res.success) {
         this.order = res.data;

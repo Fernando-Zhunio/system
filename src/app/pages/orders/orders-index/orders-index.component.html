@@ -1,16 +1,16 @@
 
 <div>
-    <h2 class="font-4xl font-weight-bold mt-2 m-0">Sistema de Ordenes </h2>
-    <div>
+    <!-- <h2 class="font-4xl font-weight-bold mt-2 m-0">Sistema de Ordenes </h2> -->
+    <!-- <div> -->
         <div>
-            <app-search-template [url$]="url" (data)="getData($event)">
+            <app-search-template textBtnAdd="Agregar orden" title="Ordenes" [url$]="url" (data)="getData($event)">
                 <ng-container menuBar>
-                    <mat-chip [routerLink]="['./create']"  selected color="accent" class="ml-1">
-                        <mat-icon>add</mat-icon>
+                    <mat-chip [routerLink]="['./create']"  class="ml-1 mat-btn-add">
+                        <mat-icon>add</mat-icon> Agregar orden
                     </mat-chip>
                 </ng-container>
                 <ng-container data>
-                    <mat-card class="card" *ngFor="let order of data | keyvalue">
+                    <mat-card class="card border-0" *ngFor="let order of data | keyvalue">
                         <div>
                             <div class="order-header m-2"><span>Orden #{{order.value.id}}</span> <small class="font-weight-bold text-info">{{order.value.created_at | date}}</small></div>
                             <div>
@@ -23,7 +23,7 @@
                             <div>
                                 <div>{{order.value.client?.first_name +" "+ order.value.client?.last_name}}</div>
                                 <table>
-                                    <tbody>
+                                    <tbody class="body-info">
                                         <tr>
                                             <td>Email:</td>
                                             <td>{{order.value.client.email}}</td>
@@ -42,7 +42,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                               
+
                                 <!-- <div>{{order.value.client.doc_id}}</div> -->
                             </div>
                             <h3 class="font-2xl font-weight-bold m-1">Detalles</h3>
@@ -77,5 +77,5 @@
                 </ng-container>
             </app-search-template>
         </div>
-    </div>
+    <!-- </div> -->
 </div>

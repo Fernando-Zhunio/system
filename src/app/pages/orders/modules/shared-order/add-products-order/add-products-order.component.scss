@@ -48,3 +48,18 @@
     transform: translateX(calc(100% + 40px));
     transition: all 0.3s;
 }
+
+.product-item{
+  gap: 10px;
+  border: solid 3px #dadada ;
+  border-radius: 15px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+
