@@ -53,7 +53,6 @@
                         <td>Documento:</td>
                         <td>{{order?.client?.doc_id}}</td>
                     </tr>
-
                 </tbody>
             </table>
         </mat-card>
@@ -239,6 +238,131 @@
                 <app-invoices-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [invoices]="order?.invoices" [order_id]="order?.id">
                 </app-invoices-order>
             </mat-expansion-panel>
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      Pagos MBA
+                  </mat-panel-title>
+                  <mat-panel-description>
+                      <span class="d-md-inline-block d-none">Agregar o eliminar Pagos MBA de la orden</span>
+                      <span class="center">
+                          <span class="badge bg-warning font-lg mr-1">{{order?.invoices?.length || 0}}</span>
+                          <mat-icon>
+                              receipt</mat-icon>
+                      </span>
+                  </mat-panel-description>
+              </mat-expansion-panel-header>
+              <!-- <app-invoices-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [invoices]="order?.invoices" [order_id]="order?.id">
+              </app-invoices-order>-->
+              <app-custom-template-only-input path="system-orders/orders/{{order?.id}}/mba-payments" title="Pagos MBA" placeholder="Escriba el código de pago" [isCancelled]="order?.status == 'cancelled'">
+                <div class="card-colums" items>
+                  <mat-card class="card border-0" *ngFor="let item of order?.mba_payments">
+                    <div>
+                      <h2>Detalles</h2>
+                      <mat-chip-list>
+                        <mat-chip>Estado: {{item.status}}</mat-chip>
+                        <mat-chip>Numero: {{item.number}}</mat-chip>
+                      </mat-chip-list>
+                      <div>
+                        <span>Creado: <span>{{item.created_at | date}}</span></span>
+                        <p>Memo: <span>{{item.memo}}</span></p>
+                      </div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <span>Monto:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.amount}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Descuento:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.discount}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Retención:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.retention}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Método:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.method}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Pago neto:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.net_payment}}</span>
+                            </td>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <h2>Cliente</h2>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <span>Nombre:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.client?.name}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Email:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.client?.email}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Teléfono:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.client?.phone}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Dirección:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.client?.address}}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>Identificación:</span>
+                            </td>
+                            <td>
+                              <span>{{item.data?.client?.identification}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </mat-card>
+                </div>
+              </app-custom-template-only-input>
+          </mat-expansion-panel>
         </mat-accordion>
     </mat-card>
 

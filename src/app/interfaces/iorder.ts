@@ -81,6 +81,7 @@ export interface IOrder {
   transfers?: ITransference[];
   statuses: IStatus[];
   invoices: IInvoice[];
+  mba_payments: IPaymentMBA[];
 }
 export interface IClientOrder {
   id: number;
@@ -219,7 +220,7 @@ export interface IPivotInvoice {
   invoice_id: number;
 }
 
-//** Data invoice interface ****************************************************************/
+// ** Data invoice interface ****************************************************************/
 export interface IInvoiceData {
   number: number;
   code: string;
@@ -359,4 +360,61 @@ export interface ICardPaymentOrder {
   holder_name: string;
   type: string;
   number: string;
+}
+
+export interface IPaymentMBA {
+  id: number;
+  code: string;
+  number: string;
+  status: string;
+  memo: string;
+  data: IPaymentMBAData;
+  created_at: string;
+  updated_at: string;
+  pivot: Pivot;
+}
+export interface IPaymentMBAData {
+  id: number;
+  code: string;
+  status: string;
+  method: string;
+  memo: string;
+  transaction_code: string;
+  seller_code?: null;
+  local_code: string;
+  amount: string;
+  discount: string;
+  retention: string;
+  net_payment: string;
+  date: string;
+  client_id: number;
+  seller_id?: string | null;
+  created_at: string;
+  updated_at: string;
+  client: IPaymentMBADataClient;
+  seller?: ISellerOrder | null;
+}
+
+export interface IPaymentMBADataClient {
+  id: number;
+  code: string;
+  name: string;
+  identification: string;
+  address: string;
+  email: string;
+  phone: string;
+  created_at: string;
+  updated_at: string;
+}
+export interface Pivot {
+  order_id: number;
+  mba_payment_id: number;
+}
+
+export interface ISellerOrder {
+ code: string;
+  name: string;
+  created_at: string;
+  id: number;
+  updated_at: string;
 }

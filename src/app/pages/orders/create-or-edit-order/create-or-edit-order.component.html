@@ -169,7 +169,7 @@
                         <mat-form-field class="col-md-6">
                             <mat-select formControlName="company_id" placeholder="Compañía">
                                 <mat-option *ngFor="let company of companies" [value]="company.id">
-                                    company?.name
+                                    {{company?.name}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -182,16 +182,15 @@
                     </div>
                 </mat-step>
 
-                <mat-step>
+                <!-- <mat-step>
                     <ng-template matStepLabel>Asignar productos a la orden</ng-template>
                     <div *ngIf="!isEditStep">
-                        <!-- <app-add-item-template [channels]="channelsOrders" [address]="addressSelected" [order]="order" [client]="clientSelected"></app-add-item-template> -->
                         <app-edit-order></app-edit-order>
                     </div>
                     <div>
                         <button color="primary" mat-raised-button [routerLink]="['/orders']">Finalizar</button>
                     </div>
-                </mat-step>
+                </mat-step> -->
             </mat-horizontal-stepper>
         </mat-card>
     </div>
