@@ -162,6 +162,18 @@
                                 [value]="clientOrders?.address?.street + ' - ' + clientOrders?.address?.city" disabled>
                         </mat-form-field>
 
+                        <mat-form-field class="col-md-6">
+                            <input matInput placeholder="Codigo de vendedor" formControlName="seller_code">
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <mat-select formControlName="company_id" placeholder="Compañía">
+                                <mat-option *ngFor="let company of companies" [value]="company.id">
+                                    company?.name
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
                     </div>
                     <div>
                         <button mat-button matStepperPrevious color="warn">Atrás</button>

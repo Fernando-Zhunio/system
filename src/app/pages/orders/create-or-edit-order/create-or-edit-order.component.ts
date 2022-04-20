@@ -37,10 +37,13 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     address_id: new FormControl(null, [Validators.required]),
     channel_id: new FormControl(null, [Validators.required]),
     tax: new FormControl('12', [Validators.required]),
+    seller_code: new FormControl(null, [Validators.required]),
+    company_id: new FormControl(null, [Validator.required])
   });
 
   shippingTypes: any[] = [];
   shippingStatues: any[] = [];
+  companies: any[] = [];
 
   get clientSelected(): IClientOrder {
     return this.clientOrders.client;
@@ -86,6 +89,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     }
     this.typesOrders = data.types;
     this.channelsOrders = data.channels;
+    this.companies = data?.companies || []
   }
 
   getData($event): void {
