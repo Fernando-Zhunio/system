@@ -29,14 +29,14 @@ npm:
       - node_modules/
       - ./src/environments/environment.ts
 
-jasmine:
-  stage: test
-  dependencies:
-    - npm
-  script:
-    - cp karma.staging.conf.js  karma.conf.js
-    - npm i -g @angular/cli
-    - npm test
+# jasmine:
+#   stage: test
+#   dependencies:
+#     - npm
+#   script:
+#     - cp karma.staging.conf.js  karma.conf.js
+#     - npm i -g @angular/cli
+#     - npm test
     
 
 # staging_build:
