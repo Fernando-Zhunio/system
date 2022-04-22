@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { Observable, Subscription } from 'rxjs';
-import { IOrder, IShippingOrder } from '../../../../interfaces/iorder';
+import { IItemOrder, IOrder, IProductItemOrder, IShippingOrder } from '../../../../interfaces/iorder';
 import { Iwarehouse } from '../../../../interfaces/iwarehouse';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -44,6 +44,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   });
   isLoading = false;
   status: 'edit' | 'create' = 'create';
+  products: IProductItemOrder[] = [];
   constructor(private standard: StandartSearchService, public dialogRef: MatDialogRef<ShippingOrderSectionComponent>,
     @Inject(MAT_DIALOG_DATA) public dataExterna: { order_id: number, shipping_id: number }) { }
 
@@ -78,6 +79,8 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
         this.buscarInterval(value);
       }
     });
+
+    this.getProductsAvailable();
   }
 
   ngOnDestroy(): void {
@@ -167,5 +170,20 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
       SwalService.swalFire({ title: 'Error', text: 'Formulario invalido', icon: 'error' });
     }
   }
+
+  getProductsAvailable(): void {
+    const path = `system-orders/orders/${this.dataExterna.order_id}/shippings/products/remaining`;
+    this.standard.methodGet<IProductItemOrder[]>(path).subscribe(res => {
+      if (res.success) {
+        this.products = res.data;
+      }
+    });
+  }
+
+  addProductShipping(quantity, id): void {
+
+  }
+
+
 
 }

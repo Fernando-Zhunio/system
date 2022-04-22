@@ -12,7 +12,7 @@ export interface IItemOrder {
   created_at: string;
   id: number;
   order: IOrder;
-  product: Product;
+  product: IProductItemOrder;
 }
 export interface IDiscountAndTaxes {
   id: number;
@@ -32,7 +32,7 @@ export interface ItemsEntity {
   created_at: string;
   updated_at: string;
 }
-export interface Product {
+export interface IProductItemOrder {
   id: number;
   name: string;
   description: string;
@@ -54,6 +54,7 @@ export interface Product {
   created_at: string;
   updated_at: string;
   deleted_at?: any;
+  quantity_remaining?: number;
 }
 
 

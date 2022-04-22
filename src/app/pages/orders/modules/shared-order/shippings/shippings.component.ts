@@ -35,7 +35,7 @@ export class ShippingsComponent implements OnInit {
 
   openDialogShipping(id: number = null): void {
     this.dialog.open(ShippingOrderSectionComponent, {
-      width: '500px',
+      // width: '500px',
       data: { shipping_id: id, order_id: this.order_id },
       disableClose: true,
     }).beforeClosed().subscribe(res => {
