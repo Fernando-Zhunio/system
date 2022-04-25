@@ -1,17 +1,11 @@
-.grid-shipping {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    gap: 10px;
-}
-
 .input-quantity {
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-    appearance: textfield;
-    border: none;
-    outline: none;
-    min-width: 45px;
-    text-align: center;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  border: none;
+  outline: none;
+  min-width: 45px;
+  text-align: center;
 }
 
 .input-quantity::-webkit-inner-spin-button,
@@ -19,14 +13,14 @@
   -webkit-appearance: none;
 }
 
-.container-quantity{
-    display: flex;
-    align-items: center;
-    // justify-content: center;
+.container-quantity {
+  display: flex;
+  align-items: center;
+  // justify-content: center;
 }
 
 .container-quantity {
-  button{
+  button {
     border: none;
     /* background: orangered; */
     height: 30px;
@@ -53,14 +47,4 @@
     padding: 0 10px;
     cursor: pointer;
   }
-
-
-}
-
-
-@media (max-width: 768px) {
-    .grid-shipping {
-        grid-template-columns: 100%;
-    }
-
 }

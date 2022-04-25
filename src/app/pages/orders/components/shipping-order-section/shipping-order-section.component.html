@@ -1,8 +1,8 @@
 <h1 matDialogTitle class="font-weight-bold">{{title}}</h1>
 
 <mat-dialog-content>
-  <div class="row m-0">
-    <div [formGroup]="form" class="col-md-6 col-12 grid-shipping">
+  <div class=" m-0">
+    <div [formGroup]="form" class="grid-shipping">
       <mat-form-field>
         <mat-select formControlName="origin_warehouse_id" placeholder="Bodega de origen">
           <mat-option>
@@ -43,7 +43,7 @@
       </mat-form-field>
       <!-- <div *ngIf="warehouse_select"><mat-chip>Bodega seleccionada:  {{warehouse_select.name + ' - ' + warehouse_select.city + ' - ' + warehouse_select.code }}</mat-chip></div> -->
     </div>
-    <div class="col-md-6 col-12">
+    <!-- <div class="col-md-6 col-12">
       <div>
         <h3>Productos Disponibles</h3>
         <div>
@@ -62,7 +62,7 @@
           </mat-card>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
 </mat-dialog-content>

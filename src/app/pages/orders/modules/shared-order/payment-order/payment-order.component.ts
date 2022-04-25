@@ -8,6 +8,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { StorageService } from '../../../../../services/storage.service';
 import { FilesPaymentsOrderComponent } from './filesPaymentsOrder/filesPaymentsOrder.component';
 import { TransactionsPaymentComponent } from './transactions-payment/transactions-payment.component';
+import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
 
 @Component({
   selector: 'app-payment-order',
@@ -29,8 +30,6 @@ export class PaymentOrderComponent implements OnInit {
   hasFile = false;
 
   ngOnInit() {}
-
-
 
   openDialog(id: number = null) {
     this.dialog.open(CreateOrEditPaymentOrderComponent, {
@@ -75,22 +74,47 @@ export class PaymentOrderComponent implements OnInit {
     });
   }
 
-  changeStatusPayment(event: MatSelectChange, id): void {
-    const status = event.value;
-    if (status === this.paymentsMap.get(id).status) {
-      return;
-    }
-    SwalService.swalConfirmation('Precaución', 'Esta seguro que desea cambiar el estado', 'warning', 'Si, cambiar estado', 'No, cancelar').then(result => {
-      if (result.isConfirmed) {
-        this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, {status: event.value}).subscribe(data => {
-          if (data?.success) {
-            SwalService.swalFire({ icon: 'success', title: 'Cambiado', text: 'Se cambio correctamente' });
-            this.change.emit('change status');
-          }
-        });
-      }
-    }
-    );
+  changeStatusPayment(select: MatSelectChange, id): void {
+    // const status = event.value;
+    // if (status === this.paymentsMap.get(id).status) {
+    //   return;
+    // }
+    // SwalService.swalConfirmation('Precaución', 'Esta seguro que desea cambiar el estado', 'warning', 'Si, cambiar estado', 'No, cancelar').then(result => {
+    //   if (result.isConfirmed) {
+    //     this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, {status: event.value}).subscribe(data => {
+    //       if (data?.success) {
+    //         SwalService.swalFire({ icon: 'success', title: 'Cambiado', text: 'Se cambio correctamente' });
+    //         this.change.emit('change status');
+    //       }
+    //     });
+    //   }
+    // }
+    // );
+    SwalService.swalFire(
+      { title: 'Cambiar Estado',
+       text: '¿Está seguro de cambiar el estado del pago?',
+        icon: 'warning',
+      cancelButtonText: 'No, Cancelar',
+      confirmButtonText: 'Si, cambiar estado',
+      showCancelButton: true,
+      showConfirmButton: true,
+      })
+      .then(res => {
+        if (res.isConfirmed) {
+          this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, {status: select.value}).subscribe(res => {
+            if (res?.success) {
+              this.change.emit('update status');
+            }
+          }, err => {
+            select.source.value = this.paymentsMap.get(id).status;
+          });
+        } else {
+          console.log(select);
+          select.source.value = this.paymentsMap.get(id).status;
+        }
+      }).catch(err => {
+        select.source.value = this.paymentsMap.get(id).status;
+      });
   }
 
   uploadFile(id): void {
@@ -114,6 +138,19 @@ export class PaymentOrderComponent implements OnInit {
     this.dialog.open(TransactionsPaymentComponent, {
       data: {order_id: this.order_id, payment_id: id}
     });
+  }
+
+  openDialogHistoryStatus(id: number): void {
+    this.standard.methodGet(`system-orders/orders/${this.order_id}/payments/${id}/statuses`)
+      .subscribe(res => {
+        if (res?.success) {
+          this.dialog.open(HistoryStatusesComponent, {
+            width: '500px',
+            data: { title: 'Historial de Pagos del #' + id.toString(), list: res.data },
+            disableClose: true,
+          });
+        }
+      });
   }
 
 }

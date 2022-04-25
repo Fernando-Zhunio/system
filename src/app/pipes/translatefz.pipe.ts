@@ -11,7 +11,7 @@ export class TranslatefzPipe implements PipeTransform {
     // console.log(args[0]);
     // console.log(trans(value, 'promotions'));
     args[0] = args[0] || 'default';
-    return trans(value, args[0]);
+    return trans(value, args[0]) || value;
   }
 
 }

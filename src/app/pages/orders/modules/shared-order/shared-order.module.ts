@@ -36,6 +36,7 @@ import { NullModule } from '../../../../Modulos/tools/null/null.module';
 import { ShippingOrderSectionComponent } from '../../components/shipping-order-section/shipping-order-section.component';
 import { TransactionsPaymentComponent } from './payment-order/transactions-payment/transactions-payment.component';
 import { CustomTemplateOnlyInputComponent } from './custom-template-only-input/custom-template-only-input.component';
+import { ModalAddProductsShippingComponent } from './shippings/modal-add-products-shipping/modal-add-products-shipping.component';
 
 @NgModule({
   imports: [
@@ -76,8 +77,9 @@ import { CustomTemplateOnlyInputComponent } from './custom-template-only-input/c
     SelectClientAddressModalComponent,
     FilesPaymentsOrderComponent,
     CustomTemplateOnlyInputComponent,
+    ModalAddProductsShippingComponent,
   ],
-  declarations: [ShippingOrderSectionComponent, FilesPaymentsOrderComponent, SelectClientAddressModalComponent, SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent, InvoicesOrderComponent, DetailsOrderComponent, TransactionsPaymentComponent, CustomTemplateOnlyInputComponent],
+  declarations: [ModalAddProductsShippingComponent, TransactionsPaymentComponent, ShippingOrderSectionComponent, FilesPaymentsOrderComponent, SelectClientAddressModalComponent, SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent, InvoicesOrderComponent, DetailsOrderComponent, TransactionsPaymentComponent, CustomTemplateOnlyInputComponent, ModalAddProductsShippingComponent],
   entryComponents: [ShippingOrderSectionComponent, FilesPaymentsOrderComponent, SelectClientAddressModalComponent, DetailsOrderComponent, SelectedViewServientregaPdfComponent, HistoryStatusesComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent]
 })
 export class SharedOrderModule { }

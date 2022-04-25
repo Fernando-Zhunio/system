@@ -46,6 +46,14 @@
           </table>
         </div>
         <div *ngIf="!isCancelled" class="border-top mt-2">
+          <button color="warning" mat-raised-button matSuffix (click)="openDialogHistoryStatus(payment.key)">
+            <mat-icon>manage_search</mat-icon> Historial
+          </button>
+          <button class="mt-1" *ngIf="payment?.value?.link_to_pay" mat-raised-button color="info"
+            (click)="lookTransaction(payment.key)">
+            Ver transacciones &nbsp;<mat-icon>receipt_long</mat-icon></button>
+            <button mat-raised-button (click)="lookFiles(payment.key)">Ver
+              archivo &nbsp;<mat-icon>post_add</mat-icon></button>
           <ng-container *ngIf="payment.value.status == 'pending' || payment.value.type != 'paymentez'">
             <button mat-icon-button color="primary" (click)="openDialog(payment.key)">
               <mat-icon>edit</mat-icon>
@@ -54,12 +62,7 @@
               <mat-icon>delete</mat-icon>
             </button>
           </ng-container>
-          <button mat-raised-button color="warning" (click)="lookFiles(payment.key)">Ver
-            archivo &nbsp;<mat-icon>post_add</mat-icon></button>
 
-          <button class="mt-1" *ngIf="payment?.value?.link_to_pay" mat-raised-button color="info"
-            (click)="lookTransaction(payment.key)">
-            Ver transacciones &nbsp;<mat-icon>receipt_long</mat-icon></button>
         </div>
       </mat-card>
     </div>

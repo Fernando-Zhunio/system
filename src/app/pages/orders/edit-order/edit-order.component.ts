@@ -22,7 +22,7 @@ export class EditOrderComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   readonly id = this.activated_router.snapshot.params['order_id'];
   order: IOrder = null;
-  @ViewChild(MatAccordion) accordion: MatAccordion;
+  // @ViewChild(MatAccordion) accordion: MatAccordion;
   items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   types: any[] = [];
   channels: IChannelOrder[] = [];

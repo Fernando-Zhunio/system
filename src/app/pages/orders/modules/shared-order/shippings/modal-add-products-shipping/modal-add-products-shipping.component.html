@@ -1,0 +1,54 @@
+<h1 matDialogTitle class="font-weight-bold m-0">Productos del envió</h1>
+
+<mat-dialog-content>
+  <div class="row m-0">
+    <div [ngClass]="{'border-right col-md-6': dataExterna.isModify}" class="border-right col-md-6 col-12 grid-shipping">
+      <div class="sticky-top">
+        <h3 >Productos Seleccionados</h3>
+        <div>
+          <mat-card class="my-2" *ngFor="let product of productsSelected">
+            <p>{{product?.product.name}}</p>
+            <p>Codigo: {{product?.product.code}}</p>
+            <p>Cantidad: {{product.quantity}}</p>
+            <ng-container *ngIf="dataExterna.isModify">
+              <div>
+                <div class="container-quantity">
+                  <button (click)="inputQuantity.stepDown()" class="btn-sub">-</button>
+                  <input #inputQuantity [value]="product.quantity" class="input-quantity" min="1"  type="number" name="" id="">
+                  <button (click)="inputQuantity.stepUp()" class="btn-add">+</button>
+                </div>
+              </div>
+                <button [disabled]="inputQuantity.value < 1" (click)="modifyProductsQuantity(product.id, inputQuantity.value)" class="mt-2" color="warning" mat-raised-button>Modificar este cantidad</button>
+                <button color="warn" mat-icon-button (click)="deleteProductsQuantity(product.id)"><mat-icon>delete_forever</mat-icon></button>
+            </ng-container>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="dataExterna.isModify" class="col-md-6 col-12">
+      <div>
+        <h3>Productos Disponibles</h3>
+        <div>
+          <mat-card class="my-2" *ngFor="let product of products">
+            <p>{{product?.name}}</p>
+            <p>Codigo: {{product.code}}</p>
+            <p>Disponible en orden: {{product.quantity_remaining}}</p>
+            <div>
+              <div class="container-quantity">
+                <button (click)="inputQuantity.stepDown()" class="btn-sub">-</button>
+                <input (keydown)="validateMinMaxRangeQuantity($event, product.quantity_remaining)" #inputQuantity class="input-quantity" min="0" [max]="product.quantity_remaining" type="number" value="1">
+                <button (click)="inputQuantity.stepUp()" class="btn-add">+</button>
+              </div>
+            </div>
+              <button [disabled]="inputQuantity.value < 1" (click)="addProductShipping(product.id, inputQuantity.value)" class="mt-2" color="warning" mat-raised-button>Agregar este producto</button>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button [disabled]="isLoading" color="warn" matDialogClose>Cerrar</button>
+  <!-- <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()" color="primary">Guardar</button> -->
+</mat-dialog-actions>

@@ -80,7 +80,6 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.getProductsAvailable();
   }
 
   ngOnDestroy(): void {
@@ -171,14 +170,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  getProductsAvailable(): void {
-    const path = `system-orders/orders/${this.dataExterna.order_id}/shippings/products/remaining`;
-    this.standard.methodGet<IProductItemOrder[]>(path).subscribe(res => {
-      if (res.success) {
-        this.products = res.data;
-      }
-    });
-  }
+
 
   addProductShipping(quantity, id): void {
 

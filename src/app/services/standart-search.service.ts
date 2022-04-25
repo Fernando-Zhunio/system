@@ -221,8 +221,8 @@ export class StandartSearchService {
     return this.http.put<IResponse<T>>(this.end_point + url, params );
   }
 
-  public methodDelete<T = IResponse>(url): Observable<T> {
-    return this.http.delete<T>(this.end_point + url);
+  public methodDelete<T = any>(url): Observable<IResponse<T>> {
+    return this.http.delete<IResponse<T>>(this.end_point + url);
   }
 
 }

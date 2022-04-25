@@ -41,7 +41,7 @@ const trans_es_order = {
     cancelled: 'Cancelado',
     created: 'Creado',
     generated_guide: 'Generando guía',
-    shipped: 'Listo para recoger',
+    shipped: 'Enviado',
     in_transit: 'En tránsito',
     delivered: 'Entregado',
     returned: 'Devuelto',

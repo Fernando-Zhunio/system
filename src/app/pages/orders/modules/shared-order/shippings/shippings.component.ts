@@ -11,6 +11,7 @@ import { ShippingOrderSectionComponent } from '../../../components/shipping-orde
 import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
 import { SelectedViewServientregaPdfComponent } from '../selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
 import { GenerateGuideServientregaComponent } from '../tools/generate-guide-servientrega/generate-guide-servientrega.component';
+import { ModalAddProductsShippingComponent } from './modal-add-products-shipping/modal-add-products-shipping.component';
 
 @Component({
   selector: 'app-shippings',
@@ -35,7 +36,6 @@ export class ShippingsComponent implements OnInit {
 
   openDialogShipping(id: number = null): void {
     this.dialog.open(ShippingOrderSectionComponent, {
-      // width: '500px',
       data: { shipping_id: id, order_id: this.order_id },
       disableClose: true,
     }).beforeClosed().subscribe(res => {
@@ -62,16 +62,31 @@ export class ShippingsComponent implements OnInit {
   }
 
   changeStatusShipping(select: MatSelectChange, id: number): void {
-    console.log({ select, id });
-    this.standard.methodPut(`system-orders/orders/${this.order_id}/shippings/${id}/status`, { status: select.value }).subscribe(res => {
-      if (res?.success) {
-        this.change.emit('update status');
-        // const index = this.shippings.findIndex(x => x.id === id);
-        // if (index !== -1) {
-        //   this.shippings[index].status = select.value;
-        // }
-      }
-    });
+    SwalService.swalFire(
+      { title: 'Cambiar Estado',
+       text: '¿Está seguro de cambiar el estado del Envío?',
+        icon: 'warning',
+      cancelButtonText: 'No, Cancelar',
+      confirmButtonText: 'Si, cambiar estado',
+      showCancelButton: true,
+      showConfirmButton: true,
+      })
+      .then(res => {
+        if (res.isConfirmed) {
+          this.standard.methodPut(`system-orders/orders/${this.order_id}/shippings/${id}/status`, { status: select.value }).subscribe(res => {
+            if (res?.success) {
+              this.change.emit('update status');
+            }
+          }, err => {
+            select.source.value = this.shippings.find(x => x.id == id).status;
+          });
+        } else {
+          console.log(select);
+          select.source.value = this.shippings.find(x => x.id == id).status;
+        }
+      }).catch(err => {
+        select.source.value = this.shippings.find(x => x.id == id).status;
+      });
   }
 
   openGenerateGuide(id: number): void {
@@ -154,5 +169,19 @@ export class ShippingsComponent implements OnInit {
             });
         }
       });
+  }
+
+  openDialogProductsShipping(id: number, status): void {
+    console.log({ id, status });
+    this.dialog.open(ModalAddProductsShippingComponent, {
+      data: { shipping_id: id, order_id: this.order_id, isModify: !this.isCancelled && status === 'pending' },
+      disableClose: true,
+      maxHeight: '80vh',
+    }).beforeClosed().subscribe(res => {
+      console.log({ res });
+      if (res?.success) {
+        this.change.emit('create or update');
+      }
+    });
   }
 }
