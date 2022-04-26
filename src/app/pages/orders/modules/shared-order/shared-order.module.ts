@@ -79,7 +79,36 @@ import { ModalAddProductsShippingComponent } from './shippings/modal-add-product
     CustomTemplateOnlyInputComponent,
     ModalAddProductsShippingComponent,
   ],
-  declarations: [ModalAddProductsShippingComponent, TransactionsPaymentComponent, ShippingOrderSectionComponent, FilesPaymentsOrderComponent, SelectClientAddressModalComponent, SelectedViewServientregaPdfComponent, HistoryStatusesComponent, TransferenceOrderComponent, DiscountTaxOrderComponent, PaymentOrderComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, AddProductsOrderComponent, ShippingsComponent, InvoicesOrderComponent, DetailsOrderComponent, CustomTemplateOnlyInputComponent],
-  entryComponents: [ShippingOrderSectionComponent, TransactionsPaymentComponent, FilesPaymentsOrderComponent, SelectClientAddressModalComponent, DetailsOrderComponent, SelectedViewServientregaPdfComponent, HistoryStatusesComponent, CreateOrEditPaymentOrderComponent, GenerateGuideServientregaComponent, CreateOrEditAddressClientComponent, ModalAddProductsShippingComponent]
+  declarations: [ModalAddProductsShippingComponent,
+    TransactionsPaymentComponent,
+    ShippingOrderSectionComponent,
+    FilesPaymentsOrderComponent,
+    SelectClientAddressModalComponent,
+    SelectedViewServientregaPdfComponent,
+    HistoryStatusesComponent,
+    TransferenceOrderComponent,
+    DiscountTaxOrderComponent,
+    PaymentOrderComponent,
+    CreateOrEditPaymentOrderComponent,
+    GenerateGuideServientregaComponent,
+    CreateOrEditAddressClientComponent,
+    AddProductsOrderComponent,
+    ShippingsComponent,
+    InvoicesOrderComponent,
+    DetailsOrderComponent,
+    CustomTemplateOnlyInputComponent
+  ],
+  entryComponents: [ShippingOrderSectionComponent,
+    TransactionsPaymentComponent,
+    FilesPaymentsOrderComponent,
+    SelectClientAddressModalComponent,
+    DetailsOrderComponent,
+    SelectedViewServientregaPdfComponent,
+    HistoryStatusesComponent,
+    CreateOrEditPaymentOrderComponent,
+    GenerateGuideServientregaComponent,
+    CreateOrEditAddressClientComponent,
+    ModalAddProductsShippingComponent
+  ]
 })
 export class SharedOrderModule { }

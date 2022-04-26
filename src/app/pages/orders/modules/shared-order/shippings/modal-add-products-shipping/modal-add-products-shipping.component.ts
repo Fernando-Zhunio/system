@@ -11,8 +11,9 @@ import { StandartSearchService } from '../../../../../../services/standart-searc
 export class ModalAddProductsShippingComponent implements OnInit {
 
   products: IProductItemOrder[] = [];
-  productsSelected: IItemOrder[] = [];
+  productsSelected: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   isLoading: boolean = false;
+  isLoadingSelected = false;
   constructor(private standard: StandartSearchService, public dialogRef: MatDialogRef<ModalAddProductsShippingComponent>,
     @Inject(MAT_DIALOG_DATA) public dataExterna: { order_id: number, shipping_id: number, isModify: boolean }) { }
 
@@ -38,37 +39,43 @@ export class ModalAddProductsShippingComponent implements OnInit {
     const path = `system-orders/orders/${this.dataExterna.order_id}/shippings/${this.dataExterna.shipping_id}/products`;
     this.standard.methodGet<IItemOrder[]>(path).subscribe(res => {
       if (res?.success) {
-        this.productsSelected = res.data;
+        this.productsSelected = new Map<number, IItemOrder>(res.data.map(x => [x.product_id, x]));
       }
     });
   }
 
-  modifyProductsQuantity(product_id: number, quantity): void {
+  modifyProductsQuantity(product_id: number, key, quantity): void {
+    this.isLoadingSelected = true;
     const path = `system-orders/orders/${this.dataExterna.order_id}/shippings/${this.dataExterna.shipping_id}/products/${product_id}`;
-    this.standard.methodPut<IItemOrder>(path, {quantity}).subscribe(res => {
+    this.standard.methodPut<IItemOrder>(path, { quantity }).subscribe(res => {
       if (res?.success) {
-        this.productsSelected.find(x => x.id == product_id ).quantity = res.data.quantity;
+        this.productsSelected.get(key).quantity = res.data.quantity;
         this.getProductsAvailable();
       }
+      this.isLoadingSelected = false;
+    }, err => {
+      this.isLoadingSelected = false;
     });
   }
 
-  deleteProductsQuantity(product_id: number): void {
+  deleteProductsQuantity(product_id: number,key): void {
+    this.isLoadingSelected = true;
     const path = `system-orders/orders/${this.dataExterna.order_id}/shippings/${this.dataExterna.shipping_id}/products/${product_id}`;
     this.standard.methodDelete<IItemOrder>(path).subscribe(res => {
       if (res?.success) {
-        // this.productsSelected.find(x => x.id == product_id ).quantity = res.data.quantity;
-        const index = this.productsSelected.findIndex(x => x.id == product_id);
-        this.productsSelected.splice(index, 1);
+        this.productsSelected.delete(key);
         this.getProductsAvailable();
       }
+      this.isLoadingSelected = false;
+    }, err => {
+      this.isLoadingSelected = false;
     });
   }
 
   addProductShipping(id, quantity): void {
     this.isLoading = true;
     const path = `system-orders/orders/${this.dataExterna.order_id}/shippings/${this.dataExterna.shipping_id}/products`;
-    this.standard.methodPost(path, { product_id: id, quantity}).subscribe(res => {
+    this.standard.methodPost(path, { product_id: id, quantity }).subscribe(res => {
       if (res?.success) {
         this.getProductsSelected();
         this.getProductsAvailable();
@@ -79,17 +86,20 @@ export class ModalAddProductsShippingComponent implements OnInit {
     });
   }
 
- validateMinMaxRangeQuantity(e, max): void {
-  const typedNumber = parseInt(e.key);
-  const currentVal = parseInt(e.target.value) || '';
-  console.log(currentVal);
-  const newVal = parseInt(typedNumber.toString() + currentVal.toString());
+  validateMinMaxRangeQuantity(e, max): void {
+    // tslint:disable-next-line: radix
+    const typedNumber = parseInt(e.key);
+    // tslint:disable-next-line: radix
+    const currentVal = parseInt(e.target.value) || '';
+    console.log(currentVal);
+    // tslint:disable-next-line: radix
+    const newVal = parseInt(typedNumber.toString() + currentVal.toString());
 
-  if (newVal < 1 || newVal > max) {
-    e.preventDefault();
-    e.stopPropagation();
+    if (newVal < 1 || newVal > max) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   }
- }
 
 
 }

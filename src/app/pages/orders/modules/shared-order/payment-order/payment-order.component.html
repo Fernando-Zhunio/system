@@ -5,8 +5,8 @@
       <mat-icon>add</mat-icon>
     </button>
     <hr>
-    <div class="card-columns" style="column-count: 4;">
-      <mat-card class="card" *ngFor="let payment of paymentsMap | keyvalue">
+    <div class="card-columns">
+      <mat-card class="card border-0" *ngFor="let payment of paymentsMap | keyvalue">
         <div>
           <span class="badge bg-success font-sm mb-2 text-uppercase"> {{ payment.value.type | translatefz:'orders'
             }}</span>
