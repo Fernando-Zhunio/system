@@ -31,7 +31,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   formSearch = new FormControl(null);
   searching = false;
   shipping: IShippingOrder = null;
-  intervalSearch: any;
+  // intervalSearch: any;
   noEntriesFoundLabel = 'No se encontraron registros';
   form: FormGroup = new FormGroup({
     type: new FormControl(null, [Validators.required]),
@@ -45,6 +45,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   isLoading = false;
   status: 'edit' | 'create' = 'create';
   products: IProductItemOrder[] = [];
+  subscriptionSearch: Subscription = null;
   constructor(private standard: StandartSearchService, public dialogRef: MatDialogRef<ShippingOrderSectionComponent>,
     @Inject(MAT_DIALOG_DATA) public dataExterna: { order_id: number, shipping_id: number }) { }
 
@@ -86,6 +87,9 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.subscriptionSearch) {
+      this.subscriptionSearch.unsubscribe();
+    }
   }
 
   fillData(data): void {
@@ -126,7 +130,10 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
 
   searchWarehouses(text) {
     console.log(text);
-    this.standard.methodGet(routes_api_shipping.search_warehouses(text)).subscribe(res => {
+    if (this.subscriptionSearch) {
+      this.subscriptionSearch.unsubscribe();
+    }
+    this.subscriptionSearch = this.standard.methodGet(routes_api_shipping.search_warehouses(text)).subscribe(res => {
       console.log(res);
       this.warehouses = res.data.data;
       this.searching = false;
@@ -135,10 +142,10 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
 
   buscarInterval(text): void {
     this.searching = true;
-    clearTimeout(this.intervalSearch);
-    this.intervalSearch = setTimeout(() => {
-      this.searchWarehouses(text);
-    }, 1000);
+    this.searchWarehouses(text);
+    // this.intervalSearch = setTimeout(() => {
+    // }, 1000);
+    // clearTimeout(this.intervalSearch);
   }
 
   selectWarehouse(event: MatAutocompleteSelectedEvent | number): void {

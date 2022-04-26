@@ -1,8 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CTemplateSearch } from '../../class/ctemplate-search';
-import { IPaginate, StandartSearchService } from '../../services/standart-search.service';
-// import { SwalService } from '../../services/swal.service';
 
 /**
  * @selector menu-bar menuBar

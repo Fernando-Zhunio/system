@@ -32,6 +32,7 @@ import { EditOrderComponent } from './edit-order/edit-order.component';
 import { AddItemTemplateComponent } from './components/add-item-template/add-item-template.component';
 import { CreateOrEditDiscountOrTaxOrderComponent } from './components/create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
+import { MatMenuModule } from '@angular/material/menu';
 // import { SelectClientAddressModalComponent } from './modules/shared-order/select-client-address-modal/select-client-address-modal.component';
 @NgModule({
   declarations: [DashboardOrdersComponent,
@@ -64,6 +65,7 @@ import { SharedOrderModule } from './modules/shared-order/shared-order.module';
     SharedOrderModule,
     MatExpansionModule,
     MatBadgeModule,
+    MatMenuModule,
   ],
   entryComponents: [SelectClientModalComponent, CreateOrEditDiscountOrTaxOrderComponent]
 })

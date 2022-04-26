@@ -42,7 +42,7 @@
                 </table>
             </div>
             <div class="card-body shadow rounded-fz">
-                <h2 class="font-weight-bold mb-1">Dirección de envió</h2>
+                <h2 class="font-weight-bold mb-1">Dirección de envío</h2>
                 <table>
                     <tbody>
                         <tr>
@@ -60,18 +60,18 @@
                         <tr>
                             <td>Vecindario:</td>
                             <td>{{order?.shipping_address?.neighborhood}} <span
-                                    *ngIf="!order?.shipping_address?.neighborhood" class="badge bg-warning">Vació</span>
+                                    *ngIf="!order?.shipping_address?.neighborhood" class="badge bg-warning">vacío</span>
                             </td>
                         </tr>
                         <tr>
                             <td>Numero</td>
                             <td>{{order?.shipping_address?.number}} <span *ngIf="!order?.shipping_address?.number"
-                                    class="badge bg-warning">Vació</span></td>
+                                    class="badge bg-warning">vacío</span></td>
                         </tr>
                         <tr>
                             <td>Código postal:</td>
                             <td>{{order?.shipping_address?.zip_code}} <span *ngIf="!order?.shipping_address?.zip_code"
-                                    class="badge bg-warning">Vació</span></td>
+                                    class="badge bg-warning">vacío</span></td>
                         </tr>
                         <tr>
                             <td>Calle:</td>
@@ -235,7 +235,7 @@
                     <span>$ {{order?.total_paid}}</span>
                 </div>
                 <div>
-                    <span>Costo de envió:&nbsp;</span>
+                    <span>Costo de envío:&nbsp;</span>
                     <span>$ {{order?.shipping}}</span>
                 </div>
             </div>

@@ -17,17 +17,71 @@ export class OrdersIndexComponent extends Crud<any> implements OnInit {
   }
 
   url: string = 'system-orders/orders';
+  filters = {
+    status: '',
+    min: 0,
+    max: 0,
+    type: '',
+  };
+
+  statuses: any[] = [];
+  types: any[] = [];
 
   ngOnInit(): void {
+    this.getDataForFilter();
+  }
+
+  getDataForFilter(): void {
+    this.standardService.methodGet('system-orders/orders/filter-data').subscribe(
+      (response: any) => {
+        this.statuses = response.data.status;
+        this.types = response.data.type;
+      },
+      (error) => {
+        this.snackBar.open('Error al cargar los datos', 'Cerrar', {
+          duration: 5000,
+        });
+      }
+    );
   }
 
   openDetailOrder(id: number) {
     console.log(id);
     this.dialog.open(DetailsOrderComponent, {
       data: {order_id: id},
-      // maxHeight: '100vh',
-      // panelClass: 'rounded-none',
     });
+  }
+
+  validateMinQuantity(e): void {
+    // tslint:disable-next-line: radix
+    const typedNumber = parseInt(e.key);
+    // tslint:disable-next-line: radix
+    const currentVal = parseInt(e.target.value) || '';
+    console.log(currentVal);
+    // tslint:disable-next-line: radix
+    const newVal = parseInt(typedNumber.toString() + currentVal.toString());
+
+    if (newVal > this.filters.max) {
+      // e.preventDefault();
+      // e.stopPropagation();
+      this.filters.max = newVal + 1;
+    }
+  }
+
+  validateMaxQuantity(e): void {
+    // tslint:disable-next-line: radix
+    const typedNumber = parseInt(e.key);
+    // tslint:disable-next-line: radix
+    const currentVal = parseInt(e.target.value) || '';
+    console.log(currentVal);
+    // tslint:disable-next-line: radix
+    const newVal = parseInt(typedNumber.toString() + currentVal.toString());
+
+    if (newVal < this.filters.min) {
+      // e.preventDefault();
+      // e.stopPropagation();
+      this.filters.min = newVal - 1;
+    }
   }
 
 }

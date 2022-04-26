@@ -1,37 +1,39 @@
-<h1 matDialogTitle class="font-weight-bold m-0">Productos del envió</h1>
+<h1 matDialogTitle class="font-weight-bold m-0">Productos del envío</h1>
 
 <mat-dialog-content>
   <div class="row m-0">
     <div [ngClass]="{'border-right col-md-6': dataExterna.isModify}" class="border-right col-md-6 col-12 grid-shipping">
       <div class="sticky-top">
         <h3>Productos Seleccionados</h3>
-        <div>
-          <mat-card class="my-2" *ngFor="let product of productsSelected|keyvalue">
-            <p>{{product.value?.product.name}}</p>
-            <p>Codigo: {{product.value?.product.code}}</p>
-            <p>Cantidad: {{product.value.quantity}}</p>
-            <ng-container *ngIf="dataExterna.isModify">
-              <div class="center">
-                <div class="container-quantity">
-                  <button (click)="inputQuantity.stepDown()" class="btn-sub">-</button>
-                  <input #inputQuantity [value]="product.value.quantity" class="input-quantity" min="1" type="number"
-                    name="" id="">
-                  <button (click)="inputQuantity.stepUp()" class="btn-add">+</button>
+        <!-- <div class="row m-0"> -->
+          <!-- <div class="col-md-6 my-2 p-1"> -->
+            <mat-card class="my-2" *ngFor="let product of productsSelected|keyvalue">
+              <p>{{product.value?.product.name}}</p>
+              <p>Codigo: {{product.value?.product.code}}</p>
+              <p>Cantidad: {{product.value.quantity}}</p>
+              <ng-container *ngIf="dataExterna.isModify">
+                <div class="center">
+                  <div class="container-quantity">
+                    <button (click)="inputQuantity.stepDown()" class="btn-sub">-</button>
+                    <input #inputQuantity [value]="product.value.quantity" class="input-quantity" min="1" type="number"
+                      name="" id="">
+                    <button (click)="inputQuantity.stepUp()" class="btn-add">+</button>
+                  </div>
+                  &nbsp;
+                  <button [disabled]="inputQuantity.value < 1 || isLoadingSelected"
+                    (click)="modifyProductsQuantity(product.value.id, product.key, inputQuantity.value)" class=""
+                    color="warning" mat-raised-button>Actualizar</button>
                 </div>
-                &nbsp;
-                <button [disabled]="inputQuantity.value < 1 || isLoadingSelected"
-                  (click)="modifyProductsQuantity(product.value.id, product.key, inputQuantity.value)" class=""
-                  color="warning" mat-raised-button>Actualizar</button>
-              </div>
-              <div>
-                <button [disabled]="isLoadingSelected" color="warn" mat-icon-button
-                  (click)="deleteProductsQuantity(product.value.id, product.key)">
-                  <mat-icon>delete_forever</mat-icon>
-                </button>
-              </div>
-            </ng-container>
-          </mat-card>
-        </div>
+                <div>
+                  <button [disabled]="isLoadingSelected" color="warn" mat-icon-button
+                    (click)="deleteProductsQuantity(product.value.id, product.key)">
+                    <mat-icon>delete_forever</mat-icon>
+                  </button>
+                </div>
+              </ng-container>
+            </mat-card>
+          <!-- </div> -->
+        <!-- </div> -->
       </div>
     </div>
     <div *ngIf="dataExterna.isModify" class="col-md-6 col-12">

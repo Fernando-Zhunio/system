@@ -18,7 +18,7 @@ export class NullPipe implements PipeTransform {
      console.log({value});
 
     if (value === null || value === undefined) {
-      return 'texto vació';
+      return 'texto vacío';
     }
 
     return value;

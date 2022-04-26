@@ -87,11 +87,12 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     this.pageEvent = $event;
     this.gotoTop();
     this.subscription = this.s_standard
-      .search2(this.url, {
+      .methodGet(this.url, {
         pageSize: $event.pageSize,
         search: this.productSearch,
         page: $event.pageIndex + 1,
-        ...this.filter_data,
+        ...this.filterWithNotNull(),
+        // ...this.filter_data,
       })
       .subscribe(
         (response: any) => {
@@ -123,6 +124,16 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   gotoTop() {
     const main = document.getElementsByClassName('app-body');
     main[0].scrollTop = 0;
+  }
+
+  filterWithNotNull(): object {
+    const filter_data = {};
+    Object.keys(this.filter_data).forEach((key) => {
+      if (this.filter_data[key] !== null && this.filter_data[key] !== '' && this.filter_data[key] !== 0) {
+        filter_data[key] = this.filter_data[key];
+      }
+    });
+    return filter_data;
   }
 
   paste() {

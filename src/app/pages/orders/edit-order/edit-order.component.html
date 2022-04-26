@@ -57,7 +57,7 @@
     </mat-card>
     <mat-card>
       <div class="d-flex align-items-center justify-content-between">
-        <h3 class="font-weight-bold font-2xl my-1">Dirección de envió</h3>
+        <h3 class="font-weight-bold font-2xl my-1">Dirección de envío</h3>
         <div *ngIf="order?.status !='cancelled'">
 
           <!-- <button color="primary" mat-icon-button (click)="addClientAddress()">
@@ -91,18 +91,18 @@
           <tr>
             <td>Vecindario:</td>
             <td>{{order?.shipping_address?.neighborhood}} <span *ngIf="!order?.shipping_address?.neighborhood"
-                class="badge bg-warning">Vació</span>
+                class="badge bg-warning">Vacío</span>
             </td>
           </tr>
           <tr>
             <td>Numero</td>
             <td>{{order?.shipping_address?.number}} <span *ngIf="!order?.shipping_address?.number"
-                class="badge bg-warning">Vació</span></td>
+                class="badge bg-warning">Vacío</span></td>
           </tr>
           <tr>
             <td>Código postal:</td>
             <td>{{order?.shipping_address?.zip_code}} <span *ngIf="!order?.shipping_address?.zip_code"
-                class="badge bg-warning">Vació</span></td>
+                class="badge bg-warning">vacío</span></td>
           </tr>
           <tr>
             <td>Calle:</td>
@@ -273,131 +273,16 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <app-custom-template-only-input path="system-orders/orders/{{order?.id}}/mba-payments" title="Pagos MBA"
+        <app-custom-template-only-input  (changeOrder)="getOrder()" path="system-orders/orders/{{order?.id}}/mba-payments" title="Pagos MBA"
           placeholder="Escriba el código de pago" [isCancelled]="order?.status == 'cancelled'">
-          <div class="card-colums" items>
-            <mat-card class="card border-0" *ngFor="let item of order?.mba_payments">
-              <div>
-                <h2 class="m-2 text-info font-weight-bold">Detalles</h2>
-                <mat-chip-list>
-                  <mat-chip>Estado: {{item.status | translatefz:'orders'}}</mat-chip>
-                  <mat-chip>Numero: {{item.number}}</mat-chip>
-                </mat-chip-list>
-                <div>
-                  <span>Creado: <span>{{item.created_at | date}}</span></span>
-                  <p>Memo: <span>{{item.memo}}</span></p>
-                </div>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <span>Monto:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.amount}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Descuento:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.discount}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Retención:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.retention}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Método:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.method}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Pago neto:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.net_payment}}</span>
-                      </td>
-                  </tbody>
-                </table>
-              </div>
-              <div>
-                <h2 class="m-2 text-info font-weight-bold">Cliente</h2>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <span>Nombre:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.client?.name}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Email:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.client?.email}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Teléfono:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.client?.phone}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Dirección:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.client?.address}}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>Identificación:</span>
-                      </td>
-                      <td>
-                        <span>{{item.data?.client?.identification}}</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </mat-card>
+          <div class="row" items>
+           <app-payment-mba-item class="col-md-4" *ngFor="let payment of order?.mba_payments" [item]="payment" [isCancelled]="order?.status == 'cancelled'"
+            (changeOrder)="getOrder()" [order_id]="order?.id"></app-payment-mba-item>
           </div>
         </app-custom-template-only-input>
       </mat-expansion-panel>
     </mat-accordion>
   </mat-card>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <div class="totals">
     <mat-card class="center p-0 px-3">
       <div>
@@ -429,7 +314,7 @@
                                     <td>$ {{order?.retention}}</td>
                                 </tr> -->
                 <tr>
-                  <td>Costo de envió:&nbsp;</td>
+                  <td>Costo de envío:&nbsp;</td>
                   <td>$ {{order?.shipping}}</td>
                 </tr>
                 <tr>

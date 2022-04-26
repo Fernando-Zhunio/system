@@ -47,11 +47,11 @@ export class ShippingsComponent implements OnInit {
   }
 
   deleteShipping(id: number): void {
-    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el Envió?', 'warning').then(res => {
+    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el envío?', 'warning').then(res => {
       if (res.isConfirmed) {
         this.standard.methodDelete(`system-orders/orders/${this.order_id}/shippings/${id}`).subscribe(res => {
           if (res?.success) {
-            SwalService.swalFire({ title: 'Eliminado', text: 'Envió eliminado', icon: 'success' });
+            SwalService.swalFire({ title: 'Eliminado', text: 'Envío eliminado', icon: 'success' });
             if (res?.success) {
               this.change.emit('delete');
             }
@@ -102,7 +102,7 @@ export class ShippingsComponent implements OnInit {
         }
       });
     } else {
-      SwalService.swalFire({ title: 'Error', text: 'No se encontró el Envió', icon: 'error' });
+      SwalService.swalFire({ title: 'Error', text: 'No se encontró el Envío', icon: 'error' });
     }
   }
 
@@ -121,7 +121,7 @@ export class ShippingsComponent implements OnInit {
         }
       });
     } else {
-      SwalService.swalFire({ title: 'Error', text: 'No se encontró el Envió', icon: 'error' });
+      SwalService.swalFire({ title: 'Error', text: 'No se encontró el Envío', icon: 'error' });
     }
   }
 

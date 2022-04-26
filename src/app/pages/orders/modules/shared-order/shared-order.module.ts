@@ -37,6 +37,7 @@ import { ShippingOrderSectionComponent } from '../../components/shipping-order-s
 import { TransactionsPaymentComponent } from './payment-order/transactions-payment/transactions-payment.component';
 import { CustomTemplateOnlyInputComponent } from './custom-template-only-input/custom-template-only-input.component';
 import { ModalAddProductsShippingComponent } from './shippings/modal-add-products-shipping/modal-add-products-shipping.component';
+import { PaymentMbaItemComponent } from './components/payment-mba-item/payment-mba-item.component';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { ModalAddProductsShippingComponent } from './shippings/modal-add-product
     FilesPaymentsOrderComponent,
     CustomTemplateOnlyInputComponent,
     ModalAddProductsShippingComponent,
+    PaymentMbaItemComponent,
   ],
   declarations: [ModalAddProductsShippingComponent,
     TransactionsPaymentComponent,
@@ -96,7 +98,8 @@ import { ModalAddProductsShippingComponent } from './shippings/modal-add-product
     ShippingsComponent,
     InvoicesOrderComponent,
     DetailsOrderComponent,
-    CustomTemplateOnlyInputComponent
+    CustomTemplateOnlyInputComponent,
+    PaymentMbaItemComponent
   ],
   entryComponents: [ShippingOrderSectionComponent,
     TransactionsPaymentComponent,

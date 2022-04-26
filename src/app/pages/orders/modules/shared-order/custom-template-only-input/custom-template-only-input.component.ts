@@ -41,4 +41,20 @@ export class CustomTemplateOnlyInputComponent {
     }
   }
 
+  unlink(): void {
+    this.isLoading = true;
+    this.standard.methodPost(this.path, { [this.customInputName]: null }).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.changeOrder.emit('invoice');
+          this.isOpenAddInvoice = false;
+          this.formControl.reset();
+        }
+        this.isLoading = false;
+      }, err => {
+        this.isLoading = false;
+      }
+    );
+  }
+
 }
