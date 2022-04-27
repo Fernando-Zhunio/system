@@ -39,4 +39,8 @@
   .font-header{
     font-size: 1rem !important;
   }
+  .input-style{
+    min-width: 210px;
+    max-width: 100%;
+  }
 }

@@ -25,24 +25,6 @@ import { setPreference } from '../../redux/actions/preference.action';
 import { compare } from 'compare-versions';
 import { environment } from '../../../environments/environment';
 
-// interface ISidebar {
-//   menu: {
-//     [key: string]: { title: ITitle, items: IItem[] }
-//   };
-//   options: { background: string };
-// }
-// interface ITitle {
-//   title: string;
-//   tag: string;
-//   icon?: string;
-// }
-// interface IItem {
-//   name: string;
-//   url: string;
-//   icon: string;
-//   permission: string;
-//   tag: string;
-// }
 @Component({
   selector: 'app-dashboard',
   styleUrls: ['./default-layout.component.css'],

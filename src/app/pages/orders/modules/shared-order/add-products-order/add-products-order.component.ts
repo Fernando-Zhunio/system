@@ -65,7 +65,10 @@ export class AddProductsOrderComponent implements OnInit {
       if (res?.success) {
         if (this.isEditingItem) {
           this.disabledEditingItemOrder();
+          this.formEdit.reset();
           SwalService.swalFire({ title: 'Mensaje', text: 'Actualizado correctamente', icon: 'success' });
+        } else {
+          this.form.reset();
         }
         this.changeOrder.emit('change');
       }
