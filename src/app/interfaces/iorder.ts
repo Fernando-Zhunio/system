@@ -83,6 +83,8 @@ export interface IOrder {
   statuses: IStatus[];
   invoices: IInvoice[];
   mba_payments: IPaymentMBA[];
+  company: {id: number, name: string};
+  seller_code: string;
 }
 export interface IClientOrder {
   id: number;

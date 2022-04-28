@@ -1,7 +1,7 @@
 <div>
   <div>
-    <app-search-template [filter_data]="filters" [active_filters_menu]="true" textBtnAdd="Agregar orden" title="Ordenes" [url$]="url"
-      (data)="getData($event)">
+    <app-search-template placeholder="#, ci, cliente, email" [filter_data]="filters" [active_filters_menu]="true" textBtnAdd="Agregar orden" title="Ordenes"
+      [url$]="url" (data)="getData($event)">
       <ng-container menuBar>
         <mat-chip [routerLink]="['./create']" class="ml-1 mat-btn-add">
           <mat-icon>add</mat-icon> Agregar orden
@@ -34,7 +34,7 @@
           (keydown)="$event.stopPropagation()">
           <mat-form-field class="w-50">
             <mat-label>Mínimo</mat-label>
-            <input min="0"  [(ngModel)]="filters.min" type="number" matInput>
+            <input min="0" [(ngModel)]="filters.min" type="number" matInput>
           </mat-form-field>
           <mat-form-field class="w-50">
             <mat-label>Máximo</mat-label>
@@ -100,6 +100,14 @@
                   <tr>
                     <td>Total pagado:</td>
                     <td>${{order.value.total_paid}}</td>
+                  </tr>
+                  <tr>
+                    <td>Vendedor:</td>
+                    <td>{{order.value.seller_code}}</td>
+                  </tr>
+                  <tr>
+                    <td>Compañía:</td>
+                    <td>{{order.value?.company?.name}}</td>
                   </tr>
                 </tbody>
               </table>
