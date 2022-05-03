@@ -127,6 +127,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       }
       );
     } else {
+      this.form.markAllAsTouched();
       SwalService.swalFire({ icon: 'warning', title: 'Campos incompletos', text: 'Por favor complete los campos requeridos' });
     }
   }
