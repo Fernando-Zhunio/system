@@ -128,6 +128,7 @@ export interface IPaymentOrder {
   created_at: string;
   updated_at: string;
   order: IOrder;
+  installments_type: string;
   statuses: IStatus[];
 }
 

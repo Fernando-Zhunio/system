@@ -66,6 +66,8 @@ const trans_es_order = {
 
     published: 'Publicado',
     canceled: 'Cancelado',
+    deferred: 'Diferido',
+    single: 'Corriente',
 
 };
 

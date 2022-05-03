@@ -76,9 +76,9 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
 
     this.subscription = this.formSearch.valueChanges.subscribe(value => {
       console.log(value);
-      if (value.length > 2) {
+      // if (value.length > 2) {
         this.buscarInterval(value);
-      }
+      // }
     });
 
   }

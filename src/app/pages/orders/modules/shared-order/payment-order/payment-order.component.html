@@ -39,6 +39,10 @@
                 <td> <a [href]="payment.value.link_to_pay" target="_blank">{{ payment.value.link_to_pay }}</a></td>
               </tr>
               <tr>
+                <td>Tipo de cuota: </td>
+                <td>{{payment.value?.installments_type | translatefz: 'orders'}}</td>
+              </tr>
+              <tr>
                 <td>Monto: </td>
                 <td>$ {{ payment.value.amount }}</td>
               </tr>

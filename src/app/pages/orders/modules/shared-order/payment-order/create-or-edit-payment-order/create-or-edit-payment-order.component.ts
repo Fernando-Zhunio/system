@@ -19,6 +19,7 @@ export class CreateOrEditPaymentOrderComponent extends CreateOrEditModal impleme
     type: new FormControl(null, [Validators.required]),
     amount: new FormControl(null, [Validators.required]),
     description: new FormControl(null),
+    installments_type: new FormControl('single'),
   });
 
   types: any[] = [];

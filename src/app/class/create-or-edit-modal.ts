@@ -79,6 +79,7 @@ export abstract class CreateOrEditModal implements OnInit {
     }
 
     formIsValid(): {isValid: boolean, dataSend: any} {
+         if (this.form.invalid) {this.form.markAllAsTouched(); }
          return { isValid: this.form.valid, dataSend: this.form.value };
     }
 

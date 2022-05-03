@@ -220,7 +220,6 @@
     </div>
 
     <mat-accordion #accordion class="example-headers-align" multi>
-
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -243,6 +242,30 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
+            Anticipos (pagos o cobros) MBA
+          </mat-panel-title>
+          <mat-panel-description>
+            <span class="d-md-inline-block d-none">Agregar o eliminar Pagos MBA de la orden</span>
+            <span class="center">
+              <span class="badge bg-warning font-lg mr-1">{{order?.mba_payments?.length || 0}}</span>
+              <mat-icon>
+                receipt</mat-icon>
+            </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-custom-template-only-input  (changeOrder)="getOrder()" path="system-orders/orders/{{order?.id}}/mba-payments" title="Anticipos (pagos o cobros) MBA"
+          placeholder="Escriba el código de pago" [isCancelled]="order?.status == 'cancelled'">
+          <div class="row" items>
+           <app-payment-mba-item class="col-md-4" *ngFor="let payment of order?.mba_payments" [item]="payment" [isCancelled]="order?.status == 'cancelled'"
+            (changeOrder)="getOrder()" [order_id]="order?.id"></app-payment-mba-item>
+          </div>
+        </app-custom-template-only-input>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
             Facturas
           </mat-panel-title>
           <mat-panel-description>
@@ -257,30 +280,6 @@
         <app-invoices-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()"
           [invoices]="order?.invoices" [order_id]="order?.id">
         </app-invoices-order>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Pagos MBA
-          </mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Agregar o eliminar Pagos MBA de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{order?.mba_payments?.length || 0}}</span>
-              <mat-icon>
-                receipt</mat-icon>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <app-custom-template-only-input  (changeOrder)="getOrder()" path="system-orders/orders/{{order?.id}}/mba-payments" title="Pagos MBA"
-          placeholder="Escriba el código de pago" [isCancelled]="order?.status == 'cancelled'">
-          <div class="row" items>
-           <app-payment-mba-item class="col-md-4" *ngFor="let payment of order?.mba_payments" [item]="payment" [isCancelled]="order?.status == 'cancelled'"
-            (changeOrder)="getOrder()" [order_id]="order?.id"></app-payment-mba-item>
-          </div>
-        </app-custom-template-only-input>
       </mat-expansion-panel>
     </mat-accordion>
   </mat-card>
