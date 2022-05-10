@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Crud } from '../../../class/crud';
-import { StandartSearchService } from '../../../services/standart-search.service';
-import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
+import { Crud } from '../../../../class/crud';
+import { StandartSearchService } from '../../../../services/standart-search.service';
+import { DetailsOrderComponent } from '../../modules/shared-order/details-order/details-order.component';
+// import { Crud } from '../../../class/crud';
+// import { StandartSearchService } from '../../../services/standart-search.service';
+// import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
 
 @Component({
   selector: 'app-orders-index',

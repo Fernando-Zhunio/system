@@ -38,7 +38,7 @@
     <h1 class="m-0 font-weight-bolder font-4xl">{{title}}</h1>
     <div class="position-relative p-3 overflow-hidden">
       <input class="form-control shadow-sm  input-style" [placeholder]="placeholder" (keyup)="buscarInterval($event)"
-        [(ngModel)]="productSearch">
+        [(ngModel)]="productSearch" />
       <button (click)="goBack()" class="btn-go-back" mat-icon-button>
         <mat-icon class="text-black-50">arrow_back</mat-icon>
       </button>

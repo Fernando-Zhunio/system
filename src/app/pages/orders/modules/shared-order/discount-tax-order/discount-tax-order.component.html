@@ -1,11 +1,11 @@
 <div class="my-3 section-order">
-  <div>
-    <h3 class="font-3xl font-weight-bold">Impuestos y descuentos</h3>
+  <div class="center justify-content-between flex-wrap">
+    <h3 class="font-3xl font-weight-bold m-0">Impuestos y descuentos</h3>
     <button *ngIf="!isCancelled" color="accent" class="mb-1" mat-raised-button (click)="openDialogCreateOrEditDiscountOrTax()">Agregar monto <mat-icon>add</mat-icon></button>
   </div>
   <hr>
   <div class="card-columns" style="column-count: 4;">
-    <mat-card class="card" *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
+    <mat-card class="card border-0" *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
       <div>
         <span class="badge bg-info font-sm">{{discountOrTax.value.type | translatefz:'orders'}}</span>
       </div>

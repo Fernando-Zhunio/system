@@ -1,15 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../interfaces/iorder';
-import { StandartSearchService } from '../../../services/standart-search.service';
-import { SwalService } from '../../../services/swal.service';
-import { SelectClientAddressModalComponent } from '../modules/shared-order/select-client-address-modal/select-client-address-modal.component';
-import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
-import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
-import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
+// import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../interfaces/iorder';
+// import { StandartSearchService } from '../../../services/standart-search.service';
+// import { SwalService } from '../../../services/swal.service';
+// import { SelectClientAddressModalComponent } from '../modules/shared-order/select-client-address-modal/select-client-address-modal.component';
+// import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
+// import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
+// import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../../interfaces/iorder';
+import { TranslatefzPipe } from '../../../../pipes/translatefz.pipe';
+import { StandartSearchService } from '../../../../services/standart-search.service';
+import { SwalService } from '../../../../services/swal.service';
+import { SelectClientModalComponent } from '../../components/select-client-modal/select-client-modal.component';
+import { CreateOrEditAddressClientComponent } from '../../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
+import { SelectClientAddressModalComponent } from '../../modules/shared-order/select-client-address-modal/select-client-address-modal.component';
 // import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
 
 @Component({
@@ -48,11 +54,13 @@ export class EditOrderComponent implements OnInit {
       }
     }, err => {
       this.spinner.hide();
-      SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Error al cargar la orden, por favor intente de nuevo recargando la pagina', confirmButtonText: 'Recargar la pagina'}).then(res => {
-        if (res.isConfirmed) {
-          window.location.reload();
-        }
-      });
+      if (err.status === 500) {
+        SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Error al cargar la orden, por favor intente de nuevo recargando la pagina', confirmButtonText: 'Recargar la pagina'}).then(res => {
+          if (res.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      }
     });
   }
 

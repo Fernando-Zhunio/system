@@ -11,6 +11,7 @@ import {
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MethodsHttpService } from '../../services/methods-http.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { SwalService } from '../../services/swal.service';
 
@@ -43,7 +44,8 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private s_standard: StandartSearchService,
+    // private s_standard: StandartSearchService,
+    private methodsHttp: MethodsHttpService,
     private active_route: ActivatedRoute,
     private _location: Location
   ) {}
@@ -79,14 +81,14 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  searchBar($event = this.pageEvent, clearParams: boolean = false) {
+  searchBar($event = this.pageEvent) {
     this.isLoading.emit(true);
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     this.pageEvent = $event;
     this.gotoTop();
-    this.subscription = this.s_standard
+    this.subscription = this.methodsHttp
       .methodGet(this.url, {
         pageSize: $event.pageSize,
         search: this.productSearch,

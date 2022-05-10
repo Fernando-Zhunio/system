@@ -2,10 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { permissionsModuleOrders } from '../../class/permissions-modules';
-import { CreateOrEditOrderComponent } from './create-or-edit-order/create-or-edit-order.component';
 import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
-import { EditOrderComponent } from './edit-order/edit-order.component';
-import { OrdersIndexComponent } from './orders-index/orders-index.component';
+import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create-or-edit-order.component';
+import { EditOrderComponent } from './orders/edit-order/edit-order.component';
+import { OrdersIndexComponent } from './orders/orders-index/orders-index.component';
+// import { CreateOrEditOrderComponent } from './create-or-edit-order/create-or-edit-order.component';
+// import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
+// import { EditOrderComponent } from './edit-order/edit-order.component';
+// import { OrdersIndexComponent } from './orders-index/orders-index.component';
 
 const permissionsModuleRoutes = permissionsModuleOrders;
 const routes = [
@@ -40,6 +44,10 @@ const routes = [
   {
     path: 'clients',
     loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
+  },
+  {
+    path: 'tickets',
+    loadChildren: () => import('./tickets/tickets.module').then(m => m.TicketsModule),
   },
   {
     path: 'servientrega',

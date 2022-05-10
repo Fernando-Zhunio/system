@@ -300,19 +300,38 @@ export interface User {
   updated_at: string;
 }
 
-export interface IAttachmentPaymentOrder {
-  id: number;
-  type: string;
-  file: string;
-  original_name: string;
-  description: string;
-  mime_type: string;
-  attributes?: (null)[] | null;
-  created_at: string;
-  updated_at: string;
-  ext: string;
-  permalink: string;
-}
+export interface IDocumentPaymentOrder {
+  // id: number;
+  // type: string;
+  // file: string;
+  // original_name: string;
+  // description: string;
+  // mime_type: string;
+  // attributes?: (null)[] | null;
+  // created_at: string;
+  // updated_at: string;
+  // ext: string;
+  // permalink: string;
+    id: number;
+    code: string;
+    documentable_type: string;
+    documentable_id: number;
+    created_at: string;
+    updated_at: string;
+    file: IDocumentPaymentItemOrder;
+  }
+  export interface IDocumentPaymentItemOrder {
+    id: number;
+    type: string;
+    file: string;
+    original_name: string;
+    mime_type: string;
+    attributes?: (null)[] | null;
+    created_at: string;
+    updated_at: string;
+    ext: string;
+    permalink: string;
+  }
 
 
 export interface ITransactionPaymentOrder {
@@ -422,3 +441,43 @@ export interface ISellerOrder {
   id: number;
   updated_at: string;
 }
+
+
+// data for tickets ************************************************
+export interface ITicketOrder {
+  id: string;
+  code: string;
+  status: string;
+  subject: string;
+  ticket_department_id: number;
+  order_id?: number;
+  client_id: number;
+  assigned_user_id?: number;
+  last_message_id?: number;
+  client_unread_messages: number;
+  user_unread_messages: number;
+  created_at: string;
+  updated_at: string;
+  department?: any;
+  order?: IOrder;
+  client: IClientOrder;
+  assigned_user?: any;
+  last_message?: any;
+}
+// export interface Client {
+//   id: number;
+//   first_name: string;
+//   last_name: string;
+//   doc_type: string;
+//   doc_id: string;
+//   company: string;
+//   email: string;
+//   phone: string;
+//   city: string;
+//   state: string;
+//   country: string;
+//   novisys_id?: null;
+//   created_at: string;
+//   updated_at: string;
+// }
+

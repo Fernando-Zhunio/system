@@ -5,38 +5,37 @@
     <button  mat-raised-button color="accent" (click)="isOpenCreate = ! isOpenCreate">Agregar archivo</button>
   </div>
   <div class="card-columns mt-2">
-    <mat-card [ngSwitch]="file.type" class="card position-relative" *ngFor="let file of files">
+    <mat-card [ngSwitch]="file.file.type" class="card position-relative" *ngFor="let file of files">
       <div class="btns-action">
         <button mat-icon-button color="warn" class="bg-ro-fz" (click)="removeFile(file.id)"><mat-icon>delete</mat-icon></button>
       </div>
       <div *ngSwitchCase="'image'">
-        <img class="w-100" [src]="file.permalink" alt="imagen">
+        <img class="w-100" [src]="file.file.permalink" alt="imagen">
       </div>
 
       <div *ngSwitchCase="'video'">
-        <video class="w-100" [src]="file.permalink"></video>
+        <video class="w-100" [src]="file.file.permalink"></video>
       </div>
       <div *ngSwitchDefault>
         <div>
           <span class="center align-items-end">
             <span class="position-relative">
               <i class="fas fa-file fa-8x" style="color: #010148;"></i>
-              <div class="text-ext-file mb-2 font-3xl">{{file.ext}}</div>
+              <div class="text-ext-file mb-2 font-3xl">{{file.file.ext}}</div>
             </span>
           </span>
         </div>
         <div class="text-center mt-2">
-          <a *ngIf="file.ext != 'pdf'; else templateFilePdf" color="warning" [href]="file.permalink" target="_blank" mat-raised-button>Descargar documento</a>
+          <a *ngIf="file.file.ext != 'pdf'; else templateFilePdf" color="warning" [href]="file.file.permalink" target="_blank" mat-raised-button>Descargar documento</a>
           <ng-template #templateFilePdf>
             <button color="info" mat-raised-button (click)="openDoc()">Ver documento</button>
-            <app-view-doc [file]="file.permalink"></app-view-doc>
+            <app-view-doc [file]="file.file.permalink"></app-view-doc>
           </ng-template>
-
         </div>
       </div>
-      <div class="card-body" *ngIf="file?.description">
-        <h3 class="font-2xl text-muted mt-3 font-weight-bold mb-1">Descripción</h3>
-        <p>{{file.description}}</p>
+      <div class="card-body" *ngIf="file?.code">
+        <h3 class="font-2xl text-muted mt-3 font-weight-bold mb-1">Código</h3>
+        <p>{{file.code}}</p>
       </div>
     </mat-card>
     <div>
@@ -55,8 +54,8 @@
           <h2 class="font-weight-bold font-4xl p-md-4 p-2">Añadir Archivo</h2>
           <mat-card>
             <mat-form-field class="w-100">
-              <textarea [formControl]="formControlDescription" matInput
-                placeholder="Ingrese una descripción"></textarea>
+              <input [formControl]="formControlCode" matInput
+                placeholder="Ingrese el código">
             </mat-form-field>
             <div>
               <button mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar Archivo</button>

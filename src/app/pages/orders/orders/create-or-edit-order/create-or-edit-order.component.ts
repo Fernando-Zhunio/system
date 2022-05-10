@@ -1,18 +1,25 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateOrEdit } from '../../../class/create-or-edit';
-import { StandartSearchService } from '../../../services/standart-search.service';
-import { Validators } from '@angular/forms';
-import { IClientOrder } from '../../../interfaces/iclient-order';
-import { SharedService } from '../../../services/shared/shared.service';
-import { IClientAddressOrder } from '../../../interfaces/iclient-address-order';
+// import { CreateOrEdit } from '../../../class/create-or-edit';
+// import { StandartSearchService } from '../../../services/standart-search.service';
+// import { Validators } from '@angular/forms';
+// import { IClientOrder } from '../../../interfaces/iclient-order';
+// import { SharedService } from '../../../services/shared/shared.service';
+// import { IClientAddressOrder } from '../../../interfaces/iclient-address-order';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
+// import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 import { MatSelectionListChange } from '@angular/material/list';
 import { MatHorizontalStepper, MatStepper } from '@angular/material/stepper';
-import { IOrder } from '../../../interfaces/iorder';
+import { CreateOrEdit } from '../../../../class/create-or-edit';
+import { IOrder } from '../../../../interfaces/iorder';
+import { IClientOrder } from '../../../../interfaces/iclient-order';
+import { IClientAddressOrder } from '../../../../interfaces/iclient-address-order';
+import { SharedService } from '../../../../services/shared/shared.service';
+import { CreateOrEditAddressClientComponent } from '../../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
+import { StandartSearchService } from '../../../../services/standart-search.service';
+// import { IOrder } from '../../../interfaces/iorder';
 
 @Component({
   selector: 'app-create-or-edit-order',

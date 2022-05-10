@@ -410,3 +410,13 @@ mat-form-field, mat-chip,  .mat-button, .mat-raised-button  {
 //   background-color: rgba(0,0,0,.12);
 // }
 // end color angular material
+
+@media (max-width: 576px) {
+  .card-columns {
+      column-count: 1 !important;
+  }
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}

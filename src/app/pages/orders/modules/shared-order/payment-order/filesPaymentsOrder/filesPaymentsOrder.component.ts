@@ -2,8 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from '../../../../../../../environments/environment';
-// import { CreateOrEditModal } from '../../../../../../class/create-or-edit-modal';
-import { IAttachmentPaymentOrder } from '../../../../../../interfaces/iorder';
+import { IDocumentPaymentOrder } from '../../../../../../interfaces/iorder';
 import { ViewDocComponent } from '../../../../../../Modulos/tools/view-doc/view-doc.component';
 import { SharedService } from '../../../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../../../services/standart-search.service';
@@ -19,8 +18,8 @@ export class FilesPaymentsOrderComponent implements OnInit {
   isOpenCreate = false;
   isLoading = false;
   urlServer = environment.server;
-  files: IAttachmentPaymentOrder[] = [];
-  formControlDescription = new FormControl();
+  files: IDocumentPaymentOrder[] = [];
+  formControlCode = new FormControl();
   re = /(?:\.([^.]+))?$/;
 
   fileSend: { base64: string, file: File } = { file: null, base64: null };
@@ -34,7 +33,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
 
   getFiles(): void {
     this.isLoading = true;
-    this.standard.methodGet(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/attachments`).subscribe(
+    this.standard.methodGet(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/documents`).subscribe(
       (response: any) => {
         if (response.success) {
           this.files = response.data;
@@ -71,10 +70,10 @@ export class FilesPaymentsOrderComponent implements OnInit {
       this.isLoading = true;
       const form: FormData = new FormData();
       form.append('file', this.fileSend.file);
-      if (this.formControlDescription.value) {
-        form.append('description', this.formControlDescription.value);
+      if (this.formControlCode.value) {
+        form.append('code', this.formControlCode.value);
       }
-      this.standard.methodPost(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/attachments`, form).subscribe(
+      this.standard.methodPost(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/documents`, form).subscribe(
         (response: any) => {
           if (response.success) {
             this.getFiles();
@@ -97,7 +96,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
       (result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
-          this.standard.methodDelete(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/attachments/${file_id}`).subscribe(
+          this.standard.methodDelete(`system-orders/orders/${this.dataExternal.order_id}/payments/${this.dataExternal.payment_id}/documents/${file_id}`).subscribe(
             (response: any) => {
               if (response?.success) {
                 this.getFiles();

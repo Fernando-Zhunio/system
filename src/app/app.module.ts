@@ -111,6 +111,7 @@ import { PreferenceEffects } from './redux/effects/preference.effect';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { StorageService } from './services/storage.service';
 import { EMPTY } from 'rxjs';
+import { TicketsModule } from './pages/orders/tickets/tickets.module';
 
 
 
@@ -176,6 +177,7 @@ registerLocaleData(localeEs, 'es');
     EffectsModule.forRoot([PreferenceEffects]),
     StoreDevtoolsModule.instrument({}),
     LoadingBarRouterModule,
+    TicketsModule,
   ],
   declarations: [
     AppComponent,
