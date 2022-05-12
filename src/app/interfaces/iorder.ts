@@ -464,20 +464,23 @@ export interface ITicketOrder {
   assigned_user?: any;
   last_message?: any;
 }
-// export interface Client {
-//   id: number;
-//   first_name: string;
-//   last_name: string;
-//   doc_type: string;
-//   doc_id: string;
-//   company: string;
-//   email: string;
-//   phone: string;
-//   city: string;
-//   state: string;
-//   country: string;
-//   novisys_id?: null;
-//   created_at: string;
-//   updated_at: string;
-// }
+
+export interface IOrderTicketMessage {
+  id: number;
+  ticket_id: string;
+  message: string;
+  client_id: number;
+  user_id?: any;
+  client_read_at: string;
+  user_read_at?: any;
+  created_at: string;
+  updated_at: string;
+  is_staff_message: boolean;
+  client: IClientOrder;
+  user?: any;
+  attachments?: (any)[] | any;
+}
+
+
+
 

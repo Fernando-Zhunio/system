@@ -1,0 +1,91 @@
+<div>
+    <h1 class="my-3">Ticket # {{ticket?.code}}</h1>
+    <div>
+        <mat-chip-list>
+            <mat-chip [color]="ticket?.status == 'open' ? 'warn': 'primary'">{{ticket?.status == 'open' ? 'Abierto': 'Cerrado'}}</mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <mat-card>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div >
+                        <mat-card class="mb-3">
+                            <h3>Cliente</h3>
+                            <p>{{ticket?.client?.first_name}} {{ticket?.client?.last_name}}</p>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Dirección:</td>
+                                        <td>{{ticket?.client?.country}} {{ticket?.client?.state}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Documento:</td>
+                                        <td>{{ticket?.client?.doc_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>{{ticket?.client?.email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>País:</td>
+                                        <td>{{ticket?.client?.phone}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-card>
+                        <mat-card>
+                            <h3>Detalles</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Departamento:</td>
+                                        <td>{{ticket?.department?.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td># Orden:</td>
+                                        <td>{{ticket?.order_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>{{ticket?.client?.email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>País:</td>
+                                        <td>{{ticket?.client?.phone}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-card>
+                        <div >
+                            <div [formGroup]="form" class="row">
+                                <mat-form-field class="col-12">
+                                    <textarea matInput formControlName="message"  placeholder="Mensaje" ></textarea>
+                                </mat-form-field>
+                                <div *ngIf="url" class="col-12">
+                                    <div class="position-relative" style="width: 200px;">
+                                        <button class="btn-remove-img" (click)="removeImage()" mat-mini-fab><mat-icon>close</mat-icon></button>
+                                        <img class="rounded-fz shadow w-100" [src]="url" alt="">
+                                    </div>
+                                </div>
+                                <div class="center">
+                                    <div class="position-relative">
+                                        <label class="file-img bg-orange center mr-1 mt-2 px-3 rounded-fz" for="file">
+                                            <mat-icon>attach_file</mat-icon> Adjuntar archivo
+                                        </label>
+                                        <input formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" />
+                                    </div>
+                                    <button mat-raised-button color="primary" (click)="saveInServer()">Crear ticket <mat-icon>save</mat-icon></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <app-chat-ticket></app-chat-ticket>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

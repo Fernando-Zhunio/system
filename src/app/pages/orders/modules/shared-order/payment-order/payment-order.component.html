@@ -55,6 +55,9 @@
           <button color="warning" mat-raised-button matSuffix (click)="openDialogHistoryStatus(payment.key)">
             <mat-icon>manage_search</mat-icon> Historial
           </button>
+          <button *ngIf="payment.value.type == 'paymentez' && payment?.value?.status == 'paid'" color="info" mat-raised-button matSuffix (click)="refundPayment(payment.key)">
+            <mat-icon>money_off_csred</mat-icon> Reembolsar
+          </button>
           <button class="mt-1" *ngIf="payment?.value?.link_to_pay" mat-raised-button color="info"
             (click)="lookTransaction(payment.key)">
             Ver transacciones &nbsp;<mat-icon>receipt_long</mat-icon></button>

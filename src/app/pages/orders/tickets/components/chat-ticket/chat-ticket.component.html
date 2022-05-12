@@ -1,0 +1,29 @@
+<div>
+  <mat-card class="mb-3">
+    <div x-ref="messagesElementContainer" class="content-messages mt-3 mb-2 p-3 block bg-white rounded-fz shadow-sm min-h-10">
+        <!-- @foreach (array_reverse($messages) as $message)
+            @if ($message->is_staff_message) -->
+                <div *ngFor="let message of messages" [ngClass]="message.is_staff_message ? 'message-received':'message-send'">
+                    <div class="message-container">
+                        <div *ngIf="message.attachments && message.attachments.length > 0" [ngClass]="message.is_staff_message ? 'justify-start':'justify-end'" class="flex  mb-1">
+                            <img [src]="message.attachments[0].permalink" alt=""></div>
+                        <span class="message">{{ message.message }}</span>
+                        <small class="block">
+                            {{ message.created_at | date }}
+                            <span [ngClass]="message.client_read_at ? 'bg-green-400': 'bg-red-400'" class="text-white rounded px-2" >{{message.client_read_at ? "Leído" : "Sin leer"}}</span></small>
+                    </div>
+                </div>
+            <!-- @else
+                <div class="message-send">
+                    <div class="message-container">
+                        @if ($message->attachments)
+                        <div class="flex mb-1"><img class="rounded-fz shadow" src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg" alt=""></div>
+                        @endif                        <span class="message">{{ $message->message }}</span>
+                        <small class="block">{{ timeForHumans($message->created_at) }} <span  @class(['text-white rounded px-2', 'bg-green-400'=> $message->user_read_at, 'bg-red-400'=> !$message->user_read_at])>{{$message->user_read_at ? "Leído" : "Sin leer"}}</span></small>
+                    </div>
+                </div>
+            @endif
+        @endforeach -->
+    </div>
+  </mat-card>
+</div>

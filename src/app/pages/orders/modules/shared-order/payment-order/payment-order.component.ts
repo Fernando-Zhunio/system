@@ -18,7 +18,6 @@ import { HistoryStatusesComponent } from '../history-statuses/history-statuses.c
 export class PaymentOrderComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private standard: StandartSearchService, private s_storage: StorageService) { }
-  // @ViewChild('myPondPaid') myPond: FilePondComponent;
   @Input() order_id: number;
   @Input() isCancelled: boolean;
   @Input() paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
@@ -29,7 +28,7 @@ export class PaymentOrderComponent implements OnInit {
   urlUploadFile: string = 'api/';
   hasFile = false;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   openDialog(id: number = null) {
     this.dialog.open(CreateOrEditPaymentOrderComponent, {
@@ -75,33 +74,19 @@ export class PaymentOrderComponent implements OnInit {
   }
 
   changeStatusPayment(select: MatSelectChange, id): void {
-    // const status = event.value;
-    // if (status === this.paymentsMap.get(id).status) {
-    //   return;
-    // }
-    // SwalService.swalConfirmation('Precaución', 'Esta seguro que desea cambiar el estado', 'warning', 'Si, cambiar estado', 'No, cancelar').then(result => {
-    //   if (result.isConfirmed) {
-    //     this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, {status: event.value}).subscribe(data => {
-    //       if (data?.success) {
-    //         SwalService.swalFire({ icon: 'success', title: 'Cambiado', text: 'Se cambio correctamente' });
-    //         this.change.emit('change status');
-    //       }
-    //     });
-    //   }
-    // }
-    // );
     SwalService.swalFire(
-      { title: 'Cambiar Estado',
-       text: '¿Está seguro de cambiar el estado del pago?',
+      {
+        title: 'Cambiar Estado',
+        text: '¿Está seguro de cambiar el estado del pago?',
         icon: 'warning',
-      cancelButtonText: 'No, Cancelar',
-      confirmButtonText: 'Si, cambiar estado',
-      showCancelButton: true,
-      showConfirmButton: true,
+        cancelButtonText: 'No, Cancelar',
+        confirmButtonText: 'Si, cambiar estado',
+        showCancelButton: true,
+        showConfirmButton: true,
       })
       .then(res => {
         if (res.isConfirmed) {
-          this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, {status: select.value}).subscribe(res => {
+          this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, { status: select.value }).subscribe(res => {
             if (res?.success) {
               this.change.emit('update status');
             }
@@ -114,6 +99,29 @@ export class PaymentOrderComponent implements OnInit {
         }
       }).catch(err => {
         select.source.value = this.paymentsMap.get(id).status;
+      });
+  }
+
+  refundPayment(id): void {
+    const payment = this.paymentsMap.get(id);
+    SwalService.swalFire(
+      {
+        title: 'Reembolso',
+        text: `¿Está seguro de reembolsar el pago de $ ${payment.amount}?`,
+        icon: 'warning',
+        cancelButtonText: 'No, Cancelar',
+        confirmButtonText: 'Si, rembolsar',
+        showCancelButton: true,
+        showConfirmButton: true,
+      })
+      .then(res => {
+        if (res.isConfirmed) {
+          this.standard.methodPost(`system-orders/orders/${this.order_id}/payments/${id}/paymentez/refund`, { }).subscribe(res => {
+            if (res?.success) {
+              this.change.emit('update status');
+            }
+          });
+        }
       });
   }
 
@@ -136,7 +144,7 @@ export class PaymentOrderComponent implements OnInit {
     //   }
     // });
     this.dialog.open(TransactionsPaymentComponent, {
-      data: {order_id: this.order_id, payment_id: id}
+      data: { order_id: this.order_id, payment_id: id }
     });
   }
 

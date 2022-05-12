@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ITicketOrder } from '../../../../interfaces/iorder';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
@@ -10,9 +11,14 @@ export class TicketsIndexComponent implements OnInit {
   constructor(private methodsHttp: MethodsHttpService) { }
 
   url = 'system-orders/tickets';
-  tickets: any[] = [];
+  tickets: ITicketOrder[] = [];
 
   ngOnInit(): void {
+  }
+
+  getData(event): void {
+    console.log(event);
+    this.tickets = event;
   }
 
   // getTickets() {

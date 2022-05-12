@@ -1,5 +1,60 @@
 <div>
-  <app-search-template [title]="'Tickets'" placeholder="Buscar tickets" [url$]="url" (data)="tickets">
-
+  <app-search-template
+    [title]="'Tickets'"
+    placeholder="Buscar tickets"
+    [url$]="url"
+    (data)="getData($event)"
+  >
+    <ng-container data>
+      <mat-card class="card border-0" *ngFor="let ticket of tickets">
+        <mat-card-header>
+          <mat-card-title
+            >{{ ticket.client.first_name }}
+            {{ ticket.client.last_name }}</mat-card-title
+          >
+          <mat-card-subtitle>{{ ticket.subject }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <mat-chip selected [color]="ticket.status == 'open' ? 'warn' : 'info'">{{
+              ticket.status == "open" ? "Abierto" : "Cerrado"
+            }}</mat-chip>
+          </div>
+          <div>
+            <table class=" table-ticket table-sm">
+              <tbody>
+                <tr>
+                  <td>Departamento:</td>
+                  <td>{{ticket.department.name}}</td>
+                </tr>
+                <tr>
+                  <td># Orden:</td>
+                  <td>{{ticket.order.id}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha de creación:</td>
+                  <td>{{ticket.created_at | date}}</td>
+                </tr>
+                <tr>
+                  <td>Mensajes sin leer:</td>
+                  <td><span [ngClass]="{'bg-red text-white': ticket.user_unread_messages > 0}" class="badge font-xs">{{ticket.user_unread_messages}}</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="px-3 py-2 rounded-fz shadow">
+              <h4 class="mt-2 mb-1 text-black-50">Ultimo mensaje:</h4>
+              <p>{{ticket.last_message.message}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="start">
+              <button class="mr-1" color="orange" mat-raised-button [routerLink]="['create/order',ticket.order_id]" routerLinkActive="router-link-active" >Crear ticket</button>
+              <button color="primary" [routerLink]="[ticket.id]" routerLinkActive="router-link-active"  mat-raised-button>Responder</button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+    <ng-container menuBar>
+      <mat-chip [routerLink]="['create']" class="ml-1 mat-btn-add" color="orange"><mat-icon >add</mat-icon> Crear ticket</mat-chip>
+    </ng-container>
   </app-search-template>
 </div>

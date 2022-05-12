@@ -1,0 +1,39 @@
+<div>
+    <h1 class="my-3">Creador de Ticket</h1>
+
+    <mat-card>
+        <div class="card-body">
+            <div [formGroup]="form" class="row">
+                <mat-form-field class="col-md-6">
+                 <mat-select formControlName="department_id"  placeholder="Seleccione un departamento">
+                     <mat-option *ngFor="let department of departments" [value]="department.id">{{department.name}}</mat-option>
+                 </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6">
+                    <input matInput formControlName="order_id" disabled placeholder="# Orden" >
+                </mat-form-field>
+                <mat-form-field class="col-12">
+                    <input matInput formControlName="subject" disabled  placeholder="Asunto" >
+                </mat-form-field>
+                <mat-form-field class="col-12">
+                    <textarea matInput formControlName="message"  placeholder="Mensaje" ></textarea>
+                </mat-form-field>
+                <div *ngIf="fileUrl.url" class="col-12">
+                    <div class="position-relative" style="width: 200px;">
+                        <button class="btn-remove-img" (click)="removeImage()" mat-mini-fab><mat-icon>close</mat-icon></button>
+                        <img class="rounded-fz shadow w-100" [src]="fileUrl.url" alt="">
+                    </div>
+                </div>
+                <div class="center">
+                    <div class="position-relative">
+                        <label class="file-img bg-orange center mr-1 mt-2 px-3 rounded-fz" for="file">
+                            <mat-icon>attach_file</mat-icon> Adjuntar archivo
+                        </label>
+                        <input formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" />
+                    </div>
+                    <button mat-raised-button color="primary" (click)="saveInServer()">Crear ticket <mat-icon>save</mat-icon></button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

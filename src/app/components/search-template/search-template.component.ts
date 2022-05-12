@@ -28,7 +28,6 @@ export class SearchTemplateComponent extends CTemplateSearch<any> implements OnI
   @Output() data = new EventEmitter<any[]>();
 
   ngOnInit(): void {
-// console.log(this.filter_data);
   }
 
   loadData($event) {

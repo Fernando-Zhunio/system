@@ -6,6 +6,7 @@ import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -107,6 +108,10 @@ export class SharedService {
     }
   }
 
+  static getParametersUrl(nameParam: string, actRouter: ActivatedRoute) {
+    return actRouter.snapshot.paramMap.get(nameParam);
+  }
+
   changeNotifications(notify: INotification[]) {
     this.notifications.next(notify);
   }
@@ -158,4 +163,6 @@ export class SharedService {
         }, 1500);
     }
   }
+
+
 }
