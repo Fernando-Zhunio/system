@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-interface Iswal {
+export interface Iswal {
   background?: string; // #fff
   grow?: 'row' | 'column' | 'fullscreen' | 'false';
   icon?: 'warning' | 'error' | 'success' | 'info' | 'question';

@@ -1,18 +1,42 @@
 <div>
   <mat-card class="mb-3">
-    <div x-ref="messagesElementContainer" class="content-messages mt-3 mb-2 p-3 block bg-white rounded-fz shadow-sm min-h-10">
+    <div class="d-flex justify-content-between flex-wrap align-items-center">
+        <h3 class="font-2xl m-0">Mensajes</h3>
+        <button (click)="getMessages()" color="info" mat-raised-button><mat-icon>refresh</mat-icon> Actualizar</button>
+    </div>
+    <div [scrollTop]="contentMessage.scrollHeight" #contentMessage class="content-messages mt-3 mb-2 p-3 block bg-white rounded-fz shadow-sm min-h-10">
         <!-- @foreach (array_reverse($messages) as $message)
             @if ($message->is_staff_message) -->
                 <div *ngFor="let message of messages" [ngClass]="message.is_staff_message ? 'message-received':'message-send'">
                     <div class="message-container">
-                        <div *ngIf="message.attachments && message.attachments.length > 0" [ngClass]="message.is_staff_message ? 'justify-start':'justify-end'" class="flex  mb-1">
-                            <img [src]="message.attachments[0].permalink" alt=""></div>
-                        <span class="message">{{ message.message }}</span>
+                        <div *ngIf="message.attachments && message.attachments.length > 0" [ngClass]="message.is_staff_message ? 'justify-content-start':'justify-content-end'" class="d-flex  mb-1">
+                            <!-- <img [src]="message.attachments[0].permalink" alt="" class="rounded-fz shadow w-100"> -->
+                            <ng-container *ngIf="message.attachments[0].type == 'image'; else templateFile">
+                                <a [href]="message.attachments[0].permalink" target="_blank"><img class="rounded-fz shadow w-100" [src]="message.attachments[0].permalink" alt=""></a>
+                            </ng-container>
+                            
+                            <ng-template #templateFile>
+                                <a [href]="message.attachments[0].permalink" target="_blank">
+                                    <div class="bg-dark rounded-fz shadow center" style="height: 150px;width: 100px;">
+                                        <div class="text-center">
+                                            <mat-icon class="text-center">insert_drive_file</mat-icon>
+                                            <div>Archivo</div>
+                                            <div class="text-muted">{{message.attachments[0].name}}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </ng-template>
+                        </div>
+
+                        <span class="message">{{ message.message }}
+                            <br>
+                        </span>
                         <small class="block">
                             {{ message.created_at | date }}
-                            <span [ngClass]="message.client_read_at ? 'bg-green-400': 'bg-red-400'" class="text-white rounded px-2" >{{message.client_read_at ? "Leído" : "Sin leer"}}</span></small>
+                            <span *ngIf="message.is_staff_message" [ngClass]="message.client_read_at ? 'bg-green-400': 'bg-red-400'" class="text-white rounded px-2" >{{message.client_read_at ? "Leído" : "Sin leer"}}</span></small>
+                        <small class="text-black-50" *ngIf="message.is_staff_message">Por: {{message.user.name}}</small>
                     </div>
-                </div>
+                </div> 
             <!-- @else
                 <div class="message-send">
                     <div class="message-container">

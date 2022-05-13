@@ -4,6 +4,8 @@
     placeholder="Buscar tickets"
     [url$]="url"
     (data)="getData($event)"
+    active_filters_menu="true"
+    [filter_data]="filters"
   >
     <ng-container data>
       <mat-card class="card border-0" *ngFor="let ticket of tickets">
@@ -16,45 +18,110 @@
         </mat-card-header>
         <mat-card-content>
           <div>
-            <mat-chip selected [color]="ticket.status == 'open' ? 'warn' : 'info'">{{
-              ticket.status == "open" ? "Abierto" : "Cerrado"
-            }}</mat-chip>
+            <mat-chip
+              selected
+              [color]="ticket.status == 'open' ? 'warn' : 'info'"
+              >{{ ticket.status == "open" ? "Abierto" : "Cerrado" }}</mat-chip
+            >
           </div>
           <div>
-            <table class=" table-ticket table-sm">
+            <table class="table-ticket table-sm">
               <tbody>
                 <tr>
                   <td>Departamento:</td>
-                  <td>{{ticket.department.name}}</td>
+                  <td>{{ ticket.department.name }}</td>
                 </tr>
                 <tr>
                   <td># Orden:</td>
-                  <td>{{ticket.order.id}}</td>
+                  <td>{{ ticket.order.id }}</td>
                 </tr>
                 <tr>
                   <td>Fecha de creación:</td>
-                  <td>{{ticket.created_at | date}}</td>
+                  <td>{{ ticket.created_at | date }}</td>
                 </tr>
                 <tr>
                   <td>Mensajes sin leer:</td>
-                  <td><span [ngClass]="{'bg-red text-white': ticket.user_unread_messages > 0}" class="badge font-xs">{{ticket.user_unread_messages}}</span></td>
+                  <td>
+                    <span
+                      [ngClass]="{
+                        'bg-red text-white': ticket.user_unread_messages > 0
+                      }"
+                      class="badge font-xs"
+                      >{{ ticket.user_unread_messages }}</span
+                    >
+                  </td>
                 </tr>
               </tbody>
             </table>
             <div class="px-3 py-2 rounded-fz shadow">
               <h4 class="mt-2 mb-1 text-black-50">Ultimo mensaje:</h4>
-              <p>{{ticket.last_message.message}}</p>
+              <p>{{ ticket.last_message.message }}</p>
             </div>
           </div>
         </mat-card-content>
         <mat-card-actions align="start">
-              <button class="mr-1" color="orange" mat-raised-button [routerLink]="['create/order',ticket.order_id]" routerLinkActive="router-link-active" >Crear ticket</button>
-              <button color="primary" [routerLink]="[ticket.id]" routerLinkActive="router-link-active"  mat-raised-button>Responder</button>
+          <button
+            class="mr-1"
+            color="accent"
+            mat-raised-button
+            [routerLink]="['create/order', ticket.order_id]"
+            routerLinkActive="router-link-active"
+          >
+            Crear ticket
+          </button>
+          <button
+            color="primary"
+            [routerLink]="[ticket.id]"
+            routerLinkActive="router-link-active"
+            mat-raised-button
+          >
+            Responder
+          </button>
         </mat-card-actions>
       </mat-card>
     </ng-container>
-    <ng-container menuBar>
-      <mat-chip [routerLink]="['create']" class="ml-1 mat-btn-add" color="orange"><mat-icon >add</mat-icon> Crear ticket</mat-chip>
+    <!-- <ng-container menuBar>
+      <mat-chip
+        [routerLink]="['create']"
+        class="ml-1 mat-btn-add"
+        color="orange"
+        ><mat-icon>add</mat-icon> Crear ticket</mat-chip
+      >
+    </ng-container> -->
+    <ng-container filterMenu>
+      <div
+        mat-menu-item
+        [disableRipple]="true"
+        (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()"
+      >
+        <mat-form-field class="w-100">
+          <mat-label>Estado</mat-label>
+          <mat-select [(ngModel)]="filters.status">
+            <mat-option value="">Todos</mat-option>
+            <mat-option *ngFor="let status of statuses" [value]="status"
+              >{{ status | translatefz }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div
+        mat-menu-item
+        [disableRipple]="true"
+        (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()"
+      >
+        <mat-form-field class="w-100">
+          <mat-label>Departamento</mat-label>
+          <mat-select [(ngModel)]="filters.ticket_department_id">
+            <mat-option value="">Todos</mat-option>
+            <mat-option *ngFor="let department of departments" [value]="department.id"
+              >{{ department.name | translatefz }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </ng-container>
   </app-search-template>
 </div>

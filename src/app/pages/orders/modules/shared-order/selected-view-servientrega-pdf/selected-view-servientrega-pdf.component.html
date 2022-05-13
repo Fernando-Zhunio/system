@@ -1,11 +1,11 @@
 <mat-selection-list *ngIf="!isManifest; else templeteDate" (selectionChange)="selectedView($event)" [multiple]="false">
   <mat-list-option value="docs">
     <mat-icon mat-list-icon>source</mat-icon>
-    <div mat-line>Ver Documentos</div>
+    <div mat-line>Ver Guías</div>
   </mat-list-option>
   <mat-list-option value="labels">
     <mat-icon mat-list-icon>turned_in_not</mat-icon>
-    <div mat-line>Ver Etiquetas</div>
+    <div mat-line>Ver Rótulos</div>
   </mat-list-option>
   <mat-list-option value="stickers">
     <mat-icon mat-list-icon>sticky_note_2</mat-icon>

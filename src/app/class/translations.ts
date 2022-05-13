@@ -8,14 +8,15 @@ const trans_es_default = {
     active: 'Activo',
     inactive: 'Inactivo',
     closed: 'Cerrado',
+    open: 'Abierto'
 };
 
-const trans_es_order_types = {
-        default: 'Por defecto',
-        receivable: 'Por cobrar',
-        payment_with_retention: 'Por pago con retención',
-        reservation_paid : 'Por reserva pagada'
-};
+// const trans_es_order_types = {
+//         default: 'Por defecto',
+//         receivable: 'Por cobrar',
+//         payment_with_retention: 'Por pago con retención',
+//         reservation_paid : 'Por reserva pagada'
+// };
 
 const trans_es_order = {
     tax: 'Impuestos',

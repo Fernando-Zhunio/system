@@ -90,12 +90,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   windowActive(): void {
-    // window.onfocus = () => {
-    //   console.log('focus');
-    //   if (this.chat.id == this.current_chat_id) {
-    //     this.markReadMessage(this.chat.data._id);
-    //   }
-    // };
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         console.log('Hidden');

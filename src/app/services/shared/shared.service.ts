@@ -7,6 +7,7 @@ import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage.service';
 import { ActivatedRoute } from '@angular/router';
+import { Iswal, SwalService } from '../swal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +113,25 @@ export class SharedService {
     return actRouter.snapshot.paramMap.get(nameParam);
   }
 
+  public static swalResponse(swalOption: Iswal, callbackSuccess: any, callbackNegative: any = null, callbackError: any = null) {
+    SwalService.swalFire(
+      swalOption,
+    )
+      .then(res => {
+        if (res.isConfirmed) {
+          callbackSuccess();
+        } else {
+          if (callbackNegative) {
+            callbackNegative();
+          }
+        }
+      }).catch(err => {
+        if (err) {
+          callbackError();
+        }
+      });
+  }
+
   changeNotifications(notify: INotification[]) {
     this.notifications.next(notify);
   }
@@ -163,6 +183,8 @@ export class SharedService {
         }, 1500);
     }
   }
+
+
 
 
 }

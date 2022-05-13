@@ -37,7 +37,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
     largo: new FormControl(null),
     ancho: new FormControl(null),
     alto: new FormControl(null),
-    peso_fisico: new FormControl(null, [Validators.required]),
+    peso_fisico: new FormControl(2, [Validators.required]),
   });
   formSearchCity = new FormControl(null);
   formSearchDestinoCity = new FormControl(null);
@@ -90,15 +90,28 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       ancho: data.shipping.width,
       alto: data.shipping.height,
       largo: data.shipping.length,
-      peso_fisico: data.shipping.weight,
+      // tslint:disable-next-line: no-bitwise
+      peso_fisico: data.shipping.weight | 2,
       direccion1_remite: data.shipping?.origin_warehouse?.address,
       telefono1_destinat_ne: data.client.phone,
       nombre_destinatario_ne: data.shipping_address.first_name,
       apellido_destinatar_ne: data.shipping_address.last_name,
-      direccion1_destinat_ne: `${data.shipping_address.state}, ${data.shipping_address.city} ${data.shipping_address?.neighborhood }  ${data.shipping_address?.street}`,
-      sector_destinat_ne: `${data.shipping_address?.neighborhood }  ${data.shipping_address?.street}`,
+      direccion1_destinat_ne: this.getConcat([
+         data.shipping_address.state,
+         data.shipping_address.city,
+         data.shipping_address?.neighborhood,
+         data.shipping_address?.street
+        ]),
+      sector_destinat_ne: this.getConcat([
+        data.shipping_address?.neighborhood,
+        data.shipping_address?.street
+       ])
       // direccion1_remite: `${data.client?.country }, ${data.client.state}, ${data.client.city} `,
     });
+  }
+
+  getConcat(arg): string {
+    return arg.filter(n => n).join(', ');
   }
 
   // buscarInterval(text): void {

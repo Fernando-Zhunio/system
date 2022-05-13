@@ -377,8 +377,8 @@ mat-form-field, mat-chip,  .mat-button, .mat-raised-button  {
 
 // success color
 .mat-success {
-  color: #fff;
-  background-color: #6BCB77 ;
+  color: #fff !important;
+  background-color: #6BCB77 !important;
 }
 
 // .mat-success[disabled] {

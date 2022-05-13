@@ -1,10 +1,12 @@
 <div>
-    <h1 class="my-3">Ticket # {{ticket?.code}}</h1>
-    <div>
+    <h1 class="mt-3">Ticket # {{ticket?.code}}</h1>
+    <div class="my-2 d-flex justify-content-between flex-wrap align-items-center">
         <mat-chip-list>
-            <mat-chip [color]="ticket?.status == 'open' ? 'warn': 'primary'">{{ticket?.status == 'open' ? 'Abierto': 'Cerrado'}}</mat-chip>
+            <mat-chip selected [color]="ticket?.status == 'open' ? 'accent': 'success'">Estado: {{ticket?.status == 'open' ? 'Abierto': 'Cerrado'}}</mat-chip>
         </mat-chip-list>
+        <button *ngIf="ticket?.status == 'open'" color="warn" (click)="closeTicket()" mat-raised-button>Cerrar Ticket</button>
     </div>
+    <h3>{{ticket?.subject}}</h3>
 
     <mat-card>
         <div class="card-body">
@@ -45,15 +47,15 @@
                                     </tr>
                                     <tr>
                                         <td># Orden:</td>
-                                        <td>{{ticket?.order_id}}</td>
+                                        <td><button class="border-0" [routerLink]="['/system-orders/orders']" [queryParams]="{search:ticket?.order_id}">{{ticket?.order_id}}</button></td>
                                     </tr>
                                     <tr>
-                                        <td>Email:</td>
-                                        <td>{{ticket?.client?.email}}</td>
+                                        <td>Creado:</td>
+                                        <td>{{ticket?.created_at | date}}</td>
                                     </tr>
                                     <tr>
-                                        <td>País:</td>
-                                        <td>{{ticket?.client?.phone}}</td>
+                                        <td>Actualizado:</td>
+                                        <td>{{ticket?.updated_at | date}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -63,10 +65,23 @@
                                 <mat-form-field class="col-12">
                                     <textarea matInput formControlName="message"  placeholder="Mensaje" ></textarea>
                                 </mat-form-field>
-                                <div *ngIf="url" class="col-12">
+                                <div *ngIf="fileUrl.url" class="col-12">
+                                    
                                     <div class="position-relative" style="width: 200px;">
                                         <button class="btn-remove-img" (click)="removeImage()" mat-mini-fab><mat-icon>close</mat-icon></button>
-                                        <img class="rounded-fz shadow w-100" [src]="url" alt="">
+                                        <ng-container *ngIf="fileUrl.file.type.includes('image'); else templateFile">
+                                            <img class="rounded-fz shadow w-100" [src]="fileUrl.url" alt="">
+                                        </ng-container>
+                                        <ng-template #templateFile>
+                                            <div class="bg-dark rounded-fz shadow center" style="height: 250px;">
+                                                <div class="text-center">
+                                                    <mat-icon class="text-center">insert_drive_file</mat-icon>
+                                                    <div>Archivo</div>
+                                                    <div class="text-muted">{{fileUrl.file.name}}</div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        
                                     </div>
                                 </div>
                                 <div class="center">
@@ -74,9 +89,9 @@
                                         <label class="file-img bg-orange center mr-1 mt-2 px-3 rounded-fz" for="file">
                                             <mat-icon>attach_file</mat-icon> Adjuntar archivo
                                         </label>
-                                        <input formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" />
+                                        <input formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" accept="image/png,image/jpeg,application/pdf"/>
                                     </div>
-                                    <button mat-raised-button color="primary" (click)="saveInServer()">Enviar mensaje <mat-icon>send</mat-icon></button>
+                                    <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Enviar mensaje <mat-icon>send</mat-icon></button>
                                 </div>
                             </div>
                         </mat-card>
