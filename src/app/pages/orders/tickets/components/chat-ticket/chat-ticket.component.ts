@@ -17,7 +17,7 @@ export class ChatTicketComponent implements OnInit {
     const ticket_id = SharedService.getParametersUrl('id', this.activatedRouter);
     this.methodsHttp.methodGet(`system-orders/tickets/${ticket_id}/messages`).subscribe
     (res => {
-      this.messages = res.data;
+      this.messages = res.data.reverse();
     });
   }
 

@@ -52,7 +52,8 @@ export class ResponseTicketComponent implements OnInit {
       this.methodsHttp.methodPost(`system-orders/tickets/${this.ticket_id}/messages`, formData).subscribe(res => {
         console.log(res);
         this.isLoading = false;
-        this.router.navigate(['/system-orders/tickets']);
+        console.log(res);
+        // this.router.navigate(['/system-orders/tickets']);
       }, err => {this.isLoading = false; }
       );
     } else {

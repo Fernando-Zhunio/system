@@ -12,8 +12,8 @@
                 <div class="col-md-6">
                     <div >
                         <mat-card class="mb-3">
-                            <h3>Cliente</h3>
-                            <p>{{ticket?.client?.first_name}} {{ticket?.client?.last_name}}</p>
+                            <h3 class="font-2xl">Cliente</h3>
+                            <p class="font-lg">{{ticket?.client?.first_name}} {{ticket?.client?.last_name}}</p>
                             <table>
                                 <tbody>
                                     <tr>
@@ -35,8 +35,8 @@
                                 </tbody>
                             </table>
                         </mat-card>
-                        <mat-card>
-                            <h3>Detalles</h3>
+                        <mat-card class="mb-3">
+                            <h3 class="font-2xl">Detalles</h3>
                             <table>
                                 <tbody>
                                     <tr>
@@ -58,8 +58,8 @@
                                 </tbody>
                             </table>
                         </mat-card>
-                        <div >
-                            <div [formGroup]="form" class="row">
+                        <mat-card>
+                            <div [formGroup]="form">
                                 <mat-form-field class="col-12">
                                     <textarea matInput formControlName="message"  placeholder="Mensaje" ></textarea>
                                 </mat-form-field>
@@ -76,10 +76,10 @@
                                         </label>
                                         <input formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" />
                                     </div>
-                                    <button mat-raised-button color="primary" (click)="saveInServer()">Crear ticket <mat-icon>save</mat-icon></button>
+                                    <button mat-raised-button color="primary" (click)="saveInServer()">Enviar mensaje <mat-icon>send</mat-icon></button>
                                 </div>
                             </div>
-                        </div>
+                        </mat-card>
                     </div>
                 </div>
                 <div class="col-md-6">
