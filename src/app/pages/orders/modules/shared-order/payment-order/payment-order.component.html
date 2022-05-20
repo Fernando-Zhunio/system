@@ -30,14 +30,13 @@
                   payment.value.type == 'paymentez';
                 else templateChangePayment
               "
-              >Estado: {{ payment.value.status | translatefz: "orders" }}</span
-            >
+              >Estado: {{ payment.value.status | translatefz: "orders" }}</span>
             <ng-template #templateChangePayment>
               <span
                 *ngxPermissionsOnly="
                   permissionsPayments.edit;
                   else elseEdit;
-                  then: thenEdit
+                  then thenEdit
                 "
               ></span>
               <ng-template #thenEdit>
@@ -121,7 +120,7 @@
                 </button>
                 <button
                   mat-icon-button
-                  *ngxPermissionsOnly="permissionsPayments.edit"
+                  *ngxPermissionsOnly="permissionsPayments.destroy"
                   color="warn"
                   (click)="deleteItem(payment.value.order_id, payment.key)"
                 >

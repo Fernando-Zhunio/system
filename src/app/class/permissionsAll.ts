@@ -389,7 +389,7 @@ export const TEST_PERMISSIONS = [
   //orders system orders shippings
    'system-orders.orders.shippings.index',
    'system-orders.orders.shippings.create',
-   'system-orders.orders.shippings.edit',
+  //  'system-orders.orders.shippings.edit',
    'system-orders.orders.shippings.destroy',
    'system-orders.orders.shippings.send',
 
