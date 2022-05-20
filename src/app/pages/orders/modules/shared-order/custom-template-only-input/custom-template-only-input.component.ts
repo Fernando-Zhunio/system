@@ -12,7 +12,7 @@ export class CustomTemplateOnlyInputComponent {
   constructor(private standard: StandartSearchService) { }
   // @Input() invoices: IInvoice[] = [];
   @Input() isCancelled: boolean;
-  // @Input() order_id: number;
+  @Input() permissions: {create:string, destroy: string};
   @Input() path: string;
   @Input() title: string;
   @Input() placeholder: string;

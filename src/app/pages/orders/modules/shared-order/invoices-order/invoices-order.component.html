@@ -18,7 +18,7 @@
                                         translatefz:
                                         'orders'}}</span></div>
                                 <div class="text-success">Doc ID:<span> {{invoice.number}}</span></div>
-                                <div>
+                                <div *ngxPermissionsOnly="permissionsInvoices.destroy">
                                     <button *ngIf="!isCancelled" color="warn" (click)="unlink(invoice.id)"
                                         mat-button>Desvincular factura</button>
                                 </div>

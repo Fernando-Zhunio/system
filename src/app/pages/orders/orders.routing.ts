@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { permissionsModuleOrders } from '../../class/permissions-modules';
+import { environment } from '../../../environments/environment';
+import { PermissionOrders } from '../../class/permissions-modules';
 import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
 import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create-or-edit-order.component';
 import { EditOrderComponent } from './orders/edit-order/edit-order.component';
@@ -11,17 +12,27 @@ import { OrdersIndexComponent } from './orders/orders-index/orders-index.compone
 // import { EditOrderComponent } from './edit-order/edit-order.component';
 // import { OrdersIndexComponent } from './orders-index/orders-index.component';
 
-const permissionsModuleRoutes = permissionsModuleOrders;
+const permissionsModuleRoutes = PermissionOrders;
 const routes = [
   {
     path: 'dashboard-orders',
-    component: DashboardOrdersComponent
+    component: DashboardOrdersComponent,
+    data: {
+      permissions:{ 
+        only: permissionsModuleRoutes.index,
+        redirectTo: environment.ERROR_403_REDIRECT_URL
+      }
+    },
+    canActivate: [NgxPermissionsGuard],
   },
   {
     path: 'orders',
     component: OrdersIndexComponent,
     data: {
-      permissions: permissionsModuleRoutes.index
+      permissions: { 
+        only: permissionsModuleRoutes.index,
+        redirectTo: environment.ERROR_403_REDIRECT_URL
+      }
     },
     canActivate: [NgxPermissionsGuard],
   },

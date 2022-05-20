@@ -1,188 +1,344 @@
 <div>
-    <h2 class="font-4xl font-weight-bold mt-2 m-0">{{title}}</h2>
-    <div class="mt-3 pb-3">
-        <mat-card>
-            <mat-horizontal-stepper #stepper (selectionChange)="changeStepper($event)" linear>
-                <mat-step label="client" [stepControl]="form.get('client_id')" [editable]="isEditStep">
-                    <div>
-                        <ng-template matStepLabel>Asignar Cliente</ng-template>
-                        <div class="row">
-                            <div class="col-md-8 border-right">
-                                <app-search placeholder="Buscador de clientes" (data)="getData($event)"
-                                    [url]="clientOrders.url">
-                                    <div comment class="text-danger col-12" *ngIf="form.get('client_id').invalid">Este
-                                        paso requiere que
-                                        busque
-                                        y seleccione un cliente para poder continuar</div>
-                                    <span inputBtn>
-                                        <button [routerLink]="['/system-orders/clients/create']" mat-raised-button
-                                            color="accent">Crear
-                                            cliente <mat-icon>person_add_alt_1</mat-icon></button>
-                                    </span>
-                                    <ng-container data>
-                                        <mat-card class="max-height-500">
-                                            <mat-selection-list (selectionChange)="selectedClient($event)"
-                                                [multiple]="false">
-                                                <mat-list-option [value]="client.key"
-                                                    *ngFor="let client of clientOrders.data | keyvalue">
-                                                    <button [routerLink]="['/system-orders/clients',client.key,'edit']"  class="bg-gray-200" mat-list-avatar color="accent" mat-icon-button><mat-icon>edit</mat-icon></button>
-                                                    <div mat-line>{{client.value.first_name}} {{client.value.last_name}}
-                                                    </div>
-                                                    <div mat-line>{{client.value.email}} - {{client.value.doc_id}}
-                                                    </div>
-                                                    <mat-divider></mat-divider>
-                                                </mat-list-option>
-                                            </mat-selection-list>
-                                        </mat-card>
-                                    </ng-container>
-                                </app-search>
-                            </div>
-                            <div class="col-md-4">
-                                <h3 class="font-2xl font-weight-bold">Cliente seleccionado</h3>
-                                <app-client *ngIf="clientSelected" [client]="clientSelected">
-                                </app-client>
-                            </div>
+  <h2 class="font-4xl font-weight-bold mt-2 m-0">{{ title }}</h2>
+  <div class="mt-3 pb-3">
+    <mat-card>
+      <mat-horizontal-stepper
+        #stepper
+        (selectionChange)="changeStepper($event)"
+        linear
+      >
+        <mat-step
+          label="client"
+          [stepControl]="form.get('client_id')"
+          [editable]="isEditStep"
+        >
+          <div>
+            <ng-template matStepLabel>Asignar Cliente</ng-template>
+            <div class="row">
+              <div class="col-md-8 border-right">
+                <app-search
+                  placeholder="Buscador de clientes"
+                  (data)="getData($event)"
+                  [url]="clientOrders.url"
+                >
+                  <div
+                    comment
+                    class="text-danger col-12"
+                    *ngIf="form.get('client_id').invalid"
+                  >
+                    Este paso requiere que busque y seleccione un cliente para
+                    poder continuar
+                  </div>
+                  <span *ngxPermissionsOnly="permissionsClient.create" inputBtn>
+                    <button
+                      [routerLink]="['/system-orders/clients/create']"
+                      mat-raised-button
+                      color="accent"
+                    >
+                      Crear cliente <mat-icon>person_add_alt_1</mat-icon>
+                    </button>
+                  </span>
+                  <ng-container data>
+                    <mat-card class="max-height-500">
+                      <mat-selection-list
+                        (selectionChange)="selectedClient($event)"
+                        [multiple]="false"
+                      >
+                        <mat-list-option
+                          [value]="client.key"
+                          *ngFor="let client of clientOrders.data | keyvalue"
+                        >
+                          <button
+                            [routerLink]="[
+                              '/system-orders/clients',
+                              client.key,
+                              'edit'
+                            ]"
+                            class="bg-gray-200"
+                            mat-list-avatar
+                            color="accent"
+                            mat-icon-button
+                          >
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <div mat-line>
+                            {{ client.value.first_name }}
+                            {{ client.value.last_name }}
+                          </div>
+                          <div mat-line>
+                            {{ client.value.email }} - {{ client.value.doc_id }}
+                          </div>
+                          <mat-divider></mat-divider>
+                        </mat-list-option>
+                      </mat-selection-list>
+                    </mat-card>
+                  </ng-container>
+                </app-search>
+              </div>
+              <div class="col-md-4">
+                <h3 class="font-2xl font-weight-bold">Cliente seleccionado</h3>
+                <app-client *ngIf="clientSelected" [client]="clientSelected">
+                </app-client>
+              </div>
+            </div>
+            <div>
+              <button
+                class="my-2"
+                color="primary"
+                [disabled]="form.get('client_id').invalid"
+                mat-raised-button
+                matStepperNext
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </mat-step>
+
+        <mat-step
+          label="address"
+          [stepControl]="form.get('address_id')"
+          [editable]="isEditStep"
+        >
+          <div>
+            <ng-template matStepLabel>Asignar Dirección</ng-template>
+            <div *ngIf="form.get('client_id').valid">
+              <div class="text-danger" *ngIf="form.get('address_id').invalid">
+                Este paso requiere que busque y seleccione una dirección para
+                poder continuar
+              </div>
+              <div class="font-2xl my-2 d-flex justify-content-between">
+                <span>
+                  <span class="text-info">Cliente:</span>&nbsp;
+                  {{ clientOrders.client.first_name }}
+                  {{ clientOrders.client.last_name }} -
+                  {{ clientOrders.client.doc_id }} </span
+                ><button
+                  color="accent"
+                  mat-raised-button
+                  (click)="openDialogCreateOrEdit()"
+                  *ngxPermissionsOnly="permissionsClient.create"
+                >
+                  Crear dirección para este cliente
+                </button>
+              </div>
+              <div class="row">
+                <div class="col-md-8 col-12 border-right">
+                  <mat-card
+                    class="max-height-500"
+                    *ngIf="
+                      !clientOrders.isLoadingAddresses &&
+                      clientOrders.addressesData.size > 0
+                    "
+                  >
+                    <mat-selection-list
+                      (selectionChange)="selectedAddress($event)"
+                      [multiple]="false"
+                    >
+                      <!-- <div mat-subheader>Clientes</div> -->
+                      <mat-list-option
+                        [value]="address.key"
+                        *ngFor="
+                          let address of clientOrders.addressesData | keyvalue
+                        "
+                      >
+                        <!-- <mat-icon mat-list-icon>person</mat-icon> -->
+                        <div mat-line class="font-weight-bold">
+                          {{ address.value.first_name }}
+                          {{ address.value.last_name }}
+                        </div>
+                        <div mat-line>
+                          {{ address.value.street }} - {{ address.value.state }}
+                        </div>
+                        <button
+                          mat-list-avatar
+                          color="accent"
+                          class="bg-gray-200"
+                          mat-icon-button
+                          (click)="openDialogCreateOrEdit(address.key)"
+                        >
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <mat-divider></mat-divider>
+                      </mat-list-option>
+                    </mat-selection-list>
+                  </mat-card>
+                  <div *ngIf="clientOrders.isLoadingAddresses">
+                    <div class="d-flex justify-content-center">
+                      <span class="font-2xl">Cargando direcciones...</span>
+                      <mat-spinner [diameter]="25"></mat-spinner>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="
+                      !clientOrders.isLoadingAddresses &&
+                      clientOrders.addressesData.size < 1
+                    "
+                  >
+                    No hay direcciones asignadas al cliente
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <h3 class="font-2xl font-weight-bold">
+                    Dirección seleccionada
+                  </h3>
+                  <div>
+                    <mat-card *ngIf="clientOrders?.address">
+                      <div class="font-lg text-info border-bottom">
+                        {{ clientOrders.address.first_name }}
+                        {{ clientOrders.address.last_name }}
+                      </div>
+                      <div>
+                        <div>
+                          <span>Calles:</span>&nbsp;{{
+                            clientOrders.address.street
+                          }}
                         </div>
                         <div>
-                            <button class="my-2" color="primary" [disabled]="form.get('client_id').invalid"
-                                mat-raised-button matStepperNext>Siguiente</button>
+                          <span>Numero:</span>&nbsp;{{
+                            clientOrders.address.number
+                          }}
                         </div>
-                    </div>
-                </mat-step>
-
-                <mat-step label="address" [stepControl]="form.get('address_id')" [editable]="isEditStep">
-                    <div>
-                        <ng-template matStepLabel>Asignar Dirección</ng-template>
-                        <div *ngIf="form.get('client_id').valid">
-                            <div class="text-danger" *ngIf="form.get('address_id').invalid">Este paso requiere que
-                                busque y
-                                seleccione una dirección para poder continuar</div>
-                            <div class="font-2xl my-2 d-flex justify-content-between"><span>
-                                    <span class="text-info">Cliente:</span>&nbsp;
-                                    {{clientOrders.client.first_name }} {{clientOrders.client.last_name }} -
-                                    {{clientOrders.client.doc_id }}
-                                </span><button color="accent" mat-raised-button (click)="openDialogCreateOrEdit()">Crear
-                                    dirección para este cliente</button></div>
-                            <div class="row">
-                                <div class="col-md-8 col-12 border-right">
-                                    <mat-card class="max-height-500"
-                                        *ngIf="!clientOrders.isLoadingAddresses && clientOrders.addressesData.size > 0;">
-                                        <mat-selection-list (selectionChange)="selectedAddress($event)"
-                                            [multiple]="false">
-                                            <!-- <div mat-subheader>Clientes</div> -->
-                                            <mat-list-option [value]="address.key"
-                                                *ngFor="let address of clientOrders.addressesData | keyvalue">
-                                                <!-- <mat-icon mat-list-icon>person</mat-icon> -->
-                                                <div mat-line class="font-weight-bold">{{address.value.first_name}}
-                                                    {{address.value.last_name}}
-                                                </div>
-                                                <div mat-line>{{address.value.street}} - {{address.value.state}}</div>
-                                                <button mat-list-avatar color="accent" class="bg-gray-200"
-                                                    mat-icon-button (click)="openDialogCreateOrEdit(address.key)">
-                                                    <mat-icon>edit</mat-icon>
-                                                </button>
-                                                <mat-divider></mat-divider>
-                                            </mat-list-option>
-                                        </mat-selection-list>
-                                    </mat-card>
-                                    <div *ngIf="clientOrders.isLoadingAddresses">
-                                        <div class="d-flex justify-content-center">
-                                            <span class="font-2xl">Cargando direcciones...</span>
-                                            <mat-spinner [diameter]="25"></mat-spinner>
-                                        </div>
-                                    </div>
-                                    <div
-                                        *ngIf="!clientOrders.isLoadingAddresses && clientOrders.addressesData.size < 1">
-                                        No hay direcciones asignadas al cliente
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <h3 class="font-2xl font-weight-bold">Dirección seleccionada</h3>
-                                    <div>
-                                        <mat-card *ngIf="clientOrders?.address">
-                                            <div class="font-lg text-info border-bottom">
-                                                {{clientOrders.address.first_name}} {{clientOrders.address.last_name}}
-                                            </div>
-                                            <div>
-                                                <div><span>Calles:</span>&nbsp;{{clientOrders.address.street}}</div>
-                                                <div><span>Numero:</span>&nbsp;{{clientOrders.address.number}}</div>
-                                                <div><span>Estado o
-                                                        provincia:</span>&nbsp;{{clientOrders.address.state}}</div>
-                                                <div><span>Cuidad:</span>&nbsp;{{clientOrders.address.city}}</div>
-                                                <div><span>Codigo Zip:</span>&nbsp;{{clientOrders.address.zip_code}}
-                                                </div>
-                                                <div><span>Vecindario:</span>&nbsp;{{clientOrders.address.neighborhood}}
-                                                </div>
-                                            </div>
-                                        </mat-card>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                          <span>Estado o provincia:</span>&nbsp;{{
+                            clientOrders.address.state
+                          }}
                         </div>
-                    </div>
-                    <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button class="my-2" color="primary" [disabled]="form.get('address_id').invalid"
-                            mat-raised-button matStepperNext>Siguiente</button>
-                    </div>
-                </mat-step>
+                        <div>
+                          <span>Cuidad:</span>&nbsp;{{
+                            clientOrders.address.city
+                          }}
+                        </div>
+                        <div>
+                          <span>Codigo Zip:</span>&nbsp;{{
+                            clientOrders.address.zip_code
+                          }}
+                        </div>
+                        <div>
+                          <span>Vecindario:</span>&nbsp;{{
+                            clientOrders.address.neighborhood
+                          }}
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Atrás</button>
+            <button
+              class="my-2"
+              color="primary"
+              [disabled]="form.get('address_id').invalid"
+              mat-raised-button
+              matStepperNext
+            >
+              Siguiente
+            </button>
+          </div>
+        </mat-step>
 
-                <mat-step label="order-save" [stepControl]="form" [editable]="isEditStep">
-                    <ng-template matStepLabel>Guardar Orden</ng-template>
-                    <div [formGroup]="form" class="row">
-                        <mat-form-field class="col-md-6">
-                            <mat-select formControlName="type" placeholder="Tipo de orden">
-                                <mat-option *ngFor="let type of typesOrders" [value]="type">
-                                    {{type | translatefz: 'orders'}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+        <mat-step
+          label="order-save"
+          [stepControl]="form"
+          [editable]="isEditStep"
+        >
+          <ng-template matStepLabel>Guardar Orden</ng-template>
+          <div [formGroup]="form" class="row">
+            <mat-form-field class="col-md-6">
+              <mat-select formControlName="type" placeholder="Tipo de orden">
+                <mat-option *ngFor="let type of typesOrders" [value]="type">
+                  {{ type | translatefz: "orders" }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-                        <mat-form-field class="col-md-6">
-                            <mat-select formControlName="channel_id" placeholder="Tipo de canal">
-                                <mat-option *ngFor="let channel of channelsOrders" [value]="channel.id">
-                                    {{channel.name | translatefz: 'order_channels'}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-select
+                formControlName="channel_id"
+                placeholder="Tipo de canal"
+              >
+                <mat-option
+                  *ngFor="let channel of channelsOrders"
+                  [value]="channel.id"
+                >
+                  {{ channel.name | translatefz: "order_channels" }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-                        <mat-form-field class="col-md-6">
-                            <input type="number" matInput placeholder="Iva" formControlName="tax">
-                            <div matSuffix>%</div>
-                        </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <input
+                type="number"
+                matInput
+                placeholder="Iva"
+                formControlName="tax"
+              />
+              <div matSuffix>%</div>
+            </mat-form-field>
 
-                        <mat-form-field class="col-md-6">
-                            <input matInput placeholder="Cliente"
-                                [value]="clientOrders?.client?.first_name + ' ' + clientOrders?.client?.last_name"
-                                disabled>
-                        </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <input
+                matInput
+                placeholder="Cliente"
+                [value]="
+                  clientOrders?.client?.first_name +
+                  ' ' +
+                  clientOrders?.client?.last_name
+                "
+                disabled
+              />
+            </mat-form-field>
 
-                        <mat-form-field class="col-md-6">
-                            <input matInput placeholder="Dirección"
-                                [value]="clientOrders?.address?.street + ' - ' + clientOrders?.address?.city" disabled>
-                        </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <input
+                matInput
+                placeholder="Dirección"
+                [value]="
+                  clientOrders?.address?.street +
+                  ' - ' +
+                  clientOrders?.address?.city
+                "
+                disabled
+              />
+            </mat-form-field>
 
-                        <mat-form-field class="col-md-6">
-                            <input matInput placeholder="Codigo de vendedor" formControlName="seller_code">
-                        </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <input
+                matInput
+                placeholder="Codigo de vendedor"
+                formControlName="seller_code"
+              />
+            </mat-form-field>
 
-                        <mat-form-field class="col-md-6">
-                            <mat-select formControlName="company_id" placeholder="Compañía">
-                                <mat-option *ngFor="let company of companies" [value]="company.id">
-                                    {{company?.name}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-select formControlName="company_id" placeholder="Compañía">
+                <mat-option
+                  *ngFor="let company of companies"
+                  [value]="company.id"
+                >
+                  {{ company?.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious color="warn">Atrás</button>
+            <button
+              class="my-2"
+              color="primary"
+              [disabled]="form.invalid || isLoading"
+              mat-raised-button
+              (click)="saveInServer()"
+            >
+              Guardar e Ir a Siguiente paso
+            </button>
+          </div>
+        </mat-step>
 
-                    </div>
-                    <div>
-                        <button mat-button matStepperPrevious color="warn">Atrás</button>
-                        <button class="my-2" color="primary" [disabled]="form.invalid || isLoading" mat-raised-button
-                            (click)="saveInServer()">Guardar e Ir a Siguiente paso</button>
-                    </div>
-                </mat-step>
-
-                <!-- <mat-step>
+        <!-- <mat-step>
                     <ng-template matStepLabel>Asignar productos a la orden</ng-template>
                     <div *ngIf="!isEditStep">
                         <app-edit-order></app-edit-order>
@@ -191,8 +347,8 @@
                         <button color="primary" mat-raised-button [routerLink]="['/orders']">Finalizar</button>
                     </div>
                 </mat-step> -->
-            </mat-horizontal-stepper>
-        </mat-card>
-    </div>
+      </mat-horizontal-stepper>
+    </mat-card>
+  </div>
 </div>
 <!-- <app-state-flow-order></app-state-flow-order> -->

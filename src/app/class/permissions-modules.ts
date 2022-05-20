@@ -22,94 +22,85 @@ export const permission_admin_products = {
     }
 };
 
-export const permissionsModuleOrders = {
-    index: ['super-admin', 'system-orders.index'],
-    show: ['super-admin', 'system-orders.show'],
-    create: ['super-admin', 'system-orders.create'],
-    edit: ['super-admin', 'system-orders.edit'],
-    delete: ['super-admin', 'system-orders.delete'],
-};
+// Pagina de Buscar productos
+export const PermissionSearchProducts = {
+ index : ['catalogs.products.index', 'super-admin'],
+ show : ['catalogs.products.show', 'super-admin'],
+ create : ['catalogs.products.create', 'super-admin'],
+ edit : ['catalogs.products.edit', 'super-admin'],
+ destroy : ['catalogs.products.destroy', 'super-admin'],
+}
 
-export const permissionsModuleOrdersClients = {
-    index: ['super-admin', 'system-orders.clients.index'],
-    show: ['super-admin', 'system-orders.clients.show'],
-    create: ['super-admin', 'system-orders.clients.create'],
-    edit: ['super-admin', 'system-orders.clients.edit'],
-    delete: ['super-admin', 'system-orders.clients.delete'],
-};
-
-
-  //#region 
-    //orders system orders
-export  enum EPermissionOrders {
-     ORDER_SYSTEM_ORDER_INDEX = 'system-orders.orders.index',
-     ORDER_SYSTEM_ORDER_CREATE = 'system-orders.orders.create',
-     ORDER_SYSTEM_ORDER_EDIT = 'system-orders.orders.edit',
-     ORDER_SYSTEM_ORDER_DESTROY = 'system-orders.orders.destroy',
+//orders system orders
+export const PermissionOrders = {
+    index: ['system-orders.orders.index', 'super-admin'],
+    create: ['system-orders.orders.create', 'super-admin'],
+    edit: ['system-orders.orders.edit', 'super-admin'],
+    destroy: ['system-orders.orders.destroy', 'super-admin'],
 }
-    //orders system orders items
-export  enum EPermissionOrdersItems {
-     ORDER_SYSTEM_ORDER_ITEMS_INDEX = 'system-orders.orders.items.index',
-     ORDER_SYSTEM_ORDER_ITEMS_CREATE = 'system-orders.orders.items.create',
-     ORDER_SYSTEM_ORDER_ITEMS_EDIT = 'system-orders.orders.items.edit',
-     ORDER_SYSTEM_ORDER_ITEMS_DESTROY = 'system-orders.orders.items.destroy',
+//orders system orders items
+export const PermissionOrdersItems = {
+    index: ['system-orders.orders.items.index', 'super-admin'],
+    create: ['system-orders.orders.items.create', 'super-admin'],
+    edit: ['system-orders.orders.items.edit', 'super-admin'],
+    destroy: ['system-orders.orders.items.destroy', 'super-admin'],
 }
-    //orders system orders shippings
-export  enum EPermissionOrdersShippings {
-     ORDER_SYSTEM_ORDER_SHIPPINGS_INDEX = 'system-orders.orders.shippings.index',
-     ORDER_SYSTEM_ORDER_SHIPPINGS_CREATE = 'system-orders.orders.shippings.create',
-     ORDER_SYSTEM_ORDER_SHIPPINGS_EDIT = 'system-orders.orders.shippings.edit',
-     ORDER_SYSTEM_ORDER_SHIPPINGS_DESTROY = 'system-orders.orders.shippings.destroy',
-     ORDER_SYSTEM_ORDER_SHIPPINGS_SEND = 'system-orders.orders.shippings.send',
+//orders system orders shippings
+export const PermissionOrdersShippings = {
+    index: ['system-orders.orders.shippings.index', 'super-admin'],
+    create: ['system-orders.orders.shippings.create', 'super-admin'],
+    edit: ['system-orders.orders.shippings.edit', 'super-admin'],
+    destroy: ['system-orders.orders.shippings.destroy', 'super-admin'],
+    send: ['system-orders.orders.shippings.send', 'super-admin'],
 }
-    //orders system orders payments
-export  enum EPermissionOrdersPayments {
-     ORDER_SYSTEM_ORDER_PAYMENTS_INDEX = 'system-orders.orders.payments.index',
-     ORDER_SYSTEM_ORDER_PAYMENTS_CREATE = 'system-orders.orders.payments.create',
-     ORDER_SYSTEM_ORDER_PAYMENTS_EDIT = 'system-orders.orders.payments.edit',
-     ORDER_SYSTEM_ORDER_PAYMENTS_DESTROY = 'system-orders.orders.payments.destroy',
+//orders system orders payments
+export const PermissionOrdersPayments = {
+    index: ['system-orders.orders.payments.index', 'super-admin'],
+    create: ['system-orders.orders.payments.create', 'super-admin'],
+    edit: ['system-orders.orders.payments.edit', 'super-admin'],
+    destroy: ['system-orders.orders.payments.destroy', 'super-admin'],
 }
-    //orders system orders additional amounts
-export  enum EPermissionOrdersAdditionalAmounts {
-     ORDER_SYSTEM_ORDER_ADDITIONAL_AMOUNTS_INDEX = 'system-orders.orders.additional-amounts.index',
-     ORDER_SYSTEM_ORDER_ADDITIONAL_AMOUNTS_CREATE = 'system-orders.orders.additional-amounts.create',
-     ORDER_SYSTEM_ORDER_ADDITIONAL_AMOUNTS_EDIT = 'system-orders.orders.additional-amounts.edit',
-     ORDER_SYSTEM_ORDER_ADDITIONAL_AMOUNTS_DESTROY = 'system-orders.orders.additional-amounts.destroy',
+//orders system orders additional amounts
+export const PermissionOrdersAdditionalAmounts = {
+    index: ['system-orders.orders.additional-amounts.index', 'super-admin'],
+    create: ['system-orders.orders.additional-amounts.create', 'super-admin'],
+    edit: ['system-orders.orders.additional-amounts.edit', 'super-admin'],
+    destroy: ['system-orders.orders.additional-amounts.destroy', 'super-admin'],
 }
-    //orders system orders transfers mba
-export  enum EPermissionOrdersTransfersMba {
-     ORDER_SYSTEM_ORDER_TRANSFERS_MBA_INDEX = 'system-orders.orders.transfers-mba.index',
-     ORDER_SYSTEM_ORDER_TRANSFERS_MBA_CREATE = 'system-orders.orders.transfers-mba.create',
-     ORDER_SYSTEM_ORDER_TRANSFERS_MBA_DESTROY = 'system-orders.orders.transfers-mba.destroy',
+//orders system orders transfers mba
+export const PermissionOrdersTransfersMba = {
+    index: ['system-orders.orders.transfers-mba.index', 'super-admin'],
+    create: ['system-orders.orders.transfers-mba.create', 'super-admin'],
+    destroy: ['system-orders.orders.transfers-mba.destroy', 'super-admin'],
 }
-    //orders system orders payments mba
-export  enum EPermissionOrdersPaymentsMba {
-     ORDER_SYSTEM_ORDER_PAYMENTS_MBA_CREATE = 'system-orders.orders.payments-mba.create',
-     ORDER_SYSTEM_ORDER_PAYMENTS_MBA_DESTROY = 'system-orders.orders.payments-mba.destroy',
+//orders system orders payments mba
+export const PermissionOrdersPaymentsMba = {
+    create: ['system-orders.orders.payments-mba.create', 'super-admin'],
+    destroy: ['system-orders.orders.payments-mba.destroy', 'super-admin'],
 }
-    //orders system orders invoices mba
-export  enum EPermissionOrdersInvoicesMba {
-     ORDER_SYSTEM_ORDER_INVOICES_MBA_INDEX = 'system-orders.orders.invoices-mba.index',
-     ORDER_SYSTEM_ORDER_INVOICES_MBA_CREATE = 'system-orders.orders.invoices-mba.create',
-     ORDER_SYSTEM_ORDER_INVOICES_MBA_DESTROY = 'system-orders.orders.invoices-mba.destroy',
+//orders system orders invoices mba
+export const PermissionOrdersInvoicesMba = {
+    index: ['system-orders.orders.invoices-mba.index', 'super-admin'],
+    create: ['system-orders.orders.invoices-mba.create', 'super-admin'],
+    destroy: ['system-orders.orders.invoices-mba.destroy', 'super-admin'],
 }
-    //orders system Clients
-export  enum EPermissionOrdersClients {
-     ORDER_SYSTEM_CLIENTS_INDEX = 'system-orders.clients.index',
-     ORDER_SYSTEM_CLIENTS_CREATE = 'system-orders.clients.create',
-     ORDER_SYSTEM_CLIENTS_EDIT = 'system-orders.clients.edit',
-     ORDER_SYSTEM_CLIENTS_DESTROY = 'system-orders.clients.destroy',
+//orders system Clients
+export const PermissionOrdersClients = {
+    index: ['system-orders.clients.index', 'super-admin'],
+    create: ['system-orders.clients.create', 'super-admin'],
+    edit: ['system-orders.clients.edit', 'super-admin'],
+    destroy: ['system-orders.clients.destroy', 'super-admin'],
 }
-    //orders system tickets
-export  enum EPermissionOrdersTickets {
-     ORDER_SYSTEM_TICKETS_INDEX = 'system-orders.tickets.index',
-     ORDER_SYSTEM_TICKETS_CREATE = 'system-orders.tickets.create',
-     ORDER_SYSTEM_TICKETS_EDIT = 'system-orders.tickets.edit',
+//orders system tickets
+export const PermissionOrdersTickets = {
+    index: ['system-orders.tickets.index', 'super-admin'],
+    create: ['system-orders.tickets.create', 'super-admin'],
+    edit: ['system-orders.tickets.edit', 'super-admin'],
 }
-    //orders system channels
-export  enum EPermissionOrdersChannels {
-     ORDER_SYSTEM_CHANNELS_INDEX = 'system-orders.channels.index',
-     ORDER_SYSTEM_CHANNELS_CREATE = 'system-orders.channels.create',
-     ORDER_SYSTEM_CHANNELS_EDIT = 'system-orders.channels.edit',
-     ORDER_SYSTEM_CHANNELS_DESTROY = 'system-orders.channels.destroy',
+//orders system channels
+export const PermissionOrdersChannels = {
+    index: ['system-orders.channels.index', 'super-admin'],
+    create: ['system-orders.channels.create', 'super-admin'],
+    edit: ['system-orders.channels.edit', 'super-admin'],
+    destroy: ['system-orders.channels.destroy', 'super-admin'],
 }

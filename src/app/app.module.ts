@@ -112,6 +112,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { StorageService } from './services/storage.service';
 import { EMPTY } from 'rxjs';
 import { TicketsModule } from './pages/orders/tickets/tickets.module';
+import { P403Component } from './views/error/p403/p403.component';
 
 
 
@@ -203,6 +204,7 @@ registerLocaleData(localeEs, 'es');
         ChatTemplateComponent,
         ChatComponent,
         UsersGroupsChatModalComponent,
+        P403Component,
     ],
     providers: [
         // {

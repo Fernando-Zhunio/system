@@ -2,12 +2,13 @@
 // import { SwPush } from '@angular/service-worker';
 import { SwPush } from '@angular/service-worker';
 import { environment } from '../../environments/environment';
+import { MethodsHttpService } from '../services/methods-http.service';
 import { StandartSearchService } from '../services/standart-search.service';
 
 export class NotificationsWebPush {
   constructor(
     private swPush: SwPush,
-    private s_standart: StandartSearchService
+    private methodsHttp: MethodsHttpService
   ) { }
   public readonly PUBLIC_KEY = 'BIpvX7op6SPzeb27Jg1rm7FJrOxmLRPOMkHDlzMnhTFaso8nBPvm9PZuwcVbLQua1T6mNctdw2B9gSGfBWX6w9E';
   //  environment.VAPID_PUBLIC_KEY;
@@ -98,7 +99,7 @@ export class NotificationsWebPush {
   }
 
   storePushSubscription(pushSubscription) {
-    this.s_standart.store('notifications/suscribe-webpush', JSON.parse(JSON.stringify(pushSubscription))).subscribe(res => {
+    this.methodsHttp.methodPost('notifications/suscribe-webpush', JSON.parse(JSON.stringify(pushSubscription))).subscribe(res => {
     });
 
   }

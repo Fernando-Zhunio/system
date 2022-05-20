@@ -24,7 +24,6 @@ export class StorageService  {
     }
       const permissions = this.getPermissionUser();
       if (this.currentSession && permissions ) {
-        console.log(permissions);
       this.s_permissionsService.loadPermissions(permissions);
     }
   }

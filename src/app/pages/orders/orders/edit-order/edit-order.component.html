@@ -122,14 +122,10 @@
   <mat-card class="mt-3">
     <div class="d-flex justify-content-between align-items-center my-2">
       <h3 class="font-weight-bold font-2xl my-1">Gestionables</h3>
-      <!-- <div>
-        <button mat-raised-button color="accent" (click)="accordion2.openAll()">Expandir todo</button>
-        <button mat-raised-button color="accent" (click)="accordion2.closeAll()">Contraer todo</button>
-      </div> -->
     </div>
 
     <mat-accordion #accordion2 class="example-headers-align" multi>
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsProducts.index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Productos
@@ -147,7 +143,7 @@
           [order]="order"></app-add-products-order>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsShipping.create">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Envíos
@@ -168,7 +164,7 @@
 
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsPayments.create">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Pagos
@@ -187,7 +183,7 @@
         </app-payment-order>
 
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsTaxAndDiscounts.create">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Impuestos y Descuentos
@@ -206,21 +202,15 @@
         </app-discount-tax-order>
       </mat-expansion-panel>
     </mat-accordion>
-
-
   </mat-card>
 
   <mat-card class="mt-3">
     <div class="d-flex justify-content-between align-items-center my-2">
       <h3 class="font-weight-bold font-2xl my-1">Sincronización MBA</h3>
-      <!-- <div>
-        <button mat-raised-button color="accent" (click)="accordion.openAll()">Expandir todo</button>
-        <button mat-raised-button color="accent" (click)="accordion.closeAll()">Contraer todo</button>
-      </div> -->
     </div>
 
     <mat-accordion #accordion class="example-headers-align" multi>
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsTransfers.create">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Transferencias
@@ -239,7 +229,7 @@
         </app-transference-order>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsAnticipe.create">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Anticipos (pagos o cobros) MBA
@@ -263,7 +253,7 @@
         </app-custom-template-only-input>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsInvoices.create">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Facturas

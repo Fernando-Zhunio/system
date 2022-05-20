@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { PermissionOrdersPaymentsMba } from '../../../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../../services/swal.service';
 
@@ -15,6 +16,7 @@ export class PaymentMbaItemComponent implements OnInit {
   @Input() order_id: number;
   @Input() item: any;
   @Input() isCancelled = false;
+  permissionsPaymentsMBA = PermissionOrdersPaymentsMba;
   ngOnInit(): void {
   }
 

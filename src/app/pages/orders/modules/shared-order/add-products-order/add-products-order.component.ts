@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectionListChange } from '@angular/material/list';
 import { Observable } from 'rxjs';
+import { PermissionOrdersItems } from '../../../../../class/permissions-modules';
 import { IItemOrder, IOrder } from '../../../../../interfaces/iorder';
 import { IProduct } from '../../../../../interfaces/iproducts';
 import { IPaginate, StandartSearchService } from '../../../../../services/standart-search.service';
@@ -26,7 +27,7 @@ export class AddProductsOrderComponent implements OnInit {
   products: Map<number, IProduct> = new Map<number, IProduct>();
   urlProducts: string = 'system-orders/products';
   form: FormGroup = new FormGroup({
-    product: new FormControl({ value: null, disabled: true }, [Validators.required]),
+    product: new FormControl(null, [Validators.required]),
     product_id: new FormControl(null, [Validators.required]),
     quantity: new FormControl(null, [Validators.required]),
     description: new FormControl(null),
@@ -39,6 +40,8 @@ export class AddProductsOrderComponent implements OnInit {
     quantity: new FormControl(null, [Validators.required]),
     price: new FormControl(null, [Validators.required]),
   });
+
+  permissionsProducts = PermissionOrdersItems;
 
 
   ngOnInit() {

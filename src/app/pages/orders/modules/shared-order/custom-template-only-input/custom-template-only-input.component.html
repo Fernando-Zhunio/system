@@ -13,11 +13,8 @@
               <div>
                  <ng-content select="[items]"></ng-content>
               </div>
-              <ng-container *ngIf="!isCancelled">
-                  <!-- <button class="mt-2" mat-raised-button color="accent"
-                      (click)="isOpenAddInvoice = !isOpenAddInvoice">Agregar
-                      manualmente</button> -->
-                  <div class="add-container" *ngIf="isOpenAddInvoice">
+              <ng-container *ngIf="!isCancelled && isOpenAddInvoice">
+                  <div *ngxPermissionsOnly="permissions.create" class="add-container" >
                       <button (click)="isOpenAddInvoice = !isOpenAddInvoice" class="btn-close-add"
                           mat-mini-fab color="warn">
                           <mat-icon>close</mat-icon>

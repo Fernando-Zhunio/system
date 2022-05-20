@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PermissionOrdersAdditionalAmounts } from '../../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
 import { CreateOrEditDiscountOrTaxOrderComponent } from '../../../components/create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
@@ -15,6 +16,8 @@ export class DiscountTaxOrderComponent implements OnInit {
   @Input() isCancelled: boolean;
   @Input() order_id: any;
   @Output() change = new EventEmitter<string>();
+
+  permissionTaxAndDiscount = PermissionOrdersAdditionalAmounts;
 
   constructor(private dialog: MatDialog, private standard: StandartSearchService) { }
 

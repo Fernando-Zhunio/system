@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { PermissionOrdersInvoicesMba } from '../../../../../class/permissions-modules';
 import { IInvoice } from '../../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
@@ -18,6 +19,7 @@ export class InvoicesOrderComponent implements OnInit {
   isOpenAddInvoice = false;
   isLoading = false;
   formControl = new FormControl(null, [Validators.required]);
+  permissionsInvoices = PermissionOrdersInvoicesMba;
 
   @Input() order_id: number;
   @Output() change = new EventEmitter<any>();

@@ -3,7 +3,7 @@
     <div>Estado: <span class="badge font-sm {{item.status}}"> {{item.status |
         translatefz:
         'orders'}}</span></div>
-    <div>
+    <div *ngxPermissionsOnly="permissionsPaymentsMBA.destroy">
       <button *ngIf="!isCancelled" color="warn" (click)="unlink(item.id)" mat-button>Desvincular</button>
     </div>
   </div>

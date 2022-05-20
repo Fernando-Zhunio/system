@@ -12,180 +12,191 @@
     </button>
   </div>
   <hr />
-  <div class="card-columns">
-    <mat-card class="card border-0" *ngFor="let shipping of shippings">
-      <div>
-        <span [class]="shipping.type">{{ shipping.type }}</span>
-      </div>
-      <div>
-        <div
-          class="badge font-sm {{ shipping.status }}"
-          *ngIf="
-            shipping.type != 'pickup' ||
-              shipping.status == 'delivered' ||
-              shipping.status == 'cancelled';
-            else templateSelectStatus
-          "
-        >
-          <span
-            >Estado:
-            <ng-container
-              *ngIf="
-                shipping.status == 'shipped' && shipping.type == 'pickup';
-                else elseTemplateCustomShippedStatus
-              "
-              >Listo para recoger</ng-container
-            >
-            <ng-template #elseTemplateCustomShippedStatus>{{
-              shipping.status | translatefz: "orders"
-            }}</ng-template>
-          </span>
+  <div class="row">
+    <div class="col-md-4 p-2" *ngFor="let shipping of shippings">
+      <mat-card class="border-0">
+        <div>
+          <span [class]="shipping.type">{{ shipping.type }}</span>
         </div>
-        <ng-template #templateSelectStatus>
-          <div class="d-flex">
-            <mat-form-field>
-              <mat-select
-                [disabled]="isCancelled"
-                [value]="shipping.status"
-                (selectionChange)="changeStatusShipping($event, shipping.id)"
-                placeholder="Cambio de estado"
+        <div>
+          <div
+            class="badge font-sm {{ shipping.status }}"
+            *ngIf="
+              shipping.type != 'pickup' ||
+                shipping.status == 'delivered' ||
+                shipping.status == 'cancelled';
+              else templateSelectStatus
+            "
+          >
+            <span
+              >Estado:
+              <ng-container
+                *ngIf="
+                  shipping.status == 'shipped' && shipping.type == 'pickup';
+                  else elseTemplateCustomShippedStatus
+                "
+                >Listo para recoger</ng-container
               >
-                <mat-option value="pending">Pendiente</mat-option>
-                <mat-option value="shipped">Listo para recoger</mat-option>
-                <mat-option value="delivered">Entregado</mat-option>
-                <mat-option value="cancelled">Cancelado</mat-option>
-              </mat-select>
-            </mat-form-field>
+              <ng-template #elseTemplateCustomShippedStatus>{{
+                shipping.status | translatefz: "orders"
+              }}</ng-template>
+            </span>
           </div>
-        </ng-template>
-        <table>
-          <tbody class="body-info">
-            <tr>
-              <td>Creado:</td>
-              <td>{{ shipping.created_at | date }}</td>
-            </tr>
-            <tr>
-              <td>Monto:</td>
-              <td>$ {{ shipping.amount }}</td>
-            </tr>
-            <tr>
-              <td>Peso cubico:</td>
-              <td>{{ shipping?.cubicweight }}</td>
-            </tr>
-            <tr>
-              <td>Peso:</td>
-              <td>{{ shipping?.weight }}</td>
-            </tr>
-            <tr>
-              <td>Altura:</td>
-              <td>{{ shipping?.height }}</td>
-            </tr>
-            <tr>
-              <td>Ancho:</td>
-              <td>{{ shipping?.width }}</td>
-            </tr>
-            <tr>
-              <td>Longitud:</td>
-              <td>{{ shipping?.length }}</td>
-            </tr>
-            <tr>
-              <td>Bodegas:</td>
-              <td class="center justify-content-start">
-                <span class="badge bg-success">{{
-                  shipping?.origin_warehouse?.code
-                }}</span
-                >{{ shipping?.origin_warehouse?.name }}
-              </td>
-            </tr>
-            <tr>
-              <td># Tracking</td>
-              <td>{{ shipping.tracking_number | nullFz }}</td>
-            </tr>
-            <tr *ngIf="shipping.tracking_link">
-              <td>Tracking Link</td>
-              <td>
-                <a
-                  style="word-break: break-all"
-                  target="_blank"
-                  href="shipping.tracking_link"
-                  >{{ shipping.tracking_link }}</a
+          <ng-template #templateSelectStatus>
+            <div class="d-flex">
+              <mat-form-field>
+                <mat-select
+                  [disabled]="isCancelled"
+                  [value]="shipping.status"
+                  (selectionChange)="changeStatusShipping($event, shipping.id)"
+                  placeholder="Cambio de estado"
                 >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div *ngIf="!isCancelled">
-        <button
-          color="info"
-          mat-raised-button
-          (click)="openDialogProductsShipping(shipping.id, shipping.status)"
-        >
-          <mat-icon>category</mat-icon> Productos
-        </button>
-        <ng-container
-          *ngIf="
-            shipping.status != 'delivered' &&
-            !shipping.tracking_number &&
-            shipping.status != 'cancelled'
-          "
-        >
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="openDialogShipping(shipping.id)"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            color="warn"
-            *ngIf="!shipping.tracking_number"
-            (click)="deleteShipping(shipping.id)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </ng-container>
-        <button mat-icon-button [matMenuTriggerFor]="menuRef">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-
-        <mat-menu #menuRef="matMenu">
-          <button (click)="openDialogHistoryStatus(shipping.id)" mat-menu-item>
-            <mat-icon>manage_search</mat-icon>
-            <span>Ver Historial</span>
-          </button>
-          <ng-container *ngIf="shipping.type == 'servientrega'">
-            <button
-              *ngIf="!shipping.tracking_number; else templateDeleteGuie"
-              mat-menu-item
-              (click)="openGenerateGuide(shipping.id)"
-            >
-              <mat-icon>grading</mat-icon>
-              <span>Generar guía</span>
+                  <mat-option value="pending">Pendiente</mat-option>
+                  <mat-option value="shipped">Listo para recoger</mat-option>
+                  <mat-option value="delivered">Entregado</mat-option>
+                  <mat-option value="cancelled">Cancelado</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-template>
+          <table>
+            <tbody class="body-info">
+              <tr>
+                <td>Creado:</td>
+                <td>{{ shipping.created_at | date }}</td>
+              </tr>
+              <tr>
+                <td>Monto:</td>
+                <td>$ {{ shipping.amount }}</td>
+              </tr>
+              <tr>
+                <td>Peso cubico:</td>
+                <td>{{ shipping?.cubicweight }}</td>
+              </tr>
+              <tr>
+                <td>Peso:</td>
+                <td>{{ shipping?.weight }}</td>
+              </tr>
+              <tr>
+                <td>Altura:</td>
+                <td>{{ shipping?.height }}</td>
+              </tr>
+              <tr>
+                <td>Ancho:</td>
+                <td>{{ shipping?.width }}</td>
+              </tr>
+              <tr>
+                <td>Longitud:</td>
+                <td>{{ shipping?.length }}</td>
+              </tr>
+              <tr>
+                <td>Bodegas:</td>
+                <td class="center justify-content-start">
+                  <span class="badge bg-success">{{
+                    shipping?.origin_warehouse?.code
+                  }}</span
+                  >{{ shipping?.origin_warehouse?.name }}
+                </td>
+              </tr>
+              <tr>
+                <td># Tracking</td>
+                <td>{{ shipping.tracking_number | nullFz }}</td>
+              </tr>
+              <tr *ngIf="shipping.tracking_link">
+                <td>Tracking Link</td>
+                <td>
+                  <a
+                    style="word-break: break-all"
+                    target="_blank"
+                    href="shipping.tracking_link"
+                    >{{ shipping.tracking_link }}</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="!isCancelled">
+          <div class="d-flex justify-content-between">
+            <div>
+              <button
+                color="info"
+                mat-raised-button
+                (click)="openDialogProductsShipping(shipping.id, shipping.status)"
+              >
+                <mat-icon>category</mat-icon> Productos
+              </button>
+              <ng-container
+                *ngIf="
+                  shipping.status != 'delivered' &&
+                  !shipping.tracking_number &&
+                  shipping.status != 'cancelled'
+                "
+              >
+                <button
+                  *ngxPermissionsOnly="permissionsShipping.edit"
+                  mat-icon-button
+                  color="primary"
+                  (click)="openDialogShipping(shipping.id)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <ng-container *ngxPermissionsOnly="permissionsShipping.edit">
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    *ngIf="!shipping.tracking_number"
+                    (click)="deleteShipping(shipping.id)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </ng-container>
+              </ng-container>
+            </div>
+            <button mat-icon-button [matMenuTriggerFor]="menuRef">
+              <mat-icon>more_vert</mat-icon>
             </button>
-            <ng-template #templateDeleteGuie>
+          </div>
+          <mat-menu #menuRef="matMenu">
+            <button
+              (click)="openDialogHistoryStatus(shipping.id)"
+              mat-menu-item
+            >
+              <mat-icon>manage_search</mat-icon>
+              <span>Ver Historial</span>
+            </button>
+            <ng-container *ngIf="shipping.type == 'servientrega'">
               <button
+                *ngIf="!shipping.tracking_number; else templateDeleteGuie"
                 mat-menu-item
-                color="warn"
-                (click)="deleteGuie(shipping.id)"
+                (click)="openGenerateGuide(shipping.id)"
               >
-                <mat-icon>delete</mat-icon>
-                <span>Eliminar guía</span>
+                <mat-icon>grading</mat-icon>
+                <span>Generar guía</span>
               </button>
-              <button
-                mat-menu-item
-                color="accent"
-                (click)="openViewPdf(shipping.id)"
-              >
-                <mat-icon>picture_as_pdf</mat-icon>
-                <span>Ver PDF</span>
-              </button>
-            </ng-template>
-          </ng-container>
-        </mat-menu>
-      </div>
-    </mat-card>
+              <ng-template #templateDeleteGuie>
+                <button
+                  mat-menu-item
+                  color="warn"
+                  (click)="deleteGuie(shipping.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                  <span>Eliminar guía</span>
+                </button>
+                <button
+                  mat-menu-item
+                  color="accent"
+                  (click)="openViewPdf(shipping.id)"
+                >
+                  <mat-icon>picture_as_pdf</mat-icon>
+                  <span>Ver PDF</span>
+                </button>
+              </ng-template>
+            </ng-container>
+          </mat-menu>
+        </div>
+      </mat-card>
+    </div>
   </div>
 </div>
 

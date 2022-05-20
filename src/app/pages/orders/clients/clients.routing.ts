@@ -3,18 +3,21 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientsIndexComponent } from './clients-index/clients-index.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { permissionsModuleOrdersClients } from '../../../class/permissions-modules';
+import { PermissionOrdersClients } from '../../../class/permissions-modules';
 import { CreateOrEditClientOrderComponent } from './create-or-edit-client-order/create-or-edit-client-order.component';
 import { ClientAddressesIndexComponent } from './client-addresses-index/client-addresses-index.component';
+import { environment } from '../../../../environments/environment';
 
-const permissionsModulesRoutes = permissionsModuleOrdersClients;
+const permissionsModulesRoutes = PermissionOrdersClients;
 
 const routes: Routes = [
   {
     path: '',
     component: ClientsIndexComponent,
     data: {
-      permissions: permissionsModulesRoutes.index
+      permissions: permissionsModulesRoutes.index,
+      redirectTo: environment.ERROR_403_REDIRECT_URL
+
     },
     canActivate: [NgxPermissionsGuard],
   },

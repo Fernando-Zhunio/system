@@ -24,6 +24,8 @@ import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 import { setPreference } from '../../redux/actions/preference.action';
 import { compare } from 'compare-versions';
 import { environment } from '../../../environments/environment';
+import { MethodsHttpService } from '../../services/methods-http.service';
+import { TEST_PERMISSIONS } from '../../class/permissionsAll';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,7 +37,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private s_auth: AuthService,
     private route: Router,
     private s_storage: StorageService,
-    private s_standard: StandartSearchService,
+    private methodsHttp: MethodsHttpService,
     public s_shared: SharedService,
     private dialog: MatDialog,
     public overlayContainer: OverlayContainer,
@@ -86,14 +88,14 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
     this.setImgCompanies();
     this.hasDarkTheme();
-    this.notificationWeb = new NotificationsWebPush(this.sw_push, this.s_standard);
-    this.getPermissionAndVersionServer();
+    this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp);
+    // this.getPermissionAndVersionServer();
+    this.getPermissionAndVersionServerTest();
     this.notificationWeb.canInitSw();
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();
     if (!this.user.person) { this.addPersonModal(this.user); }
     this.getNotification();
-    // this.companiesGestion(this.user);
     this.suscribeNotifications(this.user);
   }
 
@@ -109,10 +111,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.imgCompany = window.innerWidth > 600 ? { size: '100%', url: 'assets/icons_custom/novisolutions.svg' } : { size: '30px', url: 'assets/icons_custom/icon-512x512.png' };
   }
 
-
-  // searchPage(event): void {
-  //   this.pageSearch = this.searchBar.searchRoute(event.target.value);
-  // }
 
   goPage(page): void {
     this.route.navigate([page]);
@@ -160,7 +158,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getNotification(): void {
-    this.s_standard.index('notifications/ajax').subscribe((res) => {
+    this.methodsHttp.methodGet('notifications/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.store.dispatch(overrideNotification({ notifications: res.data.notifications }));
         const notifications = res.data.notifications;
@@ -202,7 +200,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   // }
 
   setPreferences(): void {
-    this.s_standard.index('user/preferences/ajax').subscribe((res) => {
+    this.methodsHttp.methodGet('user/preferences/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.TYPE_NOTY_EMAIL.state =
           res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
@@ -214,7 +212,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getPermissionAndVersionServer() {
-    this.s_standard.create('user/permissions-roles').subscribe((res) => {
+    this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         if (res.data?.last_version_frontend?.version) {
           this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
@@ -223,7 +221,24 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
           [permissions] : permissions;
         this.s_storage.setPermission(array_permissions);
-        // this.searchBar = new ListPermissions(this.s_storage);
+        this.navItems = res.data.item_sidebar;
+      }
+    }, err => {
+      console.log(err);
+      SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
+    });
+  }
+
+  getPermissionAndVersionServerTest() {
+    this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
+      if (res && res.hasOwnProperty('success') && res.success) {
+        if (res.data?.last_version_frontend?.version) {
+          this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
+        }
+        const permissions = TEST_PERMISSIONS;
+        const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
+          [permissions] : permissions;
+        this.s_storage.setPermission(array_permissions);
         this.navItems = res.data.item_sidebar;
       }
     }, err => {
@@ -291,7 +306,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   unreadNotifications() {
-    this.s_standard.store('notifications/mark-seen', {}).subscribe((res) => {
+    this.methodsHttp.methodPost('notifications/mark-seen', {}).subscribe((res) => {
       if (this.countNotificationUnRead > 0) {
         this.countNotificationUnRead = null;
       }
@@ -369,7 +384,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       value: value.target.checked ? 'on' : 'off',
     };
     const url = 'user/preferences/' + type_notify;
-    this.s_standard.updatePut(url, data_send).subscribe(
+    this.methodsHttp.methodPut(url, data_send).subscribe(
       (res) => {
         if (res && res.hasOwnProperty('success') && res.success) {
           SwalService.swalToast(

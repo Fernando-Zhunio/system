@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BuscarProductosRoutingModule } from './buscar_productos-routing.module';
+import { BuscarProductosRoutingModule } from './buscar_productos.routing';
 import { BuscarProductosComponent } from './buscar-productos.component';
 import { NgxAutocompleteModule } from 'ngx-angular-autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

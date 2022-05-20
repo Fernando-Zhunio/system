@@ -3,6 +3,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PermissionOrdersShippings } from '../../../../../class/permissions-modules';
 import { IClientOrder } from '../../../../../interfaces/iclient-order';
 import { IShippingAddress, IShippingOrder } from '../../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
@@ -29,6 +30,8 @@ export class ShippingsComponent implements OnInit {
   @Output() change = new EventEmitter<string>();
   isOpenCv = false;
   encoded_pdf: any;
+
+  permissionsShipping = PermissionOrdersShippings;
 
 
   ngOnInit() {

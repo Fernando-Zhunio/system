@@ -17,6 +17,7 @@ import { RegisterComponent } from './views/register/register.component';
 import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { P403Component } from './views/error/p403/p403.component';
 export const routes: Routes = [
   {
     path: '',
@@ -165,7 +166,8 @@ export const routes: Routes = [
       //   path: 'widgets',
       //   loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
       // }
-      { path: 'system/404', component: P404Component }
+      { path: 'system/404', component: P404Component },
+      { path: 'system-error/403', component: P403Component },
     ]
   },
   { path: '**', component: P404Component }

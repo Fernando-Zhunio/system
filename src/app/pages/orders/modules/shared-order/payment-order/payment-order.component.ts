@@ -9,6 +9,7 @@ import { StorageService } from '../../../../../services/storage.service';
 import { FilesPaymentsOrderComponent } from './filesPaymentsOrder/filesPaymentsOrder.component';
 import { TransactionsPaymentComponent } from './transactions-payment/transactions-payment.component';
 import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
+import { PermissionOrdersPayments } from '../../../../../class/permissions-modules';
 
 @Component({
   selector: 'app-payment-order',
@@ -27,6 +28,8 @@ export class PaymentOrderComponent implements OnInit {
   idUploadFile: number = null;
   urlUploadFile: string = 'api/';
   hasFile = false;
+
+  permissionsPayments = PermissionOrdersPayments;
 
   ngOnInit() { }
 

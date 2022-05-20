@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
+import { PermissionOrders } from '../../../../class/permissions-modules';
 import { IOrder } from '../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { DetailsOrderComponent } from '../../modules/shared-order/details-order/details-order.component';
-// import { Crud } from '../../../class/crud';
-// import { StandartSearchService } from '../../../services/standart-search.service';
-// import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
 
 @Component({
   selector: 'app-orders-index',
@@ -30,6 +28,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   statuses: any[] = [];
   types: any[] = [];
+  permissions = PermissionOrders;
 
   ngOnInit(): void {
     this.getDataForFilter();

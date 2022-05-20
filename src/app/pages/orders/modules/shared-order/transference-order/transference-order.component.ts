@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { PermissionOrdersTransfersMba } from '../../../../../class/permissions-modules';
 import { ITransference } from '../../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
@@ -14,12 +15,13 @@ export class TransferenceOrderComponent implements OnInit {
   constructor(private standard: StandartSearchService) { }
   @Input() transfers: ITransference[] = [];
   @Input() isCancelled: boolean;
-
   @Input() order_id: number;
+  @Output() change: EventEmitter<string> = new EventEmitter<string>();
   isOpenAddTransfer = false;
   isLoading = false;
   formControl = new FormControl(null, [Validators.required]);
-  @Output() change: EventEmitter<string> = new EventEmitter<string>();
+
+  permissionsTransference = PermissionOrdersTransfersMba;
   ngOnInit() {
   }
 

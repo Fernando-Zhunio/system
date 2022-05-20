@@ -2,7 +2,7 @@
   <div>
     <app-search-template [placeholder]="'#, ci, cliente, email'" [filter_data]="filters" [active_filters_menu]="true" textBtnAdd="Agregar orden" [title]="'Ordenes'"
       [url$]="url" (data)="getData($event)">
-      <ng-container menuBar>
+      <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
         <mat-chip [routerLink]="['./create']" class="ml-1 mat-btn-add">
           <mat-icon>add</mat-icon> Agregar orden
         </mat-chip>
@@ -77,8 +77,6 @@
                   </tr>
                 </tbody>
               </table>
-
-              <!-- <div>{{order.value.client.doc_id}}</div> -->
             </div>
             <h3 class="font-2xl font-weight-bold m-1">Detalles</h3>
             <div>
@@ -112,9 +110,9 @@
               </table>
             </div>
             <div>
-              <button color="warning" class="mr-1" (click)="openDetailOrder(order.key)" mat-raised-button>Ver detalles
+              <button *ngxPermissionsOnly="permissions.index" color="warning" class="mr-1" (click)="openDetailOrder(order.key)" mat-raised-button>Ver detalles
               </button>
-              <button color="accent" [routerLink]="['/system-orders/orders',order.key, 'edit']" mat-raised-button>Editar
+              <button *ngxPermissionsOnly="permissions.edit" color="accent" [routerLink]="['/system-orders/orders',order.key, 'edit']" mat-raised-button>Editar
                 <mat-icon>edit</mat-icon>
               </button>
             </div>
@@ -123,5 +121,4 @@
       </ng-container>
     </app-search-template>
   </div>
-  <!-- </div> -->
 </div>

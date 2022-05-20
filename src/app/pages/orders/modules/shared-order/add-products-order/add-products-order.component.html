@@ -2,30 +2,32 @@
   <h3 class="font-3xl font-weight-bold">Productos</h3>
   <div>
     <div>
-      <div [formGroup]="form" *ngIf="!isCancelled" class="product-item d-md-flex d-block card-body">
-        <mat-form-field appearance="fill">
-          <input readonly matInput formControlName="product" placeholder="Producto">
-          <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <input matInput formControlName="description" placeholder="Descripción">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <input matInput formControlName="price" type="number" placeholder="Precio">
-          <span matPrefix>$&nbsp;</span>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <input  matInput type="number" formControlName="quantity" placeholder="Cantidad">
-        </mat-form-field>
-        <div class="pt-md-2 col">
-          <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
-           (click)="createOrEditItemOrder()">Agregar producto</button>
+      <div *ngxPermissionsOnly="permissionsProducts.create" [formGroup]="form" class="product-item d-md-flex d-block card-body">
+        <div *ngIf="!isCancelled" >
+          <mat-form-field appearance="fill">
+            <input readonly matInput formControlName="product" placeholder="Producto">
+            <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="description" placeholder="Descripción">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="price" type="number" placeholder="Precio">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <input  matInput type="number" formControlName="quantity" placeholder="Cantidad">
+          </mat-form-field>
+          <div class="pt-md-2 col">
+            <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
+             (click)="createOrEditItemOrder()">Agregar producto</button>
+          </div>
         </div>
       </div>
-      <ng-container *ngIf="!isCancelled">
-        <div  *ngIf="isEditingItem" class="editing-item product-item  d-md-flex d-block card-body">
+      <ng-container *ngxPermissionsOnly="permissionsProducts.edit">
+        <div  *ngIf="isEditingItem && !isCancelled" class="editing-item product-item  d-md-flex d-block card-body">
           <div>
             <h4 class="parpadeo font-weight-bold">Editando</h4>
             <div [formGroup]="formEdit" class="row">
@@ -82,8 +84,8 @@
                 <td class="text-muted">${{item.value.price}}</td>
                 <td class="text-muted">{{item.value.quantity}}</td>
                 <td>
-                    <button [disabled]="isCancelled" mat-icon-button color="primary" (click)="enabledEditingItemOrder(item.key)"><mat-icon>edit</mat-icon></button>
-                    <button [disabled]="isCancelled" mat-icon-button color="warn"  (click)="deleteItemOrder(order.id, item.key)"><mat-icon>delete</mat-icon></button>
+                    <button *ngxPermissionsOnly="permissionsProducts.edit" [disabled]="isCancelled" mat-icon-button color="primary" (click)="enabledEditingItemOrder(item.key)"><mat-icon>edit</mat-icon></button>
+                    <button *ngxPermissionsOnly="permissionsProducts.destroy" [disabled]="isCancelled" mat-icon-button color="warn"  (click)="deleteItemOrder(order.id, item.key)"><mat-icon>delete</mat-icon></button>
                 </td>
               </tr>
             </tbody>

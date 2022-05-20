@@ -39,6 +39,7 @@ import { CustomTemplateOnlyInputComponent } from './custom-template-only-input/c
 import { ModalAddProductsShippingComponent } from './shippings/modal-add-products-shipping/modal-add-products-shipping.component';
 import { PaymentMbaItemComponent } from './components/payment-mba-item/payment-mba-item.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
     imports: [
@@ -62,7 +63,8 @@ import { MatMenuModule } from '@angular/material/menu';
         MatBottomSheetModule,
         ToolsModule,
         NullModule,
-        MatMenuModule
+        MatMenuModule,
+        NgxPermissionsModule,
     ],
     exports: [
         ShippingOrderSectionComponent,

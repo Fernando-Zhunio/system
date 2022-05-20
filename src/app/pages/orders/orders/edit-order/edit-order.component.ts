@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../interfaces/iorder';
-// import { StandartSearchService } from '../../../services/standart-search.service';
-// import { SwalService } from '../../../services/swal.service';
-// import { SelectClientAddressModalComponent } from '../modules/shared-order/select-client-address-modal/select-client-address-modal.component';
-// import { SelectClientModalComponent } from '../components/select-client-modal/select-client-modal.component';
-// import { TranslatefzPipe } from './../../../pipes/translatefz.pipe';
-// import { CreateOrEditAddressClientComponent } from '../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PermissionOrdersAdditionalAmounts, PermissionOrdersInvoicesMba, PermissionOrdersItems, PermissionOrdersPayments, PermissionOrdersPaymentsMba, PermissionOrdersShippings, PermissionOrdersTransfersMba } from '../../../../class/permissions-modules';
 import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder } from '../../../../interfaces/iorder';
 import { TranslatefzPipe } from '../../../../pipes/translatefz.pipe';
 import { StandartSearchService } from '../../../../services/standart-search.service';
@@ -37,6 +31,14 @@ export class EditOrderComponent implements OnInit {
   statuses: any[] = [];
   pipeTrans = new TranslatefzPipe();
   isPublishing = false;
+
+  permissionsProducts = PermissionOrdersItems;
+  permissionsShipping = PermissionOrdersShippings;
+  permissionsPayments = PermissionOrdersPayments;
+  permissionsTaxAndDiscounts = PermissionOrdersAdditionalAmounts;
+  permissionsTransfers = PermissionOrdersTransfersMba;
+  permissionsAnticipe = PermissionOrdersPaymentsMba;
+  permissionsInvoices = PermissionOrdersInvoicesMba;
 
   ngOnInit() {
     this.spinner.show();
