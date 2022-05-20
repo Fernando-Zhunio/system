@@ -9,15 +9,23 @@
   >
     <ng-container data>
       <mat-card class="card border-0" *ngFor="let ticket of tickets">
+        <div><small class="px-3 text-muted">Cliente</small></div>
         <mat-card-header>
           <mat-card-title
             >{{ ticket.client.first_name }}
             {{ ticket.client.last_name }}</mat-card-title
           >
-          <mat-card-subtitle>{{ ticket.subject }}</mat-card-subtitle>
+
+          <mat-card-subtitle>
+            <div><small class="text-muted">Asunto</small></div>
+
+            {{ ticket.subject }}</mat-card-subtitle
+          >
         </mat-card-header>
         <mat-card-content>
+          <!-- <div><small class="text-muted px-1">Estado</small></div> -->
           <div>
+            <span class="mr-1">Estado:</span>
             <mat-chip
               selected
               [color]="ticket.status == 'open' ? 'warn' : 'info'"
@@ -60,7 +68,7 @@
           </div>
         </mat-card-content>
         <mat-card-actions align="start">
-          <button
+          <!-- <button
             class="mr-1"
             color="accent"
             mat-raised-button
@@ -68,26 +76,40 @@
             routerLinkActive="router-link-active"
           >
             Crear ticket
-          </button>
-          <button
-            color="primary"
-            [routerLink]="[ticket.id]"
-            routerLinkActive="router-link-active"
-            mat-raised-button
-          >
-            Responder
-          </button>
+          </button> -->
+          <div class="d-flex justify-content-between">
+            <button
+              color="primary"
+              [routerLink]="[ticket.id]"
+              routerLinkActive="router-link-active"
+              mat-raised-button
+            >
+              Responder
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menuRef">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+          
+          <mat-menu #menuRef="matMenu">
+              <button mat-menu-item [routerLink]="['/system-orders/orders']" [queryParams]="{search: ticket.order_id}" >
+                  Ver orden
+              </button>
+              <button mat-menu-item [routerLink]="['/system-orders/tickets/create']" [queryParams]="{order_id: ticket.order_id}">
+                Crear ticket
+            </button>
+          </mat-menu>
         </mat-card-actions>
       </mat-card>
     </ng-container>
-    <!-- <ng-container menuBar>
+    <ng-container menuBar>
       <mat-chip
         [routerLink]="['create']"
         class="ml-1 mat-btn-add"
         color="orange"
         ><mat-icon>add</mat-icon> Crear ticket</mat-chip
       >
-    </ng-container> -->
+    </ng-container>
     <ng-container filterMenu>
       <div
         mat-menu-item
@@ -113,10 +135,12 @@
         (keydown)="$event.stopPropagation()"
       >
         <mat-form-field class="w-100">
-          <mat-label>Departamento</mat-label>
+          <mat-label>Departamentos</mat-label>
           <mat-select [(ngModel)]="filters.ticket_department_id">
             <mat-option value="">Todos</mat-option>
-            <mat-option *ngFor="let department of departments" [value]="department.id"
+            <mat-option
+              *ngFor="let department of departments"
+              [value]="department.id"
               >{{ department.name | translatefz }}
             </mat-option>
           </mat-select>

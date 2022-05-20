@@ -39,40 +39,39 @@ export function chartModule(): any {
   return import('echarts');
 }
 @NgModule({
-  declarations: [IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MomentModule,
-    MatIconModule,
-    MatButtonModule,
-    MatBottomSheetModule,
-    MatListModule,
-    MatMenuModule,
-    MatChipsModule,
-    HeaderSearchModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatNativeDateModule,
-    MatCardModule,
-    NgxSpinnerModule,
-    MatTableModule,
-    MatSlideToggleModule,
-    MatPaginatorModule,
-    MatRadioModule,
-    MatNativeDateModule,
-    MatDialogModule,
-    MatButtonToggleModule,
-    MarkdownModule,
-    // NgxEchartsModule.forRoot({echarts})
-    NgxEchartsModule.forRoot({
-      echarts: chartModule
-    })
-  ],
-  entryComponents: [SelectDatesDashboardComponent, IndexComponent]
+    declarations: [IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MomentModule,
+        MatIconModule,
+        MatButtonModule,
+        MatBottomSheetModule,
+        MatListModule,
+        MatMenuModule,
+        MatChipsModule,
+        HeaderSearchModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatNativeDateModule,
+        MatCardModule,
+        NgxSpinnerModule,
+        MatTableModule,
+        MatSlideToggleModule,
+        MatPaginatorModule,
+        MatRadioModule,
+        MatNativeDateModule,
+        MatDialogModule,
+        MatButtonToggleModule,
+        MarkdownModule,
+        // NgxEchartsModule.forRoot({echarts})
+        NgxEchartsModule.forRoot({
+            echarts: chartModule
+        })
+    ]
 })
 export class HomeModule { }

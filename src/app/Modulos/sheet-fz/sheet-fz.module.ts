@@ -7,11 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
-  declarations: [SheetFzComponent],
-  imports: [
-    CommonModule,
-    MatListModule, MatIconModule,
-  ],
-  entryComponents: [SheetFzComponent]
+    declarations: [SheetFzComponent],
+    imports: [
+        CommonModule,
+        MatListModule, MatIconModule,
+    ]
 })
 export class SheetFzModule { }

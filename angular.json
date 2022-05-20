@@ -38,7 +38,14 @@
                       },
                       "scripts": [
                           "node_modules/chart.js/dist/chart.min.js"
-                      ]
+                      ],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
                   },
                   "configurations": {
                       "production": {
@@ -49,7 +56,6 @@
                           "optimization": true,
                           "outputHashing": "all",
                           "sourceMap": false,
-                          "extractCss": true,
                           "namedChunks": false,
                           "aot": true,
                           "extractLicenses": true,
@@ -70,7 +76,6 @@
                         "optimization": true,
                         "outputHashing": "all",
                         "sourceMap": false,
-                        "extractCss": true,
                         "namedChunks": false,
                         "aot": true,
                         "extractLicenses": true,
@@ -83,7 +88,8 @@
                         "serviceWorker": true,
                         "ngswConfigPath": "ngsw-config.json"
                     }
-                  }
+                  },
+          "defaultConfiguration": ""
               },
               "serve": {
                   "builder": "@angular-devkit/build-angular:dev-server",
@@ -131,18 +137,6 @@
                           "src/manifest.webmanifest"
                       ]
                   }
-              },
-              "lint": {
-                  "builder": "@angular-devkit/build-angular:tslint",
-                  "options": {
-                      "tsConfig": [
-                          "src/tsconfig.app.json",
-                          "src/tsconfig.spec.json"
-                      ],
-                      "exclude": [
-                          "**/node_modules/**"
-                      ]
-                  }
               }
           }
       },
@@ -156,17 +150,6 @@
                   "options": {
                       "protractorConfig": "./protractor.conf.js",
                       "devServerTarget": "ng:serve"
-                  }
-              },
-              "lint": {
-                  "builder": "@angular-devkit/build-angular:tslint",
-                  "options": {
-                      "tsConfig": [
-                          "e2e/tsconfig.e2e.json"
-                      ],
-                      "exclude": [
-                          "**/node_modules/**"
-                      ]
                   }
               }
           }

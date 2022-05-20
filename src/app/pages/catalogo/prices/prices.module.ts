@@ -20,26 +20,25 @@ import { FilePondModule } from 'ngx-filepond';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
-  declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
-  imports: [
-    CommonModule,
-    // RouterModule,
-    PricesRoutingModule,
-    SearchTemplateModule,
-    ConvertsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    MatChipsModule,
-    MatSidenavModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    FilePondModule,
-    NgxPermissionsModule,
-  ],
-  entryComponents: [ModalListPricesComponent]
+    declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
+    imports: [
+        CommonModule,
+        // RouterModule,
+        PricesRoutingModule,
+        SearchTemplateModule,
+        ConvertsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatIconModule,
+        MatButtonModule,
+        MatInputModule,
+        MatChipsModule,
+        MatSidenavModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        FilePondModule,
+        NgxPermissionsModule,
+    ]
 })
 export class PricesModule { }

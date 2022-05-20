@@ -1,6 +1,6 @@
 <div>
   <div>
-    <app-search-template placeholder="#, ci, cliente, email" [filter_data]="filters" [active_filters_menu]="true" textBtnAdd="Agregar orden" title="Ordenes"
+    <app-search-template [placeholder]="'#, ci, cliente, email'" [filter_data]="filters" [active_filters_menu]="true" textBtnAdd="Agregar orden" [title]="'Ordenes'"
       [url$]="url" (data)="getData($event)">
       <ng-container menuBar>
         <mat-chip [routerLink]="['./create']" class="ml-1 mat-btn-add">
@@ -40,7 +40,6 @@
             <mat-label>Máximo</mat-label>
             <input min="0" [(ngModel)]="filters.max" type="number" matInput>
           </mat-form-field>
-
         </div>
       </ng-container>
 

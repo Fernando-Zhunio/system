@@ -20,31 +20,27 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 @NgModule({
-  declarations: [
-    PermissionIndexComponent,
-    CreateOrEditPermissionComponent,
-    GroupsPermissionsIndexComponent
-  ],
-  imports: [
-    PermissionsRoutingModule,
-    CommonModule,
-    IndexWithMatTableModule,
-    MatDialogModule,
-    MatBottomSheetModule,
-    MatListModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSelectModule,
-    MatInputModule,
-    MatChipsModule,
-    MatCheckboxModule,
-    MatButtonToggleModule,
-  ],
-  entryComponents: [
-    CreateOrEditPermissionComponent,
-    GroupsPermissionsIndexComponent
-  ]
+    declarations: [
+        PermissionIndexComponent,
+        CreateOrEditPermissionComponent,
+        GroupsPermissionsIndexComponent
+    ],
+    imports: [
+        PermissionsRoutingModule,
+        CommonModule,
+        IndexWithMatTableModule,
+        MatDialogModule,
+        MatBottomSheetModule,
+        MatListModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSelectModule,
+        MatInputModule,
+        MatChipsModule,
+        MatCheckboxModule,
+        MatButtonToggleModule,
+    ]
 })
 export class PermissionsModule { }

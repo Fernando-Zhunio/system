@@ -9,3 +9,22 @@
     right: 10px;
     cursor: pointer;
 }
+
+.search-orders-container {
+    transform: translateX(0%);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    z-index: 1021;
+    background: #ffffff85;
+    backdrop-filter: blur(8px);
+    overflow: auto;
+}
+
+.search-orders-container-close {
+    transform: translateX(-100%) !important;
+    transition: all 0.3s ease-in-out;
+}

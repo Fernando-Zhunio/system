@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
+import { IOrder } from '../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { DetailsOrderComponent } from '../../modules/shared-order/details-order/details-order.component';
 // import { Crud } from '../../../class/crud';
@@ -13,7 +14,7 @@ import { DetailsOrderComponent } from '../../modules/shared-order/details-order/
   templateUrl: './orders-index.component.html',
   styleUrls: ['./orders-index.component.css']
 })
-export class OrdersIndexComponent extends Crud<any> implements OnInit {
+export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   constructor(private dialog: MatDialog, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
     super();
@@ -65,8 +66,6 @@ export class OrdersIndexComponent extends Crud<any> implements OnInit {
     const newVal = parseInt(typedNumber.toString() + currentVal.toString());
 
     if (newVal > this.filters.max) {
-      // e.preventDefault();
-      // e.stopPropagation();
       this.filters.max = newVal + 1;
     }
   }

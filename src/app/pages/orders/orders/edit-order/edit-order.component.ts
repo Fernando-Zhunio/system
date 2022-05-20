@@ -16,7 +16,6 @@ import { SwalService } from '../../../../services/swal.service';
 import { SelectClientModalComponent } from '../../components/select-client-modal/select-client-modal.component';
 import { CreateOrEditAddressClientComponent } from '../../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 import { SelectClientAddressModalComponent } from '../../modules/shared-order/select-client-address-modal/select-client-address-modal.component';
-// import { DetailsOrderComponent } from '../modules/shared-order/details-order/details-order.component';
 
 @Component({
   selector: 'app-edit-order',
@@ -28,7 +27,6 @@ export class EditOrderComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   readonly id = this.activated_router.snapshot.params['order_id'];
   order: IOrder = null;
-  // @ViewChild(MatAccordion) accordion: MatAccordion;
   items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   types: any[] = [];
   channels: IChannelOrder[] = [];

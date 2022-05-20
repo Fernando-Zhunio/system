@@ -24,6 +24,11 @@ export class CreateOrEditPaymentOrderComponent extends CreateOrEditModal impleme
 
   types: any[] = [];
 
+  ngOnInit(): void {
+        this.state = this.isEdit ? 'edit' : 'create';
+        this.init();
+    }
+
   getId(): number {
     return this.data.data.id;
   }

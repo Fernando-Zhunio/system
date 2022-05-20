@@ -2,7 +2,7 @@
     <h2 class="font-4xl font-weight-bold mt-2 m-0">{{title}}</h2>
     <div class="mt-3 pb-3">
         <mat-card>
-            <mat-horizontal-stepper #stepper (selectionChange)="changeStepper($event)" linear #stepper>
+            <mat-horizontal-stepper #stepper (selectionChange)="changeStepper($event)" linear>
                 <mat-step label="client" [stepControl]="form.get('client_id')" [editable]="isEditStep">
                     <div>
                         <ng-template matStepLabel>Asignar Cliente</ng-template>

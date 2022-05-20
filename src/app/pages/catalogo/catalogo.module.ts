@@ -15,7 +15,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatMenuModule } from '@angular/material/menu';
 import { CreateOrEditPublicacionComponent } from './publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+// import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
@@ -59,7 +59,7 @@ import { SearchTemplateModule } from '../../Modulos/search-template/search-templ
     MatCardModule,
     NgxPermissionsModule,
     MatMenuModule,
-    DragDropModule,
+    // DragDropModule,
     MatAutocompleteModule,
     MatListModule,
     MatRadioModule,

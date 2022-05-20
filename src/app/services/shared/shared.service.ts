@@ -113,6 +113,11 @@ export class SharedService {
     return actRouter.snapshot.paramMap.get(nameParam);
   }
 
+  static getQueryParametersUrl(nameParam: string, actRouter: ActivatedRoute) {
+    return actRouter.snapshot.queryParamMap.get(nameParam);
+  }
+  
+
   public static swalResponse(swalOption: Iswal, callbackSuccess: any, callbackNegative: any = null, callbackError: any = null) {
     SwalService.swalFire(
       swalOption,

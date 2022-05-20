@@ -17,6 +17,8 @@ import { ResponseTicketComponent } from './response-ticket/response-ticket.compo
 import { ChatTicketComponent } from './components/chat-ticket/chat-ticket.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
+import { SearchesModule } from '../../../Modulos/searches/searches.module';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -32,10 +34,13 @@ import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.modu
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatListModule,
     ReactiveFormsModule,
     MatMenuModule,
     FormsModule,
-    TranslatefzModule
+    TranslatefzModule,
+    SearchesModule,
+    TranslatefzModule,
   ]
 })
 export class TicketsModule { }

@@ -10,10 +10,12 @@
                  </mat-select>
                 </mat-form-field>
                 <mat-form-field class="col-md-6">
-                    <input matInput formControlName="order_id" disabled placeholder="# Orden" >
+                    <input matInput formControlName="order_id">
+                    <span class="text-muted mr-2" matPrefix>Orden #</span>
+                    <button (click)="isOpenSearchOrder = !isOpenSearchOrder" type="button" mat-button matSuffix><mat-icon>search</mat-icon></button>
                 </mat-form-field>
                 <mat-form-field class="col-12">
-                    <input matInput formControlName="subject" disabled  placeholder="Asunto" >
+                    <input matInput formControlName="subject" placeholder="Asunto" >
                 </mat-form-field>
                 <mat-form-field class="col-12">
                     <textarea matInput formControlName="message"  placeholder="Mensaje" ></textarea>
@@ -29,11 +31,38 @@
                         <label class="file-img bg-orange center mr-1 mt-2 px-3 rounded-fz" for="file">
                             <mat-icon>attach_file</mat-icon> Adjuntar archivo
                         </label>
-                        <input formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" />
+                        <input  formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" />
                     </div>
-                    <button mat-raised-button color="primary" (click)="saveInServer()">Crear ticket <mat-icon>save</mat-icon></button>
+                    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveInServer()">Crear ticket <mat-icon>save</mat-icon></button>
                 </div>
             </div>
         </div>
     </mat-card>
+
+    <div [ngClass]="{'search-orders-container-close': !isOpenSearchOrder}" class="search-orders-container">
+        <div class="position-relative">
+            <button mat-icon-button (click)="isOpenSearchOrder = !isOpenSearchOrder" class="btn-close"><mat-icon color="warn">close</mat-icon></button>
+            <div class="container">
+                <app-search [placeholder]="'Buscador de ordenes por cliente'" [url]="urlOrders" (data)="getDataOrder($event)">
+                    <ng-container data>
+            
+                                <mat-list class="row d-flex m-0">
+                                    <!-- <ng-container  *ngFor="let num of [1,2,2,4,5,3,5,3,5,3,5,3,5,3,5,3,5,3,5,5,4,5,3,5,3,5,3,5,3,5,3,5,3]"> -->
+                                        <mat-list-item class="col-md-6 bg-white p-2 shadow" *ngFor="let order of orders">
+                                            <div matLine><span>Cliente:</span> {{order.client.first_name}} {{order.client.last_name}}</div>
+                                            <div matLine><span>Estado:</span> {{order.status| translatefz: 'orders'}}</div>
+                                            <div matLine><span>Total:</span> ${{order.total}}</div>
+                                            <div matLine><span>Creado:</span> {{order.created_at | date}}</div>
+                                            <div matLine><span># de orden:</span> {{order.id}}</div>
+                                            <div matLine ><button (click)="getOrder(order.id)" mat-button color="primary">Seleccionar</button></div>
+                                        </mat-list-item>
+                                    <!-- </ng-container> -->
+                                </mat-list>
+            
+                    </ng-container>
+            
+                </app-search>
+            </div>
+        </div>
+    </div>
 </div>

@@ -10,7 +10,7 @@ const routes: Routes = [
     component: TicketsIndexComponent,
   },
   {
-    path: 'create/order/:order_id',
+    path: 'create',
     component: CreateTicketComponent,
   },
   {

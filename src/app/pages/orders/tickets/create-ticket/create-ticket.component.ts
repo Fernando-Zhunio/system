@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IOrder } from '../../../../interfaces/iorder';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { SharedService } from '../../../../services/shared/shared.service';
 
@@ -13,7 +14,7 @@ export class CreateTicketComponent implements OnInit {
   constructor(private router: Router, private methodsHttp: MethodsHttpService, private activatedRoute: ActivatedRoute) { }
   departments: any = [];
   form = new FormGroup({
-    order_id: new FormControl({value: null, disabled: true}, [Validators.required]),
+    order_id: new FormControl(null, [Validators.required]),
     department_id: new FormControl(null, [Validators.required]),
     subject: new FormControl(null, [Validators.required]),
     message: new FormControl(null, [Validators.required]),
@@ -22,6 +23,9 @@ export class CreateTicketComponent implements OnInit {
   fileUrl = {
     url: null};
   isLoading = false;
+  urlOrders = 'system-orders/orders';
+  orders: IOrder[] = [];
+  isOpenSearchOrder = false;
 
   ngOnInit(): void {
     this.methodsHttp.methodGet('system-orders/tickets/create').subscribe(res => {
@@ -31,8 +35,21 @@ export class CreateTicketComponent implements OnInit {
   }
 
   getOrderId(): void {
-    console.log(SharedService.getParametersUrl('order_id', this.activatedRoute));
-    this.form.get('order_id').setValue(SharedService.getParametersUrl('order_id', this.activatedRoute));
+    console.log(SharedService.getQueryParametersUrl('order_id', this.activatedRoute));
+    const queryParamOrder_id = SharedService.getQueryParametersUrl('order_id', this.activatedRoute);
+    if (queryParamOrder_id) {
+      this.form.get('order_id').setValue(queryParamOrder_id);
+    }
+  }
+
+  getDataOrder(data): void {
+    console.log(data);
+    this.orders = data.data;
+  }
+
+  getOrder(order): void {
+    this.form.get('order_id').setValue(order);
+    this.isOpenSearchOrder = false;
   }
 
   onFileChange(event) {
@@ -51,7 +68,7 @@ export class CreateTicketComponent implements OnInit {
     if (this.form.valid) {
       this.isLoading = true;
       const formData = new FormData();
-      formData.append('order_id', this.form.getRawValue().order_id);
+      formData.append('order_id', this.form.value.order_id);
       formData.append('department_id', this.form.value.department_id);
       formData.append('subject', this.form.value.subject);
       formData.append('message', this.form.value.message);

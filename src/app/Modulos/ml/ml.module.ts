@@ -24,31 +24,30 @@ import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [MlComponent, PromocionesComponent, PaginaWebComponent, ModalRealistComponent],
-  imports: [
-    MomentModule,
-    MatCardModule,
-    CommonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatChipsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    TranslatefzModule,
-    RouterModule,
-  ],
-  entryComponents: [ModalRealistComponent],
-  exports: [
-    MlComponent,
-    PromocionesComponent,
-    PaginaWebComponent,
-    ModalRealistComponent
-   ]
+    declarations: [MlComponent, PromocionesComponent, PaginaWebComponent, ModalRealistComponent],
+    imports: [
+        MomentModule,
+        MatCardModule,
+        CommonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatChipsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        TranslatefzModule,
+        RouterModule,
+    ],
+    exports: [
+        MlComponent,
+        PromocionesComponent,
+        PaginaWebComponent,
+        ModalRealistComponent
+    ]
 })
 export class MlModule { }

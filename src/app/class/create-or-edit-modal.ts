@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
-export abstract class CreateOrEditModal implements OnInit {
+export abstract class CreateOrEditModal {
 
     abstract title;
     abstract urlCrud;
@@ -18,10 +18,10 @@ export abstract class CreateOrEditModal implements OnInit {
     public isLoading: boolean = false;
     abstract dialogRef: MatDialogRef<any>;
 
-    ngOnInit(): void {
-        this.state = this.isEdit ? 'edit' : 'create';
-        this.init();
-    }
+    // ngOnInit(): void {
+    //     this.state = this.isEdit ? 'edit' : 'create';
+    //     this.init();
+    // }
 
     init() {
         let observable: Observable<any> = null;
