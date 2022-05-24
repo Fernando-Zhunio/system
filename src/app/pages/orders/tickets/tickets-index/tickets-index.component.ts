@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PermissionOrders, PermissionOrdersTickets } from '../../../../class/permissions-modules';
 import { ITicketOrder } from '../../../../interfaces/iorder';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 
@@ -13,17 +14,17 @@ export class TicketsIndexComponent implements OnInit {
   url = 'system-orders/tickets';
   tickets: ITicketOrder[] = [];
   filters = {
-    // code: null,
-    status: null,
+    status: 'open',
     ticket_department_id: null,
     order_id: null,
     client_id: null,
-    // assigned_user_id: null,
     client_unread_messages: null,
     user_unread_messages: null,
   };
   statuses = [];
   departments = [];
+  permissions = PermissionOrdersTickets;
+  permissionOrderIndex = PermissionOrders.index;
 
   ngOnInit(): void {
     this.getDataForFilter();

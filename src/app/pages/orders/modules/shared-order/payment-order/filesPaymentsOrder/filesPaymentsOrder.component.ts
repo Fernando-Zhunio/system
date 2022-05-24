@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from '../../../../../../../environments/environment';
+import { PermissionOrdersPayments } from '../../../../../../class/permissions-modules';
 import { IDocumentPaymentOrder } from '../../../../../../interfaces/iorder';
 import { ViewDocComponent } from '../../../../../../Modulos/tools/view-doc/view-doc.component';
 import { SharedService } from '../../../../../../services/shared/shared.service';
@@ -23,6 +24,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
   re = /(?:\.([^.]+))?$/;
 
   fileSend: { base64: string, file: File } = { file: null, base64: null };
+  permissionPayments = PermissionOrdersPayments;
   @ViewChild(ViewDocComponent) viewDoc: ViewDocComponent;
   constructor(public dialogRef: MatDialogRef<FilesPaymentsOrderComponent>,
     @Inject(MAT_DIALOG_DATA) public dataExternal: { order_id: number, payment_id?: number }, public standard: StandartSearchService) { }

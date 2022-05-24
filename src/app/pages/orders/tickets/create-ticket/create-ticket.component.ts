@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PermissionOrdersTickets } from '../../../../class/permissions-modules';
 import { IOrder } from '../../../../interfaces/iorder';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { SharedService } from '../../../../services/shared/shared.service';
@@ -26,6 +27,7 @@ export class CreateTicketComponent implements OnInit {
   urlOrders = 'system-orders/orders';
   orders: IOrder[] = [];
   isOpenSearchOrder = false;
+  permissions = PermissionOrdersTickets;
 
   ngOnInit(): void {
     this.methodsHttp.methodGet('system-orders/tickets/create').subscribe(res => {

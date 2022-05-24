@@ -1,38 +1,4 @@
-<!-- <div class=" p-0 card-body row" [ngClass]="{'sticky-top': isSticky}" style="z-index: 2;">
-  <div class="position-relative col-12 w-100 p-3 overflow-hidden">
-    <input class="form-control shadow-sm  input-style" [placeholder]="placeholder"
-      (keyup)="buscarInterval($event)" [(ngModel)]="productSearch">
-      <button (click)="goBack()" class="btn-go-back" mat-mini-fab><mat-icon>arrow_back</mat-icon></button>
-    <button class="position-absolute btn-find" mat-icon-button (click)="searchBarReset()">
-      <mat-icon style="font-size: 30px;" class="text-black-50" type="search">find_replace</mat-icon>
-    </button>
-    <div class="position-absolute d-flex align-items-center" style="top: 0px;
-        right: 22px;height: 100%;">
-      <mat-chip-list>
-        <mat-chip (click)="paste()" class="text-truncate">
-          <mat-icon class="text-black-50" type="search">content_paste</mat-icon>
-        </mat-chip>
-      </mat-chip-list>
-      <ng-content></ng-content>
-      <ng-container *ngIf="active_filters_menu">
-        <mat-chip-list class="ml-1">
-          <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
-            <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
-          </mat-chip>
-        </mat-chip-list>
-        <mat-menu class="w-100" #menu="matMenu" [overlapTrigger]="false">
-          <ng-content select="[filterMenu]"></ng-content>
-          <div mat-menu-item [disableRipple]="true">
-            <button mat-raised-button (click)="searchBarReset()">Aplicar filtros</button>
-          </div>
-        </mat-menu>
-      </ng-container>
-    </div>
-  </div>
-  <ng-content select=".selections-back"></ng-content>
-</div> -->
-
-<div class="m-0 mb-2 flex-wrap align-items-center justify-content-between card-body app-body"
+<div class="m-0 mb-2 flex-wrap align-items-center justify-content-between py-1 px-0 px-md-3 app-body"
   [ngClass]="{'sticky-top': isSticky}" style="z-index: 2;">
   <div class="center flex-wrap overflow-auto">
     <h1 class="m-0 font-weight-bolder font-4xl">{{title}}</h1>

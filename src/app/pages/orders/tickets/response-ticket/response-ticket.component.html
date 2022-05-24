@@ -4,7 +4,7 @@
         <mat-chip-list>
             <mat-chip selected [color]="ticket?.status == 'open' ? 'accent': 'success'">Estado: {{ticket?.status == 'open' ? 'Abierto': 'Cerrado'}}</mat-chip>
         </mat-chip-list>
-        <button *ngIf="ticket?.status == 'open'" color="warn" (click)="closeTicket()" mat-raised-button>Cerrar Ticket</button>
+        <ng-container *ngxPermissionsOnly="permissions.edit"><button *ngIf="ticket?.status == 'open'" color="warn" (click)="closeTicket()" mat-raised-button>Cerrar Ticket</button></ng-container>
     </div>
     <h3>{{ticket?.subject}}</h3>
 
@@ -16,7 +16,7 @@
                         <mat-card class="mb-3">
                             <h3 class="font-2xl">Cliente</h3>
                             <p class="font-lg">{{ticket?.client?.first_name}} {{ticket?.client?.last_name}}</p>
-                            <table>
+                            <table class="table table-borderless table-sm">
                                 <tbody>
                                     <tr>
                                         <td>Dirección:</td>
@@ -39,7 +39,7 @@
                         </mat-card>
                         <mat-card class="mb-3">
                             <h3 class="font-2xl">Detalles</h3>
-                            <table>
+                            <table class="table table-borderless table-sm">
                                 <tbody>
                                     <tr>
                                         <td>Departamento:</td>
@@ -84,14 +84,14 @@
                                         
                                     </div>
                                 </div>
-                                <div class="center">
+                                <div *ngxPermissionsOnly="permissions.edit" class="center">
                                     <div class="position-relative">
                                         <label class="file-img bg-orange center mr-1 mt-2 px-3 rounded-fz" for="file">
                                             <mat-icon>attach_file</mat-icon> Adjuntar archivo
                                         </label>
                                         <input formControlName="file" type="file" id="file" class="d-none" name="file" (change)="onFileChange($event)" accept="image/png,image/jpeg,application/pdf"/>
                                     </div>
-                                    <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Enviar mensaje <mat-icon>send</mat-icon></button>
+                                    <button *ngxPermissionsOnly="permissions.edit" mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Enviar mensaje <mat-icon>send</mat-icon></button>
                                 </div>
                             </div>
                         </mat-card>

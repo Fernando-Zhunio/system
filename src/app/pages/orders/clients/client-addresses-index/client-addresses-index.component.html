@@ -1,52 +1,49 @@
-<!-- <h2 class="font-4xl font-weight-bold my-2">Direcciones del cliente</h2> -->
-<!-- <small>{{client}}</small> -->
+
 <div>
   <div>
-    <app-search-template title="Direcciones del cliente" [url$]="url" (data)="getData($event)">
-      <mat-chip class="mat-btn-add ml-1" menuBar color="accent" (click)="openDialogCreateOrEdit()"><mat-icon>add</mat-icon>&nbsp; Agregar dirección</mat-chip>
+    <app-search-template [title]="'Direcciones del cliente'" [url$]="url" (data)="getData($event)">
+      <mat-chip *ngxPermissionsOnly="permissions.create" class="mat-btn-add ml-1" menuBar color="accent" (click)="openDialogCreateOrEdit()"><mat-icon>add</mat-icon>&nbsp; Agregar dirección</mat-chip>
       <ng-container data>
-        <mat-card class="card" *ngFor="let address of data | keyvalue">
-          <small>Persona que recibe la orden solicitada</small>
-          <h3 class="mb-1 font-2xl text-info">{{address.value.first_name +' '+ address.value.last_name}}</h3>
-          <!-- <div><span>Numero de orden:</span><span>{{address?.value?.order_id}}</span></div> -->
-          <div class="container-info">
-            <div>
-              <span>Calles:</span>
-              <span>{{address.value.street}}</span>
-            </div>
-            <div>
-              <span>Ciudad:</span>
-              <span>{{address.value.city}}</span>
-            </div>
-            <div>
-              <span>Estado:</span>
-              <span>{{address.value.state}}</span>
-            </div>
-            <!-- <div>
-              <span>País:</span>
-              <span>{{address.value.country}}</span>
-            </div> -->
-            <div>
-              <span>Código Postal:</span>
-              <span>{{address.value.zip_code}} <span class="badge bg-warning"
-                  *ngIf="!address.value.zip_code">vacío</span></span>
-            </div>
-            <div>
-              <span>Vecindario:</span>
-              <span>{{address?.value?.neighborhood}} <span class="badge bg-warning"
-                  *ngIf="!address.value.neighborhood">vacío</span></span>
-            </div>
-            <div>
-              <span>Numero:</span>
-              <span>{{address?.value?.number}} <span class="badge bg-warning"
-                  *ngIf="!address.value.number">vacío</span></span>
-            </div>
-          </div>
+        <mat-card class="card border-0" *ngFor="let address of data | keyvalue">
+          <small class="text-muted">Persona que recibe la orden solicitada:</small>
+          <h3 class="mb-1 font-2xl ">{{address.value.first_name +' '+ address.value.last_name}}</h3>
+
+          <table class="table table-sm table-borderless">
+            <tbody>
+              <tr>
+                <td>Calles:</td>
+                <td>{{address.value.street}}</td>
+              </tr>
+              <tr>
+                <td>Ciudad:</td>
+                <td>{{address.value.city}}</td>
+              </tr>
+              <tr>
+                <td>Estado:</td>
+                <td>{{address.value.state}}</td>
+              </tr>
+              <tr>
+                <td>Código Postal:</td>
+                <td>{{address.value.zip_code}} <span class="badge bg-warning"
+                    *ngIf="!address.value.zip_code">vacío</span></td>
+              </tr>
+              <tr>
+                <td>Vecindario:</td>
+                <td>{{address?.value?.neighborhood}} <span class="badge bg-warning"
+                    *ngIf="!address.value.neighborhood">vacío</span></td>
+              </tr>
+              <tr>
+                <td>Numero:</td>
+                <td>{{address?.value?.number}} <span class="badge bg-warning"
+                    *ngIf="!address.value.number">vacío</span></td>
+              </tr>
+            </tbody>
+          </table>
           <div>
-            <button color="primary" (click)="openDialogCreateOrEdit(address.key)" mat-icon-button>
+            <button *ngxPermissionsOnly="permissions.edit" color="primary" (click)="openDialogCreateOrEdit(address.key)" mat-icon-button>
               <mat-icon>edit</mat-icon>
             </button>
-            <button (click)="deleteData(address.key)" color="warn" mat-icon-button>
+            <button *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(address.key)" color="warn" mat-icon-button>
               <mat-icon>delete</mat-icon>
             </button>
           </div>

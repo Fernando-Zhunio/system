@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PermissionOrdersTickets } from '../../../../class/permissions-modules';
 import { ITicketOrder } from '../../../../interfaces/iorder';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { SharedService } from '../../../../services/shared/shared.service';
@@ -13,7 +15,7 @@ import { ChatTicketComponent } from '../components/chat-ticket/chat-ticket.compo
 })
 export class ResponseTicketComponent implements OnInit {
 
-  constructor(private methodsHttp: MethodsHttpService, private router: Router, private activatedRouter: ActivatedRoute) {}
+  constructor(private spinner: NgxSpinnerService, private methodsHttp: MethodsHttpService, private router: Router, private activatedRouter: ActivatedRoute) {}
   @ViewChild(ChatTicketComponent) chatComponent: ChatTicketComponent;
   form = new FormGroup({
     message: new FormControl(null, [Validators.required]),
@@ -26,13 +28,18 @@ export class ResponseTicketComponent implements OnInit {
   isLoading = false;
   ticket: ITicketOrder = null;
   ticket_id: string = null;
+  permissions = PermissionOrdersTickets;
 
   ngOnInit(): void {
+    this.spinner.show();
     this.ticket_id = SharedService.getParametersUrl('id', this.activatedRouter);
     this.markAsRead();
     this.methodsHttp.methodGet(`system-orders/tickets/${this.ticket_id}`).subscribe
     (res => {
       this.ticket = res.data;
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 

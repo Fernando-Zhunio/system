@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { PermissionOrdersPaymentsMba } from '../../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class CustomTemplateOnlyInputComponent {
 
   isOpenAddInvoice = false;
   isLoading = false;
+  // permissionCreate = PermissionOrdersPaymentsMba.create;
 
   addManually(): void {
     if (this.formControl.valid) {

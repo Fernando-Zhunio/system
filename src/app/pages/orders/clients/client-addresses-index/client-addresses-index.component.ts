@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Crud } from '../../../../class/crud';
+import { PermissionOrdersClients } from '../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { CreateOrEditAddressClientComponent } from '../../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 
@@ -21,6 +22,8 @@ export class ClientAddressesIndexComponent extends Crud<any> implements OnInit {
   }
   id: number;
   url: string;
+
+  permissions = PermissionOrdersClients;
 
   ngOnInit() {
 

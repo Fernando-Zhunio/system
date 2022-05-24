@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
 import { SearchesModule } from '../../../Modulos/searches/searches.module';
 import { MatListModule } from '@angular/material/list';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { MatListModule } from '@angular/material/list';
     TranslatefzModule,
     SearchesModule,
     TranslatefzModule,
+    NgxPermissionsModule,
   ]
 })
 export class TicketsModule { }

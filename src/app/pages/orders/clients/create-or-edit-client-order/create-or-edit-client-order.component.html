@@ -62,7 +62,7 @@
                     <input matInput formControlName="country" placeholder="País *">
                     <mat-error *ngIf="form.get('country').invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
-                <button class="mt-3" mat-raised-button [disabled]="form.invalid || isLoading" (click)="saveInServer()" color="primary">Guardar</button>
+                <button *ngxPermissionsOnly="permissions.create" class="mt-3" mat-raised-button [disabled]="form.invalid || isLoading" (click)="saveInServer()" color="primary">Guardar</button>
             </form>
         </mat-card>
     </div>

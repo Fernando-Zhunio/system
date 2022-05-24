@@ -49,15 +49,23 @@
             <div class="order-header m-2"><span>Orden #{{order.value.id}}</span> <small
                 class="font-weight-bold text-info">{{order.value.created_at | date}}</small></div>
             <div>
-              <mat-chip-list>
-                <mat-chip>Tipo: {{order.value.type | translatefz: 'orders'}}</mat-chip>
-                <mat-chip>Estado: {{order.value.status | translatefz: 'orders'}}</mat-chip>
-              </mat-chip-list>
+              <div>
+                <small class="text-muted">Tipo:</small>
+                <mat-chip-list>
+                  <mat-chip>{{order.value.type | translatefz: 'orders'}}</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div>
+                <small class="text-muted">Estado:</small>
+                <mat-chip-list>
+                  <mat-chip>{{order.value.status | translatefz: 'orders'}}</mat-chip>
+                </mat-chip-list>
+              </div>
             </div>
-            <h3 class="font-2xl font-weight-bold m-1">Cliente</h3>
+            <small class="text-muted">Cliente:</small>
             <div>
-              <div>{{order.value.client?.first_name +" "+ order.value.client?.last_name}}</div>
-              <table>
+              <div class="text-success">{{order.value.client?.first_name +" "+ order.value.client?.last_name}}</div>
+              <table class="table table-borderless table-sm">
                 <tbody class="body-info">
                   <tr>
                     <td>Email:</td>
@@ -78,9 +86,9 @@
                 </tbody>
               </table>
             </div>
-            <h3 class="font-2xl font-weight-bold m-1">Detalles</h3>
+            <small class="text-muted">Detalles:</small>
             <div>
-              <table>
+              <table class="table table-borderless table-sm">
                 <tbody>
                   <tr>
                     <td>Número de productos:</td>

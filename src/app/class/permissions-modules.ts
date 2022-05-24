@@ -75,6 +75,7 @@ export const PermissionOrdersTransfersMba = {
 }
 //orders system orders payments mba
 export const PermissionOrdersPaymentsMba = {
+    index: ['system-orders.orders.payments-mba.index', 'super-admin'],
     create: ['system-orders.orders.payments-mba.create', 'super-admin'],
     destroy: ['system-orders.orders.payments-mba.destroy', 'super-admin'],
 }

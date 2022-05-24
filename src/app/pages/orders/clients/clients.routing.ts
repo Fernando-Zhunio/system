@@ -8,14 +8,14 @@ import { CreateOrEditClientOrderComponent } from './create-or-edit-client-order/
 import { ClientAddressesIndexComponent } from './client-addresses-index/client-addresses-index.component';
 import { environment } from '../../../../environments/environment';
 
-const permissionsModulesRoutes = PermissionOrdersClients;
+// const permissionsModulesRoutes = PermissionOrdersClients;
 
 const routes: Routes = [
   {
     path: '',
     component: ClientsIndexComponent,
     data: {
-      permissions: permissionsModulesRoutes.index,
+      permissions: PermissionOrdersClients.index,
       redirectTo: environment.ERROR_403_REDIRECT_URL
 
     },
@@ -26,7 +26,8 @@ const routes: Routes = [
     component: CreateOrEditClientOrderComponent,
     data: {
       isEdit: false,
-      permissions: permissionsModulesRoutes.create
+      permissions: PermissionOrdersClients.create,
+      redirectTo: environment.ERROR_403_REDIRECT_URL
     },
     canActivate: [NgxPermissionsGuard],
   },
@@ -35,7 +36,8 @@ const routes: Routes = [
     component: CreateOrEditClientOrderComponent,
     data: {
       isEdit: true,
-      permissions: permissionsModulesRoutes.edit
+      permissions: PermissionOrdersClients.edit,
+      redirectTo: environment.ERROR_403_REDIRECT_URL
     },
     canActivate: [NgxPermissionsGuard],
   },
@@ -43,9 +45,11 @@ const routes: Routes = [
     path: ':client_id/addresses',
     component: ClientAddressesIndexComponent,
     data: {
-      // permissions: permissionsModulesRoutes.edit
+      permissions: PermissionOrdersClients.create,
+      redirectTo: environment.ERROR_403_REDIRECT_URL
+
     },
-    // canActivate: [NgxPermissionsGuard],
+    canActivate: [NgxPermissionsGuard],
   }
 ];
 

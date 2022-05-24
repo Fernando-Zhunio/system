@@ -22,8 +22,8 @@ export class InvoicesOrderComponent implements OnInit {
   permissionsInvoices = PermissionOrdersInvoicesMba;
 
   @Input() order_id: number;
-  @Output() change = new EventEmitter<any>();
-
+  @Output() changeOrder = new EventEmitter<any>();
+  
   ngOnInit(): void {
   }
 
@@ -33,7 +33,7 @@ export class InvoicesOrderComponent implements OnInit {
       this.standard.methodPost('system-orders/orders/' + this.order_id + '/invoices', { doc_id: this.formControl.value }).subscribe(
         (response: any) => {
           if (response.success) {
-            this.change.emit('invoice');
+            this.changeOrder.emit('invoice');
             this.isOpenAddInvoice = false;
             this.formControl.reset();
           }
@@ -52,7 +52,7 @@ export class InvoicesOrderComponent implements OnInit {
         this.standard.methodDelete('system-orders/orders/' + this.order_id + '/invoices/' + id).subscribe(
           (response: any) => {
             if (response.success) {
-              this.change.emit('invoice');
+              this.changeOrder.emit('invoice');
             }
             this.isLoading = false;
           }, err => {

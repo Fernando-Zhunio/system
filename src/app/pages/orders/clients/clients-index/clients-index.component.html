@@ -1,36 +1,81 @@
-<!-- <h2 class="font-weight-bold font-4xl my-2">Clientes</h2> -->
 <div>
-    <div>
-        <app-search-template title="Clientes" [url$]="url" (data)="getData($event)">
-            <ng-container menuBar>
-                <mat-chip class="mat-btn-add" [routerLink]="['./create']"  selected color="accent" class="ml-1">
-                    <mat-icon>add</mat-icon> &nbsp;Agregar cliente
-                </mat-chip>
-            </ng-container>
-            <ng-container data>
-                <mat-card class="card" *ngFor="let client of data | keyvalue">
-                    <h3 class="mb-1 font-2xl text-info">{{client.value.first_name + ' ' + client.value.last_name}}</h3>
-                    <div class="container-info">
-                        <div><span>Email:</span><span>{{client.value.email}}</span></div>
-                        <div><span>Documento:</span><span>{{client.value.doc_id}}</span></div>
-                        <div><span>Teléfono:</span><span>{{client.value.phone}}</span></div>
-                        <div><span>País:</span><span>{{client.value.country}}</span></div>
-                        <div><span>Dirección:</span><span>{{client.value.state + ' - ' + client.value.city}}</span></div>
-                        <div><span>Tipo de Documento:</span><span>{{client.value.doc_type}}</span></div>
-                        <div><span>Fecha de creación:</span><span>{{client.value.created_at | date: 'dd/MM/yyyy'}}</span>
-                        </div>
-                    </div>
-                    <div>
-                        <button color="primary" [routerLink]="['/system-orders/clients',client.key,'edit']"
-                            routerLinkActive="router-link-active" mat-raised-button>
-                            <mat-icon>edit</mat-icon>&nbsp;Editar
-                        </button>
-                        <button color="accent" [routerLink]="['/system-orders/clients', client.key, 'addresses']"
-                             mat-raised-button><mat-icon>fmd_good
-                            </mat-icon>&nbsp;Direcciones</button>
-                    </div>
-                </mat-card>
-            </ng-container>
-        </app-search-template>
-    </div>
+  <div>
+    <app-search-template
+      [title]="'Clientes'"
+      [url$]="url"
+      (data)="getData($event)"
+    >
+      <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
+        <mat-chip [routerLink]="['./create']" class="ml-1 mat-btn-add">
+          <mat-icon>add</mat-icon> &nbsp;Agregar cliente
+        </mat-chip>
+      </ng-container>
+      <ng-container data>
+        <mat-card class="card border-0" *ngFor="let client of data | keyvalue">
+            <small class="text-muted">Cliente:</small>
+          <h3 class="mb-1 font-2xl">
+            {{ client.value.first_name + " " + client.value.last_name }}
+          </h3>
+          <hr>
+          <div class="container-info">
+            <table>
+              <tbody>
+                <tr></tr>
+                <tr>
+                  <td>Email:</td>
+                  <td>{{ client.value.email }}</td>
+                </tr>
+                <tr>
+                  <td>Documento:</td>
+                  <td>{{ client.value.doc_id }}</td>
+                </tr>
+                <tr>
+                  <td>Teléfono:</td>
+                  <td>{{ client.value.phone }}</td>
+                </tr>
+                <tr>
+                  <td>País:</td>
+                  <td>{{ client.value.country }}</td>
+                </tr>
+                <tr>
+                  <td>Dirección:</td>
+                  <td>{{
+                    client.value.state + " - " + client.value.city
+                  }}</td>
+                </tr>
+                <tr>
+                  <td>Tipo de Documento:</td>
+                  <td>{{ client.value.doc_type }}</td>
+                </tr>
+                <tr>
+                  <td>Fecha de creación:</td>
+                  <td>{{
+                    client.value.created_at | date: "dd/MM/yyyy"
+                  }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <button
+              color="primary"
+              [routerLink]="['/system-orders/clients', client.key, 'edit']"
+              routerLinkActive="router-link-active"
+              mat-icon-button
+              *ngxPermissionsOnly="permissions.edit"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              color="accent"
+              [routerLink]="['/system-orders/clients', client.key, 'addresses']"
+              mat-raised-button
+            >
+              <mat-icon>fmd_good </mat-icon>&nbsp;Direcciones
+            </button>
+          </div>
+        </mat-card>
+      </ng-container>
+    </app-search-template>
+  </div>
 </div>

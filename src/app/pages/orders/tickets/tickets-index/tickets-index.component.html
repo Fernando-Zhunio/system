@@ -15,15 +15,12 @@
             >{{ ticket.client.first_name }}
             {{ ticket.client.last_name }}</mat-card-title
           >
-
           <mat-card-subtitle>
             <div><small class="text-muted">Asunto</small></div>
-
             {{ ticket.subject }}</mat-card-subtitle
           >
         </mat-card-header>
         <mat-card-content>
-          <!-- <div><small class="text-muted px-1">Estado</small></div> -->
           <div>
             <span class="mr-1">Estado:</span>
             <mat-chip
@@ -33,7 +30,7 @@
             >
           </div>
           <div>
-            <table class="table-ticket table-sm">
+            <table class="table-ticket table table-borderless table-sm">
               <tbody>
                 <tr>
                   <td>Departamento:</td>
@@ -79,6 +76,7 @@
           </button> -->
           <div class="d-flex justify-content-between">
             <button
+              *ngxPermissionsOnly="permissions.edit"
               color="primary"
               [routerLink]="[ticket.id]"
               routerLinkActive="router-link-active"
@@ -92,17 +90,17 @@
           </div>
           
           <mat-menu #menuRef="matMenu">
-              <button mat-menu-item [routerLink]="['/system-orders/orders']" [queryParams]="{search: ticket.order_id}" >
+              <button *ngxPermissionsOnly="permissionOrderIndex" mat-menu-item [routerLink]="['/system-orders/orders']" [queryParams]="{search: ticket.order_id}" >
                   Ver orden
               </button>
-              <button mat-menu-item [routerLink]="['/system-orders/tickets/create']" [queryParams]="{order_id: ticket.order_id}">
+              <button *ngxPermissionsOnly="permissions.create" mat-menu-item [routerLink]="['/system-orders/tickets/create']" [queryParams]="{order_id: ticket.order_id}">
                 Crear ticket
             </button>
           </mat-menu>
         </mat-card-actions>
       </mat-card>
     </ng-container>
-    <ng-container menuBar>
+    <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
       <mat-chip
         [routerLink]="['create']"
         class="ml-1 mat-btn-add"

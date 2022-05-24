@@ -143,7 +143,7 @@
           [order]="order"></app-add-products-order>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsShipping.create">
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsShipping.index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Envíos
@@ -164,7 +164,7 @@
 
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsPayments.create">
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsPayments.index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Pagos
@@ -183,7 +183,7 @@
         </app-payment-order>
 
       </mat-expansion-panel>
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsTaxAndDiscounts.create">
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsTaxAndDiscounts.index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Impuestos y Descuentos
@@ -210,7 +210,7 @@
     </div>
 
     <mat-accordion #accordion class="example-headers-align" multi>
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsTransfers.create">
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsTransfers.index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Transferencias
@@ -224,12 +224,12 @@
             </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-transference-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()"
+        <app-transference-order [isCancelled]="order?.status == 'cancelled'" (changeOrder)="getOrder()"
           [order_id]="order?.id" [transfers]="order?.transfers">
         </app-transference-order>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsAnticipe.create">
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsAnticipe.index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Anticipos (pagos o cobros) MBA
@@ -244,16 +244,16 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <app-custom-template-only-input  (changeOrder)="getOrder()" path="system-orders/orders/{{order?.id}}/mba-payments" title="Anticipos (pagos o cobros) MBA"
+        <app-custom-template-only-input [permissions]="permissionsAnticipe"  (changeOrder)="getOrder()" path="system-orders/orders/{{order?.id}}/mba-payments" [title]="'Anticipos (pagos o cobros) MBA'"
           placeholder="Escriba el código de pago" [isCancelled]="order?.status == 'cancelled'">
-          <div class="row" items>
+          <div class="row mt-2" items>
            <app-payment-mba-item class="col-md-4" *ngFor="let payment of order?.mba_payments" [item]="payment" [isCancelled]="order?.status == 'cancelled'"
             (changeOrder)="getOrder()" [order_id]="order?.id"></app-payment-mba-item>
           </div>
         </app-custom-template-only-input>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsInvoices.create">
+      <mat-expansion-panel *ngxPermissionsOnly="permissionsInvoices.index">
         <mat-expansion-panel-header>
           <mat-panel-title>
             Facturas
@@ -267,7 +267,7 @@
             </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-invoices-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()"
+        <app-invoices-order [isCancelled]="order?.status == 'cancelled'" (changeOrder)="getOrder()"
           [invoices]="order?.invoices" [order_id]="order?.id">
         </app-invoices-order>
       </mat-expansion-panel>

@@ -51,3 +51,5 @@ Thumbs.db
 src/environments/environment.ts
 karma.conf.js
 
+_test_*.*
+

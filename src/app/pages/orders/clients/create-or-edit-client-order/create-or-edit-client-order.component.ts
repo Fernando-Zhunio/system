@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
+import { PermissionOrdersClients } from '../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
   styleUrls: ['./create-or-edit-client-order.component.scss']
 })
 export class CreateOrEditClientOrderComponent extends CreateOrEdit<any> implements OnInit {
-  public title: string = 'Cliente de orden';
+  public title: string = 'Cliente de orden - ';
   public urlSave: any = 'system-orders/clients';
   key_param: string = 'client_id';
   form: FormGroup = new FormGroup({
@@ -26,6 +27,8 @@ export class CreateOrEditClientOrderComponent extends CreateOrEdit<any> implemen
     country: new FormControl('Ecuador', [Validators.required]),
     company: new FormControl(null),
   });
+
+  permissions = PermissionOrdersClients;
 
   constructor(public location: Location, private activeRouter: ActivatedRoute, private standardService: StandartSearchService, router: Router) {
     super ( activeRouter, standardService, router );

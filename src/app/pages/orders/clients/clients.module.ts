@@ -17,6 +17,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { SharedOrderModule } from '../modules/shared-order/shared-order.module';
 import { ClientAddressesIndexComponent } from './client-addresses-index/client-addresses-index.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [ClientsIndexComponent, CreateOrEditClientOrderComponent, ClientAddressesIndexComponent],
@@ -34,6 +35,7 @@ import { ClientAddressesIndexComponent } from './client-addresses-index/client-a
     SharedOrderModule,
     MatDialogModule,
     MatChipsModule,
+    NgxPermissionsModule,
   ]
 })
 export class ClientsModule { }

@@ -16,7 +16,7 @@ export class TransferenceOrderComponent implements OnInit {
   @Input() transfers: ITransference[] = [];
   @Input() isCancelled: boolean;
   @Input() order_id: number;
-  @Output() change: EventEmitter<string> = new EventEmitter<string>();
+  @Output() changeOrder: EventEmitter<string> = new EventEmitter<string>();
   isOpenAddTransfer = false;
   isLoading = false;
   formControl = new FormControl(null, [Validators.required]);
@@ -32,7 +32,7 @@ export class TransferenceOrderComponent implements OnInit {
         (response: any) => {
           if (response.success) {
             // this.transfers.push(response.data);
-            this.change.emit('transfers');
+            this.changeOrder.emit('transfers');
             this.isOpenAddTransfer = false;
             this.formControl.reset();
           }
@@ -56,7 +56,7 @@ export class TransferenceOrderComponent implements OnInit {
                 // if (transfers) {
                 //   this.transfers.splice(this.transfers.indexOf(transfers), 1);
                 // }
-                this.change.emit('transfers');
+                this.changeOrder.emit('transfers');
               }
               this.isLoading = false;
             }, err => {
@@ -75,7 +75,7 @@ export class TransferenceOrderComponent implements OnInit {
         this.standard.methodDelete('system-orders/orders/' + this.order_id + '/transfers/' + id).subscribe(
           (response: any) => {
             if (response.success) {
-              this.change.emit('invoice');
+              this.changeOrder.emit('invoice');
             }
             this.isLoading = false;
           }, err => {

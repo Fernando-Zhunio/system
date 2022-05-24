@@ -14,7 +14,6 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
-// import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { AppComponent } from './app.component';
 
@@ -41,7 +40,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 // import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
@@ -113,12 +112,15 @@ import { StorageService } from './services/storage.service';
 import { EMPTY } from 'rxjs';
 import { TicketsModule } from './pages/orders/tickets/tickets.module';
 import { P403Component } from './views/error/p403/p403.component';
+import { tap } from 'rxjs/operators';
 
 
 
- function  getPermissionAndVersionServer(st: StorageService) {
-  return () => EMPTY;
- }
+//  function  getPermissionAndVersionServer(st: HttpClient) {
+//   return () => {
+//       return st.get('https://growthbook.media-novicompu.com:8443/api/features/key_prod_32d7c2b3b9d8c7f3?random='+ Math.random()).pipe(tap(res => console.log(res)));
+//   };
+//  }
 
 
 
@@ -228,12 +230,12 @@ registerLocaleData(localeEs, 'es');
         },
         // { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
         { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: () => getPermissionAndVersionServer,
-            multi: true,
-            deps: [StorageService]
-        }
+        // {
+        //     provide: APP_INITIALIZER,
+        //     useFactory:  getPermissionAndVersionServer,
+        //     multi: true,
+        //     deps: [HttpClient]
+        // }
     ],
     bootstrap: [AppComponent]
 })

@@ -7,14 +7,13 @@ import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 import { ResponseTicketComponent } from './response-ticket/response-ticket.component';
 import { TicketsIndexComponent } from './tickets-index/tickets-index.component';
 
-const permission_module = PermissionOrdersTickets;
 const routes: Routes = [
   {
     path: '',
     component: TicketsIndexComponent,
     data: {
       permissions: {
-        only:  permission_module.index,
+        only:  PermissionOrdersTickets.index,
         redirectTo: environment.ERROR_403_REDIRECT_URL
       },
     },
@@ -25,7 +24,7 @@ const routes: Routes = [
     component: CreateTicketComponent,
     data: {
       permissions: {
-        only:  permission_module.create,
+        only:  PermissionOrdersTickets.create,
         redirectTo: environment.ERROR_403_REDIRECT_URL
       },
     },
@@ -36,7 +35,7 @@ const routes: Routes = [
     component: ResponseTicketComponent,
     data: {
       permissions: {
-        only:  permission_module.edit,
+        only:  PermissionOrdersTickets.edit,
         redirectTo: environment.ERROR_403_REDIRECT_URL
       },
     },

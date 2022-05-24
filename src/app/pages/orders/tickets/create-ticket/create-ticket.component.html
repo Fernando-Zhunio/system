@@ -26,7 +26,7 @@
                         <img class="rounded-fz shadow w-100" [src]="fileUrl.url" alt="">
                     </div>
                 </div>
-                <div class="center">
+                <div *ngxPermissionsOnly="permissions.create" class="center">
                     <div class="position-relative">
                         <label class="file-img bg-orange center mr-1 mt-2 px-3 rounded-fz" for="file">
                             <mat-icon>attach_file</mat-icon> Adjuntar archivo
@@ -47,7 +47,6 @@
                     <ng-container data>
             
                                 <mat-list class="row d-flex m-0">
-                                    <!-- <ng-container  *ngFor="let num of [1,2,2,4,5,3,5,3,5,3,5,3,5,3,5,3,5,3,5,5,4,5,3,5,3,5,3,5,3,5,3,5,3]"> -->
                                         <mat-list-item class="col-md-6 bg-white p-2 shadow" *ngFor="let order of orders">
                                             <div matLine><span>Cliente:</span> {{order.client.first_name}} {{order.client.last_name}}</div>
                                             <div matLine><span>Estado:</span> {{order.status| translatefz: 'orders'}}</div>
@@ -56,7 +55,6 @@
                                             <div matLine><span># de orden:</span> {{order.id}}</div>
                                             <div matLine ><button (click)="getOrder(order.id)" mat-button color="primary">Seleccionar</button></div>
                                         </mat-list-item>
-                                    <!-- </ng-container> -->
                                 </mat-list>
             
                     </ng-container>

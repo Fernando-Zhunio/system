@@ -9,17 +9,17 @@
   </div>
   <div class="text-success">Doc ID:<span> {{item.number}}</span></div>
   <div>
-    <h2 class="m-2 text-info font-weight-bold">Detalles</h2>
-    <!-- <mat-chip-list>
-      <mat-chip>Estado: {{item.status | translatefz:'orders'}}</mat-chip>
-      <mat-chip>Numero: {{item.number}}</mat-chip>
-    </mat-chip-list> -->
-    <div>
-      <span>Creado: <span>{{item.created_at | date}}</span></span>
-      <p>Memo: <span>{{item.memo}}</span></p>
-    </div>
-    <table>
+    <small class="text-muted">Detalles:</small>
+    <table class="table table-sm table-borderless">
       <tbody>
+        <tr>
+          <td><span>Creado:</span></td>
+          <td><span>{{item.created_at | date}}</span></td>
+        </tr>
+        <tr>
+          <td><span>Memo:</span></td>
+          <td><span>{{item.memo}}</span></td>
+        </tr>
         <tr>
           <td>
             <span>Monto:</span>
@@ -63,8 +63,8 @@
     </table>
   </div>
   <div>
-    <h2 class="m-2 text-info font-weight-bold">Cliente</h2>
-    <table>
+    <small class="text-muted">Cliente:</small>
+    <table class="table table-sm table-borderless">
       <tbody>
         <tr>
           <td>

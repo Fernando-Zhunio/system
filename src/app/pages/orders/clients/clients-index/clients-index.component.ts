@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
+import { PermissionOrdersClients } from '../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class ClientsIndexComponent extends Crud<any> implements OnInit {
     super();
    }
   url = 'system-orders/clients';
+  permissions = PermissionOrdersClients;
 
   ngOnInit(): void {
   }

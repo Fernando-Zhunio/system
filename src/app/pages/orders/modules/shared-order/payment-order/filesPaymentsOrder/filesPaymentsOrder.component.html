@@ -1,12 +1,13 @@
-<h1 matDialogTitle class="font-weight-bold">Archivos</h1>
-
-<mat-dialog-content>
-  <div>
+<h1 matDialogTitle class="font-weight-bold d-flex justify-content-between">Archivos
+  <div *ngxPermissionsOnly="permissionPayments.edit">
     <button  mat-raised-button color="accent" (click)="isOpenCreate = ! isOpenCreate">Agregar archivo</button>
   </div>
+</h1>
+
+<mat-dialog-content>
   <div class="card-columns mt-2">
     <mat-card [ngSwitch]="file.file.type" class="card position-relative" *ngFor="let file of files">
-      <div class="btns-action">
+      <div *ngxPermissionsOnly="permissionPayments.edit" class="btns-action">
         <button mat-icon-button color="warn" class="bg-ro-fz" (click)="removeFile(file.id)"><mat-icon>delete</mat-icon></button>
       </div>
       <div *ngSwitchCase="'image'">
@@ -47,7 +48,7 @@
   <div *ngIf="!isLoading && files.length < 1">
     <app-search-null></app-search-null>
   </div>
-  <div>
+  <div *ngxPermissionsOnly="permissionPayments.edit">
     <app-view-corner (close)="isOpenCreate = false" [isOpen]="isOpenCreate">
       <div content>
         <div>
@@ -58,7 +59,7 @@
                 placeholder="Ingrese el código">
             </mat-form-field>
             <div>
-              <button mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar Archivo</button>
+              <button  mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar Archivo</button>
 
               <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
               <div *ngIf="fileSend?.file" class="m-3 p-3 shadow rounded-fz">
@@ -116,6 +117,5 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button matDialogClose color="warn">Cerrar</button>
-  <!-- <button mat-raised-button color="primary">Guardar</button> -->
+  <button mat-raised-button matDialogClose color="warn">Cerrar</button>
 </mat-dialog-actions>

@@ -381,58 +381,59 @@ export const TEST_PERMISSIONS = [
   'system-orders.orders.destroy',
 
   //orders system orders items
-   'system-orders.orders.items.index',
-  //  'system-orders.orders.items.create',
-   'system-orders.orders.items.edit',
-   'system-orders.orders.items.destroy',
+  'system-orders.orders.items.index',
+  'system-orders.orders.items.create',
+  'system-orders.orders.items.edit',
+  'system-orders.orders.items.destroy',
 
   //orders system orders shippings
-   'system-orders.orders.shippings.index',
-   'system-orders.orders.shippings.create',
-  //  'system-orders.orders.shippings.edit',
-   'system-orders.orders.shippings.destroy',
-   'system-orders.orders.shippings.send',
+  'system-orders.orders.shippings.index',
+  'system-orders.orders.shippings.create',
+  'system-orders.orders.shippings.edit',
+  'system-orders.orders.shippings.destroy',
+  'system-orders.orders.shippings.send',
 
   //orders system orders payments
-   'system-orders.orders.payments.index',
-   'system-orders.orders.payments.create',
-   'system-orders.orders.payments.edit',
-   'system-orders.orders.payments.destroy',
+  'system-orders.orders.payments.index',
+  'system-orders.orders.payments.create',
+  'system-orders.orders.payments.edit',
+  'system-orders.orders.payments.destroy',
 
   //orders system orders additional amounts
-   'system-orders.orders.additional-amounts.index',
-   'system-orders.orders.additional-amounts.create',
-   'system-orders.orders.additional-amounts.edit',
-   'system-orders.orders.additional-amounts.destroy',
+  'system-orders.orders.additional-amounts.index',
+  'system-orders.orders.additional-amounts.create',
+  'system-orders.orders.additional-amounts.edit',
+  'system-orders.orders.additional-amounts.destroy',
 
   //orders system orders transfers mba
-   'system-orders.orders.transfers-mba.index',
-   'system-orders.orders.transfers-mba.create',
-   'system-orders.orders.transfers-mba.destroy',
+  'system-orders.orders.transfers-mba.index',
+  'system-orders.orders.transfers-mba.create',
+  //  'system-orders.orders.transfers-mba.destroy',
 
   //orders system orders payments mba
-   'system-orders.orders.payments-mba.create',
-   'system-orders.orders.payments-mba.destroy',
+  'system-orders.orders.payments-mba.index',
+  'system-orders.orders.payments-mba.create',
+  'system-orders.orders.payments-mba.destroy',
 
   //orders system orders invoices mba
-   'system-orders.orders.invoices-mba.index',
-   'system-orders.orders.invoices-mba.create',
-   'system-orders.orders.invoices-mba.destroy',
+  'system-orders.orders.invoices-mba.index',
+  'system-orders.orders.invoices-mba.create',
+  'system-orders.orders.invoices-mba.destroy',
 
   //orders system Clients
-   'system-orders.clients.index',
-   'system-orders.clients.create',
-   'system-orders.clients.edit',
-   'system-orders.clients.destroy',
+  'system-orders.clients.index',
+  'system-orders.clients.create',
+  'system-orders.clients.edit',
+  'system-orders.clients.destroy',
 
   //orders system tickets
-   'system-orders.tickets.index',
-   'system-orders.tickets.create',
-   'system-orders.tickets.edit',
+  'system-orders.tickets.index',
+  'system-orders.tickets.create',
+  'system-orders.tickets.edit',
 
   //orders system channels
-   'system-orders.channels.index',
-   'system-orders.channels.create',
-   'system-orders.channels.edit',
-   'system-orders.channels.destroy',
+  'system-orders.channels.index',
+  'system-orders.channels.create',
+  'system-orders.channels.edit',
+  'system-orders.channels.destroy',
 ]
