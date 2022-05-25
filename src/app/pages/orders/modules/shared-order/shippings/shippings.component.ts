@@ -187,4 +187,10 @@ export class ShippingsComponent implements OnInit {
       }
     });
   }
+
+  returnShipping(id: number): void {
+    this.dialog.open(GenerateGuideServientregaComponent,{
+      data: { client: this.client, shipping_address: this.shipping_address, shipping: this.shippings.find(x => x.id == id), order_id: this.order_id, isReturn: true },
+    });
+  }
 }

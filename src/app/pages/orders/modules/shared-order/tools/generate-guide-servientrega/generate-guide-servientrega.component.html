@@ -1,4 +1,4 @@
-<h1 matDialogTitle class="font-weight-bold">Creador de Guiás de Servientrega</h1>
+<h1 matDialogTitle class="font-weight-bold">{{title}}</h1>
 
 <mat-dialog-content>
     <div [formGroup]="form" class="row m-0">
@@ -25,7 +25,15 @@
       </mat-form-field>
 
       <mat-form-field class="col-md-4">
-        <input formControlName="direccion1_remite" matInput placeholder="Dirección del remitente 1 *">
+        <input required formControlName="nombre_remitente" matInput placeholder="Nombre del remitente">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required formControlName="apellido_remite" matInput placeholder="Apellido del remitente">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4">
+        <input required formControlName="direccion1_remite" matInput placeholder="Dirección del remitente 1">
       </mat-form-field>
 
       <mat-form-field class="col-md-4">

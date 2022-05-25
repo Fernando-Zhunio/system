@@ -89,8 +89,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.setImgCompanies();
     this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp);
-    // this.getPermissionAndVersionServer();
-    this.getPermissionAndVersionServerTest();
+    this.getPermissionAndVersionServer();
+    // this.getPermissionAndVersionServerTest();
     this.notificationWeb.canInitSw();
     this.user = this.s_storage.getCurrentUser();
     this.setPreferences();

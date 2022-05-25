@@ -150,6 +150,7 @@ export interface IShippingOrder {
   created_at: string;
   updated_at: string;
   statuses: IStatus[];
+  is_return: boolean;
 }
 
 export interface IChannelOrder {
@@ -480,6 +481,44 @@ export interface IOrderTicketMessage {
   user?: any;
   attachments?: (any)[] | any;
 }
+
+export interface IServientregaGuide {
+  numero_guia: number;
+  tipo_logistica: string;
+  tipo_guia: string;
+  cliente: string;
+  sucursal: string;
+  dependencia: string;
+  detalle1: string;
+  detalle2: string;
+  detalle3: string;
+  destino: string;
+  origen: string;
+  remitente: string;
+  razon_social_remitente: string;
+  direccion_remitente: string;
+  sector_remitente: string;
+  telefono1_remitente: string;
+  telefono2_remitente: string;
+  destinatario: string;
+  razon_social_destinatario: string;
+  direccion_destinatario: string;
+  sector_destinatario?: null;
+  producto: string;
+  contenido: string;
+  cantidad: number;
+  valor_mercancia: number;
+  valor_asegurado: number;
+  largo: number;
+  ancho: number;
+  alto: number;
+  peso_volumetrico: number;
+  peso_fisico: number;
+  fecha: string;
+  estado: string;
+  registrado_por: string;
+}
+
 
 
 

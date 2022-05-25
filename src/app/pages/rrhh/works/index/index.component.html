@@ -1,5 +1,5 @@
 <div>
-  <app-header-search [filter_data]="{}"
+  <app-header-search [title]="'Empleos'" [filter_data]="{}"
   [placeholder]="'Buscador de empleos'" (isLoading)="isLoading = $event" [url]="url" (products)="loadData($event)">
   <mat-chip-list class="ml-1">
     <mat-chip [routerLink]="['./create']" class="text-truncate">

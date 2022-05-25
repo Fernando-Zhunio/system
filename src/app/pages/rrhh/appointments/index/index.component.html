@@ -1,5 +1,5 @@
 <div>
-  <app-header-search [filter_data]="{status:statusAppointment}" [placeholder]="'Buscador de citas'"
+  <app-header-search [title]="'Citas'" [filter_data]="{status:statusAppointment}" [placeholder]="'Buscador de citas'"
     (isLoading)="isLoading = $event" [url]="url" (products)="loadData($event)">
     <mat-chip-list class="ml-1">
       <mat-chip [matMenuTriggerFor]="menuState" class="text-truncate">

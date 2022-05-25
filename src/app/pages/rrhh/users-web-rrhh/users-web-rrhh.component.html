@@ -1,5 +1,5 @@
 <div>
-  <app-search-template [filter_data]="form.value" [active_filters_menu]="true" [url$]="url"
+  <app-search-template [title]="'Usuarios web'" [filter_data]="form.value" [active_filters_menu]="true" [url$]="url"
     (data)="getDataPaginate($event)">
     <ng-container filterMenu>
       <div [formGroup]="form">

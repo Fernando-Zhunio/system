@@ -1,7 +1,7 @@
-<app-header style="z-index: 3;" class="border-0 shadow-sm" [navbarBrandRouterLink]="['/home/dashboard']" [fixed]="false"
+<app-header style="z-index: 3;" class="border-0 shadow-sm" [navbarBrandRouterLink]="['/home/dashboard']" [fixed]="true"
   [navbarBrandFull]="{src: imgCompany.url, width: imgCompany.size, height: imgCompany.size, alt: 'Novisolutions'}"
   [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
-  [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
+  [sidebarToggler]="'lg'" [asideMenuToggler]="false" [mobileAsideMenuToggler]="false">
   <!-- <div class="d-none d-md-block position-relative search-page-container">
     <input (keydown)="searchPage($event)" (blur)="closeSearch()" type="search" class="search-page rounded-fz"
       placeholder="Buscar pagina">
@@ -82,8 +82,6 @@
     </li>
     <li class="nav-item">
       <button mat-icon-button (click)="openOrCloseChats()">
-        <!-- <mat-icon [matBadge]="countMessages" matBadgePosition="above after" matBadgeColor="accent" color="primary">
-          chat_bubble</mat-icon> -->
         <div [matBadge]="countMessages" class="d-inline-flex" matBadgePosition="above after" matBadgeColor="accent"
           color="primary">
           <img class="logo-chat" src="assets/logos/chat-logo.png" alt="">
@@ -135,7 +133,7 @@
     </div>
     <!-- /.container-fluid -->
   </main>
-  <app-aside #sidebarToggler [fixed]="true" [display]="false" [ngClass]="'test'">
+  <!-- <app-aside #sidebarToggler [fixed]="true" [display]="false" [ngClass]="'test'">
     <tabset>
       <tab *ngIf="false">
         <ng-template tabHeading><i class="icon-list"></i></ng-template>
@@ -331,8 +329,6 @@
             <div class="clearfix mt-4">
               <small><b>Modo Oscuro</b></small>
 
-              <!-- <mat-slide-toggle ></mat-slide-toggle>
-              <i class="fas fa-cloud-moon fa-2x" [ngClass]="[!isDark?'dark':'not-dark']"></i> -->
 
               <label class="switch switch-label switch-pill switch-success switch-sm float-right">
                 <input (change)="changeDark($event)" [(ngModel)]="isDark" type="checkbox" class="switch-input" checked>
@@ -369,59 +365,12 @@
                 push</small>
             </div>
             <hr>
-            <!-- <small><b>Personalizar interfaz</b></small><br>
-            <div>
-              <small>Color de panel izquierdo</small>
-              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
-                <input type="color" [(ngModel)]="colorSidebarLeft" (input)="changeColor($event)">
-              </label>
-            </div> -->
           </div>
-          <!-- <div class="aside-options">
-            <div class="clearfix mt-3">
-              <small><b>Option 3</b></small>
-              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
-                <input type="checkbox" class="switch-input">
-                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
-                <span class="switch-handle"></span>
-              </label>
-            </div>
-          </div>
-          <div class="aside-options">
-            <div class="clearfix mt-3">
-              <small><b>Option 4</b></small>
-              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
-                <input type="checkbox" class="switch-input" checked>
-                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
-              </label>
-            </div>
-          </div> -->
           <hr>
-          <!-- <h6>System Utilization</h6>
-                    <div class="text-uppercase mb-1 mt-4"><small><b>CPU Usage</b></small></div>
-                    <div class="progress progress-xs">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small class="text-muted">348 Processes. 1/4 Cores.</small>
-                    <div class="text-uppercase mb-1 mt-2"><small><b>Memory Usage</b></small></div>
-                    <div class="progress progress-xs">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small class="text-muted">11444GB/16384MB</small>
-                    <div class="text-uppercase mb-1 mt-2"><small><b>SSD 1 Usage</b></small></div>
-                    <div class="progress progress-xs">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small class="text-muted">243GB/256GB</small>
-                    <div class="text-uppercase mb-1 mt-2"><small><b>SSD 2 Usage</b></small></div>
-                    <div class="progress progress-xs">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small class="text-muted">25GB/256GB</small> -->
         </div>
       </tab>
     </tabset>
-  </app-aside>
+  </app-aside> -->
 
   <app-chat-template class="chat-template" (newMessageEmit)="newMessage($event)" [openOrClose]="hideUsersChat">
   </app-chat-template>

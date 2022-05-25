@@ -109,10 +109,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { StorageService } from './services/storage.service';
-import { EMPTY } from 'rxjs';
 import { TicketsModule } from './pages/orders/tickets/tickets.module';
 import { P403Component } from './views/error/p403/p403.component';
-import { tap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 
 
 
@@ -121,6 +120,9 @@ import { tap } from 'rxjs/operators';
 //       return st.get('https://growthbook.media-novicompu.com:8443/api/features/key_prod_32d7c2b3b9d8c7f3?random='+ Math.random()).pipe(tap(res => console.log(res)));
 //   };
 //  }
+function  getPermissionAndVersionServer(st: StorageService) {
+    return () => EMPTY;
+   }
 
 
 
@@ -236,6 +238,12 @@ registerLocaleData(localeEs, 'es');
         //     multi: true,
         //     deps: [HttpClient]
         // }
+        {
+            provide: APP_INITIALIZER,
+            useFactory: () => getPermissionAndVersionServer,
+            multi: true,
+            deps: [StorageService]
+        }
     ],
     bootstrap: [AppComponent]
 })

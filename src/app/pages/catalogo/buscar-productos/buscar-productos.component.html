@@ -107,7 +107,7 @@
       </mat-menu>
     </app-header-search> -->
 
-    <app-search-template title="Productos" active_filters_menu="true" [columns]="2" (data)="loadData($event)" placeholder="Buscar producto" [url$]="'catalogs/products'" [filter_data]="{min:min,max:max,'warehouse_ids[]':warehouse_ids,prefix_id:prefix_id}">
+    <app-search-template [title]="'Productos'" active_filters_menu="true" [columns]="2" (data)="loadData($event)" placeholder="Buscar producto" [url$]="'catalogs/products'" [filter_data]="{min:min,max:max,'warehouse_ids[]':warehouse_ids,prefix_id:prefix_id}">
       <ng-container data>
         <mat-card @fade class="card border-0" *ngFor="let p of products; index as ind">
           <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0 " style="top: 68px;background: inherit">
