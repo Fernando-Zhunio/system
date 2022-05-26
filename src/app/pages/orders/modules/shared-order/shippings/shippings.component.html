@@ -45,6 +45,9 @@
               }}</ng-template>
             </span>
           </div>
+          <!-- <div *ngIf="shipping.status == 'generated_guide'">
+            <button mat-button color="warn"  (click)="changeStatusShipping('processed', shipping.id)">Cambiar estado a procesado</button>
+          </div> -->
           <ng-template #templateSelectStatus>
             <div
               *ngxPermissionsOnly="
@@ -65,7 +68,8 @@
                     placeholder="Cambio de estado"
                   >
                     <mat-option value="pending">Pendiente</mat-option>
-                    <mat-option value="shipped">Listo para recoger</mat-option>
+                    <mat-option value="processed">Listo para recoger</mat-option>
+                    <mat-option value="shipped">Enviado</mat-option>
                     <mat-option value="delivered">Entregado</mat-option>
                     <mat-option value="cancelled">Cancelado</mat-option>
                   </mat-select>

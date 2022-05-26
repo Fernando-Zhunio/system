@@ -64,7 +64,8 @@ export class ShippingsComponent implements OnInit {
     });
   }
 
-  changeStatusShipping(select: MatSelectChange, id: number): void {
+  changeStatusShipping(select: MatSelectChange | string, id: number): void {
+    const selectionValue = select instanceof MatSelectChange ? select.value : select;
     SwalService.swalFire(
       { title: 'Cambiar Estado',
        text: '¿Está seguro de cambiar el estado del Envío?',
@@ -76,18 +77,20 @@ export class ShippingsComponent implements OnInit {
       })
       .then(res => {
         if (res.isConfirmed) {
-          this.standard.methodPut(`system-orders/orders/${this.order_id}/shippings/${id}/status`, { status: select.value }).subscribe(res => {
+          this.standard.methodPut(`system-orders/orders/${this.order_id}/shippings/${id}/status`, { status: selectionValue }).subscribe(res => {
             if (res?.success) {
               this.change.emit('update status');
             }
           }, err => {
+            if (select instanceof MatSelectChange)
             select.source.value = this.shippings.find(x => x.id == id).status;
           });
         } else {
-          console.log(select);
+          if (select instanceof MatSelectChange)
           select.source.value = this.shippings.find(x => x.id == id).status;
         }
       }).catch(err => {
+        if (select instanceof MatSelectChange)
         select.source.value = this.shippings.find(x => x.id == id).status;
       });
   }

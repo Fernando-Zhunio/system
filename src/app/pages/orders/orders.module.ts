@@ -33,6 +33,8 @@ import { EditOrderComponent } from './orders/edit-order/edit-order.component';
 import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create-or-edit-order.component';
 import { OrdersIndexComponent } from './orders/orders-index/orders-index.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
 @NgModule({
     declarations: [DashboardOrdersComponent,
         SelectClientModalComponent, EditOrderComponent,
@@ -66,6 +68,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
         MatBadgeModule,
         MatMenuModule,
         NgxPermissionsModule,
+        DragDropModule,
     ] 
 })
 export class OrdersModule { }

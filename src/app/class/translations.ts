@@ -66,6 +66,7 @@ const trans_es_order = {
     rejected: 'Rechazado',
     expired: 'Expirado',
     init: 'Iniciado',
+    processed: 'Procesado',
 
     published: 'Publicado',
     canceled: 'Cancelado',
