@@ -23,6 +23,6 @@
         "fullTemplateTypeCheck": true,
         "strictInjectionParameters": true,
         "enableIvy": true,
-        "compilationMode": "partial"
+        "compilationMode": "full"
       }
 }
