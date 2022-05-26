@@ -75,6 +75,9 @@ npm:
 
 staging:
   stage: deploy
+  cache:
+    paths:
+      - dist/
   script:
     - *init_ssh
     # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
@@ -92,6 +95,9 @@ staging:
 
 production:
   stage: deploy
+  cache:
+    paths:
+      - dist/
   script:
     - *init_ssh
     - npm i -g @angular/cli
