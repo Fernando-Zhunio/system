@@ -258,6 +258,9 @@ button {
 
 .chat-template .nav-tabs {
   background: #dadada;
+  .nav-link{
+    border: none !important;
+  }
 }
 
 .pulso:hover {
@@ -335,9 +338,9 @@ button {
 .mat-raised-button {
   border-radius: 20px !important;
 }
-mat-form-field, mat-chip,  .mat-button, .mat-raised-button  {
-  font-weight: 700 !important;
-}
+// mat-form-field, mat-chip,  .mat-button, .mat-raised-button  {
+//   font-weight: 700 !important;
+// }
 
 .swal2-modal {
   font-weight: 700 !important;

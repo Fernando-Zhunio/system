@@ -3,7 +3,7 @@
     <mat-card-header class="header-template-chat ">
         <img
         [src]="chat.img"
-        mat-card-avatar class="example-header-image border"/>
+        mat-card-avatar class="example-header-image "/>
       <div class="chat-info-container d-flex justify-content-between">
         <div class="chat-info">
           <mat-card-title class="text-truncate mb-2 chat-font">{{chat?.name}}
@@ -23,7 +23,6 @@
               <ng-template #typingTemplate>
                 <span class="text-success">Escribiendo...</span>
               </ng-template>
-              
               
             </ng-container>
             <ng-template #TemplateGroup>

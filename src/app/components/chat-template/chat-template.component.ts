@@ -49,7 +49,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   hideUsers: boolean = true;
   page: number = 1;
   myUser: any = null;
-  index: number = 9999;
+  index: number = 100;
   echoChat: Echo;
   current_chat_id: string = null;
   last_chat_id: string = null;
@@ -360,7 +360,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   getPhotoParticipant(img, name): string {
-    return img || 'https://ui-avatars.com/api/?name=' + name;
+    return img || 'https://ui-avatars.com/api/?background=random&name=' + name;
   }
 
 

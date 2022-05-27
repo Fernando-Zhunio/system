@@ -1,20 +1,19 @@
-<div class="p-0" [hidden]="!openOrClose">
+<div class="p-0 container-chat shadow scrollbar-fz" [hidden]="!openOrClose">
   <tabset [justified]="true">
     <tab (selectTab)="onSelectChats($event)" [customClass]="'p-0 border-0'" id="tab1">
       <ng-template tabHeading>
         <span class="font-chat"><i class="fas fa-comments"></i><br> Chats</span>
       </ng-template>
       <div>
-        <div class="users-chats w-100  p-0 bg-white shadow" infiniteScroll [infiniteScrollDistance]="5"
+        <div class="users-chats scrollbar-fz w-100  p-0 bg-white" infiniteScroll [infiniteScrollDistance]="5"
           [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
           <div class="position-relative">
             <ul class="list-group">
               <li class="border-0 btn-spotify m-3 text-center btn rounded-fz shadow sticky-top" style="top: 5px;"
                 [routerLink]="['/chats/grupal/create']">Crear chat grupal</li>
               <li (click)="openChatOfChat(chat.key)" *ngFor="let chat of chats|keyvalue | orderBy:'.value.last_message.created_at':true"
-                class="m-1 border  p-2 rounded-fz  item-chat btn ">
+                class="m-1 my-2 shadow-sm  p-2 rounded-fz  item-chat btn ">
                 <div class="text-truncate item-chat position-relative">
-
                   <ng-container *ngIf="chat.value.data.type == 'group'; else elseTemplate">
                     <span class="position-relative">
                       <img class="photo-user" [src]="getPhotoGroup(chat.value?.img)" />
@@ -58,7 +57,6 @@
                             <ng-template #typingTemplate>
                               <span class="text-success parpadeo">Escribiendo...</span>
                             </ng-template>
-                            
                             <i *ngIf="chat.value?.last_message?.author_user_id == myUser.id"
                             [ngClass]="(chat.value?.last_message?.is_readed_for_all ) ? 'fas text-success': (chat.value?.last_message.is_delivered_for_all)?'fas':'far'"
                             class="fa-check-circle"></i></small>
@@ -78,7 +76,7 @@
       <ng-template tabHeading>
         <span class="font-chat"><i class="fas fa-users"></i><br> Usuarios</span>
       </ng-template>
-      <div class="users-chats w-100  p-0 border-0 shadow" infiniteScroll [infiniteScrollDistance]="5"
+      <div class="users-chats scrollbar-fz w-100  p-0 border-0 " infiniteScroll [infiniteScrollDistance]="5"
         [infiniteScrollThrottle]="50" (scrolled)="onScroll(searchUser.value)" [scrollWindow]="false">
         <div class="position-relative p-0 m-0">
           <div class="bg-gray-100 sticky-top p-3">
@@ -113,7 +111,7 @@
       <ng-template tabHeading>
         <span class="font-chat"><i class="fas fa-robot"></i><br> Bots</span>
       </ng-template>
-      <div class="users-chats w-100  p-0 border-0 shadow" infiniteScroll [infiniteScrollDistance]="5"
+      <div class="scrollbar-fz users-chats w-100  p-0 border-0 " infiniteScroll [infiniteScrollDistance]="5"
         [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false">
         <div class="position-relative p-0 m-0">
           <ul class="list-group">

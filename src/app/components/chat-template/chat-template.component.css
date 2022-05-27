@@ -1,10 +1,22 @@
 
 .users-chats {
-    height: calc(100vh - 103px);
-    /* position: fixed; */
-    right: 0;
-    overflow-y: scroll;
-    z-index: 1111;
+  height: calc(100vh - 125px);
+  right: 0;
+  overflow-y: scroll;
+}
+
+.container-chat {
+  height: calc(100vh - 65px);
+  background: white;
+  position: fixed;
+    width: 250px;
+    right: 10px;
+    z-index: 100;
+    margin-right: 16px;
+    top: 58px;
+    border-radius: 20px;
+    overflow: auto;
+    
 }
 
 .line-user{
@@ -27,7 +39,7 @@
   height: 40px !important;
   object-fit: contain;
   border-radius: 50%;
-  border: solid 2px #dadada;
+  /* border: solid 2px #dadada; */
 }
 
 .chat-template {
@@ -37,13 +49,15 @@
   bottom: 5px;
   z-index: 9999;
   width: 350px;
+  /* height: calc(100vh - 65px);
+  background: white;  */
   /* transform: translateY(0%); */
 }
 
 .chat-info{
   
-  font-family: 'Red Hat Display' !important;
-    line-height: 1;
+  /* font-family: 'Red Hat Display' !important; */
+    line-height: 1.1;
     font-weight: 500;
     font-size: 15px;
 }
@@ -60,9 +74,9 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   border: none !important;
 }
-.item-chat div{
+/* .item-chat div{
   font-family: "Red Hat Display";
-}
+} */
 
 .badge-chat {
   position: absolute;
@@ -80,17 +94,17 @@
 }
 
 .chat-bubble-position-250 {
-  right: 268px;
+  right: 285px;
 }
 
 .chat-bubble-position-5 {
   right: 5px;
 }
 
-::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+/* ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
   color:red;
   background-color: green;
-  }
+  } */
 
 @media screen and (max-width: 768px) {
   .chat-bubble-position-250 {

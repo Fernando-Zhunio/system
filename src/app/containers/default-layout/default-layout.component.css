@@ -38,14 +38,14 @@ button {
     width: 28px;
 }
 
-.chat-template {
+/* .chat-template {
     position: fixed;
     width: 250px;
     right: 0;
     z-index: 1001;
     margin-right: 16px;
     top: 58px;
-}
+} */
 
 .progress-download {
     line-height: 1;
