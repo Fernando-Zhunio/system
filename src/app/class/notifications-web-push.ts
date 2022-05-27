@@ -10,8 +10,7 @@ export class NotificationsWebPush {
     private swPush: SwPush,
     private methodsHttp: MethodsHttpService
   ) { }
-  public readonly PUBLIC_KEY = 'BIpvX7op6SPzeb27Jg1rm7FJrOxmLRPOMkHDlzMnhTFaso8nBPvm9PZuwcVbLQua1T6mNctdw2B9gSGfBWX6w9E';
-  //  environment.VAPID_PUBLIC_KEY;
+  public readonly PUBLIC_KEY = environment.VAPID_PUBLIC_KEY;
 
 
   addHours(h: number): Date {
@@ -27,17 +26,17 @@ export class NotificationsWebPush {
       return;
     }
     localStorage.setItem(key, this.addHours(4).getTime().toString());
-    // this.initSW();
-    const _token = '='.repeat((4 - this.PUBLIC_KEY.length % 4) % 4);
-    this.swPush.requestSubscription({
-      serverPublicKey: this.PUBLIC_KEY + _token,
-    }).then((subscription) => {
-      const token = JSON.parse(JSON.stringify(subscription));
-      // console.log('**************** TOKEN **************', token);
-      this.storePushSubscription(token);
-    }).catch((err) => {
-      console.error('Could not subscribe to notifications', err);
-    });
+    this.initSW();
+    // const _token = '='.repeat((4 - this.PUBLIC_KEY.length % 4) % 4);
+    // this.swPush.requestSubscription({
+    //   serverPublicKey: this.PUBLIC_KEY + _token,
+    // }).then((subscription) => {
+    //   const token = JSON.parse(JSON.stringify(subscription));
+    //   // console.log('**************** TOKEN **************', token);
+    //   this.storePushSubscription(token);
+    // }).catch((err) => {
+    //   console.error('Could not subscribe to notifications', err);
+    // });
   }
 
   initSW() {

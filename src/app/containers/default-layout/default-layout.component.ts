@@ -85,7 +85,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
   ngOnInit(): void {
-
     this.setImgCompanies();
     this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp);
