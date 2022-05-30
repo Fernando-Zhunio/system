@@ -24,9 +24,16 @@ export class ChatTicketComponent implements OnInit {
     this.methodsHttp.methodGet(`system-orders/tickets/${this.ticket_id}/messages`).subscribe
     (res => {
       this.messages = res.data.reverse();
+      this.markAsRead();
       setTimeout(() => {
         this.contentMessage.nativeElement.scrollTop = this.contentMessage.nativeElement.scrollHeight;
       } , 1000);
+    });
+  }
+
+  markAsRead(): void {
+    this.methodsHttp.methodPut(`system-orders/tickets/${this.ticket_id}/messages/mark-as-read`).subscribe(res => {
+      console.log(res);
     });
   }
 
