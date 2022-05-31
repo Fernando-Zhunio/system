@@ -19,12 +19,13 @@ import { SelectClientAddressModalComponent } from '../../modules/shared-order/se
 export class EditOrderComponent implements OnInit {
 
   constructor(private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
-  readonly id = this.activated_router.snapshot.params['order_id'];
+  id: string;
   order: IOrder = null;
   items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   types: any[] = [];
   channels: IChannelOrder[] = [];
   paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
+  payments: IPaymentOrder[] = [];
   discountsAndTaxes: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
   hideTotals = true;
   data: any = null;
@@ -41,6 +42,7 @@ export class EditOrderComponent implements OnInit {
   permissionsInvoices = PermissionOrdersInvoicesMba;
 
   ngOnInit() {
+    this.id = '7' // this.activated_router.snapshot.paramMap.get('order_id');
     this.spinner.show();
     this.getStatuses();
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
@@ -81,11 +83,11 @@ export class EditOrderComponent implements OnInit {
       this.items.clear();
     }
     // this.items = new Map<number, IItemOrder>(data.data.order.items.map(item => [item.id, item]));
-    if (this.order.payments && this.order.payments.length > 0) {
-      this.paymentsMap = new Map<number, IPaymentOrder>(this.order.payments.map(item => [item.id, item]));
-    } else if (this.order.payments.length < 1) {
-      this.paymentsMap.clear();
-    }
+    // if (this.order.payments && this.order.payments.length > 0) {
+    //   this.paymentsMap = new Map<number, IPaymentOrder>(this.order.payments.map(item => [item.id, item]));
+    // } else if (this.order.payments.length < 1) {
+    //   this.paymentsMap.clear();
+    // }
     if (this.order.additional_amounts && this.order.additional_amounts.length > 0) {
       this.discountsAndTaxes = new Map<number, any>(this.order.additional_amounts.map(item => [item.id, item]));
     } else if (this.order.additional_amounts.length < 1) {

@@ -21,7 +21,8 @@ export class PaymentOrderComponent implements OnInit {
   constructor(private dialog: MatDialog, private standard: StandartSearchService, private s_storage: StorageService) { }
   @Input() order_id: number;
   @Input() isCancelled: boolean;
-  @Input() paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
+  // @Input() paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
+  @Input() payments: IPaymentOrder[] = [];
   @Output() change = new EventEmitter<string>();
 
   isOpenUploadFile = false;
@@ -34,18 +35,16 @@ export class PaymentOrderComponent implements OnInit {
   ngOnInit() { }
 
   openDialog(id: number = null) {
+    const payment = this.payments.find(x => x.id === id);
     this.dialog.open(CreateOrEditPaymentOrderComponent, {
       data: {
         isEdit: id ? true : false,
         order_id: this.order_id,
-        data: this.paymentsMap.get(id)
+        data: this.payments
       },
       disableClose: true
     }).afterClosed().subscribe(x => {
       if (x && x?.success) {
-        // const payment = x.data;
-        // this.paymentsMap.set(payment.id, payment);
-        // this.getTotalPayment.emit('create or update');
         this.change.emit('create or update');
       }
     });
@@ -77,6 +76,7 @@ export class PaymentOrderComponent implements OnInit {
   }
 
   changeStatusPayment(select: MatSelectChange, id): void {
+    const payment = this.payments.find(x => x.id === id);
     SwalService.swalFire(
       {
         title: 'Cambiar Estado',
@@ -94,19 +94,19 @@ export class PaymentOrderComponent implements OnInit {
               this.change.emit('update status');
             }
           }, err => {
-            select.source.value = this.paymentsMap.get(id).status;
+            select.source.value = payment.status;
           });
         } else {
           console.log(select);
-          select.source.value = this.paymentsMap.get(id).status;
+          select.source.value = payment.status;
         }
       }).catch(err => {
-        select.source.value = this.paymentsMap.get(id).status;
+        select.source.value = payment.status;
       });
   }
 
   refundPayment(id): void {
-    const payment = this.paymentsMap.get(id);
+    const payment = this.payments.find(x => x.id === id);
     SwalService.swalFire(
       {
         title: 'Reembolso',
@@ -128,24 +128,13 @@ export class PaymentOrderComponent implements OnInit {
       });
   }
 
-  uploadFile(id): void {
-    // this.pondOptions.server = {url: `system-orders/orders/${this.order_id}/payments/${id}/attachments`};
-    // this.idUploadFile = id;
-    // this.isOpenUploadFile = true;
-    // this.urlUploadFile = `system-orders/orders/${this.order_id}/payments/${id}/attachments`;
-    // this.change.emit('upload file');
-  }
 
   successFiles(event): void {
     this.hasFile = false;
   }
 
   lookTransaction(id): void {
-    // this.standard.methodGet(`system-orders/orders/${this.order_id}/payments/${id}/transactions`).subscribe(data => {
-    //   if (data?.success) {
-
-    //   }
-    // });
+    
     this.dialog.open(TransactionsPaymentComponent, {
       data: { order_id: this.order_id, payment_id: id }
     });

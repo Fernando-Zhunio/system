@@ -23,6 +23,8 @@ export const environment = {
   server_vtex_file: 'https://novicompu.vteximg.com.br/arquivos/',
   user_photo_default: 'assets/img/profile-user.svg',
 
+  staging_order: 'https://staging-orders-service-api.novisolutions.com',
+  password_staging: 'BV1tz4Qao5SvjC0IK7gPftgPlDZ7Wg6psXGWTlytnxjzPtwRESj9EUkPagCI8E02Po0fPgYIQe5KL7st',
   ERROR_403_REDIRECT_URL: 'system-error/403'
 
 };

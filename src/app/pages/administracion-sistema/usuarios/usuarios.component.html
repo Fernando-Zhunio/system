@@ -4,7 +4,7 @@
     [url]="'admin/users'" (products)="loadData($event)">
   </app-header-search> -->
 
-  <app-search-template title="Usuarios" columns="1" placeholder="Buscar usuarios" [url$]="'admin/users'" (data)="loadData($event)">
+  <app-search-template [title]="'Usuarios'" columns="1" placeholder="Buscar usuarios" [url$]="'admin/users'" (data)="loadData($event)">
     <ng-container data>
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="id">

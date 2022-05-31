@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
@@ -6,11 +6,23 @@ import { PermissionOrders } from '../../../../class/permissions-modules';
 import { IOrder } from '../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { DetailsOrderComponent } from '../../modules/shared-order/details-order/details-order.component';
+import AirDatepicker from 'air-datepicker';
+import localeEs from 'air-datepicker/locale/es';
+import * as moment from 'moment';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+// import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-orders-index',
   templateUrl: './orders-index.component.html',
-  styleUrls: ['./orders-index.component.css']
+  styleUrls: ['./orders-index.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
@@ -18,11 +30,13 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     super();
   }
 
+  @ViewChild('filterOrderMin', { static: false }) dpMinElement: ElementRef;
+  @ViewChild('filterOrderMax', { static: false }) dpMaxElement: ElementRef;
   url: string = 'system-orders/orders';
   filters = {
     status: '',
-    min: 0,
-    max: 0,
+    min: null,
+    max: null,
     type: '',
   };
 
@@ -30,8 +44,78 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   types: any[] = [];
   permissions = PermissionOrders;
 
+  dpMax: any;
+  dpMin: any;
+
+
+  // cosas para tabla
+  dataSource: IOrder[] = [];
+  // columnsToDisplay: object[] = [
+  //   {
+  //     title: '# orden',
+  //     data: 'id',
+  //   },
+  //   {
+  //     title: 'Estado',
+  //     data: 'status',
+  //   },
+  //   {
+  //     title: '# orden',
+  //     data: 'id',
+  //   }, {
+  //     title: '# orden',
+  //     data: 'id',
+  //   }, {
+  //     title: '# orden',
+  //     data: 'id',
+  //   },
+  // ];
+  columnsToDisplay = [ 'id', 'type', 'status', 'client', 'products', 'payments', 'company', 'actions'];
+  expandedElement: IOrder | null;
+
   ngOnInit(): void {
+    
     this.getDataForFilter();
+  }
+
+  ngAfterViewInit() {
+    console.log('after view init');
+    this.dpMin = new AirDatepicker(this.dpMinElement.nativeElement, {
+      classes: 'z-indez-1020',
+      position: 'bottom right',
+      locale: localeEs,
+      timepicker: true,
+      dateFormat: 'yyyy/MM/dd',
+      timeFormat: 'HH:mm',
+      autoClose: true,
+      onSelect: ({ date }) => {
+        this.dpMax.update({
+          minDate: date
+        })
+        this.filters.min = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm');
+      }
+    })
+    this.dpMax = new AirDatepicker(this.dpMaxElement.nativeElement, {
+      classes: 'z-indez-1020',
+      locale: localeEs,
+      position: 'bottom right',
+      timepicker: true,
+      autoClose: true,
+      dateFormat: 'yyyy/MM/dd',
+      timeFormat: 'HH:mm',
+      onSelect: ({ date }) => {
+        this.dpMin.update({
+          maxDate: date
+        })
+        this.filters.max = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm');
+      }
+    })
+  }
+
+  getData($event): void {
+    // this.dataSource = new MatTableDataSource<any>($event.data);
+    console.log($event);
+    this.dataSource = $event.data.data;
   }
 
   getDataForFilter(): void {
@@ -39,6 +123,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
       (response: any) => {
         this.statuses = response.data.status;
         this.types = response.data.type;
+
       },
       (error) => {
         this.snackBar.open('Error al cargar los datos', 'Cerrar', {
@@ -51,7 +136,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   openDetailOrder(id: number) {
     console.log(id);
     this.dialog.open(DetailsOrderComponent, {
-      data: {order_id: id},
+      data: { order_id: id },
     });
   }
 

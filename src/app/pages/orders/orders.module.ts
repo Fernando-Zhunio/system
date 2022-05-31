@@ -34,6 +34,9 @@ import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create
 import { OrdersIndexComponent } from './orders/orders-index/orders-index.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
     declarations: [DashboardOrdersComponent,
@@ -69,6 +72,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
         MatMenuModule,
         NgxPermissionsModule,
         DragDropModule,
+        MatDatepickerModule,
+        HeaderSearchModule,
+        MatTableModule
     ] 
 })
 export class OrdersModule { }

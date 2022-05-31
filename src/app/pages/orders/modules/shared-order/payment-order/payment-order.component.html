@@ -17,22 +17,22 @@
     </div>
     <hr />
     <div class="row">
-      <div class="col-md-4 p-2" *ngFor="let payment of paymentsMap | keyvalue">
+      <div class="col-md-4 p-2" *ngFor="let payment of payments">
         <mat-card>
           <div>
             <span class="badge bg-success font-sm mb-2 text-uppercase">
-              {{ payment.value.type | translatefz: "orders" }}</span
+              {{ payment?.type | translatefz: "orders" }}</span
             >
           </div>
           <div>
             <span
-              class="badge font-xs bg-secondary {{ payment.value.status }}"
+              class="badge font-xs bg-secondary {{ payment?.status }}"
               *ngIf="
-                payment.value.status != 'pending' ||
-                  payment.value.type == 'paymentez';
+                payment?.status != 'pending' ||
+                  payment?.type == 'paymentez';
                 else templateChangePayment
               "
-              >Estado: {{ payment.value.status | translatefz: "orders" }}</span>
+              >Estado: {{ payment?.status | translatefz: "orders" }}</span>
             <ng-template #templateChangePayment>
               <span
                 *ngxPermissionsOnly="
@@ -46,9 +46,9 @@
                   <mat-form-field>
                     <mat-select
                       [disabled]="isCancelled"
-                      [value]="payment.value.status"
+                      [value]="payment?.status"
                       (selectionChange)="
-                        changeStatusPayment($event, payment.key)
+                        changeStatusPayment($event, payment.id)
                       "
                       placeholder="Cambio de estado"
                     >
@@ -61,9 +61,9 @@
               </ng-template>
               <ng-template #elseEdit>
                 <span
-                  class="badge font-xs bg-secondary {{ payment.value.status }}"
+                  class="badge font-xs bg-secondary {{ payment?.status }}"
                   >Estado:
-                  {{ payment.value.status | translatefz: "orders" }}</span
+                  {{ payment?.status | translatefz: "orders" }}</span
                 >
               </ng-template>
             </ng-template>
@@ -71,18 +71,18 @@
               <tbody class="body-info">
                 <tr>
                   <td>Creado:</td>
-                  <td>{{ payment.value.created_at | date }}</td>
+                  <td>{{ payment?.created_at | date }}</td>
                 </tr>
                 <tr
                   *ngIf="
-                    payment.value.type == 'paymentez' &&
-                    payment.value?.link_to_pay
+                    payment?.type == 'paymentez' &&
+                    payment?.link_to_pay
                   "
                 >
                   <td>Link de pago:</td>
                   <td>
-                    <a [href]="payment.value.link_to_pay" target="_blank">{{
-                      payment.value.link_to_pay
+                    <a [href]="payment?.link_to_pay" target="_blank">{{
+                      payment?.link_to_pay
                     }}</a>
                   </td>
                 </tr>
@@ -90,13 +90,13 @@
                   <td>Tipo de cuota:</td>
                   <td>
                     {{
-                      payment.value?.installments_type | translatefz: "orders"
+                      payment?.installments_type | translatefz: "orders"
                     }}
                   </td>
                 </tr>
                 <tr>
                   <td>Monto:</td>
-                  <td>$ {{ payment.value.amount }}</td>
+                  <td>$ {{ payment?.amount }}</td>
                 </tr>
               </tbody>
             </table>
@@ -108,15 +108,15 @@
             <div>
               <ng-container
                 *ngIf="
-                  payment.value.status == 'pending' ||
-                  payment.value.type != 'paymentez'
+                  payment?.status == 'pending' ||
+                  payment?.type != 'paymentez'
                 "
               >
                 <button
                   *ngxPermissionsOnly="permissionsPayments.edit"
                   mat-icon-button
                   color="primary"
-                  (click)="openDialog(payment.key)"
+                  (click)="openDialog(payment.id)"
                 >
                   <mat-icon>edit</mat-icon>
                 </button>
@@ -124,42 +124,40 @@
                   mat-icon-button
                   *ngxPermissionsOnly="permissionsPayments.destroy"
                   color="warn"
-                  (click)="deleteItem(payment.value.order_id, payment.key)"
+                  (click)="deleteItem(payment?.order_id, payment.id)"
                 >
                   <mat-icon>delete</mat-icon>
                 </button>
               </ng-container>
             </div>
-            <button mat-icon-button [matMenuTriggerFor]="menuRef">
-              <mat-icon class="mat-18">more_vert</mat-icon>
+
+            <button mat-icon-button [matMenuTriggerFor]="menuRefPayment">
+              <mat-icon>more_vert</mat-icon>
             </button>
-            <mat-menu #menuRef="matMenu">
+            <mat-menu #menuRefPayment="matMenu">
               <button
-                *ngIf="payment?.value?.link_to_pay"
+                *ngIf="payment?.link_to_pay"
                 mat-menu-item
-                (click)="lookTransaction(payment.key)"
+                (click)="lookTransaction(payment.id)"
               >
                 <mat-icon>receipt_long</mat-icon><span>Ver transacciones</span>
               </button>
-              <button mat-menu-item (click)="lookFiles(payment.key)">
+              <button mat-menu-item (click)="lookFiles(payment.id)">
                 <mat-icon>post_add</mat-icon> <span>Ver archivo</span>
               </button>
-              <button
+               <button
                 mat-menu-item
-                (click)="openDialogHistoryStatus(payment.key)"
+                (click)="openDialogHistoryStatus(payment.id)"
               >
                 <mat-icon>manage_search</mat-icon><span> Historial</span>
               </button>
-              <button
+             <button
                 mat-menu-item
                 *ngIf="
-                  payment.value.type == 'paymentez' &&
-                  payment?.value?.status == 'paid'
-                "
-                color="info"
-                mat-raised-button
-                matSuffix
-                (click)="refundPayment(payment.key)"
+                  payment?.type == 'paymentez' &&
+                  payment?.status == 'paid'
+                "                
+                (click)="refundPayment(payment.id)"
               >
                 <mat-icon>money_off_csred</mat-icon> <span>Reembolsar</span>
               </button>

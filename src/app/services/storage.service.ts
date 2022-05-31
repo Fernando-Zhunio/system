@@ -15,7 +15,7 @@ export class StorageService  {
 
   private currentSession: Session = null;
 
-  constructor(private router: Router, private s_permissionsService: NgxPermissionsService) {
+  constructor(private router: Router, public s_permissionsService: NgxPermissionsService) {
 
     this.currentSession = this.loadSessionData();
     if (!this.currentSession) {
@@ -23,9 +23,13 @@ export class StorageService  {
       return;
     }
       const permissions = this.getPermissionUser();
-      if (this.currentSession && permissions ) {
+      if (permissions) {
       this.s_permissionsService.loadPermissions(permissions);
     }
+  }
+
+  setSession(session){
+    this.currentSession = session;
   }
 
   setCurrentSession(session): void {

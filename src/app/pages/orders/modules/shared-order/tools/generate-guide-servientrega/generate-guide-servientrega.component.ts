@@ -10,7 +10,7 @@ import { IClientOrder } from '../../../../../../interfaces/iclient-order';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import collect from 'collect.js';
 import { StorageService } from '../../../../../../services/storage.service';
-import { IuserSystem } from '../../../../../../interfaces/iuser-system';
+// import { IuserSystem } from '../../../../../../interfaces/iuser-system';
 
 @Component({
   selector: 'app-generate-guide-servientrega',
@@ -204,7 +204,14 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       this.isLoading = true;
       console.log(this.form.value);
-      this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value).subscribe(res => {
+      let observable;
+      if (!this.dataExternal.isReturn) {
+         observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value)
+      } else {
+         observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega/return-shipping`, this.form.value)
+      }
+      // this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value).subscribe(res => {
+        observable.subscribe(res => {
         console.log(res);
         this.isLoading = false;
         this.dialogRef.close(res);

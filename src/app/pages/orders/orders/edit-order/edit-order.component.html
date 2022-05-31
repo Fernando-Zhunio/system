@@ -61,18 +61,13 @@
         <h3 class="font-weight-bold font-2xl my-1">Dirección de envío</h3>
         <div *ngIf="order?.status !='cancelled'">
 
-          <!-- <button color="primary" mat-icon-button (click)="addClientAddress()">
-                            <mat-icon>add</mat-icon>
-                        </button> -->
           <button color="accent" mat-icon-button (click)="addClientAddress(order.shipping_address.address_id)">
             <mat-icon>edit</mat-icon>
           </button>
           <button color="primary" mat-icon-button (click)="openDialogAddress()">
             <mat-icon>sync</mat-icon>
           </button>
-          <!-- <button mat-icon-button (click)="openDialogAddress()">
-                        <mat-icon>sync</mat-icon>
-                    </button> -->
+
         </div>
       </div>
       <table>
@@ -179,7 +174,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <app-payment-order [isCancelled]="order?.status == 'cancelled'" (change)="getOrder()" [order_id]="order?.id"
-          [paymentsMap]="paymentsMap">
+          [payments]="order?.payments">
         </app-payment-order>
 
       </mat-expansion-panel>
@@ -307,10 +302,6 @@
                   <td>Impuestos:&nbsp;</td>
                   <td>$ {{order?.tax}}</td>
                 </tr>
-                <!-- <tr>
-                                    <td>Retención:&nbsp;</td>
-                                    <td>$ {{order?.retention}}</td>
-                                </tr> -->
                 <tr>
                   <td>Costo de envío:&nbsp;</td>
                   <td>$ {{order?.shipping}}</td>

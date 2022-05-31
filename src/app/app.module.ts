@@ -1,9 +1,9 @@
 import { BrowserModule, platformBrowser } from '@angular/platform-browser';
 import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import {
-  LocationStrategy,
-  HashLocationStrategy,
-  PathLocationStrategy,
+    LocationStrategy,
+    HashLocationStrategy,
+    PathLocationStrategy,
 } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,7 +12,7 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
+    suppressScrollX: true,
 };
 
 import { AppComponent } from './app.component';
@@ -25,11 +25,11 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 const APP_CONTAINERS = [DefaultLayoutComponent];
 import {
-  AppAsideModule,
-  AppBreadcrumbModule,
-  AppHeaderModule,
-  AppFooterModule,
-  AppSidebarModule,
+    AppAsideModule,
+    AppBreadcrumbModule,
+    AppHeaderModule,
+    AppFooterModule,
+    AppSidebarModule,
 } from '@coreui/angular';
 
 // Import routing module
@@ -76,7 +76,7 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
 import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { RouteReuseStrategy, RouterModule } from '@angular/router';
+import { Router, RouteReuseStrategy, RouterModule } from '@angular/router';
 import { CustomReusingStrategy } from './class/custom-reusing-strategy';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -111,18 +111,34 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { StorageService } from './services/storage.service';
 import { TicketsModule } from './pages/orders/tickets/tickets.module';
 import { P403Component } from './views/error/p403/p403.component';
-import { EMPTY } from 'rxjs';
+import * as Sentry from "@sentry/angular";
+import { BrowserTracing } from "@sentry/tracing";
+import { enableProdMode } from "@angular/core";
+
+// import { EMPTY } from 'rxjs';
+
+Sentry.init({
+    dsn: "https://88d09e166f114a99acca86b8c2293a63@o1269559.ingest.sentry.io/6459720",
+    integrations: [
+      new BrowserTracing({
+        tracingOrigins: ["localhost", "https://yourserver.io/api"],
+        routingInstrumentation: Sentry.routingInstrumentation,
+      }),
+    ],
+  
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+//   enableProdMode();
 
 
-
-//  function  getPermissionAndVersionServer(st: HttpClient) {
-//   return () => {
-//       return st.get('https://growthbook.media-novicompu.com:8443/api/features/key_prod_32d7c2b3b9d8c7f3?random='+ Math.random()).pipe(tap(res => console.log(res)));
-//   };
-//  }
-function  getPermissionAndVersionServer(st: StorageService) {
-    return () => EMPTY;
-   }
+function getPermissionAndVersionServer(st: StorageService) {
+    return () => {
+        return null;
+    };
+}
 
 
 
@@ -232,18 +248,29 @@ registerLocaleData(localeEs, 'es');
         },
         // { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
         { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
-        // {
-        //     provide: APP_INITIALIZER,
-        //     useFactory:  getPermissionAndVersionServer,
-        //     multi: true,
-        //     deps: [HttpClient]
-        // }
         {
             provide: APP_INITIALIZER,
-            useFactory: () => getPermissionAndVersionServer,
+            useFactory:  getPermissionAndVersionServer,
             multi: true,
             deps: [StorageService]
-        }
+        },
+
+        {
+            provide: ErrorHandler,
+            useValue: Sentry.createErrorHandler({
+              showDialog: true,
+            }),
+          },
+          {
+            provide: Sentry.TraceService,
+            deps: [Router],
+          },
+          {
+            provide: APP_INITIALIZER,
+            useFactory: () => () => {},
+            deps: [Sentry.TraceService],
+            multi: true,
+          },
     ],
     bootstrap: [AppComponent]
 })

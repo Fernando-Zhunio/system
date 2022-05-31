@@ -7,10 +7,6 @@ import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.co
 import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create-or-edit-order.component';
 import { EditOrderComponent } from './orders/edit-order/edit-order.component';
 import { OrdersIndexComponent } from './orders/orders-index/orders-index.component';
-// import { CreateOrEditOrderComponent } from './create-or-edit-order/create-or-edit-order.component';
-// import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
-// import { EditOrderComponent } from './edit-order/edit-order.component';
-// import { OrdersIndexComponent } from './orders-index/orders-index.component';
 
 const permissionsModuleRoutes = PermissionOrders;
 const routes = [

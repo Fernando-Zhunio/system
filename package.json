@@ -52,6 +52,8 @@
     "@ngx-loading-bar/router": "^5.1.2",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^5.0.0",
+    "@sentry/angular": "^7.0.0",
+    "@sentry/tracing": "^7.0.0",
     "@types/chart.js": "^2.7.50",
     "air-datepicker": "^3.0.1",
     "angular-simple-scroll-spy": "0.0.3",
