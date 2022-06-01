@@ -139,6 +139,11 @@
         (products)="getData($event)"
         (isLoading)="isLoading = $event"
       >
+      <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
+        <mat-chip [routerLink]="['./create']" class="ml-1 mat-btn-add">
+          <mat-icon>add</mat-icon> Agregar orden
+        </mat-chip>
+      </ng-container>
         <ng-container filterMenu>
           <div
             mat-menu-item
@@ -269,7 +274,7 @@
           <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Creado</th>
           <td mat-cell *matCellDef="let element">{{ element.created_at | date }}</td>
         </ng-container>
-  
+
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Acciones</th>
           <th></th>

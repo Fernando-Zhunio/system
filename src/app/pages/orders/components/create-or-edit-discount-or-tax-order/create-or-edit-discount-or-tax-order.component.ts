@@ -14,7 +14,7 @@ import { SwalService } from '../../../../services/swal.service';
 export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
 
   state: 'create' | 'edit' = 'create';
-  title = ' descuento o impuesto';
+  title = ' descuento, impuesto o retención';
   isLoading = false;
 
   constructor(
