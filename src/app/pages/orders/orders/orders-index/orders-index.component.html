@@ -137,6 +137,7 @@
         [title]="'Ordenes'"
         [url]="url"
         (products)="getData($event)"
+        (isLoading)="isLoading = $event"
       >
         <ng-container filterMenu>
           <div
@@ -202,140 +203,145 @@
         </ng-container>
       </app-header-search>
     </div>
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      multiTemplateDataRows
-      class="mat-elevation-z8 w-100"
-    >
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef># orden</th>
-        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-      </ng-container>
 
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Tipo</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.type | translatefz: "orders" }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Estado</th>
-        <td mat-cell *matCellDef="let element">
-          <span [class]="element.status" class="badge">{{
-            element.status | translatefz: "orders"
-          }}</span>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="client">
-        <th mat-header-cell *matHeaderCellDef>Cliente</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.client?.first_name }} {{ element?.client?.last_name }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="products">
-        <th mat-header-cell *matHeaderCellDef># productos</th>
-        <td mat-cell *matCellDef="let element">{{ element?.items_count }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="payments">
-        <th mat-header-cell *matHeaderCellDef># pagos</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.payments_count }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="company">
-        <th mat-header-cell *matHeaderCellDef>Compañía</th>
-        <th></th>
-        <td mat-cell *matCellDef="let element">{{ element.company?.name }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <th></th>
-        <td mat-cell *matCellDef="let element">
-          <div>
-            <button
-              mat-icon-button
-              *ngxPermissionsOnly="permissions.index"
-              color="primary"
-              class="mr-1"
-              (click)="openDetailOrder(element.id)"
-            >
-              <mat-icon class="mat-18">visibility</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              *ngxPermissionsOnly="permissions.edit"
-              color="accent"
-              [routerLink]="['/system-orders/orders', element.id, 'edit']"
-            >
-              <mat-icon class="mat-18">edit</mat-icon>
-            </button>
-          </div>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="expandedDetail">
-        <td
-          mat-cell
-          *matCellDef="let element"
-          [attr.colspan]="columnsToDisplay.length"
-        >
-          <div
-            class="example-element-detail"
-            [@detailExpand]="
-              element == expandedElement ? 'expanded' : 'collapsed'
-            "
-          >
-            <div class="my-2">
-              <mat-chip-list>
-                <mat-chip>Email: {{ element.client.email }}</mat-chip>
-                <mat-chip>Teléfono: {{ element.client.phone }}</mat-chip>
-                <mat-chip
-                  >Dirección: {{ element.client.state }} -
-                  {{ element.client.city }}</mat-chip
-                >
-                <mat-chip>Doc ID: {{ element.client.doc_id }}</mat-chip>
-                <mat-chip>Total: ${{ element.total }}</mat-chip>
-                <mat-chip>Total pagado: ${{ element.total_paid }}</mat-chip>
-                <mat-chip>Vendedor: {{ element.seller_code }}</mat-chip>
-                <!-- <mat-chip>Compañía:: ${{element.total_paid}}</mat-chip> -->
-              </mat-chip-list>
-            </div>
-
-            <!-- <div class="example-element-diagram">
-          <div class="example-element-position"> {{element.client}} </div>
-          <div class="example-element-symbol"> {{element.symbol}} </div>
-          <div class="example-element-name"> {{element.name}} </div>
-          <div class="example-element-weight"> {{element.weight}} </div>
+    <div class="position-relative">
+      <div *ngIf="isLoading" class="is-loading center w-100 h-100">
+        <div class="center">
+          <mat-spinner [diameter]="25"></mat-spinner>
+          <p class="m-0 ml-2">Cargando datos</p>
         </div>
-        <div class="example-element-description">
-          {{element.description}}
-          <span class="example-element-description-attribution"> -- Wikipedia </span>
-        </div> -->
-          </div>
-        </td>
-      </ng-container>
+      </div>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        multiTemplateDataRows
+        class="mat-elevation-z8 w-100"
+        matSort matSortActive="created_at" matSortDisableClear matSortDirection="desc"
+        (matSortChange)="changeSort($event)"
+      >
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef># orden</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.type | translatefz: "orders" }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let element">
+            <span [class]="element.status" class="badge">{{
+              element.status | translatefz: "orders"
+            }}</span>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef>Cliente</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.client?.first_name }} {{ element?.client?.last_name }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="products">
+          <th mat-header-cell *matHeaderCellDef># productos</th>
+          <td mat-cell *matCellDef="let element">{{ element?.items_count }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="payments">
+          <th mat-header-cell *matHeaderCellDef># pagos</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.payments_count }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="company">
+          <th mat-header-cell *matHeaderCellDef>Compañía</th>
 
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr
-        mat-row
-        *matRowDef="let element; columns: columnsToDisplay"
-        class="example-element-row"
-        [class.example-expanded-row]="expandedElement === element"
-        (click)="expandedElement = expandedElement === element ? null : element"
-      ></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: ['expandedDetail']"
-        class="example-detail-row"
-      ></tr>
-    </table>
+          <td mat-cell *matCellDef="let element">{{ element.company?.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="created_at">
+          <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Creado</th>
+          <td mat-cell *matCellDef="let element">{{ element.created_at | date }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <th></th>
+          <td mat-cell *matCellDef="let element">
+            <div>
+              <button
+                mat-icon-button
+                *ngxPermissionsOnly="permissions.index"
+                color="primary"
+                class="mr-1"
+                (click)="openDetailOrder(element.id)"
+              >
+                <mat-icon class="mat-18">visibility</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                *ngxPermissionsOnly="permissions.edit"
+                color="accent"
+                [routerLink]="['/system-orders/orders', element.id, 'edit']"
+              >
+                <mat-icon class="mat-18">edit</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="expandedDetail">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [attr.colspan]="columnsToDisplay.length"
+          >
+            <div
+              class="example-element-detail"
+              [@detailExpand]="
+                element == expandedElement ? 'expanded' : 'collapsed'
+              "
+            >
+              <div class="my-2">
+                <mat-chip-list>
+                  <mat-chip>Email: {{ element.client.email }}</mat-chip>
+                  <mat-chip>Teléfono: {{ element.client.phone }}</mat-chip>
+                  <mat-chip
+                    >Dirección: {{ element.client.state }} -
+                    {{ element.client.city }}</mat-chip
+                  >
+                  <mat-chip>Doc ID: {{ element.client.doc_id }}</mat-chip>
+                  <mat-chip>Total: ${{ element.total }}</mat-chip>
+                  <mat-chip>Total pagado: ${{ element.total_paid }}</mat-chip>
+                  <mat-chip>Vendedor: {{ element.seller_code }}</mat-chip>
+                  <!-- <mat-chip>Compañía:: ${{element.total_paid}}</mat-chip> -->
+                </mat-chip-list>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: columnsToDisplay"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['expandedDetail']"
+          class="example-detail-row"
+        ></tr>
+      </table>
+    </div>
   </div>
   <mat-paginator
     [hidden]="isLoading"

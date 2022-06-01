@@ -117,3 +117,9 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: white;
 }
 
+.is-loading {
+  position: absolute;
+  background: #ffffff71;
+  z-index: 1;
+  backdrop-filter: blur(3px);
+}

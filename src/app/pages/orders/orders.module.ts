@@ -38,6 +38,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
     declarations: [DashboardOrdersComponent,
@@ -76,7 +77,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MatDatepickerModule,
         HeaderSearchModule,
         MatTableModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatSortModule,
     ] 
 })
 export class OrdersModule { }

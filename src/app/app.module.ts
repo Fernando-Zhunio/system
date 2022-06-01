@@ -246,7 +246,6 @@ registerLocaleData(localeEs, 'es');
             useClass: CustomInterceptor,
             multi: true,
         },
-        // { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
         { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
         {
             provide: APP_INITIALIZER,
@@ -255,22 +254,22 @@ registerLocaleData(localeEs, 'es');
             deps: [StorageService]
         },
 
-        {
-            provide: ErrorHandler,
-            useValue: Sentry.createErrorHandler({
-              showDialog: true,
-            }),
-          },
-          {
-            provide: Sentry.TraceService,
-            deps: [Router],
-          },
-          {
-            provide: APP_INITIALIZER,
-            useFactory: () => () => {},
-            deps: [Sentry.TraceService],
-            multi: true,
-          },
+        // {
+        //     provide: ErrorHandler,
+        //     useValue: Sentry.createErrorHandler({
+        //       showDialog: true,
+        //     }),
+        //   },
+        //   {
+        //     provide: Sentry.TraceService,
+        //     deps: [Router],
+        //   },
+        //   {
+        //     provide: APP_INITIALIZER,
+        //     useFactory: () => () => {},
+        //     deps: [Sentry.TraceService],
+        //     multi: true,
+        //   },
     ],
     bootstrap: [AppComponent]
 })

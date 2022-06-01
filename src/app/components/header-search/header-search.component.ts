@@ -81,11 +81,13 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  searchBar($event = this.pageEvent) {
+  searchBar( params = null) {
     this.isLoading.emit(true);
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    const $event = params || this.pageEvent;
+    console.log(this.pageEvent);
     this.pageEvent = $event;
     this.gotoTop();
     this.subscription = this.methodsHttp
@@ -94,7 +96,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
         search: this.productSearch,
         page: $event.pageIndex + 1,
         ...this.filterWithNotNull(),
-        // ...this.filter_data,
       })
       .subscribe(
         (response: any) => {

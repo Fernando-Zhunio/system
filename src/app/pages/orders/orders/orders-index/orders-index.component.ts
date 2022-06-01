@@ -13,6 +13,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { PageEvent } from '@angular/material/paginator';
 import { IPaginate, IResponse } from '../../../../services/methods-http.service';
+import { MatSort } from '@angular/material/sort';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -36,6 +37,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   @ViewChild('filterOrderMin', { static: false }) dpMinElement: ElementRef;
   @ViewChild('filterOrderMax', { static: false }) dpMaxElement: ElementRef;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  @ViewChild(MatSort) sort: MatSort;
 
   url: string = 'system-orders/orders';
   detailPaginator = {
@@ -49,6 +51,8 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     min: null,
     max: null,
     type: '',
+    orderBy: null,
+    orderByColumn: null,
   };
 
   statuses: any[] = [];
@@ -61,7 +65,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   // cosas para tabla
   dataSource: IOrder[] = [];
-  columnsToDisplay = [ 'id', 'type', 'status', 'client', 'products', 'payments', 'company', 'actions'];
+  columnsToDisplay = [ 'id', 'type', 'status', 'client', 'products', 'payments', 'company', 'created_at', 'actions'];
   expandedElement: IOrder | null;
 
   ngOnInit(): void {
@@ -114,6 +118,13 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     this.headerComponent.searchBar(event);
   }
 
+  changeSort(event: any): void {
+    console.log(event);
+    this.filters.orderBy = event.direction;
+    this.filters.orderByColumn = event.active;
+    this.headerComponent.searchBar();
+  }
+
   getDataForFilter(): void {
     this.standardService.methodGet('system-orders/orders/filter-data').subscribe(
       (response: any) => {
@@ -136,34 +147,34 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     });
   }
 
-  validateMinQuantity(e): void {
-    // tslint:disable-next-line: radix
-    const typedNumber = parseInt(e.key);
-    // tslint:disable-next-line: radix
-    const currentVal = parseInt(e.target.value) || '';
-    console.log(currentVal);
-    // tslint:disable-next-line: radix
-    const newVal = parseInt(typedNumber.toString() + currentVal.toString());
+  // validateMinQuantity(e): void {
+  //   // tslint:disable-next-line: radix
+  //   const typedNumber = parseInt(e.key);
+  //   // tslint:disable-next-line: radix
+  //   const currentVal = parseInt(e.target.value) || '';
+  //   console.log(currentVal);
+  //   // tslint:disable-next-line: radix
+  //   const newVal = parseInt(typedNumber.toString() + currentVal.toString());
 
-    if (newVal > this.filters.max) {
-      this.filters.max = newVal + 1;
-    }
-  }
+  //   if (newVal > this.filters.max) {
+  //     this.filters.max = newVal + 1;
+  //   }
+  // }
 
-  validateMaxQuantity(e): void {
-    // tslint:disable-next-line: radix
-    const typedNumber = parseInt(e.key);
-    // tslint:disable-next-line: radix
-    const currentVal = parseInt(e.target.value) || '';
-    console.log(currentVal);
-    // tslint:disable-next-line: radix
-    const newVal = parseInt(typedNumber.toString() + currentVal.toString());
+  // validateMaxQuantity(e): void {
+  //   // tslint:disable-next-line: radix
+  //   const typedNumber = parseInt(e.key);
+  //   // tslint:disable-next-line: radix
+  //   const currentVal = parseInt(e.target.value) || '';
+  //   console.log(currentVal);
+  //   // tslint:disable-next-line: radix
+  //   const newVal = parseInt(typedNumber.toString() + currentVal.toString());
 
-    if (newVal < this.filters.min) {
-      // e.preventDefault();
-      // e.stopPropagation();
-      this.filters.min = newVal - 1;
-    }
-  }
+  //   if (newVal < this.filters.min) {
+  //     // e.preventDefault();
+  //     // e.stopPropagation();
+  //     this.filters.min = newVal - 1;
+  //   }
+  // }
 
 }
