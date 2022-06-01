@@ -37,6 +37,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     declarations: [DashboardOrdersComponent,
@@ -74,7 +75,8 @@ import { MatTableModule } from '@angular/material/table';
         DragDropModule,
         MatDatepickerModule,
         HeaderSearchModule,
-        MatTableModule
+        MatTableModule,
+        MatPaginatorModule
     ] 
 })
 export class OrdersModule { }

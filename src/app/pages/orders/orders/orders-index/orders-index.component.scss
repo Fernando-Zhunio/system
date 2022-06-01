@@ -64,3 +64,56 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-description-attribution {
   opacity: 0.5;
 }
+
+.init {
+  background-color: #e2e2e2;
+}
+
+.published {
+  background-color: #87bd85;
+}
+.cancelled {
+  background-color: #eb1313;
+}
+.payment_paid {
+  background-color: #77c757;
+}
+.payment_partially_paid {
+  background-color: #dabe32;
+}
+.payment_refunded {
+  background-color: #5e686d;
+  color: white;
+}
+.payment_partially_refunded {
+  background-color: #8a8987;
+  color: white;
+}
+.shipping_processed {
+  background-color: #b5e24d;
+}
+.shipping_partially_processed {
+  background-color: #74ca63;
+}
+.shipping_shipped {
+  background-color: #3d9a9a;
+}
+.shipping_partially_shipped {
+  background-color: #5e686d;
+  color: white;
+}
+.shipping_delivered {
+  background-color: #3d9a9a;
+}
+.shipping_partially_delivered {
+  background-color: #5e6d66;
+  color: white;
+}
+.shipping_returned {
+  background-color: #3d9a9a;
+}
+.shipping_partially_returned {
+  background-color: #5e686d;
+  color: white;
+}
+

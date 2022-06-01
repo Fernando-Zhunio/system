@@ -10,12 +10,15 @@ import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
+import { PageEvent } from '@angular/material/paginator';
+import { IPaginate, IResponse } from '../../../../services/methods-http.service';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-orders-index',
   templateUrl: './orders-index.component.html',
-  styleUrls: ['./orders-index.component.css'],
+  styleUrls: ['./orders-index.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -32,7 +35,15 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   @ViewChild('filterOrderMin', { static: false }) dpMinElement: ElementRef;
   @ViewChild('filterOrderMax', { static: false }) dpMaxElement: ElementRef;
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+
   url: string = 'system-orders/orders';
+  detailPaginator = {
+    current_page : 1,
+    per_page : 10,
+    total : 0
+
+  }
   filters = {
     status: '',
     min: null,
@@ -50,31 +61,10 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   // cosas para tabla
   dataSource: IOrder[] = [];
-  // columnsToDisplay: object[] = [
-  //   {
-  //     title: '# orden',
-  //     data: 'id',
-  //   },
-  //   {
-  //     title: 'Estado',
-  //     data: 'status',
-  //   },
-  //   {
-  //     title: '# orden',
-  //     data: 'id',
-  //   }, {
-  //     title: '# orden',
-  //     data: 'id',
-  //   }, {
-  //     title: '# orden',
-  //     data: 'id',
-  //   },
-  // ];
   columnsToDisplay = [ 'id', 'type', 'status', 'client', 'products', 'payments', 'company', 'actions'];
   expandedElement: IOrder | null;
 
   ngOnInit(): void {
-    
     this.getDataForFilter();
   }
 
@@ -112,10 +102,16 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     })
   }
 
-  getData($event): void {
-    // this.dataSource = new MatTableDataSource<any>($event.data);
+  getData($event: IResponse<IPaginate<any>>): void {
     console.log($event);
     this.dataSource = $event.data.data;
+    this.detailPaginator.current_page = $event.data.current_page;
+    this.detailPaginator.per_page = $event.data.per_page;
+    this.detailPaginator.total = $event.data.total;
+  }
+
+  changePaginator(event: PageEvent): void {
+    this.headerComponent.searchBar(event);
   }
 
   getDataForFilter(): void {

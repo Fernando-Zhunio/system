@@ -42,7 +42,7 @@ export class EditOrderComponent implements OnInit {
   permissionsInvoices = PermissionOrdersInvoicesMba;
 
   ngOnInit() {
-    this.id = '7' // this.activated_router.snapshot.paramMap.get('order_id');
+    this.id = this.activated_router.snapshot.paramMap.get('order_id');
     this.spinner.show();
     this.getStatuses();
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
