@@ -26,6 +26,7 @@ import { compare } from 'compare-versions';
 import { environment } from '../../../environments/environment';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { TEST_PERMISSIONS } from '../../class/permissionsAll';
+import { throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -61,20 +62,16 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public hideUsersChat: boolean = false;
   public progressDownloadReport: number = 0;
   public isProgressDownloadReport: boolean = false;
-  public TYPE_NOTY_WEBPUSH = {
-    value: 'general_notification_webpush',
-    state: false,
-  };
-  public TYPE_NOTY_EMAIL = {
-    value: 'general_notification_email',
-    state: false,
-  };
+  // public TYPE_NOTY_WEBPUSH = {
+  //   value: 'general_notification_webpush',
+  //   state: false,
+  // };
+  // public TYPE_NOTY_EMAIL = {
+  //   value: 'general_notification_email',
+  //   state: false,
+  // };
   public isDownloadStock: boolean = false;
 
-  // colorSidebarLeft: string;
-  // sidebarData = new DataSidebar();
-  // navItems_ = new DataSidebar().NavItems;
-  // navItems_ = [];
   countNotificationUnRead: number = null;
   notificationWeb: NotificationsWebPush = null;
   countMessages: any = null;
@@ -201,11 +198,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   setPreferences(): void {
     this.methodsHttp.methodGet('user/preferences/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        this.TYPE_NOTY_EMAIL.state =
-          res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
-        this.TYPE_NOTY_WEBPUSH.state =
-          res.data[this.TYPE_NOTY_WEBPUSH.value] === 'on' ? true : false;
-        this.store.dispatch(setPreference({ preference: res.data }));
+        // this.TYPE_NOTY_EMAIL.state =
+        //   res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
+        // this.TYPE_NOTY_WEBPUSH.state =
+        //   res.data[this.TYPE_NOTY_WEBPUSH.value] === 'on' ? true : false;
+        // this.store.dispatch(setPreference({ preference: res.data }));
       }
     });
   }
@@ -375,28 +372,33 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     localStorage.setItem('isDark', JSON.stringify(this.isDark));
   }
 
-  changeWebPush(type_notify, value): void {
-    // this.pushStateChange(id);
-    value.target.disabled = true;
+  changeWebPush(event: MatSlideToggleChange/* type_notify, value */): void {
+    // event.source.disabled = true;
+    console.log(event, event.source.name);
+
     const data_send = {
-      preference: type_notify,
-      value: value.target.checked ? 'on' : 'off',
+      preference: event.source.name,
+      value: event.checked ? 'on' : 'off',
     };
-    const url = 'user/preferences/' + type_notify;
-    this.methodsHttp.methodPut(url, data_send).subscribe(
+    const url = 'user/preferences/' + event.source.name;
+    this.methodsHttp.methodPut(url, data_send)
+    .pipe(
+      throttleTime(1000),
+    )
+    .subscribe(
       (res) => {
         if (res && res.hasOwnProperty('success') && res.success) {
           SwalService.swalToast(
-            value.target.checked ? 'Activadas' : 'Desactivada'
+            event.checked ? 'Activadas' : 'Desactivada'
           );
         } else {
-          value.target.checked = !value.target.checked;
+          event.checked = !event.checked;
         }
-        value.target.disabled = false;
+        event.source.disabled = false;
       },
       (err) => {
-        value.target.checked = !value.target.checked;
-        value.target.disabled = false;
+        event.checked = !event.checked;
+        event.source.disabled = false;
       }
     );
   }

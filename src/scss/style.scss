@@ -352,9 +352,11 @@ button {
   }
 }
 .custom-menu-notification {
-  max-height: 75vh !important;
+  max-height: 80vh !important;
   padding: 5px !important;
   border-radius: 20px !important;
+  // max-height: 80vmax;
+  padding-bottom: 0 !important;
 }
 
 .mat-line {

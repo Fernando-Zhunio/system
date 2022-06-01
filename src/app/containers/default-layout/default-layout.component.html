@@ -43,7 +43,7 @@
         </ng-container>
 
       </button>
-      <mat-menu class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
+      <mat-menu  class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
         <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data)"
           class="h-auto"
           *ngFor="let notification of notifications$ | async" (click)="$event.stopPropagation()"
@@ -59,6 +59,17 @@
           </div>
           <hr>
         </div>
+        
+          <div class="app-body mt-0 py-2 h-auto action-notification" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" mat-menu-item [disableRipple]="true">
+            <div class="line-1">
+              <div><small>Web push Notificaciones</small></div>
+              <mat-slide-toggle #webpush name="general_notification_webpush" (change)="changeWebPush($event)"> {{webpush.checked ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
+            </div>
+              <div class="line-1">
+                <div><small>Notificación por email</small></div>
+                <mat-slide-toggle #email name="general_notification_email"  (change)="changeWebPush($event)">{{email.checked ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
+              </div>
+          </div>
       </mat-menu>
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">

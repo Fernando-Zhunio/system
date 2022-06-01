@@ -21,7 +21,8 @@ button {
 }
 
 .custom-menu-notification {
-    max-height: 75vh
+    max-height: 80vmax;
+    padding-bottom: 0 !important;
 }
 
 .custom-avatar {
@@ -36,6 +37,19 @@ button {
 
 .logo-chat {
     width: 28px;
+}
+
+.line-1 {
+    line-height: 1;
+}
+
+.action-notification{
+    position: sticky;
+    bottom: 0;
+}
+
+.action-notification:hover{
+    background-color: white !important;
 }
 
 /* .chat-template {
