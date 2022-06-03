@@ -23,8 +23,8 @@ import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PaisesComponent } from './paises/paises.component';
 import { CreateOrEditCountryComponent } from './paises/create-or-edit-country/create-or-edit-country.component';
-import { LocacionesComponent } from './locaciones/locaciones.component';
-import { CreateOrEditLocationComponent } from './locaciones/create-or-edit-location/create-or-edit-location.component';
+// import { LocacionesComponent } from './locaciones/locaciones.component';
+// import { CreateOrEditLocationComponent } from './locaciones/create-or-edit-location/create-or-edit-location.component';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
 import { PersonasComponent } from './personas/personas.component';
 import { PersonComponent } from '../../components/person/person.component';
@@ -77,8 +77,8 @@ import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/inde
         CreateOrEditRolesComponent,
         PaisesComponent,
         CreateOrEditCountryComponent,
-        LocacionesComponent,
-        CreateOrEditLocationComponent,
+        // LocacionesComponent,
+        // CreateOrEditLocationComponent,
         PersonasComponent,
         PersonComponent,
         CreateOrEditPersonComponent,

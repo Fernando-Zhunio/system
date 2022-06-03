@@ -22,6 +22,16 @@ export const permission_admin_products = {
     }
 };
 
+export const PermissionAdminLocations = {
+    location: {
+        index: ['super-admin', 'admin.locations.index'],
+        show: ['super-admin', 'admin.locations.show'],
+        create: ['super-admin', 'admin.locations.create'],
+        edit: ['super-admin', 'admin.locations.edit'],
+        delete: ['super-admin', 'admin.locations.destroy'],
+      },
+}
+
 // Pagina de Buscar productos
 export const PermissionSearchProducts = {
  index : ['catalogs.products.index', 'super-admin'],

@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Location } from '../../../class/location';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
-import { Ipagination } from '../../../interfaces/ipagination';
+// import { Ipagination } from '../../../interfaces/ipagination';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
-import { CreateOrEditLocationComponent } from './create-or-edit-location/create-or-edit-location.component';
+// import { CreateOrEditLocationComponent } from './create-or-edit-location/create-or-edit-location.component';
 
 declare let Swal: any;
 

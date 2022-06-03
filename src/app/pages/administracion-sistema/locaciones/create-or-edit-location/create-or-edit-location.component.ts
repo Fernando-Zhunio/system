@@ -1,29 +1,32 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../../environments/environment';
-import { Icity, Icompanies_access } from '../../../../interfaces/iml-info';
+import { Icompanies_access } from '../../../../interfaces/iml-info';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { Location as Clocation } from '../../../../class/location';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
+import { MatSelectChange } from '@angular/material/select';
 
-import * as Mapboxgl from 'mapbox-gl';
-import { stringify } from '@angular/compiler/src/util';
+declare const mapboxgl: any;
+
 @Component({
   selector: 'app-create-or-edit-location',
   templateUrl: './create-or-edit-location.component.html',
   styleUrls: ['./create-or-edit-location.component.css'],
 })
-export class CreateOrEditLocationComponent implements OnInit {
+export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   constructor(
-    private s_standart: StandartSearchService,
+    private methodHttp: MethodsHttpService,
     private act_router: ActivatedRoute,
     private ngx_spinner: NgxSpinnerService,
     private route: Router,
     private location: Location
-  ) {}
+  ) { }
 
+  @ViewChild('mapElement') mapElement: ElementRef;
   state: 'create' | 'edit' = 'create';
 
   cities: any;
@@ -31,8 +34,8 @@ export class CreateOrEditLocationComponent implements OnInit {
   companies: Icompanies_access[] = [];
   types = [];
   keyTypes = [];
-  map: Mapboxgl.Map;
-  marker: Mapboxgl.Marker;
+  map: any;
+  marker: any;
   title: string = 'Creando una localidad';
   isLoadServer: boolean = false;
   coordinate: { longitud: number; latitud: number } = {
@@ -41,16 +44,47 @@ export class CreateOrEditLocationComponent implements OnInit {
   };
   isEnabledMap: boolean = false;
   location_: Clocation = new Clocation();
-  form_location: FormGroup = new FormGroup({
+  formLocation: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required]),
     city: new FormControl(null, [Validators.required]),
     company: new FormControl('', [Validators.required]),
     status: new FormControl(null, [Validators.required]),
-    // latitude: new FormControl("", [Validators.required]),
-    // longitude: new FormControl("", [Validators.required]),
+    latitude: new FormControl(""),
+    longitude: new FormControl(""),
   });
+
+  form_schedules = new FormGroup({
+    monday: new FormGroup({
+      start: new FormControl('', [Validators.required]),
+      end: new FormControl('', [Validators.required]),
+    }),
+    tuesday: new FormGroup({
+      start: new FormControl('', [Validators.required]),
+      end: new FormControl('', [Validators.required]),
+    }),
+    wednesday: new FormGroup({
+      start: new FormControl('', [Validators.required]),
+      end: new FormControl('', [Validators.required]),
+    }),
+    thursday: new FormGroup({
+      start: new FormControl('', [Validators.required]),
+      end: new FormControl('', [Validators.required]),
+    }),
+    friday: new FormGroup({
+      start: new FormControl('', [Validators.required]),
+      end: new FormControl('', [Validators.required]),
+    }),
+    saturday: new FormGroup({
+      start: new FormControl('', [Validators.required]),
+      end: new FormControl('', [Validators.required]),
+    }),
+    sunday: new FormGroup({
+      start: new FormControl('', [Validators.required]),
+      end: new FormControl('', [Validators.required]),
+    }),
+  })
   ngOnInit(): void {
     this.ngx_spinner.show();
     this.act_router.data.subscribe((res) => {
@@ -59,7 +93,7 @@ export class CreateOrEditLocationComponent implements OnInit {
         this.title = 'Editando Usuario';
         const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
         const url = 'admin/locations/' + id + '/edit';
-        this.s_standart.show(url).subscribe(
+        this.methodHttp.methodGet(url).subscribe(
           (response) => {
             if (response.hasOwnProperty('success') && response.success) {
               this.setDataSelects(response.data);
@@ -72,7 +106,7 @@ export class CreateOrEditLocationComponent implements OnInit {
                 company_id: company,
                 status
               } = this.location_;
-              this.form_location.setValue({
+              this.formLocation.setValue({
                 name,
                 address,
                 type,
@@ -104,7 +138,7 @@ export class CreateOrEditLocationComponent implements OnInit {
           }
         );
       } else {
-        this.s_standart.show('admin/locations/create').subscribe(
+        this.methodHttp.methodGet('admin/locations/create').subscribe(
           (response) => {
             if (response.success) {
               this.setDataSelects(response.data);
@@ -115,9 +149,6 @@ export class CreateOrEditLocationComponent implements OnInit {
             this.ngx_spinner.hide();
           }
         );
-        setTimeout(() => {
-          this.getCurrentPosition();
-        }, 2000);
       }
     });
   }
@@ -147,19 +178,22 @@ export class CreateOrEditLocationComponent implements OnInit {
     this.keyTypes = Object.keys(this.types);
   }
 
+  ngAfterViewInit(): void {
+    this.getCurrentPosition();
+  }
+
   createMap(lon = 0, lat = 0): void {
-    Mapboxgl.accessToken = environment.mapbox_key;
-    this.map = new Mapboxgl.Map({
-      container: 'map', // container id
+    mapboxgl.accessToken = environment.mapbox_key;
+    this.map = new mapboxgl.Map({
+      container: this.mapElement.nativeElement, 
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lon, lat], // starting position
-      zoom: 9, // starting zoom
-      // interactive: this.isEnabledMap
+      center: [lon, lat], 
+      zoom: 9,
     });
 
     this.map.resize();
-    this.map.addControl(new Mapboxgl.NavigationControl());
-    this.marker = new Mapboxgl.Marker({
+    this.map.addControl(new mapboxgl.NavigationControl());
+    this.marker = new mapboxgl.Marker({
       draggable: true,
     })
       .setLngLat([lon, lat])
@@ -168,6 +202,8 @@ export class CreateOrEditLocationComponent implements OnInit {
       var lngLat = this.marker.getLngLat();
       this.coordinate.latitud = lngLat.lat;
       this.coordinate.longitud = lngLat.lng;
+      this.formLocation.get('latitude').setValue(this.coordinate.latitud);
+      this.formLocation.get('longitude').setValue(this.coordinate.longitud);
     };
     this.marker.on('dragend', drag);
     // this.enabledAndDesabledMap();
@@ -177,8 +213,7 @@ export class CreateOrEditLocationComponent implements OnInit {
     this.location.back();
   }
 
-  enableAndDesableMap(event): void {
-
+  enableAndDisableMap(event): void {
     if (!event.checked) {
       this.map.boxZoom.disable();
       this.map.scrollZoom.disable();
@@ -187,8 +222,7 @@ export class CreateOrEditLocationComponent implements OnInit {
       this.map.keyboard.disable();
       this.map.doubleClickZoom.disable();
       this.map.touchZoomRotate.disable();
-      // this.marker.style.visibility();
-      // this.marker.draggable = false;
+
     } else {
       this.map.boxZoom.enable();
       this.map.scrollZoom.enable();
@@ -198,20 +232,18 @@ export class CreateOrEditLocationComponent implements OnInit {
       this.map.doubleClickZoom.enable();
       this.map.touchZoomRotate.enable();
     }
-    // this.map.dragging.disable(this.isEnabledMap);
-    // this.map.disabled()
   }
 
   saveInServer(): void {
-    if (this.form_location.valid) {
+    if (this.formLocation.valid) {
       this.isLoadServer = true;
-      let dataSend = this.form_location.value;
+      let dataSend = this.formLocation.value;
       if (this.isEnabledMap) {
         dataSend.latitude = this.coordinate.latitud;
         dataSend.longitude = this.coordinate.longitud;
       }
       if (this.state === 'create') {
-        this.s_standart.store('admin/locations', {...dataSend}).subscribe(res => {
+        this.methodHttp.methodPost('admin/locations', { ...dataSend }).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
             this.route.navigate(['administracion-sistema/locaciones']);
           } else { this.isLoadServer = false; }
@@ -220,7 +252,7 @@ export class CreateOrEditLocationComponent implements OnInit {
           this.isLoadServer = false;
         });
       } else {
-        this.s_standart.updatePut('admin/locations/' + this.location_.id, {...dataSend}).subscribe(res => {
+        this.methodHttp.methodPut('admin/locations/' + this.location_.id, { ...dataSend }).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
             this.route.navigate(['administracion-sistema/locaciones']);
           } else { this.isLoadServer = false; }
@@ -230,7 +262,29 @@ export class CreateOrEditLocationComponent implements OnInit {
         });
       }
     } else {
-      this.form_location.markAllAsTouched();
+      this.formLocation.markAllAsTouched();
     }
   }
+
+  selectionType($event: MatSelectChange): void {
+    console.log($event);
+    if ($event.value == 'store') {
+      this.addLocationValidationRequired();
+      console.log('store')
+    } else {
+      this.removeLocationValidationRequired();
+    }
+  }
+
+  addLocationValidationRequired(): void {
+    this.formLocation.get('latitude').addValidators([Validators.required]);
+    this.formLocation.get('longitude').addValidators([Validators.required]);
+  }
+  
+  removeLocationValidationRequired(): void {
+    this.formLocation.get('latitude').removeValidators([Validators.required]);
+    this.formLocation.get('longitude').removeValidators([Validators.required]);
+  }
+
+  
 }

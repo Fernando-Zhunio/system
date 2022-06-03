@@ -1,84 +1,301 @@
 <div class="mt-4">
-    <h2 class="font-4xl d-flex align-items-center font-weight-bold d-inline-block">
-      <button mat-mini-fab (click)="goBack()" class="mb-2">
-          <mat-icon>keyboard_return</mat-icon>
-      </button>
-        <span>&nbsp;{{title}}</span>
-    </h2>
-    <mat-card>
-        <mat-card-content>
-            <form [formGroup]="form_location">
-                <div class="row">
-                    <mat-form-field class="col-md-6">
-                        <mat-label>Nombre</mat-label>
-                        <input matInput formControlName="name" type="text" required>
-                        <mat-error *ngIf="form_location.controls['name'].invalid">Nombre Requerido</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="col-md-6">
-                        <mat-label>Dirección</mat-label>
-                        <input type="address" matInput formControlName="address" required>
-                        <mat-error *ngIf="form_location.controls['address'].invalid">Direccion requerida</mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="row">
-                    <mat-form-field class="col-md-6">
-                        <mat-label>Seleccione una Compañía</mat-label>
-                        <mat-select formControlName="company" required>
-                            <mat-option *ngFor="let company of companies" [value]="company.id">{{company.name}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="form_location.controls['company'].invalid">Compañia requerida</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="col-md-6">
-                        <mat-label>Seleccione una ciudad</mat-label>
-                        <mat-select formControlName="city" required>
-                            <mat-option *ngFor="let keyCity of keyCities" [value]="keyCity">{{cities[keyCity]}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="form_location.controls['city'].invalid">Cuidad Requerido</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="col-md-6">
-                        <mat-label>Seleccione un tipo</mat-label>
-                        <mat-select formControlName="type" required>
-                            <mat-option *ngFor="let keyType of keyTypes" [value]="keyType">{{types[keyType]}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="form_location.controls['type'].invalid">Tipo Requerido</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="col-md-6">
-                        <mat-label>Seleccione un estado</mat-label>
-                        <mat-select formControlName="status" required>
-                            <mat-option value="active">Activo</mat-option>
-                            <mat-option value="inactive">Inactivo</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="form_location.controls['status'].invalid">Estado Requerido</mat-error>
-                    </mat-form-field>
-                </div>
-            </form>
-            <div>
-                <h2 class="col-12 font-4xl m-0 mb-3">Latitud y Longitud</h2>
-                <div class="col-12">
-                    <mat-checkbox (change)="enableAndDesableMap($event)" [(ngModel)]="isEnabledMap"
-                        class="example-margin">Habilitar mapa</mat-checkbox>
-                    <!-- <mat-slide-toggle>Slide me!</mat-slide-toggle> -->
-
-                </div>
-                <div class="position-relative w-100 container p-0 shadow-lg rounded-lg mb-3">
-                    <div *ngIf="!isEnabledMap" class="w-100 h-100 position-absolute block-map  shadow-lg rounded-lg">
-                    </div>
-                    <div id="map" class=" "></div>
-                    <div class="coordinate px-md-5 px-1">
-                        Longitud : {{coordinate?.longitud}} <br> Latitud : {{coordinate?.latitud}}
-                    </div>
-                </div>
+  <h2
+    class="font-4xl d-flex align-items-center font-weight-bold d-inline-block"
+  >
+    <button mat-mini-fab (click)="goBack()" class="mb-2">
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+    <span>&nbsp;{{ title }}</span>
+  </h2>
+  <mat-card>
+    <mat-card-content>
+      <div class="row" [formGroup]="formLocation">
+        <div class="col-md-6">
+          <div class="row m-0">
+            <mat-form-field class="w-100">
+              <mat-label>Nombre</mat-label>
+              <input matInput formControlName="name" type="text" required />
+              <mat-error *ngIf="formLocation.controls['name'].invalid"
+                >Nombre Requerido</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Dirección</mat-label>
+              <input
+                type="address"
+                matInput
+                formControlName="address"
+                required
+              />
+              <mat-error *ngIf="formLocation.controls['address'].invalid"
+                >Direccion requerida</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Seleccione una Compañía</mat-label>
+              <mat-select formControlName="company" required>
+                <mat-option
+                  *ngFor="let company of companies"
+                  [value]="company.id"
+                  >{{ company.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formLocation.controls['company'].invalid"
+                >Compañía requerida</mat-error
+              >
+            </mat-form-field>
+            <div class="row w-100">
+              <mat-form-field class="col-md-6">
+                <mat-label>Seleccione una ciudad</mat-label>
+                <mat-select formControlName="city" required>
+                  <mat-option
+                    *ngFor="let keyCity of keyCities"
+                    [value]="keyCity"
+                    >{{ cities[keyCity] }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formLocation.controls['city'].invalid"
+                  >Cuidad Requerido</mat-error
+                >
+              </mat-form-field>
+              <mat-form-field class="col-md-6">
+                <mat-label>Seleccione un tipo</mat-label>
+                <mat-select
+                  (selectionChange)="selectionType($event)"
+                  formControlName="type"
+                  required
+                >
+                  <mat-option *ngFor="let keyType of keyTypes" [value]="keyType"
+                    >{{ types[keyType] }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formLocation.controls['type'].invalid"
+                  >Tipo Requerido</mat-error
+                >
+              </mat-form-field>
             </div>
-
-
-            <button mat-raised-button [disabled]="isLoadServer" color="primary" (click)="saveInServer()">Guardar</button>
-
-        </mat-card-content>
-    </mat-card>
+            <mat-form-field class="w-100">
+              <mat-label>Seleccione un estado</mat-label>
+              <mat-select formControlName="status" required>
+                <mat-option value="active">Activo</mat-option>
+                <mat-option value="inactive">Inactivo</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formLocation.controls['status'].invalid"
+                >Estado Requerido</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Latitud</mat-label>
+              <input matInput formControlName="latitude" type="number" />
+              <mat-error *ngIf="formLocation.controls['latitude'].invalid"
+                >Latitud Requerido</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Longitud</mat-label>
+              <input type="number" matInput formControlName="longitude" />
+              <mat-error *ngIf="formLocation.controls['longitude'].invalid"
+                >Longitud requerida</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-6">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dia</th>
+                  <th>Hora de apertura</th>
+                  <th>Hora de cierre</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr [formGroup]="form_schedules.get('monday')">
+                  <td>Lunes</td>
+                  <td>
+                    <mat-form-field class="w-100">
+                      <mat-label>Hora de Apertura</mat-label>
+                      <input
+                        matInput
+                        formControlName="start"
+                        type="time"
+                      />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field class="w-100">
+                      <mat-label>Hora de Cierre</mat-label>
+                      <input
+                        matInput
+                        formControlName="end"
+                        type="time"
+                      />
+                    </mat-form-field>
+                </tr>
+                 <tr [formGroup]="form_schedules.get('tuesday')">
+                      <td>Martes</td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Apertura</mat-label>
+                          <input
+                          matInput
+                          formControlName="start"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Cierre</mat-label>
+                          <input
+                          matInput
+                          formControlName="end"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr [formGroup]="form_schedules.get('wednesday')">
+                      <td>Miércoles</td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Apertura</mat-label>
+                          <input
+                          matInput
+                          formControlName="open_hour_wednesday"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Cierre</mat-label>
+                          <input
+                          matInput
+                          formControlName="close_hour_wednesday"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr [formGroup]="form_schedules.get('thursday')">
+                      <td>Jueves</td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Apertura</mat-label>
+                          <input
+                          matInput
+                          formControlName="start"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Cierre</mat-label>
+                          <input
+                          matInput
+                          formControlName="end"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr [formGroup]="form_schedules.get('friday')">
+                      <td>Viernes</td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Apertura</mat-label>
+                          <input
+                          matInput
+                          formControlName="start"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Cierre</mat-label>
+                          <input
+                          matInput
+                          formControlName="end"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr [formGroup]="form_schedules.get('saturday')">
+                      <td>Sábado</td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Apertura</mat-label>
+                          <input
+                          matInput
+                          formControlName="start"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Cierre</mat-label>
+                          <input
+                          matInput
+                          formControlName="end"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr [formGroup]="form_schedules.get('sunday')">
+                      <td>Domingo</td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Apertura</mat-label>
+                          <input
+                          matInput
+                          formControlName="start"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                      <td>
+                      <mat-form-field class="w-100">
+                          <mat-label>Hora de Cierre</mat-label>
+                          <input
+                          matInput
+                          formControlName="end"
+                          type="time"
+                          />
+                      </mat-form-field>
+                      </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="col-md-6">
+          <div
+            class="position-relative w-100 container p-0 shadow-lg rounded-lg mb-3"
+          >
+            <div #mapElement id="map"></div>
+            <div class="coordinate px-md-5 px-1">
+              Longitud : {{ coordinate?.longitud }} <br />
+              Latitud : {{ coordinate?.latitud }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-12">
+          <button
+            mat-raised-button
+            [disabled]="isLoadServer"
+            color="primary"
+            (click)="saveInServer()"
+          >
+            Guardar localidad
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

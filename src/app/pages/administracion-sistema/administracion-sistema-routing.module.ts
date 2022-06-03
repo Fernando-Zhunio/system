@@ -60,13 +60,13 @@ const permission_module_AD = {
     delete: ['super-admin', 'admin.countries.cities.destroy'],
   },
 
-  location: {
-    index: ['super-admin', 'admin.locations.index'],
-    show: ['super-admin', 'admin.locations.shiw'],
-    create: ['super-admin', 'admin.locations.create'],
-    edit: ['super-admin', 'admin.locations.edit'],
-    delete: ['super-admin', 'admin.locations.destroy'],
-  },
+  // location: {
+  //   index: ['super-admin', 'admin.locations.index'],
+  //   show: ['super-admin', 'admin.locations.shiw'],
+  //   create: ['super-admin', 'admin.locations.create'],
+  //   edit: ['super-admin', 'admin.locations.edit'],
+  //   delete: ['super-admin', 'admin.locations.destroy'],
+  // },
 
   personas: {
     index: ['super-admin', 'admin.people.index'],
@@ -331,49 +331,54 @@ const routes: Routes = [
 
   // locaciones
   {
-    path: 'locaciones',
-    // component: ADLocationsMainComponents,
-    children: [
-      {
-        path: '',
-        component: LocacionesComponent,
-        data: {
-          permissions: {
-            only: permission_module_AD.location.index,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'create',
-        component: CreateOrEditLocationComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: permission_module_AD.location.create,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'edit/:id',
-        component: CreateOrEditLocationComponent,
-        data: {
-          isEdit: true,
-          permissions: {
-            only: permission_module_AD.location.edit,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-    ],
-    data: {
-      permissions: {
-        only: permission_module_AD.location.index,
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
+    path: 'locations',
+    loadChildren: () =>
+      import('./locaciones/location.module').then((m) => m.LocationModule),
   },
+  // {
+  //   path: 'locaciones',
+  //   // component: ADLocationsMainComponents,
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: LocacionesComponent,
+  //       data: {
+  //         permissions: {
+  //           only: permission_module_AD.location.index,
+  //         },
+  //       },
+  //       canActivate: [NgxPermissionsGuard],
+  //     },
+  //     {
+  //       path: 'create',
+  //       component: CreateOrEditLocationComponent,
+  //       data: {
+  //         isEdit: false,
+  //         permissions: {
+  //           only: permission_module_AD.location.create,
+  //         },
+  //       },
+  //       canActivate: [NgxPermissionsGuard],
+  //     },
+  //     {
+  //       path: 'edit/:id',
+  //       component: CreateOrEditLocationComponent,
+  //       data: {
+  //         isEdit: true,
+  //         permissions: {
+  //           only: permission_module_AD.location.edit,
+  //         },
+  //       },
+  //       canActivate: [NgxPermissionsGuard],
+  //     },
+  //   ],
+  //   data: {
+  //     permissions: {
+  //       only: permission_module_AD.location.index,
+  //     },
+  //   },
+  //   canActivate: [NgxPermissionsGuard],
+  // },
 
   // mercado libre admin
   {
