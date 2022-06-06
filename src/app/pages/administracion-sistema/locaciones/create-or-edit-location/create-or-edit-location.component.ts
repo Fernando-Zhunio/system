@@ -1,14 +1,14 @@
-import { Location } from '@angular/common';
+import { Location as LocationInject } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../../environments/environment';
 import { Icompanies_access } from '../../../../interfaces/iml-info';
-import { StandartSearchService } from '../../../../services/standart-search.service';
-import { Location as Clocation } from '../../../../class/location';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { MatSelectChange } from '@angular/material/select';
+import { SwalService } from '../../../../services/swal.service';
+import { Location } from '../../../../interfaces/Location';
 
 declare const mapboxgl: any;
 
@@ -23,8 +23,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     private act_router: ActivatedRoute,
     private ngx_spinner: NgxSpinnerService,
     private route: Router,
-    private location: Location
-  ) { }
+    private locationInject: LocationInject
+  ) {}
 
   @ViewChild('mapElement') mapElement: ElementRef;
   state: 'create' | 'edit' = 'create';
@@ -43,8 +43,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     latitud: 0,
   };
   isEnabledMap: boolean = false;
-  location_: Clocation = new Clocation();
-  formLocation: FormGroup = new FormGroup({
+  location: Location;
+  formLocation = new FormGroup({
     name: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required]),
@@ -55,35 +55,43 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     longitude: new FormControl(""),
   });
 
-  form_schedules = new FormGroup({
+  formSchedules = new FormGroup({
     monday: new FormGroup({
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', [Validators.required]),
-    }),
+      status: new FormControl(true, [Validators.required]),
+      start: new FormControl(null),
+      end: new FormControl(null),
+    }, [this.validateHours()]),
     tuesday: new FormGroup({
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', [Validators.required]),
-    }),
+      status: new FormControl(true, [Validators.required]),
+      start: new FormControl(null),
+      end: new FormControl(null),
+    }, [this.validateHours()]),
     wednesday: new FormGroup({
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', [Validators.required]),
-    }),
+      status: new FormControl(true, [Validators.required]),
+
+      start: new FormControl(null, [Validators.required]),
+      end: new FormControl(null, [Validators.required]),
+    }, [this.validateHours()]),
     thursday: new FormGroup({
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', [Validators.required]),
-    }),
+      status: new FormControl(true, [Validators.required]),
+      start: new FormControl(null, [Validators.required]),
+      end: new FormControl(null, [Validators.required]),
+    }, [this.validateHours()]),
     friday: new FormGroup({
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', [Validators.required]),
-    }),
+      status: new FormControl(true, [Validators.required]),
+      start: new FormControl(null, [Validators.required]),
+      end: new FormControl(null, [Validators.required]),
+    }, [this.validateHours()]),
     saturday: new FormGroup({
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', [Validators.required]),
+      status: new FormControl(true, [Validators.required]),
+      start: new FormControl(null, [Validators.required]),
+      end: new FormControl(null, [Validators.required]),
     }),
     sunday: new FormGroup({
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', [Validators.required]),
-    }),
+      status: new FormControl(true, [Validators.required]),
+      start: new FormControl(null, [Validators.required]),
+      end: new FormControl(null, [Validators.required]),
+    }, [this.validateHours()]),
   })
   ngOnInit(): void {
     this.ngx_spinner.show();
@@ -97,30 +105,41 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
           (response) => {
             if (response.hasOwnProperty('success') && response.success) {
               this.setDataSelects(response.data);
-              this.location_ = response.data.location;
+              this.location = response.data.location;
               const {
                 name,
                 address,
                 type,
                 city_id: city,
                 company_id: company,
-                status
-              } = this.location_;
-              this.formLocation.setValue({
+                status,
+                latitude,
+                longitude,
+                schedules
+              } = this.location;
+              this.formLocation.patchValue({
                 name,
                 address,
                 type,
                 city: city.toString(),
                 company,
                 status,
+                latitude,
+                longitude
               });
+              
+              if (schedules) {
+                console.log(schedules);
+                const schedulesJson = JSON.parse(schedules);
+                this.formSchedules.patchValue(schedulesJson);
+              }
 
-              if (this.location_.latitude && this.location_.longitude) {
+              if (this.location.latitude && this.location.longitude) {
                 this.coordinate.latitud = Number.parseFloat(
-                  this.location_.latitude
+                  this.location.latitude
                 );
                 this.coordinate.longitud = Number.parseFloat(
-                  this.location_.longitude
+                  this.location.longitude
                 );
                 this.createMap(
                   this.coordinate.longitud,
@@ -151,6 +170,16 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
         );
       }
     });
+  }
+
+  autofillSchedules(value:{start, end}) {
+    this.formSchedules.get('monday').setValue(value);
+    this.formSchedules.get('tuesday').setValue(value);
+    this.formSchedules.get('wednesday').setValue(value);
+    this.formSchedules.get('thursday').setValue(value);
+    this.formSchedules.get('friday').setValue(value);
+    this.formSchedules.get('saturday').setValue(value);
+    this.formSchedules.get('sunday').setValue(value);
   }
 
   getCurrentPosition() {
@@ -210,7 +239,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   }
 
   goBack() {
-    this.location.back();
+    this.locationInject.back();
   }
 
   enableAndDisableMap(event): void {
@@ -235,26 +264,32 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   }
 
   saveInServer(): void {
-    if (this.formLocation.valid) {
+    const validSchedule = this.validateFormSchedule();
+    
+    if (this.formLocation.valid && validSchedule) {
       this.isLoadServer = true;
       let dataSend = this.formLocation.value;
+      if (this.formLocation.get('type').value == 'store') {
+        dataSend.schedules = this.formSchedules.value;
+      }
       if (this.isEnabledMap) {
         dataSend.latitude = this.coordinate.latitud;
         dataSend.longitude = this.coordinate.longitud;
       }
+      // this.formSchedules.
       if (this.state === 'create') {
-        this.methodHttp.methodPost('admin/locations', { ...dataSend }).subscribe(res => {
+        this.methodHttp.methodPost('admin/locations', dataSend ).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
-            this.route.navigate(['administracion-sistema/locaciones']);
+            this.route.navigate(['administracion-sistema/locations']);
           } else { this.isLoadServer = false; }
         }, err => {
           console.log(err);
           this.isLoadServer = false;
         });
       } else {
-        this.methodHttp.methodPut('admin/locations/' + this.location_.id, { ...dataSend }).subscribe(res => {
+        this.methodHttp.methodPut('admin/locations/' + this.location.id, dataSend ).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
-            this.route.navigate(['administracion-sistema/locaciones']);
+            this.route.navigate(['administracion-sistema/locations']);
           } else { this.isLoadServer = false; }
         }, err => {
           console.log(err);
@@ -266,17 +301,26 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     }
   }
 
+  validateFormSchedule(): boolean {
+    const valReturn =  this.formLocation.get('type').value == 'store' ? this.formSchedules.valid : true;
+    if (!valReturn) {
+      this.formSchedules.markAsTouched();
+      SwalService.swalFire({title: '¡Atención!', text: 'Debe ingresar un horario valido, donde la hora de apertura sea menor a la hora de cierre', icon: 'warning'});
+    }
+    return valReturn;
+  }
+
   selectionType($event: MatSelectChange): void {
     console.log($event);
     if ($event.value == 'store') {
       this.addLocationValidationRequired();
-      console.log('store')
     } else {
       this.removeLocationValidationRequired();
     }
   }
 
   addLocationValidationRequired(): void {
+    console.log('addLocationValidationRequired');
     this.formLocation.get('latitude').addValidators([Validators.required]);
     this.formLocation.get('longitude').addValidators([Validators.required]);
   }
@@ -284,6 +328,20 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   removeLocationValidationRequired(): void {
     this.formLocation.get('latitude').removeValidators([Validators.required]);
     this.formLocation.get('longitude').removeValidators([Validators.required]);
+  }
+
+  // storesValidator(form: FormGroup): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     if (control.value === 'store') {
+  //       return form.invalid ? { 'invalidStore': true } : null;
+  //     }
+  //   };
+  // }
+
+  validateHours(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.get('start').value ? ((control.get('start').value && control.get('end').value) && control.get('start').value > control.get('end').value) ? { 'invalidHours': true } : null : null;
+    };
   }
 
   

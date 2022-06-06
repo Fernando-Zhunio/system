@@ -17,4 +17,13 @@ export class Location {
     id: number;
     name: string;
   };
+  schedules?: any
+}
+
+interface Schedules {
+  [key:string]: {
+    status: boolean,
+    start: string,
+    end: string
+  }
 }
