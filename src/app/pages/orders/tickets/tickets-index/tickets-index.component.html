@@ -34,7 +34,7 @@
               <tbody>
                 <tr>
                   <td>Departamento:</td>
-                  <td>{{ ticket.department.name }}</td>
+                  <td>{{ ticket?.department?.name }}</td>
                 </tr>
                 <tr>
                   <td># Orden:</td>
@@ -60,20 +60,12 @@
             </table>
             <div class="px-3 py-2 rounded-fz shadow">
               <h4 class="mt-2 mb-1 text-black-50">Ultimo mensaje:</h4>
-              <p class="message">{{ ticket.last_message.message }}</p>
+              <p class="message">{{ ticket?.last_message?.message }}</p>
             </div>
           </div>
         </mat-card-content>
         <mat-card-actions align="start">
-          <!-- <button
-            class="mr-1"
-            color="accent"
-            mat-raised-button
-            [routerLink]="['create/order', ticket.order_id]"
-            routerLinkActive="router-link-active"
-          >
-            Crear ticket
-          </button> -->
+         
           <div class="d-flex justify-content-between">
             <button
               *ngxPermissionsOnly="permissions.edit"

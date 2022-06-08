@@ -62,14 +62,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public hideUsersChat: boolean = false;
   public progressDownloadReport: number = 0;
   public isProgressDownloadReport: boolean = false;
-  // public TYPE_NOTY_WEBPUSH = {
-  //   value: 'general_notification_webpush',
-  //   state: false,
-  // };
-  // public TYPE_NOTY_EMAIL = {
-  //   value: 'general_notification_email',
-  //   state: false,
-  // };
   public isDownloadStock: boolean = false;
 
   countNotificationUnRead: number = null;
@@ -82,17 +74,17 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
   ngOnInit(): void {
-    this.setImgCompanies();
-    this.hasDarkTheme();
-    this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp);
-    this.getPermissionAndVersionServer();
+    this.setImgCompanies(); //not loaded in resolver
+    this.hasDarkTheme(); //not loaded in resolver
+    this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp); //not loaded in resolver
+    this.getPermissionAndVersionServer(); // in resolver
     // this.getPermissionAndVersionServerTest();
-    this.notificationWeb.canInitSw();
-    this.user = this.s_storage.getCurrentUser();
-    this.setPreferences();
-    if (!this.user.person) { this.addPersonModal(this.user); }
-    this.getNotification();
-    this.suscribeNotifications(this.user);
+    this.notificationWeb.canInitSw(); //not loaded in resolver
+    this.user = this.s_storage.getCurrentUser(); //not loaded in resolver
+    this.setPreferences(); // in resolver
+    if (!this.user.person) { this.addPersonModal(this.user); } //not loaded in resolver
+    this.getNotification(); // in resolver
+    this.suscribeNotifications(this.user); // not loaded in resolver
   }
 
   ngOnDestroy(): void {
