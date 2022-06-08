@@ -25,7 +25,7 @@
             <span class="mr-1">Estado:</span>
             <mat-chip
               selected
-              [color]="ticket.status == 'open' ? 'warn' : 'info'"
+              [class]="ticket.status == 'open' ? 'bg-info' : 'bg-warning'"
               >{{ ticket.status == "open" ? "Abierto" : "Cerrado" }}</mat-chip
             >
           </div>
@@ -60,7 +60,7 @@
             </table>
             <div class="px-3 py-2 rounded-fz shadow">
               <h4 class="mt-2 mb-1 text-black-50">Ultimo mensaje:</h4>
-              <p>{{ ticket.last_message.message }}</p>
+              <p class="message">{{ ticket.last_message.message }}</p>
             </div>
           </div>
         </mat-card-content>

@@ -1,3 +1,16 @@
 .table-ticket tbody tr td:nth-child(1) {
     color: #202c72;
 }
+
+.message {
+    width: auto;
+    overflow: hidden;
+    line-height: 1.3rem;
+    height: 2.7rem;
+    -webkit-box-orient: vertical;
+    display: block;
+    display: -webkit-box;
+    overflow: hidden!important;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+}

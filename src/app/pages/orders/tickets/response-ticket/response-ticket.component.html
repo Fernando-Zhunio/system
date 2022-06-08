@@ -2,7 +2,7 @@
     <h1 class="mt-3">Ticket # {{ticket?.code}}</h1>
     <div class="my-2 d-flex justify-content-between flex-wrap align-items-center">
         <mat-chip-list>
-            <mat-chip selected [color]="ticket?.status == 'open' ? 'accent': 'success'">Estado: {{ticket?.status == 'open' ? 'Abierto': 'Cerrado'}}</mat-chip>
+            <mat-chip selected [class]="ticket?.status == 'open' ? 'bg-info' : 'bg-warning'">Estado: {{ticket?.status == 'open' ? 'Abierto': 'Cerrado'}}</mat-chip>
         </mat-chip-list>
         <ng-container *ngxPermissionsOnly="permissions.edit"><button *ngIf="ticket?.status == 'open'" color="warn" (click)="closeTicket()" mat-raised-button>Cerrar Ticket</button></ng-container>
     </div>
