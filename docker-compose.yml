@@ -1,20 +1,18 @@
 version: '3'
 
-networks:
-  laravel:
-    external:
-      name: novisys_laravel
-
+# networks:
+#   laravel:
+#     external:
+#       name: novisys_laravel
 services:
   app:
     build:
-      context: ./docker
+      context: .
       dockerfile: Dockerfile
     container_name: app_novisys_frontend
     ports:
       - 8060:80
     volumes:
       - .:/app:delegated
-    networks:
-      - laravel
+
 

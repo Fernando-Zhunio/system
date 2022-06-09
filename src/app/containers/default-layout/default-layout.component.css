@@ -101,3 +101,11 @@ button {
         margin-right: 0px;
     }
 }
+
+.before-version{
+    background-color: #dadada;
+}
+
+.bg-sidebar {
+    background: #F7F7F7;
+}

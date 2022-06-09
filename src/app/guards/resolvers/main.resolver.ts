@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Resolve, ActivatedRoute, Router } from '@angular/router';
 import { Observable, EMPTY, forkJoin } from 'rxjs';
-import { Iresponse } from '../../interfaces/Imports/invoice-item';
-import { StandartSearchService } from '../../services/standart-search.service';
 import { catchError, map, tap } from 'rxjs/operators';
-// import {  } from 'rxjs/operators';
 import { SwalService } from '../../services/swal.service';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -46,12 +43,14 @@ export class MainResolver implements Resolve<any> {
         SwalService.swalFire({ 
           position: 'center', 
           title: 'Error al cargar datos', 
-          text: 'Recargué la pagina o vuelva a iniciar sesión',
+          text: 'Recargué la pagina o vuelva a iniciar sesión, en caso de no funcionar contacte al administrador del sistema',
           icon: 'error',
           showConfirmButton: true,
           confirmButtonText: 'Recargar',
           showCancelButton: true,
           cancelButtonText: 'Cerrar sesión',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
         }).then((result) => {
           if (result.isConfirmed){
             window.location.reload()

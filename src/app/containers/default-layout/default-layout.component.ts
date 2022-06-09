@@ -121,9 +121,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
     const theme = e.checked ? 'dark-theme' : 'light-theme';
     localStorage.setItem('isDark', e.checked ? 'true' : 'false');
-    this.isDark = false;
+    this.isDark = !this.isDark;
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.componentCssClass = theme;
+    console.log(this.isDark)
   }
 
   hasDarkTheme() {

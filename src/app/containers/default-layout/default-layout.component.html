@@ -18,16 +18,6 @@
     </mat-card>
   </div> -->
   <ul class="nav navbar-nav ml-auto">
-    <!-- <li class="nav-item d-md-down-none">
-      <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon>business</mat-icon>{{company_select}}
-      </button>
-      <mat-menu #menu="matMenu">
-        <button *ngFor="let company of companies;index as i" mat-menu-item (click)="changeCompany(company.id,i)">
-          <span>{{company.name}}</span>
-        </button>
-      </mat-menu>
-    </li> -->
     <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 bg-warning rounded-fz">
       <mat-icon>light_mode</mat-icon>&nbsp;<mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)">
       </mat-slide-toggle>&nbsp;<mat-icon>nightlight</mat-icon>
@@ -37,11 +27,9 @@
         <mat-icon color="primary" #IconNotify [matBadge]="countNotificationUnRead" matBadgePosition="above after"
           matBadgeColor="accent">notifications
         </mat-icon>
-
         <ng-container *ngIf="isProgressDownloadReport">
           <small class="progress-download">{{progressDownloadReport}}%</small>
         </ng-container>
-
       </button>
       <mat-menu  class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
         <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data)"
@@ -103,11 +91,11 @@
 </app-header>
 <!-- <div class="app-body" [ngClass]="[isDark?'dark-super':'not-dark-super']"> -->
 <div class="app-body">
-  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'"   [minimized]="sidebarMinimized"
     (minimizedChange)="toggleMinimize($event)">
-    <app-sidebar-nav #appSidebarNav [navItems]="navItems" class="bg-sidebar" [perfectScrollbar]
+    <app-sidebar-nav #appSidebarNav [navItems]="navItems" class="{{!isDark ? 'bg-sidebar': ''}}" [perfectScrollbar]
       [disabled]="appSidebar.minimized"></app-sidebar-nav>
-    <app-sidebar-minimizer></app-sidebar-minimizer>
+    <app-sidebar-minimizer class="before-version"></app-sidebar-minimizer>
   </app-sidebar>
   <!-- Main content -->
   <main [ngClass]="{'open-menu-chat': hideUsersChat}" class="main scroll">
