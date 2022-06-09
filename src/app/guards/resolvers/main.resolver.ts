@@ -8,6 +8,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { SwalService } from '../../services/swal.service';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { StorageService } from '../../services/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class MainResolver implements Resolve<any> {
     private methodsHttp: MethodsHttpService,
     private spinner: NgxSpinnerService,
     private route: Router,
+    private storage: StorageService,
     private active_route: ActivatedRoute
   ) { }
 
@@ -31,7 +33,7 @@ export class MainResolver implements Resolve<any> {
     }
     return forkJoin(
       {
-        permissionsAndRoles: this.methodsHttp.methodGet<IPermissionsAndRoles>('user/permissions-roles'),
+        permissionsRolesAndVersion: this.methodsHttp.methodGet<IPermissionsAndRoles>('user/permissions-roles'),
         preferences: this.methodsHttp.methodGet('user/preferences/ajax'),
         notifications: this.methodsHttp.methodGet('notifications/ajax'),
       }
@@ -41,26 +43,26 @@ export class MainResolver implements Resolve<any> {
       }),
       catchError((err) => {
         console.log(err);
-        SwalService.swalFire({ position: 'center', title: 'Error al cargar datos', text: 'Intente lo nuevo en unos minutos' })
+        SwalService.swalFire({ 
+          position: 'center', 
+          title: 'Error al cargar datos', 
+          text: 'Recargué la pagina o vuelva a iniciar sesión',
+          icon: 'error',
+          showConfirmButton: true,
+          confirmButtonText: 'Recargar',
+          showCancelButton: true,
+          cancelButtonText: 'Cerrar sesión',
+        }).then((result) => {
+          if (result.isConfirmed){
+            window.location.reload()
+          } else {
+            this.storage.logout();
+          }
+        })
         this.spinner.hide();
         // this.route.navigate(['/login']);
         return EMPTY;
       })
     );
-
-    // return this.methodsHttp.methodGet(`products-admin/vtex/price-vtex/create?id=${skuId}`).pipe(
-    //   map((res) => {
-    //     if (res && res.hasOwnProperty('success') && res.success) {
-    //       return res;
-    //     } else EMPTY;
-    //   }),
-    //   catchError((err) => {
-    //     console.log(err);
-    //     // SwalService.swalFire({position: 'center', title: 'Error al cargar datos', text: 'Intente lo nuevo en unos minutos'})
-
-    //     this.route.navigate(['admin-products/vtex-products']);
-    //     return EMPTY;
-    //   })
-    // );
   }
 }

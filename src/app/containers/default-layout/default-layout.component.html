@@ -32,7 +32,7 @@
       <mat-icon>light_mode</mat-icon>&nbsp;<mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)">
       </mat-slide-toggle>&nbsp;<mat-icon>nightlight</mat-icon>
     </li>
-    <li class="nav-item ">
+    <li class="nav-item">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
         <mat-icon color="primary" #IconNotify [matBadge]="countNotificationUnRead" matBadgePosition="above after"
           matBadgeColor="accent">notifications
@@ -63,11 +63,11 @@
           <div class="app-body mt-0 py-2 h-auto action-notification" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" mat-menu-item [disableRipple]="true">
             <div class="line-1">
               <div><small>Web push Notificaciones</small></div>
-              <mat-slide-toggle #webpush name="general_notification_webpush" (change)="changeWebPush($event)"> {{webpush.checked ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="notificationType.webpush" name="general_notification_webpush" (change)="changeWebPush($event)"> {{notificationType.webpush ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
             </div>
               <div class="line-1">
                 <div><small>Notificación por email</small></div>
-                <mat-slide-toggle #email name="general_notification_email"  (change)="changeWebPush($event)">{{email.checked ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="notificationType.email" name="general_notification_email"  (change)="changeWebPush($event)">{{notificationType.email ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
               </div>
           </div>
       </mat-menu>
