@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Reso
 import { Observable, EMPTY, forkJoin } from 'rxjs';
 import { Iresponse } from '../../interfaces/Imports/invoice-item';
 import { StandartSearchService } from '../../services/standart-search.service';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 // import {  } from 'rxjs/operators';
 import { SwalService } from '../../services/swal.service';
 import { MethodsHttpService } from '../../services/methods-http.service';
@@ -21,8 +21,6 @@ export class MainResolver implements Resolve<any> {
   ) { }
 
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> {
-    // const skuId = router.queryParams.token;
-    const skuId = router.paramMap.get('id');
     this.spinner.show();
     interface IPermissionsAndRoles {
       last_version_frontend: {
@@ -31,13 +29,16 @@ export class MainResolver implements Resolve<any> {
       },
       my_permissions: string | string[];
     }
-    return forkJoin([
+    return forkJoin(
       {
         permissionsAndRoles: this.methodsHttp.methodGet<IPermissionsAndRoles>('user/permissions-roles'),
         preferences: this.methodsHttp.methodGet('user/preferences/ajax'),
         notifications: this.methodsHttp.methodGet('notifications/ajax'),
       }
-    ]).pipe(
+    ).pipe(
+      tap(res => {
+        this.spinner.hide();
+      }),
       catchError((err) => {
         console.log(err);
         SwalService.swalFire({ position: 'center', title: 'Error al cargar datos', text: 'Intente lo nuevo en unos minutos' })
@@ -45,9 +46,9 @@ export class MainResolver implements Resolve<any> {
         // this.route.navigate(['/login']);
         return EMPTY;
       })
-    )
+    );
 
-    // return this.s_standart.show(`products-admin/vtex/price-vtex/create?id=${skuId}`).pipe(
+    // return this.methodsHttp.methodGet(`products-admin/vtex/price-vtex/create?id=${skuId}`).pipe(
     //   map((res) => {
     //     if (res && res.hasOwnProperty('success') && res.success) {
     //       return res;
@@ -55,7 +56,7 @@ export class MainResolver implements Resolve<any> {
     //   }),
     //   catchError((err) => {
     //     console.log(err);
-    //     SwalService.swalFire({position: 'center', title: 'Error al cargar datos', text: 'Intente lo nuevo en unos minutos'})
+    //     // SwalService.swalFire({position: 'center', title: 'Error al cargar datos', text: 'Intente lo nuevo en unos minutos'})
 
     //     this.route.navigate(['admin-products/vtex-products']);
     //     return EMPTY;

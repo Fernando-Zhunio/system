@@ -10,7 +10,6 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-// import { InConstructionComponent } from './views/in-construction/in-construction.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
@@ -18,6 +17,7 @@ import { FormRecuperationPasswordComponent } from './views/form-recuperation-pas
 import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { P403Component } from './views/error/p403/p403.component';
+import { MainResolver } from './guards/resolvers/main.resolver';
 export const routes: Routes = [
   {
     path: '',
@@ -38,13 +38,6 @@ export const routes: Routes = [
       title: 'Page 500'
     }
   },
-  // {
-  //   path: 'section-construction',
-  //   component: InConstructionComponent,
-  //   data: {
-  //     title: 'Sección en construcción'
-  //   }
-  // },
   {
     path: 'login',
     component: LoginComponent,
@@ -95,6 +88,7 @@ export const routes: Routes = [
       title: 'Home'
     },
     canActivate: [AuthGuard],
+    resolve: {res: MainResolver},
     children: [
       {
         path: 'home',

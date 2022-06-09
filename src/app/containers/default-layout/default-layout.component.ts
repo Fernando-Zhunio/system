@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
 import { INotification, INotificationData } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared/shared.service';
-import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,6 +43,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     public overlayContainer: OverlayContainer,
     public sw_push: SwPush,
     private store: Store,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.notifications$ = this.store.select(selectNotification);
   }
@@ -74,9 +74,13 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({res}) => {
+      console.log(res);
+    }).unsubscribe();
     this.setImgCompanies(); //not loaded in resolver
     this.hasDarkTheme(); //not loaded in resolver
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp); //not loaded in resolver
+
     this.getPermissionAndVersionServer(); // in resolver
     // this.getPermissionAndVersionServerTest();
     this.notificationWeb.canInitSw(); //not loaded in resolver
@@ -98,7 +102,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   setImgCompanies(): void {
     this.imgCompany = window.innerWidth > 600 ? { size: '100%', url: 'assets/icons_custom/novisolutions.svg' } : { size: '30px', url: 'assets/icons_custom/icon-512x512.png' };
   }
-
 
   goPage(page): void {
     this.route.navigate([page]);
