@@ -28,7 +28,6 @@ export class FilesPaymentsOrderComponent implements OnInit {
   @ViewChild(ViewDocComponent) viewDoc: ViewDocComponent;
   constructor(public dialogRef: MatDialogRef<FilesPaymentsOrderComponent>,
     @Inject(MAT_DIALOG_DATA) public dataExternal: { order_id: number, payment_id?: number }, public standard: StandartSearchService) { }
-
   ngOnInit() {
     this.getFiles();
   }
