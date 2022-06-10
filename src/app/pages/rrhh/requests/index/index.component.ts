@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { CTemplateSearch } from '../../../../class/ctemplate-search';
@@ -118,7 +117,7 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
   //   this.headerComponent.searchBar();
   // }
 
-  doFavorite(id: number, isFavorite): void {
+  doFavorite(id: number, isFavorite: boolean): void {
     const url = `rrhh/requests/${id}/mark-favorite`;
     this.s_standard.updatePut(url, {mark: !isFavorite}).subscribe(res => {
       if (res.hasOwnProperty('success') && res.success) {

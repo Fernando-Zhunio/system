@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
 import { INotification, INotificationData } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared/shared.service';
-import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,6 +26,7 @@ import { environment } from '../../../environments/environment';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { TEST_PERMISSIONS } from '../../class/permissionsAll';
 import { throttleTime } from 'rxjs/operators';
+import { NotificationType } from '../../enums/notification.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,6 +44,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     public overlayContainer: OverlayContainer,
     public sw_push: SwPush,
     private store: Store,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.notifications$ = this.store.select(selectNotification);
   }
@@ -73,17 +74,25 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   pageSearch: any[] = [];
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
+  notificationType = {
+    webpush: false,
+    email: false
+  }
+
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({res}) => {
+      this.getPermissionAndVersionServer(res.permissionsRolesAndVersion);
+      this.getNotification(res.notifications); // in resolver
+      this.setPreferences(res.preferences); // in resolver
+    }).unsubscribe();
+    this.loadUnreadCountMessages();
     this.setImgCompanies(); //not loaded in resolver
     this.hasDarkTheme(); //not loaded in resolver
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp); //not loaded in resolver
-    this.getPermissionAndVersionServer(); // in resolver
     // this.getPermissionAndVersionServerTest();
     this.notificationWeb.canInitSw(); //not loaded in resolver
     this.user = this.s_storage.getCurrentUser(); //not loaded in resolver
-    this.setPreferences(); // in resolver
     if (!this.user.person) { this.addPersonModal(this.user); } //not loaded in resolver
-    this.getNotification(); // in resolver
     this.suscribeNotifications(this.user); // not loaded in resolver
   }
 
@@ -99,7 +108,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.imgCompany = window.innerWidth > 600 ? { size: '100%', url: 'assets/icons_custom/novisolutions.svg' } : { size: '30px', url: 'assets/icons_custom/icon-512x512.png' };
   }
 
-
   goPage(page): void {
     this.route.navigate([page]);
   }
@@ -113,9 +121,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
     const theme = e.checked ? 'dark-theme' : 'light-theme';
     localStorage.setItem('isDark', e.checked ? 'true' : 'false');
-    this.isDark = false;
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.componentCssClass = theme;
+    console.log(this.isDark)
   }
 
   hasDarkTheme() {
@@ -145,20 +153,24 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     e ? this.countMessages++ : this.countMessages = null;
   }
 
-  getNotification(): void {
-    this.methodsHttp.methodGet('notifications/ajax').subscribe((res) => {
+  getNotification(res): void {
       if (res && res.hasOwnProperty('success') && res.success) {
-        this.store.dispatch(overrideNotification({ notifications: res.data.notifications }));
-        const notifications = res.data.notifications;
-        // ? Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
-        this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
+        this.store.dispatch(overrideNotification({ notifications: res.data }));
+        const notifications = res.data;
+        //  Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
+        // this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
         if (notifications.length > 0) {
           // ? Si hay notificaciones sin leer */
           const countNotification = notifications.filter((notification) => !notification.read_at).length;
           this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
         }
       }
-    });
+  }
+
+  loadUnreadCountMessages(): void {
+    this.methodsHttp.methodGet('chats/chat/messages/count-unread').subscribe((res) => {
+        this.countMessages = res.data == 0 ? null : res.data;
+    })
   }
 
   openOrCloseChats(): void {
@@ -187,20 +199,18 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  setPreferences(): void {
-    this.methodsHttp.methodGet('user/preferences/ajax').subscribe((res) => {
+  setPreferences(res): void {
+    // this.methodsHttp.methodGet('user/preferences/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        // this.TYPE_NOTY_EMAIL.state =
-        //   res.data[this.TYPE_NOTY_EMAIL.value] === 'on' ? true : false;
-        // this.TYPE_NOTY_WEBPUSH.state =
-        //   res.data[this.TYPE_NOTY_WEBPUSH.value] === 'on' ? true : false;
-        // this.store.dispatch(setPreference({ preference: res.data }));
+        this.notificationType.email = res.data[NotificationType.email] === 'on' ? true : false;
+        this.notificationType.webpush = res.data[NotificationType.webpush] === 'on' ? true : false;
+        this.store.dispatch(setPreference({ preference: res.data }));
       }
-    });
+    // });
   }
 
-  getPermissionAndVersionServer() {
-    this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
+  getPermissionAndVersionServer(res) {
+    // this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         if (res.data?.last_version_frontend?.version) {
           this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
@@ -211,10 +221,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         this.s_storage.setPermission(array_permissions);
         this.navItems = res.data.item_sidebar;
       }
-    }, err => {
-      console.log(err);
-      SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
-    });
+    // }
+    // , err => {
+    //   console.log(err);
+    //   SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
+    // });
   }
 
   getPermissionAndVersionServerTest() {
@@ -253,7 +264,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.log(error);
     }
-
   }
 
   suscribeNotifications(user): void {

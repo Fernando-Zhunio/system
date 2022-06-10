@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CTemplateSearch } from '../../../class/ctemplate-search';
 import { Iuser } from '../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
-import { StandartSearchService } from '../../../services/standart-search.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { animation_conditional } from '../../../animations/animate_leave_enter';
+import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 
 @Component({
   selector: 'app-users-web-rrhh',
@@ -14,14 +14,15 @@ import { animation_conditional } from '../../../animations/animate_leave_enter';
 })
 export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> implements OnInit {
 
-  constructor( private s_standard: StandartSearchService) {
+  constructor() {
     super();
   }
+  @ViewChild(HeaderSearchComponent)  headerComponent: HeaderSearchComponent;
+
 
   isOpenCv: boolean = false;
   cv: string = '';
   url: string = 'rrhh/users';
-  // filter_data = {sex: 'all', birth_city: 'all', resident_city: 'all', identification_number: 'all'};
   form: FormGroup = new FormGroup({
     sex: new FormControl('all'),
     birth_city: new FormControl(''),

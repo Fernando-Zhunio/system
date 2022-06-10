@@ -29,7 +29,7 @@ export class AddProductsOrderComponent implements OnInit {
   form: FormGroup = new FormGroup({
     product: new FormControl(null, [Validators.required]),
     product_id: new FormControl(null, [Validators.required]),
-    quantity: new FormControl(null, [Validators.required]),
+    quantity: new FormControl(1, [Validators.required]),
     description: new FormControl(null),
     price: new FormControl(null, [Validators.required]),
   });

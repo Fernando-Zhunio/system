@@ -2,9 +2,7 @@
 (products)="loadData($event)">
 <ng-content select="[menuBar]"></ng-content>
 <ng-content filterMenu select="[filterMenu]"></ng-content>
-
 </app-header-search>
-
 <div  [ngStyle]="{'column-count': columns}" *ngIf="isLoading" class="mt-2 card-columns">
   <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
     <ngx-skeleton-loader count="1" [theme]="{
@@ -44,6 +42,6 @@
   </div>
 </ng-container>
 <mat-paginator [hidden]="isLoading" *ngIf="products?.length > 0" [pageSizeOptions]="[10, 20, 30]"
-  (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
-  [pageIndex]="paginator.current_page-1">
+  (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator?.per_page" [length]="paginator?.total"
+  [pageIndex]="paginator?.current_page-1">
 </mat-paginator>
