@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { CTemplateSearch } from '../../../../class/ctemplate-search';
+import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { Iappointment, Iuser } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
@@ -35,6 +36,8 @@ export class IndexComponent
   status: 'normal' | 'send_email' = 'normal';
   statusAppointment: string = 'available';
   userSelectedToEmailCv: Iuser[] = [];
+  @ViewChild(HeaderSearchComponent)  headerComponent: HeaderSearchComponent;
+  
   ngOnInit(): void {}
 
   deleteAppointment(id: number) {

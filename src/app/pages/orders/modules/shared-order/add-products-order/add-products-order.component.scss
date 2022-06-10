@@ -1,57 +1,57 @@
 .section-order {
-    border: 3px solid #dadadaa1;
-    border-radius: 15px;
-    padding: 10px;
-    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+  border: 3px solid #dadadaa1;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
 }
 
 .editing-item {
-    position: fixed;
-    display: flex;
-    height: 100vh;
-    top: 0;
-    z-index: 1025;
-    background: #ffffff8a;
-    width: 100%;
-    left: 0;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(9px);
+  position: fixed;
+  display: flex;
+  height: 100vh;
+  top: 0;
+  z-index: 1025;
+  background: #ffffff8a;
+  width: 100%;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(9px);
 }
 
 .img-product-item {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 
-.close-search-product-btn{
-    position: absolute;
-    top: 16px;
-    left: -59px;
+.close-search-product-btn {
+  position: absolute;
+  top: 16px;
+  left: -59px;
 }
 
 .search-product {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 9999;
-    // width: 300px;
-    background-color: white;
-    height: 100vh;
-    overflow: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  // width: 300px;
+  background-color: white;
+  height: 100vh;
+  overflow: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
 }
 
 .close-search-product {
-    transform: translateX(calc(100% + 40px));
-    transition: all 0.3s;
+  transform: translateX(calc(100% + 40px));
+  transition: all 0.3s;
 }
 
-.product-item{
+.product-item {
   gap: 10px;
-  border: solid 3px #dadada ;
+  border: solid 3px #dadada;
   border-radius: 15px;
   flex-wrap: wrap;
 }
@@ -62,4 +62,20 @@
   }
 }
 
+.input-price {
+  width: 84px;
+}
 
+.input-quantity {
+  width: 84px;
+}
+
+.input-product {
+  background: #dadada;
+  border-radius: 10px;
+  font-size: 15px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  margin-right: 10px;
+}

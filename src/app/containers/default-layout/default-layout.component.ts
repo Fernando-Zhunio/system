@@ -85,10 +85,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       this.getNotification(res.notifications); // in resolver
       this.setPreferences(res.preferences); // in resolver
     }).unsubscribe();
+    this.loadUnreadCountMessages();
     this.setImgCompanies(); //not loaded in resolver
     this.hasDarkTheme(); //not loaded in resolver
     this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp); //not loaded in resolver
-    // this.getPermissionAndVersionServer(); // in resolver
     // this.getPermissionAndVersionServerTest();
     this.notificationWeb.canInitSw(); //not loaded in resolver
     this.user = this.s_storage.getCurrentUser(); //not loaded in resolver
@@ -121,7 +121,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
     const theme = e.checked ? 'dark-theme' : 'light-theme';
     localStorage.setItem('isDark', e.checked ? 'true' : 'false');
-    this.isDark = !this.isDark;
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.componentCssClass = theme;
     console.log(this.isDark)
@@ -156,16 +155,22 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   getNotification(res): void {
       if (res && res.hasOwnProperty('success') && res.success) {
-        this.store.dispatch(overrideNotification({ notifications: res.data.notifications }));
-        const notifications = res.data.notifications;
-        // ? Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
-        this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
+        this.store.dispatch(overrideNotification({ notifications: res.data }));
+        const notifications = res.data;
+        //  Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
+        // this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
         if (notifications.length > 0) {
           // ? Si hay notificaciones sin leer */
           const countNotification = notifications.filter((notification) => !notification.read_at).length;
           this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
         }
       }
+  }
+
+  loadUnreadCountMessages(): void {
+    this.methodsHttp.methodGet('chats/chat/messages/count-unread').subscribe((res) => {
+        this.countMessages = res.data == 0 ? null : res.data;
+    })
   }
 
   openOrCloseChats(): void {
@@ -259,7 +264,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.log(error);
     }
-
   }
 
   suscribeNotifications(user): void {

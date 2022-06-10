@@ -39,13 +39,18 @@ import { HeaderSearchModule } from '../../Modulos/header-search/header-search.mo
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+// import { NgxMatTimelineModule } from 'ngx-mat-timeline';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { DetailButtonSheetComponent } from './orders/edit-order/detail-button-sheet/detail-button-sheet.component';
 
 @NgModule({
     declarations: [DashboardOrdersComponent,
         SelectClientModalComponent, EditOrderComponent,
         OrdersIndexComponent, CreateOrEditOrderComponent,
         ClientComponent, AddItemTemplateComponent,
-        CreateOrEditDiscountOrTaxOrderComponent, StateFlowOrderComponent],
+        CreateOrEditDiscountOrTaxOrderComponent, StateFlowOrderComponent,
+        DetailButtonSheetComponent,
+    ],
     imports: [
         CommonModule,
         RouterModule,
@@ -79,6 +84,7 @@ import { MatSortModule } from '@angular/material/sort';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatBottomSheetModule
     ] 
 })
 export class OrdersModule { }

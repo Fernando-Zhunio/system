@@ -75,3 +75,41 @@ table {
     grid-template-columns: 100%;
   }
 }
+
+
+// nuevo template
+.content-client {
+  display: flex;
+  align-items: center;
+  .client-detail {
+    margin-left: 10px;
+    div {
+      font-size: 1.5rem !important;
+      line-height: 1;
+    }
+    >span{
+      color: gray;
+      display: flex;
+      align-items: center;
+      mat-icon{
+        font-size: 20px;
+        margin-right: 2px;
+      }
+    }
+  }
+  img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+}
+
+.content-address {
+  small {
+    color: gray;
+  }
+}
+
+.content-totals .col-md-2 :nth-child(1){
+  color: gray;
+}

@@ -13,31 +13,25 @@ import { StorageService } from '../../services/storage.service';
 export class MainResolver implements Resolve<any> {
   constructor(
     private methodsHttp: MethodsHttpService,
-    private spinner: NgxSpinnerService,
+    // private spinner: NgxSpinnerService,
     private route: Router,
     private storage: StorageService,
     private active_route: ActivatedRoute
   ) { }
 
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> {
-    this.spinner.show();
-    interface IPermissionsAndRoles {
-      last_version_frontend: {
-        version: string;
-        description: string;
-      },
-      my_permissions: string | string[];
-    }
+    // this.spinner.show();
+   
     return forkJoin(
       {
-        permissionsRolesAndVersion: this.methodsHttp.methodGet<IPermissionsAndRoles>('user/permissions-roles'),
+        permissionsRolesAndVersion: this.methodsHttp.methodGet('user/permissions-roles'),
         preferences: this.methodsHttp.methodGet('user/preferences/ajax'),
         notifications: this.methodsHttp.methodGet('notifications/ajax'),
       }
     ).pipe(
-      tap(res => {
-        this.spinner.hide();
-      }),
+      // tap(res => {
+      //   this.spinner.hide();
+      // }),
       catchError((err) => {
         console.log(err);
         SwalService.swalFire({ 
@@ -58,7 +52,7 @@ export class MainResolver implements Resolve<any> {
             this.storage.logout();
           }
         })
-        this.spinner.hide();
+        // this.spinner.hide();
         // this.route.navigate(['/login']);
         return EMPTY;
       })

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CTemplateSearch } from './../../../../class/ctemplate-search';
 import { Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { SwalService } from '../../../../services/swal.service';
 import { StandartSearchService } from './../../../../services/standart-search.service';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
+import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 
 @Component({
   selector: 'app-index',
@@ -16,7 +17,7 @@ export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
   constructor(private s_serviceStandart: StandartSearchService) {
     super();
   }
-
+  @ViewChild(HeaderSearchComponent)  headerComponent: HeaderSearchComponent;
   url: string = 'rrhh/works';
 
   ngOnInit(): void {}

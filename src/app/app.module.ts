@@ -111,15 +111,15 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { StorageService } from './services/storage.service';
 import { TicketsModule } from './pages/orders/tickets/tickets.module';
 import { P403Component } from './views/error/p403/p403.component';
-import * as Sentry from "@sentry/angular";
-import { BrowserTracing } from "@sentry/tracing";
-import { enableProdMode } from "@angular/core";
+// import * as Sentry from "@sentry/angular";
+// import { BrowserTracing } from "@sentry/tracing";
+// import { enableProdMode } from "@angular/core";
 
 // import { EMPTY } from 'rxjs';
 
 //
 
-  enableProdMode();
+//   enableProdMode();
 
 
 function getPermissionAndVersionServer(st: StorageService) {
@@ -127,8 +127,6 @@ function getPermissionAndVersionServer(st: StorageService) {
         return null;
     };
 }
-
-
 
 registerLocaleData(localeEs, 'es');
 @NgModule({

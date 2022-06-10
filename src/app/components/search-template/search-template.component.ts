@@ -1,5 +1,7 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { CTemplateSearch } from '../../class/ctemplate-search';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { Ipagination } from '../../interfaces/ipagination';
+import { HeaderSearchComponent } from '../header-search/header-search.component';
 
 /**
  * @selector menu-bar menuBar
@@ -10,11 +12,9 @@ import { CTemplateSearch } from '../../class/ctemplate-search';
   templateUrl: './search-template.component.html',
   styleUrls: ['./search-template.component.css']
 })
-export class SearchTemplateComponent extends CTemplateSearch<any> implements OnInit {
+export class SearchTemplateComponent implements OnInit {
 
-  constructor() {
-    super();
-  }
+  constructor() {}
   @Input() filter_data: object = {};
   @Input() placeholder: string = 'Buscador';
   @Input() url$: string;
@@ -26,7 +26,12 @@ export class SearchTemplateComponent extends CTemplateSearch<any> implements OnI
   @Input() withCardColumns: boolean = true;
   @Output() _isLoading = new EventEmitter<boolean>();
   @Output() data = new EventEmitter<any[]>();
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
+  paginator: Ipagination<any>;
+  isLoading: boolean;
+  pageSizeOptions: number[] = [10, 15, 25, 50];
+  products: any[] = [];
   ngOnInit(): void {
   }
 
@@ -44,6 +49,10 @@ export class SearchTemplateComponent extends CTemplateSearch<any> implements OnI
 
   hasIsLoading(): void {
     this._isLoading.emit(this.isLoading);
+  }
+
+  changePaginator(event: PageEvent): void {
+    this.headerComponent.searchBar(event);
   }
 
 }

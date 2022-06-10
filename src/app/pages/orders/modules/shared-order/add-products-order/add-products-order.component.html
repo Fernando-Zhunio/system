@@ -4,25 +4,41 @@
     <div>
       <div *ngxPermissionsOnly="permissionsProducts.create" [formGroup]="form" class="product-item d-md-flex d-block card-body">
         <div *ngIf="!isCancelled" >
-          <mat-form-field appearance="fill">
-            <input readonly matInput formControlName="product" placeholder="Producto">
-            <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+          <div>Producto *: <span class="text-dark">{{form.get('product')?.value}}</span>
+            <button mat-mini-fab  (click)="isOpenSearchProducts = !isOpenSearchProducts">
               <mat-icon>search</mat-icon>
-            </button>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <input matInput formControlName="description" placeholder="Descripción">
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <input matInput formControlName="price" type="number" placeholder="Precio">
-            <span matPrefix>$&nbsp;</span>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <input  matInput type="number" formControlName="quantity" placeholder="Cantidad">
-          </mat-form-field>
-          <div class="pt-md-2 col">
-            <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
-             (click)="createOrEditItemOrder()">Agregar producto</button>
+            </button>    
+          </div>
+          <div class="d-flex align-items-end">
+            <!-- <mat-form-field appearance="fill">
+              <input readonly matInput formControlName="product" placeholder="Producto">
+              <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field> -->
+            <!-- <mat-form-field appearance="fill"> -->
+              <div>
+                <small class="text-muted d-block">Precio *:</small>
+                <input min="0.01" class="input-price input-product"  formControlName="price" type="number" placeholder="Precio"></div>
+              <!-- <span matPrefix>$&nbsp;</span>
+            </mat-form-field> -->
+            <!-- <mat-form-field appearance="fill"> -->
+              <div>
+                <small class="text-muted d-block">Cantidad *:</small>
+                <input min="1" class="input-quantity input-product" type="number" formControlName="quantity" placeholder="Cantidad">
+              </div>
+            <!-- </mat-form-field> -->
+            <!-- <mat-form-field appearance="fill"> -->
+              <div>
+                <small class="text-muted d-block">Descripción:</small>
+                <input  class="input-product" formControlName="description" placeholder="Descripción">
+              </div>
+            <!-- </mat-form-field> -->
+            <div class="pt-md-2 col">
+              <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
+               (click)="createOrEditItemOrder()">Agregar producto</button>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -78,7 +94,8 @@
                     alt="imagen producto">
                 </td>
                 <td>
-                  {{item.value.product?.code}} - {{item.value.product?.name}}
+                  <div>{{item.value.product?.name}}</div>
+                  <span class="text-muted">{{item.value.product?.code}}</span> 
                 </td>
                 <td>{{item.value?.description}}</td>
                 <td class="text-muted">${{item.value.price}}</td>

@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { CtableAndPaginator } from "../../../../class/ctable-and-paginator";
+// import { CtableAndPaginator } from "../../../../class/ctable-and-paginator";
 import { ActivatedRoute } from "@angular/router";
 import { StandartSearchService } from "../../../../services/standart-search.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ItableAndPaginator } from "../../../../interfaces/itable-and-paginator";
-import { CTemplateSearch } from "../../../../class/ctemplate-search";
+// import { ItableAndPaginator } from "../../../../interfaces/itable-and-paginator";
+// import { CTemplateSearch } from "../../../../class/ctemplate-search";
 import { HeaderSearchComponent } from "../../../../components/header-search/header-search.component";
 import { Iproduct3 } from "../../../../interfaces/iproducts";
-import { IvtexResponseProduct } from "../../../../interfaces/vtex/iproducts";
+// import { IvtexResponseProduct } from "../../../../interfaces/vtex/iproducts";
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -34,11 +34,11 @@ export class CreateOrEditMultipublicationComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  loadData(event): void{
+  loadData(event: any): void{
     this.products = event;
   }
 
-  agregarProducto(id): void{
+  agregarProducto(id: any): void{
     const productFind = this.products.findIndex(item => item.id == id)
 
     if (productFind == -1) return
@@ -50,7 +50,7 @@ export class CreateOrEditMultipublicationComponent implements OnInit {
     this.products.splice(productFind, 1);
   }
 
-  desagregarProducto(id): void{
+  desagregarProducto(id: any): void{
     const productFind = this.productsSelections.findIndex(item => item.id == id)
 
     if (productFind == -1) return

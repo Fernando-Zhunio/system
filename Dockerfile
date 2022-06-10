@@ -21,8 +21,8 @@ RUN apt-get install git
 RUN npm install
 RUN npm i -g @angular/cli
 # RUN ng b --configuration staging
-RUN sh
-
+RUN /bin/sh
+CMD ["node", "while_infinite.js"]
 
 
 # FROM node:14-alpine
