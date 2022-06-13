@@ -1,7 +1,7 @@
 <app-search-template title="Novedades" placeholder="Buscar novedades" [url$]="url" (data)="getData($event)">
   <ng-container menuBar>
     <mat-chip-list class="ml-1">
-      <mat-chip class="mat-btn-add" [routerLink]="['../create']">
+      <mat-chip class="mat-btn-add" [routerLink]="['./create']">
         <mat-icon>new_releases</mat-icon>&nbsp; Agregar novedades
       </mat-chip>
     </mat-chip-list>
