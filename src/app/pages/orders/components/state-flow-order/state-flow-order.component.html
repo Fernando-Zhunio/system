@@ -41,7 +41,31 @@
 
 <div>
   <div>
-    <div class="d-flex statuses scrollbar-fz">
+    <div #containerStatus class="d-flex statuses scrollbar-fz">
+      <ng-container *ngFor="let state of statuses;let odd=odd">
+        <div class="content-item border-right">
+          <div class="center">
+            <img class="img-status" [src]="state.iconUrl">
+            <span class="ml-2 text-info">{{state.date | date}}</span>
+          </div>
+          <div>
+            <div>{{state.content}}</div>
+            <small class="text-muted">Por: {{state.for}}</small>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngFor="let state of statuses;let odd=odd">
+        <div class="content-item border-right">
+          <div class="center">
+            <img class="img-status" [src]="state.iconUrl">
+            <span class="ml-2 text-info">{{state.date | date}}</span>
+          </div>
+          <div>
+            <div>{{state.content}}</div>
+            <small class="text-muted">Por: {{state.for}}</small>
+          </div>
+        </div>
+      </ng-container>
       <ng-container *ngFor="let state of statuses;let odd=odd">
         <div class="content-item border-right">
           <div class="center">

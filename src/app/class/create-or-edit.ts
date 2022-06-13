@@ -43,7 +43,6 @@ export abstract class CreateOrEdit<T> {
         this.standard_service.methodGet(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-            // alert(this.isLoading);
         }, error => { this.isLoading = false; });
     }
 
@@ -69,7 +68,6 @@ export abstract class CreateOrEdit<T> {
 
     setData(data = null) {
         this.form.patchValue(data);
-        // this.form.setValue(data);
     }
 
     saveInServer() {
@@ -90,7 +88,6 @@ export abstract class CreateOrEdit<T> {
             }, error => {
                 console.log(error);
                 this.isLoading = false;
-                // SwalService.swalFire({ text: 'Ocurrió un error al guardar', icon: 'error' });
             });
             return;
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,6 +13,7 @@ import { SelectClientAddressModalComponent } from '../../modules/shared-order/se
 import { trans } from '../../../../class/translations';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DetailButtonSheetComponent } from './detail-button-sheet/detail-button-sheet.component';
+import { StateFlowOrderComponent } from '../../components/state-flow-order/state-flow-order.component';
 
 interface Record {
   icon?: string | null;
@@ -29,6 +30,7 @@ interface Record {
 export class EditOrderComponent implements OnInit {
 
   constructor(private bottomSheet: MatBottomSheet, private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
+  @ViewChild(StateFlowOrderComponent) stateFlow: StateFlowOrderComponent;
   id: string;
   order: IOrder = null;
   items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
@@ -42,6 +44,7 @@ export class EditOrderComponent implements OnInit {
   statuses: Record[] = [];
   pipeTrans = new TranslatefzPipe();
   isPublishing = false;
+
 
   detailClient: any[] = [];
 
@@ -107,6 +110,10 @@ export class EditOrderComponent implements OnInit {
               for: item?.user?.name ? item?.user?.name : 'novisolutions'
             };
           });
+
+          setTimeout(() => {
+              this.stateFlow.scrollBottom();
+          }, 1000);
         }
       }
     });
@@ -118,12 +125,6 @@ export class EditOrderComponent implements OnInit {
     } else if (this.order.items.length < 1) {
       this.items.clear();
     }
-    // this.items = new Map<number, IItemOrder>(data.data.order.items.map(item => [item.id, item]));
-    // if (this.order.payments && this.order.payments.length > 0) {
-    //   this.paymentsMap = new Map<number, IPaymentOrder>(this.order.payments.map(item => [item.id, item]));
-    // } else if (this.order.payments.length < 1) {
-    //   this.paymentsMap.clear();
-    // }
     if (this.order.additional_amounts && this.order.additional_amounts.length > 0) {
       this.discountsAndTaxes = new Map<number, any>(this.order.additional_amounts.map(item => [item.id, item]));
     } else if (this.order.additional_amounts.length < 1) {
@@ -186,6 +187,7 @@ export class EditOrderComponent implements OnInit {
         this.fillData();
       }
     });
+    this.getStatuses();
   }
 
   changeStatusPublish(): void {
@@ -239,5 +241,10 @@ export class EditOrderComponent implements OnInit {
         });
       }
     });
+  }
+
+  scrollBottomStatus(): void {
+    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+
   }
 }

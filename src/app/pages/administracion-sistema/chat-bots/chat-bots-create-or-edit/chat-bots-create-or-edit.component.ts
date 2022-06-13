@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
 import { IChatbot } from '../../../../interfaces/ichatbot';
 import { SharedService } from '../../../../services/shared/shared.service';
@@ -51,13 +52,13 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
   }
 
   getDataForSendServer() {
-    const formData: FormData = new FormData();
+    let formData: FormData = new FormData();
     if (this.form.valid) {
       if (this.img.base64 && this.img.file) {
         formData.append('photo', this.img.file);
       }
       formData.append('name', this.form.get('name').value);
-      // formData.append('_method', 'PUT');
+      formData.append('_method', 'PUT');
       return formData;
     }
       SwalService.swalToast('Faltan datos por llenar', 'error');
@@ -75,6 +76,29 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
         this.img.base64 = data.info.photo || 'assets/img/img_not_available.png';
       }
   }
+
+  saveInServer() {
+    const data_send = this.getDataForSendServer();
+    if (data_send) {
+        this.isLoading = true;
+        let url = this.urlSave;
+        let observable: Observable<any>;
+        if (this.status === 'edit') {
+            url += `/${this.getId()}`;
+            observable = this.standard_service.methodPost(url, data_send);
+        } else {
+            observable = this.standard_service.methodPost(url, data_send);
+        }
+        observable.subscribe(data => {
+            this.isLoading = false;
+            this.go();
+        }, error => {
+            console.log(error);
+            this.isLoading = false;
+        });
+        return;
+    }
+}
 
 
 
