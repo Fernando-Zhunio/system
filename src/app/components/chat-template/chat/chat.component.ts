@@ -11,6 +11,7 @@ import {
   OnDestroy,
   AfterViewInit,
   ChangeDetectorRef,
+  HostListener,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import collect from 'collect.js';
@@ -39,12 +40,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() chat: IchatBubble;
   @Input() current_chat_id: string;
   @Output() delete: EventEmitter<any> = new EventEmitter();
-  // @Output() newId: EventEmitter<{old_id: any, new_id: any}> = new EventEmitter();
   @Input() my_id: number;
   hasFile: boolean = false;
   scrollContainer: any = null;
   sendTyping: boolean = true;
-  // toggled: boolean = false;
   subscripted: Subscription;
   hasNewMessages: boolean = false;
   page: number = 1;
@@ -76,7 +75,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     }
   };
-
   isActiveWindow: boolean = false;
 
   ngOnInit(): void {
@@ -86,12 +84,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       this.getMessages();
     }
     autosize(document.querySelectorAll('#textarea-chat'));
-    this.windowActive();
   }
 
-  windowActive(): void {
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
+  ngOnDestroy() {
+    if (this.subscripted) {
+      this.subscripted.unsubscribe();
+    }
+    if (this.suscription_modal) {
+      this.suscription_modal.unsubscribe();
+    }
+    this.dialog.closeAll();
+  }
+
+  @HostListener('document:visibilitychange', ['$event'])
+  windowActive($event): void {
+    console.log('windowActive', $event.target.hidden);
+      if ($event.target.hidden) {
         console.log('Hidden');
         this.isActiveWindow = false;
       } else {
@@ -101,8 +109,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
           this.markReadMessage(this.chat.data._id);
         }
       }
-    });
-  }
+    }
 
   successFiles(event): void {
     this.hasFile = false;
@@ -148,7 +155,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       );
   }
 
-
   typingMessage(): void {
     if (this.sendTyping) {
       SharedService.disabled_loader = true;
@@ -175,6 +181,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   removeAttach(index): void {
     this.attachments.splice(index, 1);
   }
+
   ngAfterViewInit() {
     this.textMessage.nativeElement.focus();
     this.scrollContainer = this.scrollFrame.nativeElement;
@@ -197,16 +204,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         this.markReadMessage(this.chat.data._id);
       }
     });
-  }
-
-  ngOnDestroy() {
-    if (this.subscripted) {
-      this.subscripted.unsubscribe();
-    }
-    if (this.suscription_modal) {
-      this.suscription_modal.unsubscribe();
-    }
-    this.dialog.closeAll();
   }
 
   scrollToBottom(): void {
@@ -243,17 +240,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     if (text.trim() === '') {
       return false;
     }
-
-    //  //! codigo de estres
-    //  if(text == 'estres'){
-    //    setInterval(() => {
-    //     this.sendOneMessage(text);
-    //    }, 500);
-    //  }
-
-
-
-
     this.sendOneMessage(text);
     this.textMessage.nativeElement.value = '';
     autosize.update(this.textMessage.nativeElement);
@@ -267,14 +253,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       data['attachments_ids'] = attach_ids;
     }
     data['chat_id'] = this.chat.data._id;
-    // console.log(data);
 
     this.s_standard
       .store(`chats/user/messages`, data)
       .subscribe((res) => {
-        // console.log(res);
       });
-    // this.text_message = '';
   }
 
   markReadMessage(chat_id): void {
@@ -282,7 +265,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.s_standard
       .updatePut(`chats/${chat_id}/mark-read`, {}, false)
       .subscribe((res) => {
-        // console.log(res);
         this.chat.data.unread_messages_count = 0;
       });
   }
@@ -299,7 +281,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         is_admin: this.chat.data.owner_is_admin
       }
     }).beforeClosed().subscribe((res) => {
-      // console.log(res);
       if (res && typeof res === 'object' && res.state === 'deleted') {
         this.delete.emit(this.chat.id as number);
       }
@@ -342,23 +323,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       }, err => { message.files[0]['isload'] = false; });
   }
 
-  // pondHandleInit() {
-  //   console.log('FilePond has initialised', this.myPond);
-  // }
 
-  // pondHandleAddFile(event: any) {
-  //   console.log('A file was added', event);
+  // generateParticipantTooltip(participant): string {
+  //   return `<span class="text-truncate p-2">
+  //   <img style="width: 100px;" src="${this.getPhoto(participant?.info?.photo)}" alt="">${participant?.info?.name}
+  //     </span>`;
   // }
-
-  // pondHandleActivateFile(event: any) {
-  //   console.log('A file was activated', event);
-  // }
-
-  generateParticipantTooltip(participant): string {
-    return `<span class="text-truncate p-2">
-    <img style="width: 100px;" src="${this.getPhoto(participant?.info?.photo)}" alt="">${participant?.info?.name}
-      </span>`;
-  }
 
 
 
