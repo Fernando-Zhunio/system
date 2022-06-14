@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { prices_permission_module } from '../../../class/permissions-modules/prices-permissions';
+import { Permission_products_prices } from '../../../class/permissions-modules';
+// import { prices_permission_module } from '../../../class/permissions-modules/prices-permissions';
 import { PricesIndexComponent } from './prices-index/prices-index.component';
 
-const permissions_module = prices_permission_module;
+const permissions_module = Permission_products_prices.prices;
 
 const routes: Routes = [
   {

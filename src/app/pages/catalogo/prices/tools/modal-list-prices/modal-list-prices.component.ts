@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { prices_permission_module } from '../../../../../class/permissions-modules/prices-permissions';
+import { Permission_products_prices } from '../../../../../class/permissions-modules';
+// import { prices_permission_module } from '../../../../../class/permissions-modules/prices-permissions';
 import { IProductPrice } from '../../../../../interfaces/iprice';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
@@ -17,7 +18,8 @@ export class ModalListPricesComponent implements OnInit {
   isLoading: boolean = false;
   data: any;
   product_name: string = '';
-  permissions = prices_permission_module;
+  permissions = Permission_products_prices.prices;
+  // permissions = ;
 
 
   last_product: IProductPrice = null;
