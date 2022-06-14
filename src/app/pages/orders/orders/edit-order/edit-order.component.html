@@ -28,22 +28,6 @@
     </div>
    </div> 
    <div>
-  <!--  <ngx-mat-timeline
-    [position]="'center-alt'"
-    [orientation]="'horizontal'"
-    [reverse]="false"
-  >
-     <ngx-mat-timeline-item
-      *ngFor="let item of statuses; let idx = index"
-      [iconUrl]="item.iconUrl"
-      [label]="item.label | date"
-      [content]="item.content | translatefz: 'orders'"
-    >
-      <div>
-        {{ item.content }}
-      </div>
-    </ngx-mat-timeline-item> 
-   </ngx-mat-timeline> -->
    <div class="card-body d-md-flex">
     <div class="px-md-3">
       <small>orden:</small>
@@ -103,7 +87,12 @@
    </div>
   </div>
   <div class="border-left col-md-3">
-    <h3 class="font-2xl m-0">Dirección de envío</h3>
+    <h3 class="font-2xl m-0">Dirección de envío
+      <span *ngIf="order?.status != 'cancelled'">
+          <mat-icon color="accent" (click)="addClientAddress(order.shipping_address.address_id)">edit</mat-icon>
+          <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon>
+      </span>
+    </h3>
       <div class="content-address">
         <div>
           <small>Nombres:</small>

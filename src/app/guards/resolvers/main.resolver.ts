@@ -20,8 +20,6 @@ export class MainResolver implements Resolve<any> {
   ) { }
 
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> {
-    // this.spinner.show();
-   
     return forkJoin(
       {
         permissionsRolesAndVersion: this.methodsHttp.methodGet('user/permissions-roles'),
@@ -30,7 +28,6 @@ export class MainResolver implements Resolve<any> {
       }
     ).pipe(
       // tap(res => {
-      //   this.spinner.hide();
       // }),
       catchError((err) => {
         console.log(err);
@@ -52,8 +49,6 @@ export class MainResolver implements Resolve<any> {
             this.storage.logout();
           }
         })
-        // this.spinner.hide();
-        // this.route.navigate(['/login']);
         return EMPTY;
       })
     );

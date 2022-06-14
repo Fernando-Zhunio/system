@@ -42,26 +42,29 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     data: {
-      title: 'Login Page'
+      title: 'Login Page',
+      guard: 'guest'
     },
     canActivate: [AuthReverseGuard]
   },
   {
     path: 'recuperation-password',
     component: FormRecuperationPasswordComponent,
-    canLoad: [RecuperatePasswordGuard],
+    // canLoad: [RecuperatePasswordGuard],
     resolve: { user: RecuperatePasswordGuard },
     data: {
-      title: 'Recuperation password Page'
+      title: 'Recuperation password Page',
+      guard: 'guest'
     },
-    canActivate: [AuthReverseGuard]
+    // canActivate: [AuthReverseGuard]
   },
 
   {
     path: 'register',
     component: RegisterComponent,
     data: {
-      title: 'Register Page'
+      title: 'Register Page',
+      guard: 'guest'
     },
     canActivate: [AuthReverseGuard]
   },
@@ -69,7 +72,8 @@ export const routes: Routes = [
     path: 'redirect-to',
     component: RedirectToComponent,
     data: {
-      title: 'pageRedirect'
+      title: 'pageRedirect',
+      guard: 'guest'
     },
   },
   {
@@ -79,7 +83,11 @@ export const routes: Routes = [
   {
     path: 'authetication',
     loadChildren: () => import('./pages/authenticate/authenticate.module').then(m => m.AuthenticateModule),
-    canActivate: [AuthReverseGuard]
+    canActivate: [AuthReverseGuard],
+    data: {
+      title: 'pageRedirect',
+      guard: 'guest'
+    },
   },
   {
     path: '',

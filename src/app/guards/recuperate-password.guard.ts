@@ -13,7 +13,6 @@ export class RecuperatePasswordGuard implements  Resolve<Iresponse> {
   constructor(
     private s_standart: StandartSearchService,
     private route: Router,
-    private active_route: ActivatedRoute
   ) {}
 
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Iresponse | Observable<Iresponse> | Promise<Iresponse> {
@@ -22,6 +21,7 @@ export class RecuperatePasswordGuard implements  Resolve<Iresponse> {
     return this.s_standart.show(`auth/password/reset/${token}?email=${email}`).pipe(
       map((res) => {
         if (res && res.hasOwnProperty('success') && res.success) {
+          console.log('res', res);
           return {success: true, data: {email, token, res}};
         } else EMPTY;
       }),

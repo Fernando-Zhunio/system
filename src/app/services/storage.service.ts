@@ -1,34 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Session } from '../clases/session';
 import { User } from '../clases/user';
 import { NgxPermissionsService } from 'ngx-permissions';
 // import { Iperson } from '../interfaces/iperson';
 import { Cperson } from '../class/cperson';
+import { SwalService } from './swal.service';
 
 declare var require: any;
 const CryptoJS = require('crypto-js');
 @Injectable({
   providedIn: 'root'
 })
-export class StorageService  {
+export class StorageService {
 
-  private currentSession: Session = null;
+  private currentSession: Session | boolean = null;
 
-  constructor(private router: Router, public s_permissionsService: NgxPermissionsService) {
+  constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {}
 
+  verifiedLoginUser(): boolean {
     this.currentSession = this.loadSessionData();
     if (!this.currentSession) {
-      this.logout();
-      return;
+      return false;
     }
-      const permissions = this.getPermissionUser();
-      if (permissions) {
+    const permissions = this.getPermissionUser();
+    if (permissions) {
       this.s_permissionsService.loadPermissions(permissions);
+    } else {
+      SwalService.swalFire({title: 'Error', text: 'No tiene permisos para acceder a esta Novisolutions', icon: 'error'});
+      return false;
     }
+    return true;
   }
 
-  setSession(session){
+  setSession(session) {
     this.currentSession = session;
   }
 
@@ -45,26 +50,27 @@ export class StorageService  {
   }
 
   setCompanyUser(id_company) {
-    this.currentSession.user.company_company_id = id_company;
+    (this.currentSession as Session).user.company_company_id = id_company;
     localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(this.currentSession)));
   }
 
-  loadSessionData(): Session | null {
+  loadSessionData(): Session | boolean {
     let sessionStr = null;
     try {
       sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('914068895aa792bc7577dab10e7cf4e4')));
     } catch (e) {
-      this.logout();
-      throw Error('Error al cargar la sesión');
+      // this.logout();
+      return false;
+      // throw Error('Error al cargar la sesión');
     }
-    return  sessionStr;
+    return sessionStr;
   }
 
   getCurrentSession(): Session {
-    return this.currentSession;
+    return this.currentSession as Session;
   }
 
- 
+
 
   getCurrentUser(): User {
     const session: Session = this.getCurrentSession();
@@ -76,11 +82,11 @@ export class StorageService  {
     return (session && session.user.person) ? session.user.person : null;
   }
 
-  setPermission(permissions: any[]= []) {
-      const session = this.getCurrentSession();
-      session.user.permission = permissions;
-      localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(session)));
-      this.s_permissionsService.loadPermissions(permissions);
+  setPermission(permissions: any[] = []) {
+    const session = this.getCurrentSession();
+    session.user.permission = permissions;
+    localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(session)));
+    this.s_permissionsService.loadPermissions(permissions);
   }
 
   encryptedAes(text: string): string {
@@ -109,7 +115,12 @@ export class StorageService  {
 
   logout(): void {
     this.removeCurrentSession();
-    this.router.navigate(['/login']);
+    this.activatedRoute.data.subscribe(res => {
+      console.log(res);
+      if (res?.guard != 'guest') {
+        this.router.navigate(['/login']);
+      }
+    })
   }
 
   removeCurrentSession(): void {
@@ -122,7 +133,7 @@ export class StorageService  {
   }
 
   getUsersChat(): any {
-    return  JSON.parse(this.decryptAes(localStorage.getItem('users-chat')));
+    return JSON.parse(this.decryptAes(localStorage.getItem('users-chat')));
   }
 
   // setVersionApp(version: string): void {
