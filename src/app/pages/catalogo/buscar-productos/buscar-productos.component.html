@@ -133,12 +133,13 @@
               </mat-chip-list>
               <hr>
               <div class="mt-2">
-                <!-- <div  class="mr-1 my-2 {{p.available > 0?'alert-info':'alert-danger'}}  p-2 rounded text-uppercase" type="button">
-                  Stock para ventas: {{ p.available }}
-                </div> -->
+      
                 <button mat-raised-button class="mr-1 my1" type="button" color="primary" (click)="viewWareHouse(ind)">
                   Stock en bodegas
                 </button>
+                <!-- <button mat-raised-button class="mr-1 my1" type="button" color="info" (click)="viewWareHouseUpdate(ind)">
+                  Stock en bodegas actualizado
+                </button> -->
                 <button (click)="viewPost(p.id)" *ngIf="p.facebook_posts_count > 0" mat-raised-button class="mr-1 my-1"
                   color="warn" type="button">
                   Ver posteó

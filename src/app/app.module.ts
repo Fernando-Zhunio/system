@@ -56,7 +56,7 @@ import { InfoViewComponent } from './components/modals/info-view/info-view.compo
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MomentModule } from 'ngx-moment';
-import { StockBodegasComponent } from './components/modals/stock-bodegas/stock-bodegas.component';
+// import { StockBodegasComponent } from './components/modals/stock-bodegas/stock-bodegas.component';
 import { MatTableModule } from '@angular/material/table';
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
@@ -195,7 +195,7 @@ registerLocaleData(localeEs, 'es');
         RegisterComponent,
         RepricarMlModalComponent,
         InfoViewComponent,
-        StockBodegasComponent,
+        // StockBodegasComponent,
         SelectProviderComponent,
         ActionProviderComponent,
         InvoiceItemModalComponent,

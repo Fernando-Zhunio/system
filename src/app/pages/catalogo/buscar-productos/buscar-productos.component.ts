@@ -25,6 +25,7 @@ import { ActivatedRoute } from '@angular/router';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { animation_conditional } from '../../../animations/animate_leave_enter';
 import { search_product_permission_module } from '../../../class/permissions-modules/search-products-permissions';
+import { MethodsHttpService } from '../../../services/methods-http.service';
 
 @Component({
   selector: 'app-buscar-productos',
@@ -39,13 +40,13 @@ export class BuscarProductosComponent implements OnInit {
     private s_standartSearch: StandartSearchService,
     private dialog: MatDialog,
     private s_product: ProductsService,
-    private actived_router: ActivatedRoute,
+    private methodsHttp: MethodsHttpService,
   ) {}
 
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  @ViewChild(MatDrawer) drawer: MatDrawer;
 
-  // permission_edit = ['super-admin', 'products-admin.products.edit'];
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
 
@@ -64,13 +65,12 @@ export class BuscarProductosComponent implements OnInit {
   prefix_id: string = 'all';
   warehouse_ids = [];
   search: string;
-  @ViewChild(MatDrawer) drawer: MatDrawer;
   messagePost: string = 'Cargando post espere por favor...';
   isLoadPost: boolean = false;
   current_go: number;
   is_open_go: boolean = false;
   icon_go: 'segment'|'close' = 'segment';
-  public config: SwiperOptions = {
+  config: SwiperOptions = {
     direction: 'horizontal',
     spaceBetween: 10,
     breakpoints: {
@@ -101,10 +101,6 @@ export class BuscarProductosComponent implements OnInit {
   permission = search_product_permission_module;
 
   ngOnInit(): void {
-    // this.actived_router.data.subscribe((res) => {
-    //   this.permission_page = res.permissions.all;
-    // });
-
     this.s_standartSearch
       .show('catalogs/products/get-data-filter')
       .subscribe((res) => {
@@ -122,7 +118,6 @@ export class BuscarProductosComponent implements OnInit {
   }
 
   removeWarehouse(id) {
-
     const index = this.warehouse_ids.findIndex((x) => x == id);
     if (index != -1) {
       this.warehouse_ids.splice(index, 1);
@@ -166,6 +161,7 @@ export class BuscarProductosComponent implements OnInit {
           titleOne: 'Bodegas Ventas',
           titleTwo: 'Otras Bodegas',
           data: res,
+          warehouse
         },
       });
     });
@@ -188,7 +184,7 @@ export class BuscarProductosComponent implements OnInit {
       },
       (err) => {
         this.messagePost =
-          'Ups! ocurrió un problema al cargar el post intentalo otra vez';
+          'Ups! ocurrió un problema al cargar el post inténtalo otra vez';
       }
     );
   }

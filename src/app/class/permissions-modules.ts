@@ -22,6 +22,14 @@ export const Permission_products_prices = {
     }
 }
 
+export const Permission_categories = {
+    categories: {
+        edit: ['super-admin', 'products-admin.categories.edit'],
+        destroy: ['super-admin', 'products-admin.categories.destroy'],
+        create: ['super-admin', 'products-admin.categories.create']
+    }
+}
+
 export const permission_admin_products = {
     categories: {
         index: 'products-admin.categories.index',
@@ -39,16 +47,16 @@ export const PermissionAdminLocations = {
         create: ['super-admin', 'admin.locations.create'],
         edit: ['super-admin', 'admin.locations.edit'],
         delete: ['super-admin', 'admin.locations.destroy'],
-      },
+    },
 }
 
 // Pagina de Buscar productos
 export const PermissionSearchProducts = {
- index : ['catalogs.products.index', 'super-admin'],
- show : ['catalogs.products.show', 'super-admin'],
- create : ['catalogs.products.create', 'super-admin'],
- edit : ['catalogs.products.edit', 'super-admin'],
- destroy : ['catalogs.products.destroy', 'super-admin'],
+    index: ['catalogs.products.index', 'super-admin'],
+    show: ['catalogs.products.show', 'super-admin'],
+    create: ['catalogs.products.create', 'super-admin'],
+    edit: ['catalogs.products.edit', 'super-admin'],
+    destroy: ['catalogs.products.destroy', 'super-admin'],
 }
 
 //orders system orders

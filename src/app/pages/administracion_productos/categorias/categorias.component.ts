@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Permission_categories } from '../../../class/permissions-modules';
 import { CategoriasService } from '../../../services/categorias.service';
+import { MethodsHttpService } from '../../../services/methods-http.service';
 
 
 declare let Swal: any;
@@ -10,26 +12,25 @@ declare let Swal: any;
 })
 export class CategoriasComponent implements OnInit {
 
-  constructor(private s_categories: CategoriasService) { }
+  constructor(private methodsHttp: MethodsHttpService) { }
   categories: any;
-  pageCurrent: number = 1;
-  perPage: number = 10;
-  totalItem: number = 0;
-  permission_edit = ['super-admin', 'products-admin.categories.edit']
-  permission_destroy = ['super-admin', 'products-admin.categories.destroy']
-  permission_create = ['super-admin', 'products-admin.categories.create']
+  pageCurrent = 1;
+  perPage = 10;
+  totalItem = 0;
+
+  permissions = Permission_categories.categories;
   ngOnInit(): void {
    this.nextPage();
   }
 
-  nextPage(pageNumber= 1): void{
-    this.s_categories.index(pageNumber).subscribe(
+  nextPage(page= 1): void{
+    this.methodsHttp.methodGet('products-admin/categories',{page}).subscribe(
       (response: any) => {
         this.categories = response.data.data;
         this.totalItem = response.data.total;
         this.perPage = response.data.per_page;
         this.pageCurrent =  response.data.current_page;
-      }
+      } 
     );
   }
 
@@ -55,12 +56,11 @@ export class CategoriasComponent implements OnInit {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          this.s_categories.destroy(id).subscribe((res) => {
-            // let index:number = this.categories.findIndex((x) => x.id === id);
+          this.methodsHttp.methodDelete('products-admin/categories/'+id).subscribe((res) => {
             if (index != -1) { this.categories.splice(index, 1); }
             swalWithBootstrapButtons.fire(
               'Eliminado!',
-              'Eliminado con exito.',
+              'Eliminado con éxito.',
               'success'
             );
           });
@@ -70,7 +70,7 @@ export class CategoriasComponent implements OnInit {
         ) {
           swalWithBootstrapButtons.fire(
             'Cancelled',
-            'Tu accion a sido cancelada :)',
+            'Tu acción a sido cancelada :)',
             'error'
           );
         }

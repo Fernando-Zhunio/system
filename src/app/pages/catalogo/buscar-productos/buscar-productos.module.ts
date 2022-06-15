@@ -26,14 +26,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
-import { TemplateSearchModule } from '../../../Modulos/template-search/template-search.module';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
+import { StockBodegasComponent } from '../../../components/modals/stock-bodegas/stock-bodegas.component';
+import { MomentModule } from 'ngx-moment';
+import { MatDialogModule } from '@angular/material/dialog';
 // import { NgxMasonryModule } from 'ngx-masonry';
 // import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
 // import { SimpleScrollSpyModule } from "angular-simple-scroll-spy";
 
 @NgModule({
-  declarations: [BuscarProductosComponent],
+  declarations: [BuscarProductosComponent, StockBodegasComponent],
   imports: [
     CommonModule,
     BuscarProductosRoutingModule,
@@ -65,8 +67,11 @@ import { SearchTemplateModule } from '../../../Modulos/search-template/search-te
     HeaderSearchModule,
     // TemplateSearchModule
     SearchTemplateModule,
+    MomentModule,
+    MatDialogModule,
     // NgxMasonryModule,
     // SimpleScrollSpyModule,
-    ]
+    ],
+    
 })
 export class BuscarProductosModule { }

@@ -19,9 +19,6 @@ export class ModalListPricesComponent implements OnInit {
   data: any;
   product_name: string = '';
   permissions = Permission_products_prices.prices;
-  // permissions = ;
-
-
   last_product: IProductPrice = null;
   ngOnInit(): void {
     this.product_name = this.info.product_name
