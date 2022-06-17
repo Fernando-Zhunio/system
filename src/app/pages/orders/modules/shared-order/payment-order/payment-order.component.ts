@@ -40,7 +40,7 @@ export class PaymentOrderComponent implements OnInit {
       data: {
         isEdit: id ? true : false,
         order_id: this.order_id,
-        data: this.payments
+        data: payment
       },
       disableClose: true
     }).afterClosed().subscribe(x => {

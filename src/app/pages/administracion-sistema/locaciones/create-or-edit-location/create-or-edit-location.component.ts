@@ -46,6 +46,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   location: Location;
   formLocation = new FormGroup({
     name: new FormControl('', [Validators.required]),
+    phone: new FormControl(''),
     address: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required]),
     city: new FormControl(null, [Validators.required]),
@@ -93,12 +94,13 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       end: new FormControl(null, [Validators.required]),
     }, [this.validateHours()]),
   })
+
   ngOnInit(): void {
     this.ngx_spinner.show();
     this.act_router.data.subscribe((res) => {
       this.state = res.isEdit ? 'edit' : 'create';
       if (res.isEdit) {
-        this.title = 'Editando Usuario';
+        this.title = 'Editando Localidad';
         const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
         const url = 'admin/locations/' + id + '/edit';
         this.methodHttp.methodGet(url).subscribe(
@@ -115,7 +117,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
                 status,
                 latitude,
                 longitude,
-                schedules
+                schedules,
+                phone
               } = this.location;
               this.formLocation.patchValue({
                 name,
@@ -125,12 +128,13 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
                 company,
                 status,
                 latitude,
-                longitude
+                longitude,
+                phone
               });
               
               if (schedules) {
-                console.log(schedules);
                 const schedulesJson = JSON.parse(schedules);
+                console.log(schedulesJson);
                 this.formSchedules.patchValue(schedulesJson);
               }
 

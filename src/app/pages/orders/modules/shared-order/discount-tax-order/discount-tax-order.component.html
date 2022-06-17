@@ -21,10 +21,11 @@
       *ngFor="let discountOrTax of discountsAndTaxes | keyvalue"
     >
       <mat-card>
-        <div>
+        <div class="d-flex justify-content-between align-items-center">
           <span class="badge bg-info font-sm">{{
             discountOrTax.value.type | translatefz: "orders"
           }}</span>
+          <button *ngIf="discountOrTax.value.type == 'retention'" (click)="confirmedRetention(discountOrTax.key)"  color="primary" mat-button>Activar</button>
         </div>
         <table class="table table-sm table-borderless">
           <tbody class="body-info">

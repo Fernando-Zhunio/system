@@ -39,7 +39,7 @@ export class DiscountTaxOrderComponent implements OnInit {
         // }
         // this.discountsAndTaxes.set(res.id, res);
         // this.eventOccurrence.emit('updated');
-         this.change.emit('updated');
+        this.change.emit('updated');
       }
     });
   }
@@ -57,6 +57,28 @@ export class DiscountTaxOrderComponent implements OnInit {
         });
       }
     });
+  }
+
+  confirmedRetention(id: number): void {
+    SwalService.swalFire({ title: 'Confirmar Retención', text: '¿Está seguro de confirmar la retención?', icon: 'warning' })
+      .then(res => {
+        if (res.isConfirmed) {
+          this.standard.methodPut(`system-orders/orders/${this.order_id}/additional-amounts/${id}/confirm-retention`).subscribe(
+            {
+              next: res => {
+                if (res?.success) {
+                  SwalService.swalFire({ title: 'Confirmar', text: 'Retención activada', icon: 'success' });
+                  this.change.emit('delete');
+                }
+              },
+              error: err => {
+                console.error(err);
+                SwalService.swalFire({ title: 'Error', text: 'Error al querer confirmar esta retención', icon: 'error' });
+              }
+            }
+          );
+        }
+      })
   }
 
 }

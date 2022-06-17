@@ -20,15 +20,24 @@
               <input type="address" matInput formControlName="address" required />
               <mat-error *ngIf="formLocation.controls['address'].invalid">Dirección requerida</mat-error>
             </mat-form-field>
-            <mat-form-field class="w-100">
-              <mat-label>Seleccione una Compañía</mat-label>
-              <mat-select formControlName="company" required>
-                <mat-option *ngFor="let company of companies" [value]="company.id">
-                  {{ company.name }}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="formLocation.controls['company'].invalid">Compañía requerida</mat-error>
-            </mat-form-field>
+
+            <div class="row w-100">
+              <mat-form-field class="col-md-6">
+                <mat-label>Seleccione una Compañía</mat-label>
+                <mat-select formControlName="company" required>
+                  <mat-option *ngFor="let company of companies" [value]="company.id">
+                    {{ company.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formLocation.controls['company'].invalid">Compañía requerida</mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-md-6">
+                <mat-label>Teléfono</mat-label>
+                <input matInput formControlName="phone" type="text" />
+                <!-- <mat-error *ngIf="formLocation.controls['phone'].invalid">Teléfono Requerido</mat-error> -->
+              </mat-form-field>
+            </div>
+
             <div class="row w-100">
               <mat-form-field class="col-md-6">
                 <mat-label>Seleccione una ciudad</mat-label>

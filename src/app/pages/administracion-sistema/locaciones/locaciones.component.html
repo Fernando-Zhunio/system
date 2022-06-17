@@ -25,9 +25,14 @@
           <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
         </ng-container>
+
+        <ng-container matColumnDef="mba_code">
+          <mat-header-cell *matHeaderCellDef>Código mba</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.mba_code}} </mat-cell>
+        </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="address">
-          <mat-header-cell *matHeaderCellDef> Direccion </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Dirección </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.address}}
           </mat-cell>
         </ng-container>

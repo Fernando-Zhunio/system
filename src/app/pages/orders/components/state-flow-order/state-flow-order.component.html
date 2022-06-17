@@ -46,7 +46,9 @@
         <div class="content-item border-right">
           <div class="center">
             <img class="img-status" [src]="state.iconUrl">
-            <span class="ml-2 text-info">{{state.date | date}}</span>
+            <span class="ml-2 text-info ">{{state.date | date}}
+              <br><small class="text-left line-1 text-muted d-block">{{state.date | date:'h:mm a'}}</small>
+            </span>
           </div>
           <div>
             <div>{{state.content}}</div>

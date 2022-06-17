@@ -4,10 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Location } from '../../../class/location';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
-// import { Ipagination } from '../../../interfaces/ipagination';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
-// import { CreateOrEditLocationComponent } from './create-or-edit-location/create-or-edit-location.component';
 
 declare let Swal: any;
 
@@ -24,6 +22,7 @@ export class LocacionesComponent implements OnInit {
     'name',
     'type',
     'status',
+    'mba_code',
     'address',
     'latitude',
     'longitude',
@@ -37,7 +36,6 @@ export class LocacionesComponent implements OnInit {
   permission_edit: any[] = ['super-admin', 'admin.users.edit'];
   permission_destroy: any[] = ['super-admin', 'admin.users.destroy'];
   dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
-  // paginator: Ipagination<Location>;
   isLoading: boolean;
 
   ngOnInit(): void {}
@@ -51,10 +49,7 @@ export class LocacionesComponent implements OnInit {
     this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   }
 
-  //#region botones de acciones de usuario
-  editItem(i): void {
-
-  }
+  editItem(i): void {}
 
   deleteItem(id): void {
     SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar esta locacion', 'warning').then((result) => {
