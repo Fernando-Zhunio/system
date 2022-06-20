@@ -53,6 +53,21 @@
         <mat-chip>{{order?.seller_code}}</mat-chip>
       </mat-chip-list>
     </div>
+    <div class="px-md-3">
+      <small>Iniciado:</small>
+      <mat-chip-list>
+        <mat-chip>{{order?.timing?.started_at | date:'dd MM yyy - hh:mm'}}</mat-chip>
+      </mat-chip-list>
+    </div>
+    <ng-container *ngIf="order?.timing">
+      <div class="px-md-3">
+        <small>Tiempo transcurrido:</small>
+        <mat-chip-list>
+          <mat-chip> Días: {{ transcurrentTime?.days }} Horas: {{transcurrentTime?.hours}}</mat-chip>
+          <!-- <mat-chip>{{counterTime(order?.timing?.started_at) | date}}</mat-chip> -->
+        </mat-chip-list>
+      </div>
+    </ng-container>
    </div>
     <div class="mb-4 shadow rounded-fz card-body">
       <div class="font-2xl">Estados</div>

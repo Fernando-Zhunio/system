@@ -14,6 +14,8 @@ import { trans } from '../../../../class/translations';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DetailButtonSheetComponent } from './detail-button-sheet/detail-button-sheet.component';
 import { StateFlowOrderComponent } from '../../components/state-flow-order/state-flow-order.component';
+import { CountdownConfig } from 'ngx-countdown';
+import * as moment from 'moment';
 
 interface Record {
   icon?: string | null;
@@ -45,7 +47,6 @@ export class EditOrderComponent implements OnInit {
   pipeTrans = new TranslatefzPipe();
   isPublishing = false;
 
-
   detailClient: any[] = [];
 
   permissionsProducts = PermissionOrdersItems;
@@ -56,6 +57,10 @@ export class EditOrderComponent implements OnInit {
   permissionsAnticipe = PermissionOrdersPaymentsMba;
   permissionsInvoices = PermissionOrdersInvoicesMba;
 
+  nowDate = new Date();
+
+  transcurrentTime: {hours, days} = {hours: '00:00:00', days: '0'};
+
 
   ngOnInit() {
     this.id = this.activated_router.snapshot.paramMap.get('order_id');
@@ -65,12 +70,17 @@ export class EditOrderComponent implements OnInit {
       console.log(data);
       if (data?.success) {
         this.order = data.data.order;
+        if (this.order.timing && this.order.timing.started_at) {
+          // this.transcurrentTime = new Date(this.order.timing.started_at);
+          // console.log(this.counterTime(this.transcurrentTime))
+          this.startTranscurrentTime(this.order.timing.started_at)
+        }
         this.channels = data.data.channels;
         this.types = data.data.types;
         this.fillData();
         this.spinner.hide();
         this.detailClient = [
-          ['Ciudad',this.order?.client?.city],
+          ['Ciudad', this.order?.client?.city],
           // ['Compañía',this.order?.client?.company],
           ['País', this.order?.client?.country],
           ['Estado', this.order?.client?.state],
@@ -98,6 +108,23 @@ export class EditOrderComponent implements OnInit {
     });
   }
 
+  startTranscurrentTime(date): void {
+    setInterval(() => {
+      const _transcurrentTime = this.counterTime(date);
+      // console.log(_transcurrentTime);
+      this.transcurrentTime.days = _transcurrentTime.days;
+      this.transcurrentTime.hours = _transcurrentTime.hours;
+      console.log({cont:this.transcurrentTime});
+    }, 1000);
+  }
+
+  counterTime(date): {hours, days} {
+    const diffTime = moment(Date.now()).diff(moment(date));
+    const days = Math.floor(moment.duration(diffTime).asDays()).toString();
+    return { hours: moment.utc(diffTime).format(`HH:mm:ss`), days }
+    // return moment.utc(diffTime).format("LTS");
+  }
+
   getStatuses(): void {
     this.standard.methodGet<IStatus[]>(`system-orders/orders/${this.id}/statuses`).subscribe(res => {
       if (res.success) {
@@ -112,7 +139,7 @@ export class EditOrderComponent implements OnInit {
           });
 
           setTimeout(() => {
-              this.stateFlow.scrollBottom();
+            this.stateFlow.scrollBottom();
           }, 1000);
         }
       }

@@ -23,6 +23,19 @@ export interface IDiscountAndTaxes {
   created_at: string;
   updated_at: string;
 }
+
+
+interface ITiming {
+  id: number;
+  started_at: string;
+  ended_at: string;
+  processed_time: number;
+  shipped_time?: any;
+  delivered_time: number;
+  order_id: number;
+  created_at: string;
+  updated_at: string;
+}
 export interface ItemsEntity {
   id: number;
   product_id: number;
@@ -85,6 +98,7 @@ export interface IOrder {
   mba_payments: IPaymentMBA[];
   company: {id: number, name: string};
   seller_code: string;
+  timing: ITiming;
 }
 export interface IClientOrder {
   id: number;

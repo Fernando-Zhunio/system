@@ -33,15 +33,17 @@ import { EditOrderComponent } from './orders/edit-order/edit-order.component';
 import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create-or-edit-order.component';
 import { OrdersIndexComponent } from './orders/orders-index/orders-index.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 // import { NgxMatTimelineModule } from 'ngx-mat-timeline';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { DetailButtonSheetComponent } from './orders/edit-order/detail-button-sheet/detail-button-sheet.component';
+import { CountdownModule } from 'ngx-countdown';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
     declarations: [DashboardOrdersComponent,
@@ -84,7 +86,9 @@ import { DetailButtonSheetComponent } from './orders/edit-order/detail-button-sh
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatBottomSheetModule
-    ] 
+        MatBottomSheetModule,
+        MomentModule,
+        
+    ]
 })
 export class OrdersModule { }
