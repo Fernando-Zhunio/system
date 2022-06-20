@@ -14,6 +14,7 @@ import { HeaderSearchComponent } from '../../../../components/header-search/head
 import { PageEvent } from '@angular/material/paginator';
 import { IPaginate, IResponse } from '../../../../services/methods-http.service';
 import { MatSort } from '@angular/material/sort';
+import { SwalService } from '../../../../services/swal.service';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -44,7 +45,6 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     current_page : 1,
     per_page : 10,
     total : 0
-
   }
   filters = {
     status: '',
@@ -53,6 +53,10 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     type: '',
     orderBy: null,
     orderByColumn: null,
+    hasMbaTransfers: null,
+    hasMbaPayments: null,
+    hasMbaInvoices: null,
+    hasConfirmedRetention  : null,
   };
 
   statuses: any[] = [];
@@ -145,6 +149,23 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     this.dialog.open(DetailsOrderComponent, {
       data: { order_id: id },
     });
+  }
+
+  deleteOrder(id: number) {
+    SwalService.swalFire({text: '¿Está seguro de eliminar el pedido?', icon: 'warning', showConfirmButton: true, showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'No, cancelar'})
+    .then((result) => {
+      if ( result.isConfirmed) {
+        this.standardService.methodDelete(`system-orders/orders/${id}`).subscribe(
+          {
+            next: (response) => {
+              this.snackBar.open('Orden eliminada', 'Cerrar', {
+                duration: 5000,
+              });
+              this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
+            }
+          });
+      }
+    })
   }
 
   // validateMinQuantity(e): void {

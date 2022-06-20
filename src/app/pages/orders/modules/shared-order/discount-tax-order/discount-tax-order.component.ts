@@ -60,7 +60,7 @@ export class DiscountTaxOrderComponent implements OnInit {
   }
 
   confirmedRetention(id: number): void {
-    SwalService.swalFire({ title: 'Confirmar Retención', text: '¿Está seguro de confirmar la retención?', icon: 'warning' })
+    SwalService.swalFire({ title: 'Confirmar esta retención', text: '¿Está seguro de confirmar la retención?', icon: 'warning', showConfirmButton: true, showCancelButton: true, confirmButtonText: 'Confirmar', cancelButtonText: 'Cancelar' })
       .then(res => {
         if (res.isConfirmed) {
           this.standard.methodPut(`system-orders/orders/${this.order_id}/additional-amounts/${id}/confirm-retention`).subscribe(

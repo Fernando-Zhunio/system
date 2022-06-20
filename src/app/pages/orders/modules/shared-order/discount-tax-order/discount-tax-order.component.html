@@ -25,7 +25,7 @@
           <span class="badge bg-info font-sm">{{
             discountOrTax.value.type | translatefz: "orders"
           }}</span>
-          <button *ngIf="discountOrTax.value.type == 'retention'" (click)="confirmedRetention(discountOrTax.key)"  color="primary" mat-button>Activar</button>
+          <button *ngIf="discountOrTax.value.type == 'retention'" (click)="confirmedRetention(discountOrTax.key)"  color="accent" mat-button>Activar</button>
         </div>
         <table class="table table-sm table-borderless">
           <tbody class="body-info">
