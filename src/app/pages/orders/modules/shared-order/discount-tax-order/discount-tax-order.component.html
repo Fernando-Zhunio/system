@@ -26,7 +26,7 @@
             discountOrTax.value.type | translatefz: "orders"
           }}</span>
           <ng-container *ngxPermissionsOnly="permissionTaxAndDiscount.confirm_retention">
-            <button *ngIf="discountOrTax.value.type == 'retention'" (click)="confirmedRetention(discountOrTax.key)"  color="accent" mat-button>Activar</button>
+            <button *ngIf="discountOrTax.value.type == 'retention' && discountOrTax.value.status != 'confirmed'" (click)="confirmedRetention(discountOrTax.key)"  color="accent" mat-button>Confirmar</button>
           </ng-container>
           
         </div>
