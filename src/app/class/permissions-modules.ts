@@ -94,6 +94,7 @@ export const PermissionOrdersAdditionalAmounts = {
     create: ['system-orders.orders.additional-amounts.create', 'super-admin'],
     edit: ['system-orders.orders.additional-amounts.edit', 'super-admin'],
     destroy: ['system-orders.orders.additional-amounts.destroy', 'super-admin'],
+    confirm_retention : ['system-orders.orders.additional-amounts.confirm-retention', 'super-admin']
 }
 //orders system orders transfers mba
 export const PermissionOrdersTransfersMba = {

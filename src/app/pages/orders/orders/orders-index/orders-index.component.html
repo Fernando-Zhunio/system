@@ -208,8 +208,8 @@
               <mat-label>Transferencias</mat-label>
               <mat-select [(ngModel)]="filters.hasMbaTransfers">
                 <mat-option value="">Todos</mat-option>
-                <mat-option [value]="true">Con transferencias</mat-option>
-                <mat-option [value]="false">Sin transferencias</mat-option>
+                <mat-option value="1">Con transferencias</mat-option>
+                <mat-option value="0">Sin transferencias</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -223,8 +223,8 @@
               <mat-label>Anticipos</mat-label>
               <mat-select [(ngModel)]="filters.hasMbaPayments">
                 <mat-option value="">Todos</mat-option>
-                <mat-option [value]="true">Con anticipos</mat-option>
-                <mat-option [value]="false">Sin anticipos</mat-option>
+                <mat-option value="1">Con anticipos</mat-option>
+                <mat-option value="0">Sin anticipos</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -238,8 +238,8 @@
               <mat-label>Facturas</mat-label>
               <mat-select [(ngModel)]="filters.hasMbaInvoices">
                 <mat-option value="">Todos</mat-option>
-                <mat-option [value]="true">Con facturas</mat-option>
-                <mat-option [value]="false">Sin facturas</mat-option>
+                <mat-option value="1">Con facturas</mat-option>
+                <mat-option value="0">Sin facturas</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -253,8 +253,8 @@
             <mat-label>Retenciones confirmadas</mat-label>
             <mat-select [(ngModel)]="filters.hasConfirmedRetention">
               <mat-option value="">Todos</mat-option>
-              <mat-option [value]="true">Con retenciones</mat-option>
-              <mat-option [value]="false">Sin retenciones</mat-option>
+              <mat-option value="1">Con retenciones</mat-option>
+              <mat-option value="0">Sin retenciones</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
