@@ -10,13 +10,9 @@ export class NullPipe implements PipeTransform {
       args = [];
       args[0] = 'default';
     }
-    console.log(args);
-
     if (args[0] == 'img' && !value) {
       return 'assets/img/img_not_available.png';
     }
-     console.log({value});
-
     if (value === null || value === undefined) {
       return 'texto vacío';
     }

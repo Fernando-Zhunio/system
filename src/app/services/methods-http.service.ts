@@ -49,4 +49,8 @@ export class MethodsHttpService {
   public methodDelete<T = any>(url): Observable<IResponse<T>> {
     return this.http.delete<IResponse<T>>(this.end_point + url);
   }
+
+  public methodGetCustom<T = any>(url): Observable<any> {
+    return this.http.get<any>(url);
+  }
 }

@@ -57,9 +57,9 @@ export class EditOrderComponent implements OnInit {
   permissionsAnticipe = PermissionOrdersPaymentsMba;
   permissionsInvoices = PermissionOrdersInvoicesMba;
 
-  nowDate = new Date();
+  setIntervalOfTime: any = null;
 
-  transcurrentTime: {hours, days} = {hours: '00:00:00', days: '0'};
+  transcurrentTime: { hours, days } = { hours: '00:00:00', days: '0' };
 
 
   ngOnInit() {
@@ -67,14 +67,9 @@ export class EditOrderComponent implements OnInit {
     this.spinner.show();
     this.getStatuses();
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
-      console.log(data);
       if (data?.success) {
         this.order = data.data.order;
-        if (this.order.timing && this.order.timing.started_at) {
-          // this.transcurrentTime = new Date(this.order.timing.started_at);
-          // console.log(this.counterTime(this.transcurrentTime))
-          this.startTranscurrentTime(this.order.timing.started_at)
-        }
+        this.withTiming();
         this.channels = data.data.channels;
         this.types = data.data.types;
         this.fillData();
@@ -108,18 +103,30 @@ export class EditOrderComponent implements OnInit {
     });
   }
 
+  withTiming(): void {
+    if (this.order?.timing && this.order?.timing.started_at) {
+      if (this.order.timing?.ended_at) {
+        if (this.setIntervalOfTime) {
+          clearInterval(this.setIntervalOfTime);
+        }
+        this.transcurrentTime = this.counterTime(this.order?.timing.started_at, this.order.timing?.ended_at);
+      } else {
+        this.startTranscurrentTime(this.order.timing.started_at)
+      }
+    }
+  }
+
   startTranscurrentTime(date): void {
-    setInterval(() => {
-      const _transcurrentTime = this.counterTime(date);
-      // console.log(_transcurrentTime);
-      this.transcurrentTime.days = _transcurrentTime.days;
-      this.transcurrentTime.hours = _transcurrentTime.hours;
-      console.log({cont:this.transcurrentTime});
+    if (this.setIntervalOfTime) {
+      clearInterval(this.setIntervalOfTime);
+    }
+    this.setIntervalOfTime = setInterval(() => {
+      this.transcurrentTime = this.counterTime(date);
     }, 1000);
   }
 
-  counterTime(date): {hours, days} {
-    const diffTime = moment(Date.now()).diff(moment(date));
+  counterTime(start_date, end_date: any = Date.now()): { hours, days } {
+    const diffTime = moment(end_date).diff(moment(start_date));
     const days = Math.floor(moment.duration(diffTime).asDays()).toString();
     return { hours: moment.utc(diffTime).format(`HH:mm:ss`), days }
     // return moment.utc(diffTime).format("LTS");
@@ -195,23 +202,12 @@ export class EditOrderComponent implements OnInit {
     });
   }
 
-  loadOrder(): void {
-    this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
-      console.log(data);
-      if (data?.success) {
-        this.order = data.data.order;
-        this.channels = data.data.channels;
-        this.types = data.data.types;
-      }
-    });
-  }
-
   getOrder($event = null): void {
-    // console.log($event);
     this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
       if (res.success) {
         this.order = res.data;
         this.fillData();
+        this.withTiming();
       }
     });
     this.getStatuses();
@@ -272,6 +268,5 @@ export class EditOrderComponent implements OnInit {
 
   scrollBottomStatus(): void {
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
-
   }
 }

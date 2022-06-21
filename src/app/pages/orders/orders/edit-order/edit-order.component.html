@@ -28,43 +28,49 @@
     </div>
    </div> 
    <div>
-   <div class="card-body d-md-flex">
-    <div class="px-md-3">
+   <div class="container-info card-body d-md-flex mb-3 py-2 scrollbar-fz">
+    <div class="px-md-3 py-md-2">
       <small>orden:</small>
       <mat-chip-list>
         <mat-chip>#{{order?.id}}</mat-chip>
       </mat-chip-list>
     </div>
-    <div class="px-md-3">
+    <div class="px-md-3 py-md-2">
       <small>Estado:</small>
       <mat-chip-list>
-        <mat-chip>{{order?.status | translatefz:'orders'}}</mat-chip>
+        <mat-chip selected color="primary">{{order?.status | translatefz:'orders'}}</mat-chip>
       </mat-chip-list>
     </div>
-    <div class="px-md-3">
+    <div class="px-md-3 py-md-2">
       <small>Empresa:</small>
       <mat-chip-list>
         <mat-chip>{{order?.company?.name}}</mat-chip>
       </mat-chip-list>
     </div>
-    <div class="px-md-3">
+    <div class="px-md-3 py-md-2">
       <small>Vendedor:</small>
       <mat-chip-list>
         <mat-chip>{{order?.seller_code}}</mat-chip>
       </mat-chip-list>
     </div>
-    <div class="px-md-3">
-      <small>Iniciado:</small>
-      <mat-chip-list>
-        <mat-chip>{{order?.timing?.started_at | date:'dd MM yyy - hh:mm'}}</mat-chip>
-      </mat-chip-list>
-    </div>
     <ng-container *ngIf="order?.timing">
-      <div class="px-md-3">
+      <div *ngIf="order?.timing.started_at" class="px-md-3 py-md-2">
+        <small>Iniciado:</small>
+        <mat-chip-list>
+          <mat-chip>{{order?.timing?.started_at | date:'medium'}}</mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="px-md-3 py-md-2">
         <small>Tiempo transcurrido:</small>
         <mat-chip-list>
           <mat-chip> Días: {{ transcurrentTime?.days }} Horas: {{transcurrentTime?.hours}}</mat-chip>
-          <!-- <mat-chip>{{counterTime(order?.timing?.started_at) | date}}</mat-chip> -->
+        </mat-chip-list>
+      </div>
+
+      <div *ngIf="order?.timing?.ended_at" class="px-md-3 py-md-2">
+        <small>Finalizado:</small>
+        <mat-chip-list>
+          <mat-chip> {{order?.timing?.ended_at | date:'medium'}} </mat-chip>
         </mat-chip-list>
       </div>
     </ng-container>
@@ -302,7 +308,7 @@
           <mat-panel-description>
             <span class="d-md-inline-block d-none">Agregar, editar o eliminar pagos de la orden</span>
             <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ paymentsMap?.size || 0 }}</span>
+              <span class="badge bg-warning font-lg mr-1">{{ order?.payments?.length || 0 }}</span>
               <mat-icon>attach_money</mat-icon>
             </span>
           </mat-panel-description>

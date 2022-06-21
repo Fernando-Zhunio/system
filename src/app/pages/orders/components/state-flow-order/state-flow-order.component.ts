@@ -19,7 +19,6 @@ export class StateFlowOrderComponent implements OnInit {
 
   scrollBottom(): void {
     const widthScroll = this.containerStatus.nativeElement.scrollWidth;
-    console.log(widthScroll);
     this.containerStatus.nativeElement.scrollTo({ left: widthScroll, top: 0, behavior: "smooth" });
   }
 }

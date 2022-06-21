@@ -18,7 +18,13 @@
 
 
 table {
-  width: 100%;
+  // width: 100%;
+  min-width: 100%;
+  border-collapse: inherit !important;
+}
+
+.table-container {
+  overflow: auto;
 }
 
 tr.example-detail-row {
@@ -35,6 +41,11 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-row td {
   border-bottom-width: 0;
+}
+
+td, th {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
 }
 
 .example-element-detail {
@@ -120,6 +131,11 @@ tr.example-element-row:not(.example-expanded-row):active {
 .is-loading {
   position: absolute;
   background: #ffffff71;
-  z-index: 1;
+  z-index: 2;
   backdrop-filter: blur(3px);
+}
+
+td.mat-table-sticky-border-elem-right {
+  border-left: 1px solid #e0e0e0;
+  // display: inline-block;
 }

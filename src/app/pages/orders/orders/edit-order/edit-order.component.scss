@@ -113,3 +113,11 @@ table {
 .content-totals .col-md-2 :nth-child(1){
   color: gray;
 }
+
+.container-info {
+  
+  flex-wrap: wrap;
+   small {
+    margin-top: 5px;
+  }
+}

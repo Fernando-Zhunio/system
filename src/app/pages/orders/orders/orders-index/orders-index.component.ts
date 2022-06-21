@@ -15,6 +15,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { IPaginate, IResponse } from '../../../../services/methods-http.service';
 import { MatSort } from '@angular/material/sort';
 import { SwalService } from '../../../../services/swal.service';
+import { MatTable } from '@angular/material/table';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -35,8 +36,9 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     super();
   }
 
-  @ViewChild('filterOrderMin', { static: false }) dpMinElement: ElementRef;
-  @ViewChild('filterOrderMax', { static: false }) dpMaxElement: ElementRef;
+  @ViewChild('filterOrderMin', { static: false }) dpMinDateElement: ElementRef;
+  @ViewChild('filterOrderMax', { static: false }) dpMaxDateElement: ElementRef;
+  @ViewChild(MatTable) table: MatTable<IOrder>;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -66,10 +68,8 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   dpMax: any;
   dpMin: any;
 
-
-  // cosas para tabla
   dataSource: IOrder[] = [];
-  columnsToDisplay = [ 'id', 'type', 'status', 'client', 'products', 'payments', 'company', 'created_at', 'actions'];
+  columnsToDisplay = [ 'id', 'type', 'status', 'client', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
   expandedElement: IOrder | null;
 
   ngOnInit(): void {
@@ -77,8 +77,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log('after view init');
-    this.dpMin = new AirDatepicker(this.dpMinElement.nativeElement, {
+    this.dpMin = new AirDatepicker(this.dpMinDateElement.nativeElement, {
       classes: 'z-indez-1020',
       position: 'bottom right',
       locale: localeEs,
@@ -93,7 +92,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
         this.filters.min = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm');
       }
     })
-    this.dpMax = new AirDatepicker(this.dpMaxElement.nativeElement, {
+    this.dpMax = new AirDatepicker(this.dpMaxDateElement.nativeElement, {
       classes: 'z-indez-1020',
       locale: localeEs,
       position: 'bottom right',
@@ -111,7 +110,6 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   }
 
   getData($event: IResponse<IPaginate<any>>): void {
-    console.log($event);
     this.dataSource = $event.data.data;
     this.detailPaginator.current_page = $event.data.current_page;
     this.detailPaginator.per_page = $event.data.per_page;
@@ -162,40 +160,10 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
                 duration: 5000,
               });
               this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
+              this.table.renderRows();
             }
           });
       }
     })
   }
-
-  // validateMinQuantity(e): void {
-  //   // tslint:disable-next-line: radix
-  //   const typedNumber = parseInt(e.key);
-  //   // tslint:disable-next-line: radix
-  //   const currentVal = parseInt(e.target.value) || '';
-  //   console.log(currentVal);
-  //   // tslint:disable-next-line: radix
-  //   const newVal = parseInt(typedNumber.toString() + currentVal.toString());
-
-  //   if (newVal > this.filters.max) {
-  //     this.filters.max = newVal + 1;
-  //   }
-  // }
-
-  // validateMaxQuantity(e): void {
-  //   // tslint:disable-next-line: radix
-  //   const typedNumber = parseInt(e.key);
-  //   // tslint:disable-next-line: radix
-  //   const currentVal = parseInt(e.target.value) || '';
-  //   console.log(currentVal);
-  //   // tslint:disable-next-line: radix
-  //   const newVal = parseInt(typedNumber.toString() + currentVal.toString());
-
-  //   if (newVal < this.filters.min) {
-  //     // e.preventDefault();
-  //     // e.stopPropagation();
-  //     this.filters.min = newVal - 1;
-  //   }
-  // }
-
 }

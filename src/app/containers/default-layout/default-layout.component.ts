@@ -94,6 +94,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.user = this.s_storage.getCurrentUser(); //not loaded in resolver
     if (!this.user.person) { this.addPersonModal(this.user); } //not loaded in resolver
     this.suscribeNotifications(this.user); // not loaded in resolver
+
   }
 
   ngOnDestroy(): void {
@@ -123,7 +124,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     localStorage.setItem('isDark', e.checked ? 'true' : 'false');
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.componentCssClass = theme;
-    console.log(this.isDark)
   }
 
   hasDarkTheme() {

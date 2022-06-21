@@ -87,7 +87,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     const $event = params || this.pageEvent;
-    console.log(this.pageEvent);
     this.pageEvent = $event;
     this.gotoTop();
     this.subscription = this.methodsHttp

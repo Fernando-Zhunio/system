@@ -115,9 +115,7 @@ export class AddProductsOrderComponent implements OnInit {
   }
 
   getDataProducts(event: IPaginate<IProduct>): void {
-    console.log(event);
     this.products = new Map<number, IProduct>(event.data.map(x => [x.id, x]));
-    console.log(this.products);
   }
 
   selectedProduct(event: MatSelectionListChange): void {

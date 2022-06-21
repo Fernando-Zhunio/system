@@ -55,7 +55,6 @@ export class CustomInterceptor implements HttpInterceptor {
         this.snack_bar.dismiss();
       }),
       catchError((err) => {
-        console.log(err);
         this.snack_bar.dismiss();
         switch (err.status) {
           case 401:
