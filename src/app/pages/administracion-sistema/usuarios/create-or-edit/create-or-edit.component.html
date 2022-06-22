@@ -12,7 +12,7 @@
     <mat-card-content>
       <div *ngIf="!(state == 'edit')" class="col-12">
         <div class="w-100 position-relative center">
-          <input class="input-search shadow w-100" style="border-radius: 10px;" placeholder="Buscador el usuario" type="search"
+          <input class="input-search shadow w-100" style="border-radius: 10px;" placeholder="Buscador el personas" type="search"
             (keyup.enter)="searchPerson()" matInput [(ngModel)]="search_person" [matAutocomplete]="auto">
           <button class="btn-add-person" [routerLink]="['/administracion-sistema/personas/create']"><mat-icon color="accent">person_add_alt</mat-icon></button>
         </div>
@@ -59,7 +59,7 @@
                       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="form_user.controls['password'].invalid">La contraseña debe contener minusculas y
-                      al menos una mayuscula, numero y simbolo</mat-error>
+                      al menos una mayúscula, numero y símbolo</mat-error>
 
                   </mat-form-field>
                 </div>
@@ -71,7 +71,7 @@
       </div>
       <ng-template #SinUser>
         <div class="col-12 mt-2">
-          <small class="lead text-danger">Busque un usuario y seleccionelo para continuar</small>
+          <small class="lead text-danger">Busque una persona y selecciónelo para continuar</small>
         </div>
       </ng-template>
 

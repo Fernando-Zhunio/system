@@ -2,6 +2,17 @@
 
 import { Iwarehouse } from './iwarehouse';
 
+
+export const MethodTypeCode = {
+  '0': 'Credit Card',
+  '1': 'Boleto (Bank Ticket)',
+  '3': 'E-wallet',
+  '5': 'Vouchers Card',
+  '6': 'Bank Transfer',
+  '7': 'Debit Card',
+  '8': 'Prepaid Card',
+}
+
 export interface IItemOrder {
   product_id: number;
   description: string;
@@ -96,7 +107,7 @@ export interface IOrder {
   statuses: IStatus[];
   invoices: IInvoice[];
   mba_payments: IPaymentMBA[];
-  company: {id: number, name: string};
+  company: { id: number, name: string };
   seller_code: string;
   timing: ITiming;
 }
@@ -327,26 +338,26 @@ export interface IDocumentPaymentOrder {
   // updated_at: string;
   // ext: string;
   // permalink: string;
-    id: number;
-    code: string;
-    documentable_type: string;
-    documentable_id: number;
-    created_at: string;
-    updated_at: string;
-    file: IDocumentPaymentItemOrder;
-  }
-  export interface IDocumentPaymentItemOrder {
-    id: number;
-    type: string;
-    file: string;
-    original_name: string;
-    mime_type: string;
-    attributes?: (null)[] | null;
-    created_at: string;
-    updated_at: string;
-    ext: string;
-    permalink: string;
-  }
+  id: number;
+  code: string;
+  documentable_type: string;
+  documentable_id: number;
+  created_at: string;
+  updated_at: string;
+  file: IDocumentPaymentItemOrder;
+}
+export interface IDocumentPaymentItemOrder {
+  id: number;
+  type: string;
+  file: string;
+  original_name: string;
+  mime_type: string;
+  attributes?: (null)[] | null;
+  created_at: string;
+  updated_at: string;
+  ext: string;
+  permalink: string;
+}
 
 
 export interface ITransactionPaymentOrder {
@@ -450,7 +461,7 @@ export interface Pivot {
 }
 
 export interface ISellerOrder {
- code: string;
+  code: string;
   name: string;
   created_at: string;
   id: number;

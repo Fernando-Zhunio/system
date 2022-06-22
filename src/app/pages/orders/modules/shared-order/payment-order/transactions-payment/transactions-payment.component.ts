@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CardBrand } from '../../../../../../class/card-brand';
-import { ITransactionPaymentOrder } from '../../../../../../interfaces/iorder';
+import { ITransactionPaymentOrder, MethodTypeCode } from '../../../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../../../services/standart-search.service';
 
 @Component({
@@ -20,6 +20,8 @@ export class TransactionsPaymentComponent implements OnInit {
   detailsTransaction: ITransactionPaymentOrder = null;
   cards = new CardBrand();
   hiddenDetails = true;
+  methodPayDetail= "";
+
 
   ngOnInit(): void {
     this.getTransactions();
@@ -40,6 +42,14 @@ export class TransactionsPaymentComponent implements OnInit {
 
   moreInfo(id: number): void {
     this.detailsTransaction = this.transactions.find(x => x.id === id);
+
+    try{
+      const mp = this.detailsTransaction.full_data?.transaction.payment_method_type;
+      this.methodPayDetail = MethodTypeCode[mp];
+    } catch(e){
+      this.methodPayDetail = "";
+      console.log(e);
+    }
     this.hiddenDetails = false;
   }
 

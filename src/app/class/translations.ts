@@ -72,8 +72,17 @@ const trans_es_order = {
     canceled: 'Cancelado',
     deferred: 'Diferido',
     single: 'Corriente',
-
 };
+
+const typeMethodPayment = {
+'Credit Card': 'Tarjeta de crédito',
+'Boleto (Bank Ticket)': 'Boleto (Bank Ticket)',
+'E-wallet': 'E-wallet',
+'Vouchers Card': 'Vouchers Card',
+'Bank Transfer': 'Transferencia',
+'Debit Card': 'Tarjeta de débito',
+'Prepaid Card': 'Tarjeta prepagada',
+}
 
 const trans_es_order_channels = {
     'webstore': 'Pagina Web',
@@ -86,17 +95,18 @@ export const _transfz:  {} = {
     promotions: {...trans_es_promotions},
     default: {...trans_es_default},
     orders: trans_es_order,
-    order_channels: trans_es_order_channels
+    order_channels: trans_es_order_channels,
+    method_pay: typeMethodPayment
 };
 
 /**
  * @param value  valor
- * @param name nombre del la seccion
+ * @param name nombre del la sección
  * @returns traduccion
  */
 export function trans(value, name) {
     if ( _transfz[name]) {
         return _transfz[name][value];
     }
-    return 'no se a podido traducir';
+    return 'error traducción';
 };
