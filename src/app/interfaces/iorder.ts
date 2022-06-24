@@ -398,6 +398,7 @@ export interface ITransaction {
   stoken: string;
   id: string;
   ltp_id: string;
+  lote: string
 }
 export interface IUserPaymentOrder {
   id: string;
@@ -409,6 +410,7 @@ export interface ICardPaymentOrder {
   holder_name: string;
   type: string;
   number: string;
+  bank_name: string;
 }
 
 export interface IPaymentMBA {

@@ -136,9 +136,8 @@
       </div>
       <div>
         <h3 class="font-2xl font-weight-bold m-2">Tarjeta</h3>
-
         <div style="width: 380px; height: 200px;" class="card-body card-paid d-flex flex-column justify-content-between mb-3 rounded-fz shadow-all-fz">
-          <div><i class="text-muted fa fas fa-2x fa-microchip"></i></div>
+          <div><img src="/assets/img/chip.svg" alt=""> <span>{{detailsTransaction?.full_data?.card?.bank_name}}</span></div>
           <div class="font-2xl">{{detailsTransaction?.full_data?.card?.bin}} xxxx xxxx {{detailsTransaction?.full_data?.card?.number}}</div>
           <div class="d-flex justify-content-between">
             <div class="font-2xl text-capitalize text-muted text-truncate">{{ detailsTransaction?.full_data?.card.holder_name }}</div>
@@ -156,6 +155,10 @@
               <tr>
                 <td>Descripción Orden:</td>
                 <td>{{ detailsTransaction?.full_data?.transaction?.order_description }}</td>
+              </tr>
+              <tr>
+                <td>Lote:</td>
+                <td>{{ detailsTransaction?.full_data?.transaction?.lote }}</td>
               </tr>
               <tr>
                 <td>Tipo de método de pago:</td>
@@ -213,7 +216,6 @@
           </table>
         </div>
       </div>
-
     </div>
   </div>
 </mat-dialog-content>
