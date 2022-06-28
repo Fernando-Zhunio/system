@@ -335,6 +335,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./locaciones/location.module').then((m) => m.LocationModule),
   },
+  // locaciones
+  {
+    path: 'workspaces-orders',
+    loadChildren: () =>
+      import('./workspaces-orders/workspaces-orders.module').then((m) => m.WorkspacesOrdersModule),
+  },
   // {
   //   path: 'locaciones',
   //   // component: ADLocationsMainComponents,
