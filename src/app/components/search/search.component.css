@@ -4,9 +4,9 @@
     border-radius: 20px;
     width: 100%;
     padding: 10px 15px;
-    font-family: 'Montserrat';
     font-weight: bold;
     padding-right: 35px;
+    font-size: 1.3em;
 }
 
 .btn-default {

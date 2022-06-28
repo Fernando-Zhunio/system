@@ -1,5 +1,7 @@
 // :\s".+",
 
+import { IuserSystem } from "./iuser-system";
+
 export interface Iperson {
   id: number;
   status: string;
@@ -19,6 +21,7 @@ export interface Iperson {
   updated_at: string;
   position: Iposition;
   photo: Iphoto;
+  user?: IuserSystem
 }
 
 interface Iphoto {

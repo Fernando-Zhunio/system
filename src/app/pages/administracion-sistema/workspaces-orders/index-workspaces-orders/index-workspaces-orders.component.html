@@ -1,3 +1,9 @@
-<p>
-  index-workspaces-orders works!
-</p>
+<div>
+  <app-search-template placeholder="Buscar espacio de nombre" [title]="'Workspaces de ordenes'" [url$]="url">
+    <ng-container menuBar >
+      <mat-chip-list>
+          <mat-chip [routerLink]="['./create']"  class="mat-orange ml-2"><mat-icon>workspaces</mat-icon> Crear espacio de trabajo</mat-chip>
+      </mat-chip-list>
+    </ng-container>
+  </app-search-template>
+</div>

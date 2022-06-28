@@ -1,0 +1,106 @@
+<div>
+  <h1>{{ title }}</h1>
+
+  <div [formGroup]="form">
+    <mat-card>
+      <div class="row">
+        <div class="col-md-6 border-right">
+          <mat-form-field class="w-100">
+            <input formControlName="name" matInput placeholder="Nombre" />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <textarea formControlName="description" matInput placeholder="Descripción"></textarea>
+          </mat-form-field>
+          <div>
+            <button color="primary" mat-raised-button>Guardar <mat-icon>save</mat-icon></button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2 class="m-0">Usuarios seleccionados</h2>
+            <button color="primary" (click)="isActiveSearchPeople = true" mat-raised-button>Buscar usuarios</button>
+          </div>
+          <div>
+            <div class="grid-people">
+              <div class="item-person p-2" *ngFor="let person of peopleAssigned | keyvalue">
+                <div class="list-person px-2 py-1">
+                  <span class="mr-1">
+                    <img
+                      class="img-person"
+                      [src]="
+                        person.value?.photo?.permalink ||
+                        'https://ui-avatars.com/api/?background=random&name=' + person?.value?.first_name
+                      "
+                      alt="usuario" />
+                  </span>
+                  <div>
+                    <div>{{ person?.value?.first_name }} {{ person?.value?.last_name }}</div>
+                    <div>{{ person?.value?.user?.email }}</div>
+                  </div>
+                </div>
+                <button
+                  (click)="selectedPerson(person.key)"
+                  *ngIf="!peopleAssigned.has(person.key); else templateQuitBtn"
+                  color="primary"
+                  mat-button>
+                  seleccionar
+                  <mat-icon>done</mat-icon>
+                </button>
+                <ng-template #templateQuitBtn>
+                  <button (click)="unselectedPerson(person.key)" color="warn" mat-button>
+                    Quitar
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div [hidden]="!isActiveSearchPeople" class="search-template p-md-3">
+    <button (click)="isActiveSearchPeople = false" class="btn-close" mat-mini-fab color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="modal-search shadow col-md-6 col-10 rounded-fz">
+      <app-search placeholder="Buscador de personas" (data)="getData($event)" [url]="urlUserSearch">
+        <ng-container data>
+          <div class="grid-people">
+            <div class="item-person p-2" *ngFor="let person of people | keyvalue">
+              <div class="list-person px-2 py-1">
+                <span class="mr-1">
+                  <img
+                    class="img-person"
+                    [src]="
+                      person.value?.photo?.permalink ||
+                      'https://ui-avatars.com/api/?background=random&name=' + person?.value?.first_name
+                    "
+                    alt="usuario" />
+                </span>
+                <div>
+                  <div>{{ person?.value?.first_name }} {{ person?.value?.last_name }}</div>
+                  <div>{{ person?.value?.user?.email }}</div>
+                </div>
+              </div>
+              <button
+                (click)="selectedPerson(person.key)"
+                *ngIf="!peopleAssigned.has(person.key); else templateQuitBtn"
+                color="primary"
+                mat-button>
+                seleccionar
+                <mat-icon>done</mat-icon>
+              </button>
+              <ng-template #templateQuitBtn>
+                <button (click)="unselectedPerson(person.key)" color="warn" mat-button>
+                  Quitar
+                  <mat-icon>close</mat-icon>
+                </button>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </app-search>
+    </div>
+  </div>
+</div>

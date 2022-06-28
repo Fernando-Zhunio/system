@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexWorkspacesOrdersComponent implements OnInit {
 
+  url = 'system-orders/workspaces'
+
   constructor() { }
+
 
   ngOnInit() {
   }
