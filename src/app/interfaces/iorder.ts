@@ -13,6 +13,14 @@ export const MethodTypeCode = {
   '8': 'Prepaid Card',
 }
 
+export interface IOrderWorkspace {
+  created_at: string;
+  description: string;
+  id: number;
+  name: string;
+  updated_at: string;
+}
+
 export interface IItemOrder {
   product_id: number;
   description: string;

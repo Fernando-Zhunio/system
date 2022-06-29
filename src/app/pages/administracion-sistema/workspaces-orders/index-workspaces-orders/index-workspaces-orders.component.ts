@@ -1,18 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Crud } from '../../../../class/crud';
+import { IOrderWorkspace } from '../../../../interfaces/iorder';
+import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
   selector: 'app-index-workspaces-orders',
   templateUrl: './index-workspaces-orders.component.html',
   styleUrls: ['./index-workspaces-orders.component.scss']
 })
-export class IndexWorkspacesOrdersComponent implements OnInit {
+export class IndexWorkspacesOrdersComponent extends Crud<IOrderWorkspace> implements OnInit {
 
   url = 'system-orders/workspaces'
-
-  constructor() { }
+  workspaces: IOrderWorkspace[] = []
+  key = 'id';
+  constructor(
+    protected standardService: StandartSearchService,
+    protected snackBar: MatSnackBar,
+  ) {
+    super();
+  }
 
 
   ngOnInit() {
   }
+
+  // getData(event: any): void {
+  //   console.log(event);
+  //   this.workspaces = event;
+  // }
+
 
 }

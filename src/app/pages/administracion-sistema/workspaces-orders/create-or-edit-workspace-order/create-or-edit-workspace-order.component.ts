@@ -1,8 +1,9 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit2 } from '../../../../class/create-or-edit-2';
-import { Iperson } from '../../../../interfaces/iperson';
+import { IuserSystem } from '../../../../interfaces/iuser-system';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
@@ -17,15 +18,16 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
   form = new FormGroup({
     name: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required),
-    user: new FormControl(null),
   });
-  peopleAssigned = new Map<number, Iperson>();
-  people = new Map<number, Iperson>();
+  usersAssigned = new Map<number, IuserSystem>();
+  users = new Map<number, IuserSystem>();
   isActiveSearchPeople = false;
   constructor(
     public act_router: ActivatedRoute,
     public standard_service: StandartSearchService,
-    public router: Router) {
+    public router: Router,
+    public location: Location
+    ) {
     super();
   }
 
@@ -34,22 +36,42 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
   }
 
   getData(event: any): void {
-    console.log(event);
-    this.people = new Map(event.data.map(item => [item?.user?.id, item]));
+    this.users = new Map(event.data.map(item => [item?.id, item]));
   }
 
   selectedPerson(key): void {
-    this.peopleAssigned.set(key, this.people.get(key));
+    this.usersAssigned.set(key, this.users.get(key));
   }
 
   unselectedPerson(key): void {
-    this.peopleAssigned.delete(key);
+    this.usersAssigned.delete(key);
   }
 
   getDataForSendServer(): any {
     if (this.form.valid) {
-      this.peopleAssigned.keys
+      const idsUsers = Array.from(this.usersAssigned.keys())
+      this.form.markAsPending();
+      return {
+        ...this.form.value,
+        users: idsUsers
+      }
+    } else {
+      this.form.markAllAsTouched();
+      return false;
     }
+  }
+
+  go(data): void {
+    this.goBack();
+  }
+
+
+  setData(response): void {
+    this.form.patchValue({
+      name: response.info.name,
+      description: response.info.description,
+    });
+    this.usersAssigned = new Map(response.users.map(item => [item.id, item]));
   }
 
 }

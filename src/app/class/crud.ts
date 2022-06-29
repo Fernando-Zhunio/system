@@ -14,7 +14,7 @@ export abstract class Crud<T> {
   key: string = 'id';
 
   deleteData(id: number): void {
-    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el registro?')
+    SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el registro?', 'warning')
       .then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;

@@ -1,9 +1,25 @@
 <div>
-  <app-search-template placeholder="Buscar espacio de nombre" [title]="'Workspaces de ordenes'" [url$]="url">
+  <app-search-template (data)="getData($event)" placeholder="Buscar espacio de nombre" [title]="'Workspaces de ordenes'" [url$]="url">
     <ng-container menuBar >
       <mat-chip-list>
           <mat-chip [routerLink]="['./create']"  class="mat-orange ml-2"><mat-icon>workspaces</mat-icon> Crear espacio de trabajo</mat-chip>
       </mat-chip-list>
     </ng-container>
+    <ng-container data>
+      <mat-card class="card border-0" *ngFor="let workspace of data| keyvalue">
+        <div>
+          <div class="d-flex justify-content-end"><small>{{workspace.value.created_at | date:'medium'}}</small></div>
+          <small class="text-muted">Nombre:</small>
+          <h3 class="m-0">{{workspace.value.name}}</h3>
+          <small class="text-muted">Description:</small>
+          <p class="m-0">{{workspace.value?.description}}</p>
+          <mat-chip-list>
+            <mat-chip [routerLink]="[workspace.key,'edit']" routerLinkActive="router-link-active"  selected color="primary">Editar <mat-icon>edit</mat-icon></mat-chip>
+            <mat-chip (click)="deleteData(workspace.key)" color="warn" selected>Eliminar <mat-icon>delete</mat-icon></mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-card>
+    </ng-container>
+
   </app-search-template>
 </div>

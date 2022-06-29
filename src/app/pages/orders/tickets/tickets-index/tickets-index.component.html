@@ -65,7 +65,7 @@
           </div>
         </mat-card-content>
         <mat-card-actions align="start">
-         
+
           <div class="d-flex justify-content-between">
             <button
               *ngxPermissionsOnly="permissions.edit"
@@ -80,7 +80,7 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
           </div>
-          
+
           <mat-menu #menuRef="matMenu">
               <button *ngxPermissionsOnly="permissionOrderIndex" mat-menu-item [routerLink]="['/system-orders/orders']" [queryParams]="{search: ticket.order_id}" >
                   Ver orden
@@ -93,12 +93,23 @@
       </mat-card>
     </ng-container>
     <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
-      <mat-chip
-        [routerLink]="['create']"
-        class="ml-1 mat-btn-add"
-        color="orange"
-        ><mat-icon>add</mat-icon> Crear ticket</mat-chip
-      >
+      <mat-chip-list class="mx-1">
+        <mat-chip>
+          <mat-select
+            [(ngModel)]="workspaceSelect"
+            (selectionChange)="changeWorkspaces($event)"
+            placeholder="Espacio de trabajo">
+            <mat-option *ngFor="let workspace of workspaces" [value]="workspace.id">
+              {{ workspace.name }}
+            </mat-option>
+          </mat-select>
+        </mat-chip>
+        <mat-chip
+          [routerLink]="['create']"
+          class="ml-1 mat-btn-add"
+          color="orange"
+          ><mat-icon>add</mat-icon> Crear ticket</mat-chip>
+      </mat-chip-list>
     </ng-container>
     <ng-container filterMenu>
       <div

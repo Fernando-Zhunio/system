@@ -55,4 +55,8 @@ export class SearchTemplateComponent implements OnInit {
     this.headerComponent.searchBar(event);
   }
 
+  searchNow(event = null): void {
+    this.headerComponent.searchBar(event);
+  }
+
 }

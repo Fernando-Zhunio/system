@@ -1,7 +1,9 @@
 <div>
-  <h1>{{ title }}</h1>
+  <div class="d-flex align-items-center my-3">
+   <button mat-mini-fab (click)="goBack()"><mat-icon>arrow_back</mat-icon></button><h1 class="m-0 ml-2">{{ title }}</h1>
+  </div>
 
-  <div [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="saveInServer()">
     <mat-card>
       <div class="row">
         <div class="col-md-6 border-right">
@@ -12,42 +14,43 @@
             <textarea formControlName="description" matInput placeholder="Descripción"></textarea>
           </mat-form-field>
           <div>
-            <button color="primary" mat-raised-button>Guardar <mat-icon>save</mat-icon></button>
+            <button type="submit" [disabled]="isLoading" color="primary" mat-raised-button>Guardar <mat-icon>save</mat-icon></button>
           </div>
         </div>
         <div class="col-md-6">
           <div class="d-flex justify-content-between align-items-center">
             <h2 class="m-0">Usuarios seleccionados</h2>
-            <button color="primary" (click)="isActiveSearchPeople = true" mat-raised-button>Buscar usuarios</button>
+            <button class="my-1" type="button" color="primary" (click)="isActiveSearchPeople = true" mat-raised-button>Buscar usuarios</button>
           </div>
           <div>
             <div class="grid-people">
-              <div class="item-person p-2" *ngFor="let person of peopleAssigned | keyvalue">
+              <div class="item-person p-2" *ngFor="let user of usersAssigned | keyvalue">
                 <div class="list-person px-2 py-1">
                   <span class="mr-1">
                     <img
                       class="img-person"
                       [src]="
-                        person.value?.photo?.permalink ||
-                        'https://ui-avatars.com/api/?background=random&name=' + person?.value?.first_name
+                        user.value?.person.photo?.permalink ||
+                        'https://ui-avatars.com/api/?background=random&name=' + user?.value?.first_name
                       "
                       alt="usuario" />
                   </span>
                   <div>
-                    <div>{{ person?.value?.first_name }} {{ person?.value?.last_name }}</div>
-                    <div>{{ person?.value?.user?.email }}</div>
+                    <div>{{ user.value?.name || user?.value?.person?.first_name +" "+user?.value?.person?.last_name}}</div>
+                    <div *ngIf="user?.value?.email" class="d-flex align-items-center text-muted"><mat-icon>email</mat-icon>{{ user.value?.email }}</div>
                   </div>
                 </div>
                 <button
-                  (click)="selectedPerson(person.key)"
-                  *ngIf="!peopleAssigned.has(person.key); else templateQuitBtn"
+                  type="button"
+                  (click)="selectedPerson(user.key)"
+                  *ngIf="!usersAssigned.has(user.key); else templateQuitBtn"
                   color="primary"
                   mat-button>
                   seleccionar
                   <mat-icon>done</mat-icon>
                 </button>
                 <ng-template #templateQuitBtn>
-                  <button (click)="unselectedPerson(person.key)" color="warn" mat-button>
+                  <button type="button" (click)="unselectedPerson(user.key)" color="warn" mat-button>
                     Quitar
                     <mat-icon>close</mat-icon>
                   </button>
@@ -58,7 +61,7 @@
         </div>
       </div>
     </mat-card>
-  </div>
+  </form>
   <div [hidden]="!isActiveSearchPeople" class="search-template p-md-3">
     <button (click)="isActiveSearchPeople = false" class="btn-close" mat-mini-fab color="warn">
       <mat-icon>close</mat-icon>
@@ -67,32 +70,32 @@
       <app-search placeholder="Buscador de personas" (data)="getData($event)" [url]="urlUserSearch">
         <ng-container data>
           <div class="grid-people">
-            <div class="item-person p-2" *ngFor="let person of people | keyvalue">
+            <div class="item-person p-2" *ngFor="let user of users | keyvalue">
               <div class="list-person px-2 py-1">
                 <span class="mr-1">
                   <img
                     class="img-person"
                     [src]="
-                      person.value?.photo?.permalink ||
-                      'https://ui-avatars.com/api/?background=random&name=' + person?.value?.first_name
+                      user.value?.person?.photo?.permalink ||
+                      'https://ui-avatars.com/api/?background=random&name=' + user?.value?.person?.first_name
                     "
                     alt="usuario" />
                 </span>
                 <div>
-                  <div>{{ person?.value?.first_name }} {{ person?.value?.last_name }}</div>
-                  <div>{{ person?.value?.user?.email }}</div>
+                  <div>{{ user?.value?.person?.first_name }} {{ user?.value?.person?.last_name }}</div>
+                  <div *ngIf="user?.value?.email" class="d-flex align-items-center text-muted"><mat-icon>email</mat-icon> {{ user?.value?.email }}</div>
                 </div>
               </div>
               <button
-                (click)="selectedPerson(person.key)"
-                *ngIf="!peopleAssigned.has(person.key); else templateQuitBtn"
+                (click)="selectedPerson(user.key)"
+                *ngIf="!usersAssigned.has(user.key); else templateQuitBtn"
                 color="primary"
                 mat-button>
                 seleccionar
                 <mat-icon>done</mat-icon>
               </button>
               <ng-template #templateQuitBtn>
-                <button (click)="unselectedPerson(person.key)" color="warn" mat-button>
+                <button (click)="unselectedPerson(user.key)" color="warn" mat-button>
                   Quitar
                   <mat-icon>close</mat-icon>
                 </button>

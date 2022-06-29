@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { PermissionOrders, PermissionOrdersTickets } from '../../../../class/permissions-modules';
-import { ITicketOrder } from '../../../../interfaces/iorder';
+import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
+import { SearchTemplateComponent } from '../../../../components/search-template/search-template.component';
+import { IOrderWorkspace, ITicketOrder } from '../../../../interfaces/iorder';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
@@ -9,9 +12,11 @@ import { MethodsHttpService } from '../../../../services/methods-http.service';
 })
 export class TicketsIndexComponent implements OnInit {
 
+  @ViewChild(SearchTemplateComponent) headerComponent: SearchTemplateComponent;
   constructor(private methodsHttp: MethodsHttpService) { }
 
   url = 'system-orders/tickets';
+  workspaceSelect = null;
   tickets: ITicketOrder[] = [];
   filters = {
     status: 'open',
@@ -25,15 +30,20 @@ export class TicketsIndexComponent implements OnInit {
   departments = [];
   permissions = PermissionOrdersTickets;
   permissionOrderIndex = PermissionOrders.index;
+  workspaces: IOrderWorkspace[] = [];
+
 
   ngOnInit(): void {
     this.getDataForFilter();
+    this.getMyWorkspacesOrder();
   }
 
   getDataForFilter(): void {
     this.methodsHttp.methodGet('system-orders/tickets/filter-data').subscribe(res => {
       this.departments = res.data.departments;
       this.statuses = res.data.statuses;
+      this.workspaceSelect = res.data.workspace_preference;
+
     });
   }
 
@@ -42,4 +52,25 @@ export class TicketsIndexComponent implements OnInit {
     this.tickets = event;
   }
 
+  changeWorkspaces(event: MatSelectChange) {
+    this.methodsHttp.methodPut(`system-orders/workspaces/preference/${event.value}`)
+      .subscribe(
+        {
+          next: (res) => {
+            this.headerComponent.searchNow();
+          }
+        }
+      )
+  }
+
+  getMyWorkspacesOrder(): void {
+    this.methodsHttp.methodGet(`system-orders/workspaces/me`)
+      .subscribe(
+        {
+          next: (res) => {
+            this.workspaces = res.data;
+          }
+        }
+      )
+  }
 }

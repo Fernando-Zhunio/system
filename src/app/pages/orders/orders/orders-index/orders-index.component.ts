@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
 import { PermissionOrders } from '../../../../class/permissions-modules';
-import { IOrder } from '../../../../interfaces/iorder';
+import { IOrder, IOrderWorkspace } from '../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { DetailsOrderComponent } from '../../modules/shared-order/details-order/details-order.component';
 import AirDatepicker from 'air-datepicker';
@@ -16,6 +16,7 @@ import { IPaginate, IResponse } from '../../../../services/methods-http.service'
 import { MatSort } from '@angular/material/sort';
 import { SwalService } from '../../../../services/swal.service';
 import { MatTable } from '@angular/material/table';
+import { MatSelectChange } from '@angular/material/select';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -24,8 +25,8 @@ import { MatTable } from '@angular/material/table';
   styleUrls: ['./orders-index.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -44,9 +45,9 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   url: string = 'system-orders/orders';
   detailPaginator = {
-    current_page : 1,
-    per_page : 10,
-    total : 0
+    current_page: 1,
+    per_page: 10,
+    total: 0
   }
   filters = {
     status: '',
@@ -58,7 +59,8 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     hasMbaTransfers: null,
     hasMbaPayments: null,
     hasMbaInvoices: null,
-    hasConfirmedRetention  : null,
+    hasConfirmedRetention: null,
+    // workspace_id: null
   };
 
   statuses: any[] = [];
@@ -69,11 +71,15 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   dpMin: any;
 
   dataSource: IOrder[] = [];
-  columnsToDisplay = [ 'id', 'type', 'status', 'client', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
+  columnsToDisplay = ['id', 'type', 'status', 'client', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
   expandedElement: IOrder | null;
+  workspaceSelect = null;
+  workspaces: IOrderWorkspace[] = [];
+
 
   ngOnInit(): void {
     this.getDataForFilter();
+    this.getMyWorkspacesOrder();
   }
 
   ngAfterViewInit() {
@@ -109,6 +115,18 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     })
   }
 
+
+  getMyWorkspacesOrder(): void {
+    this.standardService.methodGet(`system-orders/workspaces/me`)
+      .subscribe(
+        {
+          next: (res) => {
+            this.workspaces = res.data;
+          }
+        }
+      )
+  }
+
   getData($event: IResponse<IPaginate<any>>): void {
     this.dataSource = $event.data.data;
     this.detailPaginator.current_page = $event.data.current_page;
@@ -116,8 +134,19 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     this.detailPaginator.total = $event.data.total;
   }
 
-  changePaginator(event: PageEvent): void {
+  changePaginator(event: PageEvent | null): void {
     this.headerComponent.searchBar(event);
+  }
+
+  changeWorkspaces(event: MatSelectChange) {
+    this.standardService.methodPut(`system-orders/workspaces/preference/${event.value}`)
+      .subscribe(
+        {
+          next: (res) => {
+            this.headerComponent.searchBar(null);
+          }
+        }
+      )
   }
 
   changeSort(event: any): void {
@@ -132,6 +161,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
       (response: any) => {
         this.statuses = response.data.status;
         this.types = response.data.type;
+        this.workspaceSelect = response.data.workspace_preference;
 
       },
       (error) => {
@@ -150,20 +180,20 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   }
 
   deleteOrder(id: number) {
-    SwalService.swalFire({text: '¿Está seguro de eliminar el pedido?', icon: 'warning', showConfirmButton: true, showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'No, cancelar'})
-    .then((result) => {
-      if ( result.isConfirmed) {
-        this.standardService.methodDelete(`system-orders/orders/${id}`).subscribe(
-          {
-            next: (response) => {
-              this.snackBar.open('Orden eliminada', 'Cerrar', {
-                duration: 5000,
-              });
-              this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
-              this.table.renderRows();
-            }
-          });
-      }
-    })
+    SwalService.swalFire({ text: '¿Está seguro de eliminar el pedido?', icon: 'warning', showConfirmButton: true, showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'No, cancelar' })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.standardService.methodDelete(`system-orders/orders/${id}`).subscribe(
+            {
+              next: (response) => {
+                this.snackBar.open('Orden eliminada', 'Cerrar', {
+                  duration: 5000,
+                });
+                this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
+                this.table.renderRows();
+              }
+            });
+        }
+      })
   }
 }

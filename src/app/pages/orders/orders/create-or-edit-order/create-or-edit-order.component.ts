@@ -47,6 +47,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
 
   permissions = PermissionOrders;
   permissionsClient = PermissionOrdersClients;
+  workspace: string = null;
 
   get clientSelected(): IClientOrder {
     return this.clientOrders.client;
@@ -93,6 +94,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     this.typesOrders = data.types;
     this.channelsOrders = data.channels;
     this.companies = data?.companies || [];
+    this.workspace = data.workspace;
   }
 
   getData($event): void {
