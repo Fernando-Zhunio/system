@@ -25,7 +25,6 @@ import { compare } from 'compare-versions';
 import { environment } from '../../../environments/environment';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { TEST_PERMISSIONS } from '../../class/permissionsAll';
-import { throttleTime } from 'rxjs/operators';
 import { NotificationType } from '../../enums/notification.enum';
 
 @Component({
@@ -56,8 +55,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public sidebarMinimized = false;
   public navItems = null;
   public url_img = '';
-  public companies = [];
-  // public company_select = null;
+  // public companies = [];
   public isDark: boolean = false;
   public TYPE_NOTY_SOUND = 'general_notification_sound';
   public hideUsersChat: boolean = false;
@@ -71,7 +69,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   echo: Echo;
   user: any;
   searchBar: ListPermissions;
-  pageSearch: any[] = [];
+  // pageSearch: any[] = [];
+  auxSearchPage = [];
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
   notificationType = {
@@ -113,11 +112,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.route.navigate([page]);
   }
 
-  closeSearch(): void {
-    setTimeout(() => {
-      this.pageSearch = [];
-    }, 500);
-  }
+  // closeSearch(): void {
+  //   setTimeout(() => {
+  //     this.pageSearch = [];
+  //   }, 500);
+  // }
 
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
     const theme = e.checked ? 'dark-theme' : 'light-theme';
@@ -200,17 +199,15 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   // }
 
   setPreferences(res): void {
-    // this.methodsHttp.methodGet('user/preferences/ajax').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         this.notificationType.email = res.data[NotificationType.email] === 'on' ? true : false;
         this.notificationType.webpush = res.data[NotificationType.webpush] === 'on' ? true : false;
         this.store.dispatch(setPreference({ preference: res.data }));
       }
-    // });
+
   }
 
   getPermissionAndVersionServer(res) {
-    // this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
       if (res && res.hasOwnProperty('success') && res.success) {
         if (res.data?.last_version_frontend?.version) {
           this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
@@ -219,13 +216,13 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
           [permissions] : permissions;
         this.s_storage.setPermission(array_permissions);
-        this.navItems = res.data.item_sidebar;
+        this.navItems = this.auxSearchPage = res.data.item_sidebar;
       }
-    // }
-    // , err => {
-    //   console.log(err);
-    //   SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
-    // });
+  }
+
+  searchPage(e): void {
+    console.log(e);
+    this.navItems = this.auxSearchPage.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()));
   }
 
   getPermissionAndVersionServerTest() {
@@ -374,8 +371,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     localStorage.setItem('isDark', JSON.stringify(this.isDark));
   }
 
-  changeWebPush(event: MatSlideToggleChange/* type_notify, value */): void {
-    // event.source.disabled = true;
+  changeWebPush(event: MatSlideToggleChange): void {
     console.log(event, event.source.name);
 
     const data_send = {
@@ -384,9 +380,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     };
     const url = 'user/preferences/' + event.source.name;
     this.methodsHttp.methodPut(url, data_send)
-    .pipe(
-      throttleTime(1000),
-    )
     .subscribe(
       (res) => {
         if (res && res.hasOwnProperty('success') && res.success) {

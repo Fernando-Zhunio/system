@@ -1,55 +1,55 @@
 button {
-    outline: none;
+  outline: none;
 }
 
 .dark {
-    color: gray
+  color: gray;
 }
 
 .not-dark {
-    color: goldenrod
+  color: goldenrod;
 }
 
 .disabled {
-    pointer-events: none;
-    cursor: default;
+  pointer-events: none;
+  cursor: default;
 }
 
 .bg-error {
-    background: red;
-    color: white
+  background: red;
+  color: white;
 }
 
 .custom-menu-notification {
-    max-height: 80vmax;
-    padding-bottom: 0 !important;
+  max-height: 80vmax;
+  padding-bottom: 0 !important;
 }
 
 .custom-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
 .open-menu-chat {
-    margin-right: 250px;
+  margin-right: 250px;
 }
 
 .logo-chat {
-    width: 28px;
+  width: 28px;
 }
 
 .line-1 {
-    line-height: 1;
+  line-height: 1;
 }
 
-.action-notification{
-    position: sticky;
-    bottom: 0;
+.action-notification {
+  position: sticky;
+  bottom: 0;
 }
 
-.action-notification:hover{
-    background-color: white !important;
+.action-notification:hover {
+  background-color: white !important;
 }
 
 /* .chat-template {
@@ -62,50 +62,54 @@ button {
 } */
 
 .progress-download {
-    line-height: 1;
-    font-family: 'Montserrat';
-    font-weight: 800;
-    position: absolute;
-    bottom: 18px;
-    left: 25px;
-    background: aqua;
-    display: inline-block;
-    height: 20px;
-    border-radius: 9px;
-    padding: 5px;
-    z-index: 1;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  line-height: 1;
+  font-family: "Montserrat";
+  font-weight: 800;
+  position: absolute;
+  bottom: 18px;
+  left: 25px;
+  background: aqua;
+  display: inline-block;
+  height: 20px;
+  border-radius: 9px;
+  padding: 5px;
+  z-index: 1;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
 .search-page {
-    width: 300px;
-    border: none;
-    padding: 5px 10px;
-    border: 3px #dadada solid;
-    outline: none;
+  width: 300px;
+  border: none;
+  padding: 9px 10px 7px 35px;
+  outline: none;
+  background: #ededed;
 }
 
 .search-page-container:active .container-search {
-    display: block;
+  display: block;
 }
-
-
 
 .container-search {
-    max-height: 350px;
-    padding: 10px;
-    overflow: auto;
+  max-height: 350px;
+  padding: 10px;
+  overflow: auto;
 }
 @media screen and (max-width: 600px) {
-    .open-menu-chat {
-        margin-right: 0px;
-    }
+  .open-menu-chat {
+    margin-right: 0px;
+  }
 }
 
-.before-version{
-    background-color: #dadada;
+.before-version {
+  background-color: #dadada;
 }
 
 .bg-sidebar {
-    background: #F7F7F7;
+  background: #f7f7f7;
+}
+
+.btn-search-page {
+  position: absolute;
+  left: 2px;
+  height: 37px;
 }

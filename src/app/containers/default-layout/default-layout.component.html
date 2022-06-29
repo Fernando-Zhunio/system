@@ -1,63 +1,90 @@
-<app-header style="z-index: 3;" class="border-0 shadow-sm" [navbarBrandRouterLink]="['/home/dashboard']" [fixed]="true"
-  [navbarBrandFull]="{src: imgCompany.url, width: imgCompany.size, height: imgCompany.size, alt: 'Novisolutions'}"
-  [navbarBrandMinimized]="{src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions'}"
-  [sidebarToggler]="'lg'" [asideMenuToggler]="false" [mobileAsideMenuToggler]="false">
-  <!-- <div class="d-none d-md-block position-relative search-page-container">
-    <input (keydown)="searchPage($event)" (blur)="closeSearch()" type="search" class="search-page rounded-fz"
+<app-header
+  style="z-index: 3"
+  class="border-0 shadow-sm"
+  [navbarBrandRouterLink]="['/home/dashboard']"
+  [fixed]="true"
+  [navbarBrandFull]="{ src: imgCompany.url, width: imgCompany.size, height: imgCompany.size, alt: 'Novisolutions' }"
+  [navbarBrandMinimized]="{ src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions' }"
+  [sidebarToggler]="'lg'"
+  [asideMenuToggler]="false"
+  [mobileAsideMenuToggler]="false">
+  <div class="d-none d-md-block position-relative search-page-container">
+    <input #inputSearchPage (keydown)="searchPage($event)" type="text" class="search-page rounded-fz"
       placeholder="Buscar pagina">
-    <mat-card [hidden]="pageSearch.length < 1"
-      class="position-absolute  w-100 z-indez-1020 rounded-fz shadow container-search">
-      <mat-selection-list [multiple]="false">
-        <mat-list-option (click)="goPage(item.route)" *ngFor="let item of pageSearch" class="text-truncate">
-          <div class="text-truncate">
-            {{item.title}}
-            <br><small>{{item.description}}</small>
-          </div>
-        </mat-list-option>
-      </mat-selection-list>
-    </mat-card>
-  </div> -->
+    <button mat-icon-button class="line-1 btn-search-page"><mat-icon class="text-muted">search</mat-icon></button>
+  </div>
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 bg-warning rounded-fz">
-      <mat-icon>light_mode</mat-icon>&nbsp;<mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)">
-      </mat-slide-toggle>&nbsp;<mat-icon>nightlight</mat-icon>
+      <mat-icon>light_mode</mat-icon>
+      &nbsp;
+      <mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>
+      &nbsp;
+      <mat-icon>nightlight</mat-icon>
     </li>
     <li class="nav-item">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
-        <mat-icon color="primary" #IconNotify [matBadge]="countNotificationUnRead" matBadgePosition="above after"
-          matBadgeColor="accent">notifications
+        <mat-icon
+          color="primary"
+          #IconNotify
+          [matBadge]="countNotificationUnRead"
+          matBadgePosition="above after"
+          matBadgeColor="accent">
+          notifications
         </mat-icon>
         <ng-container *ngIf="isProgressDownloadReport">
-          <small class="progress-download">{{progressDownloadReport}}%</small>
+          <small class="progress-download">{{ progressDownloadReport }}%</small>
         </ng-container>
       </button>
-      <mat-menu  class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
-        <div mat-menu-item [disableRipple]="true" (click)="goRouteNotification(notification.data)"
+      <mat-menu class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
+        <div
+          mat-menu-item
+          [disableRipple]="true"
+          (click)="goRouteNotification(notification.data)"
           class="h-auto"
-          *ngFor="let notification of notifications$ | async" (click)="$event.stopPropagation()"
+          *ngFor="let notification of notifications$ | async"
+          (click)="$event.stopPropagation()"
           (keydown)="$event.stopPropagation()">
           <div *ngIf="notification.data.image">
-            <img style="width: 50px;height: 50px;" [src]="notification.data.image">
+            <img style="width: 50px; height: 50px" [src]="notification.data.image" />
           </div>
-          <div class="pl-2" style="white-space: initial;line-height: 1.3;">
-            <div class="text-value-sm text-primary">{{notification?.data?.user?.name ?notification?.data?.user?.name:'Sin Usuario'}}</div>
-            <div class="text-muted">{{notification.data.text}}</div>
-            <br>
-            <small class="text-primary text-uppercase">{{notification?.created_at | amLocale:'es' | amTimeAgo}}</small>
-          </div>
-          <hr>
-        </div>
-        
-          <div class="app-body mt-0 py-2 h-auto action-notification" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" mat-menu-item [disableRipple]="true">
-            <div class="line-1">
-              <div><small>Web push Notificaciones</small></div>
-              <mat-slide-toggle [(ngModel)]="notificationType.webpush" name="general_notification_webpush" (change)="changeWebPush($event)"> {{notificationType.webpush ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
+          <div class="pl-2" style="white-space: initial; line-height: 1.3">
+            <div class="text-value-sm text-primary">
+              {{ notification?.data?.user?.name ? notification?.data?.user?.name : "Sin Usuario" }}
             </div>
-              <div class="line-1">
-                <div><small>Notificación por email</small></div>
-                <mat-slide-toggle [(ngModel)]="notificationType.email" name="general_notification_email"  (change)="changeWebPush($event)">{{notificationType.email ? 'Activado': 'Desactivado'}}</mat-slide-toggle>
-              </div>
+            <div class="text-muted">{{ notification.data.text }}</div>
+            <br />
+            <small class="text-primary text-uppercase">
+              {{ notification?.created_at | amLocale: "es" | amTimeAgo }}
+            </small>
           </div>
+          <hr />
+        </div>
+
+        <div
+          class="app-body mt-0 py-2 h-auto action-notification"
+          (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()"
+          mat-menu-item
+          [disableRipple]="true">
+          <div class="line-1">
+            <div><small>Web push Notificaciones</small></div>
+            <mat-slide-toggle
+              [(ngModel)]="notificationType.webpush"
+              name="general_notification_webpush"
+              (change)="changeWebPush($event)">
+              {{ notificationType.webpush ? "Activado" : "Desactivado" }}
+            </mat-slide-toggle>
+          </div>
+          <div class="line-1">
+            <div><small>Notificación por email</small></div>
+            <mat-slide-toggle
+              [(ngModel)]="notificationType.email"
+              name="general_notification_email"
+              (change)="changeWebPush($event)">
+              {{ notificationType.email ? "Activado" : "Desactivado" }}
+            </mat-slide-toggle>
+          </div>
+        </div>
       </mat-menu>
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
@@ -76,31 +103,45 @@
       </mat-menu>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
         <div class="dropdown-header text-center"><strong>Cuenta</strong></div>
-        <div (click)="logout()" class="dropdown-item"><i class="fa fa-lock"></i> Cerrar sesión</div>
+        <div (click)="logout()" class="dropdown-item">
+          <i class="fa fa-lock"></i>
+          Cerrar sesión
+        </div>
       </div>
     </li>
     <li class="nav-item">
       <button mat-icon-button (click)="openOrCloseChats()">
-        <div [matBadge]="countMessages" class="d-inline-flex" matBadgePosition="above after" matBadgeColor="accent"
+        <div
+          [matBadge]="countMessages"
+          class="d-inline-flex"
+          matBadgePosition="above after"
+          matBadgeColor="accent"
           color="primary">
-          <img class="logo-chat" src="assets/logos/chat-logo.png" alt="">
+          <img class="logo-chat" src="assets/logos/chat-logo.png" alt="" />
         </div>
       </button>
     </li>
   </ul>
 </app-header>
 <div class="app-body">
-  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'"   [minimized]="sidebarMinimized"
+  <app-sidebar
+    #appSidebar
+    [fixed]="true"
+    [display]="'lg'"
+    [minimized]="sidebarMinimized"
     (minimizedChange)="toggleMinimize($event)">
-    <app-sidebar-nav #appSidebarNav [navItems]="navItems" class="{{!isDark ? 'bg-sidebar': ''}}" [perfectScrollbar]
+    <app-sidebar-nav
+      #appSidebarNav
+      [navItems]="navItems"
+      class="{{ !isDark ? 'bg-sidebar' : '' }}"
+      [perfectScrollbar]
       [disabled]="appSidebar.minimized"></app-sidebar-nav>
     <app-sidebar-minimizer class="before-version"></app-sidebar-minimizer>
   </app-sidebar>
   <!-- Main content -->
-  <main [ngClass]="{'open-menu-chat': hideUsersChat}" class="main scroll">
+  <main [ngClass]="{ 'open-menu-chat': hideUsersChat }" class="main scroll">
     <!-- Breadcrumb -->
     <!-- breaking change 'cui-breadcrumb' -->
-
 
     <!-- Breadcrumb Menu-->
     <!-- <cui-breadcrumb>
@@ -370,11 +411,13 @@
     </tabset>
   </app-aside> -->
 
-  <app-chat-template class="chat-template" (newMessageEmit)="newMessage($event)" [openOrClose]="hideUsersChat">
-  </app-chat-template>
+  <app-chat-template
+    class="chat-template"
+    (newMessageEmit)="newMessage($event)"
+    [openOrClose]="hideUsersChat"></app-chat-template>
 
   <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
-    <p style="color: white"> Cargando espere... </p>
+    <p style="color: white">Cargando espere...</p>
   </ngx-spinner>
 </div>
 <!-- <app-footer>
