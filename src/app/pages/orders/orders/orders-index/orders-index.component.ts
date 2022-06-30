@@ -60,6 +60,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     hasMbaPayments: null,
     hasMbaInvoices: null,
     hasConfirmedRetention: null,
+    paymentDocCode: null,
     // workspace_id: null
   };
 

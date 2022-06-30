@@ -1,134 +1,5 @@
 <div>
   <div>
-    <!-- <app-search-template [placeholder]="'#, ci, cliente, email'" [filter_data]="filters" [active_filters_menu]="true" textBtnAdd="Agregar orden" [title]="'Ordenes'"
-      [url$]="url" (data)="getData($event)">
-      <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
-        <mat-chip [routerLink]="['./create']" class="ml-1 mat-btn-add">
-          <mat-icon>add</mat-icon> Agregar orden
-        </mat-chip>
-      </ng-container>
-      <ng-container filterMenu>
-        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()">
-          <mat-form-field class="w-100">
-            <mat-label>Estados</mat-label>
-            <mat-select [(ngModel)]="filters.status">
-              <mat-option value="">Todos los estados</mat-option>
-              <mat-option *ngFor="let status of statuses" [value]="status">{{ status | translatefz:'orders' }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()">
-          <mat-form-field class="w-100">
-            <mat-label>Tipos</mat-label>
-            <mat-select [(ngModel)]="filters.type">
-              <mat-option value="">Todos los tipos</mat-option>
-              <mat-option *ngFor="let type of types" [value]="type">{{ type | translatefz:'orders' }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div mat-menu-item style="text-overflow: initial;" [disableRipple]="true" (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()">
-          <mat-form-field class="w-50">
-            <input readonly  style="font-size: 11px;" #filterOrderMin [(ngModel)]="filters.min" matInput placeholder="Fecha inicial">
-          </mat-form-field>
-          <mat-form-field class="w-50">
-            <input readonly style="font-size: 11px;"  #filterOrderMax [(ngModel)]="filters.max" matInput placeholder="Fecha final">
-          </mat-form-field>
-        </div>
-      </ng-container>
-
-      <ng-container data>
-        <mat-card class="card border-0" *ngFor="let order of data | keyvalue">
-          <div>
-            <div class="order-header m-2"><span>Orden #{{order.value.id}}</span> <small
-                class="font-weight-bold text-info">{{order.value.created_at | date}}</small></div>
-            <div>
-              <div>
-                <small class="text-muted">Tipo:</small>
-                <mat-chip-list>
-                  <mat-chip>{{order.value.type | translatefz: 'orders'}}</mat-chip>
-                </mat-chip-list>
-              </div>
-              <div>
-                <small class="text-muted">Estado:</small>
-                <mat-chip-list>
-                  <mat-chip>{{order.value.status | translatefz: 'orders'}}</mat-chip>
-                </mat-chip-list>
-              </div>
-            </div>
-            <small class="text-muted">Cliente:</small>
-            <div>
-              <div class="text-success">{{order.value.client?.first_name +" "+ order.value.client?.last_name}}</div>
-              <table class="table table-borderless table-sm">
-                <tbody class="body-info">
-                  <tr>
-                    <td>Email:</td>
-                    <td>{{order.value.client.email}}</td>
-                  </tr>
-                  <tr>
-                    <td>Teléfono:</td>
-                    <td>{{order.value.client.phone}}</td>
-                  </tr>
-                  <tr>
-                    <td>Dirección:</td>
-                    <td>{{order.value.client.state}} - {{order.value.client.city}}</td>
-                  </tr>
-                  <tr>
-                    <td>Doc ID:</td>
-                    <td>{{order.value.client.doc_id}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <small class="text-muted">Detalles:</small>
-            <div>
-              <table class="table table-borderless table-sm">
-                <tbody>
-                  <tr>
-                    <td>Número de productos:</td>
-                    <td>{{order.value.items_count}}</td>
-                  </tr>
-                  <tr>
-                    <td>Número de pagos:</td>
-                    <td>{{order.value.payments_count}}</td>
-                  </tr>
-                  <tr>
-                    <td>Total:</td>
-                    <td>${{order.value.total}}</td>
-                  </tr>
-                  <tr>
-                    <td>Total pagado:</td>
-                    <td>${{order.value.total_paid}}</td>
-                  </tr>
-                  <tr>
-                    <td>Vendedor:</td>
-                    <td>{{order.value.seller_code}}</td>
-                  </tr>
-                  <tr>
-                    <td>Compañía:</td>
-                    <td>{{order.value?.company?.name}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div>
-              <button *ngxPermissionsOnly="permissions.index" color="warning" class="mr-1" (click)="openDetailOrder(order.key)" mat-raised-button>Ver detalles
-              </button>
-              <button *ngxPermissionsOnly="permissions.edit" color="accent" [routerLink]="['/system-orders/orders',order.key, 'edit']" mat-raised-button>Editar
-                <mat-icon>edit</mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-card>
-      </ng-container>
-    </app-search-template> -->
-  </div>
-
-  <div>
     <div>
       <app-header-search
         [filter_data]="filters"
@@ -268,6 +139,15 @@
                 <mat-option value="1">Con retenciones</mat-option>
                 <mat-option value="0">Sin retenciones</mat-option>
               </mat-select>
+            </mat-form-field>
+          </div>
+          <div
+            mat-menu-item
+            [disableRipple]="true"
+            (click)="$event.stopPropagation()"
+            (keydown)="$event.stopPropagation()">
+            <mat-form-field class="w-100">
+                <input matInput [(ngModel)]="filters.paymentDocCode" placeholder="Código de documento" value="value">
             </mat-form-field>
           </div>
         </ng-container>
