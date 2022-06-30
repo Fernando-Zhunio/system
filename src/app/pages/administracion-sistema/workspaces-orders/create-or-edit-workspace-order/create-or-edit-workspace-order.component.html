@@ -30,7 +30,7 @@
                     <img
                       class="img-person"
                       [src]="
-                        user.value?.person.photo?.permalink ||
+                        user.value?.person?.photo?.permalink ||
                         'https://ui-avatars.com/api/?background=random&name=' + user?.value?.first_name
                       "
                       alt="usuario" />
@@ -66,10 +66,10 @@
     <button (click)="isActiveSearchPeople = false" class="btn-close" mat-mini-fab color="warn">
       <mat-icon>close</mat-icon>
     </button>
-    <div class="modal-search shadow col-md-6 col-10 rounded-fz">
-      <app-search placeholder="Buscador de personas" (data)="getData($event)" [url]="urlUserSearch">
+    <div class="modal-search col-md-6 col-10">
+      <app-search [styles]="'overflow: auto; height: 100%;padding: 10px'" placeholder="Buscador de personas" (data)="getData($event)" [url]="urlUserSearch">
         <ng-container data>
-          <div class="grid-people">
+          <div class="grid-people app-body">
             <div class="item-person p-2" *ngFor="let user of users | keyvalue">
               <div class="list-person px-2 py-1">
                 <span class="mr-1">

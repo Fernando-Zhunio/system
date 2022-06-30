@@ -19,7 +19,7 @@
 }
 
 .modal-search {
-  background-color: white;
+  // background-color: white;
   height: 100%;
   overflow: auto;
 }
@@ -39,4 +39,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 1rem;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
 }

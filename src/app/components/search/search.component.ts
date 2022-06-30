@@ -18,6 +18,7 @@ export class SearchComponent implements OnInit {
   @Input() placeholder: string = 'Buscador';
   @Input() url: string;
   @Input() init: boolean = true;
+  @Input() styles: string = '';
   @Output() data = new EventEmitter<any>();
   isLoading: boolean = false;
   // length: number = 0;
