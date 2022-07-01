@@ -12,138 +12,148 @@
 </div> -->
 <div class="row mt-4">
   <div class="col-md-9">
-   <div class="content-client">
-    <img [src]="'https://ui-avatars.com/api/?background=random&name='+order?.client?.first_name">
-    <div class="client-detail">
-      <div class="d-flex align-items-center">
-        <span>{{ order?.client?.first_name }} {{ order?.client?.last_name }} <small>(cliente)</small></span>
-          <span *ngIf="order?.status != 'cancelled'">
-              <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon>
-              <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon>
-              <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon>
-              <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon>
+    <div class="content-client">
+      <img [src]="'https://ui-avatars.com/api/?background=random&name=' + order?.client?.first_name" />
+      <div class="client-detail">
+        <div class="d-flex align-items-center">
+          <span>
+            {{ order?.client?.first_name }} {{ order?.client?.last_name }}
+            <small>(cliente)</small>
           </span>
+          <span *ngIf="order?.status != 'cancelled'">
+            <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon>
+            <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon>
+            <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon>
+            <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon>
+          </span>
+          <button class="ml-1" mat-button color="accent" (click)="openGeneratedPDF()">Generar PDF de bodegas <mat-icon>picture_as_pdf</mat-icon></button>
+        </div>
+        <span>
+          <mat-icon>email</mat-icon>
+          {{ order?.client?.email }} /
+          <mat-icon>call</mat-icon>
+          {{ order?.client?.phone }}
+        </span>
       </div>
-      <span><mat-icon>email</mat-icon>{{ order?.client?.email }} / <mat-icon>call</mat-icon> {{order?.client?.phone}}</span>
     </div>
-   </div> 
-   <div>
-   <div class="container-info card-body d-md-flex mb-3 py-2 scrollbar-fz">
-    <div class="px-md-3 py-md-2">
-      <small>orden:</small>
-      <mat-chip-list>
-        <mat-chip>#{{order?.id}}</mat-chip>
-      </mat-chip-list>
-    </div>
-    <div class="px-md-3 py-md-2">
-      <small>Estado:</small>
-      <mat-chip-list>
-        <mat-chip selected color="primary">{{order?.status | translatefz:'orders'}}</mat-chip>
-      </mat-chip-list>
-    </div>
-    <div class="px-md-3 py-md-2">
-      <small>Empresa:</small>
-      <mat-chip-list>
-        <mat-chip>{{order?.company?.name}}</mat-chip>
-      </mat-chip-list>
-    </div>
-    <div class="px-md-3 py-md-2">
-      <small>Vendedor:</small>
-      <mat-chip-list>
-        <mat-chip>{{order?.seller_code}}</mat-chip>
-      </mat-chip-list>
-    </div>
-    <ng-container *ngIf="order?.timing">
-      <div *ngIf="order?.timing.started_at" class="px-md-3 py-md-2">
-        <small>Iniciado:</small>
-        <mat-chip-list>
-          <mat-chip>{{order?.timing?.started_at | date:'medium'}}</mat-chip>
-        </mat-chip-list>
-      </div>
-      <div class="px-md-3 py-md-2">
-        <small>Tiempo transcurrido:</small>
-        <mat-chip-list>
-          <mat-chip> Días: {{ transcurrentTime?.days }} Horas: {{transcurrentTime?.hours}}</mat-chip>
-        </mat-chip-list>
-      </div>
+    <div>
+      <div class="container-info card-body d-md-flex mb-3 py-2 scrollbar-fz">
+        <div class="px-md-3 py-md-2">
+          <small>orden:</small>
+          <mat-chip-list>
+            <mat-chip>#{{ order?.id }}</mat-chip>
+          </mat-chip-list>
+        </div>
+        <div class="px-md-3 py-md-2">
+          <small>Estado:</small>
+          <mat-chip-list>
+            <mat-chip selected color="primary">{{ order?.status | translatefz: "orders" }}</mat-chip>
+          </mat-chip-list>
+        </div>
+        <div class="px-md-3 py-md-2">
+          <small>Empresa:</small>
+          <mat-chip-list>
+            <mat-chip>{{ order?.company?.name }}</mat-chip>
+          </mat-chip-list>
+        </div>
+        <div class="px-md-3 py-md-2">
+          <small>Vendedor:</small>
+          <mat-chip-list>
+            <mat-chip>{{ order?.seller_code }}</mat-chip>
+          </mat-chip-list>
+        </div>
+        <ng-container *ngIf="order?.timing">
+          <div *ngIf="order?.timing.started_at" class="px-md-3 py-md-2">
+            <small>Iniciado:</small>
+            <mat-chip-list>
+              <mat-chip>{{ order?.timing?.started_at | date: "medium" }}</mat-chip>
+            </mat-chip-list>
+          </div>
+          <div class="px-md-3 py-md-2">
+            <small>Tiempo transcurrido:</small>
+            <mat-chip-list>
+              <mat-chip>Días: {{ transcurrentTime?.days }} Horas: {{ transcurrentTime?.hours }}</mat-chip>
+            </mat-chip-list>
+          </div>
 
-      <div *ngIf="order?.timing?.ended_at" class="px-md-3 py-md-2">
-        <small>Finalizado:</small>
-        <mat-chip-list>
-          <mat-chip> {{order?.timing?.ended_at | date:'medium'}} </mat-chip>
-        </mat-chip-list>
+          <div *ngIf="order?.timing?.ended_at" class="px-md-3 py-md-2">
+            <small>Finalizado:</small>
+            <mat-chip-list>
+              <mat-chip>{{ order?.timing?.ended_at | date: "medium" }}</mat-chip>
+            </mat-chip-list>
+          </div>
+        </ng-container>
       </div>
-    </ng-container>
-   </div>
-    <div class="mb-4 shadow rounded-fz card-body">
-      <div class="font-2xl">Estados</div>
-      <app-state-flow-order [statuses]="statuses"></app-state-flow-order>
+      <div class="mb-4 shadow rounded-fz card-body">
+        <div class="font-2xl">Estados</div>
+        <app-state-flow-order [statuses]="statuses"></app-state-flow-order>
+      </div>
     </div>
-   </div>
-   <div class="row content-totals">
-        <div class="col-md-2">
-          <div>Total</div>
-          <div class="font-2xl">${{ order?.total }}</div>
-        </div>
-        <div class="col-md-2">
-          <div>Total pagado</div>
-          <div class="font-2xl">$ {{ order?.total_paid }}</div>
-        </div>
-        <div class="col-md-2">
-          <div>Descuento:&nbsp;</div>
-          <div class="font-2xl">$ {{ order?.discount }}</div>
-        </div>
-        <div class="col-md-2">
-          <div>Subtotal:&nbsp;</div>
-          <div class="font-2xl">$ {{ order?.subtotal }}</div>
-        </div>
-        <div class="col-md-2">
-          <div>Impuestos:&nbsp;</div>
-          <div class="font-2xl">$ {{ order?.tax }}</div>
-        </div>
-        <div class="col-md-2">
-          <div>Costo de envío:&nbsp;</div>
-          <div class="font-2xl">$ {{ order?.shipping }}</div>
-        </div>
-   </div>
+    <div class="row content-totals">
+      <div class="col-md-2">
+        <div>Total</div>
+        <div class="font-2xl">${{ order?.total }}</div>
+      </div>
+      <div class="col-md-2">
+        <div>Total pagado</div>
+        <div class="font-2xl">$ {{ order?.total_paid }}</div>
+      </div>
+      <div class="col-md-2">
+        <div>Descuento:&nbsp;</div>
+        <div class="font-2xl">$ {{ order?.discount }}</div>
+      </div>
+      <div class="col-md-2">
+        <div>Subtotal:&nbsp;</div>
+        <div class="font-2xl">$ {{ order?.subtotal }}</div>
+      </div>
+      <div class="col-md-2">
+        <div>Impuestos:&nbsp;</div>
+        <div class="font-2xl">$ {{ order?.tax }}</div>
+      </div>
+      <div class="col-md-2">
+        <div>Costo de envío:&nbsp;</div>
+        <div class="font-2xl">$ {{ order?.shipping }}</div>
+      </div>
+    </div>
   </div>
   <div class="border-left col-md-3">
-    <h3 class="font-2xl m-0">Dirección de envío
+    <h3 class="font-2xl m-0">
+      Dirección de envío
       <span *ngIf="order?.status != 'cancelled'">
-          <mat-icon color="accent" (click)="addClientAddress(order.shipping_address.address_id)">edit</mat-icon>
-          <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon>
+        <mat-icon color="accent" (click)="addClientAddress(order.shipping_address.address_id)">edit</mat-icon>
+        <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon>
       </span>
     </h3>
-      <div class="content-address">
-        <div>
-          <small>Nombres:</small>
-          <div>{{ order?.client?.first_name }} {{ order?.client.last_name }}</div>
-        </div>
-        <div>
-          <small>Email:</small>
-          <div>{{ order?.client?.email }}</div>
-        </div>
-        <div>
-          <small>Teléfono:</small>
-          <div>{{ order?.client?.phone }}</div>
-        </div>
-        <div>
-          <small>País:</small>
-          <div>{{ order?.client?.country }}</div>
-        </div>
-        <div>
-          <small>Dirección:</small>
-          <div>{{ order?.client?.state }} {{ order?.client.city }}</div>
-        </div>
-        <div>
-          <small>Tipo de Documento:</small>
-          <div>{{ order?.client?.doc_type }}</div>
-        </div>
-        <div>
-          <small>Documento:</small>
-          <div>{{ order?.client?.doc_id }}</div>
-        </div>
+    <div class="content-address">
+      <div>
+        <small>Nombres:</small>
+        <div>{{ order?.client?.first_name }} {{ order?.client.last_name }}</div>
       </div>
+      <div>
+        <small>Email:</small>
+        <div>{{ order?.client?.email }}</div>
+      </div>
+      <div>
+        <small>Teléfono:</small>
+        <div>{{ order?.client?.phone }}</div>
+      </div>
+      <div>
+        <small>País:</small>
+        <div>{{ order?.client?.country }}</div>
+      </div>
+      <div>
+        <small>Dirección:</small>
+        <div>{{ order?.client?.state }} {{ order?.client.city }}</div>
+      </div>
+      <div>
+        <small>Tipo de Documento:</small>
+        <div>{{ order?.client?.doc_type }}</div>
+      </div>
+      <div>
+        <small>Documento:</small>
+        <div>{{ order?.client?.doc_id }}</div>
+      </div>
+    </div>
   </div>
 </div>
 

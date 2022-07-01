@@ -16,6 +16,7 @@ import { DetailButtonSheetComponent } from './detail-button-sheet/detail-button-
 import { StateFlowOrderComponent } from '../../components/state-flow-order/state-flow-order.component';
 import { CountdownConfig } from 'ngx-countdown';
 import * as moment from 'moment';
+import { PdfDetailOrderComponent } from '../../modules/shared-order/pdf-detail-order/pdf-detail-order.component';
 
 interface Record {
   icon?: string | null;
@@ -114,6 +115,16 @@ export class EditOrderComponent implements OnInit {
         this.startTranscurrentTime(this.order.timing.started_at)
       }
     }
+  }
+
+  openGeneratedPDF(): void {
+    const _order = JSON.parse(JSON.stringify(this.order));
+    this.dialog.open(PdfDetailOrderComponent,{
+      data: {order:  _order },
+      width: '90%',
+      maxWidth: '90%',
+      maxHeight: '80%',
+    })
   }
 
   startTranscurrentTime(date): void {

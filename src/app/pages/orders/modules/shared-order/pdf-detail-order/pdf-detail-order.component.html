@@ -1,0 +1,215 @@
+<h1 matDialogTitle>Detalles de envío</h1>
+
+<mat-dialog-content>
+  <div>
+    <div class="col-12">
+      <div [hidden]="!isOpenSearchWarehouse">
+        <app-search [url]="url" (data)="getData($event)">
+          <ng-container data>
+            <div class="row">
+              <div class="col-md-4 p-2" *ngFor="let warehouse of warehouses | keyvalue">
+                <div class="shadow p-3">
+                  <div><small class="text-muted">Bodega:</small></div>
+                  <div>{{ warehouse.value.name }}</div>
+                  <div><small class="text-muted">Código:</small></div>
+                  <div>{{ warehouse.value.code }}</div>
+                  <div>
+                    <button
+                      (click)="addWarehouse(warehouse.key)"
+                      *ngIf="!warehouseSelected.has(warehouse.key); else btnUnSelect"
+                      mat-button
+                      color="primary">
+                      Seleccionar
+                      <mat-icon>done</mat-icon>
+                    </button>
+                    <ng-template #btnUnSelect>
+                      <button (click)="removeWarehouse(warehouse.key)" mat-button color="warn">
+                        Quitar
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </app-search>
+      </div>
+    </div>
+    <div class="row" [hidden]="isOpenSearchWarehouse">
+      <div class="col-md-5 p-2">
+        <h3 class="text-center">Productos para asignar</h3>
+        <div class="card-body">
+          <div class="shadow rounded-fz">
+            <div *ngFor="let item of itemsOrder | keyvalue">
+              <div *ngIf="item.value.quantity > 0" class="p-2">
+                <div class="shadow p-3 rounded-fz">
+                  <div>
+                    {{ item.value.product?.name }}
+                    <small>{{ item.value.product?.code }}</small>
+                  </div>
+                  <div>
+                    <span>Cantidad:</span>
+                    {{ item.value.quantity }}
+                  </div>
+                  <div>
+                    <span>Precio:</span>
+                    {{ item.value.price }}
+                  </div>
+                  <div>
+                    <input
+                      #quantity
+                      [hidden]="item.value.quantity <= 1"
+                      [value]="item.value.quantity"
+                      [max]="item.value.price"
+                      type="number" />
+                  </div>
+                  <div>
+                    <button (click)="pass(quantity.value, item.key)" mat-button color="accent">
+                      Pasar
+                      <mat-icon>done</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7 p-2">
+        <h3 class="text-center">Gestión actual</h3>
+        <div class="card-body shadow rounded-fz">
+          <div class="d-flex align-items-center">
+            Bodega Seleccionada: &nbsp;
+            <span [ngClass]="currentItemPdf?.warehouse ? 'text-success' : 'text-danger'" class="font-weight-bold">
+              {{
+                currentItemPdf?.warehouse
+                  ? currentItemPdf?.warehouse?.name + " " + currentItemPdf?.warehouse?.code
+                  : "No se ha seleccionado ninguna bodega"
+              }}
+            </span>
+            <button (click)="isOpenSearchWarehouse = !isOpenSearchWarehouse" mat-icon-button color="accent">
+              <mat-icon>sync</mat-icon>
+            </button>
+          </div>
+          <div>
+            <div>
+              <button (click)="saveItemPdf()" mat-button color="accent">Pasar a datos pdf</button>
+            </div>
+            <hr />
+            Productos seleccionados:
+            <div class="p-3">
+              <mat-list>
+                <mat-list-item *ngFor="let item of currentItemPdf?.items | keyvalue">
+                  <div mat-list-avatar><img class="w-100" [src]="item.value?.img" alt="" /></div>
+                  <div mat-line>
+                    {{ item.value.name }}
+                    <small>({{ item.value.code }})</small>
+                  </div>
+                  <div mat-line>Cantidad: {{ item.value.quantity }}</div>
+                  <div mat-line>Precio: ${{ item.value.price }}</div>
+                  <div mat-line>
+                    <mat-chip selected (click)="quitItem(item.key)" color="warn">
+                      Quitar
+                      <mat-icon>close</mat-icon>
+                    </mat-chip>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-2">
+        <h3 class="text-center">Datos en PDF</h3>
+        <div class="card-body shadow rounded-fz">
+          <div class="row m-0 ">
+            <div class="col-md-6 p-2">
+              <div>
+                <h4>Cliente</h4>
+                <div class="p-2 rounded-fz shadow">
+                  <table class="table table-borderless table-sm">
+                    <tbody>
+                      <tr>
+                        <td>Nombres:</td>
+                        <td class="border-bottom">{{ client.first_name + " " + client.last_name }}</td>
+                      </tr>
+                      <tr>
+                        <td>Tipo de documento:</td>
+                        <td class="border-bottom">{{ client.doc_type }}</td>
+                      </tr>
+                      <tr>
+                        <td># de documento:</td>
+                        <td class="border-bottom">{{ client.doc_id }}</td>
+                      </tr>
+                      <tr>
+                        <td>Teléfono:</td>
+                        <td class="border-bottom">{{ client.phone }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 p-2">
+              <div>
+                <h4>Detalles de orden</h4>
+                <div class="p-2 rounded-fz shadow">
+                  <table class="table table-borderless table-sm">
+                    <tbody>
+                      <tr>
+                        <td># de orden:</td>
+                        <td class="border-bottom">{{ dataExternal.order.id }}</td>
+                      </tr>
+                      <tr>
+                        <td>Estado:</td>
+                        <td class="border-bottom">{{ dataExternal.order.status | translatefz: "orders" }}</td>
+                      </tr>
+                      <tr>
+                        <td>Total:</td>
+                        <td class="border-bottom">{{ dataExternal.order.total }}</td>
+                      </tr>
+                      <tr>
+                        <td>Subtotal:</td>
+                        <td class="border-bottom">{{ dataExternal.order.subtotal }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="w-100">
+            <h4>Bodegas con productos</h4>
+            <div>
+              <div *ngFor="let itemPdf of itemsPdf | keyvalue">
+                <h5>Bodega: {{ itemPdf.value.warehouse.name }}</h5>
+                <h5>Codigo de bodega: {{ itemPdf.value.warehouse.code }}</h5>
+                <div class="p-3">
+                  <mat-list>
+                    <mat-list-item *ngFor="let item of itemPdf.value?.items | keyvalue">
+                      <div mat-list-avatar><img class="w-100" [src]="item.value?.img" alt="" /></div>
+                      <div mat-line>
+                        {{ item.value.name }}
+                        <small>({{ item.value.code }})</small>
+                      </div>
+                      <div mat-line>Cantidad: {{ item.value.quantity }}</div>
+                      <div mat-line>Precio: ${{ item.value.price }}</div>
+                    </mat-list-item>
+                  </mat-list>
+                  <button (click)="removeAllItems(itemPdf.key)" color="warn" mat-button>Remover <mat-icon>close</mat-icon></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button color="warn" mat-button matDialogClose>Cerrar</button>
+  <button color="primary" mat-button>Generar PDF</button>
+</mat-dialog-actions>

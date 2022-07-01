@@ -24,7 +24,7 @@ export interface IOrderWorkspace {
 export interface IItemOrder {
   product_id: number;
   description: string;
-  quantity: string;
+  quantity: number;
   price: number;
   order_id: number;
   updated_at: string;
@@ -110,7 +110,7 @@ export interface IOrder {
   shipping_address: IShippingAddress;
   payments?: (any)[] | any;
   additional_amounts?: (IDiscountAndTaxes)[] | any;
-  items?: (ItemsEntity)[] | any;
+  items?: (IItemOrder)[] | any;
   transfers?: ITransference[];
   statuses: IStatus[];
   invoices: IInvoice[];

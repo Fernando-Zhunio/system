@@ -40,6 +40,7 @@ import { ModalAddProductsShippingComponent } from './shippings/modal-add-product
 import { PaymentMbaItemComponent } from './components/payment-mba-item/payment-mba-item.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { PdfDetailOrderComponent } from './pdf-detail-order/pdf-detail-order.component';
 
 @NgModule({
     imports: [
@@ -103,7 +104,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
         InvoicesOrderComponent,
         DetailsOrderComponent,
         CustomTemplateOnlyInputComponent,
-        PaymentMbaItemComponent
+        PaymentMbaItemComponent,
+        PdfDetailOrderComponent,
     ]
 })
 export class SharedOrderModule { }
