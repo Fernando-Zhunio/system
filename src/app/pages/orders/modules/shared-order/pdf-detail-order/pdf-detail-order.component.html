@@ -1,4 +1,4 @@
-<h1 matDialogTitle>Detalles de envío</h1>
+<h1 matDialogTitle class="font-3xl font-weight-bold">Detalles de envío</h1>
 
 <mat-dialog-content>
   <div>
@@ -38,10 +38,10 @@
     </div>
     <div class="row" [hidden]="isOpenSearchWarehouse">
       <div class="col-md-5 p-2">
-        <h3 class="text-center">Productos para asignar</h3>
+        <h3 class="text-center font-2xl font-weight-bold">Productos para asignar</h3>
         <div class="card-body">
           <div class="shadow rounded-fz">
-            <div *ngFor="let item of itemsOrder | keyvalue">
+            <!-- <div *ngFor="let item of itemsOrder | keyvalue">
               <div *ngIf="item.value.quantity > 0" class="p-2">
                 <div class="shadow p-3 rounded-fz">
                   <div>
@@ -57,12 +57,15 @@
                     {{ item.value.price }}
                   </div>
                   <div>
+                    <small>Cantidad a pasar:</small>
                     <input
                       #quantity
                       [hidden]="item.value.quantity <= 1"
                       [value]="item.value.quantity"
                       [max]="item.value.price"
-                      type="number" />
+                      type="number"
+                      class="input-quantity"
+                      />
                   </div>
                   <div>
                     <button (click)="pass(quantity.value, item.key)" mat-button color="accent">
@@ -72,12 +75,42 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
+            <mat-list>
+              <ng-container *ngFor="let item of itemsOrder | keyvalue">
+                <mat-list-item  *ngIf="item.value.quantity > 0">
+                  <div mat-list-avatar><img class="w-100" [src]="item.value?.product?.image || 'assets/img/img_not_available.png'" alt="" /></div>
+                  <div mat-line>
+                    {{ item.value.product?.name }}
+                    <small>({{ item.value.product?.code }})</small>
+                  </div>
+                  <div mat-line>Cantidad: {{ item.value.quantity }}</div>
+                  <div mat-line>Precio: ${{ item.value.price }}</div>
+                  <div [hidden]="item.value.quantity <= 1" mat-line>
+                    <small>Cantidad a pasar:</small>
+                    <input
+                      #quantity
+
+                      [value]="item.value.quantity"
+                      [max]="item.value.price"
+                      type="number"
+                      class="input-quantity"
+                      />
+                  </div>
+                  <div mat-line>
+                    <mat-chip selected (click)="pass(quantity.value, item.key)" mat-button color="accent">
+                      Pasar
+                      <mat-icon>done</mat-icon>
+                    </mat-chip>
+                  </div>
+                </mat-list-item>
+              </ng-container>
+            </mat-list>
           </div>
         </div>
       </div>
       <div class="col-md-7 p-2">
-        <h3 class="text-center">Gestión actual</h3>
+        <h3 class="text-center font-2xl font-weight-bold">Gestión actual</h3>
         <div class="card-body shadow rounded-fz">
           <div class="d-flex align-items-center">
             Bodega Seleccionada: &nbsp;
@@ -94,7 +127,7 @@
           </div>
           <div>
             <div>
-              <button (click)="saveItemPdf()" mat-button color="accent">Pasar a datos pdf</button>
+              <button (click)="saveItemPdf()" mat-flat-button color="primary">Pasar a datos pdf</button>
             </div>
             <hr />
             Productos seleccionados:
@@ -121,30 +154,30 @@
         </div>
       </div>
       <div class="col-12 p-2">
-        <h3 class="text-center">Datos en PDF</h3>
-        <div class="card-body shadow rounded-fz">
+        <h3 class="text-center font-2xl font-weight-bold">Datos en PDF</h3>
+        <div #forPdf class="card-body shadow rounded-fz">
           <div class="row m-0 ">
             <div class="col-md-6 p-2">
               <div>
-                <h4>Cliente</h4>
-                <div class="p-2 rounded-fz shadow">
-                  <table class="table table-borderless table-sm">
+                <h4 class="font-2xl font-weight-bold">Cliente</h4>
+                <div class="p-2">
+                  <table class="table table-borderless table-sm font-lg">
                     <tbody>
                       <tr>
                         <td>Nombres:</td>
-                        <td class="border-bottom">{{ client.first_name + " " + client.last_name }}</td>
+                        <td>{{ client.first_name + " " + client.last_name }}</td>
                       </tr>
                       <tr>
                         <td>Tipo de documento:</td>
-                        <td class="border-bottom">{{ client.doc_type }}</td>
+                        <td>{{ client.doc_type }}</td>
                       </tr>
                       <tr>
                         <td># de documento:</td>
-                        <td class="border-bottom">{{ client.doc_id }}</td>
+                        <td>{{ client.doc_id }}</td>
                       </tr>
                       <tr>
                         <td>Teléfono:</td>
-                        <td class="border-bottom">{{ client.phone }}</td>
+                        <td>{{ client.phone }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -153,25 +186,25 @@
             </div>
             <div class="col-md-6 p-2">
               <div>
-                <h4>Detalles de orden</h4>
-                <div class="p-2 rounded-fz shadow">
-                  <table class="table table-borderless table-sm">
+                <h4 class="font-2xl font-weight-bold">Detalles de orden</h4>
+                <div class="p-2">
+                  <table class="table table-borderless table-sm font-lg">
                     <tbody>
                       <tr>
                         <td># de orden:</td>
-                        <td class="border-bottom">{{ dataExternal.order.id }}</td>
+                        <td>{{ dataExternal.order.id }}</td>
                       </tr>
                       <tr>
                         <td>Estado:</td>
-                        <td class="border-bottom">{{ dataExternal.order.status | translatefz: "orders" }}</td>
+                        <td>{{ dataExternal.order.status | translatefz: "orders" }}</td>
                       </tr>
                       <tr>
                         <td>Total:</td>
-                        <td class="border-bottom">{{ dataExternal.order.total }}</td>
+                        <td>{{ dataExternal.order.total }}</td>
                       </tr>
                       <tr>
                         <td>Subtotal:</td>
-                        <td class="border-bottom">{{ dataExternal.order.subtotal }}</td>
+                        <td>{{ dataExternal.order.subtotal }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -181,11 +214,12 @@
           </div>
           <hr />
           <div class="w-100">
-            <h4>Bodegas con productos</h4>
+            <h4 class="font-2xl font-weight-bold">Bodegas con productos</h4>
             <div>
-              <div *ngFor="let itemPdf of itemsPdf | keyvalue">
-                <h5>Bodega: {{ itemPdf.value.warehouse.name }}</h5>
-                <h5>Codigo de bodega: {{ itemPdf.value.warehouse.code }}</h5>
+              <div class="card-body mt-3 ng-star-inserted shadow" *ngFor="let itemPdf of itemsPdf | keyvalue">
+                <h5 class="font-lg m-0">Bodega: {{ itemPdf.value.warehouse.name }}</h5>
+                <h5 class="m-0">Codigo de bodega: {{ itemPdf.value.warehouse.code }}</h5>
+                <h5 class="font-lg m-0">Productos:</h5>
                 <div class="p-3">
                   <mat-list>
                     <mat-list-item *ngFor="let item of itemPdf.value?.items | keyvalue">
@@ -198,7 +232,7 @@
                       <div mat-line>Precio: ${{ item.value.price }}</div>
                     </mat-list-item>
                   </mat-list>
-                  <button (click)="removeAllItems(itemPdf.key)" color="warn" mat-button>Remover <mat-icon>close</mat-icon></button>
+                  <button (click)="removeAllItems(itemPdf.key)" color="warn" mat-button>Remover bodega <mat-icon>close</mat-icon></button>
                 </div>
               </div>
             </div>
@@ -211,5 +245,5 @@
 
 <mat-dialog-actions>
   <button color="warn" mat-button matDialogClose>Cerrar</button>
-  <button color="primary" mat-button>Generar PDF</button>
+  <button color="primary" (click)="generatePDF()" mat-flat-button>Generar PDF</button>
 </mat-dialog-actions>

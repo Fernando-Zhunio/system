@@ -64,7 +64,7 @@ table {
 }
 
 .mat-expansion-panel {
-  
+
   border-radius: 20px !important;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   margin: 0.5rem !important;
@@ -115,9 +115,19 @@ table {
 }
 
 .container-info {
-  
+
   flex-wrap: wrap;
    small {
     margin-top: 5px;
   }
+}
+
+.btn-refresh-order {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow:  7px 7px 14px #a7a7a7,
+             -7px -7px 14px #ffffff;
 }
