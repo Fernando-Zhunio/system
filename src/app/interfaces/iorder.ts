@@ -135,6 +135,7 @@ export interface IClientOrder {
   updated_at: string;
 }
 export interface IShippingAddress {
+  company: any;
   id: number;
   address_id: number;
   first_name: string;

@@ -126,9 +126,6 @@
             </button>
           </div>
           <div>
-            <div>
-              <button (click)="saveItemPdf()" mat-flat-button color="primary">Pasar a datos pdf</button>
-            </div>
             <hr />
             Productos seleccionados:
             <div class="p-3">
@@ -150,6 +147,9 @@
                 </mat-list-item>
               </mat-list>
             </div>
+            <div>
+              <button (click)="saveItemPdf()" mat-flat-button color="primary">Pasar a datos pdf</button>
+            </div>
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@
         <h3 class="text-center font-2xl font-weight-bold">Datos en PDF</h3>
         <div #forPdf class="card-body shadow rounded-fz">
           <div class="row m-0 ">
-            <div class="col-md-6 p-2">
+            <div class="col-md-4 p-2">
               <div>
                 <h4 class="font-2xl font-weight-bold">Cliente</h4>
                 <div class="p-2">
@@ -184,7 +184,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 p-2">
+            <div class="col-md-4 p-2">
               <div>
                 <h4 class="font-2xl font-weight-bold">Detalles de orden</h4>
                 <div class="p-2">
@@ -205,6 +205,46 @@
                       <tr>
                         <td>Subtotal:</td>
                         <td>{{ dataExternal.order.subtotal }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 p-2">
+              <div>
+                <h4 class="font-2xl font-weight-bold">Dirección de envió</h4>
+                <div class="p-2">
+                  <table class="table table-borderless table-sm font-lg">
+                    <tbody>
+                      <tr>
+                        <td>Nombres:</td>
+                        <td>{{ dataExternal.order?.shipping_address?.first_name }} {{ dataExternal.order?.shipping_address?.last_name }}</td>
+                      </tr>
+                      <tr>
+                        <td>Compañía:</td>
+                        <td>{{ dataExternal.order?.shipping_address?.company }}</td>
+                      </tr>
+                      <tr>
+                        <td>Vecindario:</td>
+                        <td>{{ dataExternal.order?.shipping_address?.neighborhood }}</td>
+                      </tr>
+                      <tr>
+                        <td>Provincia:</td>
+                        <td>{{ dataExternal.order?.shipping_address?.state }}</td>
+                      </tr>
+                      <tr>
+                        <td>Ciudad:</td>
+                        <td>{{ dataExternal.order?.shipping_address?.city }}</td>
+                      </tr>
+                      <tr>
+                        <td>Calles:</td>
+                        <td>{{ dataExternal.order?.shipping_address?.street }}</td>
+                      </tr>
+                      <tr>
+                        <td>Código postal:</td>
+                        <td>{{ dataExternal.order?.shipping_address?.zip_code }}</td>
                       </tr>
                     </tbody>
                   </table>

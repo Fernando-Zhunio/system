@@ -14,7 +14,10 @@
             <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon>
             <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon>
           </span>
-          <button class="ml-1" mat-button color="accent" (click)="openGeneratedPDF()">Generar PDF de bodegas <mat-icon>picture_as_pdf</mat-icon></button>
+          <button class="ml-1" mat-button color="accent" (click)="openGeneratedPDF()">
+            Generar PDF de bodegas
+            <mat-icon>picture_as_pdf</mat-icon>
+          </button>
         </div>
         <span>
           <mat-icon>email</mat-icon>
@@ -115,146 +118,37 @@
     <div class="content-address">
       <div>
         <small>Nombres:</small>
-        <div>{{ order?.client?.first_name }} {{ order?.client.last_name }}</div>
+        <div>{{ order?.shipping_address?.first_name }} {{ order?.shipping_address?.last_name }}</div>
       </div>
       <div>
-        <small>Email:</small>
-        <div>{{ order?.client?.email }}</div>
+        <small>Compañía:</small>
+        <div>{{ order?.shipping_address?.company }}</div>
       </div>
       <div>
-        <small>Teléfono:</small>
-        <div>{{ order?.client?.phone }}</div>
+        <small>Vecindario:</small>
+        <div>{{ order?.shipping_address?.neighborhood }}</div>
       </div>
       <div>
-        <small>País:</small>
-        <div>{{ order?.client?.country }}</div>
+        <small>Provincia:</small>
+        <div>{{ order?.shipping_address?.state }}</div>
       </div>
       <div>
-        <small>Dirección:</small>
-        <div>{{ order?.client?.state }} {{ order?.client.city }}</div>
+        <small>Calles:</small>
+        <div>{{ order?.shipping_address?.street }}</div>
       </div>
       <div>
-        <small>Tipo de Documento:</small>
-        <div>{{ order?.client?.doc_type }}</div>
+        <small>Ciudad:</small>
+        <div>{{ order?.shipping_address?.city }}</div>
       </div>
       <div>
-        <small>Documento:</small>
-        <div>{{ order?.client?.doc_id }}</div>
+        <small>Código postal:</small>
+        <div>{{ order?.shipping_address?.zip_code }}</div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="pb-5">
-  <!-- <div class="grid-header mb-2">
-    <mat-card>
-      <div class="d-flex align-items-center justify-content-between">
-        <h3 class="font-weight-bold font-2xl my-1">Cliente</h3>
-        <div *ngIf="order?.status != 'cancelled'">
-          <button color="primary" mat-icon-button [routerLink]="['/system-orders/clients/create']">
-            <mat-icon>add</mat-icon>
-          </button>
-          <button color="accent" mat-icon-button [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button color="primary" mat-icon-button (click)="openSelectClient()">
-            <mat-icon>sync</mat-icon>
-          </button>
-        </div>
-      </div>
-      <table>
-        <tbody>
-          <tr>
-            <td>Nombres:</td>
-            <td>{{ order?.client?.first_name }} {{ order?.client.last_name }}</td>
-          </tr>
-          <tr>
-            <td>Email:</td>
-            <td>{{ order?.client?.email }}</td>
-          </tr>
-          <tr>
-            <td>Teléfono:</td>
-            <td>{{ order?.client?.phone }}</td>
-          </tr>
-          <tr>
-            <td>País:</td>
-            <td>{{ order?.client?.country }}</td>
-          </tr>
-          <tr>
-            <td>Dirección:</td>
-            <td>{{ order?.client?.state }} {{ order?.client.city }}</td>
-          </tr>
-          <tr>
-            <td>Tipo de Documento:</td>
-            <td>{{ order?.client?.doc_type }}</td>
-          </tr>
-          <tr>
-            <td>Documento:</td>
-            <td>{{ order?.client?.doc_id }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </mat-card>
-    <mat-card>
-      <div class="d-flex align-items-center justify-content-between">
-        <h3 class="font-weight-bold font-2xl my-1">Dirección de envío</h3>
-        <div *ngIf="order?.status != 'cancelled'">
-          <button color="accent" mat-icon-button (click)="addClientAddress(order.shipping_address.address_id)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button color="primary" mat-icon-button (click)="openDialogAddress()">
-            <mat-icon>sync</mat-icon>
-          </button>
-        </div>
-      </div>
-      <table>
-        <tbody>
-          <tr>
-            <td>Nombres que recibe:</td>
-            <td>{{ order?.shipping_address?.first_name }} {{ order?.shipping_address.last_name }}</td>
-          </tr>
-          <tr>
-            <td>Estado o provincia:</td>
-            <td>{{ order?.shipping_address?.state }}</td>
-          </tr>
-          <tr>
-            <td>Cuidad:</td>
-            <td>{{ order?.shipping_address?.city }}</td>
-          </tr>
-          <tr>
-            <td>Vecindario:</td>
-            <td>
-              {{ order?.shipping_address?.neighborhood }}
-              <span *ngIf="!order?.shipping_address?.neighborhood" class="badge bg-warning">Vacío</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Numero</td>
-            <td>
-              {{ order?.shipping_address?.number }}
-              <span *ngIf="!order?.shipping_address?.number" class="badge bg-warning">Vacío</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Código postal:</td>
-            <td>
-              {{ order?.shipping_address?.zip_code }}
-              <span *ngIf="!order?.shipping_address?.zip_code" class="badge bg-warning">vacío</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Calle:</td>
-            <td>{{ order?.shipping_address?.street }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </mat-card>
-  </div>
-  <div>
-    <h3 class="font-4xl text-center mt-4">Estados</h3>
-    <app-state-flow-order [statuses]="statuses"></app-state-flow-order>
-  </div> -->
-
   <mat-card class="mt-3">
     <div class="d-flex justify-content-between align-items-center my-2">
       <h3 class="font-weight-bold font-2xl my-1">Gestionables</h3>
@@ -488,5 +382,13 @@
     <mat-icon>delete</mat-icon>
   </button>
 
-  <button (click)="getOrder()" data-toggle="tooltip" data-placement="top" title="Actualizar orden"  mat-icon-button class="btn-refresh-order"><mat-icon>refresh</mat-icon></button>
+  <button
+    (click)="getOrder()"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Actualizar orden"
+    mat-icon-button
+    class="btn-refresh-order">
+    <mat-icon>refresh</mat-icon>
+  </button>
 </div>

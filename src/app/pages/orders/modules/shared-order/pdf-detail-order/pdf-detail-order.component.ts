@@ -102,12 +102,16 @@ export class PdfDetailOrderComponent implements OnInit {
       return;
     }
     const dd = {
-      footer:{ text: 'Usuario Novisolutions: ' + this.getUserSystem(), fontSize: 7, margin: [10, 0, 0, 10] },
+      watermark: {
+        text: 'Novisolutions',
+        color: 'gray', opacity: 0.1, bold: true
+      },
+      footer: { text: 'Usuario Novisolutions: ' + this.getUserSystem(), fontSize: 7, margin: [10, 0, 0, 10] },
       content: [
         { text: 'Transferencia de orden #' + this.dataExternal.order.id, fontSize: 22, bold: true, alignment: 'center', margin: [0, 0, 0, 10] },
-        {
-          ...this.generateHeaderPdf(),
-        }
+
+        this.generateHeaderPdf(),
+
       ],
       styles: {
         header: {
@@ -124,41 +128,58 @@ export class PdfDetailOrderComponent implements OnInit {
   }
 
   generateHeaderPdf(): any {
-    return {
-      columns: [
-        [
-          { text: 'Cliente', fontSize: 20, bold: true },
-          {
-            layout: 'noBorders',
-            table: {
-              padding: [10, 10, 10, 10],
-              body: [
-                ['Nombres:', this.client.first_name + " " + this.client.last_name],
-                ['Tipo de documento:', this.client.doc_type],
-                ['Numero de documento:', this.client.doc_id],
-                ['Teléfono:', this.client.phone],
-              ]
+    return [
+      {
+        columns: [
+          [
+            { text: 'Cliente', fontSize: 20, bold: true },
+            {
+              layout: 'noBorders',
+              table: {
+                padding: [10, 10, 10, 10],
+                body: [
+                  ['Nombres:', this.client.first_name + " " + this.client.last_name],
+                  ['Tipo de documento:', this.client.doc_type],
+                  ['Numero de documento:', this.client.doc_id],
+                  ['Teléfono:', this.client.phone],
+                ]
+              }
             }
-          }
-        ],
-        [
-          { text: 'Detalles', fontSize: 20, bold: true },
-          {
-            layout: 'noBorders',
-            table: {
-              padding: [10, 10, 10, 10],
-              body: [
-                ['# de orden:', this.dataExternal.order.id],
-                ['Estado:', trans(this.dataExternal.order.status, "orders")],
-                ['Total:', this.dataExternal.order.total],
-                ['Subtotal:', this.dataExternal.order.subtotal],
-              ]
+          ],
+          [
+            { text: 'Detalles', fontSize: 20, bold: true },
+            {
+              layout: 'noBorders',
+              table: {
+                padding: [10, 10, 10, 10],
+                body: [
+                  ['# de orden:', this.dataExternal.order.id],
+                  ['Estado:', trans(this.dataExternal.order.status, "orders")],
+                  ['Total:', this.dataExternal.order.total],
+                  ['Subtotal:', this.dataExternal.order.subtotal],
+                ]
+              }
             }
-          }
+          ]
         ]
-
-      ]
-    }
+      },
+      { text: 'Detalles de envió', fontSize: 20, bold: true, margin: [0, 10, 0, 5] },
+      {
+        layout: 'noBorders',
+        table: {
+          padding: [10, 10, 10, 10],
+          body: [
+            ['Nombres:', this.dataExternal.order?.shipping_address?.first_name + " " + this.dataExternal.order?.shipping_address?.last_name],
+            ['Compañía:', this.dataExternal.order?.shipping_address?.company],
+            ['Vecindario:', this.dataExternal?.order.shipping_address?.neighborhood],
+            ['Provincia:', this.dataExternal.order?.shipping_address?.state],
+            ['Ciudad:', this.dataExternal.order?.shipping_address?.city],
+            ['Calles:', this.dataExternal.order?.shipping_address?.street],
+            ['Código postal:', this.dataExternal.order?.shipping_address?.zip_code],
+          ]
+        }
+      }
+    ]
   }
 
   getUserSystem(): string {
@@ -239,15 +260,21 @@ export class PdfDetailOrderComponent implements OnInit {
     return dataReturn;
   }
 
-  // getBase64Image(img) {
-  //   var canvas = document.createElement("canvas");
-  //   canvas.width = img.width;
-  //   canvas.height = img.height;
-  //   var ctx = canvas.getContext("2d");
-  //   ctx.drawImage(img, 0, 0);
-  //   var dataURL = canvas.toDataURL("image/png");
-  //   return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-  // }
+  async getBase64Image(url): Promise<any> {
+    const img = new Image();
+    img.setAttribute('crossOrigin', 'anonymous');
+    img.onload = async () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const dataURL = canvas.toDataURL("image/png");
+      console.log(dataURL)
+      return dataURL;
+    }
+    // img.src = url
+  }
 }
 
 
