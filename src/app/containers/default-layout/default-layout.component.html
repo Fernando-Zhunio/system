@@ -14,12 +14,12 @@
     <button mat-icon-button class="line-1 btn-search-page"><mat-icon class="text-muted">search</mat-icon></button>
   </div>
   <ul class="nav navbar-nav ml-auto">
-    <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 bg-warning rounded-fz">
-      <mat-icon>light_mode</mat-icon>
+    <li  class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
+      <mat-icon  class="text-warning" [ngClass]="{'text-muted': isDark}">light_mode</mat-icon>
       &nbsp;
       <mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>
       &nbsp;
-      <mat-icon>nightlight</mat-icon>
+      <mat-icon [ngClass]="{'text-muted': !isDark}" class="text-white">nightlight</mat-icon>
     </li>
     <li class="nav-item">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">

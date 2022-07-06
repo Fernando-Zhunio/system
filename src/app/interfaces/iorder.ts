@@ -100,6 +100,7 @@ export interface IOrder {
   subtotal: number;
   discount: number;
   retention: number;
+  products_subtotal: number;
   tax: number;
   total: number;
   total_paid: number;
