@@ -1,0 +1,30 @@
+<div>
+  <h1 class="font-4xl mt-3 font-weight-bold">Tiendas</h1>
+  <div>
+    <div *ngIf="stores">
+      <div *ngFor="let store of stores|keyvalue">
+        <h2 class="">{{store.key}}</h2>
+        <div class="card-columns">
+          <mat-card class="card border-0" *ngFor="let storeCity of stores[store.key] |keyvalue">
+            <small class="text-muted">Ciudad:</small>
+            <h3 class="font-2xl">{{storeCity.key}} {{storeCity.value?.length}}</h3>
+            <div>
+              <div *ngFor="let storeItem of storeCity.value">
+                <small class="text-muted">Nombre:</small>
+                <div>{{storeItem.name}}</div>
+                <small class="text-muted">Dirección:</small>
+                <div>{{storeItem.address}}</div>
+                <small class="text-muted">Horario:</small>
+                <div>{{storeItem.schedules}}</div>
+                <hr>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button mat-button (click)="getStores()">refrescar</button>
+    </div>
+  </div>
+</div>
