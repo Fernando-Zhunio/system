@@ -1,21 +1,22 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IClientOrder, IItemOrder, IOrder } from '../../../../../interfaces/iorder';
 import { Iwarehouse } from '../../../../../interfaces/iwarehouse';
 
 import { ElementRef, ViewChild } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { trans } from '../../../../../class/translations';
 import { StorageService } from '../../../../../services/storage.service';
+import { DatePipe } from '@angular/common';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-pdf-detail-order',
   templateUrl: './pdf-detail-order.component.html',
-  styleUrls: ['./pdf-detail-order.component.scss']
+  styleUrls: ['./pdf-detail-order.component.scss'],
+  providers: [DatePipe]
 })
 export class PdfDetailOrderComponent implements OnInit {
 
@@ -29,7 +30,7 @@ export class PdfDetailOrderComponent implements OnInit {
   itemsOrder: Map<number, IItemOrder> = new Map();
   client: IClientOrder;
 
-  constructor(private storage: StorageService, @Inject(MAT_DIALOG_DATA) public dataExternal: { order: IOrder }, private snackbar: MatSnackBar) {
+  constructor(private datePipe: DatePipe, private storage: StorageService, @Inject(MAT_DIALOG_DATA) public dataExternal: { order: IOrder }, private snackbar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -142,6 +143,8 @@ export class PdfDetailOrderComponent implements OnInit {
                   ['Tipo de documento:', this.client.doc_type],
                   ['Numero de documento:', this.client.doc_id],
                   ['Teléfono:', this.client.phone],
+                  ['País:', this.client.country],
+                  ['Provincia:', this.client.state],
                 ]
               }
             }
@@ -155,30 +158,53 @@ export class PdfDetailOrderComponent implements OnInit {
                 body: [
                   ['# de orden:', this.dataExternal.order.id],
                   ['Estado:', trans(this.dataExternal.order.status, "orders")],
-                  ['Total:', this.dataExternal.order.total],
-                  ['Subtotal:', this.dataExternal.order.subtotal],
+                  ['Fecha de creación:', this.datePipe.transform(this.dataExternal.order.created_at)],
+                  ['Código vendedor:', this.dataExternal.order.seller_code],
+                  ['Tipo:', this.dataExternal.order?.type],
                 ]
               }
             }
           ]
         ]
       },
-      { text: 'Detalles de envió', fontSize: 20, bold: true, margin: [0, 10, 0, 5] },
       {
-        layout: 'noBorders',
-        table: {
-          padding: [10, 10, 10, 10],
-          body: [
-            ['Nombres:', this.dataExternal.order?.shipping_address?.first_name + " " + this.dataExternal.order?.shipping_address?.last_name],
-            ['Compañía:', this.dataExternal.order?.shipping_address?.company],
-            ['Vecindario:', this.dataExternal?.order.shipping_address?.neighborhood],
-            ['Provincia:', this.dataExternal.order?.shipping_address?.state],
-            ['Ciudad:', this.dataExternal.order?.shipping_address?.city],
-            ['Calles:', this.dataExternal.order?.shipping_address?.street],
-            ['Código postal:', this.dataExternal.order?.shipping_address?.zip_code],
+        columns: [
+          [
+            { text: 'Detalles de envió', fontSize: 20, bold: true, margin: [0, 10, 0, 5] },
+            {
+              layout: 'noBorders',
+              table: {
+                body: [
+                  ['Nombres:', this.dataExternal.order?.shipping_address?.first_name + " " + this.dataExternal.order?.shipping_address?.last_name],
+                  ['Compañía:', this.dataExternal.order?.shipping_address?.company],
+                  ['Vecindario:', this.dataExternal?.order.shipping_address?.neighborhood],
+                  ['Provincia:', this.dataExternal.order?.shipping_address?.state],
+                  ['Ciudad:', this.dataExternal.order?.shipping_address?.city],
+                  ['Calles:', this.dataExternal.order?.shipping_address?.street],
+                  ['Código postal:', this.dataExternal.order?.shipping_address?.zip_code],
+                ]
+              }
+            }
+          ],
+          [
+            { text: 'Totales', fontSize: 20, bold: true, margin: [0, 10, 0, 5] },
+            {
+              layout: 'noBorders',
+              table: {
+                body: [
+                  ['Retención:','$'+ this.dataExternal.order?.retention],
+                  ['Envío:', '$'+ this.dataExternal.order?.shipping],
+                  ['Descuento:', {text: '$'+ (-Math.abs(this.dataExternal.order?.discount)), color: 'red'}],
+                  ['Impuesto:', '$'+ this.dataExternal.order?.tax],
+                  ['Subtotal:', '$'+ this.dataExternal.order?.subtotal],
+                  ['Total:', '$'+ this.dataExternal.order?.total],
+                  ['Total pagado:', '$'+ this.dataExternal.order?.total_paid],
+                ]
+              }
+            }
           ]
-        }
-      }
+        ]
+      },
     ]
   }
 
