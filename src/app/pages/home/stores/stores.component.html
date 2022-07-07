@@ -1,30 +1,54 @@
 <div>
-  <h1 class="font-4xl mt-3 font-weight-bold">Tiendas</h1>
-  <div>
-    <div *ngIf="stores">
-      <div *ngFor="let store of stores|keyvalue">
-        <h2 class="">{{store.key}}</h2>
-        <div class="card-columns">
-          <mat-card class="card border-0" *ngFor="let storeCity of stores[store.key] |keyvalue">
-            <small class="text-muted">Ciudad:</small>
-            <h3 class="font-2xl">{{storeCity.key}} {{storeCity.value?.length}}</h3>
-            <div>
-              <div *ngFor="let storeItem of storeCity.value">
-                <small class="text-muted">Nombre:</small>
-                <div>{{storeItem.name}}</div>
-                <small class="text-muted">Dirección:</small>
-                <div>{{storeItem.address}}</div>
-                <small class="text-muted">Horario:</small>
-                <div>{{storeItem.schedules}}</div>
-                <hr>
+  <div class="sticky-top between-middle">
+    <h1 class="font-4xl my-3 font-weight-bold">Tiendas</h1>
+    <button color="accent" (click)="saveInServer()" mat-raised-button>Guardar <mat-icon>save</mat-icon></button>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div *ngIf="stores">
+        <div *ngFor="let company of stores | keyvalue">
+          <div class="between-middle">
+            <h2 [matBadge]="company.value.size" matBadgeOverlap="false" class="text-uppercase m-0">
+              {{ company.key }}
+            </h2>
+            <button color="accent" mat-button (click)="modifyStore(company.key, true)">Crear nueva ciudad y tienda <mat-icon>add</mat-icon> </button>
+          </div>
+          <div class="card-columns" style="column-count: 2">
+            <mat-card class="card border-0" *ngFor="let storeCity of company.value | keyvalue">
+              <small class="text-muted">Ciudad:</small>
+              <div class="between-middle">
+                <h3 class="font-2xl m-0" [matBadge]="storeCity.value.size" matBadgeOverlap="false">{{ storeCity.key }}</h3>
+                <button mat-icon-button color="info" (click)="modifyStore(company.key, false, storeCity.key)"><mat-icon>add</mat-icon></button>
               </div>
-            </div>
-          </mat-card>
+              <hr>
+              <div>
+                <div *ngFor="let storeItem of storeCity.value| keyvalue">
+                  <small class="text-muted">Nombre:</small>
+                  <div>{{ storeItem.value.name }}</div>
+                  <small class="text-muted">Dirección:</small>
+                  <div>{{ storeItem.value.address }}</div>
+                  <small class="text-muted">Horario:</small>
+                  <div>{{ storeItem.value.schedules }}</div>
+                  <div>
+                    <mat-chip-list>
+                      <mat-chip (click)="modifyStore(company.key, false, storeCity.key, true, storeItem.key)"><mat-icon color="primary">edit</mat-icon></mat-chip>
+                      <mat-chip (click)="removeStore(company.key, storeCity.key, storeItem.key)"><mat-icon color="warn">delete</mat-icon></mat-chip>
+                    </mat-chip-list>
+                  </div>
+                  <hr />
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <hr />
         </div>
       </div>
     </div>
-    <div>
-      <button mat-button (click)="getStores()">refrescar</button>
+    <div class="col-md-6">
+      <div class="shadow" #mapElement id="map"></div>
     </div>
+  </div>
+  <div>
+    <button mat-button (click)="generateSchemasJson()">refrescar</button>
   </div>
 </div>

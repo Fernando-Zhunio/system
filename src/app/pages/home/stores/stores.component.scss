@@ -1,0 +1,23 @@
+#map {
+  width: 100%;
+  aspect-ratio: 1/1;
+
+  position: sticky;
+  top: 10px;
+  border-radius: 10px;
+}
+
+.between-middle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+::ng-deep .marker-novicompu {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  // background-color: #ccc;
+  background-image: url('/assets/icons/icon.png');
+}
