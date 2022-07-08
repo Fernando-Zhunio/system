@@ -18,6 +18,7 @@ export class ModificateStoresComponent implements OnInit {
     longitude: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
     schedules: new FormControl('', [Validators.required]),
+    mba_code: new FormControl('', [Validators.required]),
   });
   constructor(@Inject(MAT_DIALOG_DATA)
   public dataExternal: { title: string, isCreateCity: boolean, isEdit: boolean, data: any },
@@ -28,9 +29,9 @@ export class ModificateStoresComponent implements OnInit {
       this.dataExternal.isCreateCity = false;
       this.form.get('city_name').clearValidators();
       console.log(this.dataExternal.data);
-      const { name, address, latitude, longitude, phone, schedules } = this.dataExternal.data;
+      const { name, address, latitude, longitude, phone, schedules, mba_code } = this.dataExternal.data;
       this.form.get('name').disable();
-      this.form.patchValue({ name, address, latitude, longitude, phone, schedules });
+      this.form.patchValue({ name, address, latitude, longitude, phone, schedules, mba_code });
     }
   }
 

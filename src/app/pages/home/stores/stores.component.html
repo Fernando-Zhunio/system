@@ -1,38 +1,68 @@
 <div>
-  <div class="sticky-top between-middle">
-    <h1 class="font-4xl my-3 font-weight-bold">Tiendas</h1>
-    <button color="accent" (click)="saveInServer()" mat-raised-button>Guardar <mat-icon>save</mat-icon></button>
+  <div class="d-flex align-items-center mt-3">
+    <h1 class="font-4xl m-0 font-weight-bold">Tiendas</h1>
+    <div class="mx-3">
+      <mat-chip-list>
+        <mat-chip>
+          <mat-select class="w-auto" (selectionChange)="filterForCity($event)" placeholder="Filtro de ciudad"  name="item">
+            <mat-option value="all">Todas las tiendas</mat-option>
+            <mat-option *ngFor="let city of cities| keyvalue" [value]="city.key">
+              {{city.key}}
+            </mat-option>
+          </mat-select>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
   </div>
   <div class="row">
     <div class="col-md-6">
+      <div *ngxPermissionsOnly="permissions.edit" class="sticky-top">
+        <button class="mt-2" [disabled]="isLoading" color="accent" (click)="saveInServer()" mat-raised-button>
+          Guardar
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
       <div *ngIf="stores">
         <div *ngFor="let company of stores | keyvalue">
           <div class="between-middle">
-            <h2 [matBadge]="company.value.size" matBadgeOverlap="false" class="text-uppercase m-0">
+            <h2  class="text-uppercase m-0">
               {{ company.key }}
             </h2>
-            <button color="accent" mat-button (click)="modifyStore(company.key, true)">Crear nueva ciudad y tienda <mat-icon>add</mat-icon> </button>
+            <button *ngxPermissionsOnly="permissions.edit" color="accent" mat-button (click)="modifyStore(company.key, true)">
+              Crear nueva ciudad y tienda
+              <mat-icon>add</mat-icon>
+            </button>
           </div>
           <div class="card-columns" style="column-count: 2">
             <mat-card class="card border-0" *ngFor="let storeCity of company.value | keyvalue">
               <small class="text-muted">Ciudad:</small>
               <div class="between-middle">
-                <h3 class="font-2xl m-0" [matBadge]="storeCity.value.size" matBadgeOverlap="false">{{ storeCity.key }}</h3>
-                <button mat-icon-button color="info" (click)="modifyStore(company.key, false, storeCity.key)"><mat-icon>add</mat-icon></button>
+                <h3 class="font-2xl m-0" [matBadge]="storeCity.value.size" matBadgeOverlap="false">
+                  {{ storeCity.key }}
+                </h3>
+                <button *ngxPermissionsOnly="permissions.edit" mat-icon-button color="primary" (click)="modifyStore(company.key, false, storeCity.key)">
+                  <mat-icon>add</mat-icon>
+                </button>
               </div>
-              <hr>
+              <hr />
               <div>
-                <div *ngFor="let storeItem of storeCity.value| keyvalue">
+                <div *ngFor="let storeItem of storeCity.value | keyvalue">
                   <small class="text-muted">Nombre:</small>
                   <div>{{ storeItem.value.name }}</div>
                   <small class="text-muted">Dirección:</small>
                   <div>{{ storeItem.value.address }}</div>
                   <small class="text-muted">Horario:</small>
                   <div>{{ storeItem.value.schedules }}</div>
-                  <div>
+                  <small class="text-muted">Codigo Mba:</small>
+                  <div>{{ storeItem.value?.mba_code }}</div>
+                  <div *ngxPermissionsOnly="permissions.edit">
                     <mat-chip-list>
-                      <mat-chip (click)="modifyStore(company.key, false, storeCity.key, true, storeItem.key)"><mat-icon color="primary">edit</mat-icon></mat-chip>
-                      <mat-chip (click)="removeStore(company.key, storeCity.key, storeItem.key)"><mat-icon color="warn">delete</mat-icon></mat-chip>
+                      <mat-chip (click)="modifyStore(company.key, false, storeCity.key, true, storeItem.key)">
+                        <mat-icon color="primary">edit</mat-icon>
+                      </mat-chip>
+                      <mat-chip (click)="removeStore(company.key, storeCity.key, storeItem.key)">
+                        <mat-icon color="warn">delete</mat-icon>
+                      </mat-chip>
                     </mat-chip-list>
                   </div>
                   <hr />
@@ -45,7 +75,18 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="shadow" #mapElement id="map"></div>
+      <div class="content-map">
+        <mat-button-toggle-group
+          (change)="getViewImageToMapCompany($event)"
+          name="fontStyle"
+          class="rounded-fz mb-2"
+          aria-label="Font Style">
+          <mat-button-toggle *ngFor="let store of stores | keyvalue" [value]="store.key">
+            {{ store.key }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+        <div class="shadow" #mapElement id="map"></div>
+      </div>
     </div>
   </div>
   <div>

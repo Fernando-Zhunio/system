@@ -1,10 +1,12 @@
 #map {
   width: 100%;
   aspect-ratio: 1/1;
+  border-radius: 10px;
+}
 
+.content-map {
   position: sticky;
   top: 10px;
-  border-radius: 10px;
 }
 
 .between-middle {
@@ -14,10 +16,46 @@
 }
 
 ::ng-deep .marker-novicompu {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
-  // background-color: #ccc;
-  background-image: url('/assets/icons/icon.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("/assets/icons/icon-novicompu.png");
+  padding-top: 25px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: pre;
+}
+::ng-deep .marker-ganacell {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("/assets/icons/icon-ganacell.png");
+  padding-top: 25px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: pre;
+}
+
+::ng-deep .marker-importadora-novoa {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("/assets/icons/icon-importadora-novoa.png");
+  padding-top: 25px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: pre;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  line-height: 2.7 !important;
 }
