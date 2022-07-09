@@ -21,11 +21,14 @@ import { MatCardModule } from '@angular/material/card';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [ IndexComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     RequestsRoutingModule,
     MatIconModule,
     HeaderSearchModule,
@@ -47,6 +50,9 @@ import { SearchTemplateModule } from '../../../Modulos/search-template/search-te
     FormsModule,
     MatAutocompleteModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
     SearchTemplateModule
   ]
 })

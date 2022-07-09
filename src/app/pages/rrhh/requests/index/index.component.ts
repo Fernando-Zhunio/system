@@ -1,27 +1,38 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
+import { Crud } from '../../../../class/crud';
 import { CTemplateSearch } from '../../../../class/ctemplate-search';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { Irequest, Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
+import { IPaginate, IResponse } from '../../../../services/methods-http.service';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css'],
+  styleUrls: ['./index.component.scss'],
   animations: animation_conditional
 })
-export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit {
+export class IndexComponent extends Crud<Irequest> implements OnInit {
 
-  constructor(private router: Router, private s_shared: SharedService, private s_standard: StandartSearchService) {
+
+  constructor(protected standardService: StandartSearchService,
+    protected snackBar: MatSnackBar,
+    private router: Router,
+    private s_shared: SharedService) {
     super();
   }
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   @ViewChild('workInput') inputWork: ElementRef;
+
+  dataSource: Irequest[] = [];
+  columnsToDisplay = ['favorite', 'photo', 'names', 'work', 'age', 'birthday', 'professions', 'created_at', 'actions'];
 
   searchJob: string = '';
   works: Iwork[] = [];
@@ -38,25 +49,44 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
   ngOnInit(): void {
   }
 
+  changeSort(event: any): void {
+    // console.log(event);
+    // this.filters.orderBy = event.direction;
+    // this.filters.orderByColumn = event.active;
+    // this.headerComponent.searchBar();
+  }
+
   goAppointmentCreate(id: number): void {
-    const request = this.products.find(x => x.id === id);
-    this.s_shared.requestWork = request;
-    this.router.navigate([`recursos-humanos/appointments/request/${id}/create`]);
+    // const request = this.products.find(x => x.id === id);
+    // this.s_shared.requestWork = request;
+    // this.router.navigate([`recursos-humanos/appointments/request/${id}/create`]);
   }
 
   openCv(id: number) {
     this.isOpenCv = true;
     const url = `rrhh/requests/${id}/statuses`;
-    this.s_standard.store(url, { status: 'request_cv_viewed' }).subscribe(res => {
+    this.standardService.methodPost(url, { status: 'request_cv_viewed' }).subscribe(res => {
 
     });
-    this.cv = this.products.find((x) => x.id === id).user?.resume?.attachment?.real_permalink;
+    // this.cv = this.products.find((x) => x.id === id).user?.resume?.attachment?.real_permalink;
+  }
+
+  age(date): string {
+    let today = moment();
+    let birthdate = moment(date);
+    let years = today.diff(birthdate, 'years');
+    // let html: string = years + " yr ";
+    return years + " años";
+
+    // html += today.subtract(years, 'years').diff(birthdate, 'months') + " mo";
+
+    // return html;
   }
 
   getWorks(): void {
     const url = `rrhh/works`;
     const searchText = this.inputWork.nativeElement.value;
-    this.s_standard.index(`${url}?search=${searchText}`).subscribe(res => {
+    this.standardService.methodGet(`${url}?search=${searchText}`).subscribe(res => {
       if (res.hasOwnProperty('success') && res.success) {
         this.works = res.data.data;
       }
@@ -81,7 +111,7 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
   }
 
   getDataPaginate(event: Irequest[]): void {
-    this.products = event;
+    // this.products = event;
   }
 
   removeWorkFilter(): void {
@@ -119,10 +149,18 @@ export class IndexComponent extends CTemplateSearch<Irequest> implements OnInit 
 
   doFavorite(id: number, isFavorite: boolean): void {
     const url = `rrhh/requests/${id}/mark-favorite`;
-    this.s_standard.updatePut(url, {mark: !isFavorite}).subscribe(res => {
+    this.standardService.methodPut(url, { mark: !isFavorite }).subscribe(res => {
       if (res.hasOwnProperty('success') && res.success) {
-        this.products.find(x => x.id === id).favorite = !isFavorite;
+        // this.data.find(x => x.id === id).favorite = !isFavorite;
       }
     });
+  }
+
+  getData($event: IResponse<IPaginate<any>>): void {
+    console.log($event);
+    this.dataSource = $event.data.data;
+    // this.detailPaginator.current_page = $event.data.current_page;
+    // this.detailPaginator.per_page = $event.data.per_page;
+    // this.detailPaginator.total = $event.data.total;
   }
 }

@@ -1,5 +1,5 @@
 
-<app-search-template [title]="'Solicitudes'" [filter_data]="form.value" [active_filters_menu]="true" [url$]="url"
+<!-- <app-search-template [title]="'Solicitudes'" [filter_data]="form.value" [active_filters_menu]="true" [url$]="url"
 (data)="getDataPaginate($event)">
   <ng-container filterMenu>
     <div [formGroup]="form">
@@ -13,7 +13,7 @@
               [selectable]="true"
               [removable]="true"
               (removed)="removeWorkFilter()">
-            <span class="text-truncate">{{workText}}</span>  
+            <span class="text-truncate">{{workText}}</span>
               <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
             </mat-chip>
             <input
@@ -97,8 +97,215 @@
     </div>
   </mat-card>
   </ng-container>
-  
-</app-search-template>
+
+</app-search-template> -->
+
+<app-header-search (isLoading)="isLoading = $event" [placeholder]="'Buscador de empleos'" [title]="'Solicitudes de trabajo'" [filter_data]="form.value" [active_filters_menu]="true"
+[url]="url" (products)="getData($event)"
+>
+<ng-container filterMenu>
+  <div [formGroup]="form">
+    <div class="w-100" mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
+      (keydown)="$event.stopPropagation()">
+      <mat-form-field class="w-100">
+        <mat-chip-list #chipList aria-label="selection">
+          <mat-chip
+          class="text-truncate"
+          *ngIf="workText"
+            [selectable]="true"
+            [removable]="true"
+            (removed)="removeWorkFilter()">
+          <span class="text-truncate">{{workText}}</span>
+            <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+          </mat-chip>
+          <input
+          (keydown.enter)="getWorks()"
+            placeholder="Buscar empleo"
+            #workInput
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            >
+        </mat-chip-list>
+        <mat-label>Buscar empleo</mat-label>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addWorkFilter($event)">
+          <mat-option *ngFor="let option of works" [value]="option.id">
+            <div style="line-height: 1;" class="font-sm"> {{option.title}} <br>
+              <span class="font-sm d-block text-muted">{{option.created_at | date}}</span>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <mat-slide-toggle formControlName="isWishlist">Solo los favoritos</mat-slide-toggle>
+    </div>
+  </div>
+</ng-container>
+</app-header-search>
+<div class="row">
+<div class="position-relative col-md-9">
+  <div *ngIf="isLoading" class="is-loading center w-100 h-100">
+    <div class="center">
+      <mat-spinner [diameter]="25"></mat-spinner>
+      <p class="m-0 ml-2">Cargando datos</p>
+    </div>
+  </div>
+  <div class="position-relative table-container shadow">
+    <table
+      style="width: max-content !important"
+      mat-table
+      [dataSource]="dataSource"
+      multiTemplateDataRows
+      class="mat-elevation-z8 w-100"
+      matSort
+      matSortActive="created_at"
+      matSortDisableClear
+      matSortDirection="desc"
+      (matSortChange)="changeSort($event)">
+      <ng-container matColumnDef="favorite">
+        <th mat-header-cell *matHeaderCellDef>Favoritos</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button><mat-icon [color]="element.favorite ? 'warn': ''">{{element.favorite? 'favorite': 'favorite_border'}}</mat-icon></button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="photo">
+        <th mat-header-cell *matHeaderCellDef>Foto</th>
+        <td mat-cell *matCellDef="let element"><img class="img-photo" [src]="element.user?.photo?.real_permalink || '/assets/img/avatars/profile-user.svg'" ></td>
+      </ng-container>
+      <ng-container matColumnDef="names">
+        <th mat-header-cell *matHeaderCellDef>Nombres</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.user.first_name }} {{ element.user.last_name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="work">
+        <th mat-header-cell *matHeaderCellDef>Empleo</th>
+        <td mat-cell *matCellDef="let element">
+          <span [class]="element.status" class="badge">{{ element.work.title }}</span>
+        </td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.client?.first_name }} {{ element?.user?.email }}
+        </td>
+      </ng-container> -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef>Edad</th>
+        <td mat-cell *matCellDef="let element">{{ age(element?.user.birthday) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="birthday">
+        <th mat-header-cell *matHeaderCellDef>Fecha Nacimiento</th>
+        <td mat-cell *matCellDef="let element">{{ element?.user.birthday }}</td>
+      </ng-container>
+      <ng-container matColumnDef="professions">
+        <th mat-header-cell *matHeaderCellDef>Profesiones</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.user?.professions[0].name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef>Solicitado</th>
+        <td mat-cell *matCellDef="let element">{{ element.created_at | date:'medium' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button [matMenuTriggerFor]="menuRef" mat-icon-button (click)="openDialog(element)"><mat-icon>more_vert</mat-icon></button>
+
+          <mat-menu #menuRef="matMenu">
+              <button mat-menu-item >
+                <mat-icon>file_present</mat-icon>
+                  <span>Ver hoja de vida</span>
+              </button>
+              <button mat-menu-item >
+                <mat-icon>hail</mat-icon>
+                  <span>Citar</span>
+              </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="created_at">
+        <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Creado</th>
+        <td mat-cell *matCellDef="let element">{{ element.created_at | date: "medium" }}</td>
+      </ng-container> -->
+      <!-- <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <th></th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            <button
+              mat-icon-button
+              *ngxPermissionsOnly="permissions.index"
+              color="primary"
+              class="mr-1"
+              (click)="openDetailOrder(element.id)">
+              <mat-icon class="mat-18">visibility</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              *ngxPermissionsOnly="permissions.edit"
+              color="accent"
+              [routerLink]="['/system-orders/orders', element.id, 'edit']">
+              <mat-icon class="mat-18">edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              *ngxPermissionsOnly="['super-admin']"
+              color="warn"
+              (click)="deleteOrder(element.id)">
+              <mat-icon class="mat-18">delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container> -->
+      <!-- <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+          <div
+            class="example-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="my-2">
+              <mat-chip-list>
+                <mat-chip>Email: {{ element.client.email }}</mat-chip>
+                <mat-chip>Teléfono: {{ element.client.phone }}</mat-chip>
+                <mat-chip>Dirección: {{ element.client.state }} - {{ element.client.city }}</mat-chip>
+                <mat-chip>Doc ID: {{ element.client.doc_id }}</mat-chip>
+                <mat-chip>Total: ${{ element.total }}</mat-chip>
+                <mat-chip>Total pagado: ${{ element.total_paid }}</mat-chip>
+                <mat-chip>Vendedor: {{ element.seller_code }}</mat-chip>
+                <mat-chip>Compañía:: ${{element.total_paid}}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </td>
+      </ng-container> -->
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplay"
+        ></tr>
+      <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
+    </table>
+  </div>
+</div>
+<div class="col-md-3">
+  <div>
+    <h3 class="font-2xl font-weight-bold">Detalles</h3>
+    <div>
+
+    </div>
+  </div>
+</div>
+</div>
+<!-- <mat-paginator
+[hidden]="isLoading"
+*ngIf="dataSource?.length > 0"
+[pageSizeOptions]="[10, 20, 30]"
+(page)="changePaginator($event)"
+showFirstLastButtons
+[pageSize]="detailPaginator.per_page"
+[length]="detailPaginator.total"
+[pageIndex]="detailPaginator.current_page - 1"></mat-paginator> -->
 
 <div *ngIf="isOpenCv" [ngClass]="isOpenCv?'open-cv':'close-cv'" class="section-cv">
   <div class="content-cv">
