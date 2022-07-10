@@ -96,6 +96,7 @@ export interface Iuser {
   resume: Iresume;
   professions: Iprofession[];
   contact_info: IcontactInfo[];
+  sex: string;
 }
 
 export interface IcontactInfo{

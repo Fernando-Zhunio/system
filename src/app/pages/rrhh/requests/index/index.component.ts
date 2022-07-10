@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
@@ -12,6 +14,7 @@ import { Irequest, Iwork } from '../../../../interfaces/JobNovicompu/interfaces-
 import { IPaginate, IResponse } from '../../../../services/methods-http.service';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-index',
@@ -32,7 +35,8 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   @ViewChild('workInput') inputWork: ElementRef;
 
   dataSource: Irequest[] = [];
-  columnsToDisplay = ['favorite', 'photo', 'names', 'work', 'age', 'birthday', 'professions', 'created_at', 'actions'];
+  columnsToDisplay = ['favorite', 'photo', 'names', 'work', 'age', 'professions', 'created_at', 'actions'];
+  @ViewChild(MatTable) table: MatTable<Irequest>;
 
   searchJob: string = '';
   works: Iwork[] = [];
@@ -46,6 +50,13 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   workText: string = null;
   cv: string = '';
   statuses: any[] = ['request_postulate', 'request_cv_viewed', 'request_in_process', 'request_finalist'];
+  currentUserDetail: Irequest = null;
+
+  detailPaginator = {
+    current_page: 1,
+    per_page: 10,
+    total: 0
+  }
   ngOnInit(): void {
   }
 
@@ -54,6 +65,10 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
     // this.filters.orderBy = event.direction;
     // this.filters.orderByColumn = event.active;
     // this.headerComponent.searchBar();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.columnsToDisplay, event.previousIndex, event.currentIndex);
   }
 
   goAppointmentCreate(id: number): void {
@@ -68,7 +83,7 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
     this.standardService.methodPost(url, { status: 'request_cv_viewed' }).subscribe(res => {
 
     });
-    // this.cv = this.products.find((x) => x.id === id).user?.resume?.attachment?.real_permalink;
+    this.cv = this.dataSource.find((x) => x.id === id).user?.resume?.attachment?.real_permalink;
   }
 
   age(date): string {
@@ -77,10 +92,6 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
     let years = today.diff(birthdate, 'years');
     // let html: string = years + " yr ";
     return years + " años";
-
-    // html += today.subtract(years, 'years').diff(birthdate, 'months') + " mo";
-
-    // return html;
   }
 
   getWorks(): void {
@@ -151,7 +162,8 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
     const url = `rrhh/requests/${id}/mark-favorite`;
     this.standardService.methodPut(url, { mark: !isFavorite }).subscribe(res => {
       if (res.hasOwnProperty('success') && res.success) {
-        // this.data.find(x => x.id === id).favorite = !isFavorite;
+        this.dataSource.find(x => x.id === id).favorite = !isFavorite;
+        this.table.renderRows();
       }
     });
   }
@@ -159,8 +171,25 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   getData($event: IResponse<IPaginate<any>>): void {
     console.log($event);
     this.dataSource = $event.data.data;
-    // this.detailPaginator.current_page = $event.data.current_page;
-    // this.detailPaginator.per_page = $event.data.per_page;
-    // this.detailPaginator.total = $event.data.total;
+    if ($event.data.data.length > 0) {
+      this.currentUserDetail = $event.data.data[0];
+    }
+    this.detailPaginator.current_page = $event.data.current_page;
+    this.detailPaginator.per_page = $event.data.per_page;
+    this.detailPaginator.total = $event.data.total;
+  }
+
+  expandDetail(id: number): void {
+    this.currentUserDetail = this.dataSource.find(x => x.id === id);
+  }
+
+  convertArrayToStringProfession(array: any[]): string {
+
+    const professions = array.map(x => x.name);
+    return professions.join(', ');
+  }
+
+  changePaginator(event: PageEvent | null): void {
+    this.headerComponent.searchBar(event);
   }
 }

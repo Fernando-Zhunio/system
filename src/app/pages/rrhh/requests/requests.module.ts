@@ -24,6 +24,7 @@ import { SearchTemplateModule } from '../../../Modulos/search-template/search-te
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [ IndexComponent],
@@ -53,7 +54,9 @@ import { MatSortModule } from '@angular/material/sort';
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
-    SearchTemplateModule
+    SearchTemplateModule,
+    DragDropModule,
+
   ]
 })
 export class RequestsModule { }

@@ -101,3 +101,36 @@ td, th {
   padding-left: 10px !important;
   padding-right: 10px !important;
 }
+
+.img-detail-user {
+  width: 50px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  margin-right: 5px;
+}
+
+.header-detail{
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.is-loading {
+  position: absolute;
+  background: #ffffff71;
+  z-index: 2;
+  backdrop-filter: blur(3px);
+}
+
+.content-detail{
+  height: calc(100vh - 145px);
+  overflow: auto;
+  position: sticky;
+  top: 85px;
+}
+
+::ng-deep .menu-style {
+  max-width: 340px;
+  width:  340px;
+}
