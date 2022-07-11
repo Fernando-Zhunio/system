@@ -4,7 +4,7 @@
   <mat-card>
     <form (ngSubmit)="saveOrEditInServer()" [formGroup]="formWork" class="card-body">
       <div class="row">
-  
+
         <!-- tile -->
           <div class="col-md-10 col-12">
             <mat-form-field class="w-100">
@@ -13,7 +13,7 @@
               <mat-error *ngIf="formWork.get('title').invalid">Este campo es requerido</mat-error>
             </mat-form-field>
           </div>
-  
+
            <!-- salary -->
            <div class="col-md-2 col-12">
             <mat-form-field class="w-100">
@@ -23,7 +23,7 @@
               <span matSuffix>.00</span>
             </mat-form-field>
           </div>
-  
+
           <!-- description -->
           <div class="col-12">
             <mat-form-field class="w-100">
@@ -32,9 +32,9 @@
               <mat-error *ngIf="formWork.get('description').invalid">Este campo es requerido</mat-error>
             </mat-form-field>
           </div>
-  
-  
-  
+
+
+
            <!-- time -->
            <div class="col-md-3 col-12">
             <mat-form-field class="w-100">
@@ -80,7 +80,7 @@
               <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
             </mat-form-field>
           </div>
-  
+
           <!-- skills -->
           <div class="col-12 border p-3 my-3 rounded-fz">
             <div class=" my-2 font-2xl">Ofrecimientos</div>
@@ -98,7 +98,7 @@
               <button type="button" class="my-1" mat-raised-button (click)="addSkill()">Agregar ofrecimiento</button>
             </ng-container>
           </div>
-  
+
           <!-- requeriments -->
           <div class="col-12 border p-3 my-3 rounded-fz">
             <div class="my-2 font-2xl">Requerimientos</div>
@@ -107,7 +107,6 @@
                 <mat-form-field class="w-100">
                   <mat-label>Requerimiento {{i}}</mat-label>
                   <input matInput placeholder="Ingrese el requerimiento" [formControl]="requeriment" required>
-                  <!-- <mat-error *ngIf="formWork.get('title').invalid">Este campo es requerido</mat-error> -->
                   <button type="button" mat-icon-button matSuffix (click)="removeFormRequeriement(i)">
                     <mat-icon>delete</mat-icon>
                   </button>
@@ -117,19 +116,8 @@
                 requerimiento</button>
             </ng-container>
           </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
       </div>
-      <button color="primary" type="submit" mat-raised-button>Guardar</button>
+      <button color="primary" type="submit" [disabled]="isLoading" mat-raised-button>Guardar</button>
     </form>
   </mat-card>
 </div>

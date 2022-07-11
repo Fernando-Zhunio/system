@@ -24,17 +24,19 @@ export class CreateOrEditWorkComponent implements OnInit {
   });
   constructor(
     private actived_router: ActivatedRoute,
-    private spinner: NgxSpinnerService,
+    // private spinner: NgxSpinnerService,
     private s_standart: StandartSearchService,
     private router: Router
-  ) {}
+  ) { }
   state: 'create' | 'edit' = 'create';
   title: string = 'Creando Empleo';
   cities = [];
   departments_position = [];
   work: Iwork;
+  isLoading = false;
   ngOnInit(): void {
-    this.spinner.show();
+    // this.spinner.show();
+    this.isLoading = true;
     this.actived_router.data.subscribe((res) => {
       this.state = res.isEdit ? 'edit' : 'create';
       if (res.isEdit) {
@@ -44,27 +46,60 @@ export class CreateOrEditWorkComponent implements OnInit {
           this.actived_router.snapshot.paramMap.get('id')
         );
         const url = `rrhh/works/${id}`;
-        this.s_standart.show(url).subscribe((res1) => {
-          if (res1.hasOwnProperty('success') && res1.success) {
-            this.spinner.hide();
-            this.departments_position = res1.data.departments_position;
-            this.cities = res1.data.cities;
-            this.work = res1.data.work;
-
-            this.loadDataUpdate(this.work);
+        this.s_standart.methodGet(url).subscribe(
+          {
+            next: (response) => {
+              if (response?.success) {
+                this.departments_position = response.data.departments_position;
+                this.cities = response.data.cities;
+                this.work = response.data.work;
+                this.loadDataUpdate(this.work);
+              }
+              this.isLoading = false;
+            },
+            error: (error) => {
+              console.log(error);
+              this.isLoading = false;
+            }
           }
-        });
+          //   (res1) => {
+          //   if (res1.hasOwnProperty('success') && res1.success) {
+          //     // this.spinner.hide();
+          //     this.departments_position = res1.data.departments_position;
+          //     this.cities = res1.data.cities;
+          //     this.work = res1.data.work;
+          //     this.loadDataUpdate(this.work);
+          //   }
+          //   this.isLoading = false;
+          // }
+        );
       }
-      else{
+      else {
         this.title = 'Creando Empleo';
         const url: string = `rrhh/works/create`;
-        this.s_standart.show(url).subscribe((res1) => {
-          if (res1.hasOwnProperty('success') && res1.success) {
-            this.spinner.hide();
-            this.departments_position = res1.data.departments_position;
-            this.cities = res1.data.cities;
+        this.s_standart.methodGet(url).subscribe(
+          {
+            next: (response) => {
+              if (response?.success) {
+                this.departments_position = response.data.departments_position;
+                this.cities = response.data.cities;
+              }
+              this.isLoading = false;
+            },
+            error: (error) => {
+              console.log(error);
+              this.isLoading = false;
+            }
           }
-        });
+        //   (res1) => {
+        //   if (res1.hasOwnProperty('success') && res1.success) {
+        //     // this.spinner.hide();
+
+        //     this.departments_position = res1.data.departments_position;
+        //     this.cities = res1.data.cities;
+        //   }
+        // }
+        );
       }
     });
   }
@@ -118,28 +153,55 @@ export class CreateOrEditWorkComponent implements OnInit {
   saveOrEditInServer(): void {
     if (this.formWork.valid) {
       if (this.state === 'create') {
-        this.spinner.show();
+        // this.spinner.show();
+        this.isLoading = true;
+        // this.formWork.markAsPending();
         const url: string = `rrhh/works`;
-        this.s_standart.store(url, this.formWork.value).subscribe((res) => {
-          if (res.hasOwnProperty('success') && res.success) {
-            this.spinner.hide();
-            this.goSearchWorkBack(res.data.data.id);
+        this.s_standart.methodPost(url, this.formWork.value).subscribe(
+          {
+            next: (response) => {
+              if (response?.success) {
+                this.router.navigate(['/rrhh/works']);
+              }
+              this.isLoading = false;
+            },
+            error: (error) => {
+              console.log(error);
+              this.isLoading = false;
+            }
           }
-        });
+        //   (res) => {
+        //   if (res.hasOwnProperty('success') && res.success) {
+        //     this.spinner.hide();
+        //     this.goSearchWorkBack(res.data.data.id);
+        //   }
+        // }
+        );
       } else if (this.state == 'edit') {
-        this.spinner.show();
+        // this.spinner.show();
+        this.isLoading = true;
         const url = `rrhh/works/${this.work.id}`;
-        this.s_standart.updatePut(url, this.formWork.value).subscribe((res) => {
-          if (res.hasOwnProperty('success') && res.success) {
-            this.spinner.hide();
-            this.goSearchWorkBack(this.work.id);
+        this.s_standart.methodPut(url, this.formWork.value).subscribe(
+          {
+            next: (response) => {
+              if (response?.success) {
+                this.router.navigate(['/rrhh/works']);
+              }
+              this.isLoading = false;
+            }
           }
-        });
+        //   (res) => {
+        //   if (res.hasOwnProperty('success') && res.success) {
+        //     this.spinner.hide();
+        //     this.goSearchWorkBack(this.work.id);
+        //   }
+        // }
+        );
       }
     }
   }
 
   goSearchWorkBack(id): void {
-    this.router.navigate(['recursos-humanos/works'], { queryParams: {search: id} });
+    this.router.navigate(['recursos-humanos/works'], { queryParams: { search: id } });
   }
 }
