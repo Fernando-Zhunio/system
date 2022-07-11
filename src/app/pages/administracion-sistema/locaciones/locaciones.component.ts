@@ -4,6 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Location } from '../../../class/location';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
+import { Icity } from '../../../interfaces/icity';
+import { ICompany } from '../../../interfaces/icompanies';
+import { MethodsHttpService } from '../../../services/methods-http.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
 
@@ -16,7 +19,7 @@ declare let Swal: any;
 })
 export class LocacionesComponent implements OnInit {
 
-  constructor(private s_standart: StandartSearchService, private snack_bar: MatSnackBar, private dialog: MatDialog) { }
+  constructor(private methodsHttp: MethodsHttpService, private snack_bar: MatSnackBar, private dialog: MatDialog) { }
   displayedColumns: string[] = [
     'id',
     'name',
@@ -37,8 +40,27 @@ export class LocacionesComponent implements OnInit {
   permission_destroy: any[] = ['super-admin', 'admin.users.destroy'];
   dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   isLoading: boolean;
+  cities: Icity[] = [];
+  companies: ICompany[] = [];
+  filters = {
+    city_id: null,
+    company_id: null,
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getDataFilters();
+  }
+
+  getDataFilters(): void {
+    this.methodsHttp.methodGet('admin/locations/data-filter').subscribe({
+      next: (res) => {
+        if (res?.success) {
+          this.cities = res.data.cities;
+          this.companies = res.data.companies;
+        }
+      }
+    })
+  }
 
   users: Location[];
 
@@ -49,22 +71,22 @@ export class LocacionesComponent implements OnInit {
     this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   }
 
-  editItem(i): void {}
+  editItem(i): void { }
 
   deleteItem(id): void {
     SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar esta locacion', 'warning').then((result) => {
       if (result.isConfirmed) {
         this.snack_bar.open('Eliminando locacion espere ...');
-        this.s_standart.destory('admin/locations/' + id).subscribe(res => {
+        this.methodsHttp.methodDelete('admin/locations/' + id).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
-            this.snack_bar.open('Localidad Eliminada con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('Localidad Eliminada con exito', 'OK', { duration: 2000 });
             this.removeItemTable(id);
           } else {
-            this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000});
+            this.snack_bar.open('No se a podido eliminar ', 'Error', { duration: 2000 });
           }
         }, err => {
           console.log(err);
-          this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000});
+          this.snack_bar.open('No se a podido eliminar ', 'Error', { duration: 2000 });
         });
       } else if (
         /* Read more about handling dismissals below */
@@ -75,10 +97,10 @@ export class LocacionesComponent implements OnInit {
   }
 
   removeItemTable(id): void {
-      const index = this.ELEMENT_DATA.findIndex(x => x.id == id);
-      this.ELEMENT_DATA.splice(index, 1);
-      // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
-      this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
+    const index = this.ELEMENT_DATA.findIndex(x => x.id == id);
+    this.ELEMENT_DATA.splice(index, 1);
+    // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
+    this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   }
 
   //#endregion

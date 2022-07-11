@@ -93,6 +93,7 @@ export class StoresComponent implements OnInit {
     }
     );
   }
+
   getViewImageToMapCompany($event: MatButtonToggleChange): void {
     const { value } = $event;
     this.storeInMap.forEach(store => {
@@ -148,10 +149,10 @@ export class StoresComponent implements OnInit {
     const title = `${company} ${isCreateCity ? '' : '- ' + city} - ${!isEdit ? 'Crear' : 'Editar'} ${!isCreateCity ? 'Store' : 'Ciudad'}`;
     let data = null;
     if (isEdit) {
-      data = this.stores.get(company).get(city).get(name); // [company][city][name];
+      data = this.stores.get(company).get(city).get(nameStore); // [company][city][name];
       console.log(data);
     }
-    const dialogRef = this.dialog.open(ModificateStoresComponent, {
+    this.dialog.open(ModificateStoresComponent, {
       width: '500px',
       data: { title, isCreateCity, isEdit, data }
     }).beforeClosed().subscribe({
@@ -180,7 +181,7 @@ export class StoresComponent implements OnInit {
 
   generateSchemasJson(): any {
     let jsonSchemas = {};
-    this.stores.forEach((company, companyName) => {
+    this.storesFilter.forEach((company, companyName) => {
       jsonSchemas[companyName] = {};
       company.forEach((city, cityName) => {
         jsonSchemas[companyName][cityName] = Array.from(city.values());
@@ -192,7 +193,7 @@ export class StoresComponent implements OnInit {
 
   saveInServer() {
     this.isLoading = true;
-    const jsonSchemas = jsonStores; // this.generateSchemasJson();
+    const jsonSchemas = jsonStores;// this.generateSchemasJson();
     const url = 'company/stores/vtex';
     this.methodHttp.methodPost(url, jsonSchemas).subscribe(
       {
@@ -209,7 +210,6 @@ export class StoresComponent implements OnInit {
       }
     );
   }
-
 }
 
 const jsonStores = {
@@ -639,15 +639,11 @@ const jsonStores = {
       {
         "name": "NOVICOMPU TENA",
         "address": "AV. 15 DE NOVIEMBRE Y 9 DE OCTUBRE. (FARMACIAS ECONÓMICAS BELLAVISTA FRENTE AL PUENTE PAETONAL) TENA -NAPO.",
-        "latitude": null,
-        "longitude": null,
-        "schedules": "Lunes a Sábado de 09:00 a 19:30 \\nDomingo: de 10:00 a 15:00 \\n",
+        "latitude": "-0.9922889168943779",
+        "longitude": "-77.8142440012901",
         "phone": "0999165907",
-        "city": {
-          "name": "Tena",
-          "code": "TN",
-          "country_id": 1
-        }
+        "schedules": "Lunes a Sábado de 09:00 a 19:30\nDomingo: de 10:00 a 15:00",
+        "mba_code": "081"
       }
     ],
     "La Libertad": [
@@ -722,10 +718,10 @@ const jsonStores = {
       {
         "name": "GANACELL MACHALA",
         "address": "CC ORO PLAZA: AV 25 DE JUNIO CIUDAD VERDE KM25 SEGUNDA PLANTA LOCAL #230 GANACELL",
-        "latitude": "32",
-        "longitude": "4567",
+        "latitude": "-3.281891994560641",
+        "longitude": "-79.92861043539703",
         "phone": "null",
-        "schedules": "Lunes a Sábado 09:00 a 19:00 \\n Domingo 10:00 a 15:00",
+        "schedules": "Lunes a Sábado 09:00 a 19:00\n Domingo 10:00 a 15:00",
         "mba_code": "015"
       }
     ],
@@ -736,7 +732,7 @@ const jsonStores = {
         "latitude": "-0.25394055618534406",
         "longitude": "-79.16710770580079",
         "phone": "1548",
-        "schedules": "Lunes a Viernes de 09:00 a 19:00 \\n Domingo: Cerrado",
+        "schedules": "Lunes a Viernes de 09:00 a 19:00\n Domingo: Cerrado",
         "mba_code": "052"
       }
     ],

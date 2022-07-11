@@ -67,7 +67,9 @@
   <app-search-template title="Publicaciones" [active_filters_menu]="true" [filter_data]="{state:filter_state}" [columns]="2" placeholder="Buscar publicación " [url$]="'catalogs/publications'" (data)="loadData($event)">
     <ng-container  data>
       <ng-container *ngFor="let p of products">
-        <app-publication  [permission_page]="permission_page"  [publication]="p" (delete)="destroyPublication($event)"></app-publication>
+        <div class="card border-0">
+          <app-publication  [permission_page]="permission_page"  [publication]="p" (delete)="destroyPublication($event)"></app-publication>
+        </div>
       </ng-container>
   </ng-container>
   <ng-container filterMenu>
@@ -87,6 +89,5 @@
       <mat-icon>post_add</mat-icon> Nueva publicación
   </mat-chip>
   </ng-container>
-
   </app-search-template>
 </div>
