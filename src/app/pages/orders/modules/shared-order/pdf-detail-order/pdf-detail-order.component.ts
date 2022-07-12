@@ -185,24 +185,24 @@ export class PdfDetailOrderComponent implements OnInit {
                 ]
               }
             }
-          ],
-          [
-            { text: 'Totales', fontSize: 20, bold: true, margin: [0, 10, 0, 5] },
-            {
-              layout: 'noBorders',
-              table: {
-                body: [
-                  ['Subtotal Productos:','$'+ this.dataExternal.order?.products_subtotal],
-                  ['Envío:', '$'+ this.dataExternal.order?.shipping],
-                  ['Descuento:', {text: '$'+ (-Math.abs(this.dataExternal.order?.discount)), color: 'red'}],
-                  ['Impuesto:', '$'+ this.dataExternal.order?.tax],
-                  ['Subtotal:', '$'+ this.dataExternal.order?.subtotal],
-                  ['Total:', '$'+ this.dataExternal.order?.total],
-                  // ['Total pagado:', '$'+ this.dataExternal.order?.total_paid],
-                ]
-              }
-            }
           ]
+          // [
+          //   { text: 'Totales', fontSize: 20, bold: true, margin: [0, 10, 0, 5] },
+          //   {
+          //     layout: 'noBorders',
+          //     table: {
+          //       body: [
+          //         ['Subtotal Productos:','$'+ this.dataExternal.order?.products_subtotal],
+          //         ['Envío:', '$'+ this.dataExternal.order?.shipping],
+          //         ['Descuento:', {text: '$'+ (-Math.abs(this.dataExternal.order?.discount)), color: 'red'}],
+          //         ['Impuesto:', '$'+ this.dataExternal.order?.tax],
+          //         ['Subtotal:', '$'+ this.dataExternal.order?.subtotal],
+          //         ['Total:', '$'+ this.dataExternal.order?.total],
+          //         // ['Total pagado:', '$'+ this.dataExternal.order?.total_paid],
+          //       ]
+          //     }
+          //   }
+          // ]
         ]
       },
     ]
