@@ -17,7 +17,7 @@
             </mat-form-field>
             <mat-form-field class="w-100">
               <mat-label>Dirección</mat-label>
-              <input type="address" matInput formControlName="address" required />
+              <textarea type="address" matInput formControlName="address" required ></textarea>
               <mat-error *ngIf="formLocation.controls['address'].invalid">Dirección requerida</mat-error>
             </mat-form-field>
 

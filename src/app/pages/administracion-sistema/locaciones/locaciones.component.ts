@@ -41,10 +41,13 @@ export class LocacionesComponent implements OnInit {
   dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   isLoading: boolean;
   cities: Icity[] = [];
+  types: any [] = [];
   companies: ICompany[] = [];
   filters = {
     city_id: null,
     company_id: null,
+    status: null,
+    type: null
   }
 
   ngOnInit(): void {
@@ -57,6 +60,7 @@ export class LocacionesComponent implements OnInit {
         if (res?.success) {
           this.cities = res.data.cities;
           this.companies = res.data.companies;
+          this.types = res.data.types;
         }
       }
     })
