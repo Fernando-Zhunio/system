@@ -15,17 +15,15 @@ import { Iwarehouse } from '../../../interfaces/iwarehouse';
 import { ProductsService } from '../../../services/products.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 
-// import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper';
 import { MatSelect } from '@angular/material/select';
 import { Ipagination } from '../../../interfaces/ipagination';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
-import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
-import { ActivatedRoute } from '@angular/router';
-// import { NgxMasonryOptions } from 'ngx-masonry';
+
 import { animation_conditional } from '../../../animations/animate_leave_enter';
 import { search_product_permission_module } from '../../../class/permissions-modules/search-products-permissions';
 import { MethodsHttpService } from '../../../services/methods-http.service';
+import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
 
 @Component({
   selector: 'app-buscar-productos',
@@ -37,7 +35,7 @@ export class BuscarProductosComponent implements OnInit {
   constructor(
     private clipboard: Clipboard,
     private snack_bar: MatSnackBar,
-    private s_standartSearch: StandartSearchService,
+    // private s_standartSearch: StandartSearchService,
     private dialog: MatDialog,
     private s_product: ProductsService,
     private methodsHttp: MethodsHttpService,
@@ -52,8 +50,8 @@ export class BuscarProductosComponent implements OnInit {
 
   products: IproductWithVtex[] = [];
   selected_state: string = 'all';
-  min: string = '';
-  max: string = '';
+  // min: string = '';
+  // max: string = '';
   aux_page_next = 0;
 
   post_current: IpostProduct;
@@ -62,8 +60,8 @@ export class BuscarProductosComponent implements OnInit {
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
   paginator: Ipagination<IproductWithVtex>;
-  prefix_id: string = 'all';
-  warehouse_ids = [];
+  // prefix_id: string = 'all';
+  // warehouse_ids = [];
   search: string;
   messagePost: string = 'Cargando post espere por favor...';
   isLoadPost: boolean = false;
@@ -99,10 +97,16 @@ export class BuscarProductosComponent implements OnInit {
     pagination: false,
   };
   permission = search_product_permission_module;
+  filter = {
+    min: null,
+    max: null,
+    'warehouse_ids[]': null,
+    prefix_id: null,
+  }
 
   ngOnInit(): void {
-    this.s_standartSearch
-      .show('catalogs/products/get-data-filter')
+    this.methodsHttp
+      .methodGet('catalogs/products/get-data-filter')
       .subscribe((res) => {
         if (res.success && res.hasOwnProperty('success') && res.success) {
           this.prefixes = res.data.prefixes;
@@ -118,10 +122,10 @@ export class BuscarProductosComponent implements OnInit {
   }
 
   removeWarehouse(id) {
-    const index = this.warehouse_ids.findIndex((x) => x == id);
+    const index = this.filter['warehouse_ids[]'].findIndex((x) => x == id);
     if (index != -1) {
-      this.warehouse_ids.splice(index, 1);
-      this.select_warehouse.writeValue(this.warehouse_ids);
+      this.filter['warehouse_ids[]'].splice(index, 1);
+      this.select_warehouse.writeValue(this.filter["warehouse_ids[]"]);
     }
   }
 
@@ -147,13 +151,16 @@ export class BuscarProductosComponent implements OnInit {
   openDescription(i) {
     const name = this.products[i].name;
     const info = this.products[i].description;
-    this.s_standartSearch.openDescription(name, 'Descripción', info, false);
+    this.dialog.open(InfoViewComponent, {
+      data: { name, title:'Descripción', info, isHtml:false },
+    });
+    // this.s_standartSearch.openDescription(name, 'Descripción', info, false);
   }
 
   viewWareHouse(index) {
     let warehouse = {};
-    if (this.warehouse_ids.length > 0) {
-      warehouse = {'warehouse_ids[]': this.warehouse_ids};
+    if (this.filter["warehouse_ids[]"].length > 0) {
+      warehouse = {'warehouse_ids[]': this.filter["warehouse_ids[]"]};
     }
     this.s_product.viewWareHouse(this.products[index].id, warehouse).subscribe((res) => {
       this.dialog.open(StockBodegasComponent, {
@@ -174,8 +181,8 @@ export class BuscarProductosComponent implements OnInit {
     this.drawer.toggle().then(
       (res) => {
         if (res == 'open') {
-          this.s_standartSearch
-            .show('catalogs/products/' + id + '/social-post')
+          this.methodsHttp
+            .methodGet('catalogs/products/' + id + '/social-post')
             .subscribe((res2: { success: boolean; data: IpostProduct }) => {
               this.post_current = res2.data;
               this.isLoadPost = true;

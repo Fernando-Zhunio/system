@@ -123,7 +123,7 @@
       </div>
       <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <mat-form-field class="w-100">
-          <mat-label>Estado</mat-label>
+          <mat-label>Tipo</mat-label>
           <mat-select [(ngModel)]="filters.type">
             <mat-option value="">Todos los tipos</mat-option>
             <mat-option *ngFor="let type of types" [value]="type">

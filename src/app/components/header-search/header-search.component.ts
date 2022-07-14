@@ -133,6 +133,9 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     const filter_data = {};
     Object.keys(this.filter_data).forEach((key) => {
       if (this.filter_data[key] !== null && this.filter_data[key] !== '' && this.filter_data[key] !== 0) {
+        if (this.filter_data[key]?.length < 1) {
+          return;
+        }
         filter_data[key] = this.filter_data[key];
         console.log(key);
         this.countFilter++;
