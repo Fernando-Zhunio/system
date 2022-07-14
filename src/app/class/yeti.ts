@@ -1,5 +1,9 @@
-// import {TweenMax,Expo, Power2, TimelineLite} from "gsap/TweenMax";
-import { Expo, TweenMax } from "gsap";
+import gsap,{TweenMax,Expo, Quad, TimelineLite} from "gsap";
+// import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
+// import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
+
+
+// import MorphSVGPlugin from "gsap/MorphSVGPlugin";
 
 export class YetiLook {
   email: HTMLInputElement = document.querySelector('#email')
@@ -42,12 +46,105 @@ export class YetiLook {
   eyeDistR
   mouthStatus = "small";
 
-   getCoord(e = null) {
+  initialize() {
+    gsap.registerPlugin(MorphSVGPlugin);
+    // this.emaill = document.querySelector('#email'), this.password = document.querySelector('#password'), mySVG = document.querySelector('.svgContainer'), armL = document.querySelector('.armL'), armR = document.querySelector('.armR'), eyeL = document.querySelector('.eyeL'), eyeR = document.querySelector('.eyeR'), nose = document.querySelector('.nose'), mouth = document.querySelector('.mouth'), mouthBG = document.querySelector('.mouthBG'), mouthSmallBG = document.querySelector('.mouthSmallBG'), mouthMediumBG = document.querySelector('.mouthMediumBG'), mouthLargeBG = document.querySelector('.mouthLargeBG'), mouthMaskPath = document.querySelector('#mouthMaskPath'), mouthOutline = document.querySelector('.mouthOutline'), tooth = document.querySelector('.tooth'), tongue = document.querySelector('.tongue'), chin = document.querySelector('.chin'), face = document.querySelector('.face'), eyebrow = document.querySelector('.eyebrow'), outerEarL = document.querySelector('.earL .outerEar'), outerEarR = document.querySelector('.earR .outerEar'), earHairL = document.querySelector('.earL .earHair'), earHairR = document.querySelector('.earR .earHair'), hair = document.querySelector('.hair');
+    // caretPos, curEmailIndex, screenCenter, svgCoords, eyeMaxHorizD = 20, eyeMaxVertD = 10, noseMaxHorizD = 23, noseMaxVertD = 10, dFromC, eyeDistH, eyeLDistV, eyeRDistV, eyeDistR, mouthStatus = "small";
+  // this.email: HTMLInputElement = document.querySelector('#email')
+  // this.password = document.querySelector('#password')
+  // this.mySVG: any = document.querySelector('.svgContainer')
+  // this.armL = document.querySelector('.armL')
+  // this.armR = document.querySelector('.armR')
+  // this.eyeL = document.querySelector('.eyeL')
+  // this.eyeR = document.querySelector('.eyeR')
+  // this.nose = document.querySelector('.nose')
+  // mouth = document.querySelector('.mouth')
+  // mouthBG = document.querySelector('.mouthBG')
+  // mouthSmallBG: any = document.querySelector('.mouthSmallBG')
+  // mouthMediumBG: any = document.querySelector('.mouthMediumBG')
+  // mouthLargeBG: any = document.querySelector('.mouthLargeBG')
+  // mouthMaskPath = document.querySelector('#mouthMaskPath')
+  // mouthOutline = document.querySelector('.mouthOutline')
+  // tooth = document.querySelector('.tooth')
+  // tongue = document.querySelector('.tongue')
+  // chin = document.querySelector('.chin')
+  // face = document.querySelector('.face')
+  // eyebrow = document.querySelector('.eyebrow')
+  // outerEarL = document.querySelector('.earL .outerEar')
+  // outerEarR = document.querySelector('.earR .outerEar')
+  // earHairL = document.querySelector('.earL .earHair')
+  // earHairR = document.querySelector('.earR .earHair')
+  // hair = document.querySelector('.hair');
+  // caretPos
+  // curEmailIndex
+  // screenCenter
+  // svgCoords
+  // eyeMaxHorizD = 20
+  // eyeMaxVertD = 10
+  // noseMaxHorizD = 23
+  // noseMaxVertD = 10
+  // dFromC: any
+  // eyeDistH
+  // eyeLDistV
+  // eyeRDistV
+  // eyeDistR
+  // mouthStatus = "small";
+    this.email.addEventListener('focus', this.onEmailFocus.bind(this));
+    this.email.addEventListener('blur', this.onEmailBlur.bind(this));
+    this.email.addEventListener('input', this.onEmailInput.bind(this));
+    this.password.addEventListener('focus', this.onPasswordFocus.bind(this));
+    this.password.addEventListener('blur', this.onPasswordBlur.bind(this));
+    TweenMax.set(this.armL, { x: -93, y: 220, rotation: 105, transformOrigin: "top left" });
+    TweenMax.set(this.armR, { x: -93, y: 220, rotation: -105, transformOrigin: "top right" });
+  }
+
+  onEmailInput(e) {
+    this.getCoord(e);
+    var value = e.target.value;
+    this.curEmailIndex = value.length;
+
+    // very crude email validation for now to trigger effects
+    if (this.curEmailIndex > 0) {
+      if (this.mouthStatus == "small") {
+        this.mouthStatus = "medium";
+        TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthMediumBG, shapeIndex: 8, ease: Expo.easeOut });
+        TweenMax.to(this.tooth, 1, { x: 0, y: 0, ease: Expo.easeOut });
+        TweenMax.to(this.tongue, 1, { x: 0, y: 1, ease: Expo.easeOut });
+        TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: .85, scaleY: .85, ease: Expo.easeOut });
+      }
+      if (value.includes("@")) {
+        this.mouthStatus = "large";
+        TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthLargeBG, ease: Expo.easeOut });
+        TweenMax.to(this.tooth, 1, { x: 3, y: -2, ease: Expo.easeOut });
+        TweenMax.to(this.tongue, 1, { y: 2, ease: Expo.easeOut });
+        TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: .65, scaleY: .65, ease: Expo.easeOut, transformOrigin: "center center" });
+      } else {
+        this.mouthStatus = "medium";
+        TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthMediumBG, ease: Expo.easeOut });
+        TweenMax.to(this.tooth, 1, { x: 0, y: 0, ease: Expo.easeOut });
+        TweenMax.to(this.tongue, 1, { x: 0, y: 1, ease: Expo.easeOut });
+        TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: .85, scaleY: .85, ease: Expo.easeOut });
+      }
+    } else {
+      this.mouthStatus = "small";
+      TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthSmallBG, shapeIndex: 9, ease: Expo.easeOut });
+      TweenMax.to(this.tooth, 1, { x: 0, y: 0, ease: Expo.easeOut });
+      TweenMax.to(this.tongue, 1, { y: 0, ease: Expo.easeOut });
+      TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: 1, scaleY: 1, ease: Expo.easeOut });
+    }
+  }
+
+  onEmailFocus(e) {
+    e.target.parentElement.classList.add("focusWithText");
+    this.getCoord(e);
+  }
+
+  getCoord(e) {
     var carPos = this.email.selectionEnd,
       div = document.createElement('div'),
       span = document.createElement('span'),
       copyStyle = getComputedStyle(this.email),
-      emailCoords: any = {}, caretCoords: any = {}, centerCoords:any = {}
+      emailCoords: any = {}, caretCoords: any = {}, centerCoords: any = {}
       ;
     [].forEach.call(copyStyle, function (prop) {
       div.style[prop] = copyStyle[prop];
@@ -124,73 +221,40 @@ export class YetiLook {
     TweenMax.to(this.earHairR, 1, { x: -outerEarX, y: outerEarY, ease: Expo.easeOut });
     TweenMax.to(this.hair, 1, { x: hairX, scaleY: hairS, transformOrigin: "center bottom", ease: Expo.easeOut });
     document.body.removeChild(div);
-  };
-   onEmailInput(e) {
-    this.getCoord(e);
-    var value = e.target.value;
-    this.curEmailIndex = value.length;
-
-    // very crude email validation for now to trigger effects
-    if (this.curEmailIndex > 0) {
-      if (this.mouthStatus == "small") {
-        this.mouthStatus = "medium";
-        TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthMediumBG, shapeIndex: 8, ease: Expo.easeOut });
-        TweenMax.to(this.tooth, 1, { x: 0, y: 0, ease: Expo.easeOut });
-        TweenMax.to(this.tongue, 1, { x: 0, y: 1, ease: Expo.easeOut });
-        TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: .85, scaleY: .85, ease: Expo.easeOut });
-      }
-      if (value.includes("@")) {
-        this.mouthStatus = "large";
-        TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthLargeBG, ease: Expo.easeOut });
-        TweenMax.to(this.tooth, 1, { x: 3, y: -2, ease: Expo.easeOut });
-        TweenMax.to(this.tongue, 1, { y: 2, ease: Expo.easeOut });
-        TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: .65, scaleY: .65, ease: Expo.easeOut, transformOrigin: "center center" });
-      } else {
-        this.mouthStatus = "medium";
-        TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthMediumBG, ease: Expo.easeOut });
-        TweenMax.to(this.tooth, 1, { x: 0, y: 0, ease: Expo.easeOut });
-        TweenMax.to(this.tongue, 1, { x: 0, y: 1, ease: Expo.easeOut });
-        TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: .85, scaleY: .85, ease: Expo.easeOut });
-      }
-    } else {
-      this.mouthStatus = "small";
-      TweenMax.to([this.mouthBG, this.mouthOutline, this.mouthMaskPath], 1, { morphSVG: this.mouthSmallBG, shapeIndex: 9, ease: Expo.easeOut });
-      TweenMax.to(this.tooth, 1, { x: 0, y: 0, ease: Expo.easeOut });
-      TweenMax.to(this.tongue, 1, { y: 0, ease: Expo.easeOut });
-      TweenMax.to([this.eyeL, this.eyeR], 1, { scaleX: 1, scaleY: 1, ease: Expo.easeOut });
-    }
-  }
-   onEmailFocus(e) {
-    e.target.parentElement.classList.add("focusWithText");
-    this.getCoord();
   }
 
-   onEmailBlur(e) {
+
+
+
+  onEmailBlur(e) {
     if (e.target.value == "") {
       e.target.parentElement.classList.remove("focusWithText");
     }
     this.resetFace();
   }
 
-   onPasswordFocus(e) {
+  onPasswordFocus(e) {
     this.coverEyes();
   }
 
-   onPasswordBlur(e) {
+  onPasswordBlur(e) {
     this.uncoverEyes();
   }
-   coverEyes() {
+  coverEyes() {
+    console.log(Quad)
+
     TweenMax.to(this.armL, .45, { x: -93, y: 2, rotation: 0, ease: Quad.easeOut });
     TweenMax.to(this.armR, .45, { x: -93, y: 2, rotation: 0, ease: Quad.easeOut, delay: .1 });
   }
 
-   uncoverEyes() {
+  uncoverEyes() {
+    console.log(Quad)
     TweenMax.to(this.armL, 1.35, { y: 220, ease: Quad.easeOut });
     TweenMax.to(this.armL, 1.35, { rotation: 105, ease: Quad.easeOut, delay: .1 });
     TweenMax.to(this.armR, 1.35, { y: 220, ease: Quad.easeOut });
     TweenMax.to(this.armR, 1.35, { rotation: -105, ease: Quad.easeOut, delay: .1 });
   }
-   resetFace() {
+  resetFace() {
     TweenMax.to([this.eyeL, this.eyeR], 1, { x: 0, y: 0, ease: Expo.easeOut });
     TweenMax.to(this.nose, 1, { x: 0, y: 0, scaleX: 1, scaleY: 1, ease: Expo.easeOut });
     TweenMax.to(this.mouth, 1, { x: 0, y: 0, rotation: 0, ease: Expo.easeOut });
@@ -198,12 +262,12 @@ export class YetiLook {
     TweenMax.to([this.face, this.eyebrow], 1, { x: 0, y: 0, skewX: 0, ease: Expo.easeOut });
     TweenMax.to([this.outerEarL, this.outerEarR, this.earHairL, this.earHairR, this.hair], 1, { x: 0, y: 0, scaleY: 1, ease: Expo.easeOut });
   }
-   getAngle(x1, y1, x2, y2) {
+  getAngle(x1, y1, x2, y2) {
     var angle = Math.atan2(y1 - y2, x1 - x2);
     return angle;
   }
 
-   getPosition(el) {
+  getPosition(el) {
     var xPos = 0;
     var yPos = 0;
 
@@ -228,17 +292,7 @@ export class YetiLook {
       y: yPos
     };
   }
-   initialize() {
-    // this.emaill = document.querySelector('#email'), this.password = document.querySelector('#password'), mySVG = document.querySelector('.svgContainer'), armL = document.querySelector('.armL'), armR = document.querySelector('.armR'), eyeL = document.querySelector('.eyeL'), eyeR = document.querySelector('.eyeR'), nose = document.querySelector('.nose'), mouth = document.querySelector('.mouth'), mouthBG = document.querySelector('.mouthBG'), mouthSmallBG = document.querySelector('.mouthSmallBG'), mouthMediumBG = document.querySelector('.mouthMediumBG'), mouthLargeBG = document.querySelector('.mouthLargeBG'), mouthMaskPath = document.querySelector('#mouthMaskPath'), mouthOutline = document.querySelector('.mouthOutline'), tooth = document.querySelector('.tooth'), tongue = document.querySelector('.tongue'), chin = document.querySelector('.chin'), face = document.querySelector('.face'), eyebrow = document.querySelector('.eyebrow'), outerEarL = document.querySelector('.earL .outerEar'), outerEarR = document.querySelector('.earR .outerEar'), earHairL = document.querySelector('.earL .earHair'), earHairR = document.querySelector('.earR .earHair'), hair = document.querySelector('.hair');
-    // caretPos, curEmailIndex, screenCenter, svgCoords, eyeMaxHorizD = 20, eyeMaxVertD = 10, noseMaxHorizD = 23, noseMaxVertD = 10, dFromC, eyeDistH, eyeLDistV, eyeRDistV, eyeDistR, mouthStatus = "small";
-    this.email.addEventListener('focus', this.onEmailFocus);
-    this.email.addEventListener('blur', this.onEmailBlur);
-    this.email.addEventListener('input', this.onEmailInput);
-    this.password.addEventListener('focus', this.onPasswordFocus);
-    this.password.addEventListener('blur', this.onPasswordBlur);
-    TweenMax.set(this.armL, { x: -93, y: 220, rotation: 105, transformOrigin: "top left" });
-    TweenMax.set(this.armR, { x: -93, y: 220, rotation: -105, transformOrigin: "top right" });
-  }
+
 
   // window.initialize = initialize;
 }
