@@ -335,7 +335,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./locaciones/location.module').then((m) => m.LocationModule),
   },
-  // locaciones
+  // workspaces
   {
     path: 'workspaces-orders',
     loadChildren: () =>

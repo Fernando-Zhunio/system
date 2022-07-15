@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountdownConfig } from 'ngx-countdown';
@@ -8,10 +8,8 @@ import { Iuser } from '../../../interfaces/inotification';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
 import { SwalService } from '../../../services/swal.service';
-import { environment } from '../../../../environments/environment';
-import { compare } from 'compare-versions';
-import { SharedService } from '../../../services/shared/shared.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-two-fa',
@@ -27,6 +25,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     private spinner: NgxSpinnerService,
   ) { }
 
+  @ViewChildren('contentInput') inputs: QueryList<ElementRef>;
   hide: boolean = true;
   hide2: boolean = true;
   isLoading = false;
@@ -42,28 +41,86 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     format: 'mm:ss',
     leftTime: 10,
   };
+  CountInputs = 6;
+  inputsValue = [];
+  eventPaste = fromEvent(document, 'paste');
 
 
 
   ngOnInit(): void {
-    const data = this.active_router.snapshot.data.response.data;
-    this.user = data.user;
-    this.token = data.token.token;
-    this.config.leftTime = 300 - data.time_sub;
+    this.eventPaste.subscribe((event) => {
+      alert('voy a pegar');
+    })
+    this.initializeInputs();
+
+    // const data = this.active_router.snapshot.data.response.data;
+    // this.user = data.user;
+    // this.token = data.token.token;
+    // this.config.leftTime = 300 - data.time_sub;
+  }
+
+  ngAfterViewInit(): void {
+    // setTimeout(() => {
+      // }, 2000);
+      this.inputs.changes.subscribe((inputs) => {
+        console.log(this.inputs)
+      })
+    // this.initializeInputs();
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+
+  }
+
+  initializeInputs(): void {
+    this.inputsValue = [];
+    for (let i = 0; i < this.CountInputs; i++) {
+      this.inputsValue.push('');
+    }
   }
 
   handleEvent(event) {
-    if (event.action === 'done') {
-      SwalService.swalToast('Tiempo agotado', 'warning');
-      this.router.navigate(['/login']);
+    // if (event.action === 'done') {
+    //   SwalService.swalToast('Tiempo agotado', 'warning');
+    //   this.router.navigate(['/login']);
+    // }
+  }
+
+  inputKeyDown(event, target, index): void {
+    console.log(this.inputs.get(index));
+    if (event.key === 'Backspace') {
+     if (target.value === '') {
+      if (index != 0) {
+        this.inputs.get(index - 1).nativeElement.focus();
+      } else {
+        target.value = '';
+      }
+     }
+    } else if (event.key === "ArrowLeft" && index !== 0) {
+      this.inputs.get(index - 1).nativeElement.focus();
+    } else if (event.key === "ArrowRight" && index !== this.inputs.length - 1) {
+      this.inputs.get(index + 1).nativeElement.focus();
+    } else if (event.key != "ArrowLeft" && event.key != "ArrowRight" && event.key != "Enter") {
+      target.setAttribute("type", "text");
+      target.value = '';
+      // setTimeout(() => {
+      //   target.setAttribute("type", "password");
+      // }, 1000);
+    }
+  }
+
+  inputEvent(event, target, index): void {
+    if (target.value.length === 1 && index !== this.inputs.length - 1) {
+      this.inputs.get(index + 1).nativeElement.focus();
     }
   }
 
   SaveInServer(): void {
-    if (this.formPassword.valid) {
+    const code = this.getCodeTwoFactor();
+    console.log(code);
+    if (code.length === 6) {
       this.isLoading = true;
       this.s_standart
-        .methodPost('auth/email-two-factor/' + this.token, this.formPassword.value)
+        .methodPost('auth/email-two-factor/' + this.token, code)
         .subscribe((res) => {
           if (res.hasOwnProperty('success') && res?.success) {
             this.spinner.show('spinner-tf');
@@ -94,7 +151,17 @@ export class TwoFAComponent implements OnInit, OnDestroy {
         }, (err) => {
           this.isLoading = false;
         });
+    } else {
+      SwalService.swalToast('Código incorrecto', 'warning');
     }
+  }
+
+  getCodeTwoFactor(): string {
+    let code = '';
+    this.inputs.forEach((input) => {
+      code += input.nativeElement.value
+    })
+    return code;
   }
 
   ngOnDestroy(): void {

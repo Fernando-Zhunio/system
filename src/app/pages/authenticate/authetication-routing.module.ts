@@ -30,7 +30,7 @@ const routes: Routes = [
       {
         path: 'codigo-confirmacion/:token',
         component: TwoFAComponent,
-        resolve: { response: ConfirmCodeGuard},
+        // resolve: { response: ConfirmCodeGuard},
         // resolve:{person:NewPasswordGuard}
       },
       // {

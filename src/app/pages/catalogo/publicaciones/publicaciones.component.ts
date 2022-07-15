@@ -60,7 +60,7 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     states: {name: string, slug: string}[] = [{name: 'Publicado', slug: 'published'}, {name: 'Despublicado', slug: 'unpublished'}, {name: 'Incompleto', slug: 'incomplete'}, {name: 'En cola', slug: 'queue'}, {name: 'Procesando', slug: 'processing'}, {name: 'Actualizando', slug: 'updating'}, {name: 'Parciales procesados', slug: 'partially_processed'}, {name: 'Eliminados', slug: 'deleting_unselected_item'}, {name: 'Con errores', slug: 'error'}, ]
 
     //#region  filter
-    filter_state: string = '0';
+    filter_state: string = null;
     echo: Echo;
 
     //#endregion
