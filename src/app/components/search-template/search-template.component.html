@@ -1,47 +1,83 @@
-<app-header-search [title]="title" [init]="init" [active_filters_menu]="active_filters_menu" [filter_data]="filter_data" [placeholder]="placeholder" (isLoading)="isLoading = $event" [url]="url$"
-(products)="loadData($event)">
-<ng-content select="[menuBar]"></ng-content>
-<ng-content filterMenu select="[filterMenu]"></ng-content>
+<app-header-search
+  [title]="title"
+  [init]="init"
+  [active_filters_menu]="active_filters_menu"
+  [filter_data]="filter_data"
+  [placeholder]="placeholder"
+  (isLoading)="isLoading = $event"
+  [url]="url$"
+  (products)="loadData($event)">
+  <ng-content select="[menuBar]"></ng-content>
+  <ng-content filterMenu select="[filterMenu]"></ng-content>
 </app-header-search>
-<div  [ngStyle]="{'column-count': columns}" *ngIf="isLoading" class="mt-2 card-columns">
-  <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
-    <ngx-skeleton-loader count="1" [theme]="{
-      'border-radius': '20px',
-  height: '200px'
-}"></ngx-skeleton-loader>
-    <div class="text-center">
-      <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
-    </div>
-    <ngx-skeleton-loader count="1" [theme]="{
-  'border-radius': '5px',
-  height: '35px',
-  width:'150px',
-  'margin-right':'5px'
-}"></ngx-skeleton-loader>
-    <ngx-skeleton-loader count="1" [theme]="{
-  'border-radius': '5px',
-  height: '25px',
-  width:'150px',
-  'margin-right':'5px'
-}"></ngx-skeleton-loader>
-  </div>
-</div>
 
-<div *ngIf="!isLoading;" [ngStyle]="{'column-count': columns}" [ngClass]="{'card-columns': withCardColumns}" class="mt-0">
-  <ng-content select="[data]"></ng-content>
-</div>
+
+
+<ng-container *ngIf="!customLoader">
+  <div [ngStyle]="{ 'column-count': columns }" *ngIf="isLoading" class="mt-2 card-columns">
+    <div *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
+      <ngx-skeleton-loader
+        count="1"
+        [theme]="{
+          'border-radius': '20px',
+          height: '200px'
+        }"></ngx-skeleton-loader>
+      <div class="text-center">
+        <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
+      </div>
+      <ngx-skeleton-loader
+        count="1"
+        [theme]="{
+          'border-radius': '5px',
+          height: '35px',
+          width: '150px',
+          'margin-right': '5px'
+        }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader
+        count="1"
+        [theme]="{
+          'border-radius': '5px',
+          height: '25px',
+          width: '150px',
+          'margin-right': '5px'
+        }"></ngx-skeleton-loader>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="!customTemplate">
+  <div
+    *ngIf="!isLoading"
+    [ngStyle]="{ 'column-count': columns }"
+    [ngClass]="{ 'card-columns': withCardColumns }"
+    class="mt-0">
+    <ng-content select="[data]"></ng-content>
+  </div>
+</ng-container>
+<ng-container *ngIf="customLoader">
+  <ng-content select="[customLoader]"></ng-content>
+</ng-container>
+<ng-container *ngIf="customTemplate">
+  <ng-content select="[customTemplate]"></ng-content>
+</ng-container>
+
+
 
 <ng-container *ngIf="!isLoading && products?.length < 1">
   <div class="row">
     <div class="col-md-6">
-      <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
+      <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%" />
     </div>
     <div class="col-md-6 font-facebook font-5xl font-italic d-flex align-items-center">
       Ups! Sin resultados en tu búsqueda
     </div>
   </div>
 </ng-container>
-<mat-paginator [hidden]="isLoading" *ngIf="products?.length > 0" [pageSizeOptions]="[10, 20, 30]"
-  (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator?.per_page" [length]="paginator?.total"
-  [pageIndex]="paginator?.current_page-1">
-</mat-paginator>
+<mat-paginator
+  [hidden]="isLoading"
+  *ngIf="products?.length > 0"
+  [pageSizeOptions]="[10, 20, 30]"
+  (page)="changePaginator($event)"
+  showFirstLastButtons
+  [pageSize]="paginator?.per_page"
+  [length]="paginator?.total"
+  [pageIndex]="paginator?.current_page - 1"></mat-paginator>

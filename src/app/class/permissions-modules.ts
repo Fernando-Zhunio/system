@@ -134,3 +134,10 @@ export const PermissionOrdersChannels = {
     edit: ['system-orders.channels.edit', 'super-admin'],
     destroy: ['system-orders.channels.destroy', 'super-admin'],
 }
+
+export const PermissionLocations = {
+  index:  ['locations.edit', 'super-admin'],
+  create:  ['locations.create', 'super-admin'],
+  edit:  ['locations.edit', 'super-admin'],
+  destroy:  ['locations.destroy', 'super-admin']
+}

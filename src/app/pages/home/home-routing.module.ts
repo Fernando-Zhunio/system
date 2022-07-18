@@ -5,6 +5,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ProfileComponent } from './profile/profile.component';
+import { StoresComponent } from './stores/stores.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'perfil',
     component: ProfileComponent,
+  },
+  {
+    path: 'stores/vtex',
+    component: StoresComponent,
   },
   {
     path: 'dashboard',

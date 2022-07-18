@@ -17,7 +17,7 @@
             </mat-form-field>
             <mat-form-field class="w-100">
               <mat-label>Dirección</mat-label>
-              <input type="address" matInput formControlName="address" required />
+              <textarea type="address" matInput formControlName="address" required ></textarea>
               <mat-error *ngIf="formLocation.controls['address'].invalid">Dirección requerida</mat-error>
             </mat-form-field>
 
@@ -61,6 +61,13 @@
                 </mat-error>
               </mat-form-field>
             </div>
+
+            <mat-form-field *ngIf="formLocation.get('type').value == 'store'" class="w-100">
+              <mat-label>Horarios</mat-label>
+              <textarea matInput formControlName="schedules"></textarea>
+              <mat-error *ngIf="formLocation.controls['schedules'].invalid">Horarios requerida</mat-error>
+            </mat-form-field>
+
             <mat-form-field class="w-100">
               <mat-label>Seleccione un estado</mat-label>
               <mat-select formControlName="status" required>
@@ -81,8 +88,7 @@
             </mat-form-field>
           </div>
         </div>
-        <div *ngIf="formLocation.get('type').value == 'store'" class="col-md-6">
-          <!-- <div class="col-md-6"> -->
+        <!-- <div *ngIf="formLocation.get('type').value == 'store'" class="col-md-6">
           <h3 class="font-4xl m-0 p-2">Horario</h3>
           <div class="p-2 rounded-fz shadow">
             <table class="table-borderless table table-sm">
@@ -217,7 +223,7 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </div> -->
         <div class="col-md-6">
           <div class="position-relative w-100 container p-0 shadow-lg rounded-lg mb-3">
             <div #mapElement id="map"></div>

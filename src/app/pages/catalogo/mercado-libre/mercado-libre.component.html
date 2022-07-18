@@ -84,7 +84,7 @@
     [pageIndex]="paginator.current_page-1">
   </mat-paginator> -->
 
-  <app-search-template title="Mercado libre" [active_filters_menu]="true" [filter_data]="{min:min,max:max,'state':state}" placeholder="Buscar productos" [url$]="'catalogs/ml-products'" (data)="loadData($event)">
+  <app-search-template [title]="'Mercado libre'" [active_filters_menu]="true" [filter_data]="filters" placeholder="Buscar productos" [url$]="'catalogs/ml-products'" (data)="loadData($event)">
     <ng-container data>
       <mat-card @fade *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
         <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
@@ -94,8 +94,8 @@
       <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <mat-form-field class="w-100">
           <mat-label>Estados</mat-label>
-          <mat-select [(ngModel)]="state">
-            <mat-option value="all">Todos</mat-option>
+          <mat-select [(ngModel)]="filters.state">
+            <mat-option value="">Todos</mat-option>
             <mat-option value="active">Activo</mat-option>
             <mat-option value="closed">Inactivo</mat-option>
             <mat-option value="payment_required">Pago requerido</mat-option>
@@ -105,7 +105,7 @@
       <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <mat-form-field>
           <mat-label>Precio Min</mat-label>
-          <input matInput [(ngModel)]="min" class="example-right-align">
+          <input matInput [(ngModel)]="filters.min" class="example-right-align">
           <span matPrefix>$&nbsp;</span>
           <span matSuffix>.00</span>
         </mat-form-field>
@@ -113,7 +113,7 @@
       <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <mat-form-field>
           <mat-label>Precio Max</mat-label>
-          <input [(ngModel)]="max" matInput class="example-right-align">
+          <input [(ngModel)]="filters.max" matInput class="example-right-align">
           <span matPrefix>$&nbsp;</span>
           <span matSuffix>.00</span>
         </mat-form-field>

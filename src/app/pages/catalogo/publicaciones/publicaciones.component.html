@@ -64,10 +64,12 @@
 </div> -->
 
 <div>
-  <app-search-template title="Publicaciones" [active_filters_menu]="true" [filter_data]="{state:filter_state}" [columns]="2" placeholder="Buscar publicación " [url$]="'catalogs/publications'" (data)="loadData($event)">
+  <app-search-template [title]="'Publicaciones'" [active_filters_menu]="true" [filter_data]="{state:filter_state}" [columns]="2" placeholder="Buscar publicación " [url$]="'catalogs/publications'" (data)="loadData($event)">
     <ng-container  data>
       <ng-container *ngFor="let p of products">
-        <app-publication  [permission_page]="permission_page"  [publication]="p" (delete)="destroyPublication($event)"></app-publication>
+        <div class="card border-0">
+          <app-publication  [permission_page]="permission_page"  [publication]="p" (delete)="destroyPublication($event)"></app-publication>
+        </div>
       </ng-container>
   </ng-container>
   <ng-container filterMenu>
@@ -75,7 +77,7 @@
       <mat-form-field class="w-100">
           <mat-label>Estado</mat-label>
           <mat-select type="text" #select_warehouse [(ngModel)]="filter_state">
-              <mat-option value="0">Todos</mat-option>
+              <mat-option value="">Todos</mat-option>
               <mat-option *ngFor="let state of states" [value]="state.slug">
                   {{ state.name }}</mat-option>
           </mat-select>
@@ -87,6 +89,5 @@
       <mat-icon>post_add</mat-icon> Nueva publicación
   </mat-chip>
   </ng-container>
-
   </app-search-template>
 </div>
