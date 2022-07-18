@@ -97,7 +97,8 @@ table {
   overflow: auto;
 }
 
-td, th {
+td,
+th {
   padding-left: 10px !important;
   padding-right: 10px !important;
 }
@@ -110,7 +111,7 @@ td, th {
   margin-right: 5px;
 }
 
-.header-detail{
+.header-detail {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
@@ -123,14 +124,45 @@ td, th {
   backdrop-filter: blur(3px);
 }
 
-.content-detail{
+.content-detail {
   height: calc(100vh - 145px);
   overflow: auto;
   position: sticky;
   top: 85px;
 }
 
-// ::ng-deep .menu-style {
-//   max-width: 340px;
-//   width:  340px;
-// }
+.modal-search-job {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #7e7e7e87;;
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+  transition: all 0.5s;
+}
+
+.hidden {
+  visibility: hidden;
+  transition: all 0.5s;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+.container-work {
+  overflow: auto;
+  max-height: calc(100vh - 130px);
+  padding-right: 10px;
+}
+
+.mat-list-item:hover {
+  color: gray;
+  transition: transform 0.3s;
+}
+.mat-list-item {
+  cursor: pointer;
+  transition: transform 0.3s;
+  border-radius: 7px;
+}

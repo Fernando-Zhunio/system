@@ -8,13 +8,14 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
 import { Crud } from '../../../../class/crud';
-import { CTemplateSearch } from '../../../../class/ctemplate-search';
+// import { CTemplateSearch } from '../../../../class/ctemplate-search';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { Irequest, Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { IPaginate, IResponse } from '../../../../services/methods-http.service';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+// import { TestRequest } from '@angular/common/http/testing';
 
 @Component({
   selector: 'app-index',
@@ -26,28 +27,32 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
 
 
   constructor(protected standardService: StandartSearchService,
-    protected snackBar: MatSnackBar,
-    private router: Router,
-    private s_shared: SharedService) {
+    protected snackBar: MatSnackBar) {
     super();
   }
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   @ViewChild('workInput') inputWork: ElementRef;
+  @ViewChild(MatTable) table: MatTable<Irequest>;
 
   dataSource: Irequest[] = [];
   columnsToDisplay = ['favorite', 'photo', 'names', 'work', 'age', 'professions', 'created_at', 'actions'];
-  @ViewChild(MatTable) table: MatTable<Irequest>;
-
+  urlJob = `rrhh/works`;
+  isSearchWork = false;
   searchJob: string = '';
   works: Iwork[] = [];
   idWork: number = null;
   url: string = 'rrhh/requests';
   isOpenCv: boolean = false;
-  form: FormGroup = new FormGroup({
-    isWishlist: new FormControl(false),
-    work_id: new FormControl(null),
-  });
-  workText: string = null;
+  // form: FormGroup = new FormGroup({
+  //   isWishlist: new FormControl(false),
+  //   work_id: new FormControl(null),
+  // });
+  _workSelected: Iwork = null;
+  set workSelected(work: Iwork) {
+    this._workSelected = work;
+    this.filters.work_id = work?.id || null;
+  }
+
   cv: string = '';
   statuses: any[] = ['request_postulate', 'request_cv_viewed', 'request_in_process', 'request_finalist'];
   currentUserDetail: Irequest = null;
@@ -57,15 +62,20 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
     per_page: 10,
     total: 0
   }
+
+  filters = {
+    isWishlist : false,
+    work_id: null,
+  }
   ngOnInit(): void {
   }
 
-  changeSort(event: any): void {
-    // console.log(event);
-    // this.filters.orderBy = event.direction;
-    // this.filters.orderByColumn = event.active;
-    // this.headerComponent.searchBar();
-  }
+  // changeSort(event: any): void {
+  //   // console.log(event);
+  //   // this.filters.orderBy = event.direction;
+  //   // this.filters.orderByColumn = event.active;
+  //   // this.headerComponent.searchBar();
+  // }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.columnsToDisplay, event.previousIndex, event.currentIndex);
@@ -90,73 +100,26 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
     let today = moment();
     let birthdate = moment(date);
     let years = today.diff(birthdate, 'years');
-    // let html: string = years + " yr ";
     return years + " años";
   }
 
-  getWorks(): void {
-    const url = `rrhh/works`;
-    const searchText = this.inputWork.nativeElement.value;
-    this.standardService.methodGet(`${url}?search=${searchText}`).subscribe(res => {
-      if (res.hasOwnProperty('success') && res.success) {
-        this.works = res.data.data;
-      }
-    }
-    );
+  getWorks($event): void {
+    console.log($event);
+    this.works = $event.data;
   }
 
-  addWorkFilter(event: MatAutocompleteSelectedEvent): void {
-    const value = event.option.viewValue;
-    const input = event.option.value;
-
-    // Add our fruit
-    if ((value || '').trim()) {
-      this.workText = value.trim();
-    }
-
-    // Reset the input value
-    // if (input) {
-    //   input.value = '';
-    // }
-    this.form.get('work_id').setValue(input);
+  selectedWork(id): void {
+    const work = this.works.find(x => x.id === id);
+    this.workSelected = work;
+    this.isSearchWork = false;
   }
 
-  getDataPaginate(event: Irequest[]): void {
-    // this.products = event;
-  }
+  // getDataPaginate(event: Irequest[]): void {
+  // }
 
   removeWorkFilter(): void {
-    this.workText = null;
-    this.form.get('work_id').setValue(null);
+    this.workSelected = null;
   }
-
-  // clearFilterJob(): void {
-  //   this.filters.job.name = '';
-  //   this.filters.job.value = null;
-  //   this.idWork = null;
-  //   this.searchJob = '';
-  //   this.headerComponent.filter_data = {work_id: this.filters?.job.value, isWishlist: this.filters?.isWishlist};
-  //   this.headerComponent.searchBar();
-  // }
-
-  // clearFilterWishlist(): void {
-  //   this.filters.isWishlist = false;
-  //   this.isWishlist = false;
-  //   this.headerComponent.filter_data = {work_id: this.filters?.job.value, isWishlist: this.filters?.isWishlist};
-  //   this.headerComponent.searchBar();
-  // }
-
-  getRequestOfWork(id: number): void {
-    // this.filters.job.name = this.searchJob;
-    // this.idWork = id;
-    this.form.get('work_id').setValue(id);
-  }
-
-  // applyFilter(): void {
-  //   this.filters = { job: {name: this.filters.job.name, value: this.idWork}, isWishlist: this.isWishlist };
-  //   this.headerComponent.filter_data = {work_id: this.filters?.job.value, isWishlist: this.filters?.isWishlist};
-  //   this.headerComponent.searchBar();
-  // }
 
   doFavorite(id: number, isFavorite: boolean): void {
     const url = `rrhh/requests/${id}/mark-favorite`;
@@ -184,7 +147,6 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   }
 
   convertArrayToStringProfession(array: any[]): string {
-
     const professions = array.map(x => x.name);
     return professions.join(', ');
   }

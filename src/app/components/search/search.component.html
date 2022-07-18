@@ -16,9 +16,9 @@
         </div>
     </div>
     <div>
-        <div *ngIf="!isLoading && paginator.length > 0">
+        <ng-container *ngIf="!isLoading && paginator.length > 0">
             <ng-content select="[data]"></ng-content>
-        </div>
+        </ng-container>
         <div class="text-center" *ngIf="isLoading">
             <div class="d-flex text-muted justify-content-center my-2">
                 <p class="font-2xl">Cargando espere ...</p>

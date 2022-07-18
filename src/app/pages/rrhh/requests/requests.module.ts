@@ -25,6 +25,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SearchesModule } from '../../../Modulos/searches/searches.module';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [ IndexComponent],
@@ -54,8 +56,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
+    MatListModule,
     SearchTemplateModule,
     DragDropModule,
+    SearchesModule
 
   ]
 })
