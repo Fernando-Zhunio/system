@@ -49,26 +49,34 @@ export class TwoFAComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.eventPaste.subscribe((event) => {
-      alert('voy a pegar');
+      if (navigator.clipboard) {
+        navigator.clipboard.readText().then((res) => {
+          this.fillInputs(res);
+        });
+      } else {
+        SwalService.swalToast(
+          'Necesitas proporcionar permisos de portapapeles a esta pagina',
+          'warning'
+        );
+      }
     })
     this.initializeInputs();
 
-    // const data = this.active_router.snapshot.data.response.data;
-    // this.user = data.user;
-    // this.token = data.token.token;
-    // this.config.leftTime = 300 - data.time_sub;
+    const data = this.active_router.snapshot.data.response.data;
+    this.user = data.user;
+    this.token = data.token.token;
+    this.config.leftTime = 300 - data.time_sub;
   }
 
-  ngAfterViewInit(): void {
-    // setTimeout(() => {
-      // }, 2000);
-      this.inputs.changes.subscribe((inputs) => {
-        console.log(this.inputs)
-      })
-    // this.initializeInputs();
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-
+  fillInputs(code: string): void {
+    let i = 0 ;
+    code.split('').forEach((char) => {
+      this.inputs.get(i).nativeElement.value = char;
+      i++;
+    })
+    setTimeout(() => {
+      this.inputs.get(5).nativeElement.focus();
+    },2000)
   }
 
   initializeInputs(): void {
@@ -79,10 +87,10 @@ export class TwoFAComponent implements OnInit, OnDestroy {
   }
 
   handleEvent(event) {
-    // if (event.action === 'done') {
-    //   SwalService.swalToast('Tiempo agotado', 'warning');
-    //   this.router.navigate(['/login']);
-    // }
+    if (event.action === 'done') {
+      SwalService.swalToast('Tiempo agotado', 'warning');
+      this.router.navigate(['/login']);
+    }
   }
 
   inputKeyDown(event, target, index): void {
@@ -102,9 +110,6 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     } else if (event.key != "ArrowLeft" && event.key != "ArrowRight" && event.key != "Enter") {
       target.setAttribute("type", "text");
       target.value = '';
-      // setTimeout(() => {
-      //   target.setAttribute("type", "password");
-      // }, 1000);
     }
   }
 
@@ -116,11 +121,11 @@ export class TwoFAComponent implements OnInit, OnDestroy {
 
   SaveInServer(): void {
     const code = this.getCodeTwoFactor();
-    console.log(code);
+    // console.log(code);
     if (code.length === 6) {
       this.isLoading = true;
       this.s_standart
-        .methodPost('auth/email-two-factor/' + this.token, code)
+        .methodPost('auth/email-two-factor/' + this.token, {code})
         .subscribe((res) => {
           if (res.hasOwnProperty('success') && res?.success) {
             this.spinner.show('spinner-tf');
