@@ -27,7 +27,7 @@
                 <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
               </mat-chip>
               <input
-              (click)="isSearchWork = true"
+              (click)="_animateShowHidden = 'show'"
               placeholder="Buscar empleo"
               autocomplete="off"
               matInput
@@ -339,15 +339,15 @@
       </div>
     </div>
 
-    <div [ngClass]="{'hidden': !isSearchWork}" class="modal-search-job d-flex justify-content-center">
-      <button class="btn-close" color="warn" mat-mini-fab (click)="isSearchWork = false"><mat-icon>close</mat-icon></button>
-      <div class="col-md-5">
+    <div [@showHidden]="animateShowHidden" [ngClass]="{'hidden': !isSearchWork}" class="modal-search-job d-flex justify-content-center">
+      <button  class="btn-close" color="warn" mat-mini-fab (click)="_animateShowHidden = 'hidden'"><mat-icon>close</mat-icon></button>
+      <div  class="col-md-5">
         <div class="overflow-auto">
           <app-search  [url]="urlJob" (data)="getWorks($event)">
             <ng-container data>
               <div class="container-work mb-1">
                 <mat-list *ngFor="let work of works">
-                  <mat-list-item (click)="selectedWork(work.id)" class="bg-white">
+                  <mat-list-item (click)="selectedWork(work.id)" class="main-style">
                     <div mat-line>{{work.title}}</div>
                     <small mat-line>{{work.description}}</small>
                     <small mat-line class="text-success">{{work.created_at | date: 'medium'}}</small>

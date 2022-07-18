@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { animation_conditional } from '../../../../animations/animate_leave_enter';
+import { animationShowHidden, animation_conditional } from '../../../../animations/animate_leave_enter';
 import { Crud } from '../../../../class/crud';
 // import { CTemplateSearch } from '../../../../class/ctemplate-search';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
@@ -21,7 +21,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
-  animations: animation_conditional
+  animations: animationShowHidden
 })
 export class IndexComponent extends Crud<Irequest> implements OnInit {
 
@@ -34,10 +34,16 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   @ViewChild('workInput') inputWork: ElementRef;
   @ViewChild(MatTable) table: MatTable<Irequest>;
 
+  isSearchWork = false;
+  animateShowHidden = 'hidden';
+
+  set _animateShowHidden(value: 'hidden' | 'show') {
+    this.animateShowHidden = value;
+    this.isSearchWork = value === 'show';
+  }
   dataSource: Irequest[] = [];
   columnsToDisplay = ['favorite', 'photo', 'names', 'work', 'age', 'professions', 'created_at', 'actions'];
   urlJob = `rrhh/works`;
-  isSearchWork = false;
   searchJob: string = '';
   works: Iwork[] = [];
   idWork: number = null;
@@ -111,7 +117,8 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   selectedWork(id): void {
     const work = this.works.find(x => x.id === id);
     this.workSelected = work;
-    this.isSearchWork = false;
+    // this.isSearchWork = false;
+    this.animateShowHidden = 'hidden';
   }
 
   // getDataPaginate(event: Irequest[]): void {

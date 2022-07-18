@@ -22,7 +22,6 @@ import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 import { setPreference } from '../../redux/actions/preference.action';
 import { compare } from 'compare-versions';
-import { environment } from '../../../environments/environment';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { TEST_PERMISSIONS } from '../../class/permissionsAll';
 import { NotificationType } from '../../enums/notification.enum';

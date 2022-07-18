@@ -159,7 +159,7 @@ export class BuscarProductosComponent implements OnInit {
 
   viewWareHouse(index) {
     let warehouse = {};
-    if (this.filter["warehouse_ids[]"].length > 0) {
+    if (this.filter["warehouse_ids[]"]?.length > 0) {
       warehouse = {'warehouse_ids[]': this.filter["warehouse_ids[]"]};
     }
     this.s_product.viewWareHouse(this.products[index].id, warehouse).subscribe((res) => {

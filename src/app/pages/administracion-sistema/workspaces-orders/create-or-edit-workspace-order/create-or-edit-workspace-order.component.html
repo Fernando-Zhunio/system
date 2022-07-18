@@ -69,7 +69,7 @@
     <div class="modal-search col-md-6 col-10">
       <app-search [styles]="'overflow: auto; height: 100%;padding: 10px'" placeholder="Buscador de personas" (data)="getData($event)" [url]="urlUserSearch">
         <ng-container data>
-          <div class="grid-people app-body">
+          <div class="grid-people main-style">
             <div class="item-person p-2" *ngFor="let user of users | keyvalue">
               <div class="list-person px-2 py-1">
                 <span class="mr-1">
