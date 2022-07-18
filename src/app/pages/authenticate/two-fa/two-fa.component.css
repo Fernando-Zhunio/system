@@ -1,0 +1,19 @@
+.bg-login {
+  background-color: white;
+}
+.main {
+  background: linear-gradient(to right, #2196f3 0%, rgba(255, 255, 255, 0) 69%);
+}
+
+.separator-input {
+  height: 90px;
+  width: 58px;
+  border-radius: 10px;
+  margin-left: 10px;
+  display: inline-block;
+  border: none;
+  outline: none;
+  border: 2px solid skyblue;
+  text-align: center;
+  font-size: 38px;
+}

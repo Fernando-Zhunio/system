@@ -55,9 +55,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public sidebarMinimized = false;
   public navItems = null;
   public url_img = '';
-  // public companies = [];
   public isDark: boolean = false;
-  public TYPE_NOTY_SOUND = 'general_notification_sound';
   public hideUsersChat: boolean = false;
   public progressDownloadReport: number = 0;
   public isProgressDownloadReport: boolean = false;
@@ -69,7 +67,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   echo: Echo;
   user: any;
   searchBar: ListPermissions;
-  // pageSearch: any[] = [];
   auxSearchPage = [];
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
@@ -123,6 +120,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     localStorage.setItem('isDark', e.checked ? 'true' : 'false');
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.componentCssClass = theme;
+    if (theme === 'dark-theme') {
+      this.overlayContainer.getContainerElement().classList.remove('light-theme');
+    } else {
+      this.overlayContainer.getContainerElement().classList.remove('dark-theme');
+    }
   }
 
   hasDarkTheme() {
@@ -208,7 +210,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getPermissionAndVersionServer(res) {
-      if (res && res.hasOwnProperty('success') && res.success) {
+      if (res?.success) {
+        console.log(res.data?.last_version_frontend);
         if (res.data?.last_version_frontend?.version) {
           this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
         }
@@ -245,18 +248,24 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   validateVersion(latestVersion: string, message: string): void {
     try {
-      const current_version = environment.appVersion;
-      console.log(current_version, latestVersion);
-      const isNewVersion = compare(current_version, latestVersion, '<'); // true
-      if (isNewVersion) {
-        SwalService.swalFire({ allowOutsideClick: false, showConfirmButton: true, title: 'Nueva de version', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
-          .then((res) => {
-            console.log(res);
-            if (res.isConfirmed) {
-              console.log('Confirmado');
-              location.reload();
-            }
-          }).catch(() => { });
+      const currentVersion = this.s_storage.getItemLocalStorage('version');
+      if (currentVersion) {
+        const isNewVersion = compare(currentVersion, latestVersion, '<'); // true
+        console.log({isNewVersion, currentVersion, latestVersion});
+        if (isNewVersion) {
+
+          SwalService.swalFire({ allowOutsideClick: false, showCancelButton: true, cancelButtonText: 'No, gracias', confirmButtonText: 'Si, actualizar', showConfirmButton: true, title: 'Actualización disponible', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
+            .then((res) => {
+              console.log(res);
+              if (res.isConfirmed) {
+                this.s_storage.setItemLocalStorage('version', latestVersion);
+                console.log('Confirmado');
+                location.reload();
+              }
+            }).catch(() => { });
+        }
+      } else {
+        this.s_storage.setItemLocalStorage('version', latestVersion);
       }
     } catch (error) {
       console.log(error);

@@ -12,7 +12,6 @@ import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MethodsHttpService } from '../../services/methods-http.service';
-import { StandartSearchService } from '../../services/standart-search.service';
 import { SwalService } from '../../services/swal.service';
 
 @Component({
@@ -40,6 +39,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   productSearch: string = '';
   subscription: Subscription;
   intervalSearch: any;
+  countFilter = null;
 
   constructor(
     private router: Router,
@@ -129,10 +129,16 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   }
 
   filterWithNotNull(): object {
+    this.countFilter = null;
     const filter_data = {};
     Object.keys(this.filter_data).forEach((key) => {
       if (this.filter_data[key] !== null && this.filter_data[key] !== '' && this.filter_data[key] !== 0) {
+        if (this.filter_data[key]?.length < 1) {
+          return;
+        }
         filter_data[key] = this.filter_data[key];
+        console.log(key);
+        this.countFilter++;
       }
     });
     return filter_data;

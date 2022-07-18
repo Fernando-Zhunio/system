@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Session } from '../clases/session';
 import { User } from '../clases/user';
 import { NgxPermissionsService } from 'ngx-permissions';
-// import { Iperson } from '../interfaces/iperson';
 import { Cperson } from '../class/cperson';
 import { SwalService } from './swal.service';
 
@@ -59,9 +58,7 @@ export class StorageService {
     try {
       sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('914068895aa792bc7577dab10e7cf4e4')));
     } catch (e) {
-      // this.logout();
       return false;
-      // throw Error('Error al cargar la sesión');
     }
     return sessionStr;
   }
@@ -113,6 +110,18 @@ export class StorageService {
     return (session && session.token) ? session.token : null;
   }
 
+  getItemLocalStorage(key): any {
+    return JSON.parse(this.decryptAes(localStorage.getItem(key)));
+  }
+
+  hasItemLocalStorage(key): boolean {
+    return (localStorage.getItem(key) != null) ? true : false;
+  }
+
+  setItemLocalStorage(key, value): void {
+    localStorage.setItem(key, this.encryptedAes(JSON.stringify(value)));
+  }
+
   logout(): void {
     this.removeCurrentSession();
     this.activatedRoute.data.subscribe(res => {
@@ -135,14 +144,6 @@ export class StorageService {
   getUsersChat(): any {
     return JSON.parse(this.decryptAes(localStorage.getItem('users-chat')));
   }
-
-  // setVersionApp(version: string): void {
-  //   localStorage.setItem('version-app', this.encryptedAes(version));
-  // }
-
-  // getVersionApp(): string {
-  //   return  this.decryptAes(localStorage.getItem('version-app'));
-  // }
 
 }
 

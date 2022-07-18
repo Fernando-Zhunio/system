@@ -34,12 +34,16 @@ import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-c
 import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module';
 import { ProfileComponent } from './profile/profile.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { StoresComponent } from './stores/stores.component';
+import { ModificateStoresComponent } from './stores/modificate-stores/modificate-stores.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { NgxPermissionsModule } from 'ngx-permissions';
 // import * as echarts from 'echarts';
 export function chartModule(): any {
   return import('echarts');
 }
 @NgModule({
-    declarations: [IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
+    declarations: [ModificateStoresComponent, StoresComponent, IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
     imports: [
         CommonModule,
         HomeRoutingModule,
@@ -66,9 +70,10 @@ export function chartModule(): any {
         MatRadioModule,
         MatNativeDateModule,
         MatDialogModule,
+        MatBadgeModule,
         MatButtonToggleModule,
         MarkdownModule,
-        // NgxEchartsModule.forRoot({echarts})
+        NgxPermissionsModule,
         NgxEchartsModule.forRoot({
             echarts: chartModule
         })

@@ -54,46 +54,47 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     status: new FormControl(null, [Validators.required]),
     latitude: new FormControl(""),
     longitude: new FormControl(""),
+    schedules: new FormControl()
   });
 
-  formSchedules = new FormGroup({
-    monday: new FormGroup({
-      status: new FormControl(true, [Validators.required]),
-      start: new FormControl(null),
-      end: new FormControl(null),
-    }, [this.validateHours()]),
-    tuesday: new FormGroup({
-      status: new FormControl(true, [Validators.required]),
-      start: new FormControl(null),
-      end: new FormControl(null),
-    }, [this.validateHours()]),
-    wednesday: new FormGroup({
-      status: new FormControl(true, [Validators.required]),
+  // formSchedules = new FormGroup({
+  //   monday: new FormGroup({
+  //     status: new FormControl(true, [Validators.required]),
+  //     start: new FormControl(null),
+  //     end: new FormControl(null),
+  //   }, [this.validateHours()]),
+  //   tuesday: new FormGroup({
+  //     status: new FormControl(true, [Validators.required]),
+  //     start: new FormControl(null),
+  //     end: new FormControl(null),
+  //   }, [this.validateHours()]),
+  //   wednesday: new FormGroup({
+  //     status: new FormControl(true, [Validators.required]),
 
-      start: new FormControl(null, [Validators.required]),
-      end: new FormControl(null, [Validators.required]),
-    }, [this.validateHours()]),
-    thursday: new FormGroup({
-      status: new FormControl(true, [Validators.required]),
-      start: new FormControl(null, [Validators.required]),
-      end: new FormControl(null, [Validators.required]),
-    }, [this.validateHours()]),
-    friday: new FormGroup({
-      status: new FormControl(true, [Validators.required]),
-      start: new FormControl(null, [Validators.required]),
-      end: new FormControl(null, [Validators.required]),
-    }, [this.validateHours()]),
-    saturday: new FormGroup({
-      status: new FormControl(true, [Validators.required]),
-      start: new FormControl(null, [Validators.required]),
-      end: new FormControl(null, [Validators.required]),
-    }),
-    sunday: new FormGroup({
-      status: new FormControl(true, [Validators.required]),
-      start: new FormControl(null, [Validators.required]),
-      end: new FormControl(null, [Validators.required]),
-    }, [this.validateHours()]),
-  })
+  //     start: new FormControl(null, [Validators.required]),
+  //     end: new FormControl(null, [Validators.required]),
+  //   }, [this.validateHours()]),
+  //   thursday: new FormGroup({
+  //     status: new FormControl(true, [Validators.required]),
+  //     start: new FormControl(null, [Validators.required]),
+  //     end: new FormControl(null, [Validators.required]),
+  //   }, [this.validateHours()]),
+  //   friday: new FormGroup({
+  //     status: new FormControl(true, [Validators.required]),
+  //     start: new FormControl(null, [Validators.required]),
+  //     end: new FormControl(null, [Validators.required]),
+  //   }, [this.validateHours()]),
+  //   saturday: new FormGroup({
+  //     status: new FormControl(true, [Validators.required]),
+  //     start: new FormControl(null, [Validators.required]),
+  //     end: new FormControl(null, [Validators.required]),
+  //   }),
+  //   sunday: new FormGroup({
+  //     status: new FormControl(true, [Validators.required]),
+  //     start: new FormControl(null, [Validators.required]),
+  //     end: new FormControl(null, [Validators.required]),
+  //   }, [this.validateHours()]),
+  // })
 
   ngOnInit(): void {
     this.ngx_spinner.show();
@@ -129,14 +130,15 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
                 status,
                 latitude,
                 longitude,
-                phone
+                phone,
+                schedules,
               });
-              
-              if (schedules) {
-                const schedulesJson = JSON.parse(schedules);
-                console.log(schedulesJson);
-                this.formSchedules.patchValue(schedulesJson);
-              }
+
+              // if (schedules) {
+              //   const schedulesJson = JSON.parse(schedules);
+              //   console.log(schedulesJson);
+              //   this.formSchedules.patchValue(schedulesJson);
+              // }
 
               if (this.location.latitude && this.location.longitude) {
                 this.coordinate.latitud = Number.parseFloat(
@@ -176,15 +178,15 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     });
   }
 
-  autofillSchedules(value:{start, end}) {
-    this.formSchedules.get('monday').setValue(value);
-    this.formSchedules.get('tuesday').setValue(value);
-    this.formSchedules.get('wednesday').setValue(value);
-    this.formSchedules.get('thursday').setValue(value);
-    this.formSchedules.get('friday').setValue(value);
-    this.formSchedules.get('saturday').setValue(value);
-    this.formSchedules.get('sunday').setValue(value);
-  }
+  // autofillSchedules(value:{start, end}) {
+  //   this.formSchedules.get('monday').setValue(value);
+  //   this.formSchedules.get('tuesday').setValue(value);
+  //   this.formSchedules.get('wednesday').setValue(value);
+  //   this.formSchedules.get('thursday').setValue(value);
+  //   this.formSchedules.get('friday').setValue(value);
+  //   this.formSchedules.get('saturday').setValue(value);
+  //   this.formSchedules.get('sunday').setValue(value);
+  // }
 
   getCurrentPosition() {
     if ('geolocation' in navigator) {
@@ -218,9 +220,9 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   createMap(lon = 0, lat = 0): void {
     mapboxgl.accessToken = environment.mapbox_key;
     this.map = new mapboxgl.Map({
-      container: this.mapElement.nativeElement, 
+      container: this.mapElement.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lon, lat], 
+      center: [lon, lat],
       zoom: 9,
     });
 
@@ -239,7 +241,6 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       this.formLocation.get('longitude').setValue(this.coordinate.longitud);
     };
     this.marker.on('dragend', drag);
-    // this.enabledAndDesabledMap();
   }
 
   goBack() {
@@ -268,14 +269,14 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   }
 
   saveInServer(): void {
-    const validSchedule = this.validateFormSchedule();
-    
-    if (this.formLocation.valid && validSchedule) {
+    // const validSchedule = this.validateFormSchedule();
+
+    if (this.formLocation.valid) {
       this.isLoadServer = true;
       let dataSend = this.formLocation.value;
-      if (this.formLocation.get('type').value == 'store') {
-        dataSend.schedules = this.formSchedules.value;
-      }
+      // if (this.formLocation.get('type').value == 'store') {
+      //   dataSend.schedules = this.formSchedules.value;
+      // }
       if (this.isEnabledMap) {
         dataSend.latitude = this.coordinate.latitud;
         dataSend.longitude = this.coordinate.longitud;
@@ -305,21 +306,23 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  validateFormSchedule(): boolean {
-    const valReturn =  this.formLocation.get('type').value == 'store' ? this.formSchedules.valid : true;
-    if (!valReturn) {
-      this.formSchedules.markAsTouched();
-      SwalService.swalFire({title: '¡Atención!', text: 'Debe ingresar un horario valido, donde la hora de apertura sea menor a la hora de cierre', icon: 'warning'});
-    }
-    return valReturn;
-  }
+  // validateFormSchedule(): boolean {
+  //   const valReturn =  this.formLocation.get('type').value == 'store' ? this.formSchedules.valid : true;
+  //   if (!valReturn) {
+  //     this.formSchedules.markAsTouched();
+  //     SwalService.swalFire({title: '¡Atención!', text: 'Debe ingresar un horario valido, donde la hora de apertura sea menor a la hora de cierre', icon: 'warning'});
+  //   }
+  //   return valReturn;
+  // }
 
   selectionType($event: MatSelectChange): void {
     console.log($event);
     if ($event.value == 'store') {
-      this.addLocationValidationRequired();
+      this.formLocation.get('schedules').addValidators(Validators.required);
+      // this.addLocationValidationRequired();
     } else {
-      this.removeLocationValidationRequired();
+      this.formLocation.get('schedules').clearValidators();
+      // this.removeLocationValidationRequired();
     }
   }
 
@@ -328,7 +331,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     this.formLocation.get('latitude').addValidators([Validators.required]);
     this.formLocation.get('longitude').addValidators([Validators.required]);
   }
-  
+
   removeLocationValidationRequired(): void {
     this.formLocation.get('latitude').removeValidators([Validators.required]);
     this.formLocation.get('longitude').removeValidators([Validators.required]);
@@ -348,5 +351,5 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     };
   }
 
-  
+
 }

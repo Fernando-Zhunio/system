@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,6 +15,7 @@ import { CreateOrEditLocationComponent } from './create-or-edit-location/create-
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -32,6 +33,8 @@ import { MatChipsModule } from '@angular/material/chips';
     SearchTemplateModule,
     NgxPermissionsModule,
     MatChipsModule,
+    MatMenuModule,
+    FormsModule,
   ],
   declarations: [
     LocacionesComponent,

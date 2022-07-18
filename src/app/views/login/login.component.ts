@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Session } from '../../clases/session';
-import { User } from '../../clases/user';
+// import { Session } from '../../clases/session';
+// import { User } from '../../clases/user';
 import { Iresponse } from '../../interfaces/Imports/invoice-item';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
+import {YetiLook} from"./../../class/yeti";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'login.component.html',
+  styleUrls: ['login.component.scss']
 })
 export class LoginComponent {
   hide: boolean = true;
@@ -25,6 +27,14 @@ export class LoginComponent {
   formRecuperacionCuenta: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email])
   });
+  yeti: YetiLook;
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.yeti = new YetiLook();
+    this.yeti.initialize();
+  }
 
   login(): void {
     if (this.formLogin.valid) {

@@ -1,18 +1,18 @@
-<div style="background-image: url('assets/img/login.svg');background-size: cover;" class="pt-sm-0 pt-4 vh-100 bg-login">
-    <div class="row m-0 vh-100">
+<div  class="pt-sm-0 pt-4 vh-100 bg-login">
+    <div class="row m-0 vh-100 main">
         <div class="col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
             <div class="text-info">
                 <form [formGroup]="formPassword" (ngSubmit)="SaveInServer()" class="">
                     <mat-card>
                         <mat-card-header>
-                            <mat-card-title>Hola {{user.name}}</mat-card-title>
-                            <mat-card-subtitle>Para ingresar a tu cuenta de forma segura ingresa el código enviado a tu mail <a href="mailto:{{user.email}}">"{{user.email}}"</a> </mat-card-subtitle>
+                            <mat-card-title class="font-4xl">Autenticación de dos pasos</mat-card-title>
+                            <mat-card-subtitle>Para ingresar a tu cuenta de forma segura ingresa el código enviado a tu mail <a href="mailto:{{user?.email}}">"{{user?.email}}"</a> </mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-form-field class="d-block">
-                                <mat-label>Código</mat-label>
-                                <input  matInput formControlName="code">
-                            </mat-form-field>
+                              <div>
+                                <input #contentInput (input)="inputEvent($event, contentInput, i)" (keydown)="inputKeyDown($event,contentInput, i)" maxLength="1" *ngFor="let itemInput of inputsValue;let i = index" class="separator-input"  formControlName="code">
+                              </div>
+
                             <div class="col-12 mt-3 font-2xl  font-facebook">
                                 <countdown class="font-weight-bold font-4xl"  [config]="config" (event)="handleEvent($event)"></countdown>
                                 <span class="font-weight-normal">
@@ -31,6 +31,6 @@
             <img src="/assets/img/capture-password.svg" class="w-100 position-absolute" alt="">
         </div>
         <ngx-spinner name="spinner-tf" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true"><p style="color: white"> Cargando datos del usuario... </p></ngx-spinner>
-        
+
     </div>
 </div>

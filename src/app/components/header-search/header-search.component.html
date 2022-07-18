@@ -23,7 +23,7 @@
     <ng-content></ng-content>
     <ng-container *ngIf="active_filters_menu">
       <mat-chip-list class="ml-1">
-        <mat-chip [matMenuTriggerFor]="menu" class="text-truncate">
+        <mat-chip [matBadge]="countFilter" [matMenuTriggerFor]="menu" class="text-truncate">
           <mat-icon class="text-black-50" type="search">filter_alt</mat-icon> filtros
         </mat-chip>
       </mat-chip-list>

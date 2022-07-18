@@ -1,5 +1,11 @@
-<mat-drawer-container style="overflow: inherit;background-color: transparent;" class="example-container" autosize>
-  <mat-drawer #drawer class="col-md-8 col-11 p-2 m-drawer" style="top: 0;height: 100vh;" mode="over" position="end" fixedInViewport="true">
+<mat-drawer-container style="overflow: inherit; background-color: transparent" class="example-container" autosize>
+  <mat-drawer
+    #drawer
+    class="col-md-8 col-11 p-2 m-drawer"
+    style="top: 0; height: 100vh"
+    mode="over"
+    position="end"
+    fixedInViewport="true">
     <div *ngIf="isLoadPost; else loadPost" class="position-relative">
       <div style="position: sticky; top: 0; z-index: 10">
         <button mat-mini-fab class="position-absolute bg-gray" style="top: 10px; right: 10px" (click)="viewPost()">
@@ -28,26 +34,22 @@
       </div>
     </div>
     <ng-template #loadPost>
-      <div class="font-facebook font-2xl">
-        Cargando post espere por favor...
-      </div>
+      <div class="font-facebook font-2xl">Cargando post espere por favor...</div>
     </ng-template>
   </mat-drawer>
 
-  <mat-drawer-content style="overflow: inherit;background-color: transparent;">
+  <mat-drawer-content style="overflow: inherit; background-color: transparent">
     <!-- go spy -->
     <div *ngIf="products.length > 0 && !isLoading" class="view-all-name">
-      <nav id="nav-go" [ngClass]="is_open_go?'go-on':'go-off'" class="position-absolute  badge-go text-right">
+      <nav id="nav-go" [ngClass]="is_open_go ? 'go-on' : 'go-off'" class="position-absolute badge-go text-right">
         <div class="text-nowrap" *ngFor="let product of products">
-          <a href="javascript:void(0);" (click)="goSpy(product.id)">{{product.name}}</a>
+          <a href="javascript:void(0);" (click)="goSpy(product.id)">{{ product.name }}</a>
         </div>
       </nav>
       <button class="bg-gray" (click)="openOrCloseGo()" mat-mini-fab>
-        <mat-icon>{{icon_go}}</mat-icon>
+        <mat-icon>{{ icon_go }}</mat-icon>
       </button>
     </div>
-
-
 
     <!-- <app-header-search [filter_data]="{min:min,max:max,'warehouse_ids[]':warehouse_ids,prefix_id:prefix_id}"
       [placeholder]="'Buscador de productos'" (isLoading)="isLoading = $event" [url]="'catalogs/products'"
@@ -107,14 +109,25 @@
       </mat-menu>
     </app-header-search> -->
 
-    <app-search-template [title]="'Productos'" active_filters_menu="true" [columns]="2" (data)="loadData($event)" placeholder="Buscar producto" [url$]="'catalogs/products'" [filter_data]="{min:min,max:max,'warehouse_ids[]':warehouse_ids,prefix_id:prefix_id}">
+    <app-search-template
+      [title]="'Productos'"
+      active_filters_menu="true"
+      [columns]="2"
+      (data)="loadData($event)"
+      placeholder="Buscar producto"
+      [url$]="'catalogs/products'"
+      [filter_data]="filter">
       <ng-container data>
         <mat-card @fade class="card border-0" *ngFor="let p of products; index as ind">
-          <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0 " style="top: 68px;background: inherit">
+          <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0" style="top: 68px; background: inherit">
             <div class="font-weight-light font-2xl mb-2">
-              <span class="mr-1" style="color: #f44336; font-weight: bold">#{{ p.id }}</span>{{ p.name }}
-              <button *ngxPermissionsOnly="permission.product_edit" [routerLink]="['/admin-products/productos/edit/' + p.id]"
-                routerLinkActive="router-link-active" mat-mini-fab>
+              <span class="mr-1" style="color: #f44336; font-weight: bold">#{{ p.id }}</span>
+              {{ p.name }}
+              <button
+                *ngxPermissionsOnly="permission.product_edit"
+                [routerLink]="['/admin-products/productos/edit/' + p.id]"
+                routerLinkActive="router-link-active"
+                mat-mini-fab>
                 <mat-icon>create</mat-icon>
               </button>
             </div>
@@ -122,58 +135,96 @@
           <mat-card-content>
             <div class="example-sidenav-content">
               <mat-chip-list>
-                <mat-chip><small><strong>Tipo: </strong>{{ p?.prefix?.type }}</small></mat-chip>
-                <mat-chip selected color="accent" class="cursor_copy" (click)="copyCodigo(p.code)" tooltip="Click para copiar codigo"
-                placement="bottom"><small><strong>Codigo: </strong>{{ p?.code }}  <i class="far fa-copy"></i></small></mat-chip>
-                <mat-chip><small><strong>Código Alt: </strong>{{ p.code_alt }}</small></mat-chip>
-                <mat-chip><small><strong>Marca: </strong>{{ p.brand.name }}</small> </mat-chip>
-                <mat-chip><small><strong>Categoría: </strong>{{ p?.category?.name }}</small></mat-chip>
-                <mat-chip><small><strong>Secuencia: </strong>{{ p?.sequence?.sequence_number }}</small></mat-chip>
-                <mat-chip selected [color]="p.available > 0?'accent':'warn'"><small><strong>Stock para ventas: </strong>{{ p.available }}</small></mat-chip>
+                <mat-chip>
+                  <small>
+                    <strong>Tipo:</strong>
+                    {{ p?.prefix?.type }}
+                  </small>
+                </mat-chip>
+                <mat-chip
+                  selected
+                  color="accent"
+                  class="cursor_copy"
+                  (click)="copyCodigo(p.code)"
+                  tooltip="Click para copiar codigo"
+                  placement="bottom">
+                  <small>
+                    <strong>Codigo:</strong>
+                    {{ p?.code }}
+                    <i class="far fa-copy"></i>
+                  </small>
+                </mat-chip>
+                <mat-chip>
+                  <small>
+                    <strong>Código Alt:</strong>
+                    {{ p.code_alt }}
+                  </small>
+                </mat-chip>
+                <mat-chip>
+                  <small>
+                    <strong>Marca:</strong>
+                    {{ p.brand.name }}
+                  </small>
+                </mat-chip>
+                <mat-chip>
+                  <small>
+                    <strong>Categoría:</strong>
+                    {{ p?.category?.name }}
+                  </small>
+                </mat-chip>
+                <mat-chip>
+                  <small>
+                    <strong>Secuencia:</strong>
+                    {{ p?.sequence?.sequence_number }}
+                  </small>
+                </mat-chip>
+                <mat-chip selected [color]="p.available > 0 ? 'accent' : 'warn'">
+                  <small>
+                    <strong>Stock para ventas:</strong>
+                    {{ p.available }}
+                  </small>
+                </mat-chip>
               </mat-chip-list>
-              <hr>
+              <hr />
               <div class="mt-2">
-      
                 <button mat-raised-button class="mr-1 my1" type="button" color="primary" (click)="viewWareHouse(ind)">
                   Stock en bodegas
                 </button>
                 <!-- <button mat-raised-button class="mr-1 my1" type="button" color="info" (click)="viewWareHouseUpdate(ind)">
                   Stock en bodegas actualizado
                 </button> -->
-                <button (click)="viewPost(p.id)" *ngIf="p.facebook_posts_count > 0" mat-raised-button class="mr-1 my-1"
-                  color="warn" type="button">
+                <button
+                  (click)="viewPost(p.id)"
+                  *ngIf="p.facebook_posts_count > 0"
+                  mat-raised-button
+                  class="mr-1 my-1"
+                  color="warn"
+                  type="button">
                   Ver posteó
                 </button>
                 <button mat-raised-button color="accent" class="my-1" (click)="openDescription(ind)">
                   Ver descripción
                 </button>
               </div>
-              <div *ngIf="
-                  p.vtex_skus.length > 0 ||
-                  p.ml_infos.length > 0 ||
-                  p.last_prices.length > 0
-                ">
+              <div *ngIf="p.vtex_skus.length > 0 || p.ml_infos.length > 0 || p.last_prices.length > 0">
                 <div *ngIf="p?.last_prices?.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="header">
-                    <div class=" font-3xl my-4">Precios</div>
+                    <div class="font-3xl my-4">Precios</div>
                   </div>
                   <ul class="card-body rounded-fz shadow list-unstyled">
                     <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
-                          <mat-chip> {{ price.group.name }}:</mat-chip>
+                      <mat-chip>{{ price.group.name }}:</mat-chip>
                       <b>${{ price?.full_price_formated }}</b>
                     </li>
                   </ul>
                 </div>
                 <div *ngIf="p.promotions.length > 0" class="card-body">
-                  <div class=" font-3xl my-4">Promociones</div>
-                  <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion">
-                  </app-promociones>
+                  <div class="font-3xl my-4">Promociones</div>
+                  <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion"></app-promociones>
                 </div>
                 <div *ngIf="p.imports.length > 0" class="">
                   <div class="header">
-                    <div class=" font-3xl my-4">
-                      Historial de importaciones
-                    </div>
+                    <div class="font-3xl my-4">Historial de importaciones</div>
                   </div>
                   <mat-chip-list aria-label="Importaciones">
                     <mat-chip *ngFor="let imports of p.imports">
@@ -185,22 +236,22 @@
               <ng-container *ngIf="p.vtex_skus.length > 0">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="header">
-                    <div class=" font-3xl my-4">PÁGINA WEB</div>
+                    <div class="font-3xl my-4">PÁGINA WEB</div>
                   </div>
                 </div>
                 <div class="container">
                   <swiper [config]="config" [useSwiperClass]="false">
-                    <mat-card style="background: inherit;" *ngFor="let i of p.vtex_skus">
+                    <mat-card style="background: inherit" *ngFor="let i of p.vtex_skus">
                       <app-pagina-web [prestashop_product]="i"></app-pagina-web>
                     </mat-card>
                   </swiper>
                 </div>
               </ng-container>
               <div class="overflow-hidden" *ngIf="p.ml_infos.length > 0">
-                <div class=" font-3xl my-4">Mercado Libre</div>
+                <div class="font-3xl my-4">Mercado Libre</div>
                 <div class="container mb-3">
                   <swiper [config]="config" [useSwiperClass]="false">
-                    <mat-card style="background: inherit;" *ngFor="let ml of p.ml_infos">
+                    <mat-card style="background: inherit" *ngFor="let ml of p.ml_infos">
                       <!-- <mat-card> -->
                       <app-ml [ml]="ml"></app-ml>
                       <!-- </mat-card> -->
@@ -214,48 +265,65 @@
       </ng-container>
       <ng-container filterMenu>
         <!-- <mat-menu #menu="matMenu" [overlapTrigger]="false"> -->
-          <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
-            (keydown)="$event.stopPropagation()">
-            <mat-form-field class="w-100">
-              <mat-label>Prefijos</mat-label>
-              <mat-select [(ngModel)]="prefix_id">
-                <mat-option value="all">Todos</mat-option>
-                <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="row m-0 p-0" style="text-overflow: initial;" mat-menu-item (click)="$event.stopPropagation()"
-            (keydown)="$event.stopPropagation()">
-            <mat-form-field class="col-6">
-              <mat-label>Stock Min</mat-label>
-              <input matInput type="number" [(ngModel)]="min" type="number" class="" />
-            </mat-form-field>
-            <mat-form-field class="col-6">
-              <mat-label>Stock Max</mat-label>
-              <input [(ngModel)]="max" type="number" matInput class="" />
-            </mat-form-field>
-          </div>
-          <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()"
-            (keydown)="$event.stopPropagation()" class="h-100">
-            <mat-form-field class="w-100">
-              <mat-label>Todas las Bodegas</mat-label>
-              <mat-select (selectionChange)="selectAllWarehouse($event)" type="text" #select_warehouse
-                [(ngModel)]="warehouse_ids" multiple>
-                <mat-select-trigger>
-                  <mat-chip-list>
-                    <mat-chip (removed)="removeWarehouse(warehouse_id)" *ngFor="let warehouse_id of warehouse_ids"
-                      [removable]="true">
-                      {{ getNameWareHouse(warehouse_id) }}
-                      <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
-                  </mat-chip-list>
-                </mat-select-trigger>
-                <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
-                  {{ warehouse.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+        <div
+          mat-menu-item
+          [disableRipple]="true"
+          (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <mat-form-field class="w-100">
+            <mat-label>Prefijos</mat-label>
+            <mat-select [(ngModel)]="filter.prefix_id">
+              <mat-option value="">Todos</mat-option>
+              <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div
+          class="row m-0 p-0"
+          style="text-overflow: initial"
+          mat-menu-item
+          (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()">
+          <mat-form-field class="col-6">
+            <mat-label>Stock Min</mat-label>
+            <input matInput type="number" [(ngModel)]="filter.min" type="number" class="" />
+          </mat-form-field>
+          <mat-form-field class="col-6">
+            <mat-label>Stock Max</mat-label>
+            <input [(ngModel)]="filter.max" type="number" matInput class="" />
+          </mat-form-field>
+        </div>
+        <div
+          mat-menu-item
+          [disableRipple]="true"
+          (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()"
+          class="h-100">
+          <mat-form-field class="w-100">
+            <mat-label>Todas las Bodegas</mat-label>
+            <mat-select
+              (selectionChange)="selectAllWarehouse($event)"
+              type="text"
+              #select_warehouse
+              [(ngModel)]="filter['warehouse_ids[]']"
+              multiple>
+              <mat-select-trigger>
+                <mat-chip-list>
+                  <mat-chip
+                    (removed)="removeWarehouse(warehouse_id)"
+                    *ngFor="let warehouse_id of filter['warehouse_ids[]']"
+                    [removable]="true">
+                    {{ getNameWareHouse(warehouse_id) }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+              </mat-select-trigger>
+              <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+                {{ warehouse.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <!-- </mat-menu> -->
       </ng-container>
     </app-search-template>
