@@ -1,0 +1,38 @@
+<div class="ngx-bs-content ngx-bs-d-md-flex ngx-bs-px-md-3"
+  [ngClass]="{'ngx-bs-sticky-top': isSticky}" >
+  <div class="ngx-bs-center ngx-bs-wrapper">
+    <h1 class="ngx-bs-title">{{title}}</h1>
+    <div class="ngx-bs-input-container">
+      <input class="ngx-bs-input-style" [placeholder]="placeholder" (keyup)="buscarInterval($event)"
+        [(ngModel)]="productSearch" />
+      <button (click)="goBack()" class="ngx-bs-btn-go-back" mat-icon-button>
+        <mat-icon class="ngx-bs-text-black-50">arrow_back</mat-icon>
+      </button>
+      <button class="ngx-bs-btn-find" mat-icon-button (click)="searchBarReset()">
+        <mat-icon style="font-size: 30px;" class="ngx-bs-text-black-50" type="search">search</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="ngx-bs-buttons-container" >
+    <mat-chip-list>
+      <mat-chip (click)="paste()" class="ngx-bs-text-truncate">
+        <mat-icon class="ngx-bs-text-black-50" type="search">content_paste</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <ng-content></ng-content>
+    <ng-container *ngIf="active_filters_menu">
+      <mat-chip-list class="ml-1">
+        <mat-chip [matBadge]="countFilter" [matMenuTriggerFor]="menu" class="ngx-bs-text-truncate">
+          <mat-icon class="ngx-bs-text-black-50" type="search">filter_alt</mat-icon> filtros
+        </mat-chip>
+      </mat-chip-list>
+      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <ng-content select="[filterMenu]"></ng-content>
+        <div mat-menu-item [disableRipple]="true">
+          <button color="warning" mat-raised-button (click)="searchBarReset()">Aplicar filtros</button>
+        </div>
+      </mat-menu>
+    </ng-container>
+  </div>
+  <ng-content select=".selections-back"></ng-content>
+</div>

@@ -38,6 +38,8 @@ import { StoresComponent } from './stores/stores.component';
 import { ModificateStoresComponent } from './stores/modificate-stores/modificate-stores.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxBarSearchModule } from '../../../../projects/ngx-bar-search/src/public-api';
+import { environment } from '../../../environments/environment';
 // import * as echarts from 'echarts';
 export function chartModule(): any {
   return import('echarts');
@@ -76,7 +78,8 @@ export function chartModule(): any {
         NgxPermissionsModule,
         NgxEchartsModule.forRoot({
             echarts: chartModule
-        })
+        }),
+        NgxBarSearchModule.forRoot({serverUrl: environment.server})
     ]
 })
 export class HomeModule { }

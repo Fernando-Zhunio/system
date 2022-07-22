@@ -1,37 +1,28 @@
-
 import { Location } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MethodsHttpService } from '../../services/methods-http.service';
-import { SwalService } from '../../services/swal.service';
+import { NgxBarSearchService } from './ngx-bar-search.service';
 
 @Component({
-  selector: 'app-header-search',
-  templateUrl: './header-search.component.html',
-  styleUrls: ['./header-search.component.css'],
+  selector: 'ngx-bar-search',
+  templateUrl: './ngx-bar-search.component.html',
+  styleUrls: ['./ngx-bar-search.component.scss'],
 })
-export class HeaderSearchComponent implements OnInit, OnDestroy {
+export class NgxBarSearchComponent implements OnInit {
+
   @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
   @Output() products: EventEmitter<any> = new EventEmitter();
   @Input() url = '';
-  @Input() placeholder = 'Escriba el nombre del producto';
+  @Input() placeholder = 'What are you looking for?';
   @Input() filter_data = {};
   @Input() active_filters_menu: boolean = false;
   @Input() isSticky: boolean = true;
   @Input() init: boolean = true;
   @Input() spinner_name = null;
   @Input() canModifyBarSearch: boolean = true;
-  @Input() title = 'Pagina Novisolutions';
-  pageEvent: PageEvent = {
+  @Input() title = 'Page';
+  pageEvent = {
     length: 0,
     pageIndex: 0,
     pageSize: 15,
@@ -44,10 +35,8 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    // private s_standard: StandartSearchService,
-    private methodsHttp: MethodsHttpService,
-    // private active_route: ActivatedRoute,
-    private _location: Location
+    private methodsHttp: NgxBarSearchService,
+    private _location: Location,
   ) {}
 
   ngOnInit(): void {
@@ -71,14 +60,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
       // return null;
     }
     return this.pageEvent;
-  }
-
-  buscarInterval(event: Event): void {
-   clearTimeout(this.intervalSearch);
-   if (event['keyCode'] === 13) {this.searchBarReset(); return; }
-   this.intervalSearch = setTimeout(() => {
-      this.searchBarReset();
-    }, 1000);
   }
 
   searchBar( params = null) {
@@ -119,10 +100,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {this.subscription.unsubscribe();}
-  }
-
   gotoTop() {
     const main = document.getElementsByClassName('app-body');
     main[0].scrollTop = 0;
@@ -144,19 +121,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     return filter_data;
   }
 
-  paste() {
-    if (navigator.clipboard) {
-      navigator.clipboard.readText().then((res) => {
-        this.productSearch = res;
-      });
-    } else {
-      SwalService.swalToast(
-        'Necesitas proporcionar permisos de portapapeles a esta pagina',
-        'warning'
-      );
-    }
-  }
-
   searchBarReset() {
     this.pageEvent = {
       length: 0,
@@ -166,21 +130,29 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     this.searchBar(this.pageEvent);
   }
 
-  refrescated(): void {
-    const local_storage_data_refresh = JSON.parse(
-      localStorage.getItem('data_refresh')
-    );
-    if (
-      local_storage_data_refresh.now &&
-      this.activeRoute.paramMap['name'] === local_storage_data_refresh.name
-    ) {
-      this.searchBar();
-    }
-  }
-
   goBack(): void {
     this._location.back();
   }
 
+  buscarInterval(event: Event): void {
+    clearTimeout(this.intervalSearch);
+    if (event['keyCode'] === 13) {this.searchBarReset(); return; }
+    this.intervalSearch = setTimeout(() => {
+       this.searchBarReset();
+     }, 1000);
+   }
 
+   paste() {
+    if (navigator.clipboard) {
+      navigator.clipboard.readText().then((res) => {
+        this.productSearch = res;
+      });
+    }
+    // else {
+    //   SwalService.swalToast(
+    //     'Necesitas proporcionar permisos de portapapeles a esta pagina',
+    //     'warning'
+    //   );
+    // }
+  }
 }

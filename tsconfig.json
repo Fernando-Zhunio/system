@@ -1,7 +1,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "paths": { "@angular/*": ["./node_modules/@angular/*"] },
+    "paths": {
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "ngx-bar-search": [
+        "dist/ngx-bar-search/ngx-bar-search",
+        "dist/ngx-bar-search"
+      ]
+    },
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

@@ -151,7 +151,38 @@
                   }
               }
           }
+      },
+    "ngx-bar-search": {
+      "projectType": "library",
+      "root": "projects/ngx-bar-search",
+      "sourceRoot": "projects/ngx-bar-search/src",
+      "prefix": "ngx-",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-bar-search/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-bar-search/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-bar-search/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-bar-search/src/test.ts",
+            "tsConfig": "projects/ngx-bar-search/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-bar-search/karma.conf.js"
+          }
+        }
       }
+    }
   },
   "defaultProject": "ng",
   "schematics": {
