@@ -40,7 +40,7 @@ export class NgxBarSearchModule {
   static forRoot(conf?: AppConfig): ModuleWithProviders<NgxBarSearchModule> {
     return {
       ngModule: NgxBarSearchModule,
-      providers: [NgxBarSearchService, { provide: AppConfig, useValue: conf }]
+      providers: [RouterModule,NgxBarSearchService, { provide: AppConfig, useValue: conf }]
     }
   }
 }

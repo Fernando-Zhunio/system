@@ -22,6 +22,7 @@ export class NgxBarSearchComponent implements OnInit {
   @Input() spinner_name = null;
   @Input() canModifyBarSearch: boolean = true;
   @Input() title = 'Page';
+  @Input() queryScrollTop = 'body'
   pageEvent = {
     length: 0,
     pageIndex: 0,
@@ -69,7 +70,7 @@ export class NgxBarSearchComponent implements OnInit {
     }
     const $event = params || this.pageEvent;
     this.pageEvent = $event;
-    this.gotoTop();
+    if (this.queryScrollTop) this.gotoTop();
     this.subscription = this.methodsHttp
       .methodGet(this.url, {
         pageSize: $event.pageSize,
@@ -101,8 +102,8 @@ export class NgxBarSearchComponent implements OnInit {
   }
 
   gotoTop() {
-    const main = document.getElementsByClassName('app-body');
-    main[0].scrollTop = 0;
+    const main = document.querySelector(this.queryScrollTop);
+    main.scrollTop = 0;
   }
 
   filterWithNotNull(): object {
