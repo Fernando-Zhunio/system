@@ -27,3 +27,27 @@ ul {
   border: none;
     /* border: rgba(128, 128, 128, 0.1) solid 1px; */
 }
+
+.search-person-content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  transform: translateY(100%);
+  transition: all 0.5s ease-in-out;
+}
+
+.img-person {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.show-search-person {
+  transform: translateY(0%);
+  transition: all 0.5s ease-in-out;
+}
+

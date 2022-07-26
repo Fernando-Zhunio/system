@@ -73,11 +73,15 @@ export abstract class CreateOrEdit2<T> {
         this.form.patchValue(data);
     }
 
+    generateUrl() {
+        return this.urlSave;
+    }
+
     saveInServer() {
         const data_send = this.getDataForSendServer();
         if (data_send) {
             this.isLoading = true;
-            let url = this.urlSave;
+            let url = this.generateUrl();
             let observable: Observable<any>;
             if (this.status === 'edit') {
                 url += `/${this.getId()}`;

@@ -1,124 +1,96 @@
-<div class="mt-4">
-  <div class="d-flex align-items-center">
-    <button mat-mini-fab (click)="goBack()" class="mb-2">
-      <mat-icon>keyboard_return</mat-icon>
-    </button>
-    <span class="font-4xl">
-     &nbsp;{{title}}
-    </span>
-
-  </div>
-  <mat-card>
-    <mat-card-content>
-      <div *ngIf="!(state == 'edit')" class="col-12">
-        <div class="w-100 position-relative center">
-          <input class="input-search shadow w-100" style="border-radius: 10px;" placeholder="Buscador el personas" type="search"
-            (keyup.enter)="searchPerson()" matInput [(ngModel)]="search_person" [matAutocomplete]="auto">
-          <button class="btn-add-person" [routerLink]="['/administracion-sistema/personas/create']"><mat-icon color="accent">person_add_alt</mat-icon></button>
-        </div>
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let person of persons;let i=index" (click)="captureUser(person.id)"
-            [value]="person.first_name">
-            <img width="40px"
-              [src]="person.photo?.permalink?person.photo.permalink:'assets/img/avatars/profile-user.svg'"
-              class="rounded-circle border p-0 m-0" alt=""> {{person.first_name}} {{person.last_name}}
-          </mat-option>
-          <mat-option *ngIf="isloadPersons">Cargando ...</mat-option>
-        </mat-autocomplete>
-      </div>
-
-      <div *ngIf="person_current;else SinUser" class="col-12 my-3">
-        <div class="d-flex justify-content-between p-2 rounded shadow align-items-center">
-          <div class="d-flex text-uppercase align-items-center row w-100">
-            <div style="position: absolute;top: 10px;right: 10px;">
-              <button mat-mini-fab (click)="changePerson()"><mat-icon>sync</mat-icon></button>
-              <button mat-mini-fab [routerLink]="['/administracion-sistema/personas/edit',person_current.id]"><mat-icon>edit</mat-icon></button>
-              <button *ngIf="!(state == 'edit')" mat-icon-button color="warn"
-               (click)="person_current=null">
-              <mat-icon>close</mat-icon>
-            </button>
+<div>
+  <h1>{{ title }}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Formulario de usuario</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="form">
+            <mat-form-field class="col-12">
+              <!-- <input matInput placeholder="Correo electrónico"  /> -->
+              <mat-select placeholder="Correo electrónico" formControlName="email">
+                <mat-option *ngFor="let contact of personCurrent?.contact_info" [value]="contact.value">
+                  {{ contact.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-12">
+              <input matInput placeholder="Contraseña" formControlName="password" />
+            </mat-form-field>
+          </form>
+          <div class="mat-form-padding">
+            <span>Roles:</span>
+            <span class="example-list-section">
+              <ul class="row">
+                <li class="col-md-6" *ngFor="let rol of roles">
+                  <mat-checkbox [(ngModel)]="rol.checked">
+                    {{ rol.name }}
+                  </mat-checkbox>
+                </li>
+              </ul>
+            </span>
+          </div>
+          <button mat-raised-button color="primary" (click)="saveInServer()">Guardar</button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-6">
+      <mat-card class="position-relative h-100 overflow-hidden">
+        <div>
+          <div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <span class="font-2xl">Persona</span>
+              <button color="accent" (click)="isSearchPerson = true" mat-icon-button><mat-icon>search</mat-icon></button>
             </div>
-            <img
-              [src]="person_current.photo?.permalink?person_current.photo.permalink:'assets/img/avatars/profile-user.svg'"
-              class=" col-md-3 col-12" alt="">
-            <div class="col-md-9 col-12">
-              <div class="font-2xl">
-                {{person_current.first_name}} {{person_current.last_name}}
-              </div>
-              <div class="lead">
-                {{person_current.identification_number}} <br> {{person_current.city.name}}
-              </div>
-              <form [formGroup]="form_user">
-                <div class="row">
-
-                  <mat-form-field class="col-md-12">
-                    <mat-label>Contraseña</mat-label>
-                    <input [type]="hide ? 'password' : 'text'" matInput formControlName="password">
-                    <button mat-icon-button matSuffix (click)="hide = !hide" type="button"
-                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="form_user.controls['password'].invalid">La contraseña debe contener minusculas y
-                      al menos una mayúscula, numero y símbolo</mat-error>
-
-                  </mat-form-field>
+          </div>
+          <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
+        </div>
+        <div *ngIf="personCurrent">
+          <div  class="d-flex">
+            <img class="img-person" [src]="personCurrent?.photo?.permalink" />
+            <div>
+              <h3>{{ personCurrent.first_name + " " + personCurrent.last_name }}</h3>
+            </div>
+          </div>
+          <mat-card-content class="m-0">
+            <p>CI / Passport :{{ personCurrent.identification_number }}</p>
+            <p>Cargo: {{ personCurrent.position?.name }}</p>
+            <p>Ciudad: {{personCurrent?.city?.name}}</p>
+            <p>Estado: {{personCurrent?.status}}</p>
+            <p>Sexo: {{personCurrent?.sex}}</p>
+            <p>Sexo: {{personCurrent?.created_at | date:'medium'}}</p>
+          </mat-card-content>
+        </div>
+        <div [ngClass]="{ 'show-search-person': isSearchPerson }" class="main-style p-2 search-person-content">
+          <app-search (data)="getPeople($event)" placeholder="Buscador de personas" [url]="'admin/user/people'">
+            <div class="px-3" data style="height: calc(100% - 108px); overflow: auto">
+              <mat-card class="my-2" *ngFor="let person of people">
+                <div>
+                  <div class="d-flex">
+                    <img class="img-person" [src]="person?.photo?.permalink" />
+                    <h3>{{ person.first_name + " " + person.last_name }}</h3>
+                  </div>
                 </div>
-              </form>
+                <mat-card-content class="m-0">
+                  <p>CI / Passport :{{ person.identification_number }}</p>
+                  <p>Cargo: {{ person.position?.name }}</p>
+                </mat-card-content>
+                <mat-card-actions align="start">
+                  <button mat-button color="primary" (click)="selectedPerson(person.id)">
+                    <mat-icon>done</mat-icon>
+                    Seleccionar
+                  </button>
+                </mat-card-actions>
+              </mat-card>
             </div>
-          </div>
-
+            <ng-container inputBtn>
+              <button (click)="isSearchPerson = false" class="btn-default" ><i class="fas fa-times"></i></button>
+            </ng-container>
+          </app-search>
         </div>
-      </div>
-      <ng-template #SinUser>
-        <div class="col-12 mt-2">
-          <small class="lead text-danger">Busque una persona y selecciónelo para continuar</small>
-        </div>
-      </ng-template>
-
-
-      <div [hidden]="!person_current">
-        <div class="row">
-          <div class="col-md-6 col-sm-12 border-right">
-            <h2 class="col-12 font-facebook font-4xl m-0">Roles <small>*</small></h2>
-            <section class="example-section col-12">
-              <span class="example-list-section">
-                <ul>
-                  <li *ngFor="let rol of roles">
-                    <mat-checkbox [(ngModel)]="rol.active">
-                      {{rol.name}}
-                    </mat-checkbox>
-                  </li>
-                </ul>
-              </span>
-            </section>
-          </div>
-
-          <div class="col-md-6 col-sm-12">
-            <h2 class="col-12 font-facebook font-4xl m-0">Acceso a Empresas <small>*</small></h2>
-            <section class="example-section col-12">
-              <span class="example-list-section">
-                <mat-checkbox class="example-margin" [indeterminate]="someComplete()" [checked]="allComplete"
-                  (change)="setAll($event.checked)">
-                  {{companies.name}}
-                </mat-checkbox>
-              </span>
-              <span class="example-list-section">
-                <ul>
-                  <li *ngFor="let child of companies.child">
-                    <mat-checkbox [(ngModel)]="child.active" (ngModelChange)="updateAllComplete()">
-                      {{child.name}}
-                    </mat-checkbox>
-                  </li>
-                </ul>
-              </span>
-            </section>
-          </div>
-        </div>
-
-        <button mat-raised-button color="primary" (click)="saveInServer()">Guardar</button>
-      </div>
-
-
-    </mat-card-content>
-  </mat-card>
+      </mat-card>
+    </div>
+  </div>
 </div>

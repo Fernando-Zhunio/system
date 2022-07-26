@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { Ipagination } from '../../../interfaces/ipagination';
 import { IuserSystem } from '../../../interfaces/iuser-system';
+import { MethodsHttpService } from '../../../services/methods-http.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
 
@@ -17,12 +18,12 @@ declare let Swal: any;
 })
 export class UsuariosComponent implements OnInit {
 
-  constructor(private s_standart: StandartSearchService, private snack_bar: MatSnackBar) { }
+  constructor(private methodsHttp: MethodsHttpService, private snack_bar: MatSnackBar) { }
   displayedColumns: string[] = [
     'id',
     'name',
     'email',
-    'companies',
+    // 'companies',
     'roles',
     'last_activity',
     'acciones',
@@ -52,7 +53,7 @@ export class UsuariosComponent implements OnInit {
     SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar este usuario', 'warning').then((result) => {
       if (result.isConfirmed) {
         this.snack_bar.open('Eliminando usuario espere ...');
-        this.s_standart.destory('admin/users/' + id).subscribe(res => {
+        this.methodsHttp.methodDelete('admin/users/' + id).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
             this.snack_bar.open('Usuario Eliminado con éxito', 'OK', {duration: 2000});
             this.removeItemTable(id);

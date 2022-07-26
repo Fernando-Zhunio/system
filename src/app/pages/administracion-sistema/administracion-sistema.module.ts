@@ -68,6 +68,7 @@ import { PositionsIndexComponent } from './companies/departments/positions/posit
 import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
 import { CitiesIndexComponent } from './paises/cities/cities-index/cities-index.component';
 import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/index-with-mat-table.module';
+import { SearchesModule } from '../../Modulos/searches/searches.module';
 @NgModule({
     declarations: [
         CreateEmailModalComponent,
@@ -141,6 +142,8 @@ import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/inde
         MatRadioModule,
         QuillModule.forRoot(),
         IndexWithMatTableModule,
+
+        SearchesModule,
         // SearchTemplateModule
     ]
 })
