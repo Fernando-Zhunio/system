@@ -369,7 +369,7 @@
     [disabled]="isPublishing"
     mat-raised-button
     (click)="changeStatusPublish()">
-    {{ order?.status == "init" ? "Publicar y enviar correos electrónicos" : "Reenviar correos electrónicos" }}
+    Publicar <mat-icon>publish</mat-icon>
   </button>
   <button
     *ngIf="order?.status == 'init'"

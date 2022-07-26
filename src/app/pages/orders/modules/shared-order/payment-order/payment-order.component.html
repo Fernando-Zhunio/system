@@ -136,7 +136,7 @@
             </button>
             <mat-menu #menuRefPayment="matMenu">
               <button
-                *ngIf="payment?.link_to_pay"
+                *ngIf="payment?.type == 'paymentez'"
                 mat-menu-item
                 (click)="lookTransaction(payment.id)"
               >
@@ -156,7 +156,7 @@
                 *ngIf="
                   payment?.type == 'paymentez' &&
                   payment?.status == 'paid'
-                "                
+                "
                 (click)="refundPayment(payment.id)"
               >
                 <mat-icon>money_off_csred</mat-icon> <span>Reembolsar</span>
