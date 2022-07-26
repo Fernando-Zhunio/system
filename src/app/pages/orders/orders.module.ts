@@ -88,7 +88,7 @@ import { MomentModule } from 'ngx-moment';
         MatSortModule,
         MatBottomSheetModule,
         MomentModule,
-        
+
     ]
 })
 export class OrdersModule { }

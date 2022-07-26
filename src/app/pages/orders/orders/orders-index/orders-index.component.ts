@@ -163,7 +163,6 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
         this.statuses = response.data.status;
         this.types = response.data.type;
         this.workspaceSelect = response.data.workspace_preference;
-
       },
       (error) => {
         this.snackBar.open('Error al cargar los datos', 'Cerrar', {
