@@ -4,6 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { Observable, Subscription } from 'rxjs';
+import { debounceTime, filter, tap } from 'rxjs/operators';
 import { IItemOrder, IOrder, IProductItemOrder, IShippingOrder } from '../../../../interfaces/iorder';
 import { Iwarehouse } from '../../../../interfaces/iwarehouse';
 import { StandartSearchService } from '../../../../services/standart-search.service';
@@ -74,11 +75,13 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     }, err => { this.isLoading = false; });
 
-    this.subscription = this.formSearch.valueChanges.subscribe(value => {
+    this.subscription = this.formSearch.valueChanges.pipe(
+      filter(search => !!search),
+      tap(() => this.searching = true),
+      debounceTime(200),
+    ).subscribe(value => {
       console.log(value);
-      // if (value.length > 2) {
-        this.buscarInterval(value);
-      // }
+      this.buscarInterval(value);
     });
 
   }
@@ -87,9 +90,9 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    if (this.subscriptionSearch) {
-      this.subscriptionSearch.unsubscribe();
-    }
+    // if (this.subscriptionSearch) {
+    //   this.subscriptionSearch.unsubscribe();
+    // }
   }
 
   fillData(data): void {
@@ -129,11 +132,11 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   }
 
   searchWarehouses(text) {
-    console.log(text);
-    if (this.subscriptionSearch) {
-      this.subscriptionSearch.unsubscribe();
-    }
-    this.subscriptionSearch = this.standard.methodGet(routes_api_shipping.search_warehouses(text)).subscribe(res => {
+    // console.log(text);
+    // if (this.subscriptionSearch) {
+    //   this.subscriptionSearch.unsubscribe();
+    // }
+    this.standard.methodGet(routes_api_shipping.search_warehouses(text)).subscribe(res => {
       console.log(res);
       this.warehouses = res.data.data;
       this.searching = false;
@@ -141,11 +144,8 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   }
 
   buscarInterval(text): void {
-    this.searching = true;
+    // this.searching = true;
     this.searchWarehouses(text);
-    // this.intervalSearch = setTimeout(() => {
-    // }, 1000);
-    // clearTimeout(this.intervalSearch);
   }
 
   selectWarehouse(event: MatAutocompleteSelectedEvent | number): void {

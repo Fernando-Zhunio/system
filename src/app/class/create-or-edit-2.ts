@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { MethodsHttpService } from '../services/methods-http.service';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
@@ -19,7 +20,7 @@ export abstract class CreateOrEdit2<T> {
     public abstract title: string;
     public abstract urlSave;
     abstract act_router: ActivatedRoute;
-    abstract standard_service: StandartSearchService;
+    abstract methodsHttp: MethodsHttpService;
     abstract router: Router
     constructor() {
     }
@@ -43,7 +44,8 @@ export abstract class CreateOrEdit2<T> {
 
     edit() {
         this.isLoading = true;
-        this.standard_service.methodGet(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
+        const url = this.generateUrl();
+        this.methodsHttp.methodGet(`${url}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -51,7 +53,8 @@ export abstract class CreateOrEdit2<T> {
 
     create() {
         this.isLoading = true;
-        this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
+        const url = this.generateUrl();
+        this.methodsHttp.methodGet(`${url}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -63,7 +66,8 @@ export abstract class CreateOrEdit2<T> {
 
     loaderDataForCreate() {
         this.isLoading = true;
-        this.standard_service.methodGet(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
+        const url = this.generateUrl();
+        this.methodsHttp.methodGet(`${url}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
         }, error => { this.isLoading = false; });
@@ -85,9 +89,9 @@ export abstract class CreateOrEdit2<T> {
             let observable: Observable<any>;
             if (this.status === 'edit') {
                 url += `/${this.getId()}`;
-                observable = this.standard_service.methodPut(url, data_send);
+                observable = this.methodsHttp.methodPut(url, data_send);
             } else {
-                observable = this.standard_service.methodPost(url, data_send);
+                observable = this.methodsHttp.methodPost(url, data_send);
             }
             observable.subscribe(data => {
                 this.isLoading = false;

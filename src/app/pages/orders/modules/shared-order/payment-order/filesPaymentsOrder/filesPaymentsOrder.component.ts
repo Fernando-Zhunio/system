@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxFileDropEntry } from 'ngx-file-drop';
 import { environment } from '../../../../../../../environments/environment';
 import { PermissionOrdersPayments } from '../../../../../../class/permissions-modules';
 import { IDocumentPaymentOrder } from '../../../../../../interfaces/iorder';
@@ -57,7 +58,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
   }
 
 
-  onFileSelected(event) {
+  onFileSelected(event ) {
     this.fileSend.file = event.target.files[0];
     this.fileSend.base64 = SharedService.getBase64(event, this.callbackImg.bind(this));
   }
@@ -114,6 +115,45 @@ export class FilesPaymentsOrderComponent implements OnInit {
     );
   }
 
+  public files1: NgxFileDropEntry[] = [];
+
+  public dropped(files: NgxFileDropEntry[]) {
+    console.log(files);
+    const droppedFile = files[0];
+    // for (const droppedFile of files) {
+
+      // Is it a file?
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+          this.onFileSelected({target:{files:[file]}},);
+          // Here you can access the real file
+          console.log(droppedFile.relativePath, file);
+
+          /**
+          // You could upload it like this:
+          const formData = new FormData()
+          formData.append('logo', file, relativePath)
+
+          // Headers
+          const headers = new HttpHeaders({
+            'security-token': 'mytoken'
+          })
+
+          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
+          .subscribe(data => {
+            // Sanitized logo returned from backend
+          })
+          **/
+
+        });
+      } else {
+        // It was a directory (empty directories are added, otherwise only files)
+        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        console.log(droppedFile.relativePath, fileEntry);
+      }
+    // }
+  }
 
 
 

@@ -41,6 +41,7 @@ import { PaymentMbaItemComponent } from './components/payment-mba-item/payment-m
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { PdfDetailOrderComponent } from './pdf-detail-order/pdf-detail-order.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 @NgModule({
     imports: [
@@ -66,6 +67,7 @@ import { PdfDetailOrderComponent } from './pdf-detail-order/pdf-detail-order.com
         NullModule,
         MatMenuModule,
         NgxPermissionsModule,
+        NgxFileDropModule,
     ],
     exports: [
         ShippingOrderSectionComponent,

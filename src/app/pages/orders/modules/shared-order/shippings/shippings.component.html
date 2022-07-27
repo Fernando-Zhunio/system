@@ -114,7 +114,7 @@
                 <td>Longitud:</td>
                 <td>{{ shipping?.length }}</td>
               </tr>
-              <tr>
+              <tr *ngIf="shipping?.origin_warehouse">
                 <td>Bodegas:</td>
                 <td class="center justify-content-start">
                   <span class="badge bg-success">{{

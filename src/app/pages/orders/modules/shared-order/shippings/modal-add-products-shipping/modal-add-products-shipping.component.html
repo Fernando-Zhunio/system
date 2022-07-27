@@ -9,7 +9,7 @@
           <!-- <div class="col-md-6 my-2 p-1"> -->
             <mat-card class="my-2" *ngFor="let product of productsSelected|keyvalue">
               <p>{{product.value?.product.name}}</p>
-              <p>Codigo: {{product.value?.product.code}}</p>
+              <p>Código: {{product.value?.product.code}}</p>
               <p>Cantidad: {{product.value.quantity}}</p>
               <ng-container *ngIf="dataExterna.isModify">
                 <div class="center">

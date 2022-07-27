@@ -59,7 +59,17 @@
                 placeholder="Ingrese el código">
             </mat-form-field>
             <div>
-              <button  mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar Archivo</button>
+
+              <ngx-file-drop multiple="true" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+               >
+                  <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                    Arrastre los archivos o haga click para seleccionar los archivos
+                    <button color="primary" class="mx-1" type="button" mat-raised-button (click)="openFileSelector()">Buscar archivo</button>
+                  </ng-template>
+              </ngx-file-drop>
+
+
+              <button class="my-2" mat-raised-button (click)="fileInput.click()" color="accent">Seleccionar Archivo</button>
 
               <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
               <div *ngIf="fileSend?.file" class="m-3 p-3 shadow rounded-fz">

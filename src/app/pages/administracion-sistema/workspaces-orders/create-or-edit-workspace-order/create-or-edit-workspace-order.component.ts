@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit2 } from '../../../../class/create-or-edit-2';
 import { IuserSystem } from '../../../../interfaces/iuser-system';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-workspace-order',
@@ -12,6 +12,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
   styleUrls: ['./create-or-edit-workspace-order.component.scss']
 })
 export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> implements OnInit {
+
   public title: string = 'Workspace Orden - ';
   public urlSave = 'system-orders/workspaces';
   urlUserSearch = 'system-orders/workspaces/user-search';
@@ -24,7 +25,7 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
   isActiveSearchPeople = false;
   constructor(
     public act_router: ActivatedRoute,
-    public standard_service: StandartSearchService,
+    public methodsHttp: MethodsHttpService,
     public router: Router,
     public location: Location
     ) {

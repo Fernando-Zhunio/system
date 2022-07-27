@@ -1,5 +1,7 @@
 <div>
-  <h1>{{ title }}</h1>
+  <button [routerLink]="['/administracion-sistema/personas/create']"  mat-raised-button class="btn-add-person mat-orange"><mat-icon>group_add</mat-icon> Agregar una persona</button>
+  <h1 class="my-2 font-3xl">{{ title }}</h1>
+  <small *ngIf="status == 'create' && personCurrent?.user" class="text-danger">Cuidado esta persona ya posee un usuario si continua se cambiara de usuario a esta persona con email {{personCurrent?.user?.email}}</small>
   <div class="row">
     <div class="col-md-6">
       <mat-card>
@@ -9,10 +11,9 @@
         <mat-card-content>
           <form [formGroup]="form">
             <mat-form-field class="col-12">
-              <!-- <input matInput placeholder="Correo electrónico"  /> -->
               <mat-select placeholder="Correo electrónico" formControlName="email">
-                <mat-option *ngFor="let contact of personCurrent?.contact_info" [value]="contact.value">
-                  {{ contact.value }}
+                <mat-option *ngFor="let email of emails" [value]="email">
+                  {{ email }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -41,28 +42,83 @@
         <div>
           <div>
             <div class="d-flex justify-content-between align-items-center w-100">
-              <span class="font-2xl">Persona</span>
-              <button color="accent" (click)="isSearchPerson = true" mat-icon-button><mat-icon>search</mat-icon></button>
+              <span class="font-2xl">Persona selecciona</span>
+              <button color="accent" (click)="isSearchPerson = true" mat-icon-button>
+                <mat-icon>search</mat-icon>
+              </button>
             </div>
           </div>
-          <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
         </div>
-        <div *ngIf="personCurrent">
-          <div  class="d-flex">
+        <div *ngIf="personCurrent;else templateNotPerson">
+          <div class="d-flex">
             <img class="img-person" [src]="personCurrent?.photo?.permalink" />
             <div>
-              <h3>{{ personCurrent.first_name + " " + personCurrent.last_name }}</h3>
+              <h3 class="font-2xl">{{ personCurrent.first_name + " " + personCurrent.last_name }}</h3>
             </div>
           </div>
           <mat-card-content class="m-0">
-            <p>CI / Passport :{{ personCurrent.identification_number }}</p>
-            <p>Cargo: {{ personCurrent.position?.name }}</p>
-            <p>Ciudad: {{personCurrent?.city?.name}}</p>
-            <p>Estado: {{personCurrent?.status}}</p>
-            <p>Sexo: {{personCurrent?.sex}}</p>
-            <p>Sexo: {{personCurrent?.created_at | date:'medium'}}</p>
+            <table class="table table-borderless table-custom">
+              <tbody>
+                <tr>
+                  <td>Tipo de documento:</td>
+                  <td>
+                    <span>{{ personCurrent?.identification_type }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CI / Passport:</td>
+                  <td>
+                    <span>{{ personCurrent?.identification_number }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Cargo:</td>
+                  <td>
+                    <span>{{ personCurrent?.position?.name }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Ciudad:</td>
+                  <td>
+                    <span>{{ personCurrent?.city?.name }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Estado:</td>
+                  <td>
+                    <span>{{ personCurrent?.status }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Sexo:</td>
+                  <td>
+                    <span>{{ personCurrent?.sex }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Con usuario asignado:</td>
+                  <td>
+                    <span [ngClass]="personCurrent?.user ? 'bg-danger' : 'bg-success'">
+                      {{ personCurrent?.user ? "Si" : "No" }}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Fecha de ingreso:</td>
+                  <td>
+                    <span>{{ personCurrent?.start_date | date }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </mat-card-content>
         </div>
+        <ng-template #templateNotPerson>
+          <mat-card-content class="m-0">
+            <p>No se ha seleccionado una persona</p>
+          </mat-card-content>
+        </ng-template>
+
         <div [ngClass]="{ 'show-search-person': isSearchPerson }" class="main-style p-2 search-person-content">
           <app-search (data)="getPeople($event)" placeholder="Buscador de personas" [url]="'admin/user/people'">
             <div class="px-3" data style="height: calc(100% - 108px); overflow: auto">
@@ -86,7 +142,7 @@
               </mat-card>
             </div>
             <ng-container inputBtn>
-              <button (click)="isSearchPerson = false" class="btn-default" ><i class="fas fa-times"></i></button>
+              <button (click)="isSearchPerson = false" class="btn-default"><i class="fas fa-times"></i></button>
             </ng-container>
           </app-search>
         </div>
