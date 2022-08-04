@@ -229,7 +229,7 @@
           </ng-container>
           <ng-container matColumnDef="actions" stickyEnd>
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
-            <th></th>
+            <!-- <th></th> -->
             <td mat-cell *matCellDef="let element">
               <div>
                 <button
@@ -240,13 +240,14 @@
                   (click)="openDetailOrder(element.id)">
                   <mat-icon class="mat-18">visibility</mat-icon>
                 </button>
-                <button
+                <a
                   mat-icon-button
                   *ngxPermissionsOnly="permissions.edit"
                   color="accent"
+                  [href]="'#/system-orders/orders/'+ element.id+ '/edit'"
                   [routerLink]="['/system-orders/orders', element.id, 'edit']">
                   <mat-icon class="mat-18">edit</mat-icon>
-                </button>
+                </a>
                 <button
                   mat-icon-button
                   *ngxPermissionsOnly="['super-admin']"
