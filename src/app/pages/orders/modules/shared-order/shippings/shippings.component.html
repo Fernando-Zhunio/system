@@ -194,7 +194,7 @@
               <span>Ver Historial</span>
             </button>
 
-            <button *ngIf="shipping.status == 'servientrega'" mat-menu-item (click)="returnShipping(shipping.id)">
+            <button *ngIf="shipping.type == 'servientrega' && isVisibilityBtnReturn(shipping?.status)" mat-menu-item (click)="returnShipping(shipping.id)">
               <mat-icon>rv_hookup</mat-icon>
               <span>Retornar envío</span>
             </button>

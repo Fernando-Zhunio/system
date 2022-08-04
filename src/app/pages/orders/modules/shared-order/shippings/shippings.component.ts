@@ -196,4 +196,8 @@ export class ShippingsComponent implements OnInit {
       data: { client: this.client, shipping_address: this.shipping_address, shipping: this.shippings.find(x => x.id == id), order_id: this.order_id, isReturn: true },
     });
   }
+
+  isVisibilityBtnReturn(status): boolean {
+    return status != 'pending' && status != 'cancelled' && status != 'returned' && status != 'returned_to_courier_warehouse';
+  }
 }
