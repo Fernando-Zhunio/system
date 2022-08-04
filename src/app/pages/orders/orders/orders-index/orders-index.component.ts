@@ -50,9 +50,11 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     total: 0
   }
   filters = {
-    status: '',
-    min: null,
-    max: null,
+    'status[]': [],
+    minDate: null,
+    maxDate: null,
+    minPrice: null,
+    maxPrice: null,
     type: '',
     orderBy: null,
     orderByColumn: null,
@@ -61,18 +63,25 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     hasMbaInvoices: null,
     hasConfirmedRetention: null,
     paymentDocCode: null,
-    // workspace_id: null
+    channel: null,
+    guide: null,
+    'warehouse[]': [],
   };
 
   statuses: any[] = [];
   types: any[] = [];
+  channels: { id:number, name: string}[] = [];
+  isSearchWarehouse = false;
+
+  warehousesSelected = new Map<number, string>();
+
   permissions = PermissionOrders;
 
   dpMax: any;
   dpMin: any;
 
   dataSource: IOrder[] = [];
-  columnsToDisplay = ['id', 'type', 'status', 'client', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
+  columnsToDisplay = ['id', 'type', 'status', 'client', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
   expandedElement: IOrder | null;
   workspaceSelect = null;
   workspaces: IOrderWorkspace[] = [];
@@ -96,7 +105,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
         this.dpMax.update({
           minDate: date
         })
-        this.filters.min = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm');
+        this.filters.minDate = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm');
       }
     })
     this.dpMax = new AirDatepicker(this.dpMaxDateElement.nativeElement, {
@@ -111,7 +120,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
         this.dpMin.update({
           maxDate: date
         })
-        this.filters.max = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm');
+        this.filters.maxDate = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm');
       }
     })
   }
@@ -162,6 +171,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
       (response: any) => {
         this.statuses = response.data.status;
         this.types = response.data.type;
+        this.channels = response.data.channels;
         this.workspaceSelect = response.data.workspace_preference;
       },
       (error) => {
@@ -195,5 +205,18 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
             });
         }
       })
+  }
+
+  addWarehouse(warehouse): void {
+    console.log(warehouse);
+    this.warehousesSelected.set(warehouse.id,warehouse);
+    this.filters['warehouse[]'].push(warehouse.id);
+
+  }
+
+  removeWarehouse(id): void {
+    const indexWarehouse = this.filters['warehouse[]'].findIndex(w => w === id);
+    this.warehousesSelected.delete(id);
+    this.filters['warehouse[]'].splice(indexWarehouse, 1);
   }
 }

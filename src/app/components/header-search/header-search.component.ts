@@ -11,6 +11,7 @@ import {
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { empty } from '../../class/tools';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { SwalService } from '../../services/swal.service';
 
@@ -132,7 +133,8 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     this.countFilter = null;
     const filter_data = {};
     Object.keys(this.filter_data).forEach((key) => {
-      if (this.filter_data[key] !== null && this.filter_data[key] !== '' && this.filter_data[key] !== 0) {
+      if (!empty(this.filter_data[key]) || this.filter_data[key] === '0') {
+      // if (this.filter_data[key] && this.filter_data[key] !== '' && this.filter_data[key] !== 0) {
         if (this.filter_data[key]?.length < 1) {
           return;
         }

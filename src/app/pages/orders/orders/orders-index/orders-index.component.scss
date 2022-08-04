@@ -46,6 +46,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 td, th {
   padding-left: 10px !important;
   padding-right: 10px !important;
+  max-width: 200px;
 }
 
 .example-element-detail {
@@ -138,4 +139,24 @@ td, th {
 td.mat-table-sticky-border-elem-right {
   border-left: 1px solid #e0e0e0;
   // display: inline-block;
+}
+
+.search-warehouses {
+  position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1025;
+    background: rgba(240, 248, 255, 0.356);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    height: 100vh;
+    width: 100%;
+}
+
+.content-search-warehouses {
+  overflow: auto;
+  height: 100%;
 }

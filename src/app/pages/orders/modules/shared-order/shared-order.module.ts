@@ -42,6 +42,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { PdfDetailOrderComponent } from './pdf-detail-order/pdf-detail-order.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { SearchWarehousesComponent } from './components/search-warehouses/search-warehouses.component';
 
 @NgModule({
     imports: [
@@ -87,8 +88,10 @@ import { NgxFileDropModule } from 'ngx-file-drop';
         CustomTemplateOnlyInputComponent,
         ModalAddProductsShippingComponent,
         PaymentMbaItemComponent,
+        SearchWarehousesComponent,
     ],
-    declarations: [ModalAddProductsShippingComponent,
+    declarations: [
+        ModalAddProductsShippingComponent,
         TransactionsPaymentComponent,
         ShippingOrderSectionComponent,
         FilesPaymentsOrderComponent,
@@ -108,6 +111,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
         CustomTemplateOnlyInputComponent,
         PaymentMbaItemComponent,
         PdfDetailOrderComponent,
+        SearchWarehousesComponent,
     ]
 })
 export class SharedOrderModule { }

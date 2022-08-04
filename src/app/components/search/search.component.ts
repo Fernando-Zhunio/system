@@ -33,11 +33,12 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  search(pageEvent: PageEvent = this.paginator): void {
+  search(pageEvent: PageEvent = null): void {
     this.isLoading = true;
+    pageEvent = pageEvent ? pageEvent : this.paginator;
     const params = {
       page: pageEvent.pageIndex + 1,
-      per_page: pageEvent.pageSize,
+      pageSize: pageEvent.pageSize,
       search: this.textSearch
     };
     this.s_standart.methodGetPaginate<IProduct>(this.url, params).subscribe(
