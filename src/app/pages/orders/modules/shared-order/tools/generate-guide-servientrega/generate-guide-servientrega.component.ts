@@ -140,7 +140,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       ])
     });
   }
-  
+
 
   fillFormReturn(data: IServientregaGuide): void {
     const destinatario = this.convertNamesToArray(data.destinatario);
@@ -151,8 +151,8 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       id_ciudad_destino: idCityOrigin,
       id_ciudad_origen: idCityDestination,
       nombre_remitente: destinatario.first_name,
-      apellido_remite:  destinatario.last_name,
-      direccion1_remite:  data.direccion_destinatario,
+      apellido_remite: destinatario.last_name,
+      direccion1_remite: data.direccion_destinatario,
       telefono1_remite: '',
       telefono2_remite: '',
       razon_social_desti_ne: data.razon_social_remitente,
@@ -206,12 +206,12 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       console.log(this.form.value);
       let observable;
       if (!this.dataExternal.isReturn) {
-         observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value)
+        observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value)
       } else {
-         observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega/return-shipping`, this.form.value)
+        observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega/return-shipping`, this.form.value)
       }
       // this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value).subscribe(res => {
-        observable.subscribe(res => {
+      observable.subscribe(res => {
         console.log(res);
         this.isLoading = false;
         this.dialogRef.close(res);
@@ -225,9 +225,4 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       SwalService.swalFire({ icon: 'warning', title: 'Campos incompletos', text: 'Por favor complete los campos requeridos' });
     }
   }
-
-
-
-
-
 }
