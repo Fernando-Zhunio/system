@@ -60,6 +60,8 @@ export class EditOrderComponent implements OnInit {
 
   setIntervalOfTime: any = null;
 
+  metaDataTransference = null;
+
   transcurrentTime: { hours, days } = { hours: '00:00:00', days: '0' };
 
 
@@ -70,6 +72,7 @@ export class EditOrderComponent implements OnInit {
     this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
       if (data?.success) {
         this.order = data.data.order;
+        this.metaDataTransference = data.data?.order.additional_data?.transfers_status;
         this.withTiming();
         this.channels = data.data.channels;
         this.types = data.data.types;
@@ -190,7 +193,6 @@ export class EditOrderComponent implements OnInit {
           },
           disableClose: true,
         }).beforeClosed().subscribe(data1 => {
-          console.log(data1);
           if (data1?.success) {
             this.order = data1.data;
           }
@@ -206,7 +208,6 @@ export class EditOrderComponent implements OnInit {
       },
       disableClose: true,
     }).beforeClosed().subscribe(data1 => {
-      console.log(data1);
       if (data1?.success) {
         this.order = data1.data;
       }
@@ -217,6 +218,8 @@ export class EditOrderComponent implements OnInit {
     this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
       if (res.success) {
         this.order = res.data;
+        this.metaDataTransference = res.data.additional_data?.transfers_status;
+
         this.fillData();
         this.withTiming();
       }
@@ -240,7 +243,6 @@ export class EditOrderComponent implements OnInit {
             SwalService.swalFire({ icon: 'success', title: 'Éxito', text: 'Se ha enviado la notificación de la orden', confirmButtonText: 'Aceptar' });
           }
         }, err => {
-          console.log(err);
           this.isPublishing = false;
         }
         );

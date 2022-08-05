@@ -72,6 +72,9 @@ const trans_es_order = {
     canceled: 'Cancelado',
     deferred: 'Diferido',
     single: 'Corriente',
+
+    sended: 'Solicitada',
+    partially_confirmed: 'Parcialmente confirmada',
 };
 
 const typeMethodPayment = {

@@ -251,6 +251,7 @@
         <app-transference-order
           [isCancelled]="order?.status == 'cancelled'"
           (changeOrder)="getOrder()"
+          [metaData]="metaDataTransference"
           [order_id]="order?.id"
           [transfers]="order?.transfers"></app-transference-order>
       </mat-expansion-panel>

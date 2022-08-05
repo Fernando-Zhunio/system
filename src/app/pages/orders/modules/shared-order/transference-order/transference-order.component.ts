@@ -16,6 +16,7 @@ export class TransferenceOrderComponent implements OnInit {
   @Input() transfers: ITransference[] = [];
   @Input() isCancelled: boolean;
   @Input() order_id: number;
+  @Input() metaData: any = null
   @Output() changeOrder: EventEmitter<string> = new EventEmitter<string>();
   isOpenAddTransfer = false;
   isLoading = false;
@@ -69,7 +70,7 @@ export class TransferenceOrderComponent implements OnInit {
   }
 
   unlink(id): void {
-    SwalService.swalFire({icon: 'info', title: 'Precaución', text: '¿Está seguro de querer desvincular esta transferencia de la orden?', confirmButtonText: 'Si, desvincular', cancelButtonText: 'No, cancelar'}).then(res => {
+    SwalService.swalFire({ icon: 'info', title: 'Precaución', text: '¿Está seguro de querer desvincular esta transferencia de la orden?', confirmButtonText: 'Si, desvincular', cancelButtonText: 'No, cancelar' }).then(res => {
       if (res.isConfirmed) {
         this.isLoading = true;
         this.standard.methodDelete('system-orders/orders/' + this.order_id + '/transfers/' + id).subscribe(
@@ -84,5 +85,22 @@ export class TransferenceOrderComponent implements OnInit {
         );
       }
     });
+  }
+
+  confirmTransaction(): void {
+    SwalService.swalFire({ icon: 'info', title: 'Precaución', text: '¿Está seguro de querer marca la transferencia?', confirmButtonText: 'Si, confirmar', cancelButtonText: 'No, cancelar', showCancelButton: true, showConfirmButton: true })
+      .then(res => {
+        if (res.isConfirmed) {
+          const url = `system-orders/orders/${this.order_id}/transfers/mark-as-send`;
+          this.standard.methodPut(url).subscribe({
+            next: (response: any) => {
+              if (response?.success) {
+                this.changeOrder.emit('invoice');
+                SwalService.swalFire({ icon: 'success', title: 'Correcto', text: 'La transferencia se ha marcado como enviada' });
+              }
+            }
+          })
+        }
+      })
   }
 }

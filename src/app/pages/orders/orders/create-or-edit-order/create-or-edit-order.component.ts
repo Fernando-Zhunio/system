@@ -88,9 +88,9 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   }
 
   setData(data): void {
-    if (this.status === 'create') {
-      console.log(data);
-    }
+    // if (this.status === 'create') {
+    //   // console.log(data);
+    // }
     this.typesOrders = data.types;
     this.channelsOrders = data.channels;
     this.companies = data?.companies || [];
@@ -98,23 +98,17 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   }
 
   getData($event): void {
-    console.log($event);
     this.clientOrders.data = new Map<number, IClientOrder>($event.data.map((item: IClientOrder) => [item['id'], item]));
-    console.log(this.clientOrders);
   }
 
   selectedClient(event: MatSelectionListChange): void {
     const key = event.options[0].value;
-    console.log(event, key);
     this.clientSelected = this.clientOrders.data.get(key);
-    console.log(this.form.get('client_id').value);
   }
 
   selectedAddress(event: MatSelectionListChange): void {
     const key = event.options[0].value;
-    console.log(event, key);
     this.addressSelected = this.clientOrders.addressesData.get(key);
-    console.log(this.form.get('address_id').value);
   }
 
   removeClientSelected(): void {
@@ -122,7 +116,6 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   }
 
   changeStepper(event: StepperSelectionEvent): void {
-    console.log(event);
     if (event.selectedStep.label === 'address') {
       this.clientOrders.getAddresses(this.standard_service);
     }
@@ -140,7 +133,6 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
       if (res?.success) {
         this.clientOrders.addressesData.set(res.data.id, res.data);
       }
-      console.log(res);
     });
   }
 
@@ -168,14 +160,12 @@ class ClientOrderClass {
     this.isLoadingAddresses = true;
     const urlAddressClient = `system-orders/clients/${this.client.id}/addresses`;
     standard_service.index(urlAddressClient).subscribe(res => {
-      console.log(res);
       this.isLoadingAddresses = false;
       if (res?.data?.data?.length > 0) {
         this.addressesData = new Map(res.data.data.map(item => [item['id'], item]));
       }
     }, err => {
       this.isLoadingAddresses = false;
-      console.log(err);
     });
   }
 
