@@ -70,4 +70,3 @@ function getBase64Image(img: HTMLImageElement) {
 
   return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
-

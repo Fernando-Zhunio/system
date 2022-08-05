@@ -8,7 +8,7 @@
         [title]="'Ordenes'"
         [url]="url"
         (products)="getData($event)"
-        (isLoading)="isLoading = $event">
+        (isLoading)="getIsLoading($event)">
         <ng-container menuBar>
           <mat-chip-list class="mx-1">
             <mat-chip>

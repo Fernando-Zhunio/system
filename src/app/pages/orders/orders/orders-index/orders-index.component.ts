@@ -17,6 +17,9 @@ import { MatSort } from '@angular/material/sort';
 import { SwalService } from '../../../../services/swal.service';
 import { MatTable } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
+import { EchoManager } from '../../../../class/echo-manager';
+import { StorageService } from '../../../../services/storage.service';
+import { SharedService } from '../../../../services/shared/shared.service';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -33,7 +36,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
-  constructor(private dialog: MatDialog, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
+  constructor(private storage: StorageService, private dialog: MatDialog, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
     super();
   }
 
@@ -70,7 +73,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   statuses: any[] = [];
   types: any[] = [];
-  channels: { id:number, name: string}[] = [];
+  channels: { id: number, name: string }[] = [];
   isSearchWarehouse = false;
 
   warehousesSelected = new Map<number, string>();
@@ -85,10 +88,26 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   expandedElement: IOrder | null;
   workspaceSelect = null;
   workspaces: IOrderWorkspace[] = [];
+  echo: any = null;
+  canLoading = true;
+
 
   ngOnInit(): void {
     this.getDataForFilter();
     this.getMyWorkspacesOrder();
+    this.createChannelEcho();
+  }
+
+  createChannelEcho(): void {
+    this.echo = new EchoManager(this.storage).echo;
+    this.echo.private('orders-system.orders').listen('.order', this.listener.bind(this));
+  }
+
+  listener(e): void {
+    // alert('listener');
+    SharedService.disabled_loader = true;
+    this.canLoading = false;
+    this.changePaginator();
   }
 
   ngAfterViewInit() {
@@ -143,7 +162,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     this.detailPaginator.total = $event.data.total;
   }
 
-  changePaginator(event: PageEvent | null): void {
+  changePaginator(event: PageEvent | null = null): void {
     this.headerComponent.searchBar(event);
   }
 
@@ -208,7 +227,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
 
   addWarehouse(warehouse): void {
     console.log(warehouse);
-    this.warehousesSelected.set(warehouse.id,warehouse);
+    this.warehousesSelected.set(warehouse.id, warehouse);
     this.filters['warehouse[]'].push(warehouse.id);
 
   }
@@ -217,5 +236,12 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     const indexWarehouse = this.filters['warehouse[]'].findIndex(w => w === id);
     this.warehousesSelected.delete(id);
     this.filters['warehouse[]'].splice(indexWarehouse, 1);
+  }
+
+  getIsLoading($event) {
+    if (this.canLoading) {
+      this.isLoading = $event;
+    }
+    this.canLoading = true;
   }
 }
