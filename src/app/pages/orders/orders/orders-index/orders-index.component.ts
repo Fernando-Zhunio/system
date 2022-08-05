@@ -86,7 +86,6 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   workspaceSelect = null;
   workspaces: IOrderWorkspace[] = [];
 
-
   ngOnInit(): void {
     this.getDataForFilter();
     this.getMyWorkspacesOrder();
