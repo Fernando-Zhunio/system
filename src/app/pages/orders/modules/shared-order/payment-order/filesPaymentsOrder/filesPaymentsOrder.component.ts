@@ -154,6 +154,12 @@ export class FilesPaymentsOrderComponent implements OnInit {
       }
     // }
   }
+  urlVisor: string = null;
+  isOpenVisor = false;
+  openVisor(url): void {
+    this.urlVisor  = url;
+    this.isOpenVisor = true
+  }
 
 
 

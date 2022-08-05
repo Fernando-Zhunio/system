@@ -81,7 +81,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
   dpMin: any;
 
   dataSource: IOrder[] = [];
-  columnsToDisplay = ['id', 'type', 'status', 'client', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
+  columnsToDisplay = ['id', 'type', 'status', 'client', 'channel', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
   expandedElement: IOrder | null;
   workspaceSelect = null;
   workspaces: IOrderWorkspace[] = [];

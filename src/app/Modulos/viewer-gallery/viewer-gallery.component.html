@@ -1,0 +1,7 @@
+<div class="container-img-viewer">
+  <span class="container-btns">
+   <button (click)="downloadImage()" class="mr-1" mat-icon-button><mat-icon>file_download</mat-icon></button>
+   <button  mat-icon-button (click)="closeViewer()"><mat-icon color="warn">close</mat-icon></button>
+  </span>
+  <img class="img-viewer" [src]="src" [alt]="alt">
+</div>
