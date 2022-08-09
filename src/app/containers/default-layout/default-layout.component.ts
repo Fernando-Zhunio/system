@@ -25,6 +25,7 @@ import { compare } from 'compare-versions';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { TEST_PERMISSIONS } from '../../class/permissionsAll';
 import { NotificationType } from '../../enums/notification.enum';
+import { INavData } from '../../interfaces/inav-data';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,13 +47,12 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   ) {
     this.notifications$ = this.store.select(selectNotification);
   }
-
   notifications$: Observable<INotification[]>;
 
   @HostBinding('class') componentCssClass;
 
   public sidebarMinimized = false;
-  public navItems = null;
+  public navItems: INavData[] = [];
   public url_img = '';
   public isDark: boolean = false;
   public hideUsersChat: boolean = false;
@@ -66,7 +66,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   echo: Echo;
   user: any;
   searchBar: ListPermissions;
-  auxSearchPage = [];
+  auxSearchPage: INavData[] = [];
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
   notificationType = {
@@ -75,7 +75,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({res}) => {
+    this.activatedRoute.data.subscribe(({ res }) => {
       this.getPermissionAndVersionServer(res.permissionsRolesAndVersion);
       this.getNotification(res.notifications); // in resolver
       this.setPreferences(res.preferences); // in resolver
@@ -107,12 +107,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   goPage(page): void {
     this.route.navigate([page]);
   }
-
-  // closeSearch(): void {
-  //   setTimeout(() => {
-  //     this.pageSearch = [];
-  //   }, 500);
-  // }
 
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {
     const theme = e.checked ? 'dark-theme' : 'light-theme';
@@ -154,22 +148,22 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   getNotification(res): void {
-      if (res && res.hasOwnProperty('success') && res.success) {
-        this.store.dispatch(overrideNotification({ notifications: res.data }));
-        const notifications = res.data;
-        //  Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
-        // this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
-        if (notifications.length > 0) {
-          // ? Si hay notificaciones sin leer */
-          const countNotification = notifications.filter((notification) => !notification.read_at).length;
-          this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
-        }
+    if (res && res.hasOwnProperty('success') && res.success) {
+      this.store.dispatch(overrideNotification({ notifications: res.data }));
+      const notifications = res.data;
+      //  Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
+      // this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
+      if (notifications.length > 0) {
+        // ? Si hay notificaciones sin leer */
+        const countNotification = notifications.filter((notification) => !notification.read_at).length;
+        this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
       }
+    }
   }
 
   loadUnreadCountMessages(): void {
     this.methodsHttp.methodGet('chats/chat/messages/count-unread').subscribe((res) => {
-        this.countMessages = res.data == 0 ? null : res.data;
+      this.countMessages = res.data == 0 ? null : res.data;
     })
   }
 
@@ -180,46 +174,28 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  // companiesGestion(user): void {
-  //   const username = user.name.replace(' ', '+');
-  //   this.url_img = 'https://ui-avatars.com/api/?name=' + username;
-  //   this.companies = user.companies;
-  //   localStorage.setItem('companies', JSON.stringify(this.companies));
-  //   const id_company = user.company_company_id;
-  //   const index = this.companies.findIndex((x) => x.id == id_company);
-  //   if (index == -1) {
-  //     this.companies.push({ id: 'all', name: 'Todas las empresas' });
-  //     this.company_select = 'Todas las empresas';
-  //   } else {
-  //     this.company_select = this.companies[index].name;
-  //     const indexAll = this.companies.findIndex((x) => x.id == 'all');
-  //     if (indexAll == -1) {
-  //       this.companies.push({ id: 'all', name: 'Todas las empresas' });
-  //     }
-  //   }
-  // }
-
   setPreferences(res): void {
-      if (res && res.hasOwnProperty('success') && res.success) {
-        this.notificationType.email = res.data[NotificationType.email] === 'on' ? true : false;
-        this.notificationType.webpush = res.data[NotificationType.webpush] === 'on' ? true : false;
-        this.store.dispatch(setPreference({ preference: res.data }));
-      }
+    if (res && res.hasOwnProperty('success') && res.success) {
+      this.notificationType.email = res.data[NotificationType.email] === 'on' ? true : false;
+      this.notificationType.webpush = res.data[NotificationType.webpush] === 'on' ? true : false;
+      this.store.dispatch(setPreference({ preference: res.data }));
+    }
 
   }
 
   getPermissionAndVersionServer(res) {
-      if (res?.success) {
-        console.log(res.data?.last_version_frontend);
-        if (res.data?.last_version_frontend?.version) {
-          this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
-        }
-        const permissions = res.data.my_permissions;
-        const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
-          [permissions] : permissions;
-        this.s_storage.setPermission(array_permissions);
-        this.navItems = this.auxSearchPage = res.data.item_sidebar;
+    if (res?.success) {
+      if (res.data?.last_version_frontend?.version) {
+        this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
       }
+      const permissions = res.data.my_permissions;
+      const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
+        [permissions] : permissions;
+      this.s_storage.setPermission(array_permissions);
+      this.navItems = this.auxSearchPage = res.data.item_sidebar;
+      this.getTicketsUnread();
+
+    }
   }
 
   searchPage(e): void {
@@ -229,7 +205,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   getPermissionAndVersionServerTest() {
     this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
-      if (res && res.hasOwnProperty('success') && res.success) {
+      if (res?.success) {
         if (res.data?.last_version_frontend?.version) {
           this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
         }
@@ -238,6 +214,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           [permissions] : permissions;
         this.s_storage.setPermission(array_permissions);
         this.navItems = res.data.item_sidebar;
+        this.getTicketsUnread();
       }
     }, err => {
       console.log(err);
@@ -250,9 +227,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       const currentVersion = this.s_storage.getItemLocalStorage('version');
       if (currentVersion) {
         const isNewVersion = compare(currentVersion, latestVersion, '<'); // true
-        console.log({isNewVersion, currentVersion, latestVersion});
         if (isNewVersion) {
-
           SwalService.swalFire({ allowOutsideClick: false, showCancelButton: true, cancelButtonText: 'No, gracias', confirmButtonText: 'Si, actualizar', showConfirmButton: true, title: 'Actualización disponible', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
             .then((res) => {
               console.log(res);
@@ -388,22 +363,22 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     };
     const url = 'user/preferences/' + event.source.name;
     this.methodsHttp.methodPut(url, data_send)
-    .subscribe(
-      (res) => {
-        if (res && res.hasOwnProperty('success') && res.success) {
-          SwalService.swalToast(
-            event.checked ? 'Activadas' : 'Desactivada'
-          );
-        } else {
+      .subscribe(
+        (res) => {
+          if (res && res.hasOwnProperty('success') && res.success) {
+            SwalService.swalToast(
+              event.checked ? 'Activadas' : 'Desactivada'
+            );
+          } else {
+            event.checked = !event.checked;
+          }
+          event.source.disabled = false;
+        },
+        (err) => {
           event.checked = !event.checked;
+          event.source.disabled = false;
         }
-        event.source.disabled = false;
-      },
-      (err) => {
-        event.checked = !event.checked;
-        event.source.disabled = false;
-      }
-    );
+      );
   }
 
   toggleMinimize(e) {
@@ -418,104 +393,26 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.s_storage.logout();
   }
 
-  // changeCompany(idCompany, index): void {
-  //   if (this.company_select === this.companies[index].name) {
-  //     return;
-  //   }
-  //   this.s_auth.changedCompany(idCompany).subscribe((res) => {
-  //     if (res.success) {
-  //       SwalService.swalToast('Compañía cambiada con éxito');
-  //       this.company_select = this.companies[index].name;
-  //       this.s_storage.setCompanyUser(idCompany);
-  //     }
-  //   });
-  // }
-
-
-  // generateSideBarItems(permissions: IPermission[], groups_permissions: IGroupPermission[]): INavData[] {
-  //   // const new_Item_data = new DataSidebar().NameGroupItem;
-  //   // const permissionAndRol = this.s_storage.getRoPermissionUser();
-  //   // const mergePermissionAndRol: string[] = [
-  //   //   ...permissionAndRol.permission,
-  //   //   ...permissionAndRol.rol,
-  //   // ];
-
-  //   // * Si es super usuario retorna todo los item de la clase dataSidebar
-  //   // const isSuperAdmin = permissions.find((x) => x === 'super-admin');
-  //   if (permissions == 'super-admin') {
-  //     return this.navItems_;
-  //   }
-
-  //   const allNavPermissions = new Map(AllItemsSidebar);
-  //   const itemForNav: any[] = [];
-  //   permissions.forEach((item) => {
-  //     if (allNavPermissions.has(item.name)) {
-  //       itemForNav.push({...allNavPermissions.get(item.name), group_permission_id: item.group_permission_id || 'others'});
-  //     }
-  //   });
-  //   console.log(itemForNav);
-  //   const groupByPermissions = SharedService.groupBy(itemForNav, 'group_permission_id');
-  //   console.log(groupByPermissions);
-  //   let navItems = [];
-
-  //   for (const i in groupByPermissions) {
-  //     const name = groups_permissions.find((x: any) => x.id == i)?.name;
-  //     if (name) {
-  //       console.log(name);
-  //       navItems = navItems.concat(
-  //         [{
-  //           title: true,
-  //           name
-  //         }, ...groupByPermissions[i]]);
-  //     }
-  //   }
-
-  //   if (groupByPermissions.hasOwnProperty('others')) {
-  //     navItems = navItems.concat(
-  //       [
-  //         {title: true, name:'Otros'},
-  //         ...groupByPermissions['others']
-  //       ]
-  //     )
-  //   }
-
-  // console.log(navItems);
-
-  // return navItems;
-
-
-
-  // for (let j = 0; j < sizePermissionAndRol; j++) {
-  //   const item: INavData = this.navItems_.find(
-  //     (x) => x.permission === mergePermissionAndRol[j]
-  //   );
-  //   if (item !== undefined) {
-  //     new_Item_data[item.tag].push(item);
-  //   }
-  // }
-  // mergePermissionAndRol.forEach((item) => {
-  //   if (allNavPermissions.has(item)) {
-  //     itemForNav.push(allNavPermissions.get(item));
-  //   }
-  // });
-
-  // let data_return = [];
-  // const keysTags = Object.keys(new_Item_data);
-  // for (let i = 0; i < keysTags.length; i++) {
-  //   if (new_Item_data[keysTags[i]].length > 1) {
-  //     data_return.push(...new_Item_data[keysTags[i]]);
-  //   }
-  // }
-  // data_return = [
-  //   ...data_return,
-  // ];
-  // return data_return;
-  // }
-
-
-  // generatedSideBarItems(permissions: IPermission): INavData[] {
-
-  // }
+  getTicketsUnread(): void {
+    // const ticketsItem = this.navItems.find((item) => item.name === 'Tickets');
+    // console.log({ticketsItem});
+    // ticketsItem.badge = {
+    //   text: '50',
+    //   variant: 'primary',
+    //   class: 'badge bg-info'
+    // };
+    // if (ticketsItem) {
+    //   this.methodsHttp.methodGet('system-orders/tickets/unread-count').subscribe((res: any) => {
+    //     if (res.success) {
+    //       ticketsItem.badge = {
+    //         text: res.data,
+    //         variant: 'primary',
+    //         class: 'badge bg-info'
+    //       };
+    //     }
+    //   });
+    // }
+  }
 
 
 }
