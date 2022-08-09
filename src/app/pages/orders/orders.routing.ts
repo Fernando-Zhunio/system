@@ -14,7 +14,7 @@ const routes = [
     path: 'dashboard-orders',
     component: DashboardOrdersComponent,
     data: {
-      permissions:{ 
+      permissions:{
         only: permissionsModuleRoutes.index,
         redirectTo: environment.ERROR_403_REDIRECT_URL
       }
@@ -25,7 +25,7 @@ const routes = [
     path: 'orders',
     component: OrdersIndexComponent,
     data: {
-      permissions: { 
+      permissions: {
         only: permissionsModuleRoutes.index,
         redirectTo: environment.ERROR_403_REDIRECT_URL
       }

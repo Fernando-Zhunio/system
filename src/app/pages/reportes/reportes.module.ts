@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GroupProductsComponent } from './group-products/group-products.component';
-import { ReportesRoutingModule, ReportsMainComponents } from './reportes-routing.module';
+import { ReportesRoutingModule } from './reportes-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { CreateOrEditGroupProductsComponent } from './group-products/create-or-edit-group-products/create-or-edit-group-products.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,11 +15,19 @@ import { DownloadStockComponent } from './download-stock/download-stock.componen
 import {MatListModule} from '@angular/material/list';
 import { MomentModule } from 'ngx-moment';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
+import { MatTableModule } from '@angular/material/table';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { IndexReportsComponent } from './index-reports/index-reports.component';
+import { CreateOrEditReportComponent } from './create-or-edit-report/create-or-edit-report.component';
 
 
 
 @NgModule({
-  declarations: [GroupProductsComponent, ReportsMainComponents, CreateOrEditGroupProductsComponent, DownloadStockComponent],
+  declarations: [GroupProductsComponent, IndexReportsComponent, CreateOrEditReportComponent, CreateOrEditGroupProductsComponent, DownloadStockComponent],
   imports: [
     CommonModule,
     ReportesRoutingModule,
@@ -36,6 +44,14 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MomentModule,
     MatSlideToggleModule,
 
+    SearchTemplateModule,
+    MatTableModule,
+    // ReportsRoutingModule,
+    NgxPermissionsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
   ]
 })
 export class ReportesModule { }

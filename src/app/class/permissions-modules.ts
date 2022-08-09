@@ -141,3 +141,9 @@ export const PermissionLocations = {
   edit:  ['locations.edit', 'super-admin'],
   destroy:  ['locations.destroy', 'super-admin']
 }
+
+export const PermissionReportsOrders = {
+  index:  ['system-orders.reports.index', 'super-admin'],
+  create:  ['system-orders.reports.create', 'super-admin'],
+  destroy:  ['system-orders.reports.destroy', 'super-admin']
+}

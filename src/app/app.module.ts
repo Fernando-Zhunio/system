@@ -1,9 +1,10 @@
 import { BrowserModule, platformBrowser } from '@angular/platform-browser';
 import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import {
-    LocationStrategy,
-    HashLocationStrategy,
-    PathLocationStrategy,
+  LocationStrategy,
+  HashLocationStrategy,
+  PathLocationStrategy,
+  DATE_PIPE_DEFAULT_TIMEZONE,
 } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,7 +13,7 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-    suppressScrollX: true,
+  suppressScrollX: true,
 };
 
 import { AppComponent } from './app.component';
@@ -25,11 +26,11 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 const APP_CONTAINERS = [DefaultLayoutComponent];
 import {
-    AppAsideModule,
-    AppBreadcrumbModule,
-    AppHeaderModule,
-    AppFooterModule,
-    AppSidebarModule,
+  AppAsideModule,
+  AppBreadcrumbModule,
+  AppHeaderModule,
+  AppFooterModule,
+  AppSidebarModule,
 } from '@coreui/angular';
 
 // Import routing module
@@ -123,141 +124,144 @@ import { P403Component } from './views/error/p403/p403.component';
 
 
 function getPermissionAndVersionServer(st: StorageService) {
-    return () => {
-        return null;
-    };
+  return () => {
+    return null;
+  };
 }
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        AppAsideModule,
-        AppBreadcrumbModule.forRoot(),
-        AppFooterModule,
-        AppHeaderModule,
-        AppSidebarModule,
-        PerfectScrollbarModule,
-        BsDropdownModule.forRoot(),
-        TabsModule.forRoot(),
-        ReactiveFormsModule,
-        HttpClientModule,
-        NgxSpinnerModule,
-        PopoverModule.forRoot(),
-        NgxPermissionsModule.forRoot(),
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        FormsModule,
-        MatDialogModule,
-        MatCardModule,
-        MomentModule,
-        MatTableModule,
-        MatListModule,
-        MatBottomSheetModule,
-        MatInputModule,
-        MatSidenavModule,
-        HeaderSearchModule,
-        NgxGalleryModule,
-        MatSnackBarModule,
-        MatSlideToggleModule,
-        MatBadgeModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        NgxEmojiPickerModule,
-        OverlayModule,
-        InfiniteScrollModule,
-        FilePondModule,
-        MatTooltipModule,
-        MatProgressBarModule,
-        MarkdownModule,
-        ServiceWorkerModule.register('/ngsw-worker.js', {
-            enabled: environment.production,
-        }),
-        OrderModule,
-        StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preference: preferenceReducer }),
-        EffectsModule.forRoot([PreferenceEffects]),
-        StoreDevtoolsModule.instrument({}),
-        LoadingBarRouterModule,
-        TicketsModule,
-    ],
-    declarations: [
-        AppComponent,
-        ...APP_CONTAINERS,
-        P404Component,
-        P500Component,
-        LoginComponent,
-        RegisterComponent,
-        RepricarMlModalComponent,
-        InfoViewComponent,
-        // StockBodegasComponent,
-        SelectProviderComponent,
-        ActionProviderComponent,
-        InvoiceItemModalComponent,
-        CreateProviderOrContactComponent,
-        SearchProductModalComponent,
-        // InConstructionComponent,
-        RedirectToComponent,
-        SnackBarLoaderComponent,
-        OkLoginComponent,
-        FormRecuperationPasswordComponent,
-        AddInfoPersonModalComponent,
-        ChatTemplateComponent,
-        ChatComponent,
-        UsersGroupsChatModalComponent,
-        P403Component,
-    ],
-    providers: [
-        // {
-        //   // processes all errors
-        //   provide: ErrorHandler,
-        //   useClass: GlobalErrorHandler,
-        // },
-        {
-            provide: LocationStrategy,
-            useClass: HashLocationStrategy,
-            // useClass: PathLocationStrategy,
-        },
-        {
-            provide: LOCALE_ID,
-            useValue: 'es',
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: CustomInterceptor,
-            multi: true,
-        },
-        { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
-        {
-            provide: APP_INITIALIZER,
-            useFactory:  getPermissionAndVersionServer,
-            multi: true,
-            deps: [StorageService]
-        },
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    AppAsideModule,
+    AppBreadcrumbModule.forRoot(),
+    AppFooterModule,
+    AppHeaderModule,
+    AppSidebarModule,
+    PerfectScrollbarModule,
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgxSpinnerModule,
+    PopoverModule.forRoot(),
+    NgxPermissionsModule.forRoot(),
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatDialogModule,
+    MatCardModule,
+    MomentModule,
+    MatTableModule,
+    MatListModule,
+    MatBottomSheetModule,
+    MatInputModule,
+    MatSidenavModule,
+    HeaderSearchModule,
+    NgxGalleryModule,
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatBadgeModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxEmojiPickerModule,
+    OverlayModule,
+    InfiniteScrollModule,
+    FilePondModule,
+    MatTooltipModule,
+    MatProgressBarModule,
+    MarkdownModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production,
+    }),
+    OrderModule,
+    StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preference: preferenceReducer }),
+    EffectsModule.forRoot([PreferenceEffects]),
+    StoreDevtoolsModule.instrument({}),
+    LoadingBarRouterModule,
+    TicketsModule,
+  ],
+  declarations: [
+    AppComponent,
+    ...APP_CONTAINERS,
+    P404Component,
+    P500Component,
+    LoginComponent,
+    RegisterComponent,
+    RepricarMlModalComponent,
+    InfoViewComponent,
+    // StockBodegasComponent,
+    SelectProviderComponent,
+    ActionProviderComponent,
+    InvoiceItemModalComponent,
+    CreateProviderOrContactComponent,
+    SearchProductModalComponent,
+    // InConstructionComponent,
+    RedirectToComponent,
+    SnackBarLoaderComponent,
+    OkLoginComponent,
+    FormRecuperationPasswordComponent,
+    AddInfoPersonModalComponent,
+    ChatTemplateComponent,
+    ChatComponent,
+    UsersGroupsChatModalComponent,
+    P403Component,
+  ],
+  providers: [
+    // {
+    //   // processes all errors
+    //   provide: ErrorHandler,
+    //   useClass: GlobalErrorHandler,
+    // },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+      // useClass: PathLocationStrategy,
+    },
+    {
+      provide: LOCALE_ID,
+      useValue: 'es',
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomInterceptor,
+      multi: true,
+    },
+    { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: getPermissionAndVersionServer,
+      multi: true,
+      deps: [StorageService]
+    },
 
-        // {
-        //     provide: ErrorHandler,
-        //     useValue: Sentry.createErrorHandler({
-        //       showDialog: true,
-        //     }),
-        //   },
-        //   {
-        //     provide: Sentry.TraceService,
-        //     deps: [Router],
-        //   },
-        //   {
-        //     provide: APP_INITIALIZER,
-        //     useFactory: () => () => {},
-        //     deps: [Sentry.TraceService],
-        //     multi: true,
-        //   },
-    ],
-    bootstrap: [AppComponent]
+    { provide: DATE_PIPE_DEFAULT_TIMEZONE, useValue: "GMT" },
+
+
+    // {
+    //     provide: ErrorHandler,
+    //     useValue: Sentry.createErrorHandler({
+    //       showDialog: true,
+    //     }),
+    //   },
+    //   {
+    //     provide: Sentry.TraceService,
+    //     deps: [Router],
+    //   },
+    //   {
+    //     provide: APP_INITIALIZER,
+    //     useFactory: () => () => {},
+    //     deps: [Sentry.TraceService],
+    //     multi: true,
+    //   },
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
 

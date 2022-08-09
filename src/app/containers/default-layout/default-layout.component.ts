@@ -223,7 +223,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   searchPage(e): void {
-    console.log(e);
+    // console.log(e);
     this.navItems = this.auxSearchPage.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()));
   }
 

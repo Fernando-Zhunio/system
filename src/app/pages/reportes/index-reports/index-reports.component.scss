@@ -1,0 +1,23 @@
+.table-container {
+  overflow: auto;
+}
+
+
+td, th {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  max-width: 200px;
+}
+
+table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: inherit !important;
+}
+
+.is-loading {
+  position: absolute;
+  background: #ffffff71;
+  z-index: 2;
+  backdrop-filter: blur(3px);
+}

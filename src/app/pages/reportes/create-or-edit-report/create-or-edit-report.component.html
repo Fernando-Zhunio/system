@@ -1,0 +1,59 @@
+<div class="my-3 d-flex align-items-center">
+  <button mat-mini-fab (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+  <h2 class="font-4xl m-0">{{title}}</h2>
+</div>
+
+<div>
+  <div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-card>
+          <form (ngSubmit)="onSubmit()" [formGroup]="form">
+            <!-- <mat-form-field class="w-100">
+              <input matInput placeholder="Nombre" formControlName="name">
+            </mat-form-field> -->
+
+            <mat-form-field class="w-100">
+              <mat-select formControlName="name" placeholder="Tipo">
+                <mat-option *ngFor="let report of reports" [value]="report">
+                  {{report}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-select formControlName="format" placeholder="Formato">
+                <mat-option *ngFor="let format of formats" [value]="format">
+                  {{format}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input
+                readonly
+                style="font-size: 11px"
+                #filterOrderMin
+                formControlName="start_date"
+                matInput
+                placeholder="Fecha inicial" />
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input
+                readonly
+                style="font-size: 11px"
+                #filterOrderMax
+                formControlName="end_date"
+                matInput
+                placeholder="Fecha final" />
+            </mat-form-field>
+            <div class="w-100">
+              <button [disabled]="isLoading" mat-raised-button color="primary"><mat-icon>save</mat-icon> Guardar</button>
+            </div>
+          </form>
+        </mat-card>
+      </div>
+      <div class="col-md-6 ">
+        <img  src="assets/vectores/report-orders.svg" alt="">
+      </div>
+    </div>
+  </div>
+</div>

@@ -15,7 +15,7 @@
           <td>{{item.type | translatefz: 'orders'}}</td>
           <td>{{item?.reason}}</td>
           <td>{{item?.user?.name}}</td>
-          <td>{{item.created_at | date: 'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{item.created_at | date: 'medium'}}</td>
         </tr>
       </tbody>
     </table>

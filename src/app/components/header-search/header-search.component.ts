@@ -21,7 +21,7 @@ import { SwalService } from '../../services/swal.service';
   styleUrls: ['./header-search.component.css'],
 })
 export class HeaderSearchComponent implements OnInit, OnDestroy {
-  @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
+  @Output() isLoading: EventEmitter<boolean> = new EventEmitter(false);
   @Output() products: EventEmitter<any> = new EventEmitter();
   @Input() url = '';
   @Input() placeholder = 'Escriba el nombre del producto';
@@ -45,9 +45,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    // private s_standard: StandartSearchService,
     private methodsHttp: MethodsHttpService,
-    // private active_route: ActivatedRoute,
     private _location: Location
   ) {}
 

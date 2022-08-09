@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
@@ -34,7 +34,7 @@ import { SharedService } from '../../../../services/shared/shared.service';
     ]),
   ],
 })
-export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
+export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDestroy {
 
   constructor(private storage: StorageService, private dialog: MatDialog, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
     super();
@@ -96,6 +96,10 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit {
     this.getDataForFilter();
     this.getMyWorkspacesOrder();
     this.createChannelEcho();
+  }
+
+  ngOnDestroy(): void {
+    this.echo.leave('orders-system.orders');
   }
 
   createChannelEcho(): void {

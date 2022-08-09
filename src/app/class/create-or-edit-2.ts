@@ -110,6 +110,7 @@ export abstract class CreateOrEdit2<T> {
         if (this.form.valid) {
             return this.form.value;
         } else {
+            this.form.markAllAsTouched();
             SwalService.swalFire({ text: 'Por favor complete todos los campos', icon: 'error' });
         }
     }

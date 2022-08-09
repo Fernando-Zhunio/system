@@ -26,7 +26,7 @@ export class SearchTemplateComponent implements OnInit {
   @Input() withCardColumns: boolean = true;
   @Input() customLoader = false;
   @Input() customTemplate = false;
-  @Output() _isLoading = new EventEmitter<boolean>();
+  @Output() _isLoading = new EventEmitter<boolean>(false);
   @Output() data = new EventEmitter<any[]>();
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
@@ -49,7 +49,15 @@ export class SearchTemplateComponent implements OnInit {
     this.data.emit(this.products);
   }
 
-  hasIsLoading(): void {
+  hasIsLoading(event): void {
+    console.log(event);
+    this.isLoading = event;
+    this._isLoading.emit(this.isLoading);
+  }
+
+  isLoadingNow(event): void {
+    console.log(event);
+    this.isLoading = event;
     this._isLoading.emit(this.isLoading);
   }
 

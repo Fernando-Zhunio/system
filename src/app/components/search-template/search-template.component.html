@@ -4,14 +4,12 @@
   [active_filters_menu]="active_filters_menu"
   [filter_data]="filter_data"
   [placeholder]="placeholder"
-  (isLoading)="isLoading = $event"
+  (isLoading)="isLoadingNow($event)"
   [url]="url$"
   (products)="loadData($event)">
   <ng-content select="[menuBar]"></ng-content>
   <ng-content filterMenu select="[filterMenu]"></ng-content>
 </app-header-search>
-
-
 
 <ng-container *ngIf="!customLoader">
   <div [ngStyle]="{ 'column-count': columns }" *ngIf="isLoading" class="mt-2 card-columns">
@@ -59,8 +57,6 @@
 <ng-container *ngIf="customTemplate">
   <ng-content select="[customTemplate]"></ng-content>
 </ng-container>
-
-
 
 <ng-container *ngIf="!isLoading && products?.length < 1">
   <div class="row">
