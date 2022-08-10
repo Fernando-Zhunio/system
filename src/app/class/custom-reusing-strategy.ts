@@ -1,3 +1,4 @@
+import { ComponentRef } from '@angular/core';
 import {
   RouteReuseStrategy,
   ActivatedRouteSnapshot,
@@ -6,100 +7,110 @@ import {
   Routes,
   UrlSegment,
 } from '@angular/router';
+import { instanceOfReuseComponent, ReuseComponent } from '../interfaces/reuse-component';
 
 export class CustomReusingStrategy implements RouteReuseStrategy {
+  private storeRoutes = new Map<string, DetachedRouteHandle>();
+  countForLoad = 0;
+  acuForLoad = 0;
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
+    // console.log('shouldDetach');
+    const { reuse } = route?.data;
+    if (reuse) {
+      return true;
+    }
     return false;
   }
+  store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
+    // console.log('store');
+    if (this.loadNow(route)) {
+      const key = this.generateKey(route);
+      this.storeRoutes.set(key, handle);
+    }
+  }
 
-  /**
-   * A no-op; the route is never stored since this strategy never detaches routes for later re-use.
-   */
-  store(route: ActivatedRouteSnapshot, detachedTree: DetachedRouteHandle): void {}
-
-  /** Returns `false`, meaning the route (and its subtree) is never reattached */
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
-    return false;
+    // throw new Error('Method not implemented.');
+    // console.log('shouldAttach');
+    return this.storeRoutes.has(this.generateKey(route));
   }
 
-  /** Returns `null` because this strategy does not store routes for later re-use. */
-  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle|null {
-    return null;
+
+
+  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
+    const handle = this.storeRoutes.get(this.generateKey(route)) as { componentRef: ComponentRef<ReuseComponent<any>> };
+    // console.log('retrieve', route);
+
+    if (instanceOfReuseComponent(handle.componentRef.instance)) {
+      if (this.loadNow(route)) {
+        handle.componentRef.instance.loadInfo();
+        console.log('reuse');
+      }
+    }
+    return handle;
+
+    // (handle as {componentRef: ReuseComponent<any>}).componentRef?.loadInfo();
+
+
   }
 
-  /**
-   * Determines if a route should be reused.
-   * This strategy returns `true` when the future route config and current route config are
-   * identical.
-   */
   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-    return future.routeConfig === curr.routeConfig;
+    // throw new Error('Method not implemented.');
+    if (future.routeConfig === curr.routeConfig) {
+      return true;
+    }
+    if (future.routeConfig?.data?.reuse) {
+      return false;
+    }
+  }
+
+  private generateKey(route: ActivatedRouteSnapshot): string {
+    const segments = route.pathFromRoot
+      .map(segment => segment.url.join('/'))
+      .filter(Boolean)
+      .join('/');
+      console.log('/' + segments)
+    return '/' + segments;
+  }
+
+  private loadNow(route: ActivatedRouteSnapshot): boolean {
+    this.countForLoad = route.pathFromRoot.length - 2;
+    this.acuForLoad++;
+    const isLoad = this.acuForLoad === this.countForLoad;
+    if (isLoad) {
+      this.acuForLoad = 0;
+    }
+    console.log({acuForLoad: this.acuForLoad, countForLoad: this.countForLoad});
+    return isLoad;
   }
 
 
 
+  // shouldDetach(route: ActivatedRouteSnapshot): boolean {
+  //   return false;
+  // }
 
-// //   // Specify the routes to reuse/cache in an array.
-// routesToCache: string[] = ['/recursos-humanos/appointments', '/home/dashboard', '/recursos-humanos/dashboard', '/recursos-humanos/works'];
-// storedRouteHandles = new Map<string, DetachedRouteHandle>();
-// // Decides if the route should be stored
-// // Decide si la ruta debe almacenarse
-// shouldDetach(route: ActivatedRouteSnapshot): boolean {
-// console.log({shouldDetach: this.getPath(route), save: this.routesToCache.indexOf(this.getPath(route)) > -1});
-// return this.routesToCache.indexOf(this.getPath(route)) > -1;
-// }
+  // /**
+  //  * A no-op; the route is never stored since this strategy never detaches routes for later re-use.
+  //  */
+  // store(route: ActivatedRouteSnapshot, detachedTree: DetachedRouteHandle): void {}
 
-// // Store the information for the route we're destructing
-// store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-//   if (this.routesToCache.indexOf(this.getPath(route)) > -1) {
-//     console.log('storing');
-//     const path = this.getPath(route);
-//     console.log({storing: path});
-//     this.storedRouteHandles.set(path, handle);
-//     console.log(this.storedRouteHandles.entries());
-//   }
-// }
+  // /** Returns `false`, meaning the route (and its subtree) is never reattached */
+  // shouldAttach(route: ActivatedRouteSnapshot): boolean {
+  //   return false;
+  // }
 
-// // Return true if we have a stored route object for the next route
-// // Devuelve verdadero si tenemos un objeto de ruta almacenado para la siguiente ruta
-// shouldAttach(route: ActivatedRouteSnapshot): boolean {
-// return this.storedRouteHandles.has(this.getPath(route));
-// }
+  // /** Returns `null` because this strategy does not store routes for later re-use. */
+  // retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle|null {
+  //   return null;
+  // }
 
-// // If we returned true in shouldAttach(), now return the actual route data for restoration
-// // Si devolvimos verdadero en shouldAttach (), ahora devolvemos los datos de la ruta real para la restauración
-// retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-// return this.storedRouteHandles.get(this.getPath(route)) as DetachedRouteHandle;
-// }
-// // Reuse the route if we're going to and from the same route
-// // Reutilizar la ruta si vamos hacia y desde la misma ruta
-// shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-// // if (future.component && (<any>future.component).name == 'ShowComponent' ) {
-// // return false;
-// // }
-// return future.routeConfig === curr.routeConfig;
-// }
-// // Helper method to return a path,
-// // since javascript map object returns an object or undefined.
-// private getPath(route: ActivatedRouteSnapshot): string {
-//   const __path = route.pathFromRoot
-//   .map(v => v.url.map(segment => segment.toString()).join('/'))
-//   .join('/').replace(/\/\//g, '/');
-//   console.log( __path);
-//   return __path;
-// // let path = '';
-// // console.log(route.routeConfig);
-
-// // console.log(document.location.hash.replace('#', ''));
-// // let path = '';
-
-
-
-//   // if (route.routeConfig != null && route.routeConfig.path != null) {
-// // path = route.routeConfig.path;
-// // }
-// // return path;
-// }
-
-
+  // /**
+  //  * Determines if a route should be reused.
+  //  * This strategy returns `true` when the future route config and current route config are
+  //  * identical.
+  //  */
+  // shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
+  //   return future.routeConfig === curr.routeConfig;
+  // }
 }

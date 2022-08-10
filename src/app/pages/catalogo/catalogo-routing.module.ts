@@ -33,11 +33,11 @@ const routes: Routes = [
     component: PublicacionesComponent,
     data: {
       name: 'publicaciones',
-      reuse: true,
       permissions: {
         only: ['super-admin', permission_module.publicaciones.index],
         all: permission_module.publicaciones
       },
+
     },
   },
   {

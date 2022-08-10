@@ -24,7 +24,6 @@ const routes: Routes = [
         component: MarcasComponent,
         data: {
           name: 'marcas',
-          reuse: true,
           permissions: {
             only: ['super-admin', 'products-admin.brands.index'],
           },

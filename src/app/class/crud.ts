@@ -47,7 +47,6 @@ export abstract class Crud<T> {
   }
 
   getData(data) {
-    console.log(data);
     this.data = new Map<any, T>(data.map((item: T) => [item[this.key], item]));
   }
 

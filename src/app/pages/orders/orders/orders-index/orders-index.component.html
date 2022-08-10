@@ -356,6 +356,17 @@
             <th mat-header-cell *matHeaderCellDef>Compañía</th>
             <td mat-cell *matCellDef="let element">{{ element.company?.name }}</td>
           </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let element">${{ element.total }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="seller">
+            <th mat-header-cell *matHeaderCellDef>Vendedor</th>
+            <td mat-cell *matCellDef="let element">{{ element.seller_code }}</td>
+          </ng-container>
+
           <ng-container matColumnDef="started_at">
             <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Publicada</th>
             <td mat-cell *matCellDef="let element">
@@ -412,7 +423,7 @@
               </div>
             </td>
           </ng-container>
-          <ng-container matColumnDef="expandedDetail">
+          <!-- <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
               <div
                 class="example-element-detail"
@@ -426,20 +437,17 @@
                     <mat-chip>Total: ${{ element.total }}</mat-chip>
                     <mat-chip>Total pagado: ${{ element.total_paid }}</mat-chip>
                     <mat-chip>Vendedor: {{ element.seller_code }}</mat-chip>
-                    <!-- <mat-chip>Compañía:: ${{element.total_paid}}</mat-chip> -->
                   </mat-chip-list>
                 </div>
               </div>
             </td>
-          </ng-container>
+          </ng-container> -->
           <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
           <tr
             mat-row
             *matRowDef="let element; columns: columnsToDisplay"
-            class="example-element-row"
-            [class.example-expanded-row]="expandedElement === element"
-            (click)="expandedElement = expandedElement === element ? null : element"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+            ></tr>
+          <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
         </table>
       </div>
     </div>

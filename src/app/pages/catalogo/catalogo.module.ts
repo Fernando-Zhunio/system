@@ -39,7 +39,6 @@ import { TemplateSearchModule } from '../../Modulos/template-search/template-sea
 import { MatTreeModule } from '@angular/material/tree';
 import { ToolsModule } from '../../Modulos/tools/tools.module';
 import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
-// import { PromotionsIndexComponent } from './promotions/promotions-index/promotions-index.component';
 
 @NgModule({
   declarations: [ RepublicarCuentasModalComponent, PublicacionesComponent, CreateOrEditPublicacionComponent,PublicationComponent, ShowPublicationComponent, MenuMultiPublicationComponent, CreateOrEditMultipublicationComponent],

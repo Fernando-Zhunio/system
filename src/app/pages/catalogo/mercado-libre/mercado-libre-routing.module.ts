@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',
     component: MercadoLibreComponent,
-    data: { reuse: true, name: 'mercado_libre' },
+    data: { name: 'mercado_libre' },
   }
 ];
 

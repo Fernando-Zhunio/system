@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { CreateOrEditPriceComponent } from '../prices/create-or-edit-price/create-or-edit-price.component';
 import { CreateOrEditPromotionComponent } from './create-or-edit-promotion/create-or-edit-promotion.component';
 import { PromotionsIndexComponent } from './promotions-index/promotions-index.component';
 
@@ -12,7 +11,6 @@ const routes: Routes = [
     component: PromotionsIndexComponent,
     data: {
       name: 'promotions',
-      reuse: true,
       permissions: {
         only: ['super-admin', 'catalogs.promotions.index'],
       },

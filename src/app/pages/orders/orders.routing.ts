@@ -28,7 +28,8 @@ const routes = [
       permissions: {
         only: permissionsModuleRoutes.index,
         redirectTo: environment.ERROR_403_REDIRECT_URL
-      }
+      },
+      reuse: true
     },
     canActivate: [NgxPermissionsGuard],
   },

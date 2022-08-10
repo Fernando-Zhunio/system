@@ -24,7 +24,7 @@ const routes: Routes = [
       {
         path: '',
         component: CategoriasComponent,
-        data: {name: 'categories', reuse: true,}
+        data: {name: 'categories'}
       },
       {
         path: 'create',

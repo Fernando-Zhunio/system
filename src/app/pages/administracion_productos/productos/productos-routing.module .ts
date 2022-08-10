@@ -12,7 +12,7 @@ const routes: Routes = [
       {
         path: '',
         component: ProductosComponent,
-        data: {reuse: true, name: 'productos'}
+        data: { name: 'productos'}
       },
       {
         path: 'create',

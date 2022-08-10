@@ -21,6 +21,7 @@ import { EchoManager } from '../../../../class/echo-manager';
 import { StorageService } from '../../../../services/storage.service';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { LogOrderModalComponent } from '../log-order-modal/log-order-modal.component';
+import { ReuseComponent } from '../../../../interfaces/reuse-component';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -35,10 +36,16 @@ import { LogOrderModalComponent } from '../log-order-modal/log-order-modal.compo
     ]),
   ],
 })
-export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDestroy {
+export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDestroy, ReuseComponent<any> {
 
   constructor(private storage: StorageService, private dialog: MatDialog, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
     super();
+  }
+
+  loadInfo(): void {
+      // alert('loadInfo');
+      console.log('loadInfo');
+      this.changePaginator();
   }
 
   @ViewChild('filterOrderMin', { static: false }) dpMinDateElement: ElementRef;
@@ -85,7 +92,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   dpMin: any;
 
   dataSource: IOrder[] = [];
-  columnsToDisplay = ['id', 'type', 'status', 'client', 'channel', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'products', 'payments', 'company', 'created_at', 'started_at', 'ended_at', 'actions'];
+  columnsToDisplay = ['id', 'type', 'status', 'client', 'channel', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'products', 'payments', 'company', 'total', 'seller', 'created_at', 'started_at', 'ended_at', 'actions'];
   expandedElement: IOrder | null;
   workspaceSelect = null;
   workspaces: IOrderWorkspace[] = [];

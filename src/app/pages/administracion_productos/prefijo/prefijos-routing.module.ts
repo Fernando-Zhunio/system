@@ -21,7 +21,7 @@ const routes: Routes = [
       {
         path: '',
         component: PrefijoComponent,
-        data: {reuse: true, name: 'prefijos'}
+        data: { name: 'prefijos'}
 
       },
       {
