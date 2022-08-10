@@ -1,0 +1,37 @@
+<h1 matDialogTitle>Log - Orden: #{{dataExternal.order_id}}</h1>
+
+<mat-dialog-content>
+    <div>
+      <div>
+        <div class="d-flex" *ngFor="let log of dataLog">
+          <div class="line"><mat-chip class="mx-2" selected color="primary">{{log?.created_at | date: 'medium'}}</mat-chip></div>
+          <mat-card class="my-2 mt-4 col-md-5 item-log" >
+            <div class="">
+              <h3>Detalles</h3>
+              <div><span>Evento: </span><span>{{log?.event}}</span></div>
+              <div><span>Descripción: </span><span>{{log?.description}}</span></div>
+              <div><span>subject_id: </span><span>{{log?.subject_id}}</span></div>
+              <div><span>subject_type: </span><span>{{log?.subject_type}}</span></div>
+              <div><span>Creado: </span><span>{{log?.created_at | date: 'medium'}}</span></div>
+              <div><span>Nombre: </span><span>{{log?.causer.name}}</span></div>
+              <div><span>Email: </span><span>{{log?.causer.email}}</span></div>
+            </div>
+            <div>
+              <h3>Propiedades</h3>
+              <div *ngFor="let attribute of log?.properties.attributes | keyvalue">
+                <span>{{attribute.key}}:</span><span>{{attribute.value}}</span></div>
+            </div>
+            <div class="" *ngIf="log?.properties?.old">
+              <h3>Propiedades remplazadas</h3>
+              <div *ngFor="let attribute of log?.properties?.old | keyvalue">
+                <span>{{attribute.key}}:</span><span>{{attribute.value}}</span></div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button color="warn" matDialogClose>Cerrar</button>
+</mat-dialog-actions>

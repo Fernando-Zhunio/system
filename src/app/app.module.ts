@@ -241,7 +241,7 @@ registerLocaleData(localeEs, 'es');
       deps: [StorageService]
     },
 
-    { provide: DATE_PIPE_DEFAULT_TIMEZONE, useValue: "GMT" },
+    { provide: DATE_PIPE_DEFAULT_TIMEZONE, useValue: "GMT-5" },
 
 
     // {

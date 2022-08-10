@@ -385,7 +385,7 @@
                   color="primary"
                   class="mr-1"
                   (click)="openDetailOrder(element.id)">
-                  <mat-icon class="mat-18">visibility</mat-icon>
+                  <mat-icon>visibility</mat-icon>
                 </button>
                 <a
                   mat-icon-button
@@ -393,14 +393,21 @@
                   color="accent"
                   [href]="'#/system-orders/orders/' + element.id + '/edit'"
                   [routerLink]="['/system-orders/orders', element.id, 'edit']">
-                  <mat-icon class="mat-18">edit</mat-icon>
+                  <mat-icon>edit</mat-icon>
                 </a>
                 <button
                   mat-icon-button
                   *ngxPermissionsOnly="['super-admin']"
                   color="warn"
                   (click)="deleteOrder(element.id)">
-                  <mat-icon class="mat-18">delete</mat-icon>
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  *ngxPermissionsOnly="['super-admin']"
+                  color="primary"
+                  (click)="openLogOrder(element.id)">
+                  <mat-icon>hub</mat-icon>
                 </button>
               </div>
             </td>

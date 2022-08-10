@@ -45,6 +45,7 @@ import { DetailButtonSheetComponent } from './orders/edit-order/detail-button-sh
 import { CountdownModule } from 'ngx-countdown';
 import { MomentModule } from 'ngx-moment';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LogOrderModalComponent } from './orders/log-order-modal/log-order-modal.component';
 
 @NgModule({
   declarations: [DashboardOrdersComponent,
@@ -53,6 +54,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ClientComponent, AddItemTemplateComponent,
     CreateOrEditDiscountOrTaxOrderComponent, StateFlowOrderComponent,
     DetailButtonSheetComponent,
+    LogOrderModalComponent,
   ],
   imports: [
     CommonModule,

@@ -20,6 +20,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { EchoManager } from '../../../../class/echo-manager';
 import { StorageService } from '../../../../services/storage.service';
 import { SharedService } from '../../../../services/shared/shared.service';
+import { LogOrderModalComponent } from '../log-order-modal/log-order-modal.component';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -147,7 +148,6 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     })
   }
 
-
   getMyWorkspacesOrder(): void {
     this.standardService.methodGet(`system-orders/workspaces/me`)
       .subscribe(
@@ -247,5 +247,11 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
       this.isLoading = $event;
     }
     this.canLoading = true;
+  }
+
+  openLogOrder(id: number): void {
+    this.dialog.open(LogOrderModalComponent, {
+      data: { order_id: id },
+    });
   }
 }
