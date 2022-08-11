@@ -50,20 +50,6 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
   roles: any[] = [];
   emails = [];
   isSearchPerson = false;
-  // sexes = {};
-  // locations = [];
-  // cities = [];
-  // positions = [];
-  // title: string = 'Creando Usuario';
-  // userCurrent: IuserSystem;
-  // companies: Task = {
-  //   name: 'Todas las empresas',
-  //   active: false,
-  //   color: 'primary',
-  //   child: [],
-  // };
-  // state: 'create' | 'edit' = 'create';
-  // allComplete: boolean = false;
 
   ngOnInit(): void {
     this.init();
@@ -80,7 +66,6 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
 
   getPeople($event): void {
     this.people = $event.data;
-    console.log(this.people);
   }
 
   selectedPerson(id): void {
@@ -122,8 +107,12 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
       const data = {
         ...this.form.value,
         roles: roles,
-        person_id: this.personCurrent.id,
+        // person_id: this.personCurrent.id,
       };
+      if (this.status == 'create') {
+        data['person_id'] = this.personCurrent.id;
+      }
+
       return data;
     } else {
       SwalService.swalFire({ text: 'Faltan datos', icon: 'warning' });
@@ -138,6 +127,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
 
   setData(res): void {
     if (this.status == 'edit') {
+      this.form.get('email').setValue(res.email);
       this.assignData(res.roles, res.user.roles);
       this.personCurrent = res.person;
       if (!this.personCurrent) {
@@ -152,8 +142,6 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
           const emails = this.personCurrent.contact_info.filter((x) => x.type == 'corp_email');
           if (emails.length > 0) {
             this.emails = emails.map((x) => x.value);
-            console.log(this.emails, res.user.email);
-
             const email = this.emails.find(x => x == res.user.email) || null;
             this.form.get('email').setValue(email);
           } else {
@@ -167,7 +155,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
 
 
   go() {
-    SwalService.swalFire({ title: 'Usuario creado', icon: 'success' });
+    // SwalService.swalFire({ title: 'Usuario creado', icon: 'success' });
     this.location.back();
   }
 }
