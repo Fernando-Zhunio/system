@@ -46,6 +46,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { MomentModule } from 'ngx-moment';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LogOrderModalComponent } from './orders/log-order-modal/log-order-modal.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [DashboardOrdersComponent,
@@ -91,7 +92,8 @@ import { LogOrderModalComponent } from './orders/log-order-modal/log-order-modal
     MatSortModule,
     MatBottomSheetModule,
     MomentModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatProgressBarModule,
   ]
 })
 export class OrdersModule { }

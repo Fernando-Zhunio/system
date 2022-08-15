@@ -1,0 +1,19 @@
+.container-table {
+  position: relative;
+  table {
+    width: 100%;
+  }
+}
+
+td, th {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  max-width: 200px;
+}
+
+.is-loading {
+  position: absolute;
+  background: #ffffff71;
+  z-index: 2;
+  backdrop-filter: blur(3px);
+}

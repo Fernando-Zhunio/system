@@ -43,13 +43,13 @@
   </div>
 </ng-container>
 <ng-container *ngIf="!customTemplate">
-  <div
-    *ngIf="!isLoading"
-    [ngStyle]="{ 'column-count': columns }"
-    [ngClass]="{ 'card-columns': withCardColumns }"
-    class="mt-0">
-    <ng-content select="[data]"></ng-content>
-  </div>
+    <div
+      *ngIf="!isLoading && withCardColumns"
+      [ngStyle]="{ 'column-count': columns }"
+      [ngClass]="{ 'card-columns': withCardColumns }"
+      class="mt-0">
+      <ng-content select="[data]"></ng-content>
+    </div>
 </ng-container>
 <ng-container *ngIf="customLoader">
   <ng-content select="[customLoader]"></ng-content>

@@ -1,0 +1,35 @@
+<h1 matDialogTitle>{{product.name}}</h1>
+
+<mat-dialog-content>
+    <ng-container *ngIf="items?.length > 0 && !isLoading">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Bodega</th>
+            <th>Código</th>
+            <th>Tienda</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td>{{ item?.warehouse?.name }}</td>
+            <td>{{ item?.warehouse?.code }}</td>
+            <td>{{ item?.store?.store_name }}</td>
+            <td>{{ item?.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+    <div *ngIf="isLoading">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="items?.length < 1 && !isLoading">
+      No hay bodegas relacionadas a este producto.
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+      <button color="warn"mat-button matDialogClose>Cerrar</button>
+
+  </mat-dialog-actions>

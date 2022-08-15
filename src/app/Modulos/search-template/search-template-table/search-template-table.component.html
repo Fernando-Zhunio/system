@@ -1,0 +1,33 @@
+<app-header-search
+  [title]="title"
+  [init]="init"
+  [active_filters_menu]="active_filters_menu"
+  [filter_data]="filter_data"
+  [placeholder]="placeholder"
+  (isLoading)="isLoadingNow($event)"
+  [url]="url$"
+  (products)="loadData($event)">
+  <ng-content select="[menuBar]"></ng-content>
+  <ng-content filterMenu select="[filterMenu]"></ng-content>
+</app-header-search>
+
+<div class="container-table">
+  <div *ngIf="__isLoading" class="is-loading center w-100 h-100">
+    <div class="center">
+      <mat-spinner [diameter]="25"></mat-spinner>
+      <p class="m-0 ml-2">Cargando datos</p>
+    </div>
+  </div>
+  <div class="position-relative table-container shadow">
+    <ng-content select="[table]"></ng-content>
+  </div>
+</div>
+<mat-paginator
+  [hidden]="__isLoading"
+  *ngIf="products?.length > 0"
+  [pageSizeOptions]="[10, 20, 30]"
+  (page)="changePaginator($event)"
+  showFirstLastButtons
+  [pageSize]="paginator?.per_page"
+  [length]="paginator?.total"
+  [pageIndex]="paginator?.current_page - 1"></mat-paginator>

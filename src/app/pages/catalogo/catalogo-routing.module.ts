@@ -104,6 +104,10 @@ const routes: Routes = [
     path: 'promotions',
     data: { name: 'promotions' },
     loadChildren: () => import('./promotions/promotions.module').then(m => m.PromotionsModule),
+  },
+  {
+    path: 'rappi',
+    loadChildren: () => import('./rappi-products/rappi-products.module').then(m => m.RappiProductsModule),
   }
 ];
 
