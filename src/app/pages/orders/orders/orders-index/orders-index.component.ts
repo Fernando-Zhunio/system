@@ -77,11 +77,13 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     channel: null,
     guide: null,
     'warehouse[]': [],
+    company: null,
   };
 
   statuses: any[] = [];
   types: any[] = [];
   channels: { id: number, name: string }[] = [];
+  companies = [];
   isSearchWarehouse = false;
 
   warehousesSelected = new Map<number, string>();
@@ -116,7 +118,6 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   }
 
   listener(e): void {
-    // alert('listener');
     SharedService.disabled_loader = true;
     this.canLoading = false;
     this.changePaginator();
@@ -201,6 +202,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
         this.statuses = response.data.status;
         this.types = response.data.type;
         this.channels = response.data.channels;
+        this.companies = response.data.company_id;
         this.workspaceSelect = response.data.workspace_preference;
       },
       (error) => {

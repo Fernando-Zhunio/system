@@ -251,6 +251,24 @@
               </mat-chip-list>
             </mat-form-field>
           </div>
+          <!-- company -->
+          <div
+            mat-menu-item
+            [disableRipple]="true"
+            (click)="$event.stopPropagation()"
+            (keydown)="$event.stopPropagation()">
+            <mat-form-field class="w-100">
+              <mat-label>Compañía</mat-label>
+              <mat-select [(ngModel)]="filters.company">
+                <mat-option>
+                  <mat-icon color="warn">delete_forever</mat-icon>
+                  Limpiar selección
+                </mat-option>
+                <mat-option *ngFor="let company of companies | keyvalue" [value]="company.key">{{company.value}}</mat-option>
+
+              </mat-select>
+            </mat-form-field>
+          </div>
         </ng-container>
       </app-header-search>
     </div>
