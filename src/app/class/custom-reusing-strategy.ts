@@ -80,7 +80,6 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
     if (isLoad) {
       this.acuForLoad = 0;
     }
-    console.log({acuForLoad: this.acuForLoad, countForLoad: this.countForLoad});
     return isLoad;
   }
 

@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FilePondOptions } from 'filepond';
 import { environment } from '../../../../../environments/environment';
 import { Crud } from '../../../../class/crud';
+import { PermissionRappiProducts } from '../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { StorageService } from '../../../../services/storage.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -49,6 +50,7 @@ export class IndexRappiProductsComponent extends Crud<any> implements OnInit {
   };
   isOpenFileImport = false;
   data: Map<any, RappiProduct>;
+  permissions = PermissionRappiProducts
   ngOnInit() {
   }
 

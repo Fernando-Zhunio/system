@@ -239,7 +239,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   }
 
   addWarehouse(warehouse): void {
-    console.log(warehouse);
+    // console.log(warehouse);
     this.warehousesSelected.set(warehouse.id, warehouse);
     this.filters['warehouse[]'].push(warehouse.id);
 

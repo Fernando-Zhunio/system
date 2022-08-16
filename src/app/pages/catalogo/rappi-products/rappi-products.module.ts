@@ -14,6 +14,7 @@ import { FilePondModule } from 'ngx-filepond';
 import { StockRappiModalComponent } from './components/stock-rappi-modal/stock-rappi-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDialogModule,
     FilePondModule,
     MatProgressBarModule,
+    NgxPermissionsModule,
   ],
   declarations: [IndexRappiProductsComponent, StockRappiModalComponent]
 })

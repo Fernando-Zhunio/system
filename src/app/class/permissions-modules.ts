@@ -147,3 +147,9 @@ export const PermissionReportsOrders = {
   create:  ['system-orders.reports.create', 'super-admin'],
   destroy:  ['system-orders.reports.destroy', 'super-admin']
 }
+
+
+export const PermissionRappiProducts = {
+    index: ['catalogs.rappi.products.index', 'super-admin'],
+    edit: ['catalogs.rappi.products.edit', 'super-admin'],
+}

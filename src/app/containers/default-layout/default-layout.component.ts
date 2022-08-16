@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
 import { INotification, INotificationData } from '../../interfaces/inotification';
 import { AuthService } from '../../services/auth.service';
@@ -26,6 +26,7 @@ import { MethodsHttpService } from '../../services/methods-http.service';
 import { TEST_PERMISSIONS } from '../../class/permissionsAll';
 import { NotificationType } from '../../enums/notification.enum';
 import { INavData } from '../../interfaces/inav-data';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -283,8 +284,14 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       });
   }
 
+  calls = new Subject();
+
   unreadNotifications() {
-    this.methodsHttp.methodPost('notifications/mark-seen', {}).subscribe((res) => {
+    this.calls.next(true);
+    SharedService.disabled_loader = true;
+    this.methodsHttp.methodPost('notifications/mark-seen', {})
+    .pipe(takeUntil(this.calls),)
+    .subscribe((res) => {
       if (this.countNotificationUnRead > 0) {
         this.countNotificationUnRead = null;
       }
@@ -298,18 +305,28 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       this.downloadStock(notificationData.url);
       return;
     }
-    if (notificationData.route) {
+    if (notificationData?.route) {
       const urlOutHash = notificationData.route.replace('#/', '');
       const url_object: any = new URL(urlOutHash);
       const path_name = url_object.pathname;
+      console.log(this.route.url, path_name);
       const queryStrings = Array.from(url_object.searchParams.entries());
+      const query_ = {};
       if (queryStrings.length > 0) {
-        const query_ = {};
         queryStrings.forEach((item) => {
           query_[item[0]] = item[1];
         });
-        this.route.navigate([path_name], { queryParams: query_ });
-      } else { this.route.navigate([path_name]); }
+        // this.route.navigate([path_name], { queryParams: query_ });
+      }
+      this.redirectTo(path_name, query_);
+      // else { this.route.navigate([path_name]); }
+    }
+  }
+
+  redirectTo(uri: string, params: any = {}): void {
+    if (this.route.url !== uri) {
+      this.route.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.route.navigate([uri], { queryParams: params }));
     }
   }
 
