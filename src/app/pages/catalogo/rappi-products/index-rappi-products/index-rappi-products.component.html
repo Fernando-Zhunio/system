@@ -39,11 +39,11 @@
           <td mat-cell *matCellDef="let row">{{ row.created_at | date: "medium" }}</td>
         </ng-container>
         <ng-container matColumnDef="is_available">
-          <th mat-header-cell *matHeaderCellDef>Disponible</th>
+          <th mat-header-cell *matHeaderCellDef>Disponibles</th>
           <td mat-cell *matCellDef="let row">
             <!-- <ng-container *ngxPermissionsOnly="[]; else elseBlock; then: thenBlock"></ng-container> -->
             <ng-template
-              [ngxPermissionsOnly]="[permissions.edit]"
+              [ngxPermissionsOnly]="permissions.edit"
               [ngxPermissionsOnlyThen]="thenBlock"
               [ngxPermissionsOnlyElse]="elseBlock">
 

@@ -367,14 +367,12 @@
 <div class="btn-created-order">
   <button
     *ngIf="order?.status != 'cancelled'"
-    [disabled]="isPublishing"
     mat-raised-button
     (click)="changeStatusPublish()">
     Publicar <mat-icon>publish</mat-icon>
   </button>
   <button
-    *ngIf="order?.status == 'init'"
-    [disabled]="isPublishing"
+    *ngIf="order?.status != 'cancelled'"
     color="warn"
     mat-raised-button
     (click)="deleteOrder()"
