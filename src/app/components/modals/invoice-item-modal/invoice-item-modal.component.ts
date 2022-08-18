@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxGalleryAction, NgxGalleryAnimation,  NgxGalleryOptions} from 'ngx-gallery-9';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxGalleryImage } from '../../../class.class/NgxGalleryImage';
+import { NgxGalleryImage } from '../../../class/NgxGalleryImage';
 import {
   invoiceItem,
   Iresponse,
