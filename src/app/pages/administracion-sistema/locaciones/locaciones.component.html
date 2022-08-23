@@ -30,7 +30,7 @@
             </ng-container>
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef>Estado</th>
-              <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+              <td mat-cell *matCellDef="let element"><span class="badge" [ngClass]="element.status == 'active' ? 'bg-success': 'bg-danger'">{{ element.status }}</span></td>
             </ng-container>
             <ng-container matColumnDef="mba_code">
               <th mat-header-cell *matHeaderCellDef>Código mba</th>
@@ -60,20 +60,22 @@
             <ng-container matColumnDef="acciones" stickyEnd>
               <th mat-header-cell *matHeaderCellDef>Acciones</th>
               <td mat-cell *matCellDef="let element; let ind = index">
-                <button
-                  *ngxPermissionsOnly="permission_edit"
-                  mat-icon-button
-                  color="primary"
-                  [routerLink]="['./edit', element.id]">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  color="warn"
-                  *ngxPermissionsOnly="permission_destroy"
-                  (click)="deleteItem(element.id)">
-                  <mat-icon>delete</mat-icon>
-                </button>
+                <div class="d-flex">
+                  <button
+                    *ngxPermissionsOnly="permission_edit"
+                    mat-icon-button
+                    color="primary"
+                    [routerLink]="['./edit', element.id]">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    *ngxPermissionsOnly="permission_destroy"
+                    (click)="deleteItem(element.id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
               </td>
             </ng-container>
             <tr mat-header-row style="top: 67px" *matHeaderRowDef="displayedColumns"></tr>

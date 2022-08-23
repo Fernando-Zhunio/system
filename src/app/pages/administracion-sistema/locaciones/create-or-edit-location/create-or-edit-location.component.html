@@ -50,7 +50,7 @@
               </mat-form-field>
               <mat-form-field class="col-md-6">
                 <mat-label>Seleccione un tipo</mat-label>
-                <mat-select (selectionChange)="selectionType($event)" formControlName="type" required>
+                <mat-select  formControlName="type" required>
                   <mat-option *ngFor="let keyType of keyTypes" [value]="keyType">
                     {{ types[keyType] }}
                   </mat-option>
@@ -62,20 +62,20 @@
               </mat-form-field>
             </div>
 
-            <mat-form-field *ngIf="formLocation.get('type').value == 'store'" class="w-100">
-              <mat-label>Horarios</mat-label>
-              <textarea matInput formControlName="schedules"></textarea>
-              <mat-error *ngIf="formLocation.controls['schedules'].invalid">Horarios requerida</mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="w-100">
-              <mat-label>Seleccione un estado</mat-label>
-              <mat-select formControlName="status" required>
-                <mat-option value="active">Activo</mat-option>
-                <mat-option value="inactive">Inactivo</mat-option>
-              </mat-select>
-              <mat-error *ngIf="formLocation.controls['status'].invalid">Estado Requerido</mat-error>
-            </mat-form-field>
+            <div class="row w-100">
+              <mat-form-field class="col-md-6">
+                <mat-label>Código mba</mat-label>
+                <input matInput formControlName="mba_code"/>
+              </mat-form-field>
+              <mat-form-field class="col-md-6">
+                <mat-label>Seleccione un estado</mat-label>
+                <mat-select formControlName="status" required>
+                  <mat-option value="active">Activo</mat-option>
+                  <mat-option value="inactive">Inactivo</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formLocation.controls['status'].invalid">Estado Requerido</mat-error>
+              </mat-form-field>
+            </div>
             <mat-form-field class="w-100">
               <mat-label>Latitud</mat-label>
               <input matInput formControlName="latitude" type="number" />
@@ -88,7 +88,7 @@
             </mat-form-field>
           </div>
         </div>
-        <!-- <div *ngIf="formLocation.get('type').value == 'store'" class="col-md-6">
+        <div *ngIf="formLocation.get('type').value == 'store'" class="col-md-6">
           <h3 class="font-4xl m-0 p-2">Horario</h3>
           <div class="p-2 rounded-fz shadow">
             <table class="table-borderless table table-sm">
@@ -223,9 +223,9 @@
               </tbody>
             </table>
           </div>
-        </div> -->
+        </div>
         <div class="col-md-6">
-          <div class="position-relative w-100 container p-0 shadow-lg rounded-lg mb-3">
+          <div class="position-relative w-100 container p-0 shadow-lg rounded-fz overflow-hidden mb-3">
             <div #mapElement id="map"></div>
             <div class="coordinate px-md-5 px-1">
               Longitud : {{ coordinate?.longitud }}

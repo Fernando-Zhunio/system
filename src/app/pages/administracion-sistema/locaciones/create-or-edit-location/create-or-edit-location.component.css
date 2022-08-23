@@ -38,8 +38,8 @@ input[type=time]{
     -moz-appearance: none;
     appearance: none;
     border: 2px solid #ccc;
-    border-radius: 11px;
-    padding: 5px;
+    border-radius: 10px;
+    padding: 7px;
     width: 90%;
     background: #fff;
     color: #000;
@@ -47,31 +47,17 @@ input[type=time]{
     position: relative;
 }
 
-/* input[type=time]::-webkit-datetime-edit-hour-field {
-    background-color: #f2f4f5;
-    border-radius: 15%;
-    padding: 19px 13px;
-  }
-
-  input[type=time]::-webkit-datetime-edit-minute-field {
-    background-color: #f2f4f5;
-    border-radius: 15%;
-    padding: 19px 13px;
-  } */
 
 .suffix-fill  button {
-    /* content: "ml"; */
     position: absolute;
     top: 0px;
     right: 27px;
-    /* transform: translateY(-50%); */
-    /* width: 0;
-    height: 0; */
-    /* border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #ccc; */
 }
 
 td{
     vertical-align: middle;
+}
+
+tbody tr > td:first-child{
+  font-size: 1rem !important;
 }
