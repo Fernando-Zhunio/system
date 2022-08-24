@@ -4,10 +4,6 @@
     "paths": {
       "@angular/*": [
         "./node_modules/@angular/*"
-      ],
-      "ngx-bar-search": [
-        "dist/ngx-bar-search/ngx-bar-search",
-        "dist/ngx-bar-search"
       ]
     },
     "importHelpers": true,

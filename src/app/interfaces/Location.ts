@@ -9,6 +9,7 @@ export interface Location {
     company_id: string;
     created_at: string;
     status: string;
+    mba_code: string;
     city: {
         id: number;
         name: string;
