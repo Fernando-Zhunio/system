@@ -60,7 +60,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     per_page: 10,
     total: 0
   }
-  filters = {
+  filters: any = {
     'status[]': [],
     minDate: null,
     maxDate: null,
@@ -117,7 +117,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     this.echo.private('orders-system.orders').listen('.order', this.listener.bind(this));
   }
 
-  listener(e): void {
+  listener(_e): void {
     SharedService.disabled_loader = true;
     this.canLoading = false;
     this.changePaginator();
@@ -167,7 +167,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
       )
   }
 
-  getData($event: IResponse<IPaginate<any>>): void {
+  override getData($event: IResponse<IPaginate<any>>): void {
     this.dataSource = $event.data.data;
     this.detailPaginator.current_page = $event.data.current_page;
     this.detailPaginator.per_page = $event.data.per_page;
@@ -182,7 +182,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     this.standardService.methodPut(`system-orders/workspaces/preference/${event.value}`)
       .subscribe(
         {
-          next: (res) => {
+          next: () => {
             this.headerComponent.searchBar(null);
           }
         }
@@ -205,7 +205,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
         this.companies = response.data.company_id;
         this.workspaceSelect = response.data.workspace_preference;
       },
-      (error) => {
+      () => {
         this.snackBar.open('Error al cargar los datos', 'Cerrar', {
           duration: 5000,
         });
@@ -226,7 +226,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
         if (result.isConfirmed) {
           this.standardService.methodDelete(`system-orders/orders/${id}`).subscribe(
             {
-              next: (response) => {
+              next: () => {
                 this.snackBar.open('Orden eliminada', 'Cerrar', {
                   duration: 5000,
                 });

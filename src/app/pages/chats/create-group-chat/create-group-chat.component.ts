@@ -25,27 +25,26 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
   isEditable = false;
   page: number = 1;
   searchText: string = '';
-  img: {file: File, base64: string} = {file: null, base64: 'assets/img/user_group.png'};
+  img: {file: File | null, base64: string | null} = {file: null, base64: 'assets/img/user_group.png'};
   nameGroup: string = '';
-  isLoading: boolean = false;
+  override isLoading: boolean = false;
 
   public urlSave: any = 'chats/groups';
-  public params: any = '?page=&search=';
+  public override params: any = '?page=&search=';
   public title: string = 'Chat grupal - ';
 
-  isFormParams: boolean = true;
+  override isFormParams: boolean = true;
   ngOnInit(): void {
     this.init();
   }
 
-  setData(data: any): void {
+  override setData(data: any): void {
     if ( this.status != 'edit' ) {
       this.users = new Map<any, IuserSystem>( data.data.map((item) => [item.id, item]));
     } else {
       const _chat = data.chat as Ichats;
       this.nameGroup = _chat.name;
-      this.img.base64 = _chat.img;
-      // const participants = _chat.participants.filter((item) => item.id != _chat.user.id);
+      this.img.base64 = _chat.img!;
       const participants = data.participants;
       this.users = new Map<any, IuserSystem>( data.users.data.map((item) => [item.id, item]));
       this.usersSelect = new Map<any, any>( participants.map((item) => [item.id, {...item, isAdmin: _chat.admins.includes(item._id)} ]));
@@ -59,12 +58,12 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
       const res = data.data;
       this.users = new Map<any, IuserSystem>( res.data.map((item) => [item.id, item]));
       this.isLoading = false;
-  }, error => { this.isLoading = false; });
+  }, () => { this.isLoading = false; });
   }
 
   addUser(user_id): void {
     if (!this.usersSelect.has(user_id)) {
-      const userAdd = this.users.get(user_id);
+      const userAdd = this.users.get(user_id)!;
       userAdd['isAdmin'] = false;
       this.usersSelect.set(user_id, userAdd);
     }
@@ -93,7 +92,7 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
     this.img.base64 = e.srcElement.result;
   }
 
-  getDataForSendServer(): boolean|FormData {
+  override getDataForSendServer(): boolean|FormData {
     if (this.usersSelect.size < 2 || !this.nameGroup || this.nameGroup.length < 3) {
       SwalService.swalFire({icon: 'error', text: 'Faltan campos por llenar \n 1. Debe tener un minimo de dos usuarios para ser un chat grupal\n 2. Debe tener un nombre de grupo', position: 'center'});
       return false;
@@ -114,7 +113,7 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
     }
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['/home/inicio']);
   }
 }

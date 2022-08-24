@@ -5,7 +5,6 @@ import { CreateOrEditPaymentOrderComponent } from './create-or-edit-payment-orde
 import { IPaymentOrder } from './../../../../../interfaces/iorder';
 import { SwalService } from '../../../../../services/swal.service';
 import { MatSelectChange } from '@angular/material/select';
-import { StorageService } from '../../../../../services/storage.service';
 import { FilesPaymentsOrderComponent } from './filesPaymentsOrder/filesPaymentsOrder.component';
 import { TransactionsPaymentComponent } from './transactions-payment/transactions-payment.component';
 import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
@@ -18,7 +17,7 @@ import { PermissionOrdersPayments } from '../../../../../class/permissions-modul
 })
 export class PaymentOrderComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private standard: StandartSearchService, private s_storage: StorageService) { }
+  constructor(private dialog: MatDialog, private standard: StandartSearchService) { }
   @Input() order_id: number;
   @Input() isCancelled: boolean;
   // @Input() paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
@@ -26,7 +25,7 @@ export class PaymentOrderComponent implements OnInit {
   @Output() change = new EventEmitter<string>();
 
   isOpenUploadFile = false;
-  idUploadFile: number = null;
+  idUploadFile: number | null = null;
   urlUploadFile: string = 'api/';
   hasFile = false;
 
@@ -34,7 +33,7 @@ export class PaymentOrderComponent implements OnInit {
 
   ngOnInit() { }
 
-  openDialog(id: number = null) {
+  openDialog(id: number | null = null) {
     const payment = this.payments.find(x => x.id === id);
     this.dialog.open(CreateOrEditPaymentOrderComponent, {
       data: {
@@ -67,7 +66,7 @@ export class PaymentOrderComponent implements OnInit {
   deleteItem(order_id: number, id: number): void {
     SwalService.swalConfirmation('Precaución', 'Esta seguro que desea eliminar', 'warning').then(result => {
       if (result.isConfirmed) {
-        this.standard.methodDelete(`system-orders/orders/${order_id}/payments/${id}`).subscribe(data => {
+        this.standard.methodDelete(`system-orders/orders/${order_id}/payments/${id}`).subscribe(() => {
           SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Se elimino correctamente' });
           this.change.emit('delete');
         });
@@ -93,15 +92,15 @@ export class PaymentOrderComponent implements OnInit {
             if (res?.success) {
               this.change.emit('update status');
             }
-          }, err => {
-            select.source.value = payment.status;
+          }, () => {
+            select.source.value = payment?.status;
           });
         } else {
           console.log(select);
-          select.source.value = payment.status;
+          select.source.value = payment?.status;
         }
-      }).catch(err => {
-        select.source.value = payment.status;
+      }).catch(() => {
+        select.source.value = payment?.status;
       });
   }
 
@@ -110,7 +109,7 @@ export class PaymentOrderComponent implements OnInit {
     SwalService.swalFire(
       {
         title: 'Reembolso',
-        text: `¿Está seguro de reembolsar el pago de $ ${payment.amount}?`,
+        text: `¿Está seguro de reembolsar el pago de $ ${payment?.amount}?`,
         icon: 'warning',
         cancelButtonText: 'No, Cancelar',
         confirmButtonText: 'Si, rembolsar',
@@ -129,12 +128,12 @@ export class PaymentOrderComponent implements OnInit {
   }
 
 
-  successFiles(event): void {
+  successFiles(_event): void {
     this.hasFile = false;
   }
 
   lookTransaction(id): void {
-    
+
     this.dialog.open(TransactionsPaymentComponent, {
       data: { order_id: this.order_id, payment_id: id }
     });

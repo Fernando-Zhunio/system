@@ -16,9 +16,9 @@ export class VersusCitiesComponent  extends VersusChart<Icity> implements OnInit
   constructor(spinner: NgxSpinnerService,  s_standart: StandartSearchService) {
     super(spinner, s_standart);
   }
-  url = 'dashboard/versus/countries/1/cities';
-  urlDashboard: string = 'dashboard/stats/graph';
-  key: string = EKeyDashboard.city_sales;
+  override url = 'dashboard/versus/countries/1/cities';
+  override urlDashboard: string = 'dashboard/stats/graph';
+  override key: string = EKeyDashboard.city_sales;
 
   ngOnInit(): void {
     this.airDate = new AirDatepicker('#input-date-cities', this.optionsDate as any);

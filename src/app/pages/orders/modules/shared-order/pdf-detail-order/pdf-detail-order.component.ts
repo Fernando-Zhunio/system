@@ -25,7 +25,7 @@ export class PdfDetailOrderComponent implements OnInit {
   warehouses: Map<number, Iwarehouse> = new Map();
   warehouseSelected: Map<number, Iwarehouse> = new Map();
   itemsPdf: Map<number, DataWarehouse> = new Map();
-  currentItemPdf: DataWarehouse;
+  currentItemPdf: DataWarehouse | null;
   isOpenSearchWarehouse = false;
   itemsOrder: Map<number, IItemOrder> = new Map();
   client: IClientOrder;
@@ -47,7 +47,7 @@ export class PdfDetailOrderComponent implements OnInit {
     if (!this.currentItemPdf) {
       this.currentItemPdf = new DataWarehouse();
     }
-    this.currentItemPdf.warehouse = this.warehouses.get(key);
+    this.currentItemPdf.warehouse = this.warehouses.get(key)!;
     this.isOpenSearchWarehouse = false;
   }
 
@@ -70,9 +70,12 @@ export class PdfDetailOrderComponent implements OnInit {
   }
 
   quitItem(id): void {
-    const itemSelected = this.currentItemPdf.items.get(id);
-    this.itemsOrder.get(id).quantity = Number.parseInt(this.itemsOrder.get(id).quantity.toString()) + itemSelected.quantity;
-    this.currentItemPdf.items.delete(id);
+    const itemSelected = this.currentItemPdf!.items.get(id)!;
+    const orderItem = this.itemsOrder.get(id);
+    if (orderItem && itemSelected) {
+      orderItem.quantity = Number.parseInt(orderItem.quantity.toString()) + itemSelected.quantity;
+    }
+    this.currentItemPdf!.items.delete(id);
   }
 
   saveItemPdf(): void {
@@ -81,7 +84,6 @@ export class PdfDetailOrderComponent implements OnInit {
         this.snackbar.open('Ya existe una lista para la bodega', 'Cerrar', { duration: 4000 });
         return;
       }
-      console.log(this.itemsPdf);
       this.itemsPdf.set(this.currentItemPdf.warehouse.id, this.currentItemPdf);
       this.currentItemPdf = null;
     } else {
@@ -91,8 +93,12 @@ export class PdfDetailOrderComponent implements OnInit {
   }
 
   removeAllItems(id): void {
-    this.itemsPdf.get(id).items.forEach((value, key) => {
-      this.itemsOrder.get(key).quantity = Number.parseInt(this.itemsOrder.get(key).quantity.toString()) + value.quantity;
+    this.itemsPdf.get(id)?.items.forEach((value, key) => {
+      const itemOrder = this.itemsOrder.get(key);
+      if (itemOrder) {
+        itemOrder.quantity = Number.parseInt(itemOrder?.quantity.toString()) + value.quantity;
+
+      }
     });
     this.itemsPdf.delete(id);
   }
@@ -186,23 +192,6 @@ export class PdfDetailOrderComponent implements OnInit {
               }
             }
           ]
-          // [
-          //   { text: 'Totales', fontSize: 20, bold: true, margin: [0, 10, 0, 5] },
-          //   {
-          //     layout: 'noBorders',
-          //     table: {
-          //       body: [
-          //         ['Subtotal Productos:','$'+ this.dataExternal.order?.products_subtotal],
-          //         ['Envío:', '$'+ this.dataExternal.order?.shipping],
-          //         ['Descuento:', {text: '$'+ (-Math.abs(this.dataExternal.order?.discount)), color: 'red'}],
-          //         ['Impuesto:', '$'+ this.dataExternal.order?.tax],
-          //         ['Subtotal:', '$'+ this.dataExternal.order?.subtotal],
-          //         ['Total:', '$'+ this.dataExternal.order?.total],
-          //         // ['Total pagado:', '$'+ this.dataExternal.order?.total_paid],
-          //       ]
-          //     }
-          //   }
-          // ]
         ]
       },
     ]
@@ -210,7 +199,7 @@ export class PdfDetailOrderComponent implements OnInit {
 
   getUserSystem(): string {
     const user = this.storage.getCurrentUser();
-    return user?.name ? user.name : user.email;
+    return user?.name ? user.name : user?.email!;
   }
 
   generateBodyPdf(): any {
@@ -220,12 +209,11 @@ export class PdfDetailOrderComponent implements OnInit {
         fontSize: 20,
         bold: true,
         margin: [0, 10, 0, 0]
-        // decoration: 'underline'
       }
     ]
 
-    const warehouses = []
-    this.itemsPdf.forEach((value, key) => {
+    const warehouses: any[] = []
+    this.itemsPdf.forEach((value) => {
       const warehouse = [{
         margin: [0, 10, 0, 0],
         text:
@@ -249,7 +237,7 @@ export class PdfDetailOrderComponent implements OnInit {
       },
       { text: 'Productos:', fontSize: 14, bold: true },
       {
-        ol: Array.from(value.items.values()).map((item, key) => {
+        ol: Array.from(value.items.values()).map((item) => {
           return [
             [
               {
@@ -286,14 +274,14 @@ export class PdfDetailOrderComponent implements OnInit {
     return dataReturn;
   }
 
-  async getBase64Image(url): Promise<any> {
+  async getBase64Image(_url): Promise<any> {
     const img = new Image();
     img.setAttribute('crossOrigin', 'anonymous');
     img.onload = async () => {
       const canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d")!;
       ctx.drawImage(img, 0, 0);
       const dataURL = canvas.toDataURL("image/png");
       console.log(dataURL)
@@ -319,7 +307,7 @@ class DataWarehouse {
 
   addItem(item: IItemOrder, quantity: any): void {
     if (this.items.has(item.id)) {
-      this.items.get(item.id).quantity += Number.parseInt(quantity);
+      this.items.get(item.id)!.quantity += Number.parseInt(quantity);
       return;
     }
     this.items.set(item.id, {

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 export interface Iswal {
   background?: string; // #fff
@@ -46,21 +45,17 @@ declare let Swal: any;
   providedIn: 'root',
 })
 export class SwalService {
-  constructor(private route: Router) { }
+  constructor() { }
 
   /**
-   * 
+   *
    * @param allowEscapeKey  Si se establece en falso, el usuario no puede descartar la ventana emergente presionando la tecla Esc. También puede pasar una función personalizada que devuelva un valor booleano, p. si desea deshabilitar la tecla Esc para el estado de carga de una ventana emergente.
    *  @param allowOutsideClick Si se establece en false , el usuario no puede descartar la ventana emergente haciendo clic fuera de ella.
 También puede pasar una función personalizada que devuelva un valor booleano, por ejemplo, si desea deshabilitar los clics externos para el estado de carga de una ventana emergente.
     * @param cancelButtonText Use esto para cambiar el texto en el botón "Denegar".
-   * @returns 
+   * @returns
    */
   public static swalFire(
-    // title,
-    // icon = "success",
-    // position:  "top-end",
-    // timer = 1500
     iswal: Iswal = {
       title: 'Falta titulo',
       icon: 'success',
@@ -121,7 +116,7 @@ También puede pasar una función personalizada que devuelva un valor booleano, 
     });
   }
 
-  public static swalToast(title, icon = 'success', position = 'top-end', top = 50) {
+  public static swalToast(title, icon = 'success', position = 'top-end') {
     const title_html = `<div class="d-flex font-weight-bold">${title}</div>`;
 
     const Toast = Swal.mixin({
@@ -144,21 +139,19 @@ También puede pasar una función personalizada que devuelva un valor booleano, 
       icon,
       title: title_html,
       customClass: {
-        // container: "p-2",
         popup: 'p-2',
       },
     });
   }
 
   public static swalToastNotification(
-    router,
     name_user,
     title,
     icon = 'info',
-    url_img = null,
+    url_img: any = null,
     url,
     position = 'top-end',
-    callback = null
+    callback: Function | null = null
   ) {
     if (icon === 'default') { icon = 'success'; }
     const Toast = Swal.mixin({

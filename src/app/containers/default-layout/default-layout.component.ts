@@ -61,8 +61,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public isProgressDownloadReport: boolean = false;
   public isDownloadStock: boolean = false;
 
-  countNotificationUnRead: number = null;
-  notificationWeb: NotificationsWebPush = null;
+  countNotificationUnRead: number | null = null;
+  notificationWeb: NotificationsWebPush | null = null;
   countMessages: any = null;
   echo: Echo;
   user: any;
@@ -122,9 +122,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   hasDarkTheme() {
-    if (localStorage.getItem('isDark')) {
-      this.onSetTheme({ checked: JSON.parse(localStorage.getItem('isDark')) });
-      this.isDark = JSON.parse(localStorage.getItem('isDark'));
+    const isDark = localStorage.getItem('isDark');
+    if (isDark) {
+      this.onSetTheme({ checked: JSON.parse(isDark) });
+      this.isDark = JSON.parse(isDark);
     }
   }
 
@@ -137,9 +138,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         if (res == undefined) {
           this.addPersonModal(user);
         } else {
-          const user_current = this.s_storage.getCurrentUser();
-          user_current.person = res;
-          this.s_storage.setCurrentUser(user_current);
+          const userCurrent = this.s_storage.getCurrentUser();
+          if (userCurrent) {
+            userCurrent.person = res;
+            this.s_storage.setCurrentUser(userCurrent);
+          }
         }
       });
   }
@@ -201,7 +204,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   searchPage(e): void {
     // console.log(e);
-    this.navItems = this.auxSearchPage.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase()));
+    this.navItems = this.auxSearchPage.filter(
+      (item: any) => item?.name.toLowerCase().includes(e.target.value.toLowerCase()));
   }
 
   getPermissionAndVersionServerTest() {
@@ -259,24 +263,25 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
         if (notify.type === 'App\\Notifications\\ErrorPriceNotification') {
           this.store.dispatch(idlePrice());
         }
-        const data_rendered = notify.data;
+        const notificationData = notify.data;
         let name_user = 'System';
         if (
-          data_rendered.user.hasOwnProperty('person') &&
-          data_rendered.user.person
+          notificationData.user.hasOwnProperty('person') &&
+          notificationData.user.person
         ) {
-          name_user = `${data_rendered.user.person.first_name} ${data_rendered.user.person.last_name}`;
+          name_user = `${notificationData.user.person.first_name} ${notificationData.user.person.last_name}`;
         } else {
-          name_user = data_rendered.user.name;
+          name_user = notificationData.user.name;
         }
-        this.countNotificationUnRead = this.countNotificationUnRead + 1;
-        const url = data_rendered.route;
+        if (this.countNotificationUnRead) {
+          this.countNotificationUnRead = this.countNotificationUnRead + 1;
+        }
+        const url = notificationData.route;
         SwalService.swalToastNotification(
-          this.route,
           name_user,
-          data_rendered.text,
-          data_rendered.type,
-          data_rendered.image,
+          notificationData.text,
+          notificationData.type,
+          notificationData.image,
           url,
           'top-end',
           this.goRouteNotification.bind(this)
@@ -292,7 +297,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.methodsHttp.methodPost('notifications/mark-seen', {})
     .pipe(takeUntil(this.calls),)
     .subscribe((res) => {
-      if (this.countNotificationUnRead > 0) {
+      if (this.countNotificationUnRead && this.countNotificationUnRead > 0) {
         this.countNotificationUnRead = null;
       }
       if (res && res.hasOwnProperty('success') && res.success) {
@@ -313,7 +318,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       const queryStrings = Array.from(url_object.searchParams.entries());
       const query_ = {};
       if (queryStrings.length > 0) {
-        queryStrings.forEach((item) => {
+        queryStrings.forEach((item: any) => {
           query_[item[0]] = item[1];
         });
         // this.route.navigate([path_name], { queryParams: query_ });
@@ -363,7 +368,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
               this.progressDownloadReport = 0;
             }, 1500);
         }
-      }, (err) => { this.isProgressDownloadReport = false; });
+      }, () => { this.isProgressDownloadReport = false; });
   }
 
   changeDark(value) {
@@ -391,7 +396,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
           }
           event.source.disabled = false;
         },
-        (err) => {
+        () => {
           event.checked = !event.checked;
           event.source.disabled = false;
         }

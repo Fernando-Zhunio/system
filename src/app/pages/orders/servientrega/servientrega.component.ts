@@ -29,7 +29,7 @@ export class ServientregaComponent implements OnInit {
     this.btnSheet.open(SelectedViewServientregaPdfComponent).afterDismissed()
       .subscribe(res => {
         if (res) {
-          let url = null;
+          let url: any = null;
           switch (res) {
             case 'docs':
               url = `system-orders/orders/${order_id}/shippings/${id}/servientrega/tracking-pdf`;

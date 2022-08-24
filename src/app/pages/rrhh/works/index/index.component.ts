@@ -17,35 +17,38 @@ export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
   constructor(private s_serviceStandart: StandartSearchService) {
     super();
   }
-  @ViewChild(HeaderSearchComponent)  headerComponent: HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;
   url: string = 'rrhh/works';
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   deleteWork(id: number) {
     const work = this.products.find((x) => x.id === id);
-    SwalService.swalConfirmation(
-      'Eliminación Empleo',
-      '¿Está seguro de eliminar este Empleo?',
-      'question',
-      'Si, eliminar',
-      'No, cancelar'
-    ).then((result) => {
-      if (result.isConfirmed) {
-    work['isLoading'] = true;
-        this.s_serviceStandart
-          .destory(`rrhh/works/${work.id}`)
-          .subscribe((res) => {
-    work['isLoading'] = false;
-            if (res && res.hasOwnProperty('success') && res.success) {
-              const index = this.products.findIndex(
-                (i) => i.id == id
-              );
-              this.products.splice(index, 1);
-            }
-          }, (err) => {work['isLoading'] = false; });
-      }
-    });
+    if (work) {
+      SwalService.swalConfirmation(
+        'Eliminación Empleo',
+        '¿Está seguro de eliminar este Empleo?',
+        'question',
+        'Si, eliminar',
+        'No, cancelar'
+      ).then((result) => {
+        if (result.isConfirmed) {
+          work['isLoading'] = true;
+          this.s_serviceStandart
+            .destory(`rrhh/works/${work.id}`)
+            .subscribe((res) => {
+              work['isLoading'] = false;
+              if (res && res.hasOwnProperty('success') && res.success) {
+                const index = this.products.findIndex(
+                  (i) => i.id == id
+                );
+                this.products.splice(index, 1);
+              }
+            }, () => { work['isLoading'] = false; });
+        }
+      });
+
+    }
   }
 
 

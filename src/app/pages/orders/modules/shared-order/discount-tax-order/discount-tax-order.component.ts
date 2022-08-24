@@ -24,7 +24,7 @@ export class DiscountTaxOrderComponent implements OnInit {
   ngOnInit() {
   }
 
-  openDialogCreateOrEditDiscountOrTax(id: number = null): void {
+  openDialogCreateOrEditDiscountOrTax(id: number | null = null): void {
     console.log(id);
     this.dialog.open(CreateOrEditDiscountOrTaxOrderComponent, {
       width: '500px',

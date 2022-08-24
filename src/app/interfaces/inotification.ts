@@ -1,13 +1,6 @@
 import { Cperson } from '../class/cperson';
 
 export interface INotificationData {
-  // created_at: string;
-  // data: {
-  // icon: string;
-  // text: string;
-  // type: string;
-  // url: string;
-  // image?:string;
   body: string;
   icon: string;
   image: string;
@@ -17,8 +10,6 @@ export interface INotificationData {
   type: string;
   url: string;
   user: Iuser;
-  // };
-  // read_at: string;
 }
 
 export interface INotification {

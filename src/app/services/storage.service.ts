@@ -13,7 +13,7 @@ const CryptoJS = require('crypto-js');
 })
 export class StorageService {
 
-  private currentSession: Session | boolean = null;
+  private currentSession: Session | boolean | null = null;
 
   constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {}
 
@@ -54,13 +54,19 @@ export class StorageService {
   }
 
   loadSessionData(): Session | boolean {
-    let sessionStr = null;
+    let sessionStr: any = null;
     try {
-      sessionStr = JSON.parse(this.decryptAes(localStorage.getItem('914068895aa792bc7577dab10e7cf4e4')));
+      const dataConvert = this.decryptAes(localStorage.getItem('914068895aa792bc7577dab10e7cf4e4'));
+      if (dataConvert) {
+        sessionStr = JSON.parse(dataConvert) as Session;
+        return sessionStr;
+      }
+      return false;
+      // sessionStr = JSON.parse( dataConvert);
     } catch (e) {
       return false;
     }
-    return sessionStr;
+    // return sessionStr;
   }
 
   getCurrentSession(): Session {
@@ -69,12 +75,12 @@ export class StorageService {
 
 
 
-  getCurrentUser(): User {
+  getCurrentUser(): User | null {
     const session: Session = this.getCurrentSession();
     return (session && session.user) ? session.user : null;
   }
 
-  getCurrentPerson(): Cperson {
+  getCurrentPerson(): Cperson | null {
     const session = this.getCurrentSession();
     return (session && session.user.person) ? session.user.person : null;
   }
@@ -89,7 +95,7 @@ export class StorageService {
   encryptedAes(text: string): string {
     return CryptoJS.AES.encrypt(text, 'fernando-zhunio-reyes').toString();
   }
-  decryptAes(text: string): string {
+  decryptAes(text: string | null): string | null {
     if (text) {
       return CryptoJS.AES.decrypt(text, 'fernando-zhunio-reyes').toString(CryptoJS.enc.Utf8);
     }
@@ -97,7 +103,7 @@ export class StorageService {
   }
 
   getPermissionUser(): any[] {
-    const user: User = this.getCurrentUser();
+    const user: User | null = this.getCurrentUser();
     return (user) ? user?.permission : null;
   }
 
@@ -105,13 +111,18 @@ export class StorageService {
     return (this.getCurrentToken() != null) ? true : false;
   }
 
-  getCurrentToken(): string {
+  getCurrentToken(): string | null {
     const session = this.getCurrentSession();
+
     return (session && session.token) ? session.token : null;
   }
 
   getItemLocalStorage(key): any {
-    return JSON.parse(this.decryptAes(localStorage.getItem(key)));
+    const dataConvert = this.decryptAes(localStorage.getItem(key));
+    if (dataConvert) {
+      return JSON.parse(dataConvert);
+    }
+    return null;
   }
 
   hasItemLocalStorage(key): boolean {
@@ -125,8 +136,7 @@ export class StorageService {
   logout(): void {
     this.removeCurrentSession();
     this.activatedRoute.data.subscribe(res => {
-      console.log(res);
-      if (res?.guard != 'guest') {
+      if (res['guard'] != 'guest') {
         this.router.navigate(['/login']);
       }
     })
@@ -142,7 +152,11 @@ export class StorageService {
   }
 
   getUsersChat(): any {
-    return JSON.parse(this.decryptAes(localStorage.getItem('users-chat')));
+    const dataConvert = this.decryptAes(localStorage.getItem('users-chat'))
+    if (dataConvert) {
+      return JSON.parse(dataConvert);
+    }
+    return null;
   }
 
 }

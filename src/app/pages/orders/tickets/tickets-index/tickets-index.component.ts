@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { PermissionOrders, PermissionOrdersTickets } from '../../../../class/permissions-modules';
-import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { SearchTemplateComponent } from '../../../../components/search-template/search-template.component';
 import { IOrderWorkspace, ITicketOrder } from '../../../../interfaces/iorder';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
@@ -56,7 +55,7 @@ export class TicketsIndexComponent implements OnInit {
     this.methodsHttp.methodPut(`system-orders/workspaces/preference/${event.value}`)
       .subscribe(
         {
-          next: (res) => {
+          next: () => {
             this.headerComponent.searchNow();
           }
         }

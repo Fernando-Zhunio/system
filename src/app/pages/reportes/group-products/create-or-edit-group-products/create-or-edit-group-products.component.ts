@@ -1,8 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import Spreadsheet from '/assets/spreadsheet_trial/codebase/spreadsheet.js';
-// import  * as Spreadsheet from './../../../../../assets/spreadsheet_trial/codebase/spreadsheet.js';
-// declare let Spreadsheet:any
+
 @Component({
   selector: 'app-create-or-edit-group-products',
   templateUrl: './create-or-edit-group-products.component.html',

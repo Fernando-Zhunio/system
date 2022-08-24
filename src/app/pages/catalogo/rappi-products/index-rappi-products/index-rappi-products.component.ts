@@ -49,7 +49,7 @@ export class IndexRappiProductsComponent extends Crud<any> implements OnInit {
     }
   };
   isOpenFileImport = false;
-  data: Map<any, RappiProduct>;
+  override data: Map<any, RappiProduct>;
   permissions = PermissionRappiProducts
   ngOnInit() {
   }
@@ -73,11 +73,11 @@ export class IndexRappiProductsComponent extends Crud<any> implements OnInit {
 
           this.standardService.methodPut(`${this.url}/${id}`, { enabled: event.checked }).subscribe(
             {
-              next: res => {
+              next: () => {
                 event.source.disabled = false;
                 event.source.checked = event.checked;
               },
-              error: err => {
+              error: () => {
                 event.source.disabled = false;
                 event.source.checked = !event.checked;
               }
@@ -90,13 +90,13 @@ export class IndexRappiProductsComponent extends Crud<any> implements OnInit {
       });
   }
 
-  getData($event: any): void {
+  override getData($event: any): void {
     console.log($event);
     this.dataSource = $event;
   }
 
   openStockProduct(id: number): void {
-    const {name} = this.dataSource.find(item => item.id === id);
+    const {name} = this.dataSource.find(item => item.id === id)!;
     this.dialog.open(StockRappiModalComponent, {data: {id, name}})
   }
 

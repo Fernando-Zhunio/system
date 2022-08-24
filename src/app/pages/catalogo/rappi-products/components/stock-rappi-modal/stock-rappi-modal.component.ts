@@ -27,7 +27,7 @@ export class StockRappiModalComponent implements OnInit {
           this.items = res.data;
           this.isLoading = false;
         },
-        error: (err: any) => {
+        error: () => {
           this.isLoading = false;
         }
       }

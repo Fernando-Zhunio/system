@@ -41,7 +41,7 @@ export class SelectClientAddressModalComponent implements OnInit {
           this.dialogRef.close(data);
         }
         this.isLoading = false;
-      }, error => {
+      }, () => {
         this.isLoading = false;
         });
     } else {

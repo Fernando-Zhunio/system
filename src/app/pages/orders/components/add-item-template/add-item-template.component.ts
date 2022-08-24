@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { Observable } from 'rxjs';
 import { IClientAddressOrder } from '../../../../interfaces/iclient-address-order';
 import { IClientOrder } from '../../../../interfaces/iclient-order';
-// import { IItemOrder } from '../../../../interfaces/iitem-order';
 import {  IDiscountAndTaxes, IItemOrder, IOrder } from '../../../../interfaces/iorder';
 import { IProduct } from '../../../../interfaces/promotion';
 import { SwalService } from '../../../../services/swal.service';
@@ -58,19 +57,19 @@ export class AddItemTemplateComponent implements OnInit {
 
   selectedProduct(event: MatSelectionListChange): void {
     if (this.classOrderItem.isEditingItem) {
-      this.classOrderItem.formEdit.get('product_id').setValue(event.options[0].value);
-      const nameProduct = this.products.get(event.options[0].value).name;
-      this.classOrderItem.formEdit.get('product').setValue(nameProduct);
+      this.classOrderItem.formEdit.get('product_id')?.setValue(event.options[0].value);
+      const nameProduct = this.products.get(event.options[0].value)!.name;
+      this.classOrderItem.formEdit.get('product')?.setValue(nameProduct);
       this.isOpenSearchProducts = false;
     } else {
-      this.classOrderItem.form.get('product_id').setValue(event.options[0].value);
-      const nameProduct = this.products.get(event.options[0].value).name;
-      this.classOrderItem.form.get('product').setValue(nameProduct);
+      this.classOrderItem.form.get('product_id')?.setValue(event.options[0].value);
+      const nameProduct = this.products.get(event.options[0].value)!.name;
+      this.classOrderItem.form.get('product')?.setValue(nameProduct);
       this.isOpenSearchProducts = false;
     }
   }
 
-  openDialogCreateOrEditDiscountOrTax(id: number = null): void {
+  openDialogCreateOrEditDiscountOrTax(id: any = null): void {
     console.log(id);
     this.dialog.open(CreateOrEditDiscountOrTaxOrderComponent, {
       width: '500px',
@@ -87,7 +86,7 @@ export class AddItemTemplateComponent implements OnInit {
     });
   }
 
-  openDialogShipping(id: number = null): void {
+  openDialogShipping(id: number | null = null): void {
     this.dialog.open(ShippingOrderSectionComponent, {
       width: '500px',
       data: { shipping_id: id, order: this.order },
@@ -164,7 +163,7 @@ export class AddItemTemplateComponent implements OnInit {
 
 class OrderItem {
   isLoadingItem = false;
-  standard: StandartSearchService;
+  // standard: StandartSearchService;
   itemsOrder: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   itemEditing: IItemOrder;
   isEditingItem = false;
@@ -184,12 +183,12 @@ class OrderItem {
   });
 
 
-  constructor(private _standard: StandartSearchService) {
-    this.standard = _standard;
+  constructor(private standard: StandartSearchService) {
+    // this.standard = _standard;
   }
 
   enabledEditingItemOrder(id): void {
-    this.itemEditing = this.itemsOrder.get(id);
+    this.itemEditing = this.itemsOrder.get(id)!;
     this.isEditingItem = true;
     this.form.disable();
     this.formEdit.enable();
@@ -207,7 +206,7 @@ class OrderItem {
     this.formEdit.disable();
   }
 
-  createOrEdit({ order_id, form, isEdit }, callback = null): void {
+  createOrEdit({ order_id, form, isEdit }, callback: Function | null = null): void {
     this.isLoadingItem = true;
     let observer: Observable<any>;
     if (isEdit) {
@@ -231,12 +230,12 @@ class OrderItem {
         }
       }
       this.isLoadingItem = false;
-    }, err => {
+    }, () => {
       this.isLoadingItem = false;
     });
   }
 
-  deleteItemOrder(order_id, id, callback = null): void {
+  deleteItemOrder(order_id, id, callback: Function | null = null): void {
     SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el item?', 'warning').then(res => {
       if (res.isConfirmed) {
         this.standard.methodDelete(`system-orders/orders/${order_id}/items/${id}`).subscribe(res => {

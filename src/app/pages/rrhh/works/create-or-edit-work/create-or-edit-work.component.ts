@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
@@ -24,7 +23,6 @@ export class CreateOrEditWorkComponent implements OnInit {
   });
   constructor(
     private actived_router: ActivatedRoute,
-    // private spinner: NgxSpinnerService,
     private s_standart: StandartSearchService,
     private router: Router
   ) { }
@@ -35,16 +33,12 @@ export class CreateOrEditWorkComponent implements OnInit {
   work: Iwork;
   isLoading = false;
   ngOnInit(): void {
-    // this.spinner.show();
     this.isLoading = true;
     this.actived_router.data.subscribe((res) => {
-      this.state = res.isEdit ? 'edit' : 'create';
-      if (res.isEdit) {
+      this.state = res['isEdit'] ? 'edit' : 'create';
+      if (res['isEdit']) {
         this.title = 'Editando Empleo';
-        // tslint:disable-next-line: radix
-        const id = Number.parseInt(
-          this.actived_router.snapshot.paramMap.get('id')
-        );
+        const id = Number.parseInt(this.actived_router.snapshot.paramMap.get('id') || '0')  || 0;
         const url = `rrhh/works/${id}`;
         this.s_standart.methodGet(url).subscribe(
           {
@@ -62,16 +56,6 @@ export class CreateOrEditWorkComponent implements OnInit {
               this.isLoading = false;
             }
           }
-          //   (res1) => {
-          //   if (res1.hasOwnProperty('success') && res1.success) {
-          //     // this.spinner.hide();
-          //     this.departments_position = res1.data.departments_position;
-          //     this.cities = res1.data.cities;
-          //     this.work = res1.data.work;
-          //     this.loadDataUpdate(this.work);
-          //   }
-          //   this.isLoading = false;
-          // }
         );
       }
       else {
@@ -91,14 +75,6 @@ export class CreateOrEditWorkComponent implements OnInit {
               this.isLoading = false;
             }
           }
-        //   (res1) => {
-        //   if (res1.hasOwnProperty('success') && res1.success) {
-        //     // this.spinner.hide();
-
-        //     this.departments_position = res1.data.departments_position;
-        //     this.cities = res1.data.cities;
-        //   }
-        // }
         );
       }
     });
@@ -123,10 +99,10 @@ export class CreateOrEditWorkComponent implements OnInit {
       department_position_id: data.department_position_id,
       city_id: data.city_id,
     });
-    data.skills.forEach((skill) => {
+    data.skills.forEach((skill: any) => {
       this.addSkill(skill);
     });
-    data.requiments.forEach((requeriment) => {
+    data.requiments.forEach((requeriment: any) => {
       this.addRequirement(requeriment);
     });
   }
@@ -153,9 +129,7 @@ export class CreateOrEditWorkComponent implements OnInit {
   saveOrEditInServer(): void {
     if (this.formWork.valid) {
       if (this.state === 'create') {
-        // this.spinner.show();
         this.isLoading = true;
-        // this.formWork.markAsPending();
         const url: string = `rrhh/works`;
         this.s_standart.methodPost(url, this.formWork.value).subscribe(
           {
@@ -170,15 +144,8 @@ export class CreateOrEditWorkComponent implements OnInit {
               this.isLoading = false;
             }
           }
-        //   (res) => {
-        //   if (res.hasOwnProperty('success') && res.success) {
-        //     this.spinner.hide();
-        //     this.goSearchWorkBack(res.data.data.id);
-        //   }
-        // }
         );
       } else if (this.state == 'edit') {
-        // this.spinner.show();
         this.isLoading = true;
         const url = `rrhh/works/${this.work.id}`;
         this.s_standart.methodPut(url, this.formWork.value).subscribe(
@@ -190,12 +157,6 @@ export class CreateOrEditWorkComponent implements OnInit {
               this.isLoading = false;
             }
           }
-        //   (res) => {
-        //   if (res.hasOwnProperty('success') && res.success) {
-        //     this.spinner.hide();
-        //     this.goSearchWorkBack(this.work.id);
-        //   }
-        // }
         );
       }
     }

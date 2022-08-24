@@ -1,15 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 
-import OrgChart from "@balkangraph/orgchart.js";
-import { StandartSearchService } from "../../../services/standart-search.service";
-
 @Component({
   selector: "app-organization-chart",
   templateUrl: "./organization-chart.component.html",
   styleUrls: ["./organization-chart.component.css"],
 })
 export class OrganizationChartSystemComponent implements OnInit {
-  constructor(private s_standart:StandartSearchService) {}
+  constructor() {}
 
   data = [
     {

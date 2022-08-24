@@ -244,7 +244,7 @@ export class FormSkusComponent implements OnInit {
             this.file = null;
             this.currentImgSku = null;
           },
-          (err) => this.ngx_spinner.hide('sku-img')
+          () => this.ngx_spinner.hide('sku-img')
         );
     }
     else{

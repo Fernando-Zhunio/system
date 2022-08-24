@@ -39,10 +39,8 @@ import { HeaderSearchModule } from '../../Modulos/header-search/header-search.mo
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-// import { NgxMatTimelineModule } from 'ngx-mat-timeline';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { DetailButtonSheetComponent } from './orders/edit-order/detail-button-sheet/detail-button-sheet.component';
-import { CountdownModule } from 'ngx-countdown';
 import { MomentModule } from 'ngx-moment';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LogOrderModalComponent } from './orders/log-order-modal/log-order-modal.component';

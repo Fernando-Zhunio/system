@@ -11,7 +11,7 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class DetailsOrderComponent implements OnInit {
 
   isLoading = false;
-  order: IOrder = null;
+  order: IOrder | null = null;
   constructor(public dialogRef: MatDialogRef<DetailsOrderComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { order_id: number}, private s_standard: StandartSearchService) { }
 
@@ -22,7 +22,7 @@ export class DetailsOrderComponent implements OnInit {
         this.order = res.data;
       }
       this.isLoading = false;
-    }, err => {
+    }, () => {
       this.isLoading = false;
     });
   }

@@ -1,10 +1,8 @@
 import { formatDate } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { InfoViewComponent } from '../components/modals/info-view/info-view.component';
 import { Iresponse } from '../interfaces/Imports/invoice-item';
 
 export interface IResponse<T = any> {
@@ -33,7 +31,7 @@ export class StandartSearchService {
 
   end_point = environment.server;
 
-  constructor(private http: HttpClient, private dialog: MatDialog) { }
+  constructor(private http: HttpClient) { }
 
   /**
    * @deprecated Este metodo esta en desuso
@@ -61,7 +59,7 @@ export class StandartSearchService {
 
 
 /**
-   * @deprecated Este metodo esta en desuso
+   * @deprecated Este método esta en desuso
    *  @use methodPush or methodGetPaginate
    */
   store(url, params): Observable<Iresponse> {
@@ -69,7 +67,7 @@ export class StandartSearchService {
   }
 
   /**
-   * @deprecated Este metodo esta en desuso
+   * @deprecated Este método esta en desuso
    *  @use methodGet or methodGetPaginate
    */
   search2(url: string, params) {

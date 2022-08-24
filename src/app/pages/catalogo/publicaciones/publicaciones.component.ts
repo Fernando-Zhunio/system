@@ -26,17 +26,13 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   isLoader: boolean = false;
   selected_state: string = 'all';
-  price_min: number = null;
-  price_max: number = null;
+  price_min: number | null = null;
+  price_max: number | null = null;
   hasData: boolean = true;
   pageCurrent: number = 1;
-  productSearch: string = null;
-  products = [];
+  productSearch: string | null = null;
+  products: any[] = [];
   menu = [];
-  // length = 100;
-  // pageSize = 10;
-  // pageSizeOptions: number[] = [10, 15, 25];
-  // pageEvent: PageEvent;
   isLoading: boolean = true;
   aux_page_next: number;
   suscrition_api: Subscription;
@@ -60,12 +56,12 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     states: {name: string, slug: string}[] = [{name: 'Publicado', slug: 'published'}, {name: 'Despublicado', slug: 'unpublished'}, {name: 'Incompleto', slug: 'incomplete'}, {name: 'En cola', slug: 'queue'}, {name: 'Procesando', slug: 'processing'}, {name: 'Actualizando', slug: 'updating'}, {name: 'Parciales procesados', slug: 'partially_processed'}, {name: 'Eliminados', slug: 'deleting_unselected_item'}, {name: 'Con errores', slug: 'error'}, ]
 
     //#region  filter
-    filter_state: string = null;
+    filter_state: string | null = null;
     echo: Echo;
 
     //#endregion
   ngOnInit(): void {
-    this.actived_router.data.subscribe((res) => {
+    this.actived_router.data.subscribe((res: any) => {
       this.permission_page = res.permissions.all;
     });
     this.echo = new EchoManager(this.s_storage).echo;
@@ -109,15 +105,14 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
           SwalService.swalToast('Eliminado con exito', 'success');
         }
       },
-      (err) => {
-        console.log(err);
+      () => {
         this.isLoader = false;
         snack.dismiss();
       }
     );
   }
 
-  publicationFor(index, item): void {
+  publicationFor(_index, item): void {
     return item.id;
   }
 
@@ -141,14 +136,8 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   }
 
   loadData($event): void {
-    // this.paginator = $event.data;
-    // this.products = this.paginator.data;
     this.products = $event;
   }
-
-  // changePaginator(event): void {
-  //   this.headerComponent.searchBar(event);
-  // }
 
   destroyPublication(event): void {
     const index = this.products.findIndex((x) => x.id == event.id);
@@ -156,9 +145,5 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
       this.products.splice(index, 1);
     }
   }
-
-  // applyFilter() {
-  //   this.headerComponent.searchBar();
-  // }
 
 }

@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-// import { Session } from '../../clases/session';
-// import { User } from '../../clases/user';
 import { Iresponse } from '../../interfaces/Imports/invoice-item';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
@@ -24,7 +22,7 @@ export class LoginComponent {
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required),
   });
-  formRecuperacionCuenta: FormGroup = new FormGroup({
+  formRestartAccount: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email])
   });
   yeti: YetiLook;
@@ -52,26 +50,26 @@ export class LoginComponent {
             this.btnLogin = !this.btnLogin;
           }
         },
-        (err) => {
+        () => {
           this.btnLogin = !this.btnLogin;
         }
       );
     }
   }
 
-  recuperacionCuenta(): void {
-    if (this.formRecuperacionCuenta.valid) {
+  restartAccount(): void {
+    if (this.formRestartAccount.valid) {
       this.s_spinner.show();
-      this.auth_service.recuperationPassword(this.formRecuperacionCuenta.get('email').value).subscribe(
-        res => {
+      this.auth_service.recuperationPassword(this.formRestartAccount.get('email')?.value).subscribe(
+        () => {
           this.s_spinner.hide();
 
-          SwalService.swalFire({title: 'Correo enviado con exito', text: 'Busque en su correo ' + this.formRecuperacionCuenta.get('email').value + ' el email enviado por NOVICOMPU SYSTEM para la recuperacion contraseña', position: 'center', icon: 'success'})
+          SwalService.swalFire({title: 'Correo enviado con éxito', text: 'Busque en su correo ' + this.formRestartAccount.get('email')?.value + ' el email enviado por NOVICOMPU SYSTEM para la recuperación contraseña', position: 'center', icon: 'success'})
           this.isLoginActive = true;
         }, err => {
           console.log(err);
           this.s_spinner.hide();
-          SwalService.swalFire({title: 'El correo no se pudo enviar', html: 'Por favor intentelo de nuevo o pongase en contacto con el administrador <br><strong class="text-danger">' + err?.error?.data + '</strong>', position: 'center', icon: 'error'})
+          SwalService.swalFire({title: 'El correo no se pudo enviar', html: 'Por favor inténtelo de nuevo o póngase en contacto con el administrador <br><strong class="text-danger">' + err?.error?.data + '</strong>', position: 'center', icon: 'error'})
 
         }
       )

@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { PermissionOrdersPaymentsMba } from '../../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class CustomTemplateOnlyInputComponent {
 
   constructor(private standard: StandartSearchService) { }
-  // @Input() invoices: IInvoice[] = [];
   @Input() isCancelled: boolean;
   @Input() permissions: {create:string, destroy: string};
   @Input() path: string;
@@ -23,7 +21,6 @@ export class CustomTemplateOnlyInputComponent {
 
   isOpenAddInvoice = false;
   isLoading = false;
-  // permissionCreate = PermissionOrdersPaymentsMba.create;
 
   addManually(): void {
     if (this.formControl.valid) {
@@ -36,7 +33,7 @@ export class CustomTemplateOnlyInputComponent {
             this.formControl.reset();
           }
           this.isLoading = false;
-        }, err => {
+        }, () => {
           this.isLoading = false;
         }
       );
@@ -53,7 +50,7 @@ export class CustomTemplateOnlyInputComponent {
           this.formControl.reset();
         }
         this.isLoading = false;
-      }, err => {
+      }, () => {
         this.isLoading = false;
       }
     );

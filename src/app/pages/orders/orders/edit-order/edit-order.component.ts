@@ -14,7 +14,6 @@ import { trans } from '../../../../class/translations';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DetailButtonSheetComponent } from './detail-button-sheet/detail-button-sheet.component';
 import { StateFlowOrderComponent } from '../../components/state-flow-order/state-flow-order.component';
-import { CountdownConfig } from 'ngx-countdown';
 import * as moment from 'moment';
 import { PdfDetailOrderComponent } from '../../modules/shared-order/pdf-detail-order/pdf-detail-order.component';
 
@@ -34,8 +33,8 @@ export class EditOrderComponent implements OnInit {
 
   constructor(private bottomSheet: MatBottomSheet, private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   @ViewChild(StateFlowOrderComponent) stateFlow: StateFlowOrderComponent;
-  id: string;
-  order: IOrder = null;
+  id: string | null;
+  order: IOrder;
   items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
   types: any[] = [];
   channels: IChannelOrder[] = [];
@@ -214,7 +213,7 @@ export class EditOrderComponent implements OnInit {
     });
   }
 
-  getOrder($event = null): void {
+  getOrder(_$event = null): void {
     this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
       if (res.success) {
         this.order = res.data;
@@ -242,7 +241,7 @@ export class EditOrderComponent implements OnInit {
             this.isPublishing = false;
             SwalService.swalFire({ icon: 'success', title: 'Éxito', text: 'Se ha enviado la notificación de la orden', confirmButtonText: 'Aceptar' });
           }
-        }, err => {
+        }, () => {
           this.isPublishing = false;
         }
         );

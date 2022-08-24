@@ -39,7 +39,7 @@ export class PaymentMbaItemComponent implements OnInit {
               this.changeOrder.emit('mba-payments');
             }
             this.isLoading = false;
-          }, err => {
+          }, () => {
             this.isLoading = false;
           }
         );

@@ -80,7 +80,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  searchBar( params = null) {
+  searchBar( params: any = null) {
     this.isLoading.emit(true);
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -112,7 +112,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
             });
           }
         },
-        (err) => {
+        () => {
           this.isLoading.emit(false);
         }
       );
@@ -138,7 +138,9 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
         }
         filter_data[key] = this.filter_data[key];
         console.log(key);
-        this.countFilter++;
+        if (this.countFilter) {
+          this.countFilter++;
+        }
       }
     });
     return filter_data;
@@ -167,14 +169,17 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   }
 
   refrescated(): void {
-    const local_storage_data_refresh = JSON.parse(
-      localStorage.getItem('data_refresh')
-    );
-    if (
-      local_storage_data_refresh.now &&
-      this.activeRoute.paramMap['name'] === local_storage_data_refresh.name
-    ) {
-      this.searchBar();
+    const dataLocalStorage = localStorage.getItem('data_refresh');
+    if (dataLocalStorage) {
+      const local_storage_data_refresh = JSON.parse(
+        dataLocalStorage
+      );
+      if (
+        local_storage_data_refresh.now &&
+        this.activeRoute.paramMap['name'] === local_storage_data_refresh.name
+      ) {
+        this.searchBar();
+      }
     }
   }
 

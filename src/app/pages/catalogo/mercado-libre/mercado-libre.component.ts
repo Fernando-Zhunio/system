@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
 import { ImlInfo } from '../../../interfaces/iml-info';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
-import { Ipagination } from '../../../interfaces/ipagination';
 import { StorageService } from '../../../services/storage.service';
 import Echo from 'laravel-echo';
 import { EchoManager } from '../../../class/echo-manager';
@@ -18,8 +17,8 @@ import { animation_conditional } from '../../../animations/animate_leave_enter';
 export class MercadoLibreComponent implements OnInit, OnDestroy {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
-  price_min: number = null;
-  price_max: number = null;
+  price_min: number | null = null;
+  price_max: number | null = null;
   aux_page_next = 0;
   hasData: boolean = true;
   isLoading: boolean = false;

@@ -1,8 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { IClientOrder } from '../../../../interfaces/iorder';
-import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
 
 @Component({
@@ -12,7 +11,7 @@ import { SwalService } from '../../../../services/swal.service';
 })
 export class SelectClientModalComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) private order_id: number, private dialogRef: MatDialogRef<SelectClientModalComponent>, private standard: StandartSearchService) { }
+  constructor(private dialogRef: MatDialogRef<SelectClientModalComponent>) { }
   url = 'system-orders/clients';
   clients: IClientOrder[] = [];
   isLoading = false;
@@ -32,17 +31,7 @@ export class SelectClientModalComponent implements OnInit {
     console.log(event, id);
     const indexClient = this.clients.findIndex(client => client.id === id);
     if (indexClient > -1) {
-      // this.isLoading = true;
       this.dialogRef.close(this.clients[indexClient]);
-      // this.standard.methodPut(`system-orders/orders/${this.order_id}/clients/${id}`, {client_id: id}).subscribe(data => {
-      //   if (data?.success) {
-      //     SwalService.swalFire({title: 'Cliente seleccionado', text: 'Cliente seleccionado correctamente', icon: 'success'});
-      //     this.dialogRef.close(data);
-      //   }
-      //   this.isLoading = false;
-      // }, error => {
-      //   this.isLoading = false;
-      //   });
     } else {
       SwalService.swalFire({title: 'Ups!', text: 'Problema al seleccionar cliente no encontrado', icon: 'error'});
     }

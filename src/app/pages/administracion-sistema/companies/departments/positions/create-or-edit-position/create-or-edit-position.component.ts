@@ -14,7 +14,7 @@ import { IPosition } from './../../../../../../interfaces/iposition';
 export class CreateOrEditPositionComponent extends CreateOrEdit<IPosition> implements OnInit {
   public urlSave: any;
 
-  constructor( public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
+  constructor( public override act_router: ActivatedRoute, public override standard_service: StandartSearchService, public override router: Router) {
     super( act_router, standard_service, router);
     this.urlSave = `admin/companies/${this.getId('company_id')}/departments/${this.getId('department_id')}/positions`;
   }
@@ -22,18 +22,18 @@ export class CreateOrEditPositionComponent extends CreateOrEdit<IPosition> imple
   title: string = 'Posición';
   hierarchy_types: {[key: string]: string}[] = [];
   employe_types: any = null;
-  department: IDepartment = null;
-  form: FormGroup = new FormGroup({
+  department: IDepartment | null = null;
+  override form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     hierarchy_type: new FormControl('', [Validators.required]),
     employe_type: new FormControl('', [Validators.required]),
   });
-  public key_param: string = 'position_id';
+  public override key_param: string = 'position_id';
   ngOnInit(): void {
     this.init();
   }
 
-  setData(data: any): void {
+  override setData(data: any): void {
       this.hierarchy_types = data.hierarchy_types;
       this.employe_types = data.employe_types;
       this.department = data.department;
@@ -46,14 +46,14 @@ export class CreateOrEditPositionComponent extends CreateOrEdit<IPosition> imple
       }
   }
 
-  getDataForSendServer() {
+  override getDataForSendServer() {
       if (this.form.valid) {
         return this.form.value;
       }
       return false;
   }
 
-  go() {
+  override go() {
     this.router.navigate(['/administracion-sistema/companies/' + this.getId('company_id') + '/departments/' + this.getId('department_id') + '/positions']);
   }
 

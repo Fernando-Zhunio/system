@@ -17,7 +17,7 @@ export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> implements OnI
   constructor() {
     super();
   }
-  @ViewChild(HeaderSearchComponent)  headerComponent: HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent)  override headerComponent: HeaderSearchComponent;
 
 
   isOpenCv: boolean = false;
@@ -39,7 +39,10 @@ export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> implements OnI
 
   openCv(id: number) {
     this.isOpenCv = true;
-    this.cv = this.products.find((x) => x.id === id)?.resume?.attachment?.real_permalink;
+    const cv = this.products.find((x) => x.id === id)?.resume?.attachment?.real_permalink;
+    if (cv) {
+      this.cv = cv;
+    }
   }
 
 

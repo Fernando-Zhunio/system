@@ -1,6 +1,6 @@
 export interface ImlInfo {
   account: Iaccount;
-  companies_access: Icompanies_access[];
+  companies_access: CompanyAccess[];
   created_at: string;
   description: string;
   end_time: string;
@@ -49,7 +49,7 @@ export interface Istock {
 export interface Iaccount {
   city: Icity;
   city_id: number;
-  companies_access: Icompanies_access;
+  companies_access: CompanyAccess;
   created_at: string;
   id: number;
   status: string;
@@ -68,7 +68,7 @@ export interface Icity {
   updated_at: string;
 }
 
-export interface Icompanies_access {
+export interface CompanyAccess {
   country_id: number;
   created_at: string;
   deleted_at: string;

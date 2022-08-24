@@ -17,38 +17,10 @@ export class LocalesChartComponent extends ManagerChartTop<IstatisticableLocatio
     this.spinner = spinner;
   }
 
-  @Input() dates: { first_date: any[], last_date: any[] };
+  @Input() override dates: { first_date: any[], last_date: any[] };
   key: EKeyDashboard = EKeyDashboard.location_sales;
   idSpinner = 'loading-chart-location';
-  // options = {
-  //   responsive: true,
-  //   maintainAspectRatio: false,
-  //   display: true,
-  //   plugins: {
-  //     datalabels: {
-  //       display: true,
-  //       backgroundColor: '#ccc',
-  //       borderRadius: 3,
-  //       font: {
-  //         color: 'red',
-  //         weight: 'bold',
-  //       }
-  //     },
-  //     doughnutlabel: {
-  //       labels: [{
-  //         text: '550',
-  //         font: {
-  //           size: 20,
-  //           weight: 'bold'
-  //         }
-  //       }, {
-  //         text: 'total'
-  //       }]
-  //     }
-  //   }
-  // };
-
-  options: any = {
+  override options: any = {
     tooltip: {
       trigger: 'item',
     },
@@ -56,7 +28,7 @@ export class LocalesChartComponent extends ManagerChartTop<IstatisticableLocatio
       show: true,
       position: 'bottom',
       // orient: 'vertical',
-      
+
     },
     series: [],
   };

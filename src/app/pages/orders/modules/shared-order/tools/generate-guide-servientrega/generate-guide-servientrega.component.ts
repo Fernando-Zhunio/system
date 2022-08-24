@@ -2,7 +2,6 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, Subscription } from 'rxjs';
-import { StandartSearchService } from '../../../../../../services/standart-search.service';
 import { IServientregaGuide, IShippingOrder } from '../../../../../../interfaces/iorder';
 import { SwalService } from './../../../../../../services/swal.service';
 import { IShippingAddress } from './../../../../../../interfaces/iorder';
@@ -10,7 +9,6 @@ import { IClientOrder } from '../../../../../../interfaces/iclient-order';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import collect from 'collect.js';
 import { StorageService } from '../../../../../../services/storage.service';
-// import { IuserSystem } from '../../../../../../interfaces/iuser-system';
 
 @Component({
   selector: 'app-generate-guide-servientrega',
@@ -55,9 +53,9 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
   isLoadingCity = false;
   intervalSearch: any;
 
-  cities = [];
-  searchCities = [];
-  searchDestinoCities = [];
+  cities: any[] = [];
+  searchCities: any[] = [];
+  searchDestinoCities: any[] = [];
   isLoading = false;
 
   ngOnInit() {
@@ -88,7 +86,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
             this.fillFormReturn(data.dataReturn.data);
           }
         },
-        error: (err) => {
+        error: () => {
           this.isLoadingCity = false; this.isLoading = false;
           SwalService.swalToast({ icon: 'error', title: 'Error', text: 'Se produjo un error al conectarse a los servidores de Servientrega, vuelva a intentarlo' });
           this.dialogRef.close();
@@ -118,8 +116,8 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
     const data = this.dataExternal;
     const user = this.storage.getCurrentPerson();
     this.form.patchValue({
-      nombre_remitente: user.first_name,
-      apellido_remite: user.last_name,
+      nombre_remitente: user?.first_name,
+      apellido_remite: user?.last_name,
       ancho: data.shipping.width,
       alto: data.shipping.height,
       largo: data.shipping.length,
@@ -145,8 +143,8 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
   fillFormReturn(data: IServientregaGuide): void {
     const destinatario = this.convertNamesToArray(data.destinatario);
     const user = this.storage.getCurrentPerson();
-    const idCityOrigin = this.cities.find(city => city.nombre.includes(data.origen))?.id;
-    const idCityDestination = this.cities.find(city => city.nombre.includes(data.destino))?.id;
+    const idCityOrigin = (this.cities.find((city: any) => city.nombre.includes(data.origen)) as any)?.id;
+    const idCityDestination = (this.cities.find((city: any) => city.nombre.includes(data.destino)) as any)?.id;
     this.form.patchValue({
       id_ciudad_destino: idCityOrigin,
       id_ciudad_origen: idCityDestination,
@@ -157,8 +155,8 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       telefono2_remite: '',
       razon_social_desti_ne: data.razon_social_remitente,
 
-      nombre_destinatario_ne: user.first_name,
-      apellido_destinatar_ne: user.last_name,
+      nombre_destinatario_ne: user?.first_name,
+      apellido_destinatar_ne: user?.last_name,
       direccion1_destinat_ne: data.direccion_remitente,
       sector_destinat_ne: '',
       telefono1_destinat_ne: '',
@@ -197,7 +195,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
 
 
   searchCity(text): any[] {
-    return this.cities.filter(item => item.nombre.toLowerCase().includes(text.toLowerCase()));
+    return this.cities.filter((item: any) => item.nombre.toLowerCase().includes(text.toLowerCase()));
   }
 
   saveInServer(): void {

@@ -5,7 +5,6 @@ import { environment } from '../../../../environments/environment';
 import { Cperson } from '../../../class/cperson';
 import { INotification } from '../../../interfaces/inotification';
 import { selectNotification } from '../../../redux/state/state.selectors';
-import { SharedService } from '../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
 import { Inewsletter } from './../../../interfaces/inewsletter';
@@ -19,7 +18,7 @@ export class InicioComponent implements OnInit {
 
   person: Cperson = new Cperson();
   notifications$: Observable<INotification[]>;
-  constructor(private s_shared: SharedService, private s_storage: StorageService, private s_standart: StandartSearchService, store: Store) {
+  constructor(private s_storage: StorageService, private s_standart: StandartSearchService, store: Store) {
     this.notifications$ = store.select(selectNotification);
    }
 
@@ -128,19 +127,13 @@ export class InicioComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.person.first_name = this.s_storage.getCurrentUser().name;
+    this.person.first_name = this.s_storage.getCurrentUser()!?.name;
     this.city = this.person?.city?.name || 'guayaquil';
 
-    // this.suscription_notifications = this.s_shared.currentNotifications.subscribe(res => {
-    //   this.notifications = res;
-    // });
 
     this.getDataWeather();
     this.s_standart.index('home').subscribe(res => {
       if (res && res.hasOwnProperty('success') && res.success) {
-        // this.categoriesCount = res.data.categories;
-        // this.productsCount = res.data.products;
-        // this.brandCount = res.data.brands;
         this.newsletters = res.data.newsletter;
       }
     });
@@ -150,7 +143,6 @@ export class InicioComponent implements OnInit {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&lang=es&units=metric&appid=${this.weather_key}`;
     fetch(url).then(res => res.json()).then(res => {
       this.weather_date = res;
-      // this.icon_url = `http://openweathermap.org/img/wn/${res.weather[0].icon}.png?width=100`
       this.icon_url = `assets/weather/${this.weather_date.weather[0].main.toLowerCase()}.svg`
     });
   }

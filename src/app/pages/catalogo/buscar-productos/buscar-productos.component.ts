@@ -13,8 +13,6 @@ import { Iprefix } from '../../../interfaces/iprefix';
 import { IproductWithVtex } from '../../../interfaces/iproducts';
 import { Iwarehouse } from '../../../interfaces/iwarehouse';
 import { ProductsService } from '../../../services/products.service';
-import { StandartSearchService } from '../../../services/standart-search.service';
-
 import { SwiperOptions } from 'swiper';
 import { MatSelect } from '@angular/material/select';
 import { Ipagination } from '../../../interfaces/ipagination';
@@ -35,7 +33,6 @@ export class BuscarProductosComponent implements OnInit {
   constructor(
     private clipboard: Clipboard,
     private snack_bar: MatSnackBar,
-    // private s_standartSearch: StandartSearchService,
     private dialog: MatDialog,
     private s_product: ProductsService,
     private methodsHttp: MethodsHttpService,
@@ -50,8 +47,6 @@ export class BuscarProductosComponent implements OnInit {
 
   products: IproductWithVtex[] = [];
   selected_state: string = 'all';
-  // min: string = '';
-  // max: string = '';
   aux_page_next = 0;
 
   post_current: IpostProduct;
@@ -60,8 +55,6 @@ export class BuscarProductosComponent implements OnInit {
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
   paginator: Ipagination<IproductWithVtex>;
-  // prefix_id: string = 'all';
-  // warehouse_ids = [];
   search: string;
   messagePost: string = 'Cargando post espere por favor...';
   isLoadPost: boolean = false;
@@ -97,7 +90,7 @@ export class BuscarProductosComponent implements OnInit {
     pagination: false,
   };
   permission = search_product_permission_module;
-  filter = {
+  filter: any = {
     min: null,
     max: null,
     'warehouse_ids[]': null,
@@ -122,16 +115,16 @@ export class BuscarProductosComponent implements OnInit {
   }
 
   removeWarehouse(id) {
-    const index = this.filter['warehouse_ids[]'].findIndex((x) => x == id);
+    const index = this.filter['warehouse_ids[]']?.findIndex((x) => x == id);
     if (index != -1) {
       this.filter['warehouse_ids[]'].splice(index, 1);
       this.select_warehouse.writeValue(this.filter["warehouse_ids[]"]);
     }
   }
 
-  selectAllWarehouse($event) {
-    const index = $event.value.findIndex((x) => x == 'all');
-  }
+  // selectAllWarehouse($event) {
+  //   const index = $event.value.findIndex((x) => x == 'all');
+  // }
 
   copyCodigo(code) {
     this.clipboard.copy(code);
@@ -143,8 +136,6 @@ export class BuscarProductosComponent implements OnInit {
 
   loadData($event): void {
     console.log($event);
-    // this.paginator = $event.data;
-    // this.products = this.paginator.data;
     this.products = $event;
   }
 
@@ -154,12 +145,11 @@ export class BuscarProductosComponent implements OnInit {
     this.dialog.open(InfoViewComponent, {
       data: { name, title:'Descripción', info, isHtml:false },
     });
-    // this.s_standartSearch.openDescription(name, 'Descripción', info, false);
   }
 
   viewWareHouse(index) {
     let warehouse = {};
-    if (this.filter["warehouse_ids[]"]?.length > 0) {
+    if ((this.filter["warehouse_ids[]"] as any)?.length > 0) {
       warehouse = {'warehouse_ids[]': this.filter["warehouse_ids[]"]};
     }
     this.s_product.viewWareHouse(this.products[index].id, warehouse).subscribe((res) => {
@@ -189,7 +179,7 @@ export class BuscarProductosComponent implements OnInit {
             });
         }
       },
-      (err) => {
+      () => {
         this.messagePost =
           'Ups! ocurrió un problema al cargar el post inténtalo otra vez';
       }
@@ -208,16 +198,17 @@ export class BuscarProductosComponent implements OnInit {
   goSpy(id) {
     if (this.current_go == id) {return; }
     const element = document.getElementById(id);
-    element.classList.remove('anim-go');
-
-    this.current_go = id;
-    const forScroll = document.getElementsByClassName('app-body')
-    const dist = element.getBoundingClientRect().y;
-    const current_position = forScroll[0].scrollTop;
-    const viewHeight = window.screen.height;
-    const go = dist + current_position - (viewHeight / 2);
-    forScroll[0].scrollTop = go;
-    element.classList.add('anim-go');
+    if (element) {
+      element.classList.remove('anim-go');
+      this.current_go = id;
+      const forScroll = document.getElementsByClassName('app-body')
+      const dist = element.getBoundingClientRect().y;
+      const current_position = forScroll[0].scrollTop;
+      const viewHeight = window.screen.height;
+      const go = dist + current_position - (viewHeight / 2);
+      forScroll[0].scrollTop = go;
+      element.classList.add('anim-go');
+    }
   }
 
   openOrCloseGo(){

@@ -38,7 +38,7 @@ export class TransferenceOrderComponent implements OnInit {
             this.formControl.reset();
           }
           this.isLoading = false;
-        }, err => {
+        }, () => {
           this.isLoading = false;
         }
       );
@@ -53,14 +53,10 @@ export class TransferenceOrderComponent implements OnInit {
           this.standard.methodDelete('system-orders/orders/' + this.order_id + '/transfers/' + id).subscribe(
             (response: any) => {
               if (response?.success) {
-                // const transfers = this.transfers.find(item => item.id == id);
-                // if (transfers) {
-                //   this.transfers.splice(this.transfers.indexOf(transfers), 1);
-                // }
                 this.changeOrder.emit('transfers');
               }
               this.isLoading = false;
-            }, err => {
+            }, () => {
               this.isLoading = false;
             }
           );
@@ -79,7 +75,7 @@ export class TransferenceOrderComponent implements OnInit {
               this.changeOrder.emit('invoice');
             }
             this.isLoading = false;
-          }, err => {
+          }, () => {
             this.isLoading = false;
           }
         );

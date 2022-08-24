@@ -29,7 +29,7 @@ export class ClientAddressesIndexComponent extends Crud<any> implements OnInit {
 
   }
 
-  openDialogCreateOrEdit(address_id: number = null): void {
+  openDialogCreateOrEdit(address_id: any = null): void {
     this.dialog.open(CreateOrEditAddressClientComponent, {
       data: {
         isoObligate: false,

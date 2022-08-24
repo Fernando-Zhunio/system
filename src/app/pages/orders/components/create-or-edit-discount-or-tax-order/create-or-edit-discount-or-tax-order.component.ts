@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { IDiscountAndTaxes, IOrder } from '../../../../interfaces/iorder';
+import { IDiscountAndTaxes } from '../../../../interfaces/iorder';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
 
@@ -32,7 +32,7 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
   types: any[] = [];
   typesAmounts: any[] = [];
 
-  additionalAmount: IDiscountAndTaxes = null;
+  additionalAmount: IDiscountAndTaxes | null = null;
 
   ngOnInit() {
     if (this.data.id) {

@@ -23,7 +23,7 @@ export class InvoicesOrderComponent implements OnInit {
 
   @Input() order_id: number;
   @Output() changeOrder = new EventEmitter<any>();
-  
+
   ngOnInit(): void {
   }
 
@@ -38,7 +38,7 @@ export class InvoicesOrderComponent implements OnInit {
             this.formControl.reset();
           }
           this.isLoading = false;
-        }, err => {
+        }, () => {
           this.isLoading = false;
         }
       );
@@ -55,7 +55,7 @@ export class InvoicesOrderComponent implements OnInit {
               this.changeOrder.emit('invoice');
             }
             this.isLoading = false;
-          }, err => {
+          }, () => {
             this.isLoading = false;
           }
         );

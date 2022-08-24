@@ -6,7 +6,6 @@ import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
 import { loadPreference } from '../../../../../redux/actions/preference.action';
 import { SharedService } from '../../../../../services/shared/shared.service';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from './../../../../../services/swal.service';
 
 @Component({
@@ -16,11 +15,11 @@ import { SwalService } from './../../../../../services/swal.service';
 })
 export class SelectDatesDashboardComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<SelectDatesDashboardComponent>, private s_standard: StandartSearchService, private store: Store) { }
-  airDate1: AirDatepicker = null;
+  constructor(private dialogRef: MatDialogRef<SelectDatesDashboardComponent>, private store: Store) { }
+  airDate1: AirDatepicker | null = null;
   daysDate1: number = 0;
   isIntroRange: boolean = false;
-  airDate2: AirDatepicker = null;
+  airDate2: AirDatepicker | null = null;
   daysDate2: number = 0;
   isActive: boolean = false;
 
@@ -38,8 +37,8 @@ export class SelectDatesDashboardComponent implements OnInit {
         this.daysDate1 = days;
         const old_date = new Date(moment(dates[0]).subtract(days + 1, 'days').format());
         const _date = new Date(moment(dates[0]).subtract(1, 'days').format());
-        this.airDate2.selectDate([old_date, _date]);
-        this.airDate2.update({
+        this.airDate2?.selectDate([old_date, _date]);
+        this.airDate2?.update({
           maxDate: _date,
         });
         this.daysDate2 = days;
@@ -72,7 +71,7 @@ export class SelectDatesDashboardComponent implements OnInit {
       SwalService.swalFire({ title: 'Error de días', text: 'El numero de días de las fechas no coinciden', icon: 'warning' });
       return;
     }
-    if (this.airDate1.selectedDates.length == 2 && this.airDate2.selectedDates.length == 2) {
+    if (this.airDate1?.selectedDates.length == 2 && this.airDate2?.selectedDates.length == 2) {
       const datesAll = {
         dates: {
           to: SharedService.convertDateForLaravelOfDataPicker(this.airDate1.selectedDates[1]),

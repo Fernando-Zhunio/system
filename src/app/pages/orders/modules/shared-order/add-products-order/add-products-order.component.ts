@@ -76,7 +76,7 @@ export class AddProductsOrderComponent implements OnInit {
         this.changeOrder.emit('change');
       }
       this.isLoading = false;
-    }, err => {
+    }, () => {
       this.isLoading = false;
     });
   }
@@ -88,7 +88,7 @@ export class AddProductsOrderComponent implements OnInit {
   }
 
   enabledEditingItemOrder(id): void {
-    this.itemEditing = this.items.get(id);
+    this.itemEditing = this.items.get(id)!;
     this.isEditingItem = true;
     this.form.disable();
     this.formEdit.enable();
@@ -101,7 +101,7 @@ export class AddProductsOrderComponent implements OnInit {
     });
   }
 
-  deleteItemOrder(order_id, id, callback = null): void {
+  deleteItemOrder(order_id, id, _callback = null): void {
     SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el item?', 'warning').then(res => {
       if (res.isConfirmed) {
         this.standard.methodDelete(`system-orders/orders/${order_id}/items/${id}`).subscribe(res => {
@@ -120,14 +120,14 @@ export class AddProductsOrderComponent implements OnInit {
 
   selectedProduct(event: MatSelectionListChange): void {
     if (this.isEditingItem) {
-      this.formEdit.get('product_id').setValue(event.options[0].value);
-      const nameProduct = this.products.get(event.options[0].value).name;
-      this.formEdit.get('product').setValue(nameProduct);
+      this.formEdit.get('product_id')?.setValue(event.options[0].value);
+      const nameProduct = this.products.get(event.options[0].value)?.name;
+      this.formEdit.get('product')?.setValue(nameProduct);
       this.isOpenSearchProducts = false;
     } else {
-      this.form.get('product_id').setValue(event.options[0].value);
-      const nameProduct = this.products.get(event.options[0].value).name;
-      this.form.get('product').setValue(nameProduct);
+      this.form.get('product_id')?.setValue(event.options[0].value);
+      const nameProduct = this.products.get(event.options[0].value)?.name;
+      this.form.get('product')?.setValue(nameProduct);
       this.isOpenSearchProducts = false;
     }
   }

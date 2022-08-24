@@ -16,7 +16,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
   public title: string;
   public urlSave: any;
 
-  constructor(public activated_route: ActivatedRoute, public service: StandartSearchService, public router: Router) {
+  constructor(public activated_route: ActivatedRoute, public service: StandartSearchService, public override router: Router) {
     super(activated_route, service, router);
     this.title = 'Promoción';
     this.urlSave = 'catalogs/promotions';
@@ -27,10 +27,10 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
 
   durationType: string[] = [];
   statuses: string[] = [];
-  key_param: string = 'promotion_id';
+  override key_param: string = 'promotion_id';
 
 
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     title: new FormControl(null),
     price: new FormControl(null, [Validators.required]),
     duration_type: new FormControl(null, [Validators.required]),
@@ -49,22 +49,22 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
     this.init();
   }
 
-  setData(response): void {
+  override setData(response): void {
     if (this.status === 'edit') {
       this.data = response.promotion;
       this.selectionDuration({ value: this.data.duration_type });
-      this.form.get('title').setValue(this.data.title);
-      this.form.get('price').setValue(this.data.price_formated);
-      this.form.get('duration_type').setValue(this.data.duration_type);
-      this.form.get('status').setValue(this.data.status);
-      this.form.get('note').setValue(this.data.note);
-      this.form.get('date_range_start').setValue(this.data.start_date);
-      this.form.get('date_range_end').setValue(this.data.end_date);
+      this.form.get('title')?.setValue(this.data.title);
+      this.form.get('price')?.setValue(this.data.price_formated);
+      this.form.get('duration_type')?.setValue(this.data.duration_type);
+      this.form.get('status')?.setValue(this.data.status);
+      this.form.get('note')?.setValue(this.data.note);
+      this.form.get('date_range_start')?.setValue(this.data.start_date);
+      this.form.get('date_range_end')?.setValue(this.data.end_date);
       this.products_edit = new Map<string, IProduct>(this.data.products.map(item => [item.id, item]));
       this.data.products.forEach((item: IProduct) => {
         this.addProductSelected(item.id);
-        this.form.get('quantity_' + item.id).setValue(item.pivot.quantity);
-        this.form.get('listPrice_' + item.id).setValue(item.pivot.price);
+        this.form.get('quantity_' + item.id)?.setValue(item.pivot.quantity);
+        this.form.get('listPrice_' + item.id)?.setValue(item.pivot.price);
       });
       // this.addProductSelected(this.data.products[0].id);
 
@@ -83,11 +83,11 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
 
   addProductSelected(key): void {
     this.generateFormProducts(key);
-    let products_form = this.form.get('products').value;
+    let products_form = this.form.get('products')?.value;
     if (!products_form) { products_form = []; }
     products_form.push(key);
-    this.form.get('products').setValue(products_form);
-    this.productsSelected.set(key, this.products.get(key) || this.products_edit.get(key));
+    this.form.get('products')?.setValue(products_form);
+    this.productsSelected.set(key, this.products.get(key)! || this.products_edit.get(key));
   }
 
   generateFormProducts(key): void {
@@ -102,12 +102,12 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
   }
 
   removeProductSelected(key): void {
-    let products_form = this.form.get('products').value;
+    let products_form = this.form.get('products')?.value;
     if (!products_form) {
       products_form = [];
     } else {
       products_form.splice(products_form.indexOf(key), 1);
-      this.form.get('products').setValue(products_form);
+      this.form.get('products')?.setValue(products_form);
       this.removeFormProducts(key);
       this.productsSelected.delete(key);
     }
@@ -122,7 +122,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
     this.form.removeControl(listPrice);
   }
 
-  getDataForSendServer(): any {
+  override getDataForSendServer(): any {
     if (this.form.valid) {
       const data = this.form.value;
       if (this.hasDate) {
@@ -143,7 +143,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
     return false;
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['/catalogo/promotions']);
   }
 
@@ -151,11 +151,11 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit<any> implements
     console.log($event);
     this.hasDate = $event.value === 'date_range' ? true : false;
     if (this.hasDate) {
-      this.form.get('date_range_start').setValidators(Validators.required);
-      this.form.get('date_range_end').setValidators(Validators.required);
+      this.form.get('date_range_start')?.setValidators(Validators.required);
+      this.form.get('date_range_end')?.setValidators(Validators.required);
     } else {
-      this.form.get('date_range_start').setValidators(null);
-      this.form.get('date_range_end').setValidators(null);
+      this.form.get('date_range_start')?.setValidators(null);
+      this.form.get('date_range_end')?.setValidators(null);
     }
   }
 }

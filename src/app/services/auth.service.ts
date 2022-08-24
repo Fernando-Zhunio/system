@@ -1,27 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { map, catchError } from 'rxjs/operators';
-import { SwalService } from './swal.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(private http: HttpClient,
-     private s_swal: SwalService
      ) {}
 
-    //  createHeader(){
-    //   const token =localStorage.getItem('token');
-    //   const Header = new HttpHeaders({
-    //     'accept': 'application/json',
-    //     'Content-Type':'application/json',
-    //     'Authorization':'Bearer '+token
-    //    });
-    //    return Header;
-    // }
 
   server = environment.server;
 

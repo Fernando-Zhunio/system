@@ -55,10 +55,6 @@
                     {{ types[keyType] }}
                   </mat-option>
                 </mat-select>
-                <!-- <mat-error *ngIf="formLocation.controls['type'].invalid">Tipo Requerido</mat-error> -->
-                <mat-error *ngIf="formLocation.controls['type'].errors?.invalidStore">
-                  Se requiere que complete con un horario valido
-                </mat-error>
               </mat-form-field>
             </div>
 
@@ -88,7 +84,7 @@
             </mat-form-field>
           </div>
         </div>
-        <div *ngIf="formLocation.get('type').value == 'store'" class="col-md-6">
+        <div *ngIf="formLocation.get('type')?.value == 'store'" class="col-md-6">
           <h3 class="font-4xl m-0 p-2">Horario</h3>
           <div class="p-2 rounded-fz shadow">
             <table class="table-borderless table table-sm">
@@ -117,7 +113,7 @@
                           <input matInput formControlName="end" type="time" />
                           <button
                             mat-icon-button
-                            (click)="autofillSchedules(formSchedules.get('monday').value)">
+                            (click)="autofillSchedules(formSchedules.get('monday')?.value)">
                             <mat-icon>published_with_changes</mat-icon>
                           </button>
                         </div>

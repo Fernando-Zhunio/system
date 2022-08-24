@@ -90,7 +90,7 @@ export class ModalSendCvComponent implements OnInit {
     const url = `rrhh/cv/users/emails`;
     const dataSend = this.getDataForSend();
     if (dataSend) {
-      this.s_standard.store(url, dataSend).subscribe( res => {
+      this.s_standard.store(url, dataSend).subscribe( () => {
         SwalService.swalFire({title: 'Enviado', text: 'Se ha enviado el correo', icon: 'success'});
       });
     }
@@ -106,9 +106,9 @@ export class ModalSendCvComponent implements OnInit {
     // const data1 = this.selectUsers.map(x => {
     //   return x.id;
     // });
-    
-    const data1 = [];
-     this.dataSelectMap.forEach((value, key) => {
+
+    const data1: any[] = [];
+     this.dataSelectMap.forEach((_value, key: any) => {
       data1.push(key);
     });
     if (data1.length === 0) {

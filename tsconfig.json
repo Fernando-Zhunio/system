@@ -13,17 +13,28 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "module": "es2020",
-    // "target": "es6",
     "types": ["node","jasmine"],
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "esnext",
+      "es2020",
       "dom"
     ],
     "forceConsistentCasingInFileNames": true,
     "target": "es2017",
+
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitAny": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true
+
   },
   "angularCompilerOptions": {
         "fullTemplateTypeCheck": true,

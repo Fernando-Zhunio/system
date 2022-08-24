@@ -42,13 +42,13 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     leftTime: 10,
   };
   CountInputs = 6;
-  inputsValue = [];
+  inputsValue: any[] = [];
   eventPaste = fromEvent(document, 'paste');
 
 
 
   ngOnInit(): void {
-    this.eventPaste.subscribe((event) => {
+    this.eventPaste.subscribe(() => {
       if (navigator.clipboard) {
         navigator.clipboard.readText().then((res) => {
           this.fillInputs(res);
@@ -62,7 +62,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     })
     this.initializeInputs();
 
-    const data = this.active_router.snapshot.data.response.data;
+    const data = this.active_router.snapshot.data['response'].data;
     this.user = data.user;
     this.token = data.token.token;
     this.config.leftTime = 300 - data.time_sub;
@@ -71,11 +71,17 @@ export class TwoFAComponent implements OnInit, OnDestroy {
   fillInputs(code: string): void {
     let i = 0 ;
     code.split('').forEach((char) => {
-      this.inputs.get(i).nativeElement.value = char;
+      const input = this.inputs.get(i);
+      if(input) {
+        input.nativeElement.value = char;
+      }
       i++;
     })
     setTimeout(() => {
-      this.inputs.get(5).nativeElement.focus();
+      const input = this.inputs.get(5);
+      if (input) {
+        input.nativeElement.focus();
+      }
     },2000)
   }
 
@@ -98,24 +104,24 @@ export class TwoFAComponent implements OnInit, OnDestroy {
     if (event.key === 'Backspace') {
      if (target.value === '') {
       if (index != 0) {
-        this.inputs.get(index - 1).nativeElement.focus();
+        this.inputs.get(index - 1)?.nativeElement.focus();
       } else {
         target.value = '';
       }
      }
     } else if (event.key === "ArrowLeft" && index !== 0) {
-      this.inputs.get(index - 1).nativeElement.focus();
+      this.inputs.get(index - 1)?.nativeElement.focus();
     } else if (event.key === "ArrowRight" && index !== this.inputs.length - 1) {
-      this.inputs.get(index + 1).nativeElement.focus();
+      this.inputs.get(index + 1)?.nativeElement.focus();
     } else if (event.key != "ArrowLeft" && event.key != "ArrowRight" && event.key != "Enter") {
       target.setAttribute("type", "text");
       target.value = '';
     }
   }
 
-  inputEvent(event, target, index): void {
+  inputEvent(_event, target, index): void {
     if (target.value.length === 1 && index !== this.inputs.length - 1) {
-      this.inputs.get(index + 1).nativeElement.focus();
+      this.inputs.get(index + 1)?.nativeElement.focus();
     }
   }
 
@@ -153,7 +159,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
             );
           }
           this.isLoading = false;
-        }, (err) => {
+        }, () => {
           this.isLoading = false;
         });
     } else {

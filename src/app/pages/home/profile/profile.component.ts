@@ -13,9 +13,9 @@ export class ProfileComponent implements OnInit {
 
   constructor( private s_standard: StandartSearchService, private s_storage: StorageService) { }
 
-  user: IuserSystem = null;
+  user: IuserSystem | null = null;
   ngOnInit(): void {
-    const user: User = this.s_storage.getCurrentUser();
+    const user: User = this.s_storage.getCurrentUser()!;
     this.s_standard.index(`user/people/${user.id}/profile`).subscribe(
       (response) => {
         this.user = response.data;

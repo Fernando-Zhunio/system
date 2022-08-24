@@ -1,7 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-// import * as FlowChart from 'flowchart.js';
 import { IStatus } from '../../../../interfaces/iorder';
-// import { TranslatefzPipe } from './../../../../pipes/translatefz.pipe';
 @Component({
   selector: 'app-state-flow-order',
   templateUrl: './state-flow-order.component.html',
@@ -11,7 +9,7 @@ export class StateFlowOrderComponent implements OnInit {
 
   constructor() { }
   @ViewChild('containerStatus') containerStatus: ElementRef;
-  @Input() newStatus: string = null;
+  @Input() newStatus: string | null = null;
   @Input() statuses: IStatus[] = [
   ];
   ngOnInit() {

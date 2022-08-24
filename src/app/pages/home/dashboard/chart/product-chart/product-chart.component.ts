@@ -53,7 +53,7 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
   //   ]
   // };
 
-  options: any = {
+  override options: any = {
     dataset: {
       source: [
         ['score', 'amount', 'product'],
@@ -71,18 +71,6 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
     grid: { containLabel: true },
     xAxis: { name: 'amount' },
     yAxis: { type: 'category' },
-    // visualMap: {
-    //   orient: 'horizontal',
-    //   left: 'center',
-    //   min: 10,
-    //   max: 100,
-    //   text: ['High Score', 'Low Score'],
-    //   // Map the score column to color
-    //   dimension: 0,
-    //   inRange: {
-    //     color: ['#65B581', '#FFCE34', '#FD665F']
-    //   }
-    // },
     series: [
       {
         type: 'bar',
@@ -100,7 +88,7 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
     super();
     this.spinner = spinner;
   }
-  @Input() dates: { first_date: any[], last_date: any[] };
+  @Input() override dates: { first_date: any[], last_date: any[] };
   key: EKeyDashboard = EKeyDashboard.product_sales;
   // keyCurrent: EkeyDashboard = EkeyDashboard.product_sales;
   idSpinner = 'loading-chart-product';
@@ -155,17 +143,6 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
       xAxis: { name: 'quantity' },
 
     };
-    // this.chart.data.datasets = [];
-    // this.chart.data.datasets.push({
-    //   label: 'Grafico',
-    //   data: data.map((item: any) => item._total),
-    //   backgroundColor: data.map(i => this.ramdonColor()),
-    //   borderColor: data.map(i => this.ramdonColor()),
-    // });
-    // this.chart.data.labels = data.map(item => item.statisticable.code + ' - ' + item.statisticable.name.split(' ')[0]);
-    // this.chart.update();
-    // this.spinner.hide(this.idSpinner);
-
   }
 
 }

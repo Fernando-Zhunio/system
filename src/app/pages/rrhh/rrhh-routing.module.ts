@@ -1,9 +1,6 @@
-import { Component, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupProductsComponent } from '../reportes/group-products/group-products.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { CreateOrEditGroupProductsComponent } from '../reportes/group-products/create-or-edit-group-products/create-or-edit-group-products.component';
 import { IndexComponent } from './index/index.component';
 import { UsersWebRrhhComponent } from './users-web-rrhh/users-web-rrhh.component';
 
@@ -60,19 +57,7 @@ const routes: Routes = [
           },
         },
         canActivate: [NgxPermissionsGuard],
-      },
-      // {
-      //   path: 'group-products/edit',
-      //   component: CreateOrEditGroupProductsComponent,
-
-      //   data: {
-      //     isEdit: true,
-      //     permissions: {
-      //       only: ['super-admin', 'purchase-department.imports.edit'],
-      //     },
-      //   },
-      //   canActivate: [NgxPermissionsGuard],
-      // }
+      }
     ]
   }
 ];

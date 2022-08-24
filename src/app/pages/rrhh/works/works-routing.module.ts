@@ -1,5 +1,4 @@
-import { Component, NgModule } from '@angular/core';
-// import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { CreateOrEditWorkComponent } from './create-or-edit-work/create-or-edit-work.component';

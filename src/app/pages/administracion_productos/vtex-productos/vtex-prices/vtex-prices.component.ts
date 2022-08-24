@@ -3,41 +3,13 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  FormArray,
-  ValidatorFn,
-  AbstractControl,
-  ValidationErrors,
+  FormArray
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { vtexResponseSku } from '../../../../interfaces/vtex/iproducts';
 import { IvtexPrices } from '../../../../interfaces/vtex/ivtex-prices';
-import { SharedService } from '../../../../services/shared/shared.service';
 import { SwalService } from '../../../../services/swal.service';
 import { StandartSearchService } from './../../../../services/standart-search.service';
 
-function validationThreeCampus(form: FormGroup, dataInput: any): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    // if (
-    //   form.controls["basePrice"].value &&
-    //   form.controls["markup"].value &&
-    //   form.controls["costPrice"].value
-    // ) {
-    //   isError["isErrorThreeCampus"] = true;
-    //   return {
-    //     error:
-    //       "Debe tener exactamente dos valores entre Precio base, Precio de costo y markup",
-    //   };
-    // }
-    // isError["isErrorThreeCampus"] = false;
-    // for (let i in dataInput) {
-    //   // const element = array[index];
-    //   dataInput[i] =
-
-    // }
-
-    return;
-  };
-}
 
 @Component({
   selector: 'app-vtex-prices',
@@ -46,8 +18,6 @@ function validationThreeCampus(form: FormGroup, dataInput: any): ValidatorFn {
 })
 export class VtexPricesComponent implements OnInit {
   constructor(
-    private router: Router,
-    private active_route: ActivatedRoute,
     private s_standart: StandartSearchService
   ) {}
   formPrices: FormGroup = new FormGroup({
@@ -60,7 +30,7 @@ export class VtexPricesComponent implements OnInit {
   // skuId:string;
   @Input() sku: vtexResponseSku;
   @Input() status: 'create' | 'edit';
-  @Input() vtexPriceSku: IvtexPrices = null;
+  @Input() vtexPriceSku: IvtexPrices | null = null;
 
   public enablesInput = {
     markup: { value: false, function: () => this.calculateMarkup() },
@@ -79,19 +49,8 @@ export class VtexPricesComponent implements OnInit {
     isLoad: false,
     isErrorThreeCampus: false,
   };
-  // isload:boolean = false;
   isErrorThreeCampus: boolean = false;
   ngOnInit(): void {
-    // this.formPrices.controls["markup"].setValidators([
-    //   validationThreeCampus(this.formPrices, this.enablesInput),
-    // ]);
-    // this.formPrices.controls["basePrice"].setValidators([
-    //   validationThreeCampus(this.formPrices, this.enablesInput),
-    // ]);
-    // this.formPrices.controls["costPrice"].setValidators([
-    //   validationThreeCampus(this.formPrices, this.enablesInput),
-    // ]);
-
     if (this.vtexPriceSku) {
       const { basePrice, costPrice, markup, fixedPrices, listPrice } =
         this.vtexPriceSku;
@@ -102,12 +61,11 @@ export class VtexPricesComponent implements OnInit {
         basePrice,
         costPrice,
         markup,
-        // fixedPrices: [fixedPrices],
         fixedPrices,
         listPrice,
       });
     }
-    this.formPrices.get('markup').disable();
+    this.formPrices.get('markup')?.disable();
   }
 
   get fixedPrices(): FormArray {
@@ -115,29 +73,29 @@ export class VtexPricesComponent implements OnInit {
   }
 
   calculateCostPrice(): void {
-    const pb = this.formPrices.get('basePrice').value;
-    const m = this.formPrices.get('markup').value;
+    const pb = this.formPrices.get('basePrice')?.value;
+    const m = this.formPrices.get('markup')?.value;
     if (pb && m) {
       const pc = pb - (100 * pb) / (100 - m);
-      this.formPrices.get('costPrice').setValue(pc);
+      this.formPrices.get('costPrice')?.setValue(pc);
     }
   }
 
   calculateBasePrice(): void {
-    const pc = this.formPrices.get('costPrice').value;
-    const m = this.formPrices.get('markup').value;
+    const pc = this.formPrices.get('costPrice')?.value;
+    const m = this.formPrices.get('markup')?.value;
     if (pc && m) {
       const pb = pc + (pc * m) / 100;
-      this.formPrices.get('basePrice').setValue(pb);
+      this.formPrices.get('basePrice')?.setValue(pb);
     }
   }
 
   calculateMarkup(): void {
-    const pc = this.formPrices.get('costPrice').value;
-    const pb = this.formPrices.get('basePrice').value;
+    const pc = this.formPrices.get('costPrice')?.value;
+    const pb = this.formPrices.get('basePrice')?.value;
     if (pc && pb) {
       const m = (100 * (pb - pc)) / pc;
-      this.formPrices.get('markup').setValue(m);
+      this.formPrices.get('markup')?.setValue(m);
     }
   }
 
@@ -149,11 +107,11 @@ export class VtexPricesComponent implements OnInit {
     for (let i in this.enablesInput) {
       if (i == name) {
         this.enablesInput[i].value = false;
-        this.formPrices.get(i).disable();
+        this.formPrices.get(i)?.disable();
         // this.enablesInput.state = name;
       } else if (i != 'state') {
         this.enablesInput[i].value = true;
-        this.formPrices.get(i).enable();
+        this.formPrices.get(i)?.enable();
       }
     }
   }
@@ -184,13 +142,9 @@ export class VtexPricesComponent implements OnInit {
   }
 
   saveInServer(): void {
-    // const isTwoValidate =
-    //   !this.formPrices.controls["markup"].value ||
-    //   !this.formPrices.controls["basePrice"].value ||
-    //   !this.formPrices.controls["costPrice"].value;
-    if (this.formPrices.valid /* && isTwoValidate */) {
+
+    if (this.formPrices.valid) {
       this.is.isLoad = true;
-      const prices = this.formPrices.controls['fixedPrices'].value;
       this.s_standart
         .updatePut(
           `products-admin/vtex/price-vtex/${this.sku.vtex_api_id}`,
@@ -208,7 +162,7 @@ export class VtexPricesComponent implements OnInit {
             }
             this.is.isLoad = false;
           },
-          (err) => {
+          () => {
             this.is.isLoad = false;
           }
         );

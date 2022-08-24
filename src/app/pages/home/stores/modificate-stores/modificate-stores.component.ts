@@ -27,10 +27,10 @@ export class ModificateStoresComponent implements OnInit {
   ngOnInit() {
     if (!this.dataExternal.isCreateCity || this.dataExternal.isEdit) {
       this.dataExternal.isCreateCity = false;
-      this.form.get('city_name').clearValidators();
+      this.form.get('city_name')?.clearValidators();
       console.log(this.dataExternal.data);
       const { name, address, latitude, longitude, phone, schedules, mba_code } = this.dataExternal.data;
-      this.form.get('name').disable();
+      this.form.get('name')?.disable();
       this.form.patchValue({ name, address, latitude, longitude, phone, schedules, mba_code });
     }
   }

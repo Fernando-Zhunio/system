@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IgroupProducts } from '../../../../assets/spreadsheet_trial/interfaces/igroup-products';
 import { StandartSearchService } from '../../../services/standart-search.service';
 
 @Component({
@@ -12,7 +11,7 @@ export class GroupProductsComponent implements OnInit {
   constructor(private s_standart: StandartSearchService) { }
 
   ngOnInit(): void {
-    this.s_standart.index('reports/group-products').subscribe((res: {success: boolean, data: IgroupProducts}) => {
+    this.s_standart.index('reports/group-products').subscribe(() => {
     });
   }
 }

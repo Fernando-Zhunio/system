@@ -50,7 +50,7 @@ export class MethodsHttpService {
     return this.http.delete<IResponse<T>>(this.end_point + url);
   }
 
-  public methodGetCustom<T = any>(url): Observable<any> {
+  public methodGetCustom<T = any>(url): Observable<T> {
     return this.http.get<any>(url);
   }
 }

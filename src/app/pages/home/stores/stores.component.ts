@@ -43,13 +43,12 @@ export class StoresComponent implements OnInit {
         next: (data: any) => {
           try {
             this.convertStoresObjectToMap(data.data?.properties);
-            // console.log(this.stores);
           } catch (ex) {
             console.log(ex);
           }
           this.isLoading = false;
         },
-        error: (err: any) => {
+        error: () => {
           SwalService.swalToast('Ups! ocurrió un error a querer cargar las tiendas', 'error');
           this.isLoading = false;
         }
@@ -112,14 +111,9 @@ export class StoresComponent implements OnInit {
       }
       );
     })
-    // if (value) {
-    //   this.map.setStyle('mapbox://styles/mapbox/streets-v11');
-    // } else {
-    //   this.map.setStyle('mapbox://styles/mapbox/satellite-v9');
-    // }
   }
 
-  createMap(lon = 0, lat = 0): void {
+  createMap(): void {
     mapboxgl.accessToken = environment.mapbox_key;
     this.map = new mapboxgl.Map({
       container: this.mapElement.nativeElement,
@@ -127,25 +121,9 @@ export class StoresComponent implements OnInit {
       center: [-78.02474380973959, -1.100522422816233],
       zoom: 6,
     });
-
-    this.map.resize();
-    this.map.addControl(new mapboxgl.NavigationControl());
-    // this.marker = new mapboxgl.Marker({
-    //   draggable: true,
-    // })
-    //   .setLngLat([lon, lat])
-    //   .addTo(this.map);
-    // const drag = () => {
-    //   var lngLat = this.marker.getLngLat();
-    //   this.coordinate.latitud = lngLat.lat;
-    //   this.coordinate.longitud = lngLat.lng;
-    //   this.formLocation.get('latitude').setValue(this.coordinate.latitud);
-    //   this.formLocation.get('longitude').setValue(this.coordinate.longitud);
-    // };
-    // this.marker.on('dragend', drag);
   }
 
-  modifyStore(company: string, isCreateCity: boolean, city: any = null, isEdit: boolean = false, nameStore: string = null): void {
+  modifyStore(company: string, isCreateCity: boolean, city: any = null, isEdit: boolean = false, nameStore: string | null = null): void {
     const title = `${company} ${isCreateCity ? '' : '- ' + city} - ${!isEdit ? 'Crear' : 'Editar'} ${!isCreateCity ? 'Store' : 'Ciudad'}`;
     let data = null;
     if (isEdit) {
@@ -203,7 +181,7 @@ export class StoresComponent implements OnInit {
           }
           this.isLoading = false;
         },
-        error: (err: any) => {
+        error: () => {
           SwalService.swalToast('Error al guardar los cambios', 'error');
           this.isLoading = false;
         }

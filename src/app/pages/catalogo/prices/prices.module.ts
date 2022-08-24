@@ -5,7 +5,6 @@ import { SearchTemplateModule } from '../../../Modulos/search-template/search-te
 import { ConvertsModule } from '../../../Modulos/converts/converts.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PricesRoutingModule } from './prices-routing.module';
-import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +22,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
     imports: [
         CommonModule,
-        // RouterModule,
         PricesRoutingModule,
         SearchTemplateModule,
         ConvertsModule,

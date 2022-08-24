@@ -40,7 +40,7 @@ export class CreateTicketComponent implements OnInit {
     console.log(SharedService.getQueryParametersUrl('order_id', this.activatedRoute));
     const queryParamOrder_id = SharedService.getQueryParametersUrl('order_id', this.activatedRoute);
     if (queryParamOrder_id) {
-      this.form.get('order_id').setValue(queryParamOrder_id);
+      this.form.get('order_id')?.setValue(queryParamOrder_id);
     }
   }
 
@@ -50,20 +50,19 @@ export class CreateTicketComponent implements OnInit {
   }
 
   getOrder(order): void {
-    this.form.get('order_id').setValue(order);
+    this.form.get('order_id')?.setValue(order);
     this.isOpenSearchOrder = false;
   }
 
   onFileChange(event) {
     SharedService.getBase64(event, (e) => {
-      // this.form.get('file').setValue(null) = event.target.files[0];
       this.fileUrl.url = e.srcElement.result;
     })
   }
 
   removeImage() {
     this.fileUrl.url = null;
-    this.form.get('file').setValue(null);
+    this.form.get('file')?.setValue(null);
   }
 
   saveInServer(): void {
@@ -74,14 +73,14 @@ export class CreateTicketComponent implements OnInit {
       formData.append('department_id', this.form.value.department_id);
       formData.append('subject', this.form.value.subject);
       formData.append('message', this.form.value.message);
-      if (this.form.get('file').value) {
-        formData.append('file', this.form.get('file').value);
+      if (this.form.get('file')?.value) {
+        formData.append('file', this.form.get('file')?.value);
       }
       this.methodsHttp.methodPost('system-orders/tickets', formData).subscribe(res => {
         console.log(res);
         this.isLoading = false;
         this.router.navigate(['/system-orders/tickets']);
-      }, err => {this.isLoading = false; }
+      }, () => {this.isLoading = false; }
       );
     } else {
       console.log('Formulario invalido');

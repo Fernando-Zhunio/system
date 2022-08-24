@@ -16,9 +16,9 @@ export class VersusCategoriasComponent extends VersusChart<Icategory> implements
   constructor( spinner: NgxSpinnerService,  s_standart: StandartSearchService) {
     super(spinner, s_standart);
   }
-  url = 'dashboard/versus/categories';
-  urlDashboard: string = 'dashboard/stats/graph';
-  key: string = EKeyDashboard.category_sales;
+  override url = 'dashboard/versus/categories';
+  override urlDashboard: string = 'dashboard/stats/graph';
+  override key: string = EKeyDashboard.category_sales;
 
   ngOnInit(): void {
     this.airDate = new AirDatepicker('#input-date-categories', this.optionsDate as any);

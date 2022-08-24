@@ -21,13 +21,13 @@ export class ResponseTicketComponent implements OnInit {
     message: new FormControl(null, [Validators.required]),
     file: new FormControl(null),
   });
-  fileUrl: {url: any, file: File} = {
+  fileUrl: {url: any, file: File | null} = {
     url: null,
     file: null,
   };
   isLoading = false;
-  ticket: ITicketOrder = null;
-  ticket_id: string = null;
+  ticket: ITicketOrder | null = null;
+  ticket_id: string | null = null;
   permissions = PermissionOrdersTickets;
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class ResponseTicketComponent implements OnInit {
     (res => {
       this.ticket = res.data;
       this.spinner.hide();
-    }, err => {
+    }, () => {
       this.spinner.hide();
     });
   }
@@ -63,7 +63,7 @@ export class ResponseTicketComponent implements OnInit {
   }
 
   sendCloseTicket(): void {
-    this.methodsHttp.methodPut(`system-orders/tickets/${this.ticket_id}/close`).subscribe(res => {
+    this.methodsHttp.methodPut(`system-orders/tickets/${this.ticket_id}/close`).subscribe(() => {
       this.router.navigate(['/system-orders/tickets']);
     });
   }
@@ -80,7 +80,7 @@ export class ResponseTicketComponent implements OnInit {
   removeImage() {
     this.fileUrl.url = null;
     this.fileUrl.file = null;
-    this.form.get('file').setValue(null);
+    this.form.get('file')?.setValue(null);
   }
 
   saveInServer(): void {
@@ -95,10 +95,12 @@ export class ResponseTicketComponent implements OnInit {
         console.log(res);
         this.isLoading = false;
         this.chatComponent.addMessage(res.data);
-        this.ticket.status = 'open';
+        if (this.ticket) {
+          this.ticket.status = 'open';
+        }
         this.form.reset();
         // this.router.navigate(['/system-orders/tickets']);
-      }, err => {this.isLoading = false; }
+      }, () => {this.isLoading = false; }
       );
     } else {
       console.log('Formulario invalido');

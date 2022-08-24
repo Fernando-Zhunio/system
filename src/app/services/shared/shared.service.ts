@@ -3,9 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { INotification } from '../../interfaces/inotification';
 import { formatDate } from '@angular/common';
 import { Iappointment, Irequest } from '../../interfaces/JobNovicompu/interfaces-jobNovicompu';
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { StorageService } from '../storage.service';
 import { ActivatedRoute } from '@angular/router';
 import { Iswal, SwalService } from '../swal.service';
 
@@ -13,7 +12,7 @@ import { Iswal, SwalService } from '../swal.service';
   providedIn: 'root'
 })
 export class SharedService {
-  public get requestWork() {
+  public get requestWork(): any {
     return this._requestWork;
   }
 
@@ -21,7 +20,7 @@ export class SharedService {
     this._requestWork = userWork;
   }
 
-  public get appointmentWork(): Iappointment {
+  public get appointmentWork(): any {
     return this._appointmentWork;
   }
 
@@ -35,14 +34,14 @@ export class SharedService {
 
   public static disabled_loader: boolean = false;
 
-  public static dates_of_dashboard: { start_date: Date, end_date: Date } = null;
+  public static dates_of_dashboard: { start_date: Date, end_date: Date } | null = null;
 
   public urlServer = environment.server;
 
   private notifications = new BehaviorSubject<INotification[]>([]);
   public currentNotifications = this.notifications.asObservable();
-  private _requestWork: Irequest = null;
-  private _appointmentWork: Iappointment = null;
+  private _requestWork: Irequest | null = null;
+  private _appointmentWork: Iappointment | null = null;
 
   /**
    * Metodo agrupador de arrays
@@ -116,7 +115,7 @@ export class SharedService {
   static getQueryParametersUrl(nameParam: string, actRouter: ActivatedRoute) {
     return actRouter.snapshot.queryParamMap.get(nameParam);
   }
-  
+
 
   public static swalResponse(swalOption: Iswal, callbackSuccess: any, callbackNegative: any = null, callbackError: any = null) {
     SwalService.swalFire(

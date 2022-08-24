@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { CtableAndPaginator } from '../../../class/ctable-and-paginator';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { IAccountMl } from '../../../interfaces/iaccount-ml';
-import { Ipagination } from '../../../interfaces/ipagination';
 import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
 import { ItableAndPaginator } from '../../../interfaces/itable-and-paginator';
 import { StandartSearchService } from '../../../services/standart-search.service';
@@ -17,15 +15,14 @@ import { StandartSearchService } from '../../../services/standart-search.service
 })
 export class MercadoLibreAdminComponent extends CtableAndPaginator<IAccountMl> implements OnInit, ItableAndPaginator {
 
-  constructor(public activated_route:ActivatedRoute, public s_standart:StandartSearchService,public snack_bar:MatSnackBar) {
+  constructor(public activated_route:ActivatedRoute, public override s_standart:StandartSearchService,public override snack_bar:MatSnackBar) {
     super();
    }
-  wordMain: string = 'Cuenta Ml';
-  urlDelete:string = 'admin/roles/';
-  displayedColumns: string[] = [
+  override wordMain: string = 'Cuenta Ml';
+  override urlDelete:string = 'admin/roles/';
+  override displayedColumns: string[] = [
     'id',
     'user_id',
-    // "guard_name",
     'name',
     'city',
     'company',
@@ -34,22 +31,17 @@ export class MercadoLibreAdminComponent extends CtableAndPaginator<IAccountMl> i
     'acciones',
   ];
 
+  @ViewChild(HeaderSearchComponent) override headerComponent:HeaderSearchComponent;
   urlData:string = 'admin/ml/accounts';
-
-
-  @ViewChild(HeaderSearchComponent) headerComponent:HeaderSearchComponent;
-  // ELEMENT_DATA: IrolSystem[] = [];
   permissions:IpermissionStandart;
 
-
-
   ngOnInit(): void {
-    this.activated_route.data.subscribe(res => {
+    this.activated_route.data.subscribe((res: any) => {
       this.permissions = res.permissions.all;
   });
   }
 
-  loadData($event): void {
+  override loadData($event): void {
     // this.paginator = $event.data;
     this.refreshDataTable($event);
   }

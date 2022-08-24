@@ -22,7 +22,7 @@ export class LogOrderModalComponent implements OnInit {
         this.dataLog = res.data;
         this.isLoading = false;
       },
-      error: (err) => {
+      error: () => {
         this.isLoading = false;
       }
     })

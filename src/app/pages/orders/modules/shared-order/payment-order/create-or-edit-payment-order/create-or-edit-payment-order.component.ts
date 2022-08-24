@@ -43,14 +43,14 @@ export class CreateOrEditPaymentOrderComponent extends CreateOrEditModal impleme
     this.urlCrud = `system-orders/orders/${data.order_id}/payments`;
   }
 
-  initData(response: any): void {
+  override initData(response: any): void {
     this.types = response.data.types;
     if (this.isEdit) {
       this.form.patchValue(response.data.payment);
     }
   }
 
-  generateUrlCreate(): string {
+  override generateUrlCreate(): string {
     return `system-orders/orders/payments/create`;
   }
 

@@ -14,8 +14,8 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 export class CreateOrEditClientOrderComponent extends CreateOrEdit<any> implements OnInit {
   public title: string = 'Cliente de orden - ';
   public urlSave: any = 'system-orders/clients';
-  key_param: string = 'client_id';
-  form: FormGroup = new FormGroup({
+  override key_param: string = 'client_id';
+  override form: FormGroup = new FormGroup({
     first_name: new FormControl(null, [Validators.required]),
     last_name: new FormControl(null, [Validators.required]),
     doc_type: new FormControl('ci', [Validators.required]),
@@ -30,7 +30,7 @@ export class CreateOrEditClientOrderComponent extends CreateOrEdit<any> implemen
 
   permissions = PermissionOrdersClients;
 
-  constructor(public location: Location, private activeRouter: ActivatedRoute, private standardService: StandartSearchService, router: Router) {
+  constructor(public override location: Location, activeRouter: ActivatedRoute, standardService: StandartSearchService, router: Router) {
     super ( activeRouter, standardService, router );
   }
 
@@ -38,7 +38,7 @@ export class CreateOrEditClientOrderComponent extends CreateOrEdit<any> implemen
     this.init(false);
   }
 
-  go(): void {
+  override go(): void {
     this.location.back();
   }
 

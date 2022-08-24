@@ -17,7 +17,7 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
     this.spinner = spinner;
   }
 
-  options: any = {
+  override options: any = {
     legend: {
       top: 'bottom'
     },
@@ -42,24 +42,12 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
           { value: 22, name: 'rose 7' },
           { value: 18, name: 'rose 8' }
         ],
-        // label: {
-        //   show: true,
-        //   precision: 1,
-        //   position: 'right',
-        //   valueAnimation: true,
-        //   fontFamily: 'monospace'
-        // },
-        // label: {
-        //   position: 'inner',
-        //   fontSize: 10,
-        //   show: true,
-        // },
       }
     ]
   };
 
   // @Input() s_standard: StandartSearchService;
-  @Input() dates: { first_date: any[], last_date: any[] };
+  @Input() override dates: { first_date: any[], last_date: any[] };
   key: EKeyDashboard = EKeyDashboard.category_sales;
   idSpinner = 'isload-chart-category';
 
@@ -69,12 +57,6 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
 
   assignData(data: ItopDashboard<IsellForCategories>[]): void {
 
-    // this.updateOptions.series.data = data.map((item) => {
-    //   return { value: item._total, name: item.statisticable.name };
-    // }).sort(function (a, b) {
-    //   return a.value - b.value;
-    // });
-    // return;
     this.updateOptions = {
       series: [
         {
@@ -84,23 +66,9 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
           data: data.map((item) => {
             return { value: item._total, name: item.statisticable.name };
           })
-            // [
-            //   { value: 535, name: 'Cargando' },
-            //   { value: 100, name: 'Cargando1' },
-            //   { value: 1000, name: 'Cargando' }
-            // ],
         }
       ]
     };
-    // this.chart.data.datasets = [];
-    // this.chart.data.datasets.push({
-    //   data: data.map((item: any) => item._total),
-    //   backgroundColor: data.map(i => this.randomColor()),
-    //   borderColor: data.map(i => this.randomColor()),
-    // });
-    // this.chart.data.labels = data.map(item => item.statisticable.name);
-    // this.chart.update();
-    // this.spinner.hide(this.idSpinner);
   }
 
 }

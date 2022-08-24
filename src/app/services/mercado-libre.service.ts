@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ImlMenu } from '../interfaces/iml-info';
-import { Iresponse, IresponseGenery } from '../interfaces/Imports/invoice-item';
+import { IresponseGenery } from '../interfaces/Imports/invoice-item';
 
 @Injectable({
   providedIn: 'root'

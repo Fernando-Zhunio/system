@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../../environments/environment';
-import { Icompanies_access } from '../../../../interfaces/iml-info';
+import { CompanyAccess } from '../../../../interfaces/iml-info';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { Location } from '../../../../interfaces/Location';
 import { SwalService } from '../../../../services/swal.service';
@@ -30,7 +30,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
 
   cities: any;
   keyCities = [];
-  companies: Icompanies_access[] = [];
+  companies: CompanyAccess[] = [];
   types = [];
   keyTypes = [];
   map: any;

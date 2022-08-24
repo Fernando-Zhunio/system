@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime, filter, tap } from 'rxjs/operators';
-import { IItemOrder, IOrder, IProductItemOrder, IShippingOrder } from '../../../../interfaces/iorder';
+import { IProductItemOrder, IShippingOrder } from '../../../../interfaces/iorder';
 import { Iwarehouse } from '../../../../interfaces/iwarehouse';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -27,11 +27,11 @@ const routes_api_shipping = {
 export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   types: any[] = [];
   title = 'Envíos';
-  subscription: Subscription = null;
+  subscription: Subscription | null = null;
   warehouses: Iwarehouse[] = [];
   formSearch = new FormControl(null);
   searching = false;
-  shipping: IShippingOrder = null;
+  shipping: IShippingOrder | null = null;
   // intervalSearch: any;
   noEntriesFoundLabel = 'No se encontraron registros';
   form: FormGroup = new FormGroup({
@@ -46,7 +46,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   isLoading = false;
   status: 'edit' | 'create' = 'create';
   products: IProductItemOrder[] = [];
-  subscriptionSearch: Subscription = null;
+  subscriptionSearch: Subscription | null = null;
   constructor(private standard: StandartSearchService, public dialogRef: MatDialogRef<ShippingOrderSectionComponent>,
     @Inject(MAT_DIALOG_DATA) public dataExterna: { order_id: number, shipping_id: number }) { }
 
@@ -73,7 +73,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
         }
       }
       this.isLoading = false;
-    }, err => { this.isLoading = false; });
+    }, () => { this.isLoading = false; });
 
     this.subscription = this.formSearch.valueChanges.pipe(
       filter(search => !!search),
@@ -113,34 +113,30 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   selectionType(event: MatSelectChange | any): void {
     console.log(event);
     if (event.value == 'pickup') {
-      this.form.get('weight').disable();
-      this.form.get('height').disable();
-      this.form.get('width').disable();
-      this.form.get('length').disable();
-      this.form.get('amount').setValue(0);
-      this.form.get('weight').setValue(0);
-      this.form.get('height').setValue(0);
-      this.form.get('width').setValue(0);
-      this.form.get('length').setValue(0);
+      this.form.get('weight')?.disable();
+      this.form.get('height')?.disable();
+      this.form.get('width')?.disable();
+      this.form.get('length')?.disable();
+      this.form.get('amount')?.setValue(0);
+      this.form.get('weight')?.setValue(0);
+      this.form.get('height')?.setValue(0);
+      this.form.get('width')?.setValue(0);
+      this.form.get('length')?.setValue(0);
     } else {
-      this.form.get('amount').enable();
-      this.form.get('weight').enable();
-      this.form.get('height').enable();
-      this.form.get('width').enable();
-      this.form.get('length').enable();
+      this.form.get('amount')?.enable();
+      this.form.get('weight')?.enable();
+      this.form.get('height')?.enable();
+      this.form.get('width')?.enable();
+      this.form.get('length')?.enable();
     }
   }
 
   searchWarehouses(text) {
-    // console.log(text);
-    // if (this.subscriptionSearch) {
-    //   this.subscriptionSearch.unsubscribe();
-    // }
     this.standard.methodGet(routes_api_shipping.search_warehouses(text)).subscribe(res => {
       console.log(res);
       this.warehouses = res.data.data;
       this.searching = false;
-    }, err => { this.searching = false; });
+    }, () => { this.searching = false; });
   }
 
   buscarInterval(text): void {
@@ -150,8 +146,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
 
   selectWarehouse(event: MatAutocompleteSelectedEvent | number): void {
     const id = typeof event == 'number' ? event : event?.option?.value;
-    // this.warehouse_select = this.warehouses.find(x => x.id === id);
-    this.form.get('origin_warehouse_id').setValue(id);
+    this.form.get('origin_warehouse_id')?.setValue(id);
   }
 
   saveInServer(): void {
@@ -176,13 +171,5 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
       SwalService.swalFire({ title: 'Error', text: 'Formulario invalido', icon: 'error' });
     }
   }
-
-
-
-  addProductShipping(quantity, id): void {
-
-  }
-
-
 
 }

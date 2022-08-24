@@ -15,8 +15,7 @@ export class FormRecuperationPasswordComponent implements OnInit {
   constructor(private router:Router, private activeRouter:ActivatedRoute, private s_spinner:NgxSpinnerService,private s_standart:StandartSearchService) { }
 
   ngOnInit(): void {
-    this.dataUser =  this.activeRouter.snapshot.data.user.data
-
+    this.dataUser =  this.activeRouter.snapshot.data['user'].data
   }
 
   hidePasswordRepeat:boolean = true;
@@ -34,15 +33,11 @@ export class FormRecuperationPasswordComponent implements OnInit {
       const email = this.activeRouter.snapshot.queryParamMap.get("email") ;
       const token = this.activeRouter.snapshot.queryParamMap.get("token");
       this.s_standart.store('auth/password/reset',{email,token,...this.formRecuperationPassword.value}).subscribe(
-        res=>{
-          // if(res && res.hasOwnProperty('success') && res.success){
+        ()=>{
             this.router.navigate(['/login']);
             SwalService.swalFire({position:"center",icon:'success',title:'Contraseña cambiada con exito',html:'Ahora inicia sesion con tu nueva contraseña y email'})
             this.s_spinner.hide();
-            // return;
-          // }
-
-        },err=>{
+        },()=>{
           this.s_spinner.hide();
         }
       )

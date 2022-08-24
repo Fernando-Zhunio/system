@@ -24,7 +24,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
   formControlCode = new FormControl();
   re = /(?:\.([^.]+))?$/;
 
-  fileSend: { base64: string, file: File } = { file: null, base64: null };
+  fileSend: { base64: string | null, file: File | null } = { file: null, base64: null };
   permissionPayments = PermissionOrdersPayments;
   @ViewChild(ViewDocComponent) viewDoc: ViewDocComponent;
   constructor(public dialogRef: MatDialogRef<FilesPaymentsOrderComponent>,
@@ -154,7 +154,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
       }
     // }
   }
-  urlVisor: string = null;
+  urlVisor: string | null = null;
   isOpenVisor = false;
   openVisor(url): void {
     this.urlVisor  = url;

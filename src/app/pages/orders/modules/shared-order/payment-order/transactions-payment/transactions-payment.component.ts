@@ -17,7 +17,7 @@ export class TransactionsPaymentComponent implements OnInit {
   ) { }
   isLoading = false;
   transactions: ITransactionPaymentOrder[] = [];
-  detailsTransaction: ITransactionPaymentOrder = null;
+  detailsTransaction: ITransactionPaymentOrder | null = null;
   cards = new CardBrand();
   hiddenDetails = true;
   methodPayDetail= "";
@@ -34,14 +34,14 @@ export class TransactionsPaymentComponent implements OnInit {
       console.log(res);
       this.transactions = res.data;
       this.isLoading = false;
-    }, err => {
+    }, () => {
       this.dialog.close();
       this.isLoading = false;
     });
   }
 
   moreInfo(id: number): void {
-    this.detailsTransaction = this.transactions.find(x => x.id === id);
+    this.detailsTransaction = this.transactions.find(x => x.id === id)!;
 
     try{
       const mp = this.detailsTransaction.full_data?.transaction.payment_method_type;

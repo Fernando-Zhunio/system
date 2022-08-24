@@ -30,7 +30,7 @@ export class ModalAddProductsShippingComponent implements OnInit {
         this.products = res.data;
       }
       this.isLoading = false;
-    }, err => {
+    }, () => {
       this.isLoading = false;
     });
   }
@@ -49,11 +49,12 @@ export class ModalAddProductsShippingComponent implements OnInit {
     const path = `system-orders/orders/${this.dataExterna.order_id}/shippings/${this.dataExterna.shipping_id}/products/${product_id}`;
     this.standard.methodPut<IItemOrder>(path, { quantity }).subscribe(res => {
       if (res?.success) {
-        this.productsSelected.get(key).quantity = res.data.quantity;
+        const data = this.productsSelected.get(key)!;
+        data.quantity = res.data.quantity;
         this.getProductsAvailable();
       }
       this.isLoadingSelected = false;
-    }, err => {
+    }, () => {
       this.isLoadingSelected = false;
     });
   }
@@ -67,7 +68,7 @@ export class ModalAddProductsShippingComponent implements OnInit {
         this.getProductsAvailable();
       }
       this.isLoadingSelected = false;
-    }, err => {
+    }, () => {
       this.isLoadingSelected = false;
     });
   }
@@ -81,7 +82,7 @@ export class ModalAddProductsShippingComponent implements OnInit {
         this.getProductsAvailable();
       }
       this.isLoading = false;
-    }, err => {
+    }, () => {
       this.isLoading = false;
     });
   }

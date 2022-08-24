@@ -64,7 +64,7 @@ export class PricesIndexComponent
   pricesGroup: IPriceGroup[] = [];
 
   stateFilePrices$: Observable<EPriceState>;
-  stateFilePrices: { status: EPriceState, data?: INotificationData } = null;
+  stateFilePrices: { status: EPriceState, data?: INotificationData } | null = null;
 
   form: FormGroup = new FormGroup({});
   isOpenFile: boolean = false;
@@ -126,12 +126,12 @@ export class PricesIndexComponent
   }
 
   managerStatesPrices(): void {
-    switch (this.stateFilePrices.status) {
+    switch (this.stateFilePrices?.status) {
       case EPriceState.Idle:
         this.store.dispatch(generatingPrice());
-        this.standardService.methodGet(`${this.url}/export-file`).subscribe((res) => {
+        this.standardService.methodGet(`${this.url}/export-file`).subscribe(() => {
           SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
-        }, err => {
+        }, () => {
           SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
           this.store.dispatch(idlePrice());
         });
@@ -139,7 +139,7 @@ export class PricesIndexComponent
       case EPriceState.Generated:
         this.store.dispatch(downloadPrice());
         console.log(this.stateFilePrices);
-        this.downloadExcelPrice(this.stateFilePrices.data.url);
+        this.downloadExcelPrice(this.stateFilePrices.data?.url!);
         break;
     }
   }
@@ -148,7 +148,7 @@ export class PricesIndexComponent
     this.sidenavPrice.open();
     this.dataPriceModify.isLoading = true;
     this.dataPriceModify.id = id;
-    this.dataPriceModify.name = this.data.get(id).name;
+    this.dataPriceModify.name = this.data.get(id)?.name;
     this.dataPriceModify.isEdit = true;
     this.form.reset();
     this.standardService
@@ -164,7 +164,7 @@ export class PricesIndexComponent
     this.sidenavPrice.open();
     this.dataPriceModify.isLoading = true;
     this.dataPriceModify.id = id;
-    this.dataPriceModify.name = this.data.get(id).name;
+    this.dataPriceModify.name = this.data.get(id)?.name;
     this.dataPriceModify.isLoading = false;
     this.dataPriceModify.isEdit = false;
     this.form.reset();
@@ -175,32 +175,33 @@ export class PricesIndexComponent
     const dialogRef = this.dialog.open(ModalListPricesComponent, {
       data: {
         id: key,
-        product_name: this.data.get(key).name,
+        product_name: this.data.get(key)?.name,
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
       this.standardService
         .methodGet(`catalogs/products/${key}/prices/edit?type=full`)
         .subscribe((res: any) => {
-          this.data.get(key).last_prices = res.data.last_prices;
+          const data = this.data.get(key)!;
+          data.last_prices = res.data.last_prices;
         });
     });
   }
 
   addOrRemoveTax(id: number, isTax = false): void {
-    console.log(this.form.get('price_group_' + id).value);
+    console.log(this.form.get('price_group_' + id)?.value);
     const name = 'price_group_' + id;
     if (isTax) {
-      const price_out_tax = this.form.get('tax_' + name).value / 1.12;
+      const price_out_tax = this.form.get('tax_' + name)?.value / 1.12;
 
-      this.form.get(name).setValue(price_out_tax.toFixed(2));
+      this.form.get(name)?.setValue(price_out_tax.toFixed(2));
     } else {
-      const price_with_tax = this.form.get(name).value * 1.12;
+      const price_with_tax = this.form.get(name)?.value * 1.12;
       console.log(price_with_tax);
 
-      this.form.get('tax_' + name).setValue(price_with_tax.toFixed(2));
+      this.form.get('tax_' + name)?.setValue(price_with_tax.toFixed(2));
     }
   }
 
@@ -212,7 +213,8 @@ export class PricesIndexComponent
         this.form.value
       )
       .subscribe((res: { success: boolean, data: IProductPrice }) => {
-        this.data.get(this.dataPriceModify.id).last_prices = res.data.last_prices;
+        const data = this.data.get(this.dataPriceModify.id)!;
+        data.last_prices = res.data.last_prices;
         this.snackBar.open('Se ha guardado el precio', 'Cerrar', {
           duration: 3000,
         });
@@ -231,8 +233,8 @@ export class PricesIndexComponent
   assignData(prices: IPrice[]): void {
     if (prices) {
       prices.forEach(element => {
-        this.form.get('price_group_' + element.price_group_id).setValue(element.price.toFixed(2));
-        this.form.get('tax_price_group_' + element.price_group_id).setValue((element.price * 1.12).toFixed(2));
+        this.form.get('price_group_' + element.price_group_id)?.setValue(element.price.toFixed(2));
+        this.form.get('tax_price_group_' + element.price_group_id)?.setValue((element.price * 1.12).toFixed(2));
       });
     }
   }
@@ -251,14 +253,13 @@ export class PricesIndexComponent
     this.s_shared
       .download(url, true)
       .subscribe((event: any) => {
-        let progress = 0;
         switch (event.type) {
           case HttpEventType.Sent:
             break;
           case HttpEventType.ResponseHeader:
             break;
           case HttpEventType.DownloadProgress:
-            progress = Math.round(event.loaded / event.total * 100);
+            // progress = Math.round(event.loaded / event.total * 100);
             break;
           case HttpEventType.Response:
             const blob = new Blob([event.body], { type: 'application/ms-Excel' });
@@ -273,6 +274,6 @@ export class PricesIndexComponent
             a.remove();
             this.store.dispatch(idlePrice());
         }
-      }, (err) => { this.store.dispatch(idlePrice())});
+      }, () => { this.store.dispatch(idlePrice())});
   }
 }

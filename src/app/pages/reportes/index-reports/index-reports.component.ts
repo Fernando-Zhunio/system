@@ -45,12 +45,6 @@ export class IndexReportsComponent implements OnInit {
     this.isLoading = event;
   }
 
-  changeSort(event): void { }
-
-  editReport(id): void {
-
-  }
-
   deleteReport(id): void {
     SwalService.swalFire(
       {
@@ -63,7 +57,7 @@ export class IndexReportsComponent implements OnInit {
       }).then(res => {
         if (res.isConfirmed) {
           this.methodsHttp.methodDelete(`${this.url}/${id}`).subscribe({
-            next: (response) => {
+            next: () => {
               this.snackBar.open('Reporte eliminado', 'Cerrar', {
                 duration: 5000,
               });

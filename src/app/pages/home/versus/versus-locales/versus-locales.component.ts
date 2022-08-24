@@ -16,9 +16,9 @@ export class VersusLocalesComponent extends VersusChart<Ilocation> implements On
   constructor( spinner: NgxSpinnerService,  s_standart: StandartSearchService) {
     super(spinner, s_standart);
   }
-  url = 'dashboard/versus/locations';
-  urlDashboard: string = 'dashboard/stats/graph';
-  key: string = EKeyDashboard.location_sales;
+  override url = 'dashboard/versus/locations';
+  override urlDashboard: string = 'dashboard/stats/graph';
+  override key: string = EKeyDashboard.location_sales;
 
   ngOnInit(): void {
     this.airDate = new AirDatepicker('#input-date-locations', this.optionsDate as any);

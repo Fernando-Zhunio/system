@@ -72,7 +72,7 @@ interface ExampleFlatNode {
 export interface ICategoriesParent {
   id: string;
   name: string;
-  children: ICategoriesChildren[];
+  children: ICategoriesChildren[] | null;
 }
 
 interface ICategoriesChildren {

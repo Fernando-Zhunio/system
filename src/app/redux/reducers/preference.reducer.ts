@@ -5,8 +5,8 @@ export const initialState: any = null;
 
 const _preferenceReducer = createReducer(
     initialState,
-    on(loadPreference, (state, { preferenceDateDashboard }) => state),
-    on(setPreference, (state, { preference }) => preference),
+    on(loadPreference, (state) => state),
+    on(setPreference, (_state, { preference }) => preference),
 );
 
 export function preferenceReducer(state, action) {

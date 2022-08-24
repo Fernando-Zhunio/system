@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
-import { MatHorizontalStepper, MatStepper } from '@angular/material/stepper';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
 import { IOrder } from '../../../../interfaces/iorder';
 import { IClientOrder } from '../../../../interfaces/iclient-order';
@@ -24,13 +24,13 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   public urlSave: any = 'system-orders/orders';
   @ViewChild('stepper') stepper: MatHorizontalStepper;
 
-  loadCreate: boolean = false;
+  override loadCreate: boolean = false;
   typesOrders: any[] = [];
   channelsOrders: any[] = [];
   clientOrders: ClientOrderClass = new ClientOrderClass();
-  order: IOrder = null;
+  order: IOrder;
   isEditStep: boolean = true;
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     id: new FormControl({ value: null, disabled: true }, [Validators.required]),
     type: new FormControl(null, [Validators.required]),
     client_id: new FormControl(null, [Validators.required]),
@@ -47,39 +47,39 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
 
   permissions = PermissionOrders;
   permissionsClient = PermissionOrdersClients;
-  workspace: string = null;
+  workspace: string | null = null;
 
-  get clientSelected(): IClientOrder {
+  get clientSelected(): IClientOrder | null{
     return this.clientOrders.client;
   }
 
-  get addressSelected(): IClientAddressOrder {
+  get addressSelected(): IClientAddressOrder | null {
     return this.clientOrders.address;
   }
 
-  set clientSelected(client: IClientOrder) {
+  set clientSelected(client: IClientOrder | null) {
     if (client) {
-      this.form.get('client_id').setValue(client.id);
+      this.form.get('client_id')?.setValue(client.id);
       this.clientOrders.client = client;
       SharedService.scrollBottom();
     } else {
-      this.form.get('client_id').setValue(null);
+      this.form.get('client_id')?.setValue(null);
       this.clientOrders.client = null;
     }
   }
 
-  set addressSelected(address: IClientAddressOrder) {
+  set addressSelected(address: IClientAddressOrder | null) {
     if (address) {
-      this.form.get('address_id').setValue(address.id);
+      this.form.get('address_id')?.setValue(address.id);
       this.clientOrders.address = address;
       SharedService.scrollBottom();
     } else {
-      this.form.get('address_id').setValue(null);
+      this.form.get('address_id')?.setValue(null);
       this.clientOrders.address = null;
     }
   }
 
-  constructor(private dialog: MatDialog, private activatedRouter: ActivatedRoute, router: Router, standard: StandartSearchService) {
+  constructor(private dialog: MatDialog, activatedRouter: ActivatedRoute, router: Router, standard: StandartSearchService) {
     super(activatedRouter, standard, router);
   }
 
@@ -87,10 +87,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     this.init();
   }
 
-  setData(data): void {
-    // if (this.status === 'create') {
-    //   // console.log(data);
-    // }
+  override setData(data): void {
     this.typesOrders = data.types;
     this.channelsOrders = data.channels;
     this.companies = data?.companies || [];
@@ -103,12 +100,16 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
 
   selectedClient(event: MatSelectionListChange): void {
     const key = event.options[0].value;
-    this.clientSelected = this.clientOrders.data.get(key);
+    const client = this.clientOrders.data.get(key);
+    if (client) {
+      this.clientSelected = client;
+    }
+    // this.clientSelected = this.clientOrders.data.get(key) ;
   }
 
   selectedAddress(event: MatSelectionListChange): void {
     const key = event.options[0].value;
-    this.addressSelected = this.clientOrders.addressesData.get(key);
+    this.addressSelected = this.clientOrders.addressesData.get(key)!;
   }
 
   removeClientSelected(): void {
@@ -121,11 +122,11 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     }
   }
 
-  openDialogCreateOrEdit(address_id: number = null): void {
+  openDialogCreateOrEdit(address_id: number | null = null): void {
     this.dialog.open(CreateOrEditAddressClientComponent, {
       data: {
         isoObligate: false,
-        client_id: this.clientSelected.id,
+        client_id: this.clientSelected!.id,
         address_id
       },
       disableClose: true
@@ -136,11 +137,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     });
   }
 
-  go(data: IOrder): void {
-    // this.order = data;
-    // this.form.get('id').setValue(data.id);
-    // this.isEditStep = false;
-    // this.stepper.next();
+  override go(data): void {
     this.router.navigate(['/system-orders/orders', data.id, 'edit']);
   }
 }
@@ -151,20 +148,20 @@ class ClientOrderClass {
   url = 'system-orders/clients';
   data: Map<number, IClientOrder> = new Map<number, IClientOrder>();
   title = 'Buscador Clientes';
-  client: IClientOrder = null;
-  address: IClientAddressOrder = null;
+  client: IClientOrder | null;
+  address: IClientAddressOrder | null;
   isLoadingAddresses: boolean = false;
   addressesData: Map<number, IClientAddressOrder> = new Map<number, IClientAddressOrder>();
 
   getAddresses(standard_service: StandartSearchService): void {
     this.isLoadingAddresses = true;
-    const urlAddressClient = `system-orders/clients/${this.client.id}/addresses`;
+    const urlAddressClient = `system-orders/clients/${this.client?.id}/addresses`;
     standard_service.index(urlAddressClient).subscribe(res => {
       this.isLoadingAddresses = false;
       if (res?.data?.data?.length > 0) {
         this.addressesData = new Map(res.data.data.map(item => [item['id'], item]));
       }
-    }, err => {
+    }, () => {
       this.isLoadingAddresses = false;
     });
   }

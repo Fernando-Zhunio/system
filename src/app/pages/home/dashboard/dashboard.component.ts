@@ -6,7 +6,7 @@ import Chart from 'chart.js/auto';
 import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import { StandartSearchService } from '../../../services/standart-search.service';
-import { IheaderDashboard, IsalesHeader, ISeller, IsellForCity, IstatisticableLocation, IstatisticableProduct, ItopDashboard } from '../../../interfaces/idashboard';
+import { IheaderDashboard, IsalesHeader, ISeller, IsellForCity, IstatisticableLocation, ItopDashboard } from '../../../interfaces/idashboard';
 import * as moment from 'moment';
 import { PageEvent } from '@angular/material/paginator';
 import { SellChartComponent } from './chart/sell-chart/sell-chart.component';
@@ -50,9 +50,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('chartLocales', { static: true }) chartLocales: LocalesChartComponent;
   @ViewChild('chartCategory', { static: true }) chartCategory: CategoryChartComponent;
 
-  chartVentas: Chart = null;
-  chartSellForCategories: Chart = null;
-  dateRange: IDatesDashboard = null;
+  chartVentas: Chart | null = null;
+  chartSellForCategories: Chart | null = null;
+  dateRange: IDatesDashboard | null = null;
   formDate: FormGroup = new FormGroup({
     star_date: new FormControl(new Date()),
     end_date: new FormControl(new Date()),
@@ -83,8 +83,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ELEMENT_DATA_SELLER: IsellerTable[] = [];
   dataSourceSeller = new MatTableDataSource<IsellerTable>(this.ELEMENT_DATA_SELLER);
   paginatorSeller: PageEvent = new PageEvent();
-  airDate: AirDatepicker = null;
-  airDatePreview: AirDatepicker = null;
+  airDate: AirDatepicker | null = null;
+  airDatePreview: AirDatepicker | null = null;
   total_sell: IsalesHeader;
   value_middle: IsalesHeader;
   invoice_total: IsalesHeader;
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     multipleDatesSeparator: ' A ',
   };
   notFirstCall: number = 0;
-  unSubscriptedStorePreference: Subscription = null;
+  unSubscriptedStorePreference: Subscription | null = null;
 
   ngOnInit(): void {
     this.unSubscriptedStorePreference =  this.store.select(selectPreference).subscribe(preferences => {
@@ -187,10 +187,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //#endregion Table for City
 
   //#region Table for Locales
-  updateTableForLocales(page: PageEvent = null): void {
-    // const date = this.getDate();
-    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=location-sales&limit=10`, page?.pageIndex + 1 || 1)
-    this.suscribeForTop(EKeyDashboard.location_sales, null, 'desc', 15, page?.pageIndex + 1 || 1)
+  updateTableForLocales(page: PageEvent | null = null): void {
+    this.suscribeForTop(EKeyDashboard.location_sales, null, 'desc', 15, page!?.pageIndex + 1 || 1)
       .subscribe((res) => {
         this.changedTableForLocales(res.data.data as ItopDashboard<IstatisticableLocation>[]);
         this.paginator.length = res.data.total;
@@ -215,10 +213,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   //#region Table for Seller
-  updateTableForSellers(page: PageEvent = null, key: EKeyDashboard = EKeyDashboard.seller_sales): void {
-    // const date = this.getDate();
-    // this.s_stardart.index(`dashboard/stats/sum?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}&key=seller-sales&limit=10`, page?.pageIndex + 1 || 1)
-    this.suscribeForTop(key, null, 'desc', 15, page?.pageIndex + 1 || 1)
+  updateTableForSellers(page: PageEvent | null = null, key: EKeyDashboard = EKeyDashboard.seller_sales): void {
+    this.suscribeForTop(key, null, 'desc', 15, page!?.pageIndex + 1 || 1)
       .subscribe((res) => {
         this.changedTableForSellers(res.data.data as ItopDashboard<ISeller>[]);
         this.paginatorSeller.length = res.data.total;
@@ -242,7 +238,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //#endregion Table for Seller
 
 
-  suscribeForTop(key: EKeyDashboard, model_id = null, order: 'asc' | 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
+  suscribeForTop(key: EKeyDashboard, model_id: any = null, order: 'asc' | 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
     // const date = this.getDate();
     let params = new HttpParams();
     // if (hasDate) {
@@ -261,9 +257,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return this.s_standard.getWithHttpParams(`dashboard/stats/sum`, params);
   }
 
-  // getUrlAndQueryStringForCompare(key: EkeyDashboard, period: 'day' | 'week' | 'month' = 'day', model_id = null, compare_previous_period: boolean = false): string {
-  //   const date = this.getDate();
-  //   return `dashboard/stats/top?start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`;
-  // }
 
 }

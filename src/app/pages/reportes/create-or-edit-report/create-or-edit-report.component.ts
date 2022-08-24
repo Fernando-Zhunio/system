@@ -18,21 +18,21 @@ export class CreateOrEditReportComponent extends CreateOrEdit2<any> implements O
   public urlSave = 'system-orders/reports';
   @ViewChild('filterOrderMin', { static: false }) dpMinDateElement: ElementRef;
   @ViewChild('filterOrderMax', { static: false }) dpMaxDateElement: ElementRef;
-  form = new FormGroup({
+  override form = new FormGroup({
     name: new FormControl(null, Validators.required),
     format: new FormControl(null, Validators.required),
     start_date: new FormControl(null, Validators.required),
     end_date: new FormControl(null, Validators.required),
   });
-  dpMin = null;
-  dpMax = null;
+  dpMin: any = null;
+  dpMax: any = null;
 
   formats = [];
   reports = [];
 
   constructor(public act_router: ActivatedRoute,
     public methodsHttp: MethodsHttpService,
-    public router: Router, public location: Location) { super() }
+    public router: Router, public override location: Location) { super() }
 
   ngOnInit(): void {
     this.init(true);
@@ -51,7 +51,7 @@ export class CreateOrEditReportComponent extends CreateOrEdit2<any> implements O
         this.dpMax.update({
           minDate: date
         })
-        this.form.get('start_date').setValue(moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm'));
+        this.form.get('start_date')?.setValue(moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm'));
       }
     })
     this.dpMax = new AirDatepicker(this.dpMaxDateElement.nativeElement, {
@@ -63,15 +63,17 @@ export class CreateOrEditReportComponent extends CreateOrEdit2<any> implements O
       dateFormat: 'yyyy/MM/dd',
       timeFormat: 'HH:mm',
       onSelect: ({ date }) => {
-        this.dpMin.update({
-          maxDate: date
-        })
-        this.form.get('end_date').setValue(moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm'));
+        if (this.dpMin){
+          this.dpMin.update({
+            maxDate: date
+          })
+        }
+        this.form.get('end_date')?.setValue(moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm'));
       }
     })
   }
 
-  setData(data): void {
+  override setData(data): void {
     this.formats = data.formats;
     this.reports = data.reports;
   }
@@ -85,7 +87,7 @@ export class CreateOrEditReportComponent extends CreateOrEdit2<any> implements O
     console.log(this.form);
   }
 
-  go(data = null) {
+  override go(_data = null) {
     this.goBack();
    }
 

@@ -3,18 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
   Iappointment,
-  Iuser,
 } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ViewChild } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { Irequest } from './../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { Iperson } from '../../../../interfaces/iperson';
 import { Ilocation } from '../../../../interfaces/ilocation';
 import { SwalService } from './../../../../services/swal.service';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-create-or-edit-appointment',
@@ -57,15 +53,15 @@ export class CreateOrEditAppointmentComponent implements OnInit {
       this.router.navigate(['recursos-humanos/requests']);
       return;
     } else {
-      this.formAppointment.get('request_id').setValue(this.requestWork.id);
+      this.formAppointment.get('request_id')?.setValue(this.requestWork.id);
     }
 
     // this.formAppointment.get('novi_sys_location_id').disable();
     // this.formAppointment.get('novi_sys_person_id').disable();
     this.spinner.show();
     this.actived_router.data.subscribe((res) => {
-      this.state = res.isEdit ? 'edit' : 'create';
-      if (res.isEdit) {
+      this.state = res['isEdit'] ? 'edit' : 'create';
+      if (res['isEdit']) {
         this.title = 'Editando Cita';
         this.appointmet = this.s_shared.appointmentWork;
         const {
@@ -88,7 +84,7 @@ export class CreateOrEditAppointmentComponent implements OnInit {
         // comprobando si el tipo es video conferencia y activar o desactivar los inputs
         this.changeSelectionType();
         // input type desabilitado
-        this.formAppointment.get('type').disable();
+        this.formAppointment.get('type')?.disable();
 
         const url = `rrhh/appointments/edit`;
         this.s_standart.show(url).subscribe(
@@ -98,7 +94,7 @@ export class CreateOrEditAppointmentComponent implements OnInit {
               this.loadData(res1.data);
             }
           },
-          (err) => {
+          () => {
             this.spinner.hide();
           }
         );
@@ -111,7 +107,7 @@ export class CreateOrEditAppointmentComponent implements OnInit {
               this.loadData(res1.data);
             }
           },
-          (err) => {
+          () => {
             this.spinner.hide();
           }
         );
@@ -126,10 +122,10 @@ export class CreateOrEditAppointmentComponent implements OnInit {
   }
 
   changeSelectionType(): void {
-    if (this.formAppointment.get('type').value === 'face_to_face') {
-      this.formAppointment.get('novi_sys_location_id').enable();
+    if (this.formAppointment.get('type')?.value === 'face_to_face') {
+      this.formAppointment.get('novi_sys_location_id')?.enable();
     } else {
-      this.formAppointment.get('novi_sys_location_id').disable();
+      this.formAppointment.get('novi_sys_location_id')?.disable();
     }
   }
 
@@ -158,7 +154,7 @@ export class CreateOrEditAppointmentComponent implements OnInit {
           this.router.navigate(['recursos-humanos/appointments']);
         }
       },
-      (err) => {
+      () => {
         this.isLoad = false;
       }
     );
@@ -176,7 +172,7 @@ export class CreateOrEditAppointmentComponent implements OnInit {
           this.router.navigate(['recursos-humanos/appointments']);
         }
       },
-      (err) => {
+      () => {
         this.isLoad = false;
       }
     );

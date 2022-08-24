@@ -37,7 +37,7 @@ export class ShippingsComponent implements OnInit {
   ngOnInit() {
   }
 
-  openDialogShipping(id: number = null): void {
+  openDialogShipping(id: number | null = null): void {
     this.dialog.open(ShippingOrderSectionComponent, {
       data: { shipping_id: id, order_id: this.order_id },
       disableClose: true,
@@ -81,17 +81,17 @@ export class ShippingsComponent implements OnInit {
             if (res?.success) {
               this.change.emit('update status');
             }
-          }, err => {
+          }, () => {
             if (select instanceof MatSelectChange)
-            select.source.value = this.shippings.find(x => x.id == id).status;
+            select.source.value = this.shippings.find(x => x.id == id)?.status;
           });
         } else {
           if (select instanceof MatSelectChange)
-          select.source.value = this.shippings.find(x => x.id == id).status;
+          select.source.value = this.shippings.find(x => x.id == id)?.status;
         }
-      }).catch(err => {
+      }).catch(() => {
         if (select instanceof MatSelectChange)
-        select.source.value = this.shippings.find(x => x.id == id).status;
+        select.source.value = this.shippings.find(x => x.id == id)?.status;
       });
   }
 
@@ -148,7 +148,7 @@ export class ShippingsComponent implements OnInit {
     this.btnSheet.open(SelectedViewServientregaPdfComponent).afterDismissed()
       .subscribe(res => {
         if (res) {
-          let url = null;
+          let url: any = null;
           switch (res) {
             case 'docs':
               url = `system-orders/orders/${this.order_id}/shippings/${id}/servientrega/tracking-pdf`;

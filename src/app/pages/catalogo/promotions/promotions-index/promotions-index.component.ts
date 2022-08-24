@@ -27,14 +27,14 @@ export class PromotionsIndexComponent extends Crud<IPromotions> implements OnIni
   ngOnInit(): void {
   }
 
-  getData(data: any): void {
+  override getData(data: any): void {
     console.log(data);
     this.data = new Map<any, IPromotions>(data[this.key_paginator].data.map((item: IPromotions) => [item[this.key], item]));
   }
 
   openSheetViewProducts(key: string): void {
     this.sheet.open(SheetFzComponent, {
-      data: this.data.get(key).products.map((item: IProduct) => {
+      data: this.data.get(key)!.products.map((item: IProduct) => {
         return { id: item.id, icon: 'sell', lines: [`${item.name} - (${item.code})`, `Precio: ${item.pivot.price}`, `Cantidad: ${item.pivot.quantity}`] };
       }
       )

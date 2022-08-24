@@ -5,7 +5,6 @@ import { EchoManager } from '../../../../class/echo-manager';
 import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
 import { IpermissionStandart } from '../../../../interfaces/ipermission-standart';
 import { Ipublication } from '../../../../interfaces/ipublication';
-import { SharedService } from '../../../../services/shared/shared.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { StorageService } from '../../../../services/storage.service';
 
@@ -22,15 +21,16 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
     private s_storage: StorageService
   ) {}
 
-  publication: Ipublication = null;
+  publication: Ipublication | null = null;
   isLoadPublication: boolean = false;
   permission_page: IpermissionStandart;
   echo: Echo;
   ngOnInit(): void {
-    this.active_router.data.subscribe((res) => {
+    this.active_router.data.subscribe((res: any) => {
       this.permission_page = res.permissions.all;
     });
-    const id = Number.parseInt(this.active_router.snapshot.paramMap.get('id'));
+    const idString = this.active_router.snapshot.paramMap.get('id')!;
+    const id = Number.parseInt(idString);
     this.changePublication(id);
     this.echo = new EchoManager(this.s_storage).echo;
     this.echo
@@ -67,7 +67,7 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
     );
   }
 
-  destroyPublication(event): void {
+  destroyPublication(_event): void {
     this.publication = null;
   }
 }

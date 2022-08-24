@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { SwalService } from './../../../../../services/swal.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { SimpleChanges } from '@angular/core';
 import { vtexResponseSku } from '../../../../../interfaces/vtex/iproducts';
 import { IvtexPrices } from '../../../../../interfaces/vtex/ivtex-prices';
 

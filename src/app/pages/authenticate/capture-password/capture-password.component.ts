@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { interval, Subscription } from 'rxjs';
-
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from './../../../services/swal.service';
 
@@ -11,7 +9,7 @@ import { SwalService } from './../../../services/swal.service';
   templateUrl: './capture-password.component.html',
   styleUrls: ['./capture-password.component.css']
 })
-export class CapturePasswordComponent implements OnInit, OnDestroy {
+export class CapturePasswordComponent implements OnInit {
 
   constructor(private s_standard: StandartSearchService, private active_router: ActivatedRoute, private router: Router) { }
 
@@ -26,18 +24,10 @@ export class CapturePasswordComponent implements OnInit, OnDestroy {
   });
   token: string;
   ngOnInit(): void {
-    // this.active_router.queryParams.subscribe(params => {
-    //   this.token = params.token;
-    //   console.log(params);
-    //   // if(!this.token) this.router.navigate(["login"])
-    // });
-    this.token = this.active_router.snapshot.queryParams.token;
-    // console.log(this.token);
+    this.token = this.active_router.snapshot.queryParams['token'];
     if(!this.token){
       this.router.navigate(["login"]);
     }
-    
-
   }
 
   saveInServer(): void {
@@ -53,23 +43,12 @@ export class CapturePasswordComponent implements OnInit, OnDestroy {
           SwalService.swalFire({text: 'A ocurrido un error', icon: 'error'});
         }
         this.isLoad = false;
-      }, err => {
+      }, () => {
         SwalService.swalFire({text: 'A ocurrido un error', icon: 'error'});
         this.isLoad = false;
       });
-    } 
+    }
   }
 
-  // equalPassword(AC: AbstractControl): ValidatorFn {
-  //   return (control: AbstractControl): { [key: string]: any } | null =>
-  //     control.value === AC.get('password_confirmation').value
-  //       ? null : { equalPassword: control.value };
-  // }
-
-  ngOnDestroy(): void {
-    // Called once, before the instance is destroyed.
-    // Add 'implements OnDestroy' to the class.
-    // this.suscribir_reloj.unsubscribe();
-  }
 
 }

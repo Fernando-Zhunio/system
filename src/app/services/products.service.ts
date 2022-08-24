@@ -46,7 +46,7 @@ export class ProductsService {
     return this.http.get(this.end_point + 'catalogs/products', {params: {search}})
   }
 
-  viewWareHouse(id, params = null): Observable<any> {
+  viewWareHouse(id, params = {}): Observable<any> {
     return this.http.get(this.end_point + 'catalogs/products/' + id + '/stock/ajax', {params});
   }
 

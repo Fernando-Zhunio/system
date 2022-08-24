@@ -72,7 +72,7 @@ export class CreateOrEditAddressClientComponent implements OnInit {
     observable.subscribe(res => {
       console.log(res);
       this.dialogRef.close(res);
-    }, err => {
+    }, () => {
       this.isLoading = false;
     });
   }

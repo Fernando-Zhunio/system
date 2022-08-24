@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Iwarehouse } from '../../../interfaces/iwarehouse';
 import { StandartSearchService } from '../../../services/standart-search.service';
-import collect from 'collect.js';
 import { SwalService } from '../../../services/swal.service';
 
 interface ImbaStatus {
@@ -27,7 +26,7 @@ export class DownloadStockComponent implements OnInit {
   warehousesSelectsMap:  Map<number, object> = new Map<number, object>();
   search: string = '';
   isLoad: boolean = false;
-  mbaStatus: ImbaStatus = null;
+  mbaStatus: ImbaStatus | null = null;
   show_global_stock: boolean = false;
   allWarehouse: boolean = false;
   ngOnInit(): void {
@@ -48,7 +47,7 @@ export class DownloadStockComponent implements OnInit {
   }
 
   assignedDataOnInit(user_warehouses: any[]): void {
-    
+
     user_warehouses.map((id: any) => {
       // console.log(id);
       this.addWarehousesSelects(id);
@@ -56,16 +55,7 @@ export class DownloadStockComponent implements OnInit {
   }
 
   addWarehousesSelects(id: any) {
-    // if (this.allWarehouse) {return; }
-    // const index = this.warehouses.findIndex((x) => x.id == id);
-    // console.log({index,id});
-    // const indexCopy = this.warehouseCopySearch.findIndex((x) => x.id == id);
-    // if (index !== -1) {
-    //   this.warehousesSelects.push(this.warehouses[index]);
-    //   this.warehouses.splice(index, 1);
-    //   this.warehouseCopySearch.splice(indexCopy, 1);
-    // }
-    const value = this.warehousesMap.get(id);
+    const value = this.warehousesMap.get(id) as Iwarehouse;
     this.warehousesSelectsMap.set(id, value);
     const index = this.warehouses.findIndex((x) => x.id == id);
     this.warehouses.splice(index, 1);
@@ -74,16 +64,8 @@ export class DownloadStockComponent implements OnInit {
 
   removeWarehousesSelects(id: number) {
     if (this.allWarehouse) {return; }
-    // const index = this.warehousesSelects.findIndex((x) => x.id === id);
-    // if (index !== -1) {
-    //   this.warehouseCopySearch.push(this.warehousesSelects[index]);
-    //   this.warehousesSelects.splice(index, 1);
-    //   this.filterWarehouse();
-    // }
     const value = this.warehousesSelectsMap.get(id) as Iwarehouse;
     this.warehousesMap.set(id, value);
-    // const index = this.warehousesSelects.findIndex((x) => x.id === id);
-    // this.warehousesSelects.splice(index, 1);
     this.warehouses.push(value);
     this.warehousesSelectsMap.delete(id);
     this.filterWarehouse();
