@@ -44,7 +44,7 @@ export class CreateProviderOrContactComponent implements OnInit {
   countries=[];
   ngOnInit(): void {
     if (this.data.hasOwnProperty("state")) {
-      this.state = this.data.state;
+      this.state = this.data.state!;
 
       switch (this.state) {
         case EProviderActions.edit_provider:
@@ -74,16 +74,8 @@ export class CreateProviderOrContactComponent implements OnInit {
             default:
               break;
             }
-            // if(this.state == EProviderActions.edit_provider){
-              //   if(this.data.isProvider){
-
-                //   }else{
-                  //     const {name,phone,email,position} = this.data.form_data;
-                  //     this.formContact.setValue({name,phone,email,position})
-                  //   }
-                  // }
                 }
-                this.countries = JSON.parse(localStorage.getItem('countries'))
+                this.countries = JSON.parse(localStorage.getItem('countries')!)
 
   }
 
@@ -134,7 +126,6 @@ export class CreateProviderOrContactComponent implements OnInit {
         action:this.enum_action_provider.delete_contact,
         data:{id,name,phone,email,position},
       });
-      // this.formContact.setValue({id,name,phone,email,position});
     }
   }
 }

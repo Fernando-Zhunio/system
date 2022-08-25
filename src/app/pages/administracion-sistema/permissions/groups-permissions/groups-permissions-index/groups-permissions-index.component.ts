@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { IndexWithMatTable } from '../../../../../class/index-with-mat-table';
@@ -16,8 +15,9 @@ export class GroupsPermissionsIndexComponent extends IndexWithMatTable<any> impl
   itemRows: { key: string; title: string; isEditable: boolean; }[];
   url: string = 'admin/groups-permissions';
 
-  constructor(private standard: StandartSearchService, private snack: MatSnackBar, public router: Router, private btnSheet: MatBottomSheet) {
-    super(standard, snack, router);
+  constructor(protected _standard: StandartSearchService, protected _snack: MatSnackBar, public override router: Router) {
+    // const standart = _standard;
+    super(_standard, _snack, router);
     this.displayedColumns = ['id', 'name', 'slug', 'position', 'actions'];
     this.permissions = {
       create: ['super-admin', 'admin.permissions.create'],
@@ -34,11 +34,11 @@ export class GroupsPermissionsIndexComponent extends IndexWithMatTable<any> impl
    }
 
   ngOnInit(): void {
-
+    // this._standard;
+    this._snack;
   }
 
   creating(): void {
-    // alert('creando');
     const scrollModal = document.getElementsByClassName('mat-dialog-content')[0];
     scrollModal.scrollTop = scrollModal.scrollHeight;
   }

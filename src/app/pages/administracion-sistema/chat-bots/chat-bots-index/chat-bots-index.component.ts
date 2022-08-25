@@ -22,14 +22,13 @@ export class ChatBotsIndexComponent extends Crud<IChatbot> implements OnInit {
   ngOnInit(): void {
   }
 
-  getData(event): void {
+  override getData(event): void {
     console.log(event);
     this.data = new Map<any, IChatbot>(event.map( (item: IChatbot) => [item._id, item]));
   }
 
   copyToken(code: string) {
     this.clipboard.copy(code);
-    // SwalService.swalToast("Codigo: "+code+" copiado","success")
     this.snackBar.open('Codigo copiado', 'OK', {
       duration: 2000,
     });

@@ -13,7 +13,7 @@ export class IndexWorkspacesOrdersComponent extends Crud<IOrderWorkspace> implem
 
   url = 'system-orders/workspaces'
   workspaces: IOrderWorkspace[] = []
-  key = 'id';
+  override key = 'id';
   constructor(
     protected standardService: StandartSearchService,
     protected snackBar: MatSnackBar,
@@ -25,10 +25,7 @@ export class IndexWorkspacesOrdersComponent extends Crud<IOrderWorkspace> implem
   ngOnInit() {
   }
 
-  // getData(event: any): void {
-  //   console.log(event);
-  //   this.workspaces = event;
-  // }
+
 
 
 }

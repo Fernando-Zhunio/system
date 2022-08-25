@@ -137,7 +137,7 @@ interface IfacebookCampaign {
 })
 export class FacebookAdsCampaignComponent extends CtableAndPaginator<IfacebookCampaign> implements OnInit {
 
-  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;
   @Output() arrayIds: EventEmitter<any> = new EventEmitter();
   searchItems: {id: number, name: string}[] = [];
   idSearchItems: number[] = [];
@@ -146,9 +146,9 @@ export class FacebookAdsCampaignComponent extends CtableAndPaginator<IfacebookCa
   accounts: IaccountsFb[] = [];
   currentAccount: any;
   permissions: IpermissionStandart;
-  wordMain: string = 'Facebook Ads';
-  urlDelete: string = 'admin/roles/';
-  displayedColumns: string[] = [
+  override wordMain: string = 'Facebook Ads';
+  override urlDelete: string = 'admin/roles/';
+  override displayedColumns: string[] = [
     'add',
     'state',
     'riesgo',
@@ -164,16 +164,16 @@ export class FacebookAdsCampaignComponent extends CtableAndPaginator<IfacebookCa
   status: number = 3;
   //#endregion
 
-  name_spinner: string = 'spinner_table';
+  override name_spinner: string = 'spinner_table';
 
 
   constructor( public activated_route: ActivatedRoute,
-    public s_standart: StandartSearchService,
-    public snack_bar: MatSnackBar, private dialog: MatDialog, public ngx_spinner: NgxSpinnerService) { super(); }
+    public override s_standart: StandartSearchService,
+    public override snack_bar: MatSnackBar, private dialog: MatDialog, public override ngx_spinner: NgxSpinnerService) { super(); }
 
   ngOnInit(): void {
     this.activated_route.data.subscribe((res) => {
-      this.permissions = res.permissions.all;
+      this.permissions = res['permissions'].all;
     });
   }
 
@@ -184,7 +184,6 @@ export class FacebookAdsCampaignComponent extends CtableAndPaginator<IfacebookCa
 
     if (item_add) {
       this.searchItems.push({id: item_add.id, name: item_add.name});
-      // this.idSearchItems.push(item_add.id)
     }
   }
 
@@ -193,13 +192,12 @@ export class FacebookAdsCampaignComponent extends CtableAndPaginator<IfacebookCa
     if (remove_item_index !== -1) {
       this.searchItems.splice(remove_item_index, 1);
 
-      // this.searchItems.splice(remove_item_index,1);
     }
   }
   changeState(id, event): void {
-    this.s_standart.updatePut('admin/facebook-ads/campaigns/' + id + '/toggle-enable', {}).subscribe(res => {
+    this.s_standart.updatePut('admin/facebook-ads/campaigns/' + id + '/toggle-enable', {}).subscribe(() => {
     },
-    err => {
+    () => {
       event.target.checked = !event.target.checked;
     }
     );

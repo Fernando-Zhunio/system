@@ -4,18 +4,8 @@ import { StandartSearchService } from './../../../../../services/standart-search
 import { Subscription } from 'rxjs';
 import { SwalService } from './../../../../../services/swal.service';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { vtexResponseSku } from '../../../../../interfaces/vtex/iproducts';
 import { IvtexPrices } from '../../../../../interfaces/vtex/ivtex-prices';
-
-// export interface IvtexPrice {
-//   itemId: string;
-//   listPrice: any;
-//   costPrice: number;
-//   markup: number;
-//   basePrice: number;
-//   fixedPrices: any[];
-// }
 
 export enum EStatus {
   create,
@@ -37,15 +27,12 @@ export class ModalPricesComponent implements OnInit {
     private s_standart: StandartSearchService,
     private dialogRef: MatDialogRef<ModalPricesComponent>,
     private router: Router,
-    private s_spinner: NgxSpinnerService,
   ) {
     this.sku = data.sku;
   }
 
   vtexPriceSku: IvtexPrices;
   status: EStatus = EStatus.loading;
-  //  "create" | "edit" | "view" | "not found" | "loading" = "loading";
-  // isLoad: boolean = false;
   suscriptionPrices: Subscription;
   ngOnInit(): void {
     this.searchVtexPricesSku();
@@ -53,7 +40,6 @@ export class ModalPricesComponent implements OnInit {
 
   searchVtexPricesSku(): void {
     this.status = EStatus.loading;
-    // this.s_spinner.show("loader-modal-prices");
     this.suscriptionPrices = this.s_standart
       .show('products-admin/vtex/price-vtex/' + this.sku.vtex_api_id)
       .subscribe(

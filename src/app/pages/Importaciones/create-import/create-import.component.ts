@@ -1,11 +1,10 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FileSystemDirectoryEntry, FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
+import { ActivatedRoute } from '@angular/router';
+import { NgxFileDropEntry } from 'ngx-file-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { InvoiceItemModalComponent } from '../../../components/modals/invoice-item-modal/invoice-item-modal.component';
@@ -13,25 +12,6 @@ import { EProviderActions } from '../../../enums/eprovider-actions.enum';
 import { Iimportation } from '../../../interfaces/Imports/invoice-item';
 import { StandartSearchService } from '../../../services/standart-search.service';
 
-
-// export function RequireMatch(control: AbstractControl) {
-//   const selection: any = control.value;
-//   if (typeof selection === 'string') {
-//       return { incorrect: true };
-//   }
-//   return null;
-// }
-// interface TableItemInvoice{
-//   new:boolean
-//   id:number
-//   code:string,
-//   description:string,
-//   note:string,
-//   quantity:number,
-//   price:number,
-//   tariff:number
-//   images:string
-// }
 @Component({
   selector: 'app-create-import',
   templateUrl: './create-import.component.html',
@@ -42,8 +22,8 @@ export class CreateImportComponent implements OnInit {
   isLoadingProvider: boolean = false;
   providers = [];
   state_import: 'edit'|'create' = 'create';
-  constructor(private snack_bar: MatSnackBar, private active_route: ActivatedRoute, private spinner: NgxSpinnerService, private s_standart: StandartSearchService, private bottomSheet: MatBottomSheet, private dialog: MatDialog) { }
-  products = [];
+  constructor(private snack_bar: MatSnackBar, private active_route: ActivatedRoute, private spinner: NgxSpinnerService, private s_standart: StandartSearchService, private dialog: MatDialog) { }
+  products: any[] = [];
   form_import: FormGroup = new FormGroup({
     origin: new FormControl('', [Validators.required]),
     sequence: new FormControl('', ),
@@ -54,8 +34,8 @@ export class CreateImportComponent implements OnInit {
     estimated_date_last: new FormControl(null, [Validators.required]),
   });
 
-  forms_invoices = [];
-  import: Iimportation = null;
+  forms_invoices: any[] = [];
+  import!: Iimportation;
   origins = [];
   origen_current: string;
   files: NgxFileDropEntry[] = [];
@@ -72,18 +52,18 @@ export class CreateImportComponent implements OnInit {
       localStorage.setItem('countries', JSON.stringify(res.data.countries));
     });
      this.suscribe_status = this.active_route.data.subscribe(res => {
-      this.state_import = res.state;
+      this.state_import = res['state'];
       this.state = this.state_import;
 
-      if (res.state == 'edit') {
+      if (res['state'] == 'edit') {
         this.spinner.show();
-        const id = this.active_route.params.subscribe(res => {
+        this.active_route.params.subscribe(res => {
 
-          this.s_standart.show('purchase-department/imports/' + res.id + '/edit').subscribe((res: {success: boolean, data: Iimportation}) => {
+          this.s_standart.show('purchase-department/imports/' + res['id'] + '/edit').subscribe((res: {success: boolean, data: Iimportation}) => {
             this.spinner.hide();
             this.import = res.data;
-            this.forms_invoices = this.import.invoices;
-          }, err => {this.spinner.hide();});
+            this.forms_invoices = this.import.invoices!;
+          }, () => {this.spinner.hide();});
         });
       }
     });
@@ -98,7 +78,7 @@ export class CreateImportComponent implements OnInit {
           this.state_import = 'edit';
         }
         this.isLoadGenerate = false;
-      }, err => {this.isLoadGenerate = false;});
+      }, () => {this.isLoadGenerate = false;});
     }
   }
 
@@ -119,17 +99,14 @@ export class CreateImportComponent implements OnInit {
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
-    for (const droppedFile of files) {
+    // for (const droppedFile of files) {
 
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        const reader = new FileReader();
-        fileEntry.file((file: File) => {
-        });
-      } else {
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-      }
-    }
+      // if (droppedFile.fileEntry.isFile) {
+      //   const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+      //   fileEntry.file((file: File) => {
+      //   });
+      // }
+    // }
   }
 
   deleteInvoice(i) {
@@ -152,10 +129,6 @@ export class CreateImportComponent implements OnInit {
     this.dialog.open(InvoiceItemModalComponent, {data: {id_import: 100, id_invoice: 100}, disableClose: true});
   }
 
-  editItem(i) {
-
-  }
-
   getProduct(event) {
     this.products = event.data.data;
   }
@@ -167,7 +140,7 @@ export class CreateImportComponent implements OnInit {
       data_req.estimated_date_first = formatDate(new Date(data_req.estimated_date_first), 'yyyy/MM/dd', 'en');
       data_req.estimated_date_last = formatDate(new Date(data_req.estimated_date_last), 'yyyy/MM/dd', 'en');
 
-      this.s_standart.updatePut('purchase-department/imports/' + this.import.id + '/publish', this.form_publish.value).subscribe(res => {
+      this.s_standart.updatePut('purchase-department/imports/' + this.import.id + '/publish', this.form_publish.value).subscribe(() => {
         this.spinner.hide();
       }, err => {
         // this.spinner.hide();
@@ -186,7 +159,7 @@ export class CreateImportComponent implements OnInit {
         this.s_standart.store('purchase-department/providers', event.data).subscribe(res => {
           if (res.success) {
             snack.dismiss();
-            this.snack_bar.open('Proveedor creado con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('Proveedor creado con éxito', 'OK', {duration: 2000});
             this.providers = res.data;
           }
         }, err => {
@@ -200,7 +173,7 @@ export class CreateImportComponent implements OnInit {
           if (res.success) {
             snack.dismiss();
             this.providers = res.data;
-            this.snack_bar.open('Contacto creado con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('Contacto creado con éxito', 'OK', {duration: 2000});
           }
         }, err => {
           console.log(err);
@@ -213,7 +186,7 @@ export class CreateImportComponent implements OnInit {
           if (res.success) {
             snack.dismiss();
             this.providers = res.data;
-            this.snack_bar.open('Proveedor editado con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('Proveedor editado con éxito', 'OK', {duration: 2000});
           }
         }, err => {
           console.log(err);
@@ -226,7 +199,7 @@ export class CreateImportComponent implements OnInit {
           if (res.success) {
             snack.dismiss();
             this.providers = res.data;
-            this.snack_bar.open('Proveedor eliminado con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('Proveedor eliminado con éxito', 'OK', {duration: 2000});
           }
         }, err => {
           console.log(err);
@@ -239,7 +212,7 @@ export class CreateImportComponent implements OnInit {
           if (res.success) {
             snack.dismiss();
             this.providers = res.data;
-            this.snack_bar.open('Contacto editado con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('Contacto editado con éxito', 'OK', {duration: 2000});
           }
         }, err => {
           console.log(err);
@@ -252,7 +225,7 @@ export class CreateImportComponent implements OnInit {
             if (res.success) {
               snack.dismiss();
               this.providers = res.data;
-              this.snack_bar.open('Contacto eliminado con exito', 'OK', {duration: 2000});
+              this.snack_bar.open('Contacto eliminado con éxito', 'OK', {duration: 2000});
             }
           }, err => {
             console.log(err);

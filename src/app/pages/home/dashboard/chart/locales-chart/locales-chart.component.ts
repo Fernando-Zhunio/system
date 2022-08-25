@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ManagerChartTop } from '../../../../../class/manager-chart-top';
-import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard } from '../../../../../enums/EkeyDashboard.enum';
 import { IstatisticableLocation, ItopDashboard } from '../../../../../interfaces/idashboard';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 
@@ -33,7 +33,7 @@ export class LocalesChartComponent extends ManagerChartTop<IstatisticableLocatio
     series: [],
   };
   ngOnInit(): void {
-    this.createChart('chart-locations', EtypeGraph.doughnut);
+    this.createChart();
   }
 
   assignData(data: ItopDashboard<IstatisticableLocation>[]): void {

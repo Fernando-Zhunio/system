@@ -23,13 +23,6 @@ export class ImportComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  editImport(): void {
-
-  }
-
-  showImport() {
-
-  }
 
   destroyImport() {
     this.isLoad = true;
@@ -39,7 +32,7 @@ export class ImportComponent implements OnInit {
         this.delete.emit(res.data);
         this.isLoad = false;
       }
-    }, err => {
+    }, () => {
       this.isLoad = false;
     });
   }

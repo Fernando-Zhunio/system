@@ -15,8 +15,8 @@ import { StandartSearchService } from '../../../services/standart-search.service
 })
 export class RolesComponent extends CtableAndPaginator<IrolSystem> implements OnInit, ItableAndPaginator {
 
-  constructor(public activated_route: ActivatedRoute, public s_standart: StandartSearchService, public snack_bar: MatSnackBar) { super() }
-  displayedColumns: string[] = [
+  constructor(public activated_route: ActivatedRoute, public override s_standart: StandartSearchService, public override snack_bar: MatSnackBar) { super() }
+  override displayedColumns: string[] = [
     'id',
     'name',
     // "guard_name",
@@ -25,19 +25,19 @@ export class RolesComponent extends CtableAndPaginator<IrolSystem> implements On
     'permissions_count',
     'acciones',
   ];
-  wordMain: string = 'rol';
+  override wordMain: string = 'rol';
 
-  urlDelete: string = 'admin/roles/';
-  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  override urlDelete: string = 'admin/roles/';
+  @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;
   permissions: IpermissionStandart;
 
   ngOnInit(): void {
     this.activated_route.data.subscribe(res => {
-      this.permissions = res.permissions.all;
+      this.permissions = res['permissions'].all;
     });
   }
 
-  changePaginator(event): void {
+  override changePaginator(event): void {
     this.headerComponent.searchBar(event);
   }
 

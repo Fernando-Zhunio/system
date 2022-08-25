@@ -34,14 +34,9 @@ export class CreateOrEditCountryComponent implements OnInit {
   }
 
   saveInServer():void{
-    // if(this.state == "edit"){
-      this.country.name =  this.form_country.get('name').value;
-      this.country.code =  this.form_country.get('code').value;
+      this.country.name =  this.form_country.get('name')?.value;
+      this.country.code =  this.form_country.get('code')?.value;
       this.dialogRef.close({action:this.state,data:this.country});
-    // }
-    // else{
-
-    // }
   }
 
 

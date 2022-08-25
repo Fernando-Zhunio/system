@@ -84,7 +84,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.loadUnreadCountMessages();
     this.setImgCompanies(); //not loaded in resolver
     this.hasDarkTheme(); //not loaded in resolver
-    this.notificationWeb = new NotificationsWebPush(this.sw_push, this.methodsHttp); //not loaded in resolver
+    this.notificationWeb = new NotificationsWebPush(this.methodsHttp); //not loaded in resolver
     // this.getPermissionAndVersionServerTest();
     this.notificationWeb.canInitSw(); //not loaded in resolver
     this.user = this.s_storage.getCurrentUser(); //not loaded in resolver

@@ -1,9 +1,8 @@
 import { Component, OnInit, Injectable, Output, EventEmitter, Input } from '@angular/core';
-import { CollectionViewer, SelectionChange, DataSource } from '@angular/cdk/collections';
+import { CollectionViewer, SelectionChange } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { StandartSearchService } from '../../../services/standart-search.service';
 
 /** Flat node with expandable and level information */
@@ -23,16 +22,6 @@ export class ListTreeDynamicComponent implements OnInit {
   @Input() url: string = 'catalogs/publications/ml/categories';
   treeControl: FlatTreeControl<DynamicFlatNode>;
   @Output() selectedNode = new EventEmitter<ICategoriesParent | ICategoriesChildren>();
-
-  // private _transformer = (node: ICategoriesParent | ICategoriesChildren, level: number) => {
-  //   return {
-  //     expandable: node.children && node.children.length > 0,
-  //     name: node.name,
-  //     id: node.id,
-  //     level: level,
-  //   };
-  // }
-
 
   dataSource: DynamicDataSource;
 
@@ -63,12 +52,6 @@ export class ListTreeDynamicComponent implements OnInit {
 
 }
 
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
-
 export interface ICategoriesParent {
   id: string;
   name: string;
@@ -86,25 +69,11 @@ interface ICategoriesChildren {
 export class DynamicDatabase {
   dataMap = new Map<string, ICategoriesChildren | ICategoriesParent>();
 
-  // rootLevelNodes: string[] = ['Fruits', 'Vegetables'];
   setDataMap(data: ICategoriesParent[]) {
     data.forEach(element => {
       this.dataMap.set(element.id, element);
     });
   }
-  /** Initial data from database */
-  // initialData( s_standard: StandartSearchService, url: string): DynamicFlatNode[] {
-  //   // s_standard.store(url, null).subscribe(
-  //   //   (data) => {
-  //   //     // dataSource.data = data.data;
-  //   //     this.rootLevelNodes.map(name => new DynamicFlatNode(name, 0, true));
-
-  //   //   }
-  //   // );
-  //   // return  this.rootLevelNodes.map(name => new DynamicFlatNode(name, 0, true));
-  // }
-
-
 
   getChildren(node: string): ICategoriesChildren | ICategoriesParent | undefined {
     return this.dataMap.get(node);
@@ -141,7 +110,7 @@ export class DynamicDataSource {
     return merge(collectionViewer.viewChange, this.dataChange).pipe(map(() => this.data));
   }
 
-  disconnect(collectionViewer: CollectionViewer): void { }
+  disconnect(_collectionViewer: CollectionViewer): void { }
 
   /** Handle expand/collapse behaviors */
   handleTreeControl(change: SelectionChange<DynamicFlatNode>) {

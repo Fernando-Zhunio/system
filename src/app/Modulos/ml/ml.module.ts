@@ -8,7 +8,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PromocionesComponent } from '../../components/promociones/promociones.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PublicationComponent } from '../../components/publication/publication.component';
 import { PaginaWebComponent } from '../../components/pagina-web/pagina-web.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { ModalRealistComponent } from '../../components/ml/tools/modal-realist/modal-realist.component';

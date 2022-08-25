@@ -1,4 +1,3 @@
-import { ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { HeaderSearchComponent } from '../components/header-search/header-search.component';

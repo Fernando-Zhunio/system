@@ -26,7 +26,7 @@ export class CreateEmailModalComponent implements OnInit {
           this.dialogRef.close(res);
         }
 
-      }, (err) => {this.isLoad = false; });
+      }, () => {this.isLoad = false; });
     }
   }
 

@@ -22,7 +22,7 @@ export function empty(mixedVar) {
   return false
 }
 
-let base64Image = null
+let base64Image: string | null = null
 export function downloadImage(imageUrl) {
   getBase64ImageFromURL(imageUrl).subscribe(base64data => {
   console.log(base64data);
@@ -64,7 +64,7 @@ function getBase64Image(img: HTMLImageElement) {
   const canvas: HTMLCanvasElement = document.createElement("canvas");
   canvas.width = img.width;
   canvas.height = img.height;
-  const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+  const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
   ctx.drawImage(img, 0, 0);
   const dataURL: string = canvas.toDataURL("image/png");
 

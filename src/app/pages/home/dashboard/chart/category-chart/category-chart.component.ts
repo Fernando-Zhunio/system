@@ -3,7 +3,7 @@ import { ManagerChartTop } from '../../../../../class/manager-chart-top';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IsellForCategories, ItopDashboard } from '../../../../../interfaces/idashboard';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
-import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard } from '../../../../../enums/EkeyDashboard.enum';
 
 @Component({
   selector: 'app-category-chart',
@@ -52,7 +52,7 @@ export class CategoryChartComponent extends ManagerChartTop<IsellForCategories> 
   idSpinner = 'isload-chart-category';
 
   ngOnInit(): void {
-    this.createChart('chart-categories', EtypeGraph.polarArea);
+    this.createChart();
   }
 
   assignData(data: ItopDashboard<IsellForCategories>[]): void {

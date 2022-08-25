@@ -23,8 +23,6 @@ export class PaisesComponent implements OnInit {
     'name',
     'code',
     'created_at',
-    // "roles",
-    // "last_activity",
     'acciones',
   ];
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
@@ -38,18 +36,12 @@ export class PaisesComponent implements OnInit {
   users: Country[];
 
   ngOnInit(): void {
-    // this.getUserServer();
   }
 
   refreshDataTable(data) {
     const row: Country[] = data as Country[];
     this.ELEMENT_DATA = row;
     this.dataSource = new MatTableDataSource<Country>(this.ELEMENT_DATA);
-  }
-
-  //#region botones de acciones de usuario
-  editItem(i): void {
-
   }
 
   deleteItem(id): void {
@@ -96,7 +88,7 @@ export class PaisesComponent implements OnInit {
   createCountry(isEdit= false, id= 0): void {
     let title = 'Creando Pais';
     let state = 'create';
-    let country = null;
+    let country: any = null;
     if (isEdit) {
       title = 'Editando Pais';
       state = 'edit';
@@ -109,17 +101,16 @@ export class PaisesComponent implements OnInit {
       if (res) {
         this.snack_bar.open('Espere gestionando...');
         if (res.action == 'edit') {
-          this.s_standart.updatePut('admin/countries/' + res.data.id, res.data).subscribe(res1 => {
-            this.snack_bar.open('Pais Editado con exito', 'OK', {duration: 2000});
+          this.s_standart.updatePut('admin/countries/' + res.data.id, res.data).subscribe(() => {
+            this.snack_bar.open('Pais Editado con éxito', 'OK', {duration: 2000});
           });
         } else {
           this.s_standart.store('admin/countries', res.data).subscribe((res1: {success: boolean, data: Country}) => {
-            this.snack_bar.open('Pais creado con exito', 'OK', {duration: 2000});
+            this.snack_bar.open('País creado con éxito', 'OK', {duration: 2000});
             this.ELEMENT_DATA.push(res1.data);
             this.dataSource = new MatTableDataSource<Country>(this.ELEMENT_DATA);
           });
         }
-        // let country = res;
       }
     });
   }

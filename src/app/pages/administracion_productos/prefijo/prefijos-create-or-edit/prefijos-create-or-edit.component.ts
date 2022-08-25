@@ -31,10 +31,10 @@ export class PrefijosCreateOrEditComponent implements OnInit {
   isSend = false;
   product_name = '';
 
-  id: number | string = null;
+  id: any= null;
   ngOnInit(): void {
     this.act_router.data.subscribe((res) => {
-      if (res.isEdit) {
+      if (res['isEdit']) {
         this.title = 'Editando Prefijo';
         this.id = this.act_router.snapshot.paramMap.get('id');
         this.s_prefijos.edit(this.id).subscribe((response: Iresponse) => {

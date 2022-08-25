@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { IProduct } from '../../interfaces/iproducts';
 import { StandartSearchService } from '../../services/standart-search.service';
-import { Ipagination } from './../../interfaces/ipagination';
 
 @Component({
   selector: 'app-search',
@@ -14,7 +13,7 @@ export class SearchComponent implements OnInit {
   constructor(private s_standart: StandartSearchService) { }
 
   @Input() classes: string = '';
-  @Input() title: string = null;
+  @Input() title: string | null = null;
   @Input() placeholder: string = 'Buscador';
   @Input() url: string;
   @Input() init: boolean = true;
@@ -33,7 +32,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  search(pageEvent: PageEvent = null): void {
+  search(pageEvent: any = null): void {
     this.isLoading = true;
     pageEvent = pageEvent ? pageEvent : this.paginator;
     const params = {

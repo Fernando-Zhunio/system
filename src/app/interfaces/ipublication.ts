@@ -1,30 +1,11 @@
-import { Iaccount, Icompanies_access, ImlInfo } from "./iml-info";
+import { Iaccount, CompanyAccess, ImlInfo } from "./iml-info";
 
-// export interface Ipublication {
-// aditional_data: {attributes: Array(3)}
-// buying_mode: string
-// category: string
-// companies_access: (2) [{…}, {…}],
-// created_at: string,
-// description: string,
-// errors: []
-// id: number
-// listing_type: string
-// menu: {type: "Todas las cuentas", availablesItems: Array(7), item: 9593}
-// ml_accounts: [{…}]
-// ml_infos: [{…}]
-// name:string,
-// price: number,
-// quantity: number,
-// status: string,
-// updated_at: string
-// }
 
 export interface Ipublication {
   aditional_data: { attributes: any[] };
   buying_mode: string;
   category: string;
-  companies_access: Icompanies_access[];
+  companies_access: CompanyAccess[];
   created_at: string;
   description: string;
   errors: [];

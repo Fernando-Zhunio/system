@@ -22,10 +22,10 @@ export class IndexComponent extends Crud<Inewsletter> implements OnInit {
   url = 'admin/newsletter';
 
   ngOnInit(): void {
-    
+
   }
 
-  getData(data: Inewsletter[]) {
+  override getData(data: Inewsletter[]) {
     this.newsletters = new Map<number, Inewsletter>( data.map( (item: Inewsletter) => [item.id, item]));
   }
 

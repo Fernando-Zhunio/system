@@ -7,7 +7,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchTemplateTableComponent } from './search-template-table/search-template-table.component';
-import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 

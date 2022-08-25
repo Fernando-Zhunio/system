@@ -12,24 +12,18 @@ export class TemplateForSearchColumnsComponent extends CTemplateSearch<any[]> im
   constructor() {
     super();
   }
-  @ViewChild(HeaderSearchComponent) headerComponent:HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent) override headerComponent:HeaderSearchComponent;
 
   @Output() productEmit = new EventEmitter<any>();
   @Input() url:string;
 
-  isLoading: boolean = false;
+  override isLoading: boolean = false;
   // products:any[];
   ngOnInit(): void {
   }
 
-  // handler = {
-  //    get: function(target, name) {
-  //      return name in target ? target[name]:null
-  //   }
 
-  // }
-
-  loadData($event): void {
+  override loadData($event): void {
     this.paginator = $event.data;
    this.productEmit.emit($event.data.data);
     this.products = this.paginator.data;

@@ -19,11 +19,10 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
     super(actived_router, standard_service, router);
   }
 
-  // urlEdit = 'admin/newsletter/edit/';
   urlSave = 'admin/newsletter';
   title = 'Novedad del sistema';
   expandQuill = false;
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     image: new FormControl(null),
@@ -44,13 +43,13 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
     this.expandQuill = !this.expandQuill;
   }
 
-  loaderDataForCreate(): void {
+  override loaderDataForCreate(): void {
     this.standard_service.index('admin/newsletter/create').subscribe((res) => {
       this.roles = res.data;
     });
   }
 
-  getDataForSendServer() {
+  override getDataForSendServer() {
     if (this.form.valid) {
       const data = this.form.value;
       // data.start_date = SharedService.convertDateForLaravelOfDataPicker(data.start_date);
@@ -67,7 +66,7 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
     return warehouse ? warehouse.name : 'Todas las bodegas';
   }
 
-  setData(res) {
+  override setData(res) {
     const data = res.newsletter;
     this.roles = res.roles;
     this.form.setValue({
@@ -80,34 +79,24 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
   }
 
 
-  go() {
+  override go() {
     this.router.navigate(['/administracion-sistema/newsletter']);
   }
 
   removeRol(id): void {
-    const value = this.form.get('roles').value as [];
+    const value = this.form.get('roles')?.value as [];
 
     const index = value.findIndex(x => x === id);
     value.splice(index, 1);
 
-    this.form.get('roles').setValue(value);
+    this.form.get('roles')?.setValue(value);
 
   }
 
-  getNameRol(id): string {
-    return this.roles.find((x) => x.id == id).name;
+  getNameRol(id): string | undefined {
+    return this.roles?.find((x) => x.id == id)?.name;
   }
 
-  // selectAllWarehouse($event) {
-  //   const index = $event.value.findIndex((x) => x == 'all');
-  // }
 
-  // removeWarehouse(id) {
-  //   const index = this.data.findIndex((x) => x == id);
-  //   if (index != -1) {
-  //     this.roles.splice(index, 1);
-  //     this.select_warehouse.writeValue(this.warehouse_ids);
-  //   }
-  // }
 
 }

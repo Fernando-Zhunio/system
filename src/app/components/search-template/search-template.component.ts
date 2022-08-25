@@ -21,7 +21,7 @@ export class SearchTemplateComponent implements OnInit {
   @Input() title = 'Pagina Novisolutions';
   @Input() init: boolean = true;
   @Input() active_filters_menu: boolean = false;
-  @Input() key_paginator: string = null;
+  @Input() key_paginator: string | null = null;
   @Input() columns = 4;
   @Input() withCardColumns: boolean = true;
   @Input() customLoader = false;

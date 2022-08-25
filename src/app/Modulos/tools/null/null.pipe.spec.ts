@@ -1,11 +1,11 @@
-/* tslint:disable:no-unused-variable */
+// /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
-import { NullPipe } from './null.pipe';
+// import { TestBed, async } from '@angular/core/testing';
+// import { NullPipe } from './null.pipe';
 
-describe('Pipe: Nulle', () => {
-  it('create an instance', () => {
-    let pipe = new NullPipe();
-    expect(pipe).toBeTruthy();
-  });
-});
+// describe('Pipe: Nulle', () => {
+//   it('create an instance', () => {
+//     let pipe = new NullPipe();
+//     expect(pipe).toBeTruthy();
+//   });
+// });

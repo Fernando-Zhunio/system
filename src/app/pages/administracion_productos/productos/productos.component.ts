@@ -43,7 +43,7 @@ export class ProductosComponent implements OnInit {
   });
   ngOnInit(): void {
     const pageInitial =
-      Number.parseInt(this.activeRoute.snapshot.queryParamMap.get('page')) || 1;
+      Number.parseInt(this.activeRoute.snapshot.queryParamMap.get('page')!) || 1;
     const params = this.getQueryParams();
     params ? this.nextPage(pageInitial, params) : this.nextPage(pageInitial);
   }
@@ -70,9 +70,7 @@ export class ProductosComponent implements OnInit {
     return null;
   }
 
-
-
-  nextPage(pageNumber = 1, params = null): void {
+  nextPage(pageNumber = 1, params: any = null): void {
     const dataValid = params ? params : this.findValidControls();
     this.s_standart.search2('products-admin/products', { ...dataValid, page: pageNumber }).subscribe((res: any) => {
       if (res && res.hasOwnProperty('success') && res.success) {
@@ -101,7 +99,6 @@ export class ProductosComponent implements OnInit {
     const controls = this.formProducts.controls;
     for (const name in controls) {
       if (controls[name].valid) {
-        // valid.push(name);
         valid[name] = controls[name].value;
       }
     }
@@ -110,7 +107,7 @@ export class ProductosComponent implements OnInit {
 
   goCreate():void {
     this.router.navigate(['/admin-products/productos/create']);
-  } 
+  }
 
   destroyProduct(id): void {
     const index = this.products.data.findIndex((x) => x.id === id);
@@ -124,7 +121,7 @@ export class ProductosComponent implements OnInit {
 
     swalWithBootstrapButtons
       .fire({
-        title: 'Seguro que quieres eliminar esta Categoria ?',
+        title: 'Seguro que quieres eliminar esta Categoría ?',
         text: this.products.data[index].name,
         icon: 'warning',
         showCancelButton: true,
@@ -134,11 +131,11 @@ export class ProductosComponent implements OnInit {
       .then((result) => {
 
         if (result.isConfirmed) {
-          this.s_products.destroy(id).subscribe((res) => {
+          this.s_products.destroy(id).subscribe(() => {
             if (index != -1) { this.products.data.splice(index, 1); }
             swalWithBootstrapButtons.fire(
               'Eliminado!',
-              'Eliminado con exito.',
+              'Eliminado con éxito.',
               'success'
             );
           });
@@ -147,7 +144,7 @@ export class ProductosComponent implements OnInit {
         ) {
           swalWithBootstrapButtons.fire(
             'Cancelled',
-            'Tu accion a sido cancelada :)',
+            'Tu acción a sido cancelada :)',
             'error'
           );
         }

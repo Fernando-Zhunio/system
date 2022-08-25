@@ -41,7 +41,7 @@ export class AddInfoPersonModalComponent implements OnInit {
   positions: any = [];
   locations: any = [];
   sexes: any = [];
-  file_img: File;
+  file_img: File | null;
   photo: any;
   id_types: any = [];
   isload: boolean = false;
@@ -80,7 +80,7 @@ export class AddInfoPersonModalComponent implements OnInit {
 
   getBase64FromFile(img, callback): void {
     const fileReader = new FileReader();
-    fileReader.addEventListener('load', (evt) => {
+    fileReader.addEventListener('load', () => {
       callback(fileReader.result);
     });
     fileReader.readAsDataURL(img);

@@ -1,4 +1,4 @@
-import gsap,{TweenMax,Expo, Quad, TimelineLite} from "gsap";
+import {TweenMax,Expo, Quad} from "gsap";
 // import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 // import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
@@ -6,7 +6,7 @@ import gsap,{TweenMax,Expo, Quad, TimelineLite} from "gsap";
 // import MorphSVGPlugin from "gsap/MorphSVGPlugin";
 
 export class YetiLook {
-  email: HTMLInputElement = document.querySelector('#email')
+  email: HTMLInputElement = document.querySelector('#email')!
   password = document.querySelector('#password')
   mySVG: any = document.querySelector('.svgContainer')
   armL = document.querySelector('.armL')
@@ -92,8 +92,8 @@ export class YetiLook {
     this.email.addEventListener('focus', this.onEmailFocus.bind(this));
     this.email.addEventListener('blur', this.onEmailBlur.bind(this));
     this.email.addEventListener('input', this.onEmailInput.bind(this));
-    this.password.addEventListener('focus', this.onPasswordFocus.bind(this));
-    this.password.addEventListener('blur', this.onPasswordBlur.bind(this));
+    this.password?.addEventListener('focus', this.onPasswordFocus.bind(this));
+    this.password?.addEventListener('blur', this.onPasswordBlur.bind(this));
     TweenMax.set(this.armL, { x: -93, y: 220, rotation: 105, transformOrigin: "top left" });
     TweenMax.set(this.armR, { x: -93, y: 220, rotation: -105, transformOrigin: "top right" });
   }
@@ -139,7 +139,7 @@ export class YetiLook {
     this.getCoord(e);
   }
 
-  getCoord(e) {
+  getCoord(_e) {
     var carPos = this.email.selectionEnd,
       div = document.createElement('div'),
       span = document.createElement('span'),
@@ -151,8 +151,8 @@ export class YetiLook {
     });
     div.style.position = 'absolute';
     document.body.appendChild(div);
-    div.textContent = this.email.value.substr(0, carPos);
-    span.textContent = this.email.value.substr(carPos) || '.';
+    div.textContent = this.email.value.substr(0, carPos!);
+    span.textContent = this.email.value.substr(carPos!) || '.';
     div.appendChild(span);
 
     emailCoords = this.getPosition(this.email);							//console.log("emailCoords.x: " + emailCoords.x + ", emailCoords.y: " + emailCoords.y);
@@ -233,11 +233,11 @@ export class YetiLook {
     this.resetFace();
   }
 
-  onPasswordFocus(e) {
+  onPasswordFocus(_e) {
     this.coverEyes();
   }
 
-  onPasswordBlur(e) {
+  onPasswordBlur(_e) {
     this.uncoverEyes();
   }
   coverEyes() {

@@ -64,8 +64,8 @@ interface IfacebookSet {
 export class FacebookAdsSetComponent
   extends CtableAndPaginator<IfacebookSet>
   implements OnInit {
-  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  displayedColumns: string[] = [
+  @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;
+  override displayedColumns: string[] = [
     // "add",
     'state',
     'image',
@@ -87,9 +87,9 @@ export class FacebookAdsSetComponent
   //#endregion
   constructor(
     public activated_route: ActivatedRoute,
-    public s_standart: StandartSearchService,
-    public snack_bar: MatSnackBar, private dialog: MatDialog,
-    public ngx_spinner: NgxSpinnerService
+    public override s_standart: StandartSearchService,
+    public override snack_bar: MatSnackBar, private dialog: MatDialog,
+    public override ngx_spinner: NgxSpinnerService
   ) {
     super();
   }
@@ -102,9 +102,9 @@ export class FacebookAdsSetComponent
   }
 
   changeState(id, event): void {
-    this.s_standart.updatePut('admin/facebook-ads/campaignsAd/' + id + '/toggle-enable', {}).subscribe(res => {
+    this.s_standart.updatePut('admin/facebook-ads/campaignsAd/' + id + '/toggle-enable', {}).subscribe(() => {
     },
-    err => {
+    () => {
       event.target.checked = !event.target.checked;
     }
     );

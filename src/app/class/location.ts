@@ -20,10 +20,3 @@ export class Location {
   schedules?: any
 }
 
-interface Schedules {
-  [key:string]: {
-    status: boolean,
-    start: string,
-    end: string
-  }
-}

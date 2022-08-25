@@ -3,9 +3,6 @@ import {
   RouteReuseStrategy,
   ActivatedRouteSnapshot,
   DetachedRouteHandle,
-  RouterModule,
-  Routes,
-  UrlSegment,
 } from '@angular/router';
 import { instanceOfReuseComponent, ReuseComponent } from '../interfaces/reuse-component';
 
@@ -14,7 +11,6 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
   countForLoad = 0;
   acuForLoad = 0;
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    // console.log('shouldDetach');
     const { reuse } = route?.data;
     if (reuse) {
       return true;
@@ -22,7 +18,6 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
     return false;
   }
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-    // console.log('store');
     if (this.loadNow(route)) {
       const key = this.generateKey(route);
       this.storeRoutes.set(key, handle);
@@ -30,17 +25,13 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
   }
 
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
-    // throw new Error('Method not implemented.');
-    // console.log('shouldAttach');
     return this.storeRoutes.has(this.generateKey(route));
   }
 
 
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-    const handle = this.storeRoutes.get(this.generateKey(route)) as { componentRef: ComponentRef<ReuseComponent<any>> };
-    // console.log('retrieve', route);
-
+    const handle = this.storeRoutes.get(this.generateKey(route)) as { componentRef: ComponentRef<ReuseComponent> };
     if (instanceOfReuseComponent(handle.componentRef.instance)) {
       if (this.loadNow(route)) {
         handle.componentRef.instance.loadInfo();
@@ -48,20 +39,16 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
       }
     }
     return handle;
-
-    // (handle as {componentRef: ReuseComponent<any>}).componentRef?.loadInfo();
-
-
   }
 
   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-    // throw new Error('Method not implemented.');
     if (future.routeConfig === curr.routeConfig) {
       return true;
     }
-    if (future.routeConfig?.data?.reuse) {
+    if (future.routeConfig?.data?.['reuse']) {
       return false;
     }
+    return false;
   }
 
   private generateKey(route: ActivatedRouteSnapshot): string {

@@ -15,7 +15,7 @@ export class SelectProviderComponent implements OnInit {
   }
 
   searchBar(){
-    this.s_standart.searchOnly('purchase-department/providers/search',this.providerSearch).subscribe(res=>{
+    this.s_standart.searchOnly('purchase-department/providers/search',this.providerSearch).subscribe(()=>{
     })
   }
 

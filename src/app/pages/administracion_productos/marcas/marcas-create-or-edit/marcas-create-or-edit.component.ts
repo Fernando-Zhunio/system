@@ -24,16 +24,13 @@ export class MarcasCreateOrEditComponent implements OnInit {
   });
 
   title: string = '';
-  // categories=[];
-  // brands=[];
-  // prefixes=[];
   isSend = false;
   product_name = '';
 
-  id: number | string = null;
+  id: any = null;
   ngOnInit(): void {
     this.act_router.data.subscribe((res) => {
-      if (res.isEdit) {
+      if (res['isEdit']) {
         this.title = 'Editando Marca';
         this.id = this.act_router.snapshot.paramMap.get('id');
         this.s_marcas.edit(this.id).subscribe((response) => {

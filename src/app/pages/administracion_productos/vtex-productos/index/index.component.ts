@@ -31,10 +31,8 @@ export class IndexComponent implements OnInit {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
   public config: SwiperOptions = {
-    // a11y: { enabled: true },
     direction: 'horizontal',
     spaceBetween: 10,
-    // slidesPerView: 4,
     breakpoints: {
       // when window width is >= 320px
       320: {
@@ -87,21 +85,20 @@ export class IndexComponent implements OnInit {
   }
 
   deleteVtexProduct(vtex_api_id): void {
-    SwalService.swalConfirmation('Eliminacion de producto', 'Desea eliminar este producto?', 'center', 'Si, eliminar', 'No, cancelar').then(result => {
+    SwalService.swalConfirmation('Eliminación de producto', 'Desea eliminar este producto?', 'center', 'Si, eliminar', 'No, cancelar').then(result => {
       if (result.isConfirmed) {
         this.s_serviceStandart.destory(`products-admin/vtex/product-vtex/${vtex_api_id}`).subscribe(res => {
-          if (res && res.hasOwnProperty('success') && res.success) {
+          if (res.success) {
            const index = this.products.findIndex(i => i.vtex_api_id == vtex_api_id);
             this.products.splice(index , 1 );
           }
-
         })
       }
     })
   }
 
   openModalPrices(vtex_api_id, index): void {
-    const sku = this.products[index].skus.find(item => item.vtex_api_id == vtex_api_id);
+    const sku = this.products[index].skus?.find(item => item.vtex_api_id == vtex_api_id);
     this.modal.open(ModalPricesComponent, {
       data: {sku},
       disableClose: true,

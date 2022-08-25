@@ -26,11 +26,11 @@ export class CreateOrEditVtexSiteComponent implements OnInit {
   });
   ngOnInit(): void {
     this.active_route.data.subscribe((data) => {
-      if (data.isEdit) {
+      if (data['isEdit']) {
         this.state = 'edit';
         this.title = 'Editando Sitio Vtex';
-        const id = this.active_route.snapshot.paramMap.get('id');
-        this.id = Number.parseInt(id, 10);
+        const id = this.active_route.snapshot.paramMap.get('id')!;
+        this.id = Number.parseInt(id);
         this.isload = true;
         this.s_standart.create(`admin/vtex/${id}/edit`).subscribe((res) => {
           if (res && res.hasOwnProperty('success') && res.success) {

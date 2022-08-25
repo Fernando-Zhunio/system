@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { RedirectToComponent } from './components/redirect-to/redirect-to.component';

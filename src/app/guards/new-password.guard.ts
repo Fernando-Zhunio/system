@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  CanLoad,
-  Route,
-  UrlSegment,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
   Resolve,
   Router,
-  ActivatedRoute,
 } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -21,17 +15,12 @@ import { StandartSearchService } from '../services/standart-search.service';
 export class NewPasswordGuard implements Resolve<Iresponse> {
   constructor(
     private s_standard: StandartSearchService,
-    private route: Router,
-    private active_route: ActivatedRoute
-  ) {}
+    private route: Router  ) {}
 
-  resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Iresponse | Observable<Iresponse> | Promise<Iresponse>  {
-    const token = router.queryParams.token;
+  resolve(router: ActivatedRouteSnapshot): Iresponse | Observable<Iresponse> | Promise<Iresponse>  {
+    const token = router.queryParams['token'];
     return this.s_standard.show('user/authenticate?token=' + token).pipe(
       map((res) => {
-        // if (res.success) {
-        //   router.queryParams = null;
-        // }
         return res;
       }),
       catchError((err) => {

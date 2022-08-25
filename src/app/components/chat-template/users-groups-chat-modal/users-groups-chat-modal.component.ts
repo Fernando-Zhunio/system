@@ -29,9 +29,9 @@ export class UsersGroupsChatModalComponent implements OnInit {
   }
 
   deleteChat() {
-    this.s_standart.destory(`chats/users/${this.data.id_chat}`).subscribe(res => {
+    this.s_standart.destory(`chats/users/${this.data.id_chat}`).subscribe(() => {
       // console.log(res);
-      SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Esta Chat a sido eliminado con exito' });
+      SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Esta Chat a sido eliminado con éxito' });
       this.dialogRef.close({ state: 'deleted' });
     });
   }
@@ -41,7 +41,7 @@ export class UsersGroupsChatModalComponent implements OnInit {
       // console.log(res);
       if (res && res.hasOwnProperty('success') && res.success){
         this.data.participants = this.data.participants.filter(p => p.id != participant_id);
-        SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Esta participante a sido eliminado con exito' });
+        SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Esta participante a sido eliminado con éxito' });
       }
       // this.dialogRef.close({ state: 'deleted' });
     });

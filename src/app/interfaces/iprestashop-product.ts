@@ -1,8 +1,8 @@
-import { Icompanies_access } from "./iml-info";
+import { CompanyAccess } from "./iml-info";
 
 export interface IprestashopProduct {
   combinations: [];
-  companies_access: Icompanies_access[];
+  companies_access: CompanyAccess[];
   created_at: string;
   description: string;
   description_short: string;
@@ -26,7 +26,7 @@ export interface IprestashopProduct {
 
 export interface Iprestashop {
   active: boolean;
-  companies_access: Icompanies_access[];
+  companies_access: CompanyAccess[];
   created_at: string;
   domain: string;
   id: number;

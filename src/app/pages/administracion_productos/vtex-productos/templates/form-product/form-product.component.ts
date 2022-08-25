@@ -7,7 +7,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import { Iproduct3 } from '../../../../../interfaces/iproducts';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
-import { SwalService } from '../../../../../services/swal.service';
 import {
   IvtexProducts,
   IvtexResponseProduct,
@@ -92,9 +91,7 @@ export class FormProductComponent implements OnInit {
 
   stateInitUpdate(): void {
     const {
-      Id,
       Name,
-      DepartmentId,
       CategoryId,
       BrandId,
       LinkId,
@@ -120,7 +117,6 @@ export class FormProductComponent implements OnInit {
 
     this.form.setValue({
       Name,
-      // DepartmentId,
       CategoryId,
       BrandId,
       LinkId,
@@ -205,15 +201,15 @@ export class FormProductComponent implements OnInit {
       const itemSpecification = this.vtexSpecificationProduct.find(
         (x) => x.FieldId == specification
       );
-      const FieldId = itemSpecification.FieldId;
-      const FieldName = itemSpecification.Name;
+      const FieldId = itemSpecification?.FieldId!;
+      const FieldName = itemSpecification?.Name!;
       const FieldValueIds = dataSpecification[specification] && (Array.isArray(dataSpecification[specification])) ? dataSpecification[specification].map(value => {
-        return itemSpecification.Values.find(x => x.Value == value).FieldValueId;
+        return itemSpecification?.Values.find(x => x.Value == value)?.FieldValueId;
       }) : dataSpecification[specification] ? [specification] : [];
       const FieldValues = dataSpecification[specification] && Array.isArray(dataSpecification[specification]) ? dataSpecification[specification] : dataSpecification[specification] ? [dataSpecification[specification]] : [];
-      const IsFilter = itemSpecification.IsFilter;
-      const FieldGroupName = itemSpecification.FieldGroupName;
-      const FieldGroupId = itemSpecification.FieldGroupId;
+      const IsFilter = itemSpecification?.IsFilter!;
+      const FieldGroupName = itemSpecification?.FieldGroupName!;
+      const FieldGroupId = itemSpecification?.FieldGroupId!;
        sendSpecifications.push({FieldId, FieldName, FieldValueIds, FieldValues, IsFilter, FieldGroupId, FieldGroupName});
     }
     return sendSpecifications;
@@ -252,7 +248,7 @@ export class FormProductComponent implements OnInit {
               }
               this.product.emit(res.data);
             },
-            (err) => {
+            () => {
               this.isLoadProduct = false;
             }
           );

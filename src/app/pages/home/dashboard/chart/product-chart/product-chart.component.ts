@@ -3,7 +3,7 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 import { ItopDashboard, IstatisticableProduct } from './../../../../../interfaces/idashboard';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ManagerChartTop } from '../../../../../class/manager-chart-top';
-import { EKeyDashboard, EtypeGraph } from '../../../../../enums/EkeyDashboard.enum';
+import { EKeyDashboard } from '../../../../../enums/EkeyDashboard.enum';
 // import { EChartsOption } from 'echarts';
 
 @Component({
@@ -94,7 +94,7 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
   idSpinner = 'loading-chart-product';
 
   ngOnInit(): void {
-    this.createChart('chart-product', EtypeGraph.bar);
+    this.createChart();
   }
 
   assignData(data: ItopDashboard<IstatisticableProduct>[]): void {

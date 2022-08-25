@@ -1,20 +1,14 @@
-import { BrowserModule, platformBrowser } from '@angular/platform-browser';
-import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import {
   LocationStrategy,
   HashLocationStrategy,
-  PathLocationStrategy,
   DATE_PIPE_DEFAULT_TIMEZONE,
 } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
-};
 
 import { AppComponent } from './app.component';
 
@@ -41,7 +35,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 // import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
@@ -77,7 +71,7 @@ import { RedirectToComponent } from './components/redirect-to/redirect-to.compon
 import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Router, RouteReuseStrategy, RouterModule } from '@angular/router';
+import { RouteReuseStrategy } from '@angular/router';
 import { CustomReusingStrategy } from './class/custom-reusing-strategy';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -119,7 +113,7 @@ import { P403Component } from './views/error/p403/p403.component';
 //   enableProdMode();
 
 
-function getPermissionAndVersionServer(st: StorageService) {
+function getPermissionAndVersionServer(_st: StorageService) {
   return () => {
     return null;
   };

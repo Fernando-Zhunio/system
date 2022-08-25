@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { Ipagination } from '../../../interfaces/ipagination';
 import { IuserSystem } from '../../../interfaces/iuser-system';
 import { MethodsHttpService } from '../../../services/methods-http.service';
-import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
 
 declare let Swal: any;
@@ -76,8 +74,6 @@ export class UsuariosComponent implements OnInit {
 
   //#endregion
   loadData($event): void {
-    // this.paginator = $event.data;
-    // this.refreshDataTable(this.paginator.data);
     this.refreshDataTable($event);
   }
 

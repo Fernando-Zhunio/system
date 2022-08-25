@@ -8,11 +8,11 @@ import { SwalService } from '../services/swal.service';
 export abstract class CreateOrEdit<T> {
     public status: 'create' | 'edit' = 'create';
     public abstract title: string;
-    public data: T = null;
+    public data: T | null = null;
     public urlEdit = null;
     public abstract urlSave;
     public loadCreate: boolean = true;
-    public form: FormGroup = null;
+    public form: FormGroup;
     isLoading: boolean = false;
     public params = null;
     public isFormParams: boolean = false;
@@ -23,7 +23,7 @@ export abstract class CreateOrEdit<T> {
 
     init(loadCreate: boolean = true) {
         this.act_router.data.subscribe(data => {
-            const isEdit = data.isEdit;
+            const isEdit = data['isEdit'];
             if (isEdit) {
                 this.status = 'edit';
                 this.title += ' Editando';
@@ -43,7 +43,7 @@ export abstract class CreateOrEdit<T> {
         this.standard_service.methodGet(`${this.urlSave}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-        }, error => { this.isLoading = false; });
+        }, () => { this.isLoading = false; });
     }
 
     create() {
@@ -51,7 +51,7 @@ export abstract class CreateOrEdit<T> {
         this.standard_service.show(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-        }, error => { this.isLoading = false; });
+        }, () => { this.isLoading = false; });
     }
 
     getId(key: string = this.key_param): any {
@@ -63,10 +63,10 @@ export abstract class CreateOrEdit<T> {
         this.standard_service.methodGet(`${this.urlSave}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-        }, error => { this.isLoading = false; });
+        }, () => { this.isLoading = false; });
     }
 
-    setData(data = null) {
+    setData(data: any = null) {
         this.form.patchValue(data);
     }
 
@@ -93,7 +93,7 @@ export abstract class CreateOrEdit<T> {
         }
     }
 
-    go(data = null) { }
+    go(_data = null) { }
 
     getDataForSendServer(): any {
         if (this.form.valid) {

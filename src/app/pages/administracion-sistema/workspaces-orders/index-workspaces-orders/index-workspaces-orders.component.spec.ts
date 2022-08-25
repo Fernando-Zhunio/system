@@ -1,28 +1,26 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+// /* tslint:disable:no-unused-variable */
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IndexWorkspacesOrdersComponent } from './index-workspaces-orders.component';
+// import { IndexWorkspacesOrdersComponent } from './index-workspaces-orders.component';
 
-describe('IndexWorkspacesOrdersComponent', () => {
-  let component: IndexWorkspacesOrdersComponent;
-  let fixture: ComponentFixture<IndexWorkspacesOrdersComponent>;
+// describe('IndexWorkspacesOrdersComponent', () => {
+//   let component: IndexWorkspacesOrdersComponent;
+//   let fixture: ComponentFixture<IndexWorkspacesOrdersComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ IndexWorkspacesOrdersComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ IndexWorkspacesOrdersComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(IndexWorkspacesOrdersComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(IndexWorkspacesOrdersComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

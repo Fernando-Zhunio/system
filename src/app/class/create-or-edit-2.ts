@@ -3,15 +3,14 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MethodsHttpService } from '../services/methods-http.service';
-import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
 export abstract class CreateOrEdit2<T> {
     public status: 'create' | 'edit' = 'create';
-    public data: T = null;
+    public data: T | null = null;
     public urlEdit = null;
     public loadCreate: boolean = true;
-    public form: FormGroup = null;
+    public form: FormGroup;
     isLoading: boolean = false;
     public params = null;
     public isFormParams: boolean = false;
@@ -27,7 +26,7 @@ export abstract class CreateOrEdit2<T> {
 
     init(loadCreate: boolean = true) {
         this.act_router.data.subscribe(data => {
-            const isEdit = data.isEdit;
+            const isEdit = data['isEdit'];
             if (isEdit) {
                 this.status = 'edit';
                 this.title += ' Editando';
@@ -48,7 +47,7 @@ export abstract class CreateOrEdit2<T> {
         this.methodsHttp.methodGet(`${url}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-        }, error => { this.isLoading = false; });
+        }, () => { this.isLoading = false; });
     }
 
     create() {
@@ -57,7 +56,7 @@ export abstract class CreateOrEdit2<T> {
         this.methodsHttp.methodGet(`${url}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-        }, error => { this.isLoading = false; });
+        }, () => { this.isLoading = false; });
     }
 
     getId(key: string = this.key_param): any {
@@ -70,10 +69,10 @@ export abstract class CreateOrEdit2<T> {
         this.methodsHttp.methodGet(`${url}/create${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
-        }, error => { this.isLoading = false; });
+        }, () => { this.isLoading = false; });
     }
 
-    setData(data = null) {
+    setData(data: any = null) {
         this.form.patchValue(data);
     }
 
@@ -104,7 +103,7 @@ export abstract class CreateOrEdit2<T> {
         }
     }
 
-    go(data = null) { }
+    go(_data = null) { }
 
     getDataForSendServer(): any {
         if (this.form.valid) {

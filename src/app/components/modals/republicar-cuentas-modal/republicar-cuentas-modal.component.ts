@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ImlInfo } from '../../../interfaces/iml-info';
 import { StandartSearchService } from '../../../services/standart-search.service';
@@ -13,7 +13,7 @@ import { SwalService } from '../../../services/swal.service';
 })
 export class RepublicarCuentasModalComponent implements OnInit, OnDestroy {
 
-  constructor( private dialogRef: MatDialogRef<RepublicarCuentasModalComponent>, @Inject(MAT_DIALOG_DATA) public data: {id}, private s_standart: StandartSearchService) { }
+  constructor( @Inject(MAT_DIALOG_DATA) public data: {id}, private s_standart: StandartSearchService) { }
   suscrition: Subscription;
   form_republicar: FormGroup = new FormGroup({
     price: new FormControl(null, [Validators.required]),
@@ -63,9 +63,9 @@ export class RepublicarCuentasModalComponent implements OnInit, OnDestroy {
     if (this.form_republicar.valid) {
       this.isLoad = true;
       const url = `catalogs/publications/${this.data.id}/relist`;
-      this.s_standart.store(url, this.form_republicar.value).subscribe(res => {
+      this.s_standart.store(url, this.form_republicar.value).subscribe(() => {
         this.isLoad = false;
-      }, err => {this.isLoad = false; });
+      }, () => {this.isLoad = false; });
     } else {
       SwalService.swalToast('Necesita completar todos los campos', 'error');
     }

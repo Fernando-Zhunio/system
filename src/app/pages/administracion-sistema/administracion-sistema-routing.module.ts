@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import {  NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { UsuariosComponent } from './usuarios/usuarios.component';
@@ -6,8 +6,6 @@ import { CreateOrEditComponent } from './usuarios/create-or-edit/create-or-edit.
 import { RolesComponent } from './roles/roles.component';
 import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
 import { PaisesComponent } from './paises/paises.component';
-import { LocacionesComponent } from './locaciones/locaciones.component';
-import { CreateOrEditLocationComponent } from './locaciones/create-or-edit-location/create-or-edit-location.component';
 import { PersonasComponent } from './personas/personas.component';
 import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/create-or-edit-person.component';
 import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';

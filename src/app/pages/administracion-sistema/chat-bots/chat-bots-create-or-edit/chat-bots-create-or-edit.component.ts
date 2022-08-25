@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
@@ -17,21 +16,20 @@ import { SwalService } from './../../../../services/swal.service';
 export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implements OnInit {
   public urlSave: any;
 
-  constructor(activated_route: ActivatedRoute, standardService: StandartSearchService, snackBar: MatSnackBar, router: Router) {
+  constructor(activated_route: ActivatedRoute, standardService: StandartSearchService, router: Router) {
     super(activated_route, standardService, router);
     this.urlSave = 'admin/chatbot';
   }
 
   public title: string = 'Chatbot';
-  isFormParams: boolean = true;
-  key_param: string = 'chatbot_id';
-  // isFormParams: boolean = true;
-  form: FormGroup = new FormGroup(
+  override isFormParams: boolean = true;
+  override key_param: string = 'chatbot_id';
+  override form: FormGroup = new FormGroup(
     {
       name: new FormControl(null, Validators.required),
     }
   );
-  img: {file: File, base64: string} = {file: null, base64: 'assets/img/img_not_available.png'};
+  img: {file: File | null, base64: string | null} = {file: null, base64: 'assets/img/img_not_available.png'};
 
   ngOnInit(): void {
     this.init();
@@ -51,13 +49,13 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
     this.img = {file: null, base64: 'assets/img/img_not_available.png'};
   }
 
-  getDataForSendServer() {
+  override getDataForSendServer() {
     let formData: FormData = new FormData();
     if (this.form.valid) {
       if (this.img.base64 && this.img.file) {
         formData.append('photo', this.img.file);
       }
-      formData.append('name', this.form.get('name').value);
+      formData.append('name', this.form.get('name')?.value);
       formData.append('_method', 'PUT');
       return formData;
     }
@@ -65,19 +63,19 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
       return false;
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['administracion-sistema/chatbot']);
   }
 
-  setData(data: any): void {
+  override setData(data: any): void {
     console.log({data});
       if (this.status === 'edit') {
-        this.form.get('name').setValue(data.info.name);
+        this.form.get('name')?.setValue(data.info.name);
         this.img.base64 = data.info.photo || 'assets/img/img_not_available.png';
       }
   }
 
-  saveInServer() {
+  override saveInServer() {
     const data_send = this.getDataForSendServer();
     if (data_send) {
         this.isLoading = true;
@@ -89,7 +87,7 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
         } else {
             observable = this.standard_service.methodPost(url, data_send);
         }
-        observable.subscribe(data => {
+        observable.subscribe(() => {
             this.isLoading = false;
             this.go();
         }, error => {

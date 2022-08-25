@@ -1,14 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, Sanitizer } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Iproduct3 } from '../../../../../interfaces/iproducts';
 import { SwalService } from '../../../../../services/swal.service';
 import { StandartSearchService } from './../../../../../services/standart-search.service';
-import { IproductVtexSku } from './../../../../../interfaces/iproducts';
 import {
-  IvtexProducts,
   IvtexResponseProduct,
   IvtexSkuStore,
-  vtexResponseSku,
 } from './../../../../../interfaces/vtex/iproducts';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../../../../../environments/environment';
@@ -38,7 +34,7 @@ export class FormSkusComponent implements OnInit {
   ) {}
 
   // @Input() idProduct: number;
-  @Input() sku: IvtexSkuStore = null;
+  @Input() sku: IvtexSkuStore | null = null;
   @Input() vtex_product: IvtexResponseProduct;
   @Input() vtexSpecificationsSkus: Ispecification[] = [];
   @Output() emitSave = new EventEmitter<any>();
@@ -81,7 +77,7 @@ export class FormSkusComponent implements OnInit {
   });
   formSpecification: FormGroup = new FormGroup({});
   permission_page = {product_create_or_edit: ['super-admin', 'product-admin.vtex.product-vtex.edit']}
-  file: File = null;
+  file: File | null = null;
   imagesSku: {
     FileId: number;
     ImageName: string;
@@ -96,39 +92,39 @@ export class FormSkusComponent implements OnInit {
     this.onChangeStepper(null);
   }
 
-  onChangeStepper(event): void {
+  onChangeStepper(_event): void {
     if (this.status == 'update') {
-      this.sku.RewardValue = !this.sku.RewardValue ? null : this.sku.RewardValue;
-      this.sku.KitItensSellApart = this.sku.KitItensSellApart || false;
+      this.sku!.RewardValue = !this.sku?.RewardValue ? null : this.sku?.RewardValue;
+      this.sku!.KitItensSellApart = this.sku?.KitItensSellApart || false;
 
-      const collect_sku = collect(this.sku);
+      const collect_sku = collect(this.sku!);
       const diff = collect_sku.intersectByKeys(this.formSku.getRawValue());
       this.formSku.setValue(diff.all());
-      this.imagesSku = Array.isArray(this.sku.Images) ? this.sku.Images : [];
+      this.imagesSku = Array.isArray(this.sku?.Images) ? this.sku?.Images! : [];
     } else{
       this.formSku.setValue({
-        CommercialConditionId: this.sku.CommercialConditionId,
-        CubicWeight: this.sku.CubicWeight,
-        EstimatedDateArrival: this.sku.EstimatedDateArrival,
-        Height: this.sku.RealHeight,
-        IsActive: this.sku.IsActive,
-        IsKit: this.sku.IsKit,
-        KitItensSellApart: this.sku.KitItensSellApart || false,
-        Length: this.sku.RealLength,
-        ManufacturerCode: this.sku.ManufacturerCode,
-        MeasurementUnit: this.sku.MeasurementUnit,
-        ModalType: this.sku.ModalType,
-        Name: this.sku.Name,
-        PackagedHeight: this.sku.Height,
-        PackagedLength: this.sku.Length,
-        PackagedWeightKg: this.sku.WeightKg,
-        PackagedWidth: this.sku.Width,
-        ProductId: this.sku.ProductId,
-        RewardValue: this.sku.RewardValue,
-        UnitMultiplier: this.sku.UnitMultiplier,
-        WeightKg: this.sku.RealWeightKg,
-        Width: this.sku.RealWidth,
-        RefId: this.sku.RefId
+        CommercialConditionId: this.sku?.CommercialConditionId,
+        CubicWeight: this.sku?.CubicWeight,
+        EstimatedDateArrival: this.sku?.EstimatedDateArrival,
+        Height: this.sku?.RealHeight,
+        IsActive: this.sku?.IsActive,
+        IsKit: this.sku?.IsKit,
+        KitItensSellApart: this.sku?.KitItensSellApart || false,
+        Length: this.sku?.RealLength,
+        ManufacturerCode: this.sku?.ManufacturerCode,
+        MeasurementUnit: this.sku?.MeasurementUnit,
+        ModalType: this.sku?.ModalType,
+        Name: this.sku?.Name,
+        PackagedHeight: this.sku?.Height,
+        PackagedLength: this.sku?.Length,
+        PackagedWeightKg: this.sku?.WeightKg,
+        PackagedWidth: this.sku?.Width,
+        ProductId: this.sku?.ProductId,
+        RewardValue: this.sku?.RewardValue,
+        UnitMultiplier: this.sku?.UnitMultiplier,
+        WeightKg: this.sku?.RealWeightKg,
+        Width: this.sku?.RealWidth,
+        RefId: this.sku?.RefId
       });
     }
 
@@ -159,22 +155,21 @@ export class FormSkusComponent implements OnInit {
 
   convertDataSpecificationForServer() {
     let dataSpecification = Object.assign({}, this.formSpecification.value);
-    // let specifications = [];
     const sendSpecifications: IformatSpecification[] = [];
     for (const specification in dataSpecification) {
       const itemSpecification = this.vtexSpecificationsSkus.find(
         (x) => x.FieldId == specification
       );
-      const FieldId = itemSpecification.FieldId;
-      const FieldName = itemSpecification.Name;
+      const FieldId = itemSpecification?.FieldId!;
+      const FieldName = itemSpecification?.Name!;
 
       const FieldValueIds = dataSpecification[specification] && (Array.isArray(dataSpecification[specification])) ? dataSpecification[specification].map(value => {
-        return itemSpecification.Values.find(x => x.Value == value).FieldValueId
+        return itemSpecification?.Values?.find(x => x.Value == value)?.FieldValueId
       }) : dataSpecification[specification] ? [specification] : [];
       const FieldValues = dataSpecification[specification] && Array.isArray(dataSpecification[specification]) ? dataSpecification[specification] : dataSpecification[specification] ? [dataSpecification[specification]] : [];
-      const IsFilter = itemSpecification.IsFilter;
-      const FieldGroupName = itemSpecification.FieldGroupName;
-      const FieldGroupId = itemSpecification.FieldGroupId;
+      const IsFilter = itemSpecification?.IsFilter!;
+      const FieldGroupName = itemSpecification?.FieldGroupName!;
+      const FieldGroupId = itemSpecification?.FieldGroupId!;
        sendSpecifications.push({FieldId, FieldName, FieldValueIds, FieldValues, IsFilter, FieldGroupId, FieldGroupName})
     }
     return sendSpecifications;
@@ -188,7 +183,7 @@ export class FormSkusComponent implements OnInit {
       this.s_standart
         .updatePut(
           // "/products-admin/vtex/sku-vtex" + this.sku.Id,
-          `products-admin/vtex/products/${this.sku.ProductId}/skus/${this.sku.Id}`,
+          `products-admin/vtex/products/${this.sku?.ProductId}/skus/${this.sku?.Id}`,
           {specifications, ...this.formSku.getRawValue()}
         )
         .subscribe((res) => {
@@ -207,17 +202,17 @@ export class FormSkusComponent implements OnInit {
   saveInServeSkuImg(): void {
     if (this.formFileSku.valid) {
       const formData = new FormData();
-      const name = this.formFileSku.get('Name').value;
-      formData.append('Img', this.file);
-      formData.append('IsMain', this.formFileSku.get('IsMain').value);
-      formData.append('Label', this.formFileSku.get('Label').value);
+      const name = this.formFileSku.get('Name')?.value;
+      formData.append('Img', this.file!);
+      formData.append('IsMain', this.formFileSku.get('IsMain')?.value);
+      formData.append('Label', this.formFileSku.get('Label')?.value);
       formData.append('Name', name);
-      formData.append('Text', this.formFileSku.get('Text').value);
+      formData.append('Text', this.formFileSku.get('Text')?.value);
       this.isLoadSku = true;
       this.ngx_spinner.show('sku-img');
       this.s_standart
         .uploadFormData(
-          'products-admin/vtex/sku-vtex-image/' + this.sku.Id,
+          'products-admin/vtex/sku-vtex-image/' + this.sku?.Id,
           formData
         )
         .subscribe(
@@ -266,7 +261,7 @@ export class FormSkusComponent implements OnInit {
     if (!this.isLoadDestroyImg){
       this.s_standart
         .destory(
-          `products-admin/vtex/sku-vtex-image/sku/${this.sku.Id}/image/${id}`
+          `products-admin/vtex/sku-vtex-image/sku/${this.sku?.Id}/image/${id}`
         )
         .subscribe((res) => {
           if (res && res.hasOwnProperty('success') && res.success) {

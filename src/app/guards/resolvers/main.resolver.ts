@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Resolve, ActivatedRoute, Router } from '@angular/router';
+import { Resolve } from '@angular/router';
 import { Observable, EMPTY, forkJoin } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { SwalService } from '../../services/swal.service';
 import { MethodsHttpService } from '../../services/methods-http.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { StorageService } from '../../services/storage.service';
 
 @Injectable({
@@ -13,13 +12,10 @@ import { StorageService } from '../../services/storage.service';
 export class MainResolver implements Resolve<any> {
   constructor(
     private methodsHttp: MethodsHttpService,
-    // private spinner: NgxSpinnerService,
-    private route: Router,
     private storage: StorageService,
-    private active_route: ActivatedRoute
   ) { }
 
-  resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> {
+  resolve(): Observable<any> | Promise<any> {
     return forkJoin(
       {
         permissionsRolesAndVersion: this.methodsHttp.methodGet('user/permissions-roles'),
@@ -31,9 +27,9 @@ export class MainResolver implements Resolve<any> {
       // }),
       catchError((err) => {
         console.log(err);
-        SwalService.swalFire({ 
-          position: 'center', 
-          title: 'Error al cargar datos', 
+        SwalService.swalFire({
+          position: 'center',
+          title: 'Error al cargar datos',
           text: 'Recargué la pagina o vuelva a iniciar sesión, en caso de no funcionar contacte al administrador del sistema',
           icon: 'error',
           showConfirmButton: true,

@@ -21,7 +21,7 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
   state: 'create' | 'edit' = 'create';
   title: string = 'Creando Bodega Vtex';
   idSite: number;
-  idWarehouse: number| string;
+  idWarehouse: any;
   warehouses: any = [];
   isload: boolean = false;
   ngOnInit(): void {
@@ -30,10 +30,10 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
 
   loadData() {
     this.active_route.data.subscribe((data) => {
-      const id = this.active_route.parent.snapshot.paramMap.get('id');
+      const id = this.active_route.parent?.snapshot.paramMap.get('id')!;
       this.idSite = Number.parseInt(id, 10);
       this.isload = true;
-      if (data.isEdit) {
+      if (data['isEdit']) {
          this.idWarehouse =
           this.active_route.snapshot.paramMap.get('id');
         this.state = 'edit';
@@ -54,7 +54,6 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
             if (res && res.hasOwnProperty('success') && res.success) {
               this.isload = false;
               this.warehouses = res.data;
-              // this.isload = true;
             }
           });
       }

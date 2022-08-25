@@ -37,21 +37,17 @@ export class CreateOrEditRolesComponent implements OnInit {
   state: 'create' | 'edit' = 'create';
   title: string = 'Creando ROL';
   permissions: IpermissionSystem[] = [];
-  // permission_otorgados:IpermissionSystem[]= [];
   permission_filter: IpermissionSystem[] = [];
   search_permission: string = '';
   role: IrolSystem = new IrolSystem();
-  // role.permission = []
   ngOnInit(): void {
-    // this.role.permissions =[];
-
     this.ngx_spinner.show();
     this.activated_route.data.subscribe((data) => {
-      if (data.isEdit) {
+      if (data['isEdit']) {
         this.title = 'Editando Rol';
         this.state = 'edit';
         const id = Number.parseInt(
-          this.activated_route.snapshot.paramMap.get('id')
+          this.activated_route.snapshot.paramMap.get('id')!
         );
         this.s_standart
           .show('admin/roles/' + id + '/edit')
@@ -67,20 +63,14 @@ export class CreateOrEditRolesComponent implements OnInit {
               const { name, title, description, guard_name } = this.role;
               this.form_rol.setValue({ name, title, description, guard_name });
 
-              this.role.permissions.forEach((item) => {
+              this.role['permissions']?.forEach((item) => {
                 this.iniciatePermissions(item.id)
               });
-
-              // this.permission_otorgados = this.permissions;
               this.ngx_spinner.hide();
             }
           );
       } else {
         this.s_standart.show('admin/roles/create').subscribe((res) => {
-          // this.permissions = res.data;
-          // res.data.map((item) => {
-          //   this.permissions.push({ ...item, active: false });
-          // });
           this.permissions = res.data;
           this.permission_filter = this.permissions;
           this.ngx_spinner.hide();
@@ -107,10 +97,10 @@ export class CreateOrEditRolesComponent implements OnInit {
   }
 
   returnItem(id): void {
-    const index = this.role.permissions.findIndex((x) => x.id == id);
+    const index = this.role.permissions?.findIndex((x) => x.id == id);
     if (index != -1) {
-      this.permissions.push(this.role.permissions[index]);
-      this.role.permissions.splice(index, 1);
+      this.permissions.push(this.role.permissions![index!]);
+      this.role.permissions?.splice(index!, 1);
       this.permissionsFilter();
     }
   }
@@ -126,7 +116,7 @@ export class CreateOrEditRolesComponent implements OnInit {
   transferDataItem(id): void {
     const index = this.permissions.findIndex((x) => x.id == id);
     if (index != -1) {
-      this.role.permissions.push(this.permissions[index]);
+      this.role.permissions?.push(this.permissions[index]);
       this.permissions.splice(index, 1);
       this.permissionsFilter();
     }
@@ -135,7 +125,6 @@ export class CreateOrEditRolesComponent implements OnInit {
   iniciatePermissions(id) {
     const index = this.permissions.findIndex((x) => x.id == id);
     if (index != -1) {
-      // this.role.permissions.push(this.permissions[index]);
       this.permissions.splice(index, 1);
     }
   }
@@ -145,7 +134,7 @@ export class CreateOrEditRolesComponent implements OnInit {
       const data = this.captureData();
       if (data) {
         this.ngx_spinner.show();
-        this.s_standart.store('admin/roles', data).subscribe(res => {
+        this.s_standart.store('admin/roles', data).subscribe(() => {
           this.ngx_spinner.hide();
           this.router.navigate(['administracion-sistema/roles']);
         });
@@ -154,7 +143,7 @@ export class CreateOrEditRolesComponent implements OnInit {
       if (this.state == 'edit'){
         const data = this.captureData();
        if (data) {
-         this.s_standart.updatePut('admin/roles/' + this.role.id, data).subscribe(res => {
+         this.s_standart.updatePut('admin/roles/' + this.role.id, data).subscribe(() => {
            this.ngx_spinner.hide();
           this.router.navigate(['administracion-sistema/roles']);
          });
@@ -171,7 +160,7 @@ export class CreateOrEditRolesComponent implements OnInit {
       return false;
     }
     let permissionsIds;
-    if (this.role.permissions.length > 0){
+    if (this.role.permissions?.length && this.role.permissions?.length > 0){
        permissionsIds = this.role.permissions.map(item => {
         return item.id;
       });

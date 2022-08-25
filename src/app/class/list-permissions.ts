@@ -1,4 +1,3 @@
-import { StorageService } from '../services/storage.service';
 
 interface IPermission {
     name: string;
@@ -902,7 +901,7 @@ export class ListPermissions {
     //     }
     //     const search = name.toLowerCase();
     //     // console.log(this.permissionMap);
-        
+
     //     this.myPermissionMap.forEach((value, key) => {
     //         if (value.title.toLowerCase().includes(search) || value.description.toLowerCase().includes(search)) {
     //             searchData.push(value);

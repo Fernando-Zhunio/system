@@ -16,10 +16,10 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   public title: string = 'Sidebar Item';
   public urlSave: any = 'admin/sidebar';
   urlPermission: string = 'admin/sidebar/permissions';
-  loadCreate: boolean = false;
+  override loadCreate: boolean = false;
   permissions: IPermission[] = [];
   formPermission = new FormControl(null, [Validators.required]);
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
     url: new FormControl(null, [Validators.required]),
     icon: new FormControl(null, [Validators.required]),
@@ -35,12 +35,6 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   ngOnInit(): void {
     this.init(false);
     this.search();
-    this.formSearchPermission.valueChanges.subscribe(value => {
-      // if (value?.length > 2)
-      // {
-      //   this.search(value);
-      // }
-    });
   }
 
 
@@ -60,22 +54,14 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
     console.log($event);
     this.permissions = $event.data;
   }
-  // AutoCompleteDisplay(item): string {
-  //   console.log(this.permissions);
-  //    return ` ${item?.description} - ${item?.name} `;
-  // }
 
-  // optionSelected($event) {
-  //   this.form.get('permission_id').setValue($event.option.value.id);
-  // }
-
-  setData(data): void {
+  override setData(data): void {
     if (this.status === 'edit') {
       this.form.patchValue(data);
       if (data?.permission) {
         this.permissions.push(data.permission);
         this.formPermission.setValue(`${data.permission.name} - ${data.permission.description}`);
-        this.form.get('permission_id').setValue(data.permission.id);
+        this.form.get('permission_id')?.setValue(data.permission.id);
       }
     }
   }
@@ -83,13 +69,13 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   selectPermission(event: MatSelectionListChange): void {
     const permission = this.permissions.find(item => item.id === event.options[0].value);
     if (permission) {
-      this.form.get('permission_id').setValue(permission.id);
+      this.form.get('permission_id')?.setValue(permission.id);
       this.formPermission.setValue(`${permission.name} - ${permission.description}`);
       this.isOpenSearchPermission = false;
     }
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['/administracion-sistema/sidebar']);
   }
 

@@ -16,7 +16,7 @@ export class CreateOrEditCompanyComponent extends CreateOrEdit<ICompany> impleme
     super( actived_router, standard_service, router);
   }
 
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     country_id: new FormControl('', Validators.required),
   });
@@ -28,7 +28,7 @@ export class CreateOrEditCompanyComponent extends CreateOrEdit<ICompany> impleme
     this.init();
   }
 
-  setData(data: any): void {
+  override setData(data: any): void {
     if (this.status === 'create') {
       this.countries = data.countries;
       return;
@@ -40,11 +40,11 @@ export class CreateOrEditCompanyComponent extends CreateOrEdit<ICompany> impleme
     });
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['/administracion-sistema/companies']);
   }
 
-  getDataForSendServer(): any {
+  override getDataForSendServer(): any {
     if (this.form.valid) {
       return this.form.value;
     }

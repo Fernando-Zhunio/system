@@ -1,10 +1,9 @@
 import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, SkipSelf } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Session } from '../../clases/session';
 import { User } from '../../clases/user';
-import { Iresponse } from '../../interfaces/Imports/invoice-item';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
 
@@ -18,7 +17,7 @@ export class RedirectToComponent implements OnInit {
     private s_storage: StorageService,
     private router: Router,
     private act_router: ActivatedRoute,
-    private http_backend: HttpBackend
+    protected http_backend: HttpBackend
   ) {
     this.http = new HttpClient(http_backend);
   }
@@ -47,7 +46,7 @@ export class RedirectToComponent implements OnInit {
           headers,
         })
         .subscribe(
-          (res: Iresponse) => {
+          (res: any) => {
             if (res.success) {
               const session: Session = new Session();
               session.token = token;
@@ -68,7 +67,7 @@ export class RedirectToComponent implements OnInit {
               if (goto) { this.router.navigate([goto]); } else { this.router.navigate(['/home/inicio']); }
             }
           },
-          (err) => {
+          () => {
             SwalService.swalToast('Token invalido');
           }
         );

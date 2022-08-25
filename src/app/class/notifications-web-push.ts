@@ -1,13 +1,8 @@
-// import { JsonPipe } from '@angular/common';
-// import { SwPush } from '@angular/service-worker';
-import { SwPush } from '@angular/service-worker';
 import { environment } from '../../environments/environment';
 import { MethodsHttpService } from '../services/methods-http.service';
-import { StandartSearchService } from '../services/standart-search.service';
 
 export class NotificationsWebPush {
   constructor(
-    private swPush: SwPush,
     private methodsHttp: MethodsHttpService
   ) { }
   public readonly PUBLIC_KEY = environment.VAPID_PUBLIC_KEY;
@@ -27,16 +22,6 @@ export class NotificationsWebPush {
     }
     localStorage.setItem(key, this.addHours(4).getTime().toString());
     this.initSW();
-    // const _token = '='.repeat((4 - this.PUBLIC_KEY.length % 4) % 4);
-    // this.swPush.requestSubscription({
-    //   serverPublicKey: this.PUBLIC_KEY + _token,
-    // }).then((subscription) => {
-    //   const token = JSON.parse(JSON.stringify(subscription));
-    //   // console.log('**************** TOKEN **************', token);
-    //   this.storePushSubscription(token);
-    // }).catch((err) => {
-    //   console.error('Could not subscribe to notifications', err);
-    // });
   }
 
   initSW() {
@@ -58,7 +43,7 @@ export class NotificationsWebPush {
       });
   }
 
-  activateWebpushNotifications(firstTime = false) {
+  activateWebpushNotifications(_firstTime = false) {
     if (!navigator.serviceWorker.ready) {
       return;
     }
@@ -75,7 +60,7 @@ export class NotificationsWebPush {
     }).then((permissionResult) => {
       if (permissionResult !== 'granted') {
         console.error(
-          'Has bloqueado las notificaciones de navegador, si deseas activarlas desbloquealas primero.'
+          'Has bloqueado las notificaciones de navegador, si deseas activarlas desbloqueabas primero.'
         );
       }
       this.subscribeUser();
@@ -101,7 +86,7 @@ export class NotificationsWebPush {
   }
 
   storePushSubscription(pushSubscription) {
-    this.methodsHttp.methodPost('notifications/suscribe-webpush', JSON.parse(JSON.stringify(pushSubscription))).subscribe(res => {
+    this.methodsHttp.methodPost('notifications/suscribe-webpush', JSON.parse(JSON.stringify(pushSubscription))).subscribe(() => {
     });
 
   }

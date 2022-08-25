@@ -1,9 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { Chart, ChartConfiguration } from 'chart.js';
+import { Chart } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
-import { EKeyDashboard, EtypeGraph } from '../enums/EkeyDashboard.enum';
+import { EKeyDashboard } from '../enums/EkeyDashboard.enum';
 import { ItopDashboard } from '../interfaces/idashboard';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
@@ -16,27 +16,10 @@ export abstract class ManagerChartTop<T> {
   updateOptions: any;
   spinner: NgxSpinnerService;
   abstract idSpinner: string;
-  // options: any = {
-  //   responsive: true,
-  //   maintainAspectRatio: false,
-  //   scale: {
-  //     yAxes: [{ pointLabels: { fontFamily: 'Montserrat, Roboto, sans-serif' } }],
-  //     xAxes: [
-  //       {
-  //         ticks: {
-  //           fontFamily: 'Red Hat Display, Roboto, sans-serif',
-  //         }
-  //       }
-  //     ]
-  //   }
-  // };
-  moreParams: object = null;
+  moreParams: object | null = null;
   private _limit = 5;
    options = {
     tooltip: {},
-    // legend: {
-    //   data: ['sales']
-    // },
     xAxis: {
       data: ['Cargando', 'Cargando', 'Cargando', 'Cargando', 'Cargando']
     },
@@ -60,30 +43,11 @@ export abstract class ManagerChartTop<T> {
   get limit() { return this._limit; }
   public abstract key: EKeyDashboard;
 
-  createChart(idName, typeChart: EtypeGraph | any, datasets = []): void {
-    // const _chart = document.getElementById(idName) as any;
-    // const ctx = _chart.getContext('2d') as any;
-    // const dataChart: ChartConfiguration = {
-    //   type: typeChart,
-    //   data: {
-    //     labels: ['espere ..', 'espere ..', 'espere ..', 'espere ..', 'espere ..'],
-    //     datasets: [
-    //       {
-    //         label: 'Gráfico',
-    //         data: [1, 1, 1, 1, 1],
-    //         borderColor: 'rgba(0,200,83,0.5)',
-    //         borderWidth: 2,
-    //         backgroundColor: ['rgba(0,200,83,0.5)', 'rgba(105,240,174,0.5)', 'rgba(255,229,0,0.5)', 'rgba(255,153,0,0.5)', 'rgba(255,0,0,0.5)']
-    //       }
-    //     ]
-    //   },
-    //   options: this.options
-    // };
-    // this.chart = new Chart(ctx as any, dataChart);
+  createChart(): void {
     this.updateChart();
   }
 
-  updateChart(event: MatButtonToggleChange = null): void {
+  updateChart(event: MatButtonToggleChange | null = null): void {
     if (event) {
       this.key = event.value;
     }

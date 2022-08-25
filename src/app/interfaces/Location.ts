@@ -22,7 +22,7 @@ export interface Location {
     phone: string
 }
 
-interface Schedules {
+export interface Schedules {
     [key: string]: {
         status: boolean,
         start: string,

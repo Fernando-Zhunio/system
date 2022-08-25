@@ -1,7 +1,6 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,23 +32,21 @@ export interface ITreeDepartment {
 export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> implements OnInit {
   urlSave: any;
 
-  constructor(public act_router: ActivatedRoute, public standard_service: StandartSearchService, public router: Router) {
+  constructor(public override act_router: ActivatedRoute, public override standard_service: StandartSearchService, public override router: Router) {
     super(act_router, standard_service, router);
     this.urlSave = `admin/companies/${this.getId('company_id')}/departments`;
   }
 
-  public key_param: string = 'department_id';
+  public override key_param: string = 'department_id';
 
   title: string = 'Departamento';
-  // url: string = '';
   departments: IDepartment[] = [];
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
   });
 
   treeControl = new FlatTreeControl<any>(
     node => node.level, node => node.expandable);
-  // tslint:disable-next-line: member-ordering
   private _transformer = (node: any, level: number) => {
     return {
       expandable: !!node.childs && node.childs.length > 0,
@@ -59,13 +56,11 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
       selected: node?.selected || false
     };
   }
-  // tslint:disable-next-line: member-ordering
   treeFlattener = new MatTreeFlattener(
     this._transformer, node => node.level, node => node.expandable, node => node.childs);
-  // tslint:disable-next-line: member-ordering
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-  department_selected: number = null;
-  company: Icompany = null;
+  department_selected!: number ;
+  company!: Icompany;
 
   ngOnInit(): void {
     this.init();
@@ -83,7 +78,7 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
     return node;
   }
 
-  setData(data: any): void {
+  override setData(data: any): void {
     if (this.status === 'create') {
       this.dataSource.data = data.tree;
     } else {
@@ -101,24 +96,12 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
   }
   hasChild = (_: number, node: any) => node.expandable;
 
-  changeValueSelectDepartment($event: MatRadioChange, node) {
+  changeValueSelectDepartment($event: MatRadioChange) {
     console.log($event);
     this.department_selected = $event.value;
-    // if ($event.source.checked) {
-    //   this.departments_selected.set(node.id, node.id);
-    // } else {
-    //   this.departments_selected.delete(node.id);
-    // }
-    // console.log(this.departments_selected.values());
   }
 
-  getDataForSendServer(): any {
-    // console.log({
-    //   ...this.form.value,
-    //   parent_department_id: this.department_selected,
-    //   company_id: this.getId('company_id')
-    // });
-    // return false;
+  override getDataForSendServer(): any {
     if (this.form.valid && Number.isInteger(this.department_selected)) {
       return {
         ...this.form.value,
@@ -131,7 +114,7 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
     }
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['/administracion-sistema/companies/', this.getId('company_id'), 'departments']);
   }
 

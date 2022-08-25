@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-sheet-fz',
@@ -8,7 +8,7 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bott
 })
 export class SheetFzComponent implements OnInit {
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: {id: number, icon: string, lines: string[]}[], private sheet: MatBottomSheetRef) { }
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: {id: number, icon: string, lines: string[]}[]) { }
 
 
   ngOnInit(): void {

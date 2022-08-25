@@ -1,4 +1,3 @@
-import { OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
@@ -18,13 +17,8 @@ export abstract class CreateOrEditModal {
     public isLoading: boolean = false;
     abstract dialogRef: MatDialogRef<any>;
 
-    // ngOnInit(): void {
-    //     this.state = this.isEdit ? 'edit' : 'create';
-    //     this.init();
-    // }
-
     init() {
-        let observable: Observable<any> = null;
+        let observable: Observable<any> | null = null;
         if (this.state === 'edit') {
             this.title += ' - Editando';
             observable = this.standard.methodGet(this.generateUrlEdit());
@@ -63,14 +57,14 @@ export abstract class CreateOrEditModal {
         const { isValid, dataSend } = this.formIsValid();
         if (isValid) {
             this.isLoading = true;
-            let observable: Observable<any> = null;
+            let observable: Observable<any> | null = null;
             if (this.state === 'edit') {
                observable = this.standard.methodPut(this.generateUrlUpdate(), dataSend );
             } else if (this.state === 'create') {
                observable = this.standard.methodPost(this.urlCrud, dataSend );
             }
 
-            observable.subscribe(data => {
+            observable!.subscribe(data => {
                 this.isLoading = false;
                 SwalService.swalFire({icon: 'success', title: 'Guardado', text: 'Se guardo correctamente'});
                 this.closeModal(data);

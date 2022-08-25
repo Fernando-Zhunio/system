@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Location } from '../../../class/location';
@@ -7,7 +6,6 @@ import { HeaderSearchComponent } from '../../../components/header-search/header-
 import { Icity } from '../../../interfaces/icity';
 import { ICompany } from '../../../interfaces/icompanies';
 import { MethodsHttpService } from '../../../services/methods-http.service';
-import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
 
 declare let Swal: any;
@@ -19,7 +17,7 @@ declare let Swal: any;
 })
 export class LocacionesComponent implements OnInit {
 
-  constructor(private methodsHttp: MethodsHttpService, private snack_bar: MatSnackBar, private dialog: MatDialog) { }
+  constructor(private methodsHttp: MethodsHttpService, private snack_bar: MatSnackBar) { }
   displayedColumns: string[] = [
     'id',
     'name',
@@ -75,15 +73,13 @@ export class LocacionesComponent implements OnInit {
     this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
   }
 
-  editItem(i): void { }
-
   deleteItem(id): void {
-    SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar esta locacion', 'warning').then((result) => {
+    SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar esta locación', 'warning').then((result) => {
       if (result.isConfirmed) {
-        this.snack_bar.open('Eliminando locacion espere ...');
+        this.snack_bar.open('Eliminando locación espere ...');
         this.methodsHttp.methodDelete('admin/locations/' + id).subscribe(res => {
           if (res.hasOwnProperty('success') && res.success) {
-            this.snack_bar.open('Localidad Eliminada con exito', 'OK', { duration: 2000 });
+            this.snack_bar.open('Localidad Eliminada con éxito', 'OK', { duration: 2000 });
             this.removeItemTable(id);
           } else {
             this.snack_bar.open('No se a podido eliminar ', 'Error', { duration: 2000 });
@@ -93,7 +89,6 @@ export class LocacionesComponent implements OnInit {
           this.snack_bar.open('No se a podido eliminar ', 'Error', { duration: 2000 });
         });
       } else if (
-        /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
       ) {
       }

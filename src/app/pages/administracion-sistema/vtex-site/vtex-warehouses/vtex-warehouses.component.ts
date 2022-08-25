@@ -18,13 +18,13 @@ export class VtexWarehousesComponent
 {
   constructor(
     public activated_route: ActivatedRoute,
-    public s_standart: StandartSearchService,
-    public snack_bar: MatSnackBar,
+    public override s_standart: StandartSearchService,
+    public override snack_bar: MatSnackBar,
   ) {
     super();
   }
   // urlDelete: string = 'admin/roles/';
-  displayedColumns: string[] = [
+  override displayedColumns: string[] = [
     'id',
     'vtex_api_id',
     'name',
@@ -35,16 +35,16 @@ export class VtexWarehousesComponent
 
   id = this.activated_route.snapshot.paramMap.get('id');
   urlData: string = 'admin/vtex/' + this.id + '/warehouses';
-  urlDelete: string;
-  wordMain: string = 'esta bodega';
+  override urlDelete: string;
+  override wordMain: string = 'esta bodega';
 
-  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;
   permissions: IpermissionStandart;
 
   ngOnInit(): void {
     this.urlDelete = this.urlData + '/';
     this.activated_route.data.subscribe((res) => {
-      this.permissions = res.permissions.all;
+      this.permissions = res['permissions'].all;
     });
   }
 

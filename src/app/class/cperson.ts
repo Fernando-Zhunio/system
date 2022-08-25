@@ -71,14 +71,14 @@ interface Idepartment {
   updated_at: string;
 }
 
-interface Iuser {
-  admin: number;
-  api_token: string;
-  created_at: string;
-  deleted_at: string;
-  email: string;
-  id: number;
-  last_activity: string;
-  name: string;
-  updated_at: string;
-}
+// interface Iuser {
+//   admin: number;
+//   api_token: string;
+//   created_at: string;
+//   deleted_at: string;
+//   email: string;
+//   id: number;
+//   last_activity: string;
+//   name: string;
+//   updated_at: string;
+// }

@@ -1,9 +1,6 @@
 import { IndexWithMatTableComponent } from './../Modulos/index-with-mat-table/index-with-mat-table.component';
 import { Injectable, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
-import { HeaderSearchComponent } from '../components/header-search/header-search.component';
 import { Ipagination } from '../interfaces/ipagination';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
@@ -20,7 +17,6 @@ export abstract class IndexWithMatTable<T> {
     protected s_standart: StandartSearchService,
     protected snack_bar: MatSnackBar,
     protected router: Router
-    // protected dialog: MatDialog
   ) {}
   @ViewChild(IndexWithMatTableComponent)
   indexWithMatTableComponent: IndexWithMatTableComponent;

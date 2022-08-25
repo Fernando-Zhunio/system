@@ -15,7 +15,7 @@ export class PrefijoComponent implements OnInit {
   permission_edit = ['super-admin','products-admin.prefixes.edit'];
   permission_destroy = ['super-admin','products-admin.prefixes.destroy'];
 
-  prefixes = [];
+  prefixes: any[] = [];
   pageCurrent: number = 1;
   perPage: number = 10;
   totalItem: number = 0;
@@ -33,7 +33,7 @@ export class PrefijoComponent implements OnInit {
   }
 
   destroyPrefix(id): void {
-    const index = this.prefixes.findIndex((x) => x.id === id);
+    const index = this.prefixes.findIndex((x: any) => x.id === id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mr-1',
@@ -54,7 +54,7 @@ export class PrefijoComponent implements OnInit {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          this.s_prefijos.destroy(id).subscribe((res) => {
+          this.s_prefijos.destroy(id).subscribe(() => {
             // let index:number = this.prefixes.findIndex((x) => x.id === id);
             if (index != -1) {this.prefixes.splice(index, 1); }
             this.totalItem--;

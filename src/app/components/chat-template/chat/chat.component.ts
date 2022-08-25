@@ -69,7 +69,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         onload: (response: any) => {
           const data = JSON.parse(response);
-          this.sendOneMessage(null, [data.id]);
+          this.sendOneMessage(null, [data?.id]);
           return data.id;
         }
       },
@@ -111,7 +111,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
 
-  successFiles(event): void {
+  successFiles(_event): void {
     this.hasFile = false;
   }
 
@@ -173,8 +173,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       reader.onload = () => {
         this.attachments.push({ url: reader.result, file, type: file.type });
       };
-      reader.onerror = function (error) {
-      };
+      // reader.onerror = function (error) {
+      // };
     });
   }
 
@@ -197,7 +197,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         this.positionScroll = this.scrollContainer.scrollHeight;
       }
       this.changed_detector.detectChanges();
-      // console.log('fer');
       this.not_bottom = false;
       this.firstScroll = false;
       if (this.chat.id == this.current_chat_id && this.isActiveWindow) {
@@ -231,10 +230,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getMessages(true);
   }
 
-  handleSelection(event) {
-  }
 
-  sendMessage($event = null): boolean {
+  sendMessage($event: any = null): boolean {
     if ($event) { $event.preventDefault(); }
     const text = this.textMessage.nativeElement.value;
     if (text.trim() === '') {
@@ -246,7 +243,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
-  sendOneMessage(text, attach_ids = null): any {
+  sendOneMessage(text: any, attach_ids: any = null): any {
     const data = {};
     data['message'] = text;
     if (attach_ids) {
@@ -256,7 +253,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.s_standard
       .store(`chats/user/messages`, data)
-      .subscribe((res) => {
+      .subscribe(() => {
       });
   }
 
@@ -264,7 +261,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     SharedService.disabled_loader = true;
     this.s_standard
       .updatePut(`chats/${chat_id}/mark-read`, {}, false)
-      .subscribe((res) => {
+      .subscribe(() => {
         this.chat.data.unread_messages_count = 0;
       });
   }
@@ -300,11 +297,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
           case HttpEventType.ResponseHeader:
             break;
           case HttpEventType.DownloadProgress:
-            progress = Math.round(event.loaded / event.total * 100);
+            progress = Math.round(event.loaded / event.total! * 100);
             message.files[0].progress = progress;
             break;
           case HttpEventType.Response:
-            const blob = new Blob([event.body], { type: 'application/ms-Excel' });
+            const blob = new Blob([event.body!], { type: 'application/ms-Excel' });
             const urlDownload = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             document.body.appendChild(a);
@@ -320,16 +317,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
             }, 1500);
 
         }
-      }, err => { message.files[0]['isload'] = false; });
+      }, () => { message.files[0]['isload'] = false; });
   }
-
-
-  // generateParticipantTooltip(participant): string {
-  //   return `<span class="text-truncate p-2">
-  //   <img style="width: 100px;" src="${this.getPhoto(participant?.info?.photo)}" alt="">${participant?.info?.name}
-  //     </span>`;
-  // }
-
-
 
 }

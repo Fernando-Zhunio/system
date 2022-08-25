@@ -1,10 +1,10 @@
 
-export interface ReuseComponent<T> {
+export interface ReuseComponent {
   loadInfo(): void;
 }
 
-export function instanceOfReuseComponent<T>(
+export function instanceOfReuseComponent(
   component: any
-): component is ReuseComponent<T> {
+): component is ReuseComponent{
   return component?.loadInfo instanceof Function;
 }

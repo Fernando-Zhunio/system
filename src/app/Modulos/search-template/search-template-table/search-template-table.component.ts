@@ -16,7 +16,7 @@ export class SearchTemplateTableComponent implements OnInit {
   @Input() title = 'Pagina Novisolutions';
   @Input() init: boolean = true;
   @Input() active_filters_menu: boolean = false;
-  @Input() key_paginator: string = null;
+  @Input() key_paginator: string | null = null;
   @Output() isLoading = new EventEmitter<boolean>(false);
   @Output() data = new EventEmitter<any[]>();
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;

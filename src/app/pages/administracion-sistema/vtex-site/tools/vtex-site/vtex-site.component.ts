@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { SwalService } from '../../../../../services/swal.service';
 import { IvtexSite } from './../../../../../interfaces/vtex/ivtex-site';
 
 @Component({

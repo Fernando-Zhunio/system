@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImlInfo, ImlMenu } from '../../interfaces/iml-info';
@@ -20,7 +20,7 @@ export class MlComponent implements OnInit {
   ml_state = STATE_ML_INFO;
   @Input() ml: ImlInfo;
   @Input() withName: boolean = false;
-  ml_menu: ImlMenu = null;
+  ml_menu: ImlMenu | null = null;
   isLoadMenu: boolean = false;
   ngOnInit(): void {
   }
@@ -46,8 +46,7 @@ export class MlComponent implements OnInit {
   }
 
 
-  executeMenu(type, id, index): void {
-    // active,paused,closed,deleted,relist_forever_on,relist_forever_off
+  executeMenu(type, id): void {
     switch (type) {
       case 'assign':
           this.dialog.open(SearchProductModalComponent, {
@@ -58,15 +57,15 @@ export class MlComponent implements OnInit {
               this.s_mercado_libre.assingProduct('catalogs/ml-products/' + this.ml.id + '/assign', {product_id: res.id_product}).subscribe(res => {
                 snack.dismiss();
                 if (res.success) {
-                  this.snack_bar.open('Estado cambiado con exito', 'Exito', {duration: 2000});
+                  this.snack_bar.open('Estado cambiado con éxito', 'Éxito', {duration: 2000});
                   this.ml = res.data;
                 } else {
-                  this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration: 2000});
+                  this.snack_bar.open('Ups! Ocurrió un error', 'Error', {duration: 2000});
                 }
               }, err => {
                 console.log(err);
                 snack.dismiss();
-                this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration: 2000});
+                this.snack_bar.open('Ups! Ocurrió un error', 'Error', {duration: 2000});
               });
             }
           });
@@ -109,7 +108,7 @@ export class MlComponent implements OnInit {
             this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration : 2000})
 
           }
-        }, err => {
+        }, () => {
           snack.dismiss();
           this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration : 2000})
         });

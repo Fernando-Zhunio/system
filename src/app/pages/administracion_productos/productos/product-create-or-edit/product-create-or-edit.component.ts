@@ -34,10 +34,10 @@ export class ProductCreateOrEditComponent implements OnInit {
   brands = [];
   prefixes = [];
   product_name = '';
-  id: number|string = null;
+  id: any = null;
   ngOnInit(): void {
      this.act_router.data.subscribe(res => {
-      if (res.isEdit) {
+      if (res['isEdit']) {
         this.title = 'Editando Producto';
          this.id = this.act_router.snapshot.paramMap.get('id');
         this.s_products.edit(this.id).subscribe(response => {

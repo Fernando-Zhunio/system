@@ -7,10 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { EProviderActions } from '../../enums/eprovider-actions.enum';
 import {
-  Iimportation,
   invoice,
   invoiceItem,
-  InvoiceItemFull,
   Iprovider,
   Iresponse,
 } from '../../interfaces/Imports/invoice-item';
@@ -35,11 +33,11 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  @Input() providers = [];
+  @Input() providers: any[] = [];
   @Input() id_import;
-  @Input() product_relationship = null;
+  @Input() product_relationship: any = null;
   @Input() state: 'edit' | 'create' | 'formMore' = 'create';
-  @Input() invoice: invoice = null;
+  @Input() invoice: invoice | null = null;
   formInvoice: FormGroup = new FormGroup({
     identifier: new FormControl(null, [Validators.required]),
     notes: new FormControl(null),
@@ -123,7 +121,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
               }
               this.isLoadInvoice = false;
             },
-            (err) => {
+            () => {
               this.isLoadInvoice = false;
             }
           );
@@ -143,7 +141,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
               }
               this.isLoadInvoice = false;
             },
-            (err) => {
+            () => {
               this.isLoadInvoice = false;
             }
           );
@@ -164,9 +162,11 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   openActionProvider() {
     const id = this.formInvoice.controls['provider_id'].value;
     const indexProvider = this.providers.findIndex((x) => x.id === id);
-    let data: Iprovider = null;
+    let data: Iprovider;
     if (indexProvider !== -1) {
       data = this.providers[indexProvider];
+    } else {
+      return
     }
     this.bottomSheet
       .open(ActionProviderComponent, {
@@ -396,7 +396,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
   // }
 
   captureImagenProduct(): string | boolean {
-    if (this.product_relationship.prestashop_products.length > 0) {
+    if (this.product_relationship?.prestashop_products.length > 0) {
       return this.product_relationship.prestashop_product[0].image;
     }
     if (this.product_relationship.ml_infos.length > 0) {
@@ -430,13 +430,13 @@ export class InvoiceCreateOrEditComponent implements OnInit {
           }
           this.isLoadFile = false;
         },
-        (err) => {
+        () => {
           this.isLoadFile = false;
         }
       );
   }
 
   getProvider(): string {
-    return this.providers.find((x) => x.id === this.invoice.provider_id).name;
+    return this.providers.find((x: any) => x.id === this.invoice?.provider_id)?.name;
   }
 }

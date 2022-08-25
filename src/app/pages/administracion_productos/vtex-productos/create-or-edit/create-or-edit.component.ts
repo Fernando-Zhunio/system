@@ -2,19 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StandartSearchService } from './../../../../services/standart-search.service';
-import { Subscription } from 'rxjs';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Ipagination } from './../../../../interfaces/ipagination';
 import { Iproduct3 } from '../../../../interfaces/iproducts';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { SwalService } from '../../../../services/swal.service';
 import { MatStepper } from '@angular/material/stepper';
 import { FormProductComponent } from './../templates/form-product/form-product.component';
-import { FormSkusComponent } from './../templates/form-skus/form-skus.component';
 import {
   IvtexProducts,
-  IvtexResponseProduct,
   IvtexSkuStore,
 } from './../../../../interfaces/vtex/iproducts';
 import { ActivatedRoute } from '@angular/router';
@@ -44,7 +39,6 @@ export class CreateOrEditComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
     Name: new FormControl(null, [Validators.required]),
-    // DepartmentId: new FormControl({ value: null, disabled: true }),
     CategoryId: new FormControl(null, [Validators.required]),
     BrandId: new FormControl(null, [Validators.required]),
     LinkId: new FormControl(null, [Validators.required]),
@@ -85,10 +79,10 @@ export class CreateOrEditComponent implements OnInit {
 
     /* Se ejecuta para comprobar si el estado es para editar */
     this.act_router.data.subscribe((res0) => {
-      if (res0.isEdit) {
+      if (res0['isEdit']) {
         this.status = 'edit';
         this.spinner_ngx.show();
-        const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
+        const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id')!);
         this.s_standart.show('products-admin/vtex/product-vtex/' + id + '/edit').subscribe(( res: {success: boolean, data: IvtexProducts}) => {
           if (res && res.hasOwnProperty('success') && res.success){
             this.vtexProduct = res.data;
@@ -98,7 +92,7 @@ export class CreateOrEditComponent implements OnInit {
             });
             this.spinner_ngx.hide();
           }
-      }, err => {this.spinner_ngx.hide(); });
+      }, () => {this.spinner_ngx.hide(); });
     }});
   }
 

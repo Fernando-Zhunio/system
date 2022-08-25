@@ -1,19 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { CategoriasComponent } from './categorias/categorias.component';
-import { CategoriasCreateOrEditComponent } from './categorias/categorias-create-or-edit/categorias-create-or-edit.component';
-// import { CategoriasMainComponent } from './categorias-main.component';
-import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-
-// @Component({
-//   selector: 'app-admin-products',
-//   template: '<router-outlet></router-outlet>',
-
-// })
-// export class AdminProductsMainComponents  {}
-
 
 const routes: Routes = [
   {

@@ -3,7 +3,6 @@ import { Chart, ChartTypeRegistry, ScatterDataPoint, BubbleDataPoint, registerab
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { forkJoin } from 'rxjs';
-import { IcompareGraph, Idates } from '../interfaces/idashboard';
 import { SharedService } from '../services/shared/shared.service';
 import { StandartSearchService } from '../services/standart-search.service';
 import { IversusChart } from '../interfaces/iversus-chart';
@@ -29,7 +28,7 @@ export class VersusChart<DATA> implements IversusChart {
             },
         },
     };
-    url: string = null;
+    url: string | null = null;
     optionsDate = {
         locale: localeEs,
         dateFormat: 'yyyy MMMM dd',
@@ -38,20 +37,20 @@ export class VersusChart<DATA> implements IversusChart {
         buttons: [
           {
             content() { return 'Aplicar'; },
-            onClick: (dp) => {
+            onClick: (_dp) => {
                 this.dateRange.first_date = this.airDate.selectedDates;
               this.execute_versus();
             },
           },
         ]
       };
-      key: string = null;
-      urlDashboard: string = null;
+      key: string | null = null;
+      urlDashboard: string | null = null;
     constructor(public spinner: NgxSpinnerService, public s_standart: StandartSearchService) { }
 
     airDate: AirDatepicker;
-   
-    getData(page = null): void {
+
+    getData(_page = null): void {
         const url = `${this.url}?search=${this.searchText}`;
         this.isLoading = true;
         this.spinner.show('isload');
@@ -65,7 +64,7 @@ export class VersusChart<DATA> implements IversusChart {
     create_chart(id, type, datasets = [], options = null): void {
         const _options = options || this.options;
         const canvas = <HTMLCanvasElement>document.getElementById(id);
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d')!;
         const _data = {
             type: type,
             data: {
@@ -81,21 +80,20 @@ export class VersusChart<DATA> implements IversusChart {
     execute_versus(): void {
         this.isVersus = true;
         const date = this.getDate();
-        const request = [];
-        const keys = [];
-        this.dataSelect.forEach((key, value) => {
+        const request: any = [];
+        this.dataSelect.forEach((_key, value) => {
             request.push(this.s_standart.index(`${this.urlDashboard}?key=${this.key}&model_id=${value}&start_date=${date.first_date[0]}&end_date=${date.first_date[1]}`));
         });
-        forkJoin(request).subscribe((res: { data: { dates: Idates, previous_period_stats?: IcompareGraph[], selected_period_stats: IcompareGraph[], model_id: number } }[]) => {
+        forkJoin<any>(request).subscribe((res: any) => {
             this.chart.data.datasets = [];
-            let count = 0;
+
             res.forEach((item) => {
                 const data = item.data;
                 const _data = data.selected_period_stats.map(item1 => item1.total);
                 this.chart.data.datasets.push(
-                    { data: _data, label: this.dataSelect.get(data.model_id)['name'] as any, borderColor: this.ramdonColor(), borderWidth: 2, backgroundColor: this.ramdonColor() }
+                    { data: _data, label: this.dataSelect.get(data.model_id)!['name'] as any, borderColor: this.ramdonColor(), borderWidth: 2, backgroundColor: this.ramdonColor() }
                 );
-                count++;
+
             });
             this.chart.data.labels = res[0].data.selected_period_stats.map(item => moment(item.date).format('MMM Do YY'));
             this.chart.update();
@@ -112,8 +110,8 @@ export class VersusChart<DATA> implements IversusChart {
     }
 
     loadDateLocalStorage(): void {
-        const date = JSON.parse(localStorage.getItem('dates_all'));
-        let datesAll = null;
+        const date = JSON.parse(localStorage.getItem('dates_all')!);
+        let datesAll: any = null;
         if (date == null) {
 
             datesAll = { first_date: [new Date(moment(new Date()).subtract(7, 'days').format()), new Date()], last_date: [new Date(moment(new Date()).subtract(14, 'days').format()), new Date(moment(new Date()).subtract(7, 'days').format())] };

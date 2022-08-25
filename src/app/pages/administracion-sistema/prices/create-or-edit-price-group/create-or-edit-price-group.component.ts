@@ -17,7 +17,7 @@ export class CreateOrEditPriceGroupComponent extends CreateOrEdit<any> implement
     super( activated_router, standard, router);
    }
   urlSave: any = 'admin/prices/groups';
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required]),
     active: new FormControl(false, [Validators.required]),
@@ -25,13 +25,13 @@ export class CreateOrEditPriceGroupComponent extends CreateOrEdit<any> implement
     roles: new FormControl([], [Validators.required]),
   });
   roles: IRoles[] = [];
-  key_param: string = 'price_group_id';
+  override key_param: string = 'price_group_id';
 
   ngOnInit(): void {
     this.init();
   }
 
-  setData(data?: any): void {
+  override setData(data?: any): void {
       if (this.status == 'edit') {
         data.price_group.roles = data.price_group.roles.map(role => role.id);
         this.form.patchValue(data.price_group);
@@ -42,21 +42,21 @@ export class CreateOrEditPriceGroupComponent extends CreateOrEdit<any> implement
   }
 
   assignDataForm(data: any): void {
-    this.form.get('name').setValue(data.name);
-    this.form.get('type').setValue(data.type);
-    this.form.get('active').setValue(data.active);
-    this.form.get('required').setValue(data.required);
-    this.form.get('roles').setValue(data.roles);
+    this.form.get('name')?.setValue(data.name);
+    this.form.get('type')?.setValue(data.type);
+    this.form.get('active')?.setValue(data.active);
+    this.form.get('required')?.setValue(data.required);
+    this.form.get('roles')?.setValue(data.roles);
   }
 
-  getDataForSendServer() {
+  override getDataForSendServer() {
     if (this.form.valid) {
       return this.form.value;
     }
     return false;
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['administracion-sistema/prices/groups']);
   }
 

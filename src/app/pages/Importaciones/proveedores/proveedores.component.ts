@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-proveedores',
@@ -27,7 +27,7 @@ export class ProveedoresComponent implements OnInit {
   }
 
   destroyImport(event):void{
-    const index = this.imports.findIndex(x=>x.id==event.id);
+    const index = this.imports.findIndex((x: any)=>x.id==event.id);
     if(index != -1){
       this.imports.splice(index,1);
     }

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import {
   CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
+  // ActivatedRouteSnapshot,
+  // RouterStateSnapshot,
   UrlTree,
   Router,
 } from "@angular/router";
@@ -15,8 +15,8 @@ import { StorageService } from "../services/storage.service";
 export class AuthGuard implements CanActivate {
   constructor(private route: Router, private s_storage: StorageService) {}
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    // next: ActivatedRouteSnapshot,
+    // state: RouterStateSnapshot
   ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>

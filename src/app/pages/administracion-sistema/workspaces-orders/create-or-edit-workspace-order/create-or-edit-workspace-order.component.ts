@@ -16,7 +16,7 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
   public title: string = 'Workspace Orden - ';
   public urlSave = 'system-orders/workspaces';
   urlUserSearch = 'system-orders/workspaces/user-search';
-  form = new FormGroup({
+  override form = new FormGroup({
     name: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required),
   });
@@ -27,7 +27,7 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
     public act_router: ActivatedRoute,
     public methodsHttp: MethodsHttpService,
     public router: Router,
-    public location: Location
+    public override location: Location
     ) {
     super();
   }
@@ -41,14 +41,14 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
   }
 
   selectedPerson(key): void {
-    this.usersAssigned.set(key, this.users.get(key));
+    this.usersAssigned.set(key, this.users.get(key)!);
   }
 
   unselectedPerson(key): void {
     this.usersAssigned.delete(key);
   }
 
-  getDataForSendServer(): any {
+  override getDataForSendServer(): any {
     if (this.form.valid) {
       const idsUsers = Array.from(this.usersAssigned.keys())
       this.form.markAsPending();
@@ -62,12 +62,12 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
     }
   }
 
-  go(data): void {
+  override go(_data): void {
     this.goBack();
   }
 
 
-  setData(response): void {
+  override setData(response): void {
     this.form.patchValue({
       name: response.info.name,
       description: response.info.description,

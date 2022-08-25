@@ -5,17 +5,14 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpHeaders,
-  HttpResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, finalize, map, take, tap } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { SwalService } from '../services/swal.service';
 import { StorageService } from '../services/storage.service';
 import { SharedService } from '../services/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
-declare let Swal: any;
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
@@ -30,7 +27,7 @@ export class CustomInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    let headers = null;
+    let headers: any = null;
     // * si esta autenticado
     const isAuthenticated = this.s_storage.isAuthenticated();
     if (isAuthenticated) {
@@ -94,7 +91,7 @@ export class CustomInterceptor implements HttpInterceptor {
             break;
           case 500:
             SwalService.swalToast(
-              'Error del servidor, intentalo otra vez,500',
+              'Error del servidor, inténtalo otra vez,500',
               'warning'
             );
             break;
@@ -104,7 +101,7 @@ export class CustomInterceptor implements HttpInterceptor {
               SwalService.swalToast(err.error.data, 'warning');
             } else {
               SwalService.swalToast(
-                'Ups! Ocurrió un problema intentalo de nuevo, código: 500',
+                'Ups! Ocurrió un problema inténtalo de nuevo, código: 500',
                 'warning'
               );
             }

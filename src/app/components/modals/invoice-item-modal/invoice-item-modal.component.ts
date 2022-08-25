@@ -7,7 +7,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxGalleryImage } from '../../../class/NgxGalleryImage';
 import {
   invoiceItem,
-  Iresponse,
   invoiceItemImg,
 } from '../../../interfaces/Imports/invoice-item';
 import { StandartSearchService } from '../../../services/standart-search.service';
@@ -45,7 +44,7 @@ export class InvoiceItemModalComponent implements OnInit {
     note: new FormControl(null),
     product_id: new FormControl(null),
   });
-  products = [];
+  products: any[] = [];
   title: string = 'Nuevo item en la factura';
   product_relationship: any;
   galleryOptions: NgxGalleryOptions[];
@@ -53,7 +52,7 @@ export class InvoiceItemModalComponent implements OnInit {
   state_edit_init = '';
   galleryAction = <NgxGalleryAction>{
     icon: 'fas fa-trash text-danger',
-    onClick: (event: Event, index: number) => {
+    onClick: (_event: Event, index: number) => {
       alert(this.galleryImages[index].medium);
       const id = this.galleryImages[index].id;
       const url = 'purchase-department/imports/imagen/' + id;
@@ -72,8 +71,6 @@ export class InvoiceItemModalComponent implements OnInit {
         imageAnimation: NgxGalleryAnimation.Slide,
         actions: [this.galleryAction],
       },
-
-      // max-width 800
       {
         breakpoint: 800,
         width: '100%',
@@ -83,7 +80,6 @@ export class InvoiceItemModalComponent implements OnInit {
         thumbnailsMargin: 20,
         thumbnailMargin: 20,
       },
-      // max-width 400
       {
         breakpoint: 400,
         preview: false,
@@ -100,9 +96,9 @@ export class InvoiceItemModalComponent implements OnInit {
         tariff,
         note,
         product_id,
-      } = this.data.formData;
+      } = this.data.formData!;
       this.formMore.setValue({
-        new: this.data.formData.new,
+        new: this.data.formData?.new,
         code,
         description,
         quantity,
@@ -113,8 +109,8 @@ export class InvoiceItemModalComponent implements OnInit {
         product_id,
       });
       this.state_edit_init = JSON.stringify(this.formMore.value);
-      this.product_relationship = this.data.formData.product;
-      if (this.data.formData.images.length > 0){
+      this.product_relationship = this.data.formData?.product;
+      if (this.data.formData?.images?.length && this.data.formData?.images.length > 0){
         this.getIdImagens(this.data.formData.images);
       }
     }
@@ -175,16 +171,16 @@ export class InvoiceItemModalComponent implements OnInit {
               this.isLoadItem = false;
               snack1.dismiss();
               if (res.success) {
-                this.snack.open('Agregado con exito', 'Ok', { duration: 2500 });
+                this.snack.open('Agregado con éxito', 'Ok', { duration: 2500 });
                 this.dialogRef.close(res);
               } else {
-                this.snack.open('Error intentalo de nuevo', 'Error', {
+                this.snack.open('Error inténtalo de nuevo', 'Error', {
                   duration: 2500,
                 });
               }
               this.spinner.hide();
             },
-            (err) => {
+            () => {
               snack1.dismiss();
               this.isLoadItem = false;
               this.spinner.hide();
@@ -205,7 +201,7 @@ export class InvoiceItemModalComponent implements OnInit {
               '/invoices/' +
               this.data.id_invoice +
               '/items/' +
-              this.data.formData.id,
+              this.data.formData?.id,
             this.formMore.value
           )
           .subscribe(
@@ -225,7 +221,7 @@ export class InvoiceItemModalComponent implements OnInit {
               this.spinner.hide();
 
             },
-            (err) => {
+            () => {
               snack1.dismiss();
               this.isLoadItem = false;
               this.spinner.hide();

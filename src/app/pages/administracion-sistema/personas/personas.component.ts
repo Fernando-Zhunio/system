@@ -26,7 +26,7 @@ export class PersonasComponent implements OnInit {
   permissions: IpermissionStandart;
   ngOnInit(): void {
     this.router_active.data.subscribe((res) => {
-      this.permissions = res.permissions.all;
+      this.permissions = res['permissions'].all;
     });
   }
 

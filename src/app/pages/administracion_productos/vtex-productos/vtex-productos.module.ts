@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { IndexComponent } from './index/index.component';
 import {
   AdminVtexProductRoutingModule,
-  // AdminVtexProductsMainComponents,
 } from './vtex-products-routing.module';
 import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -40,7 +39,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 @NgModule({
     declarations: [
         IndexComponent,
-        // AdminVtexProductsMainComponents,
         CreateOrEditComponent,
         FormSkusComponent,
         FormProductComponent,

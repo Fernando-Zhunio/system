@@ -2,14 +2,12 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Cperson } from '../../../../class/cperson';
 import { CreateOrEdit2 } from '../../../../class/create-or-edit-2';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { SwalService } from '../../../../services/swal.service';
-// import { ModalAssignUserComponent } from './../tool/modal-assign-user/modal-assign-user.component';
 
 export interface Task {
   name: string;
@@ -30,8 +28,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
     public act_router: ActivatedRoute,
     private ngx_spinner: NgxSpinnerService,
     public router: Router,
-    public location: Location,
-    private dialog: MatDialog
+    public override location: Location,
   ) {
     super();
   }
@@ -40,12 +37,11 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
   // regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
   search_person: string = '';
   people: Cperson[] = [];
-  personCurrent: Cperson = null;
+  personCurrent: Cperson | null = null;
   isloadPersons: boolean = false;
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     password: new FormControl(''),
     email: new FormControl(null, [Validators.required, Validators.email]),
-    // email: new FormControl('', [Validators.required]),
   });
   roles: any[] = [];
   emails = [];
@@ -55,7 +51,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
     this.init();
   }
 
-  loaderDataForCreate(): void {
+  override loaderDataForCreate(): void {
     this.methodsHttp.methodGet('admin/users/create').subscribe((response) => {
       this.assignData(response.data.roles);
       this.ngx_spinner.hide();
@@ -75,7 +71,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
       if (emails.length > 0) {
         this.emails = emails.map((x) => x.value);
         const email = emails[0].value;
-        this.form.get('email').setValue(email);
+        this.form.get('email')?.setValue(email);
         this.personCurrent = person;
       } else {
         SwalService.swalFire({title: 'Error', text: 'El usuario no tiene correo electrónico corporativo', icon: 'error', cancelButtonText: 'Cerrar', confirmButtonText: 'Ir a pagina de la persona '+ person.first_name, showCancelButton: true,   showConfirmButton: true})
@@ -89,7 +85,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
     }
   }
 
-  generateUrl(): string {
+  override generateUrl(): string {
     return `admin/users`;
   }
 
@@ -101,16 +97,15 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
     this.roles = roles;
   }
 
-  getDataForSendServer(): any {
+  override getDataForSendServer(): any {
     const roles = this.getRoles();
     if (this.form.valid && roles.length > 0) {
       const data = {
         ...this.form.value,
         roles: roles,
-        // person_id: this.personCurrent.id,
       };
       if (this.status == 'create') {
-        data['person_id'] = this.personCurrent.id;
+        data['person_id'] = this.personCurrent?.id;
       }
 
       return data;
@@ -125,9 +120,9 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
     return roles.map((x) => x.id);
   }
 
-  setData(res): void {
+  override setData(res): void {
     if (this.status == 'edit') {
-      this.form.get('email').setValue(res.email);
+      this.form.get('email')?.setValue(res.email);
       this.assignData(res.roles, res.user.roles);
       this.personCurrent = res.person;
       if (!this.personCurrent) {
@@ -143,7 +138,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
           if (emails.length > 0) {
             this.emails = emails.map((x) => x.value);
             const email = this.emails.find(x => x == res.user.email) || null;
-            this.form.get('email').setValue(email);
+            this.form.get('email')?.setValue(email);
           } else {
             SwalService.swalFire({title: 'Error', text: 'El usuario no tiene correo electrónico corporativo o no se a signado una a esta persona', icon: 'error', cancelButtonText: 'Cerrar', confirmButtonText: 'Ir a pagina de la persona '+ this.personCurrent.first_name, showCancelButton: true,   showConfirmButton: true})
           }
@@ -154,7 +149,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
   }
 
 
-  go() {
+  override go() {
     // SwalService.swalFire({ title: 'Usuario creado', icon: 'success' });
     this.location.back();
   }

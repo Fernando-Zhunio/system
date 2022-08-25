@@ -9,12 +9,12 @@ export class FakerMethodsHttpService {
 
   // constructor(private http: HttpClient) { }
 
-  public methodGet<T = any>(url, params: any = null): Observable<IResponse<T>> {
+  public methodGet<T = any>(_url, _params: any = null): Observable<IResponse<T>> {
     // return this.http.get<IResponse<T>>(this.end_point + url, { params });
     return of({success: true, data: {}}) as Observable<IResponse<T>>;
   }
 
-  public methodGetPaginate<T = any>(url, params: any = null): Observable<IResponse<IPaginate<T>>> {
+  public methodGetPaginate<T = any>(_url, _params: any = null): Observable<IResponse<IPaginate<T>>> {
     // return this.http.get<IResponse<IPaginate<T>>>(this.end_point + url, { params });
     return of({success: true, data: {}}) as Observable<IResponse<IPaginate<T>>>;
 

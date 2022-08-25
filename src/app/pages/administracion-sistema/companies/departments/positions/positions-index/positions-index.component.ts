@@ -19,7 +19,7 @@ export class PositionsIndexComponent extends Crud<IPosition> implements OnInit {
     this.url = `admin/companies/${this.getParams('company_id')}/departments/${this.getParams('department_id')}/positions`;
   }
 
-  department: IDepartment = null;
+  department!: IDepartment;
 
   ngOnInit(): void {
   }
@@ -28,7 +28,7 @@ export class PositionsIndexComponent extends Crud<IPosition> implements OnInit {
     return this.activatedRoute.snapshot.params[key];
   }
 
-  getData(data: any): void {
+  override getData(data: any): void {
     this.department = data?.department;
     this.data = new Map<any, IPosition>( data.positions.data.map( (item: IPosition) => [item.id, item]));
   }

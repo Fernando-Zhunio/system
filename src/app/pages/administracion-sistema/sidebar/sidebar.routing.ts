@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SidebarIndexComponent } from './sidebar-index/sidebar-index.component';
 import { CreateOrEditSidebarComponent } from './create-or-edit-sidebar/create-or-edit-sidebar.component';

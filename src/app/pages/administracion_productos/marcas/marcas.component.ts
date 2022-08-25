@@ -55,7 +55,7 @@ export class MarcasComponent implements OnInit {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          this.s_marcas.destroy(id).subscribe((res) => {
+          this.s_marcas.destroy(id).subscribe(() => {
             // let index:number = this.brands.findIndex((x) => x.id === id);
             if (index != -1) {this.brands.splice(index, 1); }
             this.totalItem--;

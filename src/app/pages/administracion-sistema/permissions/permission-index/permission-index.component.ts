@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,9 +19,8 @@ export class PermissionIndexComponent extends IndexWithMatTable<IPermission> imp
   permissions: { create: string[]; edit: string[]; destroy: string[]; };
   itemRows: { key: string; title: string,  isEditable: boolean  }[];
   url: string = 'admin/permissions';
-  // @ViewChild('matTable') table: IndexWithMatTableComponent;
 
-  constructor(private dialog: MatDialog , private standard: StandartSearchService, private snack: MatSnackBar, public router: Router, private btnSheet: MatBottomSheet) {
+  constructor(private dialog: MatDialog , standard: StandartSearchService, snack: MatSnackBar, public override router: Router, private btnSheet: MatBottomSheet) {
     super(standard, snack, router);
     this.displayedColumns = ['id', 'title', 'description', 'group_permission.name', 'created_at', 'actions'];
     this.permissions = {
@@ -56,11 +55,8 @@ export class PermissionIndexComponent extends IndexWithMatTable<IPermission> imp
   }
 
   openDialogGroupPermission() {
-    this.dialog.open(GroupsPermissionsIndexComponent).afterClosed().subscribe(res => {
-      // console.log(res);
-      // if (res) {
-      //   this.table.updateItemTable(res.id, res);
-      // }
+    this.dialog.open(GroupsPermissionsIndexComponent).afterClosed().subscribe(() => {
+
     });
   }
 

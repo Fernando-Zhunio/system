@@ -19,8 +19,8 @@ export class EchoManager {
         wsHost: this.domain_serve,
         disableStats: true,
         encrypted: false,
-        wsPort: environment.portSocket,
-        wssPort: environment.portSocket,
+        wsPort: this.port,
+        wssPort: this.port,
         enabledTransports: ['ws', 'wss'],
         forceTLS: false,
         auth: {

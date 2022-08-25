@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
 interface IitemsTable{
@@ -16,7 +16,7 @@ interface IitemsTable{
 })
 export class FacebookAdsModalComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public ELEMENT_DATA: {products:IitemsTable[]}, private dialogRef: MatDialogRef<FacebookAdsModalComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public ELEMENT_DATA: {products:IitemsTable[]}) { }
 
   displayedColumns: string[] = [
     "id",

@@ -1,6 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VtexSitesComponent } from './vtex-sites.component';
 
 // describe('VtexSitesComponent', () => {
 //   let component: VtexSitesComponent;

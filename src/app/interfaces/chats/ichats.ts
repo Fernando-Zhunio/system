@@ -6,7 +6,7 @@ export interface IchatBubble {
   data: Ichats;
   // last_activity?: string;
   name: string;
-  person?: Iperson;
+  person?: Iperson | null;
   connected?: number;
   messages: ImessageChat[];
   index: number;

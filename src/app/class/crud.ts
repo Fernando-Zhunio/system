@@ -1,5 +1,4 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { StandartSearchService } from '../services/standart-search.service';
 import { SwalService } from '../services/swal.service';
 
@@ -19,7 +18,7 @@ export abstract class Crud<T> {
         if (result.isConfirmed) {
           this.isLoading = true;
           this.standardService.methodDelete(`${this.url}/${id}`).subscribe(
-            (response) => {
+            () => {
               this.isLoading = false;
               this.snackBar.open('Registro eliminado', 'OK', { duration: 1500 });
               this.customDeleteItem(id);
@@ -39,7 +38,7 @@ export abstract class Crud<T> {
       (response) => {
         this.isLoading = false;
         this.getData(response);
-      }, err => {
+      }, () => {
         this.isLoading = false;
         this.snackBar.open('Error al cargar datos', 'OK', { duration: 1500 });
       }

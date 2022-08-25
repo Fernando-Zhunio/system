@@ -2,12 +2,9 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { observable, Observable } from 'rxjs';
-import { Icity } from '../../../../interfaces/iml-info';
+import { Observable } from 'rxjs';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
-// var meli = require('mercadolibre');
-// import * as meli from 'mercadolibre';
 
 @Component({
   selector: 'app-mercado-libre-create-or-edit',
@@ -23,8 +20,6 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
 
   window_ml: any;
   window_ml2: any;
-  // meliObject = new meli.Meli(client_id, client_secret, [access_token], [refresh_token]);
-  // meliObject = new meli.Meli();
 
   form_ml: FormGroup = new FormGroup({
     status: new FormControl(null, [Validators.required]),
@@ -58,10 +53,10 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.active_route.data.subscribe((data) => {
-      if (data.isEdit) {
+      if (data['isEdit']) {
         this.state = 'edit';
         this.title = 'Editando Mercado Libre';
-        this.id = Number.parseInt(this.active_route.snapshot.paramMap.get('id'), 10);
+        this.id = Number.parseInt(this.active_route.snapshot.paramMap.get('id')!);
         const url = 'admin/ml/accounts/' + this.id + '/edit';
         this.s_standart.show(url).subscribe((res) => {
 
@@ -89,7 +84,7 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
             this.isLoad = false;
           } else {
             SwalService.swalToast(
-              'A ocurrido un error, recarge la pagina',
+              'A ocurrido un error, recargue la pagina',
               'error'
               );
             }
@@ -118,7 +113,6 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
 
     const left = width / 2 - w / 2 + dualScreenLeft;
     const top = height / 2 - h / 2 + dualScreenTop;
-    // var retVals = { address: null, delivery: null };
 
      this.window_ml = window.open(
       this.login_url,
@@ -134,14 +128,14 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
         this.isLoad = true;
         this.s_standart.show('admin/ml/accounts/callback?code=' + params.get('code')).subscribe((res) => {
           if (res && res.hasOwnProperty('success') && res.success) {
-            this.form_ml.get('user_name').setValue(res.data.user_name);
-            this.form_ml.get('user_id').setValue(res.data.user_id);
-            this.form_ml.get('server_code').setValue(res.data.server_code);
-            this.form_ml.get('access_token').setValue(res.data.access_token);
-            this.form_ml.get('refresh_token').setValue(res.data.refresh_token);
+            this.form_ml.get('user_name')?.setValue(res.data.user_name);
+            this.form_ml.get('user_id')?.setValue(res.data.user_id);
+            this.form_ml.get('server_code')?.setValue(res.data.server_code);
+            this.form_ml.get('access_token')?.setValue(res.data.access_token);
+            this.form_ml.get('refresh_token')?.setValue(res.data.refresh_token);
           }
           this.isLoad = false;
-        }, err => this.isLoad = false);
+        }, () => this.isLoad = false);
       }
     };
   }
@@ -155,14 +149,14 @@ export class MercadoLibreCreateOrEditComponent implements OnInit {
             this.goBack();
           }
           this.isLoad = false;
-        }, err => this.isLoad = false)
+        }, () => this.isLoad = false)
       } else if (this.state == 'edit') {
         this.s_standart.updatePut('admin/ml/accounts/' + this.id, this.form_ml.getRawValue()).subscribe(res => {
           if (res && res.hasOwnProperty('success') && res.success) {
             this.goBack();
           }
           this.isLoad = false;
-        }, err => this.isLoad = false)
+        }, () => this.isLoad = false)
       }
     }
   }

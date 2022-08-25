@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { IprestashopProduct } from '../../interfaces/iprestashop-product';
-import { IproductVtex, IproductVtexSku } from '../../interfaces/iproducts';
+import { IproductVtexSku } from '../../interfaces/iproducts';
 import { InfoViewComponent } from '../modals/info-view/info-view.component';
 import { SharedService } from './../../services/shared/shared.service';
 
@@ -20,7 +19,7 @@ export class PaginaWebComponent implements OnInit {
 
   openDescription(): void{
     this.dialog.open(InfoViewComponent, {
-      data: {name: this.prestashop_product.name, title: 'Descripcion', info: this.prestashop_product.vtex_product.description, isHtml: false},
+      data: {name: this.prestashop_product.name, title: 'Descripcion', info: this.prestashop_product.vtex_product?.description, isHtml: false},
     });
   }
 

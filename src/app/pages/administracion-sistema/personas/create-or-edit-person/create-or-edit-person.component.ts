@@ -1,7 +1,7 @@
-import { formatDate, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatHorizontalStepper, MatStepper } from '@angular/material/stepper';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { Cperson } from '../../../../class/cperson';
 import { StandartSearchService } from '../../../../services/standart-search.service';
@@ -37,9 +37,9 @@ export class CreateOrEditPersonComponent implements OnInit {
   isCompletedFormPerson: boolean = false;
   stateStepper: string;
   isloadContact: boolean = false;
-  infoAndContact = [];
+  infoAndContact: any[] = [];
   photo: any;
-  file_img: File;
+  file_img: File | null;
   stateInfoAndContact: 'create' | 'edit' = 'create';
   itemCurrentForEdit: { id: number; type: string; value: string };
 
@@ -64,12 +64,12 @@ export class CreateOrEditPersonComponent implements OnInit {
   ngOnInit(): void {
     this.maxDateBirthDay.setFullYear(this.maxDate.getFullYear() - 18);
     this.router_active.data.subscribe((res) => {
-      if (res.isEdit) {
+      if (res['isEdit']) {
         this.isloadperson = true;
         this.state = 'edit';
         this.title = 'Editando Persona';
         const id = Number.parseInt(
-          this.router_active.snapshot.paramMap.get('id')
+          this.router_active.snapshot.paramMap.get('id')!
         );
         const url = 'admin/people/' + id + '/edit';
         this.s_standart.show(url).subscribe((response) => {
@@ -90,7 +90,7 @@ export class CreateOrEditPersonComponent implements OnInit {
 
   goInfo(): void {
     this.isCompletedFormPerson = true;
-    this.stepper.selected.completed = true;
+    this.stepper.selected!.completed = true;
     this.stepper.next();
     this.s_standart
       .show('admin/people/' + this.person.id + '/contact-info')
@@ -183,12 +183,12 @@ export class CreateOrEditPersonComponent implements OnInit {
                 this.person = res.data.person;
                 this.types = res.data.types;
                 this.isCompletedFormPerson = true;
-                this.stepper.selected.completed = true;
+                this.stepper.selected!.completed = true;
                 this.stepper.next();
               }
               this.isloadperson = false;
             },
-            (err) => {
+            () => {
               this.isloadperson = false;
             }
           );
@@ -209,12 +209,12 @@ export class CreateOrEditPersonComponent implements OnInit {
                 this.types = res.data.types;
                 this.infoAndContact = res.data.info;
                 this.isCompletedFormPerson = true;
-                this.stepper.selected.completed = true;
+                this.stepper.selected!.completed = true;
                 this.stepper.next();
               }
               this.isloadperson = false;
             },
-            (err) => {
+            () => {
               this.isloadperson = false;
             }
           );
@@ -233,8 +233,8 @@ export class CreateOrEditPersonComponent implements OnInit {
             ...this.form_data_person.value,
           })
           .subscribe(
-            (res) => {
-              if(res && res.hasOwnProperty('success') && res.success){
+            (res: any) => {
+              if(res?.success){
                 this.infoAndContact.push(res.data);
                 this.asCreateInfo();
               }
@@ -280,7 +280,7 @@ export class CreateOrEditPersonComponent implements OnInit {
 
   getBase64FromFile(img, callback):void {
     let fileReader = new FileReader();
-    fileReader.addEventListener('load', (evt) => {
+    fileReader.addEventListener('load', (_evt) => {
       callback(fileReader.result);
     });
     fileReader.readAsDataURL(img);

@@ -29,10 +29,10 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   state: 'create' | 'edit' = 'create';
 
   cities: any;
-  keyCities = [];
+  keyCities: any[] = [];
   companies: CompanyAccess[] = [];
-  types = [];
-  keyTypes = [];
+  types: any[] = [];
+  keyTypes: any[] = [];
   map: any;
   marker: any;
   title: string = 'Creando una localidad';
@@ -54,7 +54,6 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     status: new FormControl(null, [Validators.required]),
     latitude: new FormControl(""),
     longitude: new FormControl(""),
-    // schedules: new FormControl()
   });
 
   formSchedules = new FormGroup({
@@ -99,10 +98,10 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.ngx_spinner.show();
     this.act_router.data.subscribe((res) => {
-      this.state = res.isEdit ? 'edit' : 'create';
-      if (res.isEdit) {
+      this.state = res['isEdit'] ? 'edit' : 'create';
+      if (res['isEdit']) {
         this.title = 'Editando Localidad';
-        const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id'));
+        const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id')!);
         const url = 'admin/locations/' + id + '/edit';
         this.methodHttp.methodGet(url).subscribe(
           (response) => {
@@ -136,8 +135,6 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
               });
 
               if (schedules) {
-                // const schedulesJson = JSON.parse(schedules);
-                // console.log(schedulesJson);
                 this.formSchedules.patchValue(schedules);
               }
 
@@ -159,7 +156,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
             }
             this.ngx_spinner.hide();
           },
-          (err) => {
+          () => {
             this.ngx_spinner.hide();
           }
         );
@@ -171,7 +168,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
             }
             this.ngx_spinner.hide();
           },
-          (err) => {
+          () => {
             this.ngx_spinner.hide();
           }
         );
@@ -180,13 +177,13 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   }
 
   autofillSchedules(value:{start, end}) {
-    this.formSchedules.get('monday').setValue(value);
-    this.formSchedules.get('tuesday').setValue(value);
-    this.formSchedules.get('wednesday').setValue(value);
-    this.formSchedules.get('thursday').setValue(value);
-    this.formSchedules.get('friday').setValue(value);
-    this.formSchedules.get('saturday').setValue(value);
-    this.formSchedules.get('sunday').setValue(value);
+    this.formSchedules.get('monday')?.setValue(value);
+    this.formSchedules.get('tuesday')?.setValue(value);
+    this.formSchedules.get('wednesday')?.setValue(value);
+    this.formSchedules.get('thursday')?.setValue(value);
+    this.formSchedules.get('friday')?.setValue(value);
+    this.formSchedules.get('saturday')?.setValue(value);
+    this.formSchedules.get('sunday')?.setValue(value);
   }
 
   getCurrentPosition() {
@@ -235,8 +232,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       var lngLat = this.marker.getLngLat();
       this.coordinate.latitud = lngLat.lat;
       this.coordinate.longitud = lngLat.lng;
-      this.formLocation.get('latitude').setValue(this.coordinate.latitud);
-      this.formLocation.get('longitude').setValue(this.coordinate.longitud);
+      this.formLocation.get('latitude')?.setValue(this.coordinate.latitud);
+      this.formLocation.get('longitude')?.setValue(this.coordinate.longitud);
     };
     this.marker.on('dragend', drag);
   }
@@ -271,7 +268,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     if (this.formLocation.valid && validSchedule) {
       this.isLoadServer = true;
       let dataSend = this.formLocation.value;
-      if (this.formLocation.get('type').value == 'store') {
+      if (this.formLocation.get('type')?.value == 'store') {
         dataSend.schedules = this.formSchedules.value;
       }
       if (this.state === 'create') {
@@ -299,7 +296,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   }
 
   validateFormSchedule(): boolean {
-    const valReturn =  this.formLocation.get('type').value == 'store' ? this.formSchedules.valid : true;
+    const valReturn =  this.formLocation.get('type')?.value == 'store' ? this.formSchedules.valid : true;
     if (!valReturn) {
       this.formSchedules.markAsTouched();
       SwalService.swalFire({title: '¡Atención!', text: 'Debe ingresar un horario valido, donde la hora de apertura sea menor a la hora de cierre', icon: 'warning'});
@@ -309,18 +306,18 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
 
   addLocationValidationRequired(): void {
     console.log('addLocationValidationRequired');
-    this.formLocation.get('latitude').addValidators([Validators.required]);
-    this.formLocation.get('longitude').addValidators([Validators.required]);
+    this.formLocation.get('latitude')?.addValidators([Validators.required]);
+    this.formLocation.get('longitude')?.addValidators([Validators.required]);
   }
 
   removeLocationValidationRequired(): void {
-    this.formLocation.get('latitude').removeValidators([Validators.required]);
-    this.formLocation.get('longitude').removeValidators([Validators.required]);
+    this.formLocation.get('latitude')?.removeValidators([Validators.required]);
+    this.formLocation.get('longitude')?.removeValidators([Validators.required]);
   }
 
   validateHours(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.get('start').value ? ((control.get('start').value && control.get('end').value) && control.get('start').value > control.get('end').value) ? { 'invalidHours': true } : null : null;
+      return control.get('start')?.value ? ((control.get('start')?.value && control.get('end')?.value) && control.get('start')?.value > control.get('end')?.value) ? { 'invalidHours': true } : null : null;
     };
   }
 

@@ -13,14 +13,14 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class CreateOrEditWebhookUrlComponent extends CreateOrEdit<any> implements OnInit {
   public title: string = 'Webhook URL ';
   public urlSave: any = 'admin/webhooks/webhooks-url';
-  key_param: string = 'webhook_url_id';
+  override key_param: string = 'webhook_url_id';
 
-  constructor(activated_router: ActivatedRoute, s_standard: StandartSearchService, router: Router, public location: Location) {
+  constructor(activated_router: ActivatedRoute, s_standard: StandartSearchService, router: Router, public override location: Location) {
     super(activated_router, s_standard, router);
   }
 
   types: { name: string, value: string }[] = [];
-  form: FormGroup = new FormGroup({
+  override form: FormGroup = new FormGroup({
     url: new FormControl(null, [Validators.required]),
     suscriptions: new FormControl([], [Validators.required]),
   });
@@ -28,7 +28,7 @@ export class CreateOrEditWebhookUrlComponent extends CreateOrEdit<any> implement
     this.init();
   }
 
-  setData(data?: any): void {
+  override setData(data?: any): void {
     if (this.status === 'edit') {
       this.form.setValue({ url: data.webhook.url, suscriptions: data.webhook.suscriptions });
       this.types = data.types;
@@ -37,7 +37,7 @@ export class CreateOrEditWebhookUrlComponent extends CreateOrEdit<any> implement
     }
   }
 
-  getDataForSendServer() {
+  override getDataForSendServer() {
     if (this.form.valid) {
       return this.form.value;
     } else {
@@ -45,7 +45,7 @@ export class CreateOrEditWebhookUrlComponent extends CreateOrEdit<any> implement
     }
   }
 
-  go(): void {
+  override go(): void {
     this.router.navigate(['administracion-sistema/webhooks/webhooks-url']);
   }
 

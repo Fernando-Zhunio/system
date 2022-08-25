@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -30,17 +30,16 @@ export class CitiesIndexComponent
   ];
   displayedColumns: string[]=["id", "name", "code", "created_at", "updated_at", 'actions'];
   constructor(
-    protected s_standart: StandartSearchService,
-    protected snack_bar: MatSnackBar,
+    protected override s_standart: StandartSearchService,
+    protected override snack_bar: MatSnackBar,
     protected dialog: MatDialog,
     protected activateRoute: ActivatedRoute,
-    protected router : Router
+    protected override router : Router
   ) {
     super(s_standart, snack_bar, router);
     this.url = `admin/countries/${this.getParams('country_id')}/cities`;
   }
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
   }
 
   getParams(key): string {

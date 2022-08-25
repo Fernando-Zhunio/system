@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Permission_categories } from '../../../class/permissions-modules';
-import { CategoriasService } from '../../../services/categorias.service';
 import { MethodsHttpService } from '../../../services/methods-http.service';
 
 
@@ -30,7 +29,7 @@ export class CategoriasComponent implements OnInit {
         this.totalItem = response.data.total;
         this.perPage = response.data.per_page;
         this.pageCurrent =  response.data.current_page;
-      } 
+      }
     );
   }
 
@@ -56,7 +55,7 @@ export class CategoriasComponent implements OnInit {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          this.methodsHttp.methodDelete('products-admin/categories/'+id).subscribe((res) => {
+          this.methodsHttp.methodDelete('products-admin/categories/'+id).subscribe(() => {
             if (index != -1) { this.categories.splice(index, 1); }
             swalWithBootstrapButtons.fire(
               'Eliminado!',

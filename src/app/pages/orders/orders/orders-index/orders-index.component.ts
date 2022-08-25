@@ -36,7 +36,7 @@ import { ReuseComponent } from '../../../../interfaces/reuse-component';
     ]),
   ],
 })
-export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDestroy, ReuseComponent<any> {
+export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDestroy, ReuseComponent {
 
   constructor(private storage: StorageService, private dialog: MatDialog, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
     super();

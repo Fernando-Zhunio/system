@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriasService } from '../../../../services/categorias.service';
-// import { CategoriasService } from '../../../services/categorias.service';
 import { SwalService } from '../../../../services/swal.service';
 
 @Component({
@@ -30,10 +29,10 @@ export class CategoriasCreateOrEditComponent implements OnInit {
   isSend = false;
   product_name = '';
 
-  id: number | string = null;
+  id: any = null;
   ngOnInit(): void {
     this.act_router.data.subscribe((res) => {
-      if (res.isEdit) {
+      if (res['isEdit']) {
         this.title = 'Editando Categoria';
         this.id = this.act_router.snapshot.paramMap.get('id');
         this.s_categories.edit(this.id).subscribe((response) => {
@@ -46,7 +45,7 @@ export class CategoriasCreateOrEditComponent implements OnInit {
           );
         });
       } else {
-        this.title = 'Creando Categoria';
+        this.title = 'Creando Categoría';
       }
     });
   }
