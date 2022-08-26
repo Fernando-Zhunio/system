@@ -45,6 +45,7 @@ import { MomentModule } from 'ngx-moment';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LogOrderModalComponent } from './orders/log-order-modal/log-order-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { EditDataOrderModalComponent } from './orders/tools/edit-data-order-modal/edit-data-order-modal.component';
 
 @NgModule({
   declarations: [DashboardOrdersComponent,
@@ -54,6 +55,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     CreateOrEditDiscountOrTaxOrderComponent, StateFlowOrderComponent,
     DetailButtonSheetComponent,
     LogOrderModalComponent,
+    EditDataOrderModalComponent,
   ],
   imports: [
     CommonModule,

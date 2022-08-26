@@ -13,30 +13,7 @@
     </div>
     <div>
         <mat-card-title>Importación {{import.sequence.origin.name}} #{{import.sequence.sequence_number}}
-            <!-- <ng-container> -->
-            <!-- <div class="float-right">
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <div class="p-2 font-weight-bold text-center font-2xl">Acciones</div>
-                    <button *ngxPermissionsOnly="['super-admin',permissions_component.show]" (click)="showImport()" mat-menu-item>
-                        <mat-icon>visibility</mat-icon>
-                        <span>Ver</span>
-                    </button>
-                    <button *ngxPermissionsOnly="['super-admin',permissions_component.edit]" (click)="editImport()" mat-menu-item>
-                        <mat-icon>create</mat-icon>
-                        <span>Editar</span>
-                    </button>
-                    <button *ngxPermissionsOnly="['super-admin',permissions_component.destroy]" (click)="destroyImport()" mat-menu-item>
-                        <mat-icon>delete</mat-icon>
-                        <span>Eliminar</span>
-                    </button>
-                </mat-menu>
-            </div> -->
-            <!-- </ng-container>/ -->
         </mat-card-title>
-        <!-- <p *ngIf="ml.description" [innerHTML]="ml.description"></p> -->
         <mat-card-subtitle> Código: <b>{{import.code}}</b></mat-card-subtitle>
     </div>
     <div>
@@ -53,7 +30,6 @@
                     <b>{{import.estimated_date_last | date}}</b>
                 </mat-chip>
             </ng-template>
-            <!-- <mat-chip color="accent" selected>Accent fish</mat-chip> -->
         </mat-chip-list>
     </div>
 

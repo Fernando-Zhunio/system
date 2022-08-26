@@ -31,7 +31,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
   order: IOrder;
   isEditStep: boolean = true;
   override form: FormGroup = new FormGroup({
-    id: new FormControl({ value: null, disabled: true }, [Validators.required]),
+    // id: new FormControl({ value: null, disabled: true }, [Validators.required]),
     type: new FormControl(null, [Validators.required]),
     client_id: new FormControl(null, [Validators.required]),
     address_id: new FormControl(null, [Validators.required]),

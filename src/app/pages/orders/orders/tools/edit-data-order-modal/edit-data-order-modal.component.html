@@ -1,0 +1,42 @@
+<h1 matDialogTitle>Editando datos de la orden</h1>
+
+<mat-dialog-content>
+  <div [hidden]="isLoadingFirstData" [formGroup]="form">
+    <mat-form-field class="w-100">
+      <mat-select formControlName="type" placeholder="Tipo de orden">
+        <mat-option *ngFor="let type of types" [value]="type">
+          {{ type | translatefz: "orders" }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-select formControlName="channel_id" placeholder="Tipo de canal">
+        <mat-option *ngFor="let channel of channels" [value]="channel.id">
+          {{ channel.name | translatefz: "order_channels" }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <input matInput placeholder="Codigo de vendedor" formControlName="seller_code" />
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-select formControlName="company_id" placeholder="Compañía">
+        <mat-option *ngFor="let company of companies" [value]="company.id">
+          {{ company?.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="isLoadingFirstData">
+    <mat-progress-bar mode="buffer">
+    </mat-progress-bar>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button color="warn" [disabled]="isLoading" matDialogClose>Cerrar</button>
+  <button mat-button color="primary" [disabled]="isLoading" (click)="onSubmit()">Guardar</button>
+</mat-dialog-actions>

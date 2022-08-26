@@ -16,6 +16,7 @@ import { DetailButtonSheetComponent } from './detail-button-sheet/detail-button-
 import { StateFlowOrderComponent } from '../../components/state-flow-order/state-flow-order.component';
 import * as moment from 'moment';
 import { PdfDetailOrderComponent } from '../../modules/shared-order/pdf-detail-order/pdf-detail-order.component';
+import { EditDataOrderModalComponent } from '../tools/edit-data-order-modal/edit-data-order-modal.component';
 
 interface Record {
   icon?: string | null;
@@ -199,6 +200,7 @@ export class EditOrderComponent implements OnInit {
       }
     });
   }
+
   openDialogAddress(): void {
     this.dialog.open(SelectClientAddressModalComponent, {
       data: {
@@ -280,5 +282,23 @@ export class EditOrderComponent implements OnInit {
 
   scrollBottomStatus(): void {
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+  }
+
+  editDataOrder(): void {
+    this.dialog.open(EditDataOrderModalComponent, {
+      data: {
+      order_id: this.order.id,
+      company_id: this.order.company.id,
+      seller_code: this.order.seller_code,
+      channel_id: this.order.channel_id,
+      type: this.order.type
+      },
+      disableClose: true,
+    }).afterClosed().subscribe(data => {
+      if (data?.success) {
+        console.log(data);
+        this.getOrder();
+      }
+    })
   }
 }

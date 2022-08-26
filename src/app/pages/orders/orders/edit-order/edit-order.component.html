@@ -74,6 +74,9 @@
             </mat-chip-list>
           </div>
         </ng-container>
+        <div class="px-md-3 py-md-2">
+          <button mat-mini-fab color="accent" (click)="editDataOrder()"><mat-icon>edit</mat-icon></button>
+        </div>
       </div>
       <div class="mb-4 shadow rounded-fz card-body">
         <div class="font-2xl">Estados</div>
@@ -365,18 +368,11 @@
 </div>
 
 <div class="btn-created-order">
-  <button
-    *ngIf="order?.status != 'cancelled'"
-    mat-raised-button
-    (click)="changeStatusPublish()">
-    Publicar <mat-icon>publish</mat-icon>
+  <button *ngIf="order?.status != 'cancelled'" mat-raised-button (click)="changeStatusPublish()">
+    Publicar
+    <mat-icon>publish</mat-icon>
   </button>
-  <button
-    *ngIf="order?.status != 'cancelled'"
-    color="warn"
-    mat-raised-button
-    (click)="deleteOrder()"
-    class="mr-1">
+  <button *ngIf="order?.status != 'cancelled'" color="warn" mat-raised-button (click)="deleteOrder()" class="mr-1">
     Cancelar orden
     <mat-icon>delete</mat-icon>
   </button>
