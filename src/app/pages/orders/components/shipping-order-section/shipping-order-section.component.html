@@ -29,7 +29,7 @@
           matInput
           type="number"
           placeholder="Monto"
-          [readonly]="form.get('type').value == 'pickup'"
+          [readonly]="form.get('type')?.value == 'pickup'"
           formControlName="amount" />
       </mat-form-field>
       <mat-form-field>

@@ -57,7 +57,7 @@
                 formControlName="roles" multiple>
                   <mat-select-trigger>
                     <mat-chip-list>
-                      <mat-chip (removed)="removeRol(_rol)" *ngFor="let _rol of form.get('roles').value"
+                      <mat-chip (removed)="removeRol(_rol)" *ngFor="let _rol of form.get('roles')?.value"
                       [removable]="true">
                         {{ getNameRol(_rol) }}
                         <mat-icon matChipRemove>cancel</mat-icon>

@@ -10,22 +10,22 @@
                     <div [formGroup]="form" class="row m-0">
                         <mat-form-field class="col-md-6">
                             <input matInput placeholder="Nombre" formControlName="name">
-                            <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
+                            <mat-error *ngIf="form.get('name')?.invalid">Este campo es requerido</mat-error>
                         </mat-form-field>
                         <mat-form-field class="col-md-6">
                             <input matInput placeholder="Url" formControlName="url">
-                            <mat-error *ngIf="form.get('url').invalid">Este campo es requerido</mat-error>
+                            <mat-error *ngIf="form.get('url')?.invalid">Este campo es requerido</mat-error>
                         </mat-form-field>
                         <mat-form-field class="col-md-6">
                             <input matInput placeholder="Icono" formControlName="icon">
-                            <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
+                            <mat-error *ngIf="form.get('name')?.invalid">Este campo es requerido</mat-error>
                         </mat-form-field>
 
                         <div class="col-md-6">
                             <mat-form-field class="w-100">
                                 <input (click)="isOpenSearchPermission = !isOpenSearchPermission" type="text" readonly [formControl]="formPermission"  matInput placeholder="Permiso" >
                                 <button mat-icon-button matSuffix [routerLink]="['/administracion-sistema/permissions']" ><mat-icon>add</mat-icon></button>
-                                <mat-error *ngIf="form.get('name').invalid">Este campo es requerido</mat-error>
+                                <mat-error *ngIf="form.get('name')?.invalid">Este campo es requerido</mat-error>
                             </mat-form-field>
                         </div>
                         <button mat-raised-button color="primary" (click)="saveInServer()"

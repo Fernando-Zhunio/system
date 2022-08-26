@@ -94,15 +94,15 @@
                           <tbody>
                             <tr>
                               <td>Nombre:</td>
-                              <td>{{ fileSend.file.name }}</td>
+                              <td>{{ fileSend.file?.name }}</td>
                             </tr>
                             <tr>
                               <td>Tamaño:</td>
-                              <td>{{ fileSend.file.size }}</td>
+                              <td>{{ fileSend.file?.size }}</td>
                             </tr>
                             <tr>
                               <td>Tipo:</td>
-                              <td>{{ fileSend.file.type }}</td>
+                              <td>{{ fileSend.file?.type }}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -111,7 +111,7 @@
                   </div>
                   <div class="col-md-6">
                     <img
-                      *ngIf="fileSend.file.type.includes('image'); else templateOtherFile"
+                      *ngIf="fileSend.file?.type.includes('image'); else templateOtherFile"
                       class="w-50 shadow-all-fz rounded-fz"
                       [src]="fileSend.base64"
                       alt="imagen" />
@@ -120,7 +120,7 @@
                         <span class="center align-items-end">
                           <span class="position-relative">
                             <i class="fas fa-file fa-5x" style="color: #010148"></i>
-                            <div class="text-ext-file">{{ re.exec(fileSend.file.name)[1] }}</div>
+                            <div class="text-ext-file">{{ re.exec(fileSend.file?.name)![1] }}</div>
                           </span>
                         </span>
                       </div>

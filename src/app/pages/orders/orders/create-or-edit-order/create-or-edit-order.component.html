@@ -27,7 +27,7 @@
                   <div
                     comment
                     class="text-danger col-12"
-                    *ngIf="form.get('client_id').invalid"
+                    *ngIf="form.get('client_id')!.invalid"
                   >
                     Este paso requiere que busque y seleccione un cliente para
                     poder continuar
@@ -88,7 +88,7 @@
               <button
                 class="my-2"
                 color="primary"
-                [disabled]="form.get('client_id').invalid"
+                [disabled]="form.get('client_id')!.invalid"
                 mat-raised-button
                 matStepperNext
               >
@@ -105,17 +105,17 @@
         >
           <div>
             <ng-template matStepLabel>Asignar Dirección</ng-template>
-            <div *ngIf="form.get('client_id').valid">
-              <div class="text-danger" *ngIf="form.get('address_id').invalid">
+            <div *ngIf="form.get('client_id')!.valid">
+              <div class="text-danger" *ngIf="form.get('address_id')!.invalid">
                 Este paso requiere que busque y seleccione una dirección para
                 poder continuar
               </div>
               <div class="font-2xl my-2 d-flex justify-content-between">
                 <span>
                   <span class="text-info">Cliente:</span>&nbsp;
-                  {{ clientOrders.client.first_name }}
-                  {{ clientOrders.client.last_name }} -
-                  {{ clientOrders.client.doc_id }} </span
+                  {{ clientOrders.client?.first_name }}
+                  {{ clientOrders.client?.last_name }} -
+                  {{ clientOrders.client?.doc_id }} </span
                 ><button
                   color="accent"
                   mat-raised-button
@@ -188,38 +188,38 @@
                   <div>
                     <mat-card *ngIf="clientOrders?.address">
                       <div class="font-lg text-info border-bottom">
-                        {{ clientOrders.address.first_name }}
-                        {{ clientOrders.address.last_name }}
+                        {{ clientOrders.address?.first_name }}
+                        {{ clientOrders.address?.last_name }}
                       </div>
                       <div>
                         <div>
                           <span>Calles:</span>&nbsp;{{
-                            clientOrders.address.street
+                            clientOrders.address?.street
                           }}
                         </div>
                         <div>
                           <span>Numero:</span>&nbsp;{{
-                            clientOrders.address.number
+                            clientOrders.address?.number
                           }}
                         </div>
                         <div>
                           <span>Estado o provincia:</span>&nbsp;{{
-                            clientOrders.address.state
+                            clientOrders.address?.state
                           }}
                         </div>
                         <div>
                           <span>Cuidad:</span>&nbsp;{{
-                            clientOrders.address.city
+                            clientOrders.address?.city
                           }}
                         </div>
                         <div>
                           <span>Codigo Zip:</span>&nbsp;{{
-                            clientOrders.address.zip_code
+                            clientOrders.address?.zip_code
                           }}
                         </div>
                         <div>
                           <span>Vecindario:</span>&nbsp;{{
-                            clientOrders.address.neighborhood
+                            clientOrders.address?.neighborhood
                           }}
                         </div>
                       </div>
@@ -234,7 +234,7 @@
             <button
               class="my-2"
               color="primary"
-              [disabled]="form.get('address_id').invalid"
+              [disabled]="form.get('address_id')!.invalid"
               mat-raised-button
               matStepperNext
             >

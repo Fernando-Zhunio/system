@@ -1,7 +1,7 @@
 <div class="">
     <div>
         <div class="">
-            <a [href]="prestashop_product.vtex_product.link" target="_blank">
+            <a [href]="prestashop_product.vtex_product?.link" target="_blank">
               <!-- <img class="rounded-fz img-product w-100" [src]="(prestashop_product.self_combination && prestashop_product.self_combination.image) ? prestashop_product.self_combination.image : prestashop_product.image" alt=""></a> -->
               <img class="rounded-fz img-product w-100" [src]="rediredImgBag(prestashop_product?.images)" alt=""></a>
             <div style="top: 10px;left: 10px;" class="position-absolute text-left">

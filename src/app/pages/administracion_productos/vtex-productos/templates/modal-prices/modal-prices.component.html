@@ -22,7 +22,7 @@
       <div role="listitem">Markup : <span>{{vtexPriceSku.markup}}</span> </div>
       <div role="listitem">Precio base : <span>{{vtexPriceSku.basePrice | currency}}</span> </div>
       <div role="listitem">Precios Fijos <ng-container
-          *ngIf="vtexPriceSku.fixedPrices || vtexPriceSku.fixedPrices.length < 1">: <span>sin precios fijos</span>
+          *ngIf="vtexPriceSku.fixedPrices || vtexPriceSku?.fixedPrices.length < 1">: <span>sin precios fijos</span>
         </ng-container>
         <div role="list">
           <div *ngFor="let fixedPrice of vtexPriceSku.fixedPrices" role="listitem">
@@ -43,10 +43,10 @@
     <app-vtex-prices [sku]="sku" [vtexPriceSku]="vtexPriceSku"></app-vtex-prices>
   </div>
 
-  
+
 
   <p *ngSwitchDefault>
-    
+
   </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

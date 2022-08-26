@@ -10,7 +10,7 @@
             <mat-form-field class="w-100">
               <mat-label>Titulo</mat-label>
               <input matInput placeholder="Ingrese su titulo" formControlName="title" required>
-              <mat-error *ngIf="formWork.get('title').invalid">Este campo es requerido</mat-error>
+              <mat-error *ngIf="formWork.get('title')!.invalid">Este campo es requerido</mat-error>
             </mat-form-field>
           </div>
 
@@ -27,9 +27,9 @@
           <!-- description -->
           <div class="col-12">
             <mat-form-field class="w-100">
-              <mat-label>Descripcion</mat-label>
-              <textarea matInput placeholder="Ingrese la descripcion" formControlName="description" required></textarea>
-              <mat-error *ngIf="formWork.get('description').invalid">Este campo es requerido</mat-error>
+              <mat-label>Descripción</mat-label>
+              <textarea matInput placeholder="Ingrese la descripción" formControlName="description" required></textarea>
+              <mat-error *ngIf="formWork.get('description')!.invalid">Este campo es requerido</mat-error>
             </mat-form-field>
           </div>
 

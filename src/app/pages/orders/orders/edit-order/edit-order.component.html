@@ -111,7 +111,7 @@
     <h3 class="font-2xl m-0">
       Dirección de envío
       <span *ngIf="order?.status != 'cancelled'">
-        <mat-icon color="accent" (click)="addClientAddress(order.shipping_address.address_id)">edit</mat-icon>
+        <mat-icon color="accent" (click)="addClientAddress(order.shipping_address?.address_id)">edit</mat-icon>
         <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon>
       </span>
     </h3>

@@ -6,11 +6,11 @@
             <form [formGroup]="form" class=" row m-0">
                 <mat-form-field class="col-md-6 col-12">
                     <input matInput placeholder="Nombre" formControlName="name">
-                    <mat-error *ngIf="form.get('name').hasError('required')">
+                    <mat-error *ngIf="form.get('name')?.hasError('required')">
                         El nombre es requerido </mat-error>
                 </mat-form-field>
             <mat-form-field class="col-md-6 col-12">
-                <mat-select placeholder="Selecciones un pais" formControlName="country_id">
+                <mat-select placeholder="Selecciones un país" formControlName="country_id">
                     <mat-option *ngFor="let country of countries" [value]="country.id">
                         {{country.name}}
                     </mat-option>

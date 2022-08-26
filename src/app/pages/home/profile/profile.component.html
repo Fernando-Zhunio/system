@@ -5,69 +5,69 @@
         <div class="col-12 row img-background-profile m-0 p-2">
             <div class="col-md-3 col-12">
                 <div class="text-center">
-                    <img class="w-75 rounded-circle" [src]="user.person?.photo?.permalink" alt="usuario">
+                    <img class="w-75 rounded-circle" [src]="user?.person?.photo?.permalink" alt="usuario">
                 </div>
             </div>
             <div class="col-md-9 col-12 center justify-content-start">
-                <h2 class="font-5xl font-montserrat font-weight-bold text-white">{{user.person.first_name}} {{user.person.last_name}}</h2>
+                <h2 class="font-5xl font-montserrat font-weight-bold text-white">{{user!.person?.first_name}} {{user?.person.last_name}}</h2>
             </div>
         </div>
         <div class="col-12 card-columns">
             <div class="items card">
                 <div class="text-center"><i class="far fa-address-card fa-4x"></i></div>
-               <div>Numero de identificación</div> 
+               <div>Numero de identificación</div>
                <mat-chip-list>
-                   <mat-chip selected color="primary" class="text-uppercase">{{user.person.identification_type}}: {{user.person.identification_number}}</mat-chip>
+                   <mat-chip selected color="primary" class="text-uppercase">{{user?.person.identification_type}}: {{user?.person.identification_number}}</mat-chip>
                </mat-chip-list>
             </div>
             <div class="items card">
                 <div class="text-center"><i class="fas fa-city fa-4x"></i></div>
-                <div>Cuidad</div> 
+                <div>Cuidad</div>
                 <mat-chip-list>
-                    <mat-chip selected color="primary" class="text-uppercase">{{user.info?.city.name}}</mat-chip>
+                    <mat-chip selected color="primary" class="text-uppercase">{{user?.info?.city.name}}</mat-chip>
                 </mat-chip-list>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-transgender fa-4x"></i></div>
-                <div>Sexo</div> 
+                <div>Sexo</div>
                 <mat-chip-list>
-                    <mat-chip selected color="primary" class="text-uppercase">{{user.info?.sex == 'male' ? 'Masculino': 'Femenino'}}</mat-chip>
+                    <mat-chip selected color="primary" class="text-uppercase">{{user?.info?.sex == 'male' ? 'Masculino': 'Femenino'}}</mat-chip>
                 </mat-chip-list>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-birthday-cake fa-4x"></i></div>
 
-                <div>Fecha de nacimiento</div> 
+                <div>Fecha de nacimiento</div>
                 <mat-chip-list>
-                    <mat-chip selected color="primary">{{user.person.birthday | date}}</mat-chip>
+                    <mat-chip selected color="primary">{{user?.person.birthday | date}}</mat-chip>
                 </mat-chip-list>
              </div>
             <div class="items card">
                 <div class="text-center"><i class="fas fa-envelope-open-text fa-4x"></i></div>
-                <div>Correo electrónico</div> 
+                <div>Correo electrónico</div>
                 <mat-chip-list>
-                    <mat-chip selected color="primary">{{user.email}}</mat-chip>
+                    <mat-chip selected color="primary">{{user?.email}}</mat-chip>
                 </mat-chip-list>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-street-view fa-4x"></i></div>
-                <div>Ubicación</div> 
+                <div>Ubicación</div>
                 <mat-chip-list>
-                    <mat-chip selected color="primary">{{user.person.location.name}}</mat-chip>
+                    <mat-chip selected color="primary">{{user?.person.location.name}}</mat-chip>
                 </mat-chip-list>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-users fa-4x"></i></div>
-                <div>Posición</div> 
+                <div>Posición</div>
                 <mat-chip-list>
-                    <mat-chip selected color="primary">{{user.person.position.name}}</mat-chip>
+                    <mat-chip selected color="primary">{{user?.person.position.name}}</mat-chip>
                 </mat-chip-list>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-chess-rook fa-4x"></i></div>
-                <div>Estado</div> 
+                <div>Estado</div>
                 <mat-chip-list>
-                    <mat-chip selected color="primary">{{user.person?.status}}</mat-chip>
+                    <mat-chip selected color="primary">{{user?.person?.status}}</mat-chip>
                 </mat-chip-list>
              </div>
         </div>

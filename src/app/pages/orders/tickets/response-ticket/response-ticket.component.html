@@ -66,10 +66,10 @@
                                     <textarea matInput formControlName="message"  placeholder="Mensaje" ></textarea>
                                 </mat-form-field>
                                 <div *ngIf="fileUrl.url" class="col-12">
-                                    
+
                                     <div class="position-relative" style="width: 200px;">
                                         <button class="btn-remove-img" (click)="removeImage()" mat-mini-fab><mat-icon>close</mat-icon></button>
-                                        <ng-container *ngIf="fileUrl.file.type.includes('image'); else templateFile">
+                                        <ng-container *ngIf="fileUrl.file?.type.includes('image'); else templateFile">
                                             <img class="rounded-fz shadow w-100" [src]="fileUrl.url" alt="">
                                         </ng-container>
                                         <ng-template #templateFile>
@@ -77,11 +77,11 @@
                                                 <div class="text-center">
                                                     <mat-icon class="text-center">insert_drive_file</mat-icon>
                                                     <div>Archivo</div>
-                                                    <div class="text-muted">{{fileUrl.file.name}}</div>
+                                                    <div class="text-muted">{{fileUrl.file?.name}}</div>
                                                 </div>
                                             </div>
                                         </ng-template>
-                                        
+
                                     </div>
                                 </div>
                                 <div *ngxPermissionsOnly="permissions.edit" class="center">

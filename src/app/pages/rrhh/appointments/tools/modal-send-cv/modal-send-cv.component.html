@@ -1,7 +1,7 @@
 <div mat-dialog-content>
-  <app-search-template  *ngIf="!form.get('full_work').value; else TEMPLATE_FULL_WORK" (data)="getDataPaginate($event)" [url$]="url">
+  <app-search-template  *ngIf="!form.get('full_work')!.value; else TEMPLATE_FULL_WORK" (data)="getDataPaginate($event)" [url$]="url">
     <ng-container data>
-      <div class="card" *ngFor="let item of dataMap | keyvalue"> 
+      <div class="card" *ngFor="let item of dataMap | keyvalue">
         <mat-card>
           <button mat-mini-fab class="add-btn" (click)="addUserSelect(item.key)" [disabled]="dataSelectMap.has(item.key)"><mat-icon>add</mat-icon></button>
           <mat-card-header>
@@ -51,13 +51,11 @@
       </mat-form-field> -->
 
       <div class="col-12">
-        <!-- <div class="font-facebook my-2 font-2xl">Ofrecimientos</div> -->
         <ng-container formArrayName="emails">
           <ng-container *ngFor="let skill of emailsForm.controls; let i = index">
             <mat-form-field class="w-100" appearance="fill">
               <mat-label>Correo electronico {{i}}</mat-label>
               <input matInput placeholder="Ingrese un ofrecimiento" [formControl]="skill" required>
-              <!-- <mat-error *ngIf="formWork.get('title').invalid">Este campo es requerido</mat-error> -->
               <button type="button" mat-icon-button matSuffix (click)="removeFormEmail(i)">
                 <mat-icon>delete</mat-icon>
               </button>

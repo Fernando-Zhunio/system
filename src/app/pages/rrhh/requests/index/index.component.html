@@ -298,23 +298,23 @@
             <mat-card>
               <div>
                 <small>Titulo:</small>
-                <div>{{ currentUserDetail.work.title }}</div>
+                <div>{{ currentUserDetail.work!.title }}</div>
               </div>
               <div>
                 <small>Descripción:</small>
-                <div>{{ currentUserDetail.work.description }}</div>
+                <div>{{ currentUserDetail.work!.description }}</div>
               </div>
               <div>
                 <small>Expirado:</small>
-                <div>{{ currentUserDetail.work.is_expired ? "Si" : "No" }}</div>
+                <div>{{ currentUserDetail.work!.is_expired ? "Si" : "No" }}</div>
               </div>
               <div>
                 <small># de solicitudes:</small>
-                <div>{{ currentUserDetail.work.requests_count }}</div>
+                <div>{{ currentUserDetail.work!.requests_count }}</div>
               </div>
               <div>
                 <small>Identificador:</small>
-                <div>{{ currentUserDetail.work.id }}</div>
+                <div>{{ currentUserDetail.work!.id }}</div>
               </div>
             </mat-card>
           </div>

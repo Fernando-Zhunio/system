@@ -5,17 +5,13 @@
             <mat-form-field class="col-md-10">
                 <mat-label>Nombre</mat-label>
                 <input matInput type="text" formControlName="name" required>
-                <mat-error *ngIf="form_group_product.get('name').invalid">Nombre requerido</mat-error>
+                <mat-error *ngIf="form_group_product.get('name')!.invalid">Nombre requerido</mat-error>
             </mat-form-field>
             <mat-form-field class="col-md-2">
                 <mat-label>Cantidad minima</mat-label>
                 <input type="number" matInput formControlName="min_stock" required>
-                <mat-error *ngIf="form_group_product.get('min_stock').invalid">Stock minimo requerido</mat-error>
+                <mat-error *ngIf="form_group_product.get('min_stock')!.invalid">Stock mínimo requerido</mat-error>
             </mat-form-field>
-            <!-- <div>
-                <label for="excel-product-group" class="custom-file-label">Subir Archivo</label>
-                <input id="excel-product-group" class="form-control" type="file" name="">
-            </div> -->
             <div class="form-group col-12">
                 <label for="my-input">Subir archivo</label>
                 <input id="my-input" (change)="uploadFile($event)" class="form-control" type="file">

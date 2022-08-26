@@ -244,7 +244,6 @@
           <mat-form-field class="w-100">
             <mat-label>Todas las Bodegas</mat-label>
             <mat-select
-              (selectionChange)="selectAllWarehouse($event)"
               type="text"
               #select_warehouse
               [(ngModel)]="filter['warehouse_ids[]']"

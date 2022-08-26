@@ -22,14 +22,14 @@
               'check_circle' : 'unpublished'}}</mat-icon>
           </button>
           <mat-hint>El porcentaje de beneficio que se va a obtener de la venta de esa SKU</mat-hint>
-          <mat-error *ngIf="formPrices.get('markup').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formPrices.get('markup')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-6" appearance="fill">
           <mat-label>Precio de lista</mat-label>
           <input type="number" formControlName="listPrice" matInput>
           <mat-hint>Precio de venta sugerido de SKU</mat-hint>
-          <mat-error *ngIf="formPrices.get('listPrice').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formPrices.get('listPrice')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-6" appearance="fill">
@@ -41,7 +41,7 @@
               {{enablesInput.basePrice.value ? 'check_circle' : 'unpublished'}}</mat-icon>
           </button>
           <mat-hint>Precio base de venta de SKU</mat-hint>
-          <mat-error *ngIf="formPrices.get('basePrice').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formPrices.get('basePrice')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-6" appearance="fill">
@@ -53,7 +53,7 @@
               {{enablesInput.costPrice.value ? 'check_circle' : 'unpublished'}}</mat-icon>
           </button>
           <mat-hint>Precio de costo de venta de SKU</mat-hint>
-          <mat-error *ngIf="formPrices.get('costPrice').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formPrices.get('costPrice')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <h3 class="font-3xl col-12 font-facebook mb-0">Precios Fijos</h3>

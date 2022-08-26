@@ -82,16 +82,16 @@
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1 disabled="false"></mat-datepicker>
                         </mat-form-field>
-    
+
                         <mat-form-field class="col-md-6 col-12">
                             <mat-label>Fecha final</mat-label>
-                            <input disabled [min]="form.get('date_range_start').value" matInput [disabled]="form.get('date_range_start').invalid" [matDatepicker]="picker2" formControlName="date_range_end">
+                            <input disabled [min]="form.get('date_range_start')?.value" matInput [disabled]="form.get('date_range_start')?.invalid" [matDatepicker]="picker2" formControlName="date_range_end">
                             <mat-error>Fecha final con errores, seleccione correctamente la fecha</mat-error>
                             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                             <mat-datepicker #picker2 disabled="false"></mat-datepicker>
                         </mat-form-field>
                     </ng-container>
-                    
+
 
 
                     <mat-form-field class="col-md-12 col-12">
@@ -100,7 +100,7 @@
 
                     <div class="col-12 mb-4 card-body shadow rounded-fz">
                         <h3 class="font-facebook font-2xl my-2">Productos</h3>
-                        <small class="text-danger" [hidden]="form.get('products').value.length > 0">Seleccione por lo menos 1 productos</small>
+                        <small class="text-danger" [hidden]="form.get('products')?.value.length > 0">Seleccione por lo menos 1 productos</small>
                         <div class="row">
                             <mat-list class="col-md-6 col-12"
                                 *ngFor="let productSelected of productsSelected | keyvalue">

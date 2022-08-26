@@ -93,9 +93,9 @@
                 <mat-icon>file_upload</mat-icon>&nbsp; Importar precios
               </mat-chip>
               <mat-chip class="mat-btn-add ml-1" (click)="managerStatesPrices()"
-                [disabled]="stateFilePrices.status == EPriceState.Generating || stateFilePrices.status == EPriceState.Downloading">
-                <mat-icon>file_download</mat-icon>&nbsp; {{stateFilePrices.status}} <mat-spinner
-                  *ngIf="stateFilePrices.status == EPriceState.Generating || stateFilePrices.status == EPriceState.Downloading"
+                [disabled]="stateFilePrices?.status == EPriceState.Generating || stateFilePrices?.status == EPriceState.Downloading">
+                <mat-icon>file_download</mat-icon>&nbsp; {{stateFilePrices?.status}} <mat-spinner
+                  *ngIf="stateFilePrices?.status == EPriceState.Generating || stateFilePrices?.status == EPriceState.Downloading"
                   diameter="30" style="display: inline-block;"></mat-spinner>
               </mat-chip>
             </ng-container>

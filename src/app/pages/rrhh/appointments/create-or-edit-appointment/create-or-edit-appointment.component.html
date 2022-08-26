@@ -5,9 +5,9 @@
         <form [formGroup]="formAppointment" (ngSubmit)="saveInServer()">
           <mat-card class="row m-0  content-appointment p-4">
             <div style="border-radius: 10px;" class="justify-content-between center col-12 p-2 lead my-2 font-3xl">
-             <span>Empleo: <strong>{{requestWork.work.title}}</strong></span>
+             <span>Empleo: <strong>{{requestWork.work!.title}}</strong></span>
              <button mat-icon-button type="button"  [routerLink]="['/recursos-humanos/works']"
-             [queryParams]="{search: requestWork.work.id}"><mat-icon>work</mat-icon></button>
+             [queryParams]="{search: requestWork.work!.id}"><mat-icon>work</mat-icon></button>
             </div>
             <div class="col-md-7 col-12">
               <div class="h-100 p-3 shadow w-100 rounded-fz position-relative">

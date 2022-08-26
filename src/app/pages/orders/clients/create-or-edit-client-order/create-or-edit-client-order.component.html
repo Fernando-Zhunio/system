@@ -5,17 +5,17 @@
             <form [formGroup]="form" class="cardz-body row m-0">
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="first_name" placeholder="Nombres *">
-                    <mat-error *ngIf="form.get('first_name').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('first_name')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="last_name" placeholder="Apellidos *">
-                    <mat-error *ngIf="form.get('last_name').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('last_name')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="company" placeholder="Razón social">
-                    <mat-error *ngIf="form.get('company').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('company')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
@@ -30,37 +30,37 @@
                             Ruc
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="form.get('doc_type').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('doc_type')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="doc_id" placeholder="Numero de documento *">
-                    <mat-error *ngIf="form.get('doc_id').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('doc_id')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput type="email" formControlName="email" placeholder="Correo electrónico *">
-                    <mat-error *ngIf="form.get('email').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('email')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="phone" placeholder="Teléfono *">
-                    <mat-error *ngIf="form.get('phone').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('phone')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="city" placeholder="Ciudad *">
-                    <mat-error *ngIf="form.get('city').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('city')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="state" placeholder="Estado o provincia *">
-                    <mat-error *ngIf="form.get('state').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('state')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="col-md-4">
                     <input matInput formControlName="country" placeholder="País *">
-                    <mat-error *ngIf="form.get('country').invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="form.get('country')?.invalid">Este campo es requerido</mat-error>
                 </mat-form-field>
                 <button *ngxPermissionsOnly="permissions.create" class="mt-3" mat-raised-button [disabled]="form.invalid || isLoading" (click)="saveInServer()" color="primary">Guardar</button>
             </form>

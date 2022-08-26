@@ -8,32 +8,32 @@
     <form [formGroup]="form" class="row m-0">
       <mat-form-field class="col-md-6 col-12">
         <input matInput  placeholder="Ingresa el Nombre" formControlName="name">
-        <mat-error *ngIf="form.get('name').invalid "></mat-error>
+        <mat-error *ngIf="form.get('name')?.invalid "></mat-error>
       </mat-form-field>
 
       <mat-form-field class="col-md-6 col-12">
         <input matInput  placeholder="Ingresa el Vtex ID" formControlName="vtex_api_id">
-        <mat-error *ngIf="form.get('vtex_api_id').invalid ">Este campo es requerido</mat-error>
-      </mat-form-field>
+        <mat-error *ngIf="form.get('vtex_api_id')?.invalid ">Este campo es requerido</mat-error>
+      </mat-form-field>?
 
       <mat-form-field class="col-12">
         <input matInput  placeholder="Ingresa un nombre amigable" formControlName="friendly_name">
-        <mat-error *ngIf="form.get('friendly_name').invalid ">Este campo es requerido</mat-error>
+        <mat-error *ngIf="form.get('friendly_name')?.invalid ">Este campo es requerido</mat-error>
       </mat-form-field>
 
       <mat-form-field class="col-12">
         <input matInput  placeholder="Ingresa la url" formControlName="url">
-        <mat-error *ngIf="form.get('url').invalid ">Este campo es requerido</mat-error>
+        <mat-error *ngIf="form.get('url')?.invalid ">Este campo es requerido</mat-error>
       </mat-form-field>
 
       <mat-form-field class="col-12">
         <input matInput  placeholder="Ingresa la App KEY" formControlName="app_key">
-        <mat-error *ngIf="form.get('app_key').invalid ">Este campo es requerido</mat-error>
+        <mat-error *ngIf="form.get('app_key')?.invalid ">Este campo es requerido</mat-error>
       </mat-form-field>
 
       <mat-form-field class="col-12">
         <input matInput  placeholder="Ingresa la App TOKEN" formControlName="app_token">
-        <mat-error *ngIf="form.get('app_token').invalid ">Este campo es requerido</mat-error>
+        <mat-error *ngIf="form.get('app_token')?.invalid ">Este campo es requerido</mat-error>
       </mat-form-field>
 
       <button mat-raised-button color="primary" [disabled]="isload" (click)="saveInServer()">Guardar</button>

@@ -9,80 +9,80 @@
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Nombre</mat-label>
           <input formControlName="Name" matInput required>
-          <mat-error *ngIf="formSku.get('Name').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('Name')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Referencia</mat-label>
           <input formControlName="RefId" matInput required>
-          <mat-error *ngIf="formSku.get('RefId').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('RefId')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Altura del paquete</mat-label>
           <input formControlName="PackagedHeight" matInput required>
-          <mat-error *ngIf="formSku.get('PackagedHeight').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('PackagedHeight')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Longitud del paquete</mat-label>
           <input formControlName="PackagedLength" matInput required>
-          <mat-error *ngIf="formSku.get('PackagedLength').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('PackagedLength')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Anchura del paquete</mat-label>
           <input formControlName="PackagedWidth" matInput required>
-          <mat-error *ngIf="formSku.get('PackagedWidth').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('PackagedWidth')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Anchura del paquete en kilos</mat-label>
           <input formControlName="PackagedWeightKg" matInput required>
-          <mat-error *ngIf="formSku.get('PackagedWeightKg').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('PackagedWeightKg')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Altura</mat-label>
           <input formControlName="Height" matInput required>
-          <mat-error *ngIf="formSku.get('Height').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('Height')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Longitud</mat-label>
           <input formControlName="Length" matInput required>
-          <mat-error *ngIf="formSku.get('Length').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('Length')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Ancho</mat-label>
           <input formControlName="Width" matInput required>
-          <mat-error *ngIf="formSku.get('Width').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('Width')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Ancho en kilos</mat-label>
           <input formControlName="WeightKg" matInput required>
-          <mat-error *ngIf="formSku.get('WeightKg').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('WeightKg')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label> Anchura cubica</mat-label>
           <input formControlName="CubicWeight" matInput >
-          <mat-error *ngIf="formSku.get('CubicWeight').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('CubicWeight')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Unidad de medida</mat-label>
           <input formControlName="MeasurementUnit" matInput >
-          <mat-error *ngIf="formSku.get('MeasurementUnit').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('MeasurementUnit')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-3" appearance="fill">
           <mat-label>Multiplicador de Unidad</mat-label>
           <input formControlName="UnitMultiplier" matInput >
           <mat-hint>Multiplica la cantidad de SKU insertadas en el carrito</mat-hint>
-          <mat-error *ngIf="formSku.get('UnitMultiplier').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('UnitMultiplier')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-6" appearance="fill">
@@ -94,26 +94,26 @@
         <mat-form-field class="col-12" appearance="fill">
           <mat-label> Cuánto será recompensado el cliente comprando la SKU</mat-label>
           <input type="number" formControlName="RewardValue" matInput >
-          <mat-error *ngIf="formSku.get('RewardValue').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('RewardValue')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
 
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Código de fabricante </mat-label>
           <input formControlName="ManufacturerCode" matInput >
-          <mat-error *ngIf="formSku.get('ManufacturerCode').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('ManufacturerCode')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Condicion comercial </mat-label>
           <input formControlName="CommercialConditionId" matInput>
-          <mat-error *ngIf="formSku.get('CommercialConditionId').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('CommercialConditionId')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-12" appearance="fill">
           <mat-label>Define el modelo de entrega</mat-label>
           <input formControlName="ModalType" matInput >
-          <mat-error *ngIf="formSku.get('ModalType').invalid">Este campo es requerido</mat-error>
+          <mat-error *ngIf="formSku.get('ModalType')?.invalid">Este campo es requerido</mat-error>
         </mat-form-field>
 
         <mat-checkbox class="col-12" formControlName="KitItensSellApart">Esta parte de un item?</mat-checkbox>
@@ -137,19 +137,19 @@
             <mat-form-field class="col-12" appearance="fill">
               <mat-label>Etiqueta</mat-label>
               <input formControlName="Label" matInput required>
-              <mat-error *ngIf="formFileSku.get('Label').invalid">Este campo es requerido</mat-error>
+              <mat-error *ngIf="formFileSku.get('Label')?.invalid">Este campo es requerido</mat-error>
             </mat-form-field>
 
             <mat-form-field class="col-12" appearance="fill">
               <mat-label>Nombre</mat-label>
               <input formControlName="Name" matInput required>
-              <mat-error *ngIf="formFileSku.get('Name').invalid">Este campo es requerido</mat-error>
+              <mat-error *ngIf="formFileSku.get('Name')?.invalid">Este campo es requerido</mat-error>
             </mat-form-field>
 
             <mat-form-field class="col-12" appearance="fill">
               <mat-label>Texto</mat-label>
               <input formControlName="Text" matInput required>
-              <mat-error *ngIf="formFileSku.get('Text').invalid">Este campo es requerido</mat-error>
+              <mat-error *ngIf="formFileSku.get('Text')?.invalid">Este campo es requerido</mat-error>
             </mat-form-field>
             <!--
               <mat-form-field class="col-6" appearance="fill">

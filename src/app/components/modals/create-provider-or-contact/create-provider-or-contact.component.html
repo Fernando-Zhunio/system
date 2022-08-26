@@ -1,4 +1,3 @@
-<!-- <h3 class="m-0 text-muted">{{data.name}}</h3> -->
 <div class="font-5xl font-facebook list-group-item-accent-warning" mat-dialog-title>{{data.title}}</div>
 <mat-card-subtitle *ngIf="state == enum_action_provider.edit_contact">{{provider_name}}</mat-card-subtitle>
 <ng-container *ngIf="state == enum_action_provider.create_provider || state == enum_action_provider.edit_provider">
@@ -9,18 +8,18 @@
                     <mat-form-field class="col-md-6">
                         <mat-label>Nombre</mat-label>
                         <input matInput formControlName="name">
-                        <mat-error *ngIf="formProvider.get('name').hasError('required')">
+                        <mat-error *ngIf="formProvider.get('name')?.hasError('required')">
                             El nombre es requerido
                         </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-md-6">
-                        <mat-label>Correo Electronico</mat-label>
+                        <mat-label>Correo Electrónico</mat-label>
                         <input matInput formControlName="email">
-                        <mat-error *ngIf="formProvider.get('email').hasError('required')">
+                        <mat-error *ngIf="formProvider.get('email')?.hasError('required')">
                             El Correo es requerido
                         </mat-error>
-                        <mat-error *ngIf="formProvider.get('email').hasError('email')">
+                        <mat-error *ngIf="formProvider.get('email')?.hasError('email')">
                             Correo invalido
                         </mat-error>
                     </mat-form-field>
@@ -28,7 +27,7 @@
                     <mat-form-field class="col-md-6">
                         <mat-label>Sitio Web</mat-label>
                         <input matInput formControlName="website">
-                        <mat-error *ngIf="formProvider.get('website').hasError('required')">
+                        <mat-error *ngIf="formProvider.get('website')?.hasError('required')">
                             El sitio web es requerido
                         </mat-error>
                     </mat-form-field>
@@ -36,7 +35,7 @@
                     <mat-form-field class="col-md-6">
                         <mat-label>Direccion</mat-label>
                         <input matInput formControlName="address">
-                        <mat-error *ngIf="formProvider.get('address').hasError('required')">
+                        <mat-error *ngIf="formProvider.get('address')?.hasError('required')">
                             El direccion es requerido
                         </mat-error>
                     </mat-form-field>
@@ -44,7 +43,7 @@
                     <mat-form-field class="col-md-4">
                         <mat-label>Cuidad</mat-label>
                         <input matInput formControlName="city">
-                        <mat-error *ngIf="formProvider.get('city').hasError('required')">
+                        <mat-error *ngIf="formProvider.get('city')?.hasError('required')">
                             El ciudad es requerido
                         </mat-error>
                     </mat-form-field>
@@ -57,16 +56,16 @@
                             <mat-option value="2">Accent</mat-option>
                             <mat-option value="3">Warn</mat-option> -->
                         </mat-select>
-                        <mat-error *ngIf="formProvider.get('country_id').hasError('required')">
-                            El pais es requerido
+                        <mat-error *ngIf="formProvider.get('country_id')?.hasError('required')">
+                            El país es requerido
                         </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-md-4">
-                        <mat-label>Telefono</mat-label>
+                        <mat-label>Teléfono</mat-label>
                         <input matInput formControlName="phone">
-                        <mat-error *ngIf="formProvider.get('phone').hasError('required')">
-                            El Telefono es requerido
+                        <mat-error *ngIf="formProvider.get('phone')?.hasError('required')">
+                            El Teléfono es requerido
                         </mat-error>
                     </mat-form-field>
 
@@ -89,7 +88,7 @@
                 <mat-form-field class="col-md-6">
                     <mat-label>Nombre</mat-label>
                     <input matInput formControlName="name">
-                    <mat-error *ngIf="formContact.get('name').hasError('required')">
+                    <mat-error *ngIf="formContact.get('name')?.hasError('required')">
                         El nombre es requerido
                     </mat-error>
                 </mat-form-field>
@@ -97,7 +96,7 @@
                 <mat-form-field class="col-md-6">
                     <mat-label>Nombre</mat-label>
                     <input matInput formControlName="phone">
-                    <mat-error *ngIf="formContact.get('phone').hasError('required')">
+                    <mat-error *ngIf="formContact.get('phone')?.hasError('required')">
                         El Telefono es requerido
                     </mat-error>
                 </mat-form-field>
@@ -105,10 +104,10 @@
                 <mat-form-field class="col-md-6">
                     <mat-label>Correo Electronico</mat-label>
                     <input matInput formControlName="email">
-                    <mat-error *ngIf="formContact.get('email').hasError('required')">
+                    <mat-error *ngIf="formContact.get('email')?.hasError('required')">
                         El Correo es requerido
                     </mat-error>
-                    <mat-error *ngIf="formContact.get('email').hasError('email')">
+                    <mat-error *ngIf="formContact.get('email')?.hasError('email')">
                         Correo invalido
                     </mat-error>
                 </mat-form-field>
@@ -116,7 +115,7 @@
                 <mat-form-field class="col-md-6">
                     <mat-label>Cargo</mat-label>
                     <input matInput formControlName="position">
-                    <mat-error *ngIf="formContact.get('position').hasError('required')">
+                    <mat-error *ngIf="formContact.get('position')?.hasError('required')">
                         El Cargo es requerido
                     </mat-error>
                 </mat-form-field>

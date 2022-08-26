@@ -30,7 +30,7 @@
                                 <mat-select formControlName="mlaccounts" multiple>
                                     <mat-select-trigger *ngIf="formPublication.get('mlaccounts')?.value?.length > 0">
                                         <mat-chip-list>
-                                            <mat-chip (removed)="removeItemMlAccount(ml_account)" *ngFor="let ml_account of formPublication.get('mlaccounts').value" [removable]="true">
+                                            <mat-chip (removed)="removeItemMlAccount(ml_account)" *ngFor="let ml_account of formPublication.get('mlaccounts')?.value" [removable]="true">
                                                 {{getNameMlAccount(ml_account)}}
                                                 <mat-icon matChipRemove>cancel</mat-icon>
                                             </mat-chip>
@@ -61,12 +61,12 @@
                                         <div *ngIf="optionsTitle?.length < 1 && !isLoadCategory" class="text-danger">
                                             Con este titulo no se encontro categorias
                                         </div>
-    
+
                                         <mat-radio-group formControlName="category" *ngIf="!isLoadCategory" aria-label="Select an option">
                                             <mat-radio-button  (change)="getAttributes(option.category_id)" class="mx-1" *ngFor="let option of optionsTitle" [value]="option.category_id"> {{option.category_name}}
                                                 <small *ngIf="option?.domain_name">({{option?.domain_name}})</small>
                                             </mat-radio-button>
-                                            <mat-error *ngIf="formPublication.get('category').invalid">Debe tener una categoria seleccionada</mat-error>
+                                            <mat-error *ngIf="formPublication.get('category')?.invalid">Debe tener una categoria seleccionada</mat-error>
                                         </mat-radio-group>
                                     </div>
                                 </div>
@@ -74,19 +74,19 @@
                                     <mat-label>Descripción</mat-label>
                                     <textarea type="text" required formControlName="description" matInput rows="8"></textarea>
                                 </mat-form-field>
-    
+
                                 <mat-form-field class="col-md-4" appearance="fill">
                                     <mat-label>Cantidad</mat-label>
                                     <input type="number" formControlName="qty" matInput required>
                                     <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
                                 </mat-form-field>
-    
+
                                 <mat-form-field class="col-md-4" appearance="fill">
                                     <mat-label>Precio</mat-label>
                                     <input type="number" formControlName="price" matInput required>
                                     <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
                                 </mat-form-field>
-    
+
                                 <mat-form-field class="col-md-4" appearance="fill">
                                     <mat-label>Selecciones un tipo</mat-label>
                                     <mat-select formControlName="type">
@@ -95,10 +95,10 @@
                                     </mat-select>
                                     <!-- <mat-error *ngIf="formName.invalid"></mat-error> -->
                                 </mat-form-field>
-    
+
                                 <div class="w-100 p-3 mb-3">
-                                    <div class="mb-2">Imagenes</div>
-                                    <ngx-file-drop contentClassName="h-100" dropZoneClassName="border-dot" accept=".png,.jpeg,.jpg" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                    <div class="mb-2">Imágenes</div>
+                                    <ngx-file-drop contentClassName="h-100" dropZoneClassName="border-dot" accept=".png,.jpeg,.jpg" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)">
                                         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
                                             <div class="row m-0 p-3 w-100 position-relative">
                                                 <div *ngIf="isLoadPosition" class="load-data position-absolute rounded-fz font-2xl font-weight-bold w-100 h-100 d-flex align-items-center justify-content-center">

@@ -74,7 +74,7 @@
                 <span *ngIf="isLoadMenu"  class="px-2 font-weight-bold text-center d-flex align-items-center"><mat-spinner [diameter]="30"></mat-spinner></span>
                 <ng-container *ngIf="ml_menu;">
                   <div class="px-2 font-weight-bold text-center">{{ml_menu.type}}</div>
-                <button (click)="executeMenu(itemMenu.type,ml.id,i)"
+                <button (click)="executeMenu(itemMenu.type,ml.id)"
                   *ngFor="let itemMenu of ml_menu.availablesItems;index as i " mat-menu-item>
                   <mat-icon>{{itemMenu.icon}}</mat-icon>
                   <span>{{itemMenu.label}}</span>

@@ -12,7 +12,7 @@
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
               <button mat-icon-button disabled></button>
-               <mat-radio-button [value]="node.id" (change)="changeValueSelectDepartment($event, node)" class="checklist-leaf-node"
+               <mat-radio-button [value]="node.id" (change)="changeValueSelectDepartment($event)" class="checklist-leaf-node"
 
                             >{{node.name}}</mat-radio-button>
             </mat-tree-node>
@@ -22,7 +22,7 @@
                   {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                 </mat-icon>
               </button>
-              <mat-radio-button [value]="node.id" [checked]="node.selected" (change)="changeValueSelectDepartment($event, node)" class="center" >{{node.name}}</mat-radio-button>
+              <mat-radio-button [value]="node.id" [checked]="node.selected" (change)="changeValueSelectDepartment($event)" class="center" >{{node.name}}</mat-radio-button>
             </mat-tree-node>
           </mat-tree>
           <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <mat-icon>save</mat-icon></button>
