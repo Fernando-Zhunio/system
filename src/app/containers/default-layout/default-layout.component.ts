@@ -78,9 +78,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ res }) => {
       this.getPermissionAndVersionServer(res.permissionsRolesAndVersion);
-      this.getNotification(res.notifications); // in resolver
       this.setPreferences(res.preferences); // in resolver
     }).unsubscribe();
+    this.getNotification(); // in resolver
     this.loadUnreadCountMessages();
     this.setImgCompanies(); //not loaded in resolver
     this.hasDarkTheme(); //not loaded in resolver
@@ -90,7 +90,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.user = this.s_storage.getCurrentUser(); //not loaded in resolver
     if (!this.user.person) { this.addPersonModal(this.user); } //not loaded in resolver
     this.suscribeNotifications(this.user); // not loaded in resolver
-
   }
 
   ngOnDestroy(): void {
@@ -151,18 +150,17 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     e ? this.countMessages++ : this.countMessages = null;
   }
 
-  getNotification(res): void {
-    if (res && res.hasOwnProperty('success') && res.success) {
+  getNotification(): void {
+    this.methodsHttp.methodGet('notifications/ajax').subscribe((res: any) => {
+    if (res?.success) {
       this.store.dispatch(overrideNotification({ notifications: res.data }));
       const notifications = res.data;
-      //  Esta propiedad también viene en las notificaciones aun que se refiera a los mensajes no leídos de los chats */
-      // this.countMessages = res.data.count_message_not_read_of_chat == 0 ? null : res.data.count_message_not_read_of_chat;
       if (notifications.length > 0) {
         // ? Si hay notificaciones sin leer */
         const countNotification = notifications.filter((notification) => !notification.read_at).length;
         this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
       }
-    }
+    }});
   }
 
   loadUnreadCountMessages(): void {
@@ -187,7 +185,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   }
 
-  getPermissionAndVersionServer(res) {
+  getPermissionAndVersionServer(res): void {
     if (res?.success) {
       if (res.data?.last_version_frontend?.version) {
         this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
@@ -198,7 +196,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       this.s_storage.setPermission(array_permissions);
       this.navItems = this.auxSearchPage = res.data.item_sidebar;
       this.getTicketsUnread();
-
     }
   }
 

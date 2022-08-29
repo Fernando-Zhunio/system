@@ -35,7 +35,6 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
     if (instanceOfReuseComponent(handle.componentRef.instance)) {
       if (this.loadNow(route)) {
         handle.componentRef.instance.loadInfo();
-        console.log('reuse');
       }
     }
     return handle;
@@ -56,7 +55,6 @@ export class CustomReusingStrategy implements RouteReuseStrategy {
       .map(segment => segment.url.join('/'))
       .filter(Boolean)
       .join('/');
-      console.log('/' + segments)
     return '/' + segments;
   }
 
