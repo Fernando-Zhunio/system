@@ -20,7 +20,7 @@ npm:
     paths:
       - node_modules/
   script:
-      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
       - apt-get install git
       - npm install
   artifacts:
@@ -37,7 +37,7 @@ npm:
 #     - cp karma.staging.conf.js  karma.conf.js
 #     - npm i -g @angular/cli
 #     - npm test
-    
+
 
 # staging_build:
 #   stage: build
@@ -45,7 +45,7 @@ npm:
 #     paths:
 #       - dist/
 #   script:
-    
+
 #     - npm
 #   artifacts:
 #     expire_in: 1 month
@@ -62,7 +62,7 @@ npm:
 #     paths:
 #       - dist/
 #   script:
-    
+
 #   dependencies:
 #     - npm
 #   artifacts:
@@ -80,9 +80,9 @@ staging:
       - dist/
   script:
     - *init_ssh
-    # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts 
+    # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
     - npm i -g @angular/cli
-    - ng b --configuration staging --verbose
+    - ng b --configuration staging
     - apt-get update
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
