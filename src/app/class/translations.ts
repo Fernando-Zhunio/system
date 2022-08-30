@@ -68,7 +68,7 @@ const trans_es_order = {
 
     sended: 'Solicitada',
     partially_confirmed: 'Parcialmente confirmada',
-    unsynced: 'No sincronizar',
+    unsynced: 'Esperando sincronización',
 };
 
 const typeMethodPayment = {

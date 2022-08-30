@@ -1,3 +1,16 @@
-<p>
-  sidebar-fz works!
-</p>
+<nav class="content-sidebar">
+  <ul>
+    <li>
+      <span>
+        <img [src]="urlImg" >
+        <span>{{user?.person.first_name ? user?.person.first_name +' '+ user?.person?.last_name : user?.name}}</span>
+      </span>
+    </li>
+    <li routerLinkActive="active" *ngFor="let item of items">
+      <span class="title" *ngIf="item?.title; else TemplateLink">{{item.name}}</span>
+      <ng-template #TemplateLink>
+        <a [routerLink]="[item.url]"  [href]="item.url"><i [class]="item.icon"></i> <span [hidden]="onlyIcons"> {{item.name}}</span></a>
+      </ng-template>
+    </li>
+  </ul>
+</nav>

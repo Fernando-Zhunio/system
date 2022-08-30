@@ -119,3 +119,47 @@ button {
   font-family: system-ui;
   font-size: 1.75rem !important;
 }
+
+.sidebar1 {
+  position: fixed;
+    z-index: 1019;
+    width: 200px;
+    height: 100vh;
+    height: calc(100vh - 55px);
+    background: #efebeb;
+
+    overflow: auto;
+}
+
+.body {
+  margin-left: 200px;
+}
+
+.scrollbar-sidebar-fz::-webkit-scrollbar {
+  width: 0px;
+  height: 10px;
+  background-color: #f5f5f5;
+  transition: width 1s ease-in-out;
+}
+
+.scrollbar-sidebar-fz:hover::-webkit-scrollbar {
+  width: 8px;
+  transition: width 1s ease-in-out;
+
+}
+
+.scrollbar-sidebar-fz::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #fff;
+  background-image: -webkit-linear-gradient(
+    top,
+    #2ab0ed 0%,
+    #bfe8f9 50%,
+    /* #9fd8ef 51%, */ #2ab0ed 100%
+  );
+}
+
+.scrollbar-sidebar-fz::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}

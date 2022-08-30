@@ -62,7 +62,6 @@
                 {{ notification?.created_at | amLocale: "es" | amTimeAgo }}
               </small>
             </div>
-            <!-- <hr /> -->
           </div>
         </ng-template>
 
@@ -130,7 +129,7 @@
   </ul>
 </app-header>
 <div class="app-body main-style">
-  <app-sidebar
+  <!-- <app-sidebar
     #appSidebar
     [fixed]="true"
     [display]="'lg'"
@@ -143,9 +142,11 @@
       [perfectScrollbar]
       [disabled]="appSidebar.minimized"></app-sidebar-nav>
     <app-sidebar-minimizer class="before-version"></app-sidebar-minimizer>
-  </app-sidebar>
+  </app-sidebar> -->
+<app-sidebar-fz class="main-style sidebar1 scroll scrollbar-sidebar-fz "></app-sidebar-fz>
+
   <!-- Main content -->
-  <main [ngClass]="{ 'open-menu-chat': hideUsersChat }" class="main scroll">
+  <main [ngClass]="{ 'open-menu-chat': hideUsersChat }" class="main scroll body">
     <!-- Breadcrumb -->
     <!-- breaking change 'cui-breadcrumb' -->
 
