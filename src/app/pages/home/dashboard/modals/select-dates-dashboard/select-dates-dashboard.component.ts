@@ -62,8 +62,8 @@ export class SelectDatesDashboardComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.airDate1 = new AirDatepicker('#date-dashboard-1', this.options1 as any);
-    this.airDate2 = new AirDatepicker('#date-dashboard-2', this.options2 as any);
+    this.airDate1 = new AirDatepicker(('#date-dashboard-1' as any), this.options1 as any);
+    this.airDate2 = new AirDatepicker(('#date-dashboard-2' as any), this.options2 as any);
   }
 
   saveDates() {
