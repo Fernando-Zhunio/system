@@ -20,49 +20,53 @@
           <td><span>Memo:</span></td>
           <td><span>{{item.memo}}</span></td>
         </tr>
-        <tr>
-          <td>
-            <span>Monto:</span>
-          </td>
-          <td>
-            <span>{{item.data?.amount}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Descuento:</span>
-          </td>
-          <td>
-            <span>{{item.data?.discount}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Retención:</span>
-          </td>
-          <td>
-            <span>{{item.data?.retention}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Método:</span>
-          </td>
-          <td>
-            <span>{{item.data?.method}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Pago neto:</span>
-          </td>
-          <td>
-            <span>{{item.data?.net_payment}}</span>
-          </td>
+        <ng-container *ngIf="item?.data">
+          <tr>
+            <td>
+              <span>Monto:</span>
+            </td>
+            <td>
+              <span>{{item.data?.amount}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Descuento:</span>
+            </td>
+            <td>
+              <span>{{item.data?.discount}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Retención:</span>
+            </td>
+            <td>
+              <span>{{item.data?.retention}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Método:</span>
+            </td>
+            <td>
+              <span>{{item.data?.method}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Pago neto:</span>
+            </td>
+            <td>
+              <span>{{item.data?.net_payment}}</span>
+            </td>
+          </tr>
+        </ng-container>
+
       </tbody>
     </table>
   </div>
-  <div>
+  <div *ngIf="item?.data?.client">
     <small class="text-muted">Cliente:</small>
     <table class="table table-sm table-borderless">
       <tbody>

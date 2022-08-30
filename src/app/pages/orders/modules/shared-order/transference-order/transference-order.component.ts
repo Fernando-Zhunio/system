@@ -32,7 +32,6 @@ export class TransferenceOrderComponent implements OnInit {
       this.standard.methodPost('system-orders/orders/' + this.order_id + '/transfers', { doc_id: this.formControl.value }).subscribe(
         (response: any) => {
           if (response.success) {
-            // this.transfers.push(response.data);
             this.changeOrder.emit('transfers');
             this.isOpenAddTransfer = false;
             this.formControl.reset();

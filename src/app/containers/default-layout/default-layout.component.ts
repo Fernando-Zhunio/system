@@ -182,7 +182,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       this.notificationType.webpush = res.data[NotificationType.webpush] === 'on' ? true : false;
       this.store.dispatch(setPreference({ preference: res.data }));
     }
-
   }
 
   getPermissionAndVersionServer(res): void {
@@ -200,7 +199,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   searchPage(e): void {
-    // console.log(e);
     this.navItems = this.auxSearchPage.filter(
       (item: any) => item?.name.toLowerCase().includes(e.target.value.toLowerCase()));
   }
