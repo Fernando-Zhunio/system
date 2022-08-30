@@ -1,4 +1,4 @@
-import AirDatepicker from 'air-datepicker';
+// import AirDatepicker from 'air-datepicker';
 import { Chart, ChartTypeRegistry, ScatterDataPoint, BubbleDataPoint, registerables, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -48,7 +48,7 @@ export class VersusChart<DATA> implements IversusChart {
       urlDashboard: string | null = null;
     constructor(public spinner: NgxSpinnerService, public s_standart: StandartSearchService) { }
 
-    airDate: AirDatepicker;
+    airDate: any;
 
     getData(_page = null): void {
         const url = `${this.url}?search=${this.searchText}`;

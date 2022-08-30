@@ -26,5 +26,4 @@ export class VersusCitiesComponent  extends VersusChart<Icity> implements OnInit
     this.getData();
     this.create_chart('chart-versus-cities', 'line');
   }
-
 }
