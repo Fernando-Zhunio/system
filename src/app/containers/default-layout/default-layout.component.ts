@@ -67,7 +67,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   echo: Echo;
   user: any;
   searchBar: ListPermissions;
-  auxSearchPage: INavData[] = [];
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
   notificationType = {
@@ -193,14 +192,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
         [permissions] : permissions;
       this.s_storage.setPermission(array_permissions);
-      this.navItems = this.auxSearchPage = res.data.item_sidebar;
+      this.navItems =  res.data.item_sidebar;
       this.getTicketsUnread();
     }
-  }
-
-  searchPage(e): void {
-    this.navItems = this.auxSearchPage.filter(
-      (item: any) => item?.name.toLowerCase().includes(e.target.value.toLowerCase()));
   }
 
   getPermissionAndVersionServerTest() {

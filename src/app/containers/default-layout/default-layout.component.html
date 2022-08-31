@@ -8,18 +8,13 @@
   [sidebarToggler]="'lg'"
   [asideMenuToggler]="false"
   [mobileAsideMenuToggler]="false">
-  <div class="d-none d-md-block position-relative search-page-container">
-    <input #inputSearchPage (keydown)="searchPage($event)" type="text" class="search-page rounded-fz"
-      placeholder="Buscar pagina">
-    <button mat-icon-button class="line-1 btn-search-page"><mat-icon class="text-muted">search</mat-icon></button>
-  </div>
   <ul class="nav navbar-nav ml-auto">
-    <li  class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
-      <mat-icon  class="text-warning" [ngClass]="{'text-muted': isDark}">light_mode</mat-icon>
+    <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
+      <mat-icon class="text-warning" [ngClass]="{ 'text-muted': isDark }">light_mode</mat-icon>
       &nbsp;
       <mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>
       &nbsp;
-      <mat-icon [ngClass]="{'text-muted': !isDark}" class="text-white">nightlight</mat-icon>
+      <mat-icon [ngClass]="{ 'text-muted': !isDark }" class="text-white">nightlight</mat-icon>
     </li>
     <li class="nav-item">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
@@ -36,13 +31,11 @@
         </ng-container>
       </button>
       <mat-menu class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
-        <div class="menu-header main-style px-2">
-          Notificaciones
-        </div>
+        <div class="menu-header main-style px-2">Notificaciones</div>
         <ng-template matMenuContent>
           <div
-          mat-menu-item
-          [disableRipple]="true"
+            mat-menu-item
+            [disableRipple]="true"
             (click)="goRouteNotification(notification.data)"
             class="h-auto border-bottom rounded my-2"
             *ngFor="let notification of notifications$ | async"
@@ -143,10 +136,10 @@
       [disabled]="appSidebar.minimized"></app-sidebar-nav>
     <app-sidebar-minimizer class="before-version"></app-sidebar-minimizer>
   </app-sidebar> -->
-<app-sidebar-fz class="main-style sidebar1 scroll scrollbar-sidebar-fz "></app-sidebar-fz>
+  <app-sidebar-fz (isMinimizeSidebar)="sidebarMinimized = $event" class="main-style sidebar1 scroll scrollbar-sidebar-fz"></app-sidebar-fz>
 
   <!-- Main content -->
-  <main [ngClass]="{ 'open-menu-chat': hideUsersChat }" class="main scroll body">
+  <main [ngClass]="{ 'open-menu-chat': hideUsersChat }" [ngClass]="{'minimize-sidebar': sidebarMinimized}" class="main scroll body">
     <!-- Breadcrumb -->
     <!-- breaking change 'cui-breadcrumb' -->
 

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Session } from '../clases/session';
-import { User } from '../clases/user';
+// import { User } from '../clases/user';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { Cperson } from '../class/cperson';
-import { SwalService } from './swal.service';
+// import { Cperson } from '../class/cperson';
+// import { SwalService } from './swal.service';
+import { User } from '../shared/interfaces/user';
+import { Person } from '../shared/interfaces/person';
 
 declare var require: any;
 const CryptoJS = require('crypto-js');
@@ -14,107 +16,114 @@ const CryptoJS = require('crypto-js');
 export class StorageService {
 
   private currentSession: Session | boolean | null = null;
+  private permissions: string[] | null = [];
+  // private isUserAuthenticated: boolean = false;
 
-  constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {}
-
-  verifiedLoginUser(): boolean {
-    this.currentSession = this.loadSessionData();
-    if (!this.currentSession) {
-      return false;
-    }
-    const permissions = this.getPermissionUser();
-    if (permissions) {
-      this.s_permissionsService.loadPermissions(permissions);
-    } else {
-      SwalService.swalFire({title: 'Error', text: 'No tiene permisos para acceder a esta Novisolutions', icon: 'error'});
-      return false;
-    }
-    return true;
+  constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {
+    this.currentSession = this.getCurrentSession();
+    this.permissions = this.getPermissions();
+    // this.isUserAuthenticated = this.isAuthenticated();
   }
 
-  setSession(session) {
-    this.currentSession = session;
-  }
+  // verifiedLoginUser(): boolean {
+  //   this.currentSession = this.loadSessionData();
+  //   if (!this.currentSession) {
+  //     return false;
+  //   }
+  //   const permissions = this.getPermissions();
+  //   if (permissions) {
+  //     this.s_permissionsService.loadPermissions(permissions);
+  //   } else {
+  //     SwalService.swalFire({title: 'Error', text: 'No tiene permisos para acceder a esta Novisolutions', icon: 'error'});
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  // setSession(session) {
+  //   this.currentSession = session;
+  // }
 
   setCurrentSession(session): void {
     this.currentSession = session;
-    localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(session)));
-    this.setPermission();
+    localStorage.setItem('session', this.encryptedAes(JSON.stringify(session)));
+    // this.isUserAuthenticated = true;
+    // this.setPermission();
   }
 
   setCurrentUser(user: User): void {
-    const session: Session = this.getCurrentSession();
+    const session: Session = this.getCurrentSession() as Session;
     session.user = user;
     this.setCurrentSession(session);
   }
 
-  setCompanyUser(id_company) {
-    (this.currentSession as Session).user.company_company_id = id_company;
-    localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(this.currentSession)));
+  // setCompanyUser(id_company) {
+  //   (this.currentSession as Session).user.company_company_id = id_company;
+  //   localStorage.setItem('session', this.encryptedAes(JSON.stringify(this.currentSession)));
+  // }
+
+  // loadSessionData(): Session | boolean {
+  //   let sessionStr: any = null;
+  //   try {
+  //     const dataConvert = this.decryptAes(localStorage.getItem('session'));
+  //     if (dataConvert) {
+  //       sessionStr = JSON.parse(dataConvert) as Session;
+  //       return sessionStr;
+  //     }
+  //     return false;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+
+  getCurrentSession(): Session | boolean {
+    return this.currentSession || this.getCurrentSessionLocalStorage();
   }
 
-  loadSessionData(): Session | boolean {
-    let sessionStr: any = null;
-    try {
-      const dataConvert = this.decryptAes(localStorage.getItem('914068895aa792bc7577dab10e7cf4e4'));
-      if (dataConvert) {
-        sessionStr = JSON.parse(dataConvert) as Session;
-        return sessionStr;
-      }
-      return false;
-      // sessionStr = JSON.parse( dataConvert);
-    } catch (e) {
-      return false;
+  getCurrentSessionLocalStorage(): Session | boolean {
+    const dataConvert = this.decryptAes(localStorage.getItem('session'));
+    if (dataConvert) {
+      return JSON.parse(dataConvert);
     }
-    // return sessionStr;
-  }
-
-  getCurrentSession(): Session {
-    return this.currentSession as Session;
+    return false;
   }
 
 
 
   getCurrentUser(): User | null {
-    const session: Session = this.getCurrentSession();
+    const session: Session = this.getCurrentSession() as Session;
     return (session && session.user) ? session.user : null;
   }
 
-  getCurrentPerson(): Cperson | null {
-    const session = this.getCurrentSession();
-    return (session && session.user.person) ? session.user.person : null;
+  getCurrentPerson(): Person | null {
+    const session = this.getCurrentSession() as Session;
+    return  session.user.person || null;
   }
 
-  setPermission(permissions: any[] = []) {
-    const session = this.getCurrentSession();
-    session.user.permission = permissions;
-    localStorage.setItem('914068895aa792bc7577dab10e7cf4e4', this.encryptedAes(JSON.stringify(session)));
+  setPermission(permissions: any[]) {
+    localStorage.setItem('permissions', this.encryptedAes(JSON.stringify(permissions)));
     this.s_permissionsService.loadPermissions(permissions);
   }
 
-  encryptedAes(text: string): string {
-    return CryptoJS.AES.encrypt(text, 'fernando-zhunio-reyes').toString();
+  getPermissions(): string[] | null {
+    return  this.permissions || this.getPermissionsLocalStorage();
   }
-  decryptAes(text: string | null): string | null {
-    if (text) {
-      return CryptoJS.AES.decrypt(text, 'fernando-zhunio-reyes').toString(CryptoJS.enc.Utf8);
+
+  getPermissionsLocalStorage(): string[] | null {
+    const dataConvert = this.decryptAes(localStorage.getItem('permissions'));
+    if (dataConvert) {
+      return JSON.parse(dataConvert);
     }
     return null;
   }
 
-  getPermissionUser(): any[] {
-    const user: User | null = this.getCurrentUser();
-    return (user) ? user?.permission : null;
-  }
-
   isAuthenticated(): boolean {
-    return (this.getCurrentToken() != null) ? true : false;
+    return !!this.getCurrentToken();
   }
 
-  getCurrentToken(): string | null {
-    const session = this.getCurrentSession();
-
-    return (session && session.token) ? session.token : null;
+  getCurrentToken(): string | false {
+    const session = this.getCurrentSession() as Session;
+    return  session?.token || false;
   }
 
   getItemLocalStorage(key): any {
@@ -159,6 +168,15 @@ export class StorageService {
     return null;
   }
 
+  encryptedAes(text: string): string {
+    return CryptoJS.AES.encrypt(text, 'fernando-zhunio-reyes').toString();
+  }
+  decryptAes(text: string | null): string | null {
+    if (text) {
+      return CryptoJS.AES.decrypt(text, 'fernando-zhunio-reyes').toString(CryptoJS.enc.Utf8);
+    }
+    return null;
+  }
 }
 
 

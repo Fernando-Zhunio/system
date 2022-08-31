@@ -1,16 +1,31 @@
-<nav class="content-sidebar">
-  <ul>
-    <li>
+<div  class="d-none d-md-block h-100">
+  <div class="overlay d-md-none d-block"></div>
+  <nav [ngClass]="{'icon-only-container': onlyIcons}" class="content-sidebar h-100">
+    <div class="user-item">
       <span>
-        <img [src]="urlImg" >
-        <span>{{user?.person.first_name ? user?.person.first_name +' '+ user?.person?.last_name : user?.name}}</span>
+        <img [src]="urlImg">
+        <span [hidden]="onlyIcons" class="line-1">
+          <span class="d-block m-0">{{name}}</span>
+          <small class="text-success">En linea</small>
+        </span>
+        <span [ngClass]="{'icon-only-arrow': onlyIcons}" (click)="minimizeSidebar()" class="arrow-open-or-close main-style d-none d-md-inline-block"> <i [ngClass]="!onlyIcons ? 'fa-angle-left': 'fa-angle-right'" class="fas"></i> </span>
       </span>
-    </li>
-    <li routerLinkActive="active" *ngFor="let item of items">
-      <span class="title" *ngIf="item?.title; else TemplateLink">{{item.name}}</span>
-      <ng-template #TemplateLink>
-        <a [routerLink]="[item.url]"  [href]="item.url"><i [class]="item.icon"></i> <span [hidden]="onlyIcons"> {{item.name}}</span></a>
-      </ng-template>
-    </li>
-  </ul>
-</nav>
+      <div [hidden]="onlyIcons" class="position-relative search-page-container">
+        <input #inputSearchPage (keydown)="searchPage($event)" type="text" class="search-page"
+          placeholder="Buscar pagina">
+        <button  mat-icon-button class="line-1 btn-search-page"><mat-icon class="text-muted">search</mat-icon></button>
+      </div>
+    </div>
+    <ul class="scrollbar-sidebar-fz">
+      <li routerLinkActive="active" *ngFor="let item of items">
+        <span [hidden]="onlyIcons" class="title" *ngIf="item?.title; else TemplateLink">{{item.name}}</span>
+        <ng-template #TemplateLink>
+          <a [routerLink]="[item.url]"   [href]="item.url"><i [ngClass]="{'icon-only-size': onlyIcons}" [class]="item.icon"></i><span [hidden]="onlyIcons">&nbsp; {{item.name}}</span></a>
+        </ng-template>
+      </li>
+    </ul>
+    <div class="content-btn-close-session main-style">
+      <button class="btn-close-session"> <i class="fa fa-sign-out-alt"></i> <span [hidden]="onlyIcons">Cerrar session</span></button>
+    </div>
+  </nav>
+</div>

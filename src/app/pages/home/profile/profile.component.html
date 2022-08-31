@@ -20,7 +20,7 @@
                    <mat-chip selected color="primary" class="text-uppercase">{{user?.person.identification_type}}: {{user?.person.identification_number}}</mat-chip>
                </mat-chip-list>
             </div>
-            <div class="items card">
+            <!-- <div class="items card">
                 <div class="text-center"><i class="fas fa-city fa-4x"></i></div>
                 <div>Cuidad</div>
                 <mat-chip-list>
@@ -33,10 +33,9 @@
                 <mat-chip-list>
                     <mat-chip selected color="primary" class="text-uppercase">{{user?.info?.sex == 'male' ? 'Masculino': 'Femenino'}}</mat-chip>
                 </mat-chip-list>
-             </div>
+             </div> -->
              <div class="items card">
                 <div class="text-center"><i class="fas fa-birthday-cake fa-4x"></i></div>
-
                 <div>Fecha de nacimiento</div>
                 <mat-chip-list>
                     <mat-chip selected color="primary">{{user?.person.birthday | date}}</mat-chip>

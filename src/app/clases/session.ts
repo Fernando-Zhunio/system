@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from "../shared/interfaces/user";
 
 export class Session {
     token: string;

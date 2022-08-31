@@ -3,13 +3,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountdownConfig } from 'ngx-countdown';
 import { Session } from '../../../clases/session';
-import { User } from '../../../clases/user';
-import { Iuser } from '../../../interfaces/inotification';
+// import { User } from '../../../clases/user';
+// import { Iuser } from '../../../interfaces/inotification';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { StorageService } from '../../../services/storage.service';
 import { SwalService } from '../../../services/swal.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fromEvent } from 'rxjs';
+import { User } from '../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-two-fa',
@@ -35,7 +36,7 @@ export class TwoFAComponent implements OnInit, OnDestroy {
   });
 
   token: string;
-  user: Iuser;
+  user: User;
 
   config: CountdownConfig = {
     format: 'mm:ss',
@@ -44,8 +45,6 @@ export class TwoFAComponent implements OnInit, OnDestroy {
   CountInputs = 6;
   inputsValue: any[] = [];
   eventPaste = fromEvent(document, 'paste');
-
-
 
   ngOnInit(): void {
     this.eventPaste.subscribe(() => {
@@ -133,25 +132,26 @@ export class TwoFAComponent implements OnInit, OnDestroy {
       this.s_standart
         .methodPost('auth/email-two-factor/' + this.token, {code})
         .subscribe((res) => {
-          if (res.hasOwnProperty('success') && res?.success) {
+          if (res?.success) {
             this.spinner.show('spinner-tf');
             const session: Session = new Session();
             session.token = res.data.access_token;
             session.expires_at = res.data.expires_at;
             session.token_type = res.data.token_type;
-            const user: User = new User(
-              res.data.user.id,
-              res.data.user.name,
-              null,
-              res.data.companies,
-              res.data.company_company_id,
-              res.data.user.person,
-            );
-            session.user = user;
+            const {
+              id,
+              name,
+              email,
+              person
+            } = res.data.user;
+            session.user = {
+              id,
+              name,
+              email,
+              person
+            };
             this.s_storage.setCurrentSession(session);
             this.router.navigate(['/home/inicio']);
-
-            // this.getPermissionAndVersionServer();
           } else {
             SwalService.swalToast(
               'Error  verifique su contraseña o email',

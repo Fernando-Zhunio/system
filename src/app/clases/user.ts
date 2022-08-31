@@ -8,9 +8,10 @@ export class User {
     company_company_id: string;
     person: Cperson;
 
-    constructor(id, name, permission, companies, company_company_id, person: Cperson) {
+    constructor(id, name, email, permission, companies, company_company_id, person: Cperson) {
         this.id = id;
         this.name = name;
+        this.email = email;
         this.permission = permission;
         this.companies = companies;
         this.company_company_id = company_company_id;
