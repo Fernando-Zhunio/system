@@ -16,12 +16,11 @@ const CryptoJS = require('crypto-js');
 export class StorageService {
 
   private currentSession: Session | boolean | null = null;
-  private permissions: string[] | null = [];
+  private permissions: string[] | null = null;
   // private isUserAuthenticated: boolean = false;
 
   constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {
-    this.currentSession = this.getCurrentSession();
-    this.permissions = this.getPermissions();
+    this.init();
     // this.isUserAuthenticated = this.isAuthenticated();
   }
 
@@ -75,6 +74,15 @@ export class StorageService {
   //     return false;
   //   }
   // }
+
+  init(): void {
+    this.currentSession = this.getCurrentSession();
+    this.permissions = this.getPermissions();
+    if (this.permissions) {
+    this.s_permissionsService.loadPermissions(this.permissions);
+
+    }
+  }
 
   getCurrentSession(): Session | boolean {
     return this.currentSession || this.getCurrentSessionLocalStorage();

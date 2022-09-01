@@ -1,0 +1,14 @@
+<header class="header-fz px-2 px-md-3 py-2 shadow-sm">
+  <nav class="h-100 d-flex justify-content-between">
+    <span class="content-brand">
+      <img [routerLink]="['/home/inicio']"  class="h-100 d-none d-md-inline-block" src="assets/icons_custom/novisolutions.svg" alt="logo-company">
+      <img [routerLink]="['/home/inicio']"  class="h-100 d-inline-block d-md-none" src="assets/icons_custom/icon-512x512.png" alt="logo-company">
+      <button (click)="openOrCloseMenu()" class="btn-open-menu">
+        <i class="fas fa-stream"></i>
+      </button>
+    </span>
+    <div class="d-flex">
+      <ng-content></ng-content>
+    </div>
+  </nav>
+</header>

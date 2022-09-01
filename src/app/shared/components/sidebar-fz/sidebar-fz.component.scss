@@ -10,7 +10,8 @@
   padding: 5px 10px;
   margin: 13px 5px;
   font-weight: lighter;
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 .content-sidebar .scrollbar-sidebar-fz {
@@ -165,4 +166,10 @@ a {
   .container-sidebar {
     display: none;
   }
+}
+
+.line-1 {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }

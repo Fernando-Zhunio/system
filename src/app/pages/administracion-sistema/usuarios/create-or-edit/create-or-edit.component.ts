@@ -44,7 +44,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
     email: new FormControl(null, [Validators.required, Validators.email]),
   });
   roles: any[] = [];
-  emails = [];
+  emails: string[] = [];
   isSearchPerson = false;
 
   ngOnInit(): void {
@@ -57,8 +57,6 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
       this.ngx_spinner.hide();
     });
   }
-
-
 
   getPeople($event): void {
     this.people = $event.data;
@@ -142,6 +140,9 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
           } else {
             SwalService.swalFire({title: 'Error', text: 'El usuario no tiene correo electrónico corporativo o no se a signado una a esta persona', icon: 'error', cancelButtonText: 'Cerrar', confirmButtonText: 'Ir a pagina de la persona '+ this.personCurrent.first_name, showCancelButton: true,   showConfirmButton: true})
           }
+        } else if(res.user.email) {
+          this.emails.push(res.user.email);
+
         }
       }
 

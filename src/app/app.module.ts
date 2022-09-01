@@ -103,10 +103,12 @@ import { preferenceReducer } from './redux/reducers/preference.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { StorageService } from './services/storage.service';
+// import { StorageService } from './services/storage.service';
 import { TicketsModule } from './pages/orders/tickets/tickets.module';
 import { P403Component } from './views/error/p403/p403.component';
-import { SidebarFzComponent } from './shared/sidebar-fz/sidebar-fz.component';
+import { SidebarFzComponent } from './shared/components/sidebar-fz/sidebar-fz.component';
+import { HeaderFzComponent } from './shared/components/header-fz/header-fz.component';
+import { StorageService } from './services/storage.service';
 // import * as Sentry from "@sentry/angular";
 // import { BrowserTracing } from "@sentry/tracing";
 // import { enableProdMode } from "@angular/core";
@@ -180,6 +182,7 @@ registerLocaleData(localeEs, 'es');
   ],
   declarations: [
     SidebarFzComponent,
+    HeaderFzComponent,
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,

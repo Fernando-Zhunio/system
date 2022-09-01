@@ -43,8 +43,6 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   }
 
   loadInfo(): void {
-      // alert('loadInfo');
-      console.log('loadInfo');
       this.changePaginator();
   }
 
@@ -94,7 +92,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   dpMin: any;
 
   dataSource: IOrder[] = [];
-  columnsToDisplay = ['id', 'type', 'status', 'client', 'channel', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'products', 'payments', 'company', 'total', 'seller', 'created_at', 'started_at', 'ended_at', 'actions'];
+  columnsToDisplay = ['id', 'type', 'status', 'client', 'channel', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'company', 'total', 'seller', 'created_at', 'started_at', 'ended_at', 'actions'];
   expandedElement: IOrder | null;
   workspaceSelect = null;
   workspaces: IOrderWorkspace[] = [];

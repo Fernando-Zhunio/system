@@ -141,3 +141,19 @@ button {
 .minimize-sidebar {
   margin-left: 60px
 }
+
+.app-header-fz {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1020;
+  width: 100%;
+}
+
+.hidden-sidebar {
+  margin: 0 !important;
+}
+
+.app-body {
+  margin-top: 55px;
+}

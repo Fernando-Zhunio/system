@@ -34,7 +34,6 @@
     "noUnusedParameters": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true
-
   },
   "angularCompilerOptions": {
         "fullTemplateTypeCheck": true,

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
@@ -27,6 +27,7 @@ import { TEST_PERMISSIONS } from '../../class/permissionsAll';
 import { NotificationType } from '../../enums/notification.enum';
 import { INavData } from '../../interfaces/inav-data';
 import { takeUntil } from 'rxjs/operators';
+import { SidebarFzComponent } from '../../shared/components/sidebar-fz/sidebar-fz.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -60,6 +61,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public progressDownloadReport: number = 0;
   public isProgressDownloadReport: boolean = false;
   public isDownloadStock: boolean = false;
+  hiddenSidebar: boolean = false;
+
+  @ViewChild(SidebarFzComponent) sidebarFz: SidebarFzComponent;
 
   countNotificationUnRead: number | null = null;
   notificationWeb: NotificationsWebPush | null = null;
@@ -105,6 +109,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   goPage(page): void {
     this.route.navigate([page]);
+  }
+
+  openOrCloseMenu(): void {
+    this.sidebarFz.toggleMenu();
   }
 
   onSetTheme(e: MatSlideToggleChange | { checked: boolean }): void {

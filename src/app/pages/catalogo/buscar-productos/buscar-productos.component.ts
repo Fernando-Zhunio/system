@@ -135,7 +135,6 @@ export class BuscarProductosComponent implements OnInit {
   }
 
   loadData($event): void {
-    console.log($event);
     this.products = $event;
   }
 

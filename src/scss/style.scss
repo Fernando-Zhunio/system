@@ -222,29 +222,29 @@ button {
   cursor: pointer;
 }
 
-.dark-theme .sidebar .nav-link.active {
+.dark-theme .sidebar1 .content-sidebar {
   background-color: $dark-bg;
   color: #ffffff;
-  border-radius: 10px;
-  margin: 2px 5px;
+  // border-radius: 10px;
+  // margin: 2px 5px;
 }
 
-.sidebar .nav-link{
-  color: #817e7e;
-  font-weight: 500;
-}
+// .sidebar .nav-link{
+//   color: #817e7e;
+//   font-weight: 500;
+// }
 
-.sidebar {
-  background: transparent;
-}
+// .sidebar {
+//   background: transparent;
+// }
 
- .sidebar .nav-link.active {
-  background-color: #e4e5e6;
-  // background: transparent;
-  color: #2f353a;
-  border-radius: 10px;
-  margin: 2px 5px;
-}
+//  .sidebar .nav-link.active {
+//   background-color: #e4e5e6;
+//   // background: transparent;
+//   color: #2f353a;
+//   border-radius: 10px;
+//   margin: 2px 5px;
+// }
  .main-style {
   // background-color: #ffffff;
   background-color: white;
@@ -296,10 +296,10 @@ button {
 }
 
 // cambia el color del sidebar de los item title
-.sidebar .nav-title {
-  color: #009688;
-  // background: darkslategray;
-}
+// .sidebar .nav-title {
+//   color: #009688;
+//   // background: darkslategray;
+// }
 
 .dark-theme .shadow-1-fz {
   box-shadow: 7px 7px 14px #353535, -7px -7px 14px #000000 !important;

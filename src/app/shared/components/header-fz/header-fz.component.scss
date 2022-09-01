@@ -1,0 +1,25 @@
+.header-fz {
+  height: 55px;
+  width: 100%;
+}
+
+.btn-open-menu {
+  border: none;
+  background: transparent;
+  color: #182a95;
+  font-size: 15px;
+  background: #dadada;
+  width: 35px;
+  height: 35px;
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-brand {
+  display: flex;
+  align-items: center;
+}

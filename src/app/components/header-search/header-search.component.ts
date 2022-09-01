@@ -124,7 +124,10 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
 
   gotoTop() {
     const main = document.getElementsByClassName('app-body');
-    main[0].scrollTop = 0;
+    if (main && main?.length > 0) {
+      // main[0].scrollTo(0, 0);
+      main[0].scrollTop = 0;
+    }
   }
 
   filterWithNotNull(): object {
