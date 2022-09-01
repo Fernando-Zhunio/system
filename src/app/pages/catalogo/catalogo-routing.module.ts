@@ -108,6 +108,10 @@ const routes: Routes = [
   {
     path: 'rappi',
     loadChildren: () => import('./rappi-products/rappi-products.module').then(m => m.RappiProductsModule),
+  },
+  {
+    path: 'campaigns',
+    loadChildren: () => import('./campaign/campaign.module').then(m => m.CampaignModule),
   }
 ];
 

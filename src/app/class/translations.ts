@@ -8,7 +8,8 @@ const trans_es_default = {
     active: 'Activo',
     inactive: 'Inactivo',
     closed: 'Cerrado',
-    open: 'Abierto'
+    open: 'Abierto',
+    undefined: 'Indefinido',
 };
 
 const trans_es_order = {

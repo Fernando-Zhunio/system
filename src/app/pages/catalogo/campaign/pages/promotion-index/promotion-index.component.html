@@ -1,0 +1,49 @@
+<app-search-template
+  [title]="'Campañas'"
+  (data)="getData($event)"
+  placeholder="Buscador de campañas"
+  [url$]="url">
+  <ng-container menuBar>
+    <mat-chip-list>
+      <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active" class="mat-orange ml-2">
+        <mat-icon>add</mat-icon>
+        Campaña
+      </mat-chip>
+    </mat-chip-list>
+  </ng-container>
+
+  <ng-container data>
+    <mat-card class="card border-0" *ngFor="let campaign of data | keyvalue">
+     <mat-card-header>
+         <mat-card-title>{{campaign.value.title}}
+     </mat-card-title>
+       </mat-card-header>
+       <mat-card-content>
+        <p>{{ campaign.value.description }}</p>
+        <mat-chip-list>
+          <mat-chip>Duración: {{ campaign.value.duration_type | translatefz }}</mat-chip>
+          <mat-chip>Estado: {{ campaign.value.status | translatefz }}</mat-chip>
+        </mat-chip-list>
+        <ng-container *ngIf="campaign.value.duration_type == 'date_range'">
+            <small>Inicio y Fin</small>
+            <mat-chip-list>
+              <mat-chip>Inicio {{ campaign.value.start_date }}</mat-chip>
+              <mat-chip>Fin {{ campaign.value.end_date }}</mat-chip>
+            </mat-chip-list>
+        </ng-container>    
+        <div class="my-2">
+          <button [routerLink]="['./', campaign.key, 'edit']" mat-icon-button color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-raised-button color="warn">
+            <mat-icon>visibility</mat-icon>
+            Promociones
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</app-search-template>

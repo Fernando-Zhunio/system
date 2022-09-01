@@ -15,12 +15,12 @@ export abstract class CreateOrEdit2<T> {
     public params = null;
     public isFormParams: boolean = false;
     public key_param = 'id';
-    public location: Location;
+    protected location: Location;
     public abstract title: string;
     public abstract urlSave;
-    abstract act_router: ActivatedRoute;
-    abstract methodsHttp: MethodsHttpService;
-    abstract router: Router
+    protected abstract act_router: ActivatedRoute;
+    protected abstract router: Router
+    protected abstract methodsHttp: MethodsHttpService;
     constructor() {
     }
 

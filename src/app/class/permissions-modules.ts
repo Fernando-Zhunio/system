@@ -153,3 +153,10 @@ export const PermissionRappiProducts = {
     index: ['catalogs.rappi.products.index', 'super-admin'],
     edit: ['catalogs.rappi.products.edit', 'super-admin'],
 }
+
+export const PermissionCampaigns = {
+    index: ['campaigns.index', 'super-admin'],
+    create: ['campaigns.create', 'super-admin'],
+    edit: ['campaigns.edit', 'super-admin'],
+    destroy: ['campaigns.destroy', 'super-admin'],
+}
