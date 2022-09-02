@@ -29,13 +29,13 @@
               </div>
               <div>
                 <mat-form-field class="w-100">
-                  <mat-select #selectType placeholder="Tipo de duración" formControlName="duration_type">
+                  <mat-select (selectionChange)="selectionChange($event)" #selectType placeholder="Tipo de duración" formControlName="duration_type">
                     <mat-option value="undefined">Indefinido</mat-option>
                     <mat-option value="date_range">Rango de Fechas</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div [hidden]="selectType.value != 'date_range'">
+              <div>
                 <div>
                   <mat-form-field class="w-100">
                     <input readonly #dateMin matInput placeholder="Fecha Inicio" formControlName="start_date" />

@@ -4,6 +4,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { PermissionCampaigns } from '../../../class/permissions-modules';
 import { CampaignIndexComponent } from './pages/campaign-index/campaign-index.component';
 import { CreateOrEditCampaignComponent } from './pages/create-or-edit-campaign/create-or-edit-campaign.component';
+import { CreateOrEditPromotionComponent } from './pages/create-or-edit-promotion/create-or-edit-promotion.component';
 import { PromotionIndexComponent } from './pages/promotion-index/promotion-index.component';
 
 const permission_module = PermissionCampaigns;
@@ -47,6 +48,28 @@ const routes: Routes = [
       permissions: {
         only: permission_module.index
       },
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+  {
+    path: ':campaign_id/promotions/create',
+    component: CreateOrEditPromotionComponent,
+    data: {
+      permissions: {
+        only: permission_module.create
+      },
+      isEdit: false
+    },
+    canActivate: [NgxPermissionsGuard],
+  },
+  {
+    path: ':campaign_id/promotions/:id/edit',
+    component: CreateOrEditPromotionComponent,
+    data: {
+      permissions: {
+        only: permission_module.create
+      },
+      isEdit: true
     },
     canActivate: [NgxPermissionsGuard],
   },

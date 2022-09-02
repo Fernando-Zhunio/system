@@ -8,6 +8,7 @@ const trans_es_default = {
     active: 'Activo',
     inactive: 'Inactivo',
     closed: 'Cerrado',
+    date_range: 'Rango de fechas',
     open: 'Abierto',
     undefined: 'Indefinido',
 };

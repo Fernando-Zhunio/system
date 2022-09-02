@@ -26,8 +26,8 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
     description: new FormControl(''),
     duration_type: new FormControl('', [Validators.required]),
     status: new FormControl('', [Validators.required]),
-    start_date: new FormControl('', [this.validatorRequiredIf(()=> this.form.get('duration_type')?.value == 'date_range', Validators.required)]),
-    end_date: new FormControl('', [this.validatorRequiredIf(()=> this.form.get('duration_type')?.value == 'date_range', Validators.required)]),
+    start_date: new FormControl({value:'', disabled: true}, [this.validatorRequiredIf(()=> this.form.get('duration_type')?.value == 'date_range', Validators.required)]),
+    end_date: new FormControl({value:'', disabled: true}, [this.validatorRequiredIf(()=> this.form.get('duration_type')?.value == 'date_range', Validators.required)]),
   });
  
   constructor(
@@ -39,27 +39,29 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
     super();
   }
 
-  ngOnInit() {
-    this.init(false)
-  }
   @ViewChild('dateMin', { static: false }) dpMinDateElement: ElementRef;
   @ViewChild('dateMax', { static: false }) dpMaxDateElement: ElementRef;
   dpMax: any;
   dpMin: any;
+
+  ngOnInit() {
+    this.init(false);
+  }
+
   ngAfterViewInit() {
     this.dpMin = new AirDatepicker(this.dpMinDateElement.nativeElement, {
       classes: 'z-indez-1020',
       position: 'top right',
       locale: localeEs,
       timepicker: true,
-      dateFormat: 'yyyy/MM/dd',
-      timeFormat: 'HH:mm',
+      dateFormat: 'yyyy-MM-dd',
+      timeFormat: 'HH:mm:00',
       autoClose: true,
       onSelect: ({ date }) => {
         this.dpMax.update({
           minDate: date
         })
-        this.form.get('start_date')?.setValue(moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm'))
+        this.form.get('start_date')?.setValue(moment(date as any, 'YYYY/MM/DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
       }
     })
     this.dpMax = new AirDatepicker(this.dpMaxDateElement.nativeElement, {
@@ -68,27 +70,17 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
       position: 'top right',
       timepicker: true,
       autoClose: true,
-      dateFormat: 'yyyy/MM/dd',
-      timeFormat: 'HH:mm',
+      dateFormat: 'yyyy-MM-dd',
+      timeFormat: 'HH:mm:00',
       onSelect: ({ date }) => {
         this.dpMin.update({
           maxDate: date
         })
-        this.form.get('end_date')?.setValue(moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm'));
+        this.form.get('end_date')?.setValue(moment(date as any, 'YYYY/MM/DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'));
       }
     })
   }
 
-   /**
-   * @private
-   * @method myFormValidator
-   * @description      Custom validation rule for Reactive Forms functionality - used where 
-   *                   conditional validation rule has been triggered 
-   * @param {*} predicate
-   * @param {*} validator
-   * @returns {*}
-   * @memberof HomePage
-   */
     private validatorRequiredIf(predicate: Function, validator: any): any {
       return ((formControl: FormControl) => {
         if (!formControl.parent) {
@@ -99,6 +91,18 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
         }
         return null;
       });
+    }
+
+    override setData(data?: any): void {
+      this.form.patchValue({
+        title: data?.title,
+        description: data?.description,
+        duration_type: data?.duration_type,
+        status: data?.status,
+        start_date: data?.start_date ? moment(data?.start_date as any, 'YYYY/MM/DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss') : null,
+        end_date:  data?.end_date ? moment(data?.end_date as any, 'YYYY/MM/DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss') : null,
+      });
+    this.selectionChange({value:data?.duration_type})
     }
 
     override getDataForSendServer(): any {
@@ -113,6 +117,16 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
 
     override go(): void {
       this.router.navigate(['/catalogo/campaigns']);
+    }
+
+    selectionChange(event) {
+      if (event.value == 'date_range') {
+        this.form.get('start_date')?.enable();
+        this.form.get('end_date')?.enable();
+      } else {
+        this.form.get('start_date')?.disable();
+        this.form.get('end_date')?.disable();
+      }
     }
 }
 

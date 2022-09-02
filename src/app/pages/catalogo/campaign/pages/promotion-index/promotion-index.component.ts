@@ -23,10 +23,11 @@ export class PromotionIndexComponent extends Crud<any> implements OnInit {
     protected router: Router,
   ) {
     super();
+    this.url = 'catalogs/campaigns/' + this.act_router.snapshot.params['campaign_id'] + '/promotions';
+
   }
 
   ngOnInit(): void {
-    this.url = 'catalogs/campaigns/' + this.act_router.snapshot.queryParamMap.get('campaign_id') + '/promotions';
   }
 
 }

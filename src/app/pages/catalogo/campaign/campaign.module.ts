@@ -14,6 +14,8 @@ import { CreateOrEditCampaignComponent } from './pages/create-or-edit-campaign/c
 import { MatSelectModule } from '@angular/material/select';
 import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
 import { PromotionIndexComponent } from './pages/promotion-index/promotion-index.component';
+import { CreateOrEditPromotionComponent } from './pages/create-or-edit-promotion/create-or-edit-promotion.component';
+import { SearchProductsModule } from '../../../shared/search-products/search-products.module';
 
 @NgModule({
   imports: [
@@ -29,7 +31,8 @@ import { PromotionIndexComponent } from './pages/promotion-index/promotion-index
     MatChipsModule,
     MatSelectModule,
     TranslatefzModule,
+    SearchProductsModule
   ],
-  declarations: [CampaignIndexComponent, CreateOrEditCampaignComponent, PromotionIndexComponent]
+  declarations: [CampaignIndexComponent, CreateOrEditPromotionComponent, CreateOrEditCampaignComponent, PromotionIndexComponent]
 })
 export class CampaignModule { }

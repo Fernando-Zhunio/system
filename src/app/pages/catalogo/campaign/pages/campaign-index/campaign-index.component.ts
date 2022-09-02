@@ -11,10 +11,7 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 })
 export class CampaignIndexComponent extends Crud<any> implements OnInit {
 
-  url: string;
-
-  // override data: Map<number, Campaign> = new Map<number, Campaign>();
-
+  url: string = 'catalogs/campaigns';
   constructor(
     protected standardService: StandartSearchService,
     protected snackBar: MatSnackBar) {
