@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Crud } from '../../../../../class/crud';
+import { PermissionCampaigns } from '../../../../../class/permissions-modules';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { Campaign } from '../../interfaces/campaign';
 
@@ -26,6 +27,8 @@ export class PromotionIndexComponent extends Crud<any> implements OnInit {
   }
 
   campaign: Campaign;
+  permissions = PermissionCampaigns;
+
 
   ngOnInit(): void {
     const url = 'catalogs/campaigns/' + this.act_router.snapshot.params['campaign_id'];

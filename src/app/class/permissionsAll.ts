@@ -436,4 +436,8 @@ export const TEST_PERMISSIONS = [
   'system-orders.channels.create',
   'system-orders.channels.edit',
   'system-orders.channels.destroy',
+  "prices-and-promotions.promotions.index",
+  "prices-and-promotions.promotions.edit",
+  "prices-and-promotions.promotions.create",
+  "prices-and-promotions.promotions.destroy"
 ]

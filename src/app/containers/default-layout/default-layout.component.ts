@@ -23,7 +23,7 @@ import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 import { setPreference } from '../../redux/actions/preference.action';
 import { compare } from 'compare-versions';
 import { MethodsHttpService } from '../../services/methods-http.service';
-import { TEST_PERMISSIONS } from '../../class/permissionsAll';
+// import { TEST_PERMISSIONS } from '../../class/permissionsAll';
 import { NotificationType } from '../../enums/notification.enum';
 import { INavData } from '../../interfaces/inav-data';
 import { takeUntil } from 'rxjs/operators';
@@ -205,24 +205,24 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  getPermissionAndVersionServerTest() {
-    this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
-      if (res?.success) {
-        if (res.data?.last_version_frontend?.version) {
-          this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
-        }
-        const permissions = TEST_PERMISSIONS;
-        const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
-          [permissions] : permissions;
-        this.s_storage.setPermission(array_permissions);
-        this.navItems = res.data.item_sidebar;
-        this.getTicketsUnread();
-      }
-    }, err => {
-      console.log(err);
-      SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
-    });
-  }
+  // getPermissionAndVersionServerTest() {
+  //   this.methodsHttp.methodGet('user/permissions-roles').subscribe((res) => {
+  //     if (res?.success) {
+  //       if (res.data?.last_version_frontend?.version) {
+  //         this.validateVersion(res.data?.last_version_frontend?.version, res.data?.last_version_frontend?.description);
+  //       }
+  //       const permissions = TEST_PERMISSIONS;
+  //       const array_permissions = typeof permissions == 'string' && permissions == 'super-admin' ?
+  //         [permissions] : permissions;
+  //       this.s_storage.setPermission(array_permissions);
+  //       this.navItems = res.data.item_sidebar;
+  //       this.getTicketsUnread();
+  //     }
+  //   }, err => {
+  //     console.log(err);
+  //     SwalService.swalFire({ title: 'Error', text: 'Se necesita que recargué la pagina, si el error continua por favor póngase en contacto con el desarrollador del sistema' });
+  //   });
+  // }
 
   validateVersion(latestVersion: string, message: string): void {
     try {

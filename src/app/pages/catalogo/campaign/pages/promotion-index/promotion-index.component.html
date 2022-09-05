@@ -4,7 +4,7 @@
   placeholder="Buscador de promociones"
   [url$]="url">
   <ng-container menuBar>
-    <mat-chip-list>
+    <mat-chip-list *ngxPermissionsOnly="permissions.create">
       <mat-chip [routerLink]="['./create']" class="mat-orange ml-2">
         <mat-icon>add</mat-icon>
         promoción
@@ -37,10 +37,10 @@
             </ul>
         </div>    
         <div class="my-2">
-          <button [routerLink]="['./', campaign.key, 'edit']" mat-icon-button color="primary">
+          <button *ngxPermissionsOnly="permissions.edit" [routerLink]="['./', campaign.key, 'edit']" mat-icon-button color="primary">
             <mat-icon>edit</mat-icon>
           </button>
-          <button (click)="deleteData(campaign.key)" mat-icon-button color="warn">
+          <button *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(campaign.key)" mat-icon-button color="warn">
             <mat-icon>delete</mat-icon>
           </button>
         </div>

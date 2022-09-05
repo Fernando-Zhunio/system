@@ -4,7 +4,7 @@
   placeholder="Buscador de campañas"
   [url$]="'catalogs/campaigns'">
   <ng-container menuBar>
-    <mat-chip-list>
+    <mat-chip-list *ngxPermissionsOnly="permissions.create">
       <mat-chip [routerLink]="['./create']" routerLinkActive="router-link-active" class="mat-orange ml-2">
         <mat-icon>add</mat-icon>
         Campaña
@@ -20,25 +20,28 @@
       </mat-card-header>
       <mat-card-content>
         <p>{{ campaign.value.description }}</p>
-        <mat-chip-list>
-          <mat-chip>Duración: {{ campaign.value.duration_type | translatefz }}</mat-chip>
-          <mat-chip>Estado: {{ campaign.value.status | translatefz }}</mat-chip>
-        </mat-chip-list>
-        <ng-container *ngIf="campaign.value.duration_type == 'date_range'">
+        <div>
+          <small>Detalles</small>
+          <ul class="list">
+            <li>Duración: {{ campaign.value.duration_type | translatefz }}</li>
+            <li>Estado: <span [class]="campaign.value.status">{{ campaign.value.status | translatefz }}</span></li>
+          </ul>
+        </div>
+        <div *ngIf="campaign.value.duration_type == 'date_range'">
           <small>Inicio y Fin</small>
-          <mat-chip-list>
-            <mat-chip>Inicio {{ campaign.value.start_date | date:'medium'}}</mat-chip>
-            <mat-chip>Fin {{ campaign.value.end_date | date:'medium' }}</mat-chip>
-          </mat-chip-list>
-        </ng-container>
+          <ul class="list">
+            <li>Inicio: {{ campaign.value.start_date | date:'medium'}}</li>
+            <li>Fin: {{ campaign.value.end_date | date:'medium' }}</li>
+          </ul>
+        </div>
         <div class="my-2">
-          <button [routerLink]="['./', campaign.key, 'edit']" mat-icon-button color="primary">
+          <button *ngxPermissionsOnly="permissions.edit" [routerLink]="['./', campaign.key, 'edit']" mat-icon-button color="primary">
             <mat-icon>edit</mat-icon>
           </button>
-          <button (click)="deleteData(campaign.key)" mat-icon-button color="warn">
+          <button *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(campaign.key)" mat-icon-button color="warn">
             <mat-icon>delete</mat-icon>
           </button>
-          <button [routerLink]="['./', campaign.key, 'promotions']" mat-raised-button color="accent">
+          <button *ngxPermissionsOnly="permissions.index" [routerLink]="['./', campaign.key, 'promotions']" mat-raised-button color="accent">
             <mat-icon>visibility</mat-icon>
             Promociones
           </button>

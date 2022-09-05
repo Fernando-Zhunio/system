@@ -16,6 +16,7 @@ import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.modu
 import { PromotionIndexComponent } from './pages/promotion-index/promotion-index.component';
 import { CreateOrEditPromotionComponent } from './pages/create-or-edit-promotion/create-or-edit-promotion.component';
 import { SearchProductsModule } from '../../../shared/search-products/search-products.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { SearchProductsModule } from '../../../shared/search-products/search-pro
     MatChipsModule,
     MatSelectModule,
     TranslatefzModule,
-    SearchProductsModule
+    SearchProductsModule,
+    NgxPermissionsModule
   ],
   declarations: [CampaignIndexComponent, CreateOrEditPromotionComponent, CreateOrEditCampaignComponent, PromotionIndexComponent]
 })

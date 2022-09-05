@@ -67,7 +67,7 @@ const routes: Routes = [
     component: CreateOrEditPromotionComponent,
     data: {
       permissions: {
-        only: permission_module.create
+        only: permission_module.edit
       },
       isEdit: true
     },

@@ -155,8 +155,8 @@ export const PermissionRappiProducts = {
 }
 
 export const PermissionCampaigns = {
-    index: ['campaigns.index', 'super-admin'],
-    create: ['campaigns.create', 'super-admin'],
-    edit: ['campaigns.edit', 'super-admin'],
-    destroy: ['campaigns.destroy', 'super-admin'],
+    index: ['prices-and-promotions.promotions.index', 'super-admin'],
+    create: ['prices-and-promotions.promotions.create', 'super-admin'],
+    edit: ['prices-and-promotions.promotions.edit', 'super-admin'],
+    destroy: ['prices-and-promotions.promotions.destroy', 'super-admin'],
 }
