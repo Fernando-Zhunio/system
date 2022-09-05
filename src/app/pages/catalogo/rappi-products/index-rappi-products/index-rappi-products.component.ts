@@ -6,7 +6,7 @@ import { FilePondOptions } from 'filepond';
 import { environment } from '../../../../../environments/environment';
 import { Crud } from '../../../../class/crud';
 import { PermissionRappiProducts } from '../../../../class/permissions-modules';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { StorageService } from '../../../../services/storage.service';
 import { SwalService } from '../../../../services/swal.service';
 import { StockRappiModalComponent } from '../components/stock-rappi-modal/stock-rappi-modal.component';
@@ -19,7 +19,7 @@ import { RappiProduct } from '../interfaces/rappi-product';
 })
 export class IndexRappiProductsComponent extends Crud<any> implements OnInit {
 
-  constructor(private dialog: MatDialog,  private storage: StorageService, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
+  constructor(private dialog: MatDialog,  private storage: StorageService, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
     super();
   }
 
@@ -71,7 +71,7 @@ export class IndexRappiProductsComponent extends Crud<any> implements OnInit {
       }).then(result => {
         if (result.isConfirmed) {
 
-          this.standardService.methodPut(`${this.url}/${id}`, { enabled: event.checked }).subscribe(
+          this.methodsHttp.methodPut(`${this.url}/${id}`, { enabled: event.checked }).subscribe(
             {
               next: () => {
                 event.source.disabled = false;

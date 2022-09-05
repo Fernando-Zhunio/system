@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Crud } from '../../../../class/crud';
 import { Inewsletter } from '../../../../interfaces/inewsletter';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-index',
@@ -12,7 +12,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 })
 export class IndexComponent extends Crud<Inewsletter> implements OnInit {
 
-  constructor(protected standardService: StandartSearchService,
+  constructor(protected methodsHttp: MethodsHttpService,
    protected snackBar: MatSnackBar, public router: Router) {
     super();
   }

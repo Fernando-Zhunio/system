@@ -1,10 +1,10 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StandartSearchService } from '../services/standart-search.service';
+import { MethodsHttpService } from '../services/methods-http.service';
 import { SwalService } from '../services/swal.service';
 
 export abstract class Crud<T> {
   // router: Router;
-  protected abstract standardService: StandartSearchService;
+  protected abstract methodsHttp: MethodsHttpService;
   protected abstract snackBar: MatSnackBar;
   constructor() { }
   abstract url: string;
@@ -17,7 +17,7 @@ export abstract class Crud<T> {
       .then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
-          this.standardService.methodDelete(`${this.url}/${id}`).subscribe(
+          this.methodsHttp.methodDelete(`${this.url}/${id}`).subscribe(
             () => {
               this.isLoading = false;
               this.snackBar.open('Registro eliminado', 'OK', { duration: 1500 });
@@ -34,7 +34,7 @@ export abstract class Crud<T> {
 
   index() {
     this.isLoading = true;
-    this.standardService.methodGet(this.url).subscribe(
+    this.methodsHttp.methodGet(this.url).subscribe(
       (response) => {
         this.isLoading = false;
         this.getData(response);

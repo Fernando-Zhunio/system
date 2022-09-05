@@ -6,6 +6,7 @@ import AirDatepicker from 'air-datepicker';
 import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../services/swal.service';
+import { Campaign } from '../../interfaces/campaign';
 
 @Component({
   selector: 'app-create-or-edit-promotion',
@@ -33,7 +34,9 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   });
   currentKey: number
   hiddenAddQuantity: boolean = true;
- formControlQuantity: FormControl = new FormControl(1, [Validators.min(1)]);
+  formControlQuantity: FormControl = new FormControl(1, [Validators.min(1)]);
+  campaign: Campaign;
+
   constructor(
     protected act_router: ActivatedRoute,
     protected methodsHttp: MethodsHttpService,
@@ -44,7 +47,13 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   }
 
   ngOnInit() {
-    this.init(false)
+    this.init(false);
+    const url = 'catalogs/campaigns/' + this.act_router.snapshot.params['campaign_id'];
+    this.methodsHttp.methodGet(url).subscribe((res: any) => {
+      if (res?.success) {
+        this.campaign = res.data;
+      }
+    });
   }
 
   override generateUrl(): string {
@@ -56,9 +65,9 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   }
 
   addProduct(key: number): void {
-   this.currentKey = key;
-   this.hiddenAddQuantity = false;
-   this.inputQuantity.nativeElement.focus();
+    this.currentKey = key;
+    this.hiddenAddQuantity = false;
+    this.inputQuantity.nativeElement.focus();
   }
 
   onlyQuantity: boolean = false;
@@ -98,12 +107,12 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
       return {
         ...this.form.value,
         products: Array.from(this.productsSelected.values())
-        .map(item => {
-          return {
-            id: item.id,
-            quantity: item.quantity
-          }
-        })
+          .map(item => {
+            return {
+              id: item.id,
+              quantity: item.quantity
+            }
+          })
       }
     } else {
       const message = this.form.invalid ? 'Formulario invalido' : 'No hay productos seleccionados';

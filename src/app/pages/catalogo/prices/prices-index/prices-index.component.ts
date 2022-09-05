@@ -18,8 +18,8 @@ import { IPrice, IPriceGroup, IProductPrice } from '../../../../interfaces/ipric
 import { downloadPrice, generatingPrice, idlePrice } from '../../../../redux/actions/price.action';
 import { EPriceState } from '../../../../redux/reducers/price.reducer';
 import { selectPrice } from '../../../../redux/state/state.selectors';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { SharedService } from '../../../../services/shared/shared.service';
-import { StandartSearchService } from '../../../../services/standart-search.service';
 import { StorageService } from '../../../../services/storage.service';
 import { SwalService } from '../../../../services/swal.service';
 import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-prices.component';
@@ -35,8 +35,7 @@ export class PricesIndexComponent
   extends Crud<IProductPrice>
   implements OnInit, OnDestroy {
   constructor(
-    protected standardService: StandartSearchService,
-    protected snackBar: MatSnackBar,
+    protected methodsHttp: MethodsHttpService,    protected snackBar: MatSnackBar,
     public act_router: ActivatedRoute,
     private dialog: MatDialog,
     private storage: StorageService,
@@ -94,7 +93,7 @@ export class PricesIndexComponent
   };
   ngOnInit(): void {
 
-    this.standardService.methodGet(`${this.url}/prices-group`).subscribe((res: any) => {
+    this.methodsHttp.methodGet(`${this.url}/prices-group`).subscribe((res: any) => {
       this.generateTemplateForm(res.data);
       this.pricesGroup = res.data;
     });
@@ -129,7 +128,7 @@ export class PricesIndexComponent
     switch (this.stateFilePrices?.status) {
       case EPriceState.Idle:
         this.store.dispatch(generatingPrice());
-        this.standardService.methodGet(`${this.url}/export-file`).subscribe(() => {
+        this.methodsHttp.methodGet(`${this.url}/export-file`).subscribe(() => {
           SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
         }, () => {
           SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
@@ -151,8 +150,8 @@ export class PricesIndexComponent
     this.dataPriceModify.name = this.data.get(id)?.name;
     this.dataPriceModify.isEdit = true;
     this.form.reset();
-    this.standardService
-      .show(`catalogs/products/${id}/prices/edit`)
+    this.methodsHttp
+      .methodGet(`catalogs/products/${id}/prices/edit`)
       .subscribe((res: any) => {
         this.dataPriceModify.data = res;
         this.dataPriceModify.isLoading = false;
@@ -181,7 +180,7 @@ export class PricesIndexComponent
 
     dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
-      this.standardService
+      this.methodsHttp
         .methodGet(`catalogs/products/${key}/prices/edit?type=full`)
         .subscribe((res: any) => {
           const data = this.data.get(key)!;
@@ -207,7 +206,7 @@ export class PricesIndexComponent
 
   saveInServer(): void {
     this.isLoadingNewPrice = true;
-    this.standardService
+    this.methodsHttp
       .methodPost(
         `catalogs/products/${this.dataPriceModify.id}/prices`,
         this.form.value

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
 import { IChatbot } from '../../../../interfaces/ichatbot';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 })
 export class ChatBotsIndexComponent extends Crud<IChatbot> implements OnInit {
 
-    constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar,  private clipboard: Clipboard) {
+    constructor(protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar,  private clipboard: Clipboard) {
       super();
    }
 

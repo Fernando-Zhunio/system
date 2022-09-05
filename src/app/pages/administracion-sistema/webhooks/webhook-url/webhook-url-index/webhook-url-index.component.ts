@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../../class/crud';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-webhook-url-index',
@@ -11,7 +11,7 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class WebhookUrlIndexComponent extends Crud<any> implements OnInit {
   url: string = 'admin/webhooks/webhooks-url';
 
-  constructor( protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
+  constructor( protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
     super();
   }
 

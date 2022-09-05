@@ -21,18 +21,21 @@
        </mat-card-header>
        <mat-card-content>
         <p>{{ campaign.value.note }}</p>
-        <mat-chip-list>
-          <mat-chip>Precio: {{ campaign.value.price_formated | currency }}</mat-chip>
-          <mat-chip>Duración: {{ campaign.value.duration_type | translatefz }}</mat-chip>
-          <mat-chip>Estado: {{ campaign.value.status | translatefz }}</mat-chip>
-        </mat-chip-list>
-        <ng-container *ngIf="campaign.value.duration_type == 'date_range'">
+        <div>
+          <small>Detalles</small>
+          <ul class="list">
+            <li>Precio: <span class="text-info">{{ campaign.value.price_formated | currency }}</span></li>
+            <li>Duración: {{ campaign.value.duration_type | translatefz }}</li>
+            <li>Estado: <span [class]="campaign.value.status">{{ campaign.value.status | translatefz }}</span></li>
+          </ul>
+        </div>
+        <div *ngIf="campaign.value.duration_type == 'date_range'">
             <small>Inicio y Fin</small>
-            <mat-chip-list>
-              <mat-chip>Inicio {{ campaign.value.start_date }}</mat-chip>
-              <mat-chip>Fin {{ campaign.value.end_date }}</mat-chip>
-            </mat-chip-list>
-        </ng-container>    
+            <ul class="list">
+              <li>Inicio {{ campaign.value.start_date | date: 'medium' }}</li>
+              <li>Fin {{ campaign.value.end_date | date:'medium'}}</li>
+            </ul>
+        </div>    
         <div class="my-2">
           <button [routerLink]="['./', campaign.key, 'edit']" mat-icon-button color="primary">
             <mat-icon>edit</mat-icon>
@@ -45,3 +48,7 @@
     </mat-card>
   </ng-container>
 </app-search-template>
+
+<div *ngIf="campaign" class="campaign">
+  Campaña : <span class="text-success">#{{campaign.id}} {{campaign.title}}</span>
+</div>

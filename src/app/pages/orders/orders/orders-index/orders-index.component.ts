@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
 import { PermissionOrders } from '../../../../class/permissions-modules';
 import { IOrder, IOrderWorkspace } from '../../../../interfaces/iorder';
-import { StandartSearchService } from '../../../../services/standart-search.service';
 import { DetailsOrderComponent } from '../../modules/shared-order/details-order/details-order.component';
 import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
@@ -12,7 +11,7 @@ import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { PageEvent } from '@angular/material/paginator';
-import { IPaginate, IResponse } from '../../../../services/methods-http.service';
+import { IPaginate, IResponse, MethodsHttpService } from '../../../../services/methods-http.service';
 import { MatSort } from '@angular/material/sort';
 import { SwalService } from '../../../../services/swal.service';
 import { MatTable } from '@angular/material/table';
@@ -38,7 +37,7 @@ import { ReuseComponent } from '../../../../interfaces/reuse-component';
 })
 export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDestroy, ReuseComponent {
 
-  constructor(private storage: StorageService, private dialog: MatDialog, protected standardService: StandartSearchService, protected snackBar: MatSnackBar) {
+  constructor(private storage: StorageService, private dialog: MatDialog, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
     super();
   }
 
@@ -155,7 +154,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   }
 
   getMyWorkspacesOrder(): void {
-    this.standardService.methodGet(`system-orders/workspaces/me`)
+    this.methodsHttp.methodGet(`system-orders/workspaces/me`)
       .subscribe(
         {
           next: (res) => {
@@ -177,7 +176,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   }
 
   changeWorkspaces(event: MatSelectChange) {
-    this.standardService.methodPut(`system-orders/workspaces/preference/${event.value}`)
+    this.methodsHttp.methodPut(`system-orders/workspaces/preference/${event.value}`)
       .subscribe(
         {
           next: () => {
@@ -195,7 +194,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   }
 
   getDataForFilter(): void {
-    this.standardService.methodGet('system-orders/orders/filter-data').subscribe(
+    this.methodsHttp.methodGet('system-orders/orders/filter-data').subscribe(
       (response: any) => {
         this.statuses = response.data.status;
         this.types = response.data.type;
@@ -222,7 +221,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     SwalService.swalFire({ text: '¿Está seguro de eliminar el pedido?', icon: 'warning', showConfirmButton: true, showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'No, cancelar' })
       .then((result) => {
         if (result.isConfirmed) {
-          this.standardService.methodDelete(`system-orders/orders/${id}`).subscribe(
+          this.methodsHttp.methodDelete(`system-orders/orders/${id}`).subscribe(
             {
               next: () => {
                 this.snackBar.open('Orden eliminada', 'Cerrar', {

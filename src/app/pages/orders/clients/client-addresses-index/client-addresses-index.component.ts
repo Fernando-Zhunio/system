@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Crud } from '../../../../class/crud';
 import { PermissionOrdersClients } from '../../../../class/permissions-modules';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { CreateOrEditAddressClientComponent } from '../../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { CreateOrEditAddressClientComponent } from '../../modules/shared-order/c
 })
 export class ClientAddressesIndexComponent extends Crud<any> implements OnInit {
 
-  constructor(private activated_router: ActivatedRoute,  protected standardService: StandartSearchService,
+  constructor(private activated_router: ActivatedRoute,  protected methodsHttp: MethodsHttpService,
     protected snackBar: MatSnackBar, private dialog: MatDialog) {
     super();
     this.id = this.activated_router.snapshot.params['client_id'];
@@ -25,9 +25,7 @@ export class ClientAddressesIndexComponent extends Crud<any> implements OnInit {
 
   permissions = PermissionOrdersClients;
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   openDialogCreateOrEdit(address_id: any = null): void {
     this.dialog.open(CreateOrEditAddressClientComponent, {

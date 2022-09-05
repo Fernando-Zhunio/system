@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
 import { IOrderWorkspace } from '../../../../interfaces/iorder';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-index-workspaces-orders',
@@ -15,8 +15,8 @@ export class IndexWorkspacesOrdersComponent extends Crud<IOrderWorkspace> implem
   workspaces: IOrderWorkspace[] = []
   override key = 'id';
   constructor(
-    protected standardService: StandartSearchService,
-    protected snackBar: MatSnackBar,
+    protected methodsHttp: MethodsHttpService,
+        protected snackBar: MatSnackBar,
   ) {
     super();
   }

@@ -5,7 +5,7 @@ import { animation_conditional } from '../../../../animations/animate_leave_ente
 import { Crud } from '../../../../class/crud';
 import { IProduct, IPromotions } from '../../../../interfaces/promotion';
 import { SheetFzComponent } from '../../../../Modulos/sheet-fz/sheet-fz/sheet-fz.component';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-promotions-index',
@@ -19,7 +19,7 @@ export class PromotionsIndexComponent extends Crud<IPromotions> implements OnIni
   url: string;
   key_paginator: string = 'promotions';
 
-  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar, private sheet: MatBottomSheet) {
+  constructor(protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar, private sheet: MatBottomSheet) {
     super();
     this.url = 'catalogs/promotions';
   }

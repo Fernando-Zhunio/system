@@ -7,8 +7,7 @@ import { animationShowHidden } from '../../../../animations/animate_leave_enter'
 import { Crud } from '../../../../class/crud';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { Irequest, Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
-import { IPaginate, IResponse } from '../../../../services/methods-http.service';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { IPaginate, IResponse, MethodsHttpService } from '../../../../services/methods-http.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -20,7 +19,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 export class IndexComponent extends Crud<Irequest> implements OnInit {
 
 
-  constructor(protected standardService: StandartSearchService,
+  constructor(protected methodsHttp: MethodsHttpService,
     protected snackBar: MatSnackBar) {
     super();
   }
@@ -79,7 +78,7 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   openCv(id: number) {
     this.isOpenCv = true;
     const url = `rrhh/requests/${id}/statuses`;
-    this.standardService.methodPost(url, { status: 'request_cv_viewed' }).subscribe(() => {
+    this.methodsHttp.methodPost(url, { status: 'request_cv_viewed' }).subscribe(() => {
 
     });
     const cv = this.dataSource.find((x: any) => x.id === id)?.user?.resume?.attachment?.real_permalink;
@@ -114,7 +113,7 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
 
   doFavorite(id: number, isFavorite: boolean): void {
     const url = `rrhh/requests/${id}/mark-favorite`;
-    this.standardService.methodPut(url, { mark: !isFavorite }).subscribe(res => {
+    this.methodsHttp.methodPut(url, { mark: !isFavorite }).subscribe(res => {
       if (res.hasOwnProperty('success') && res.success) {
         let favorite = this.dataSource.find(x => x.id === id);
         if (favorite?.favorite) {

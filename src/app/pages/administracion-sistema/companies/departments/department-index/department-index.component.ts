@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Crud } from '../../../../../class/crud';
 import { Icompany } from '../../../../../interfaces/idashboard';
 import { IDepartment } from '../../../../../interfaces/idepartment';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-department-index',
@@ -14,7 +14,7 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class DepartmentIndexComponent extends Crud<IDepartment> implements OnInit {
   url: string;
 
-  constructor(protected standardService: StandartSearchService, protected snackBar: MatSnackBar, private act_router: ActivatedRoute) {
+  constructor(protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar, private act_router: ActivatedRoute) {
     super();
     this.url = `admin/companies/${this.getParam()}/departments`;
   }

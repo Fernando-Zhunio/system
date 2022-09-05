@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Crud } from '../../../../class/crud';
 import { IChatWebhook } from '../../../../interfaces/ichatbot';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-webhooks',
@@ -13,7 +13,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
 export class WebhooksComponent extends Crud<IChatWebhook> implements OnInit {
   url: string;
 
-  constructor(protected activated_route: ActivatedRoute, protected standardService: StandartSearchService, protected snackBar: MatSnackBar)  {
+  constructor(protected activated_route: ActivatedRoute, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar)  {
     super();
     this.url = `admin/chatbot/${this.getParam('chatbot_id')}/webhooks`;
     this.title = this.getQueryParams('name')!;

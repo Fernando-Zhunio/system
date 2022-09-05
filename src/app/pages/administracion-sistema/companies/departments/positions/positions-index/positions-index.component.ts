@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Crud } from '../../../../../../class/crud';
 import { IDepartment } from '../../../../../../interfaces/idepartment';
 import { IPosition } from '../../../../../../interfaces/iposition';
-import { StandartSearchService } from '../../../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-positions-index',
@@ -14,7 +14,7 @@ import { StandartSearchService } from '../../../../../../services/standart-searc
 export class PositionsIndexComponent extends Crud<IPosition> implements OnInit {
   url: string;
 
-  constructor(protected standardService: StandartSearchService, public router: Router, protected snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
+  constructor(protected methodsHttp: MethodsHttpService, public router: Router, protected snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
     super();
     this.url = `admin/companies/${this.getParams('company_id')}/departments/${this.getParams('department_id')}/positions`;
   }
