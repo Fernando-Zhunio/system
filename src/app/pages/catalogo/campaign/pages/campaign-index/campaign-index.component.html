@@ -41,7 +41,7 @@
           <button *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(campaign.key)" mat-icon-button color="warn">
             <mat-icon>delete</mat-icon>
           </button>
-          <button *ngxPermissionsOnly="permissions.index" [routerLink]="['./', campaign.key, 'promotions']" mat-raised-button color="accent">
+          <button class="rounded-fz" *ngxPermissionsOnly="permissions.index" [routerLink]="['./', campaign.key, 'promotions']" mat-stroked-button color="accent">
             <mat-icon>visibility</mat-icon>
             Promociones
           </button>

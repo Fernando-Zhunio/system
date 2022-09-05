@@ -87,7 +87,8 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     }
     const $event = params || this.pageEvent;
     this.pageEvent = $event;
-    this.gotoTop();
+    // this.gotoTop();
+    window.scrollTo(0, 0);
     this.subscription = this.methodsHttp
       .methodGet(this.url, {
         pageSize: $event.pageSize,
@@ -122,13 +123,13 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
     if (this.subscription) {this.subscription.unsubscribe();}
   }
 
-  gotoTop() {
-    const main = document.getElementsByClassName('app-body');
-    if (main && main?.length > 0) {
-      // main[0].scrollTo(0, 0);
-      main[0].scrollTop = 0;
-    }
-  }
+  // gotoTop() {
+  //   const main = document.getElementsByClassName('app-body');
+  //   if (main && main?.length > 0) {
+  //     // main[0].scrollTo(0, 0);
+  //     main[0].scrollTop = 0;
+  //   }
+  // }
 
   filterWithNotNull(): object {
     this.countFilter = null;

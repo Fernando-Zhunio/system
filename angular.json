@@ -26,9 +26,9 @@
                           "node_modules/@coreui/icons/css/coreui-icons.css",
                           "node_modules/simple-line-icons/dist/styles/simple-line-icons.css",
                           "src/scss/style.scss",
+                          "src/assets/css/bootstrap.css",
                           "./node_modules/filepond/dist/filepond.min.css",
                           "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-
                       ],
                       "stylePreprocessorOptions": {
                           "includePaths": [

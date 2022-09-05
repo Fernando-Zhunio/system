@@ -1,7 +1,7 @@
 // @import "variables";
-@import "~@coreui/coreui/scss/coreui";
+// @import "~@coreui/coreui/scss/coreui";
 @import "~air-datepicker/air-datepicker.css";
-
+ 
 // @import "custom";
 @import "theme";
 @import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
@@ -453,4 +453,28 @@ button {
 .mat-form-padding {
   padding-right: 15px;
   padding-left: 15px;
+}
+
+.font-2xl {
+  font-size: 1.2rem !important;
+}
+
+.font-3xl {
+  font-size: 1.5rem !important;
+}
+
+.font-4xl {
+  font-size: 2.2rem !important;
+}
+
+.font-5xl {
+  font-size: 2.4rem !important;
+}
+
+.font-xs {
+  font-size: small;
+}
+
+.bg-stack-overflow  {
+  background: #f48024 !important;
 }

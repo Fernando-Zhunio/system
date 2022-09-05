@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { INavData } from '@coreui/angular';
+import { INavData } from '../../../interfaces/inav-data';
 import { StorageService } from '../../../services/storage.service';
 import { User } from '../../interfaces/user';
 

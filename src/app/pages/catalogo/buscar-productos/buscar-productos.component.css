@@ -127,3 +127,10 @@
     width: 100%;
   }
 }
+
+
+.list {
+    list-style: disc;
+    padding-left: 25px;
+    color: gray;
+}

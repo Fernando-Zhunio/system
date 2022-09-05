@@ -19,13 +19,13 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 const APP_CONTAINERS = [DefaultLayoutComponent];
-import {
-  AppAsideModule,
-  AppBreadcrumbModule,
-  AppHeaderModule,
-  AppFooterModule,
-  AppSidebarModule,
-} from '@coreui/angular';
+// import {
+//   AppAsideModule,
+//   AppBreadcrumbModule,
+//   AppHeaderModule,
+//   AppFooterModule,
+//   AppSidebarModule,
+// } from '@coreui/angular';
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
@@ -128,11 +128,11 @@ registerLocaleData(localeEs, 'es');
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AppAsideModule,
-    AppBreadcrumbModule.forRoot(),
-    AppFooterModule,
-    AppHeaderModule,
-    AppSidebarModule,
+    // AppAsideModule,
+    // AppBreadcrumbModule.forRoot(),
+    // AppFooterModule,
+    // AppHeaderModule,
+    // AppSidebarModule,
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),

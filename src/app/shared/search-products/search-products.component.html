@@ -8,7 +8,7 @@
             <div class="item-product my-3 ">
               <div class="d-flex align-items-center">
                 <img class="img-product mr-2" [src]="product.image || 'assets/img/img_not_available.png'" alt="product image">
-                <h3 class="m-0"><span class="text-danger"># {{product.key}} </span> {{ product.value.name }}</h3>
+                <h3 class="m-0"><span class="text-danger"># {{product.value.code}} </span> {{ product.value.name }}</h3>
               </div>
               <button (click)="addProduct(product.key)" *ngIf="!productsSelected.has(product.key); else TemplateRemove" color="primary" mat-icon-button><mat-icon>add</mat-icon></button>
               <ng-template #TemplateRemove>

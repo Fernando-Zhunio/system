@@ -148,7 +148,7 @@
                   Ver descripción
                 </button>
               </div>
-              <div *ngIf="p.vtex_skus.length > 0 || p.ml_infos.length > 0 || p.last_prices.length > 0">
+              <div>
                 <div *ngIf="p?.last_prices?.length > 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="header">
                     <div class="font-3xl my-4">Precios</div>
@@ -160,9 +160,42 @@
                     </li>
                   </ul>
                 </div>
-                <div *ngIf="p.promotions.length > 0" class="card-body">
+                <div *ngIf="p.promotions?.length > 0" class="card-body">
                   <div class="font-3xl my-4">Promociones</div>
-                  <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion"></app-promociones>
+                  <mat-card *ngFor="let promotion of p.promotions" class="my-3">
+                    <mat-card-header>
+                      <mat-card-title>
+                        <div class="font-2xl">{{ promotion.title }}</div>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p *ngIf="promotion.description">{{promotion.description}}</p>
+                      <div>
+                        <small>Detalles</small>
+                        <ul class="list">
+                          <li>
+                            Precio: <b>{{ promotion.price_formated | currency }}</b>
+                          </li>
+                          <li>
+                            Creado: <b>{{ promotion.created_at | date: 'medium' }}</b>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="promotion.duration_type == 'date_range'">
+                        <hr>
+                        <small>Fecha de inicio y fin</small>
+                        <ul class="list">
+                          <li>
+                            Inicio: <b>{{ promotion.start_date | date: 'medium' }}</b>
+                          </li>
+                          <li>
+                            Fin: <b>{{ promotion.end_date | date: 'medium' }}</b>
+                          </li>
+                        </ul>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <!-- <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion"></app-promociones> -->
                 </div>
                 <div *ngIf="p.imports.length > 0" class="">
                   <div class="header">
@@ -175,7 +208,7 @@
                   </mat-chip-list>
                 </div>
               </div>
-              <ng-container *ngIf="p.vtex_skus.length > 0">
+              <ng-container *ngIf="p.vtex_skus?.length > 0">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="header">
                     <div class="font-3xl my-4">PÁGINA WEB</div>
