@@ -128,7 +128,7 @@ export class PricesIndexComponent
     switch (this.stateFilePrices?.status) {
       case EPriceState.Idle:
         this.store.dispatch(generatingPrice());
-        this.methodsHttp.methodGet(`${this.url}/export-file`).subscribe(() => {
+        this.methodsHttp.methodPost(`${this.url}/export-file`).subscribe(() => {
           SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
         }, () => {
           SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');

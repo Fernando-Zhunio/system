@@ -1,119 +1,229 @@
-<div class="mt-3 ">
+<div class="mt-3">
   <h3 class="font-3xl font-weight-bold">Productos</h3>
-  <div>
-    <div>
-      <div *ngxPermissionsOnly="permissionsProducts.create" [formGroup]="form" class="product-item d-md-flex d-block card-body">
-        <div *ngIf="!isCancelled" >
-          <div>Producto *: <span class="text-dark">{{form.get('product')?.value}}</span>
-            <button mat-mini-fab  (click)="isOpenSearchProducts = !isOpenSearchProducts">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-5" *ngxPermissionsOnly="permissionsProducts.create" [formGroup]="form">
+        <div *ngIf="!isCancelled">
+          <!-- <div>
+            Producto *:
+            <span class="text-dark">{{ form.get("product")?.value }}</span>
+            <button mat-mini-fab (click)="isOpenSearchProducts = !isOpenSearchProducts">
               <mat-icon>search</mat-icon>
-            </button>    
-          </div>
-          <div class="d-flex align-items-end">
-            <!-- <mat-form-field appearance="fill">
-              <input readonly matInput formControlName="product" placeholder="Producto">
-              <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
-                <mat-icon>search</mat-icon>
-              </button>
-            </mat-form-field> -->
-            <!-- <mat-form-field appearance="fill"> -->
+            </button>
+          </div> -->
+          <h4 class="font-2xl font-weight-bold text-primary">Formulario de productos</h4>
+          <div>
+            <div>
+              <small class="text-muted d-block">Producto:</small>
               <div>
-                <small class="text-muted d-block">Precio *:</small>
-                <input min="0" class="input-price input-product"  formControlName="price" type="number" placeholder="Precio"></div>
-              <!-- <span matPrefix>$&nbsp;</span>
-            </mat-form-field> -->
-            <!-- <mat-form-field appearance="fill"> -->
-              <div>
-                <small class="text-muted d-block">Cantidad *:</small>
-                <input min="1" class="input-quantity input-product" type="number" formControlName="quantity" placeholder="Cantidad">
+                <input
+                  readonly
+                  (click)="openSearchProducts()"
+                  class="input-product"
+                  [value]="form.get('product')?.value?.name"
+                  type="text"
+                  placeholder="Producto" />
               </div>
-            <!-- </mat-form-field> -->
-            <!-- <mat-form-field appearance="fill"> -->
+            </div>
+            <div>
+              <div class="row">
+                <div class="col-md-6">
+                  <small class="text-muted d-block">Precio *:</small>
+                  <input
+                    min="0"
+                    class="input-price input-product"
+                    formControlName="price"
+                    type="number"
+                    placeholder="Precio" />
+                </div>
+                <div class="col-md-6">
+                  <small class="text-muted d-block">Cantidad *:</small>
+                  <input
+                    min="1"
+                    class="input-quantity input-product"
+                    type="number"
+                    formControlName="quantity"
+                    placeholder="Cantidad" />
+                </div>
+              </div>
               <div>
                 <small class="text-muted d-block">Descripción:</small>
-                <input  class="input-product" formControlName="description" placeholder="Descripción">
+                <textarea class="input-product" formControlName="description" placeholder="Descripción"></textarea>
               </div>
-            <!-- </mat-form-field> -->
-            <div class="pt-md-2 col">
-              <button [disabled]="form.invalid || isLoading || isEditingItem" color="primary" mat-raised-button
-               (click)="createOrEditItemOrder()">Agregar producto</button>
+              <div class="pt-md-2 col">
+                <button
+                  [disabled]="form.invalid || isLoading || isEditingItem"
+                  color="primary"
+                  mat-raised-button
+                  (click)="createOrEditItemOrder()">
+                  Agregar producto
+                </button>
+              </div>
             </div>
-            
           </div>
         </div>
       </div>
-      <ng-container *ngxPermissionsOnly="permissionsProducts.edit">
-        <div  *ngIf="isEditingItem && !isCancelled" class="editing-item product-item  d-md-flex d-block card-body">
-          <div>
-            <h4 class="parpadeo font-weight-bold">Editando</h4>
-            <div [formGroup]="formEdit" class="row">
-              <mat-form-field appearance="fill" class="col-md-5">
-                <input matInput readonly formControlName="product" placeholder="Producto">
-                <button class="bg-gray-200" mat-icon-button matSuffix (click)="isOpenSearchProducts = !isOpenSearchProducts">
-                  <mat-icon>search</mat-icon>
-                </button>
-              </mat-form-field>
-              <mat-form-field appearance="fill" class="col-md-2">
-                <input matInput formControlName="price" type="number" placeholder="Precio">
-                <span matPrefix>$&nbsp;</span>
-              </mat-form-field>
-              <mat-form-field appearance="fill" class="col-md-2">
-                <input matInput formControlName="quantity" type="number" placeholder="Cantidad">
-              </mat-form-field>
-              <mat-form-field appearance="fill" class="col-md-2">
-                <textarea matInput type="number" formControlName="description" placeholder="Descripción"></textarea>
-              </mat-form-field>
-              <div>
-                <button [disabled]="form.invalid || isLoading" color="primary" mat-raised-button
-                  (click)="createOrEditItemOrder()">Actualizar</button>
-                  <button [disabled]="isLoading" color="warn" mat-raised-button
-                  (click)="disabledEditingItemOrder()">Cancelar</button>
-              </div>
-            </div>
+      <div class="col-md-7">
+        <h4 class="font-2xl font-weight-bold text-primary">
+          Lista de productos
+          <span class="badge badge-warning">{{ items?.size }}</span>
+        </h4>
+        <div>
+          <div class="table-container-products">
+            <table class="table table-responsive d-md-table table-borderless table-striped">
+              <thead class="text-muted table-header-products main-style">
+                <tr>
+                  <th>Imagen</th>
+                  <th>Producto</th>
+                  <th>Descripción</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of items | keyvalue">
+                  <td class="py-0">
+                    <span>
+                      <img
+                        class="img-product-item mt-2"
+                        mat-list-avatar
+                        [src]="item.value.product?.image || 'assets/img/img_default_null.jpg'"
+                        alt="imagen producto" />
+                    </span>
+                  </td>
+                  <td>
+                    <div>
+                      <span class="text-success">{{ item.value.product?.code }}</span>
+                      {{ item.value.product?.name }}
+                    </div>
+                  </td>
+                  <td>{{ item.value?.description }}</td>
+                  <td class="text-muted">${{ item.value.price }}</td>
+                  <td class="text-muted">{{ item.value.quantity }}</td>
+                  <td class="d-flex">
+                    <button
+                      *ngxPermissionsOnly="permissionsProducts.edit"
+                      [disabled]="isCancelled"
+                      mat-icon-button
+                      color="primary"
+                      (click)="enabledEditingItemOrder(item.key)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                      *ngxPermissionsOnly="permissionsProducts.destroy"
+                      [disabled]="isCancelled"
+                      mat-icon-button
+                      color="warn"
+                      (click)="deleteItemOrder(order.id, item.key)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </ng-container>
-      <hr>
-      <h4 class="font-2xl font-weight-bold">Lista de productos</h4>
-      <div>
-        <div data>
-          <table class="table table-responsive d-md-table table-borderless table-striped">
-            <thead class="text-primary">
-              <tr>
-                <th>Imagen</th>
-                <th>Producto</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Acciones</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of items | keyvalue">
-                <td class="py-0">
-                  <img class="img-product-item" mat-list-avatar [src]="item.value.product?.image || 'assets/img/img_default_null.jpg'"
-                    alt="imagen producto">
-                </td>
-                <td>
-                  <div>{{item.value.product?.name}}</div>
-                  <span class="text-muted">{{item.value.product?.code}}</span> 
-                </td>
-                <td>{{item.value?.description}}</td>
-                <td class="text-muted">${{item.value.price}}</td>
-                <td class="text-muted">{{item.value.quantity}}</td>
-                <td>
-                    <button *ngxPermissionsOnly="permissionsProducts.edit" [disabled]="isCancelled" mat-icon-button color="primary" (click)="enabledEditingItemOrder(item.key)"><mat-icon>edit</mat-icon></button>
-                    <button *ngxPermissionsOnly="permissionsProducts.destroy" [disabled]="isCancelled" mat-icon-button color="warn"  (click)="deleteItemOrder(order.id, item.key)"><mat-icon>delete</mat-icon></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<div *ngIf="!isCancelled" [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-6 col-9">
+  <ng-container *ngxPermissionsOnly="permissionsProducts.edit">
+    <div *ngIf="isEditingItem && !isCancelled" class="editing-item">
+      <!-- <div>
+        <h4 class="parpadeo font-weight-bold">Editando</h4>
+        <div [formGroup]="formEdit" class="row">
+          <mat-form-field appearance="fill" class="col-md-5">
+            <input matInput readonly formControlName="product" placeholder="Producto" />
+            <button
+              class="bg-gray-200"
+              mat-icon-button
+              matSuffix
+              (click)="isOpenSearchProducts = !isOpenSearchProducts">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-2">
+            <input matInput formControlName="price" type="number" placeholder="Precio" />
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-2">
+            <input matInput formControlName="quantity" type="number" placeholder="Cantidad" />
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="col-md-2">
+            <textarea matInput type="number" formControlName="description" placeholder="Descripción"></textarea>
+          </mat-form-field>
+          <div>
+            <button
+              [disabled]="form.invalid || isLoading"
+              color="primary"
+              mat-raised-button
+              (click)="createOrEditItemOrder()">
+              Actualizar
+            </button>
+            <button [disabled]="isLoading" color="warn" mat-raised-button (click)="disabledEditingItemOrder()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div> -->
+      <div class="p-3 rounded-fz shadow main-style" [formGroup]="formEdit">
+        <button class="btn-close" [disabled]="isLoading" color="warn" mat-icon-button (click)="disabledEditingItemOrder()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <h4 class="font-2xl font-weight-bold text-primary">Formulario de edición productos</h4>
+        <div>
+          <div>
+            <small class="text-muted d-block">Producto:</small>
+            <div>
+              <input
+                readonly
+                (click)="openSearchProducts()"
+                class="input-product"
+                [value]="formEdit.get('product')?.value?.name"
+                type="text"
+                placeholder="Producto" />
+            </div>
+          </div>
+          <div>
+            <div class="row">
+              <div class="col-md-6">
+                <small class="text-muted d-block">Precio *:</small>
+                <input
+                  min="0"
+                  class="input-price input-product"
+                  formControlName="price"
+                  type="number"
+                  placeholder="Precio" />
+              </div>
+              <div class="col-md-6">
+                <small class="text-muted d-block">Cantidad *:</small>
+                <input
+                  min="1"
+                  class="input-quantity input-product"
+                  type="number"
+                  formControlName="quantity"
+                  placeholder="Cantidad" />
+              </div>
+            </div>
+            <div>
+              <small class="text-muted d-block">Descripción:</small>
+              <textarea class="input-product" formControlName="description" placeholder="Descripción"></textarea>
+            </div>
+            <div class="pt-md-2 col">
+              <button
+                [disabled]="formEdit.invalid || isLoading || !isEditingItem"
+                color="primary"
+                mat-raised-button
+                (click)="createOrEditItemOrder()">
+                Editar producto
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <!-- <div *ngIf="!isCancelled" [ngClass]="{'close-search-product': !isOpenSearchProducts}" class="search-product col-md-6 col-9">
   <div class="position-fixed"><button (click)="isOpenSearchProducts = !isOpenSearchProducts" mat-mini-fab class="close-search-product-btn bg-gray-300"><mat-icon>close</mat-icon></button></div>
   <div>
     <div>
@@ -128,5 +238,15 @@
         </mat-selection-list>
       </app-search>
     </div>
+  </div>
+</div> -->
+
+  <div [hidden]="!isOpenSearchProducts">
+    <app-search-products
+      [onlyOne]="true"
+      (add)="addProduct($event)"
+      (isClose)="isOpenSearchProducts = false"
+      [(productsSelected)]="productsSelected"
+      [urlSearch]="urlProducts"></app-search-products>
   </div>
 </div>

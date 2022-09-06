@@ -66,7 +66,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
       if (params.hasOwnProperty('pageSize')) {this.pageEvent.pageSize = params.pageSize; }
       if (params.hasOwnProperty('page')) { this.pageEvent.pageIndex = parseInt(params.page, 10) - 1; }
     } catch (error) {
-      console.log(error);
       // return null;
     }
     return this.pageEvent;
@@ -141,7 +140,6 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
           return;
         }
         filter_data[key] = this.filter_data[key];
-        console.log(key);
         if (this.countFilter) {
           this.countFilter++;
         }

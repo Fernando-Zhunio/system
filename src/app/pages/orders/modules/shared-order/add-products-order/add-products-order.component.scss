@@ -10,7 +10,7 @@
   display: flex;
   height: 100vh;
   top: 0;
-  z-index: 1025;
+  z-index: 1020;
   background: #ffffff8a;
   width: 100%;
   left: 0;
@@ -23,6 +23,8 @@
   width: 50px;
   height: 50px;
   object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
 .close-search-product-btn {
@@ -78,4 +80,18 @@
   border: none;
   outline: none;
   margin-right: 10px;
+  width: 100%;
+}
+
+.table-container-products {
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.table-header-products {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }

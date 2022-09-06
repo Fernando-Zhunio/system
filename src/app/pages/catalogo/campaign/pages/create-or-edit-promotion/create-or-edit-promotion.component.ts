@@ -20,7 +20,6 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   airDate1: AirDatepicker | null = null;
   airDate2: AirDatepicker | null = null;
   @ViewChild('inputQuantity') inputQuantity: ElementRef;
-  // @ViewChild('dateMax', { static: false }) dpMaxDateElement: ElementRef;
   dpMax: any;
   dpMin: any;
   urlSearch: string;
@@ -64,10 +63,12 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
     this.location.back();
   }
 
-  addProduct(key: number): void {
-    this.currentKey = key;
-    this.hiddenAddQuantity = false;
-    this.inputQuantity.nativeElement.focus();
+  addProduct(product): void {
+    if (product) {
+      this.currentKey = product.id;
+      this.hiddenAddQuantity = false;
+      this.inputQuantity.nativeElement.focus();
+    }
   }
 
   onlyQuantity: boolean = false;

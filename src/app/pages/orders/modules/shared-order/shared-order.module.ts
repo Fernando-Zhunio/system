@@ -44,11 +44,13 @@ import { PdfDetailOrderComponent } from './pdf-detail-order/pdf-detail-order.com
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { SearchWarehousesComponent } from './components/search-warehouses/search-warehouses.component';
 import { ViewerGalleryModule } from '../../../../Modulos/viewer-gallery/viewer-gallery.module';
+import { SearchProductsModule } from '../../../../shared/search-products/search-products.module';
 
 @NgModule({
     imports: [
         CommonModule,
         MatFormFieldModule,
+        SearchProductsModule,
         MatButtonModule,
         MatInputModule,
         ReactiveFormsModule,

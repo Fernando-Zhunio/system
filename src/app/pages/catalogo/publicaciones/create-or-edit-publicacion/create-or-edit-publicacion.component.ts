@@ -12,11 +12,11 @@ import {
   NgxFileDropEntry,
 } from 'ngx-file-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { Iaccount } from '../../../../interfaces/iml-info';
 import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
-import { Ipublication } from '../../../../interfaces/ipublication';
+import { Publication } from '../../../../interfaces/ipublication';
 import { ICategoriesParent } from '../../../../Modulos/tools/list-tree-dynamic/list-tree-dynamic.component';
 import { CatalogoService } from '../../../../services/catalogo.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
@@ -30,7 +30,7 @@ import { SwalService } from '../../../../services/swal.service';
 export class CreateOrEditPublicacionComponent implements OnInit {
   @ViewChild('formMain', { static: false }) formMain: ElementRef;
   empresas = new FormControl();
-  publication: Ipublication;
+  publication: Publication;
   listing_types = [];
   ml_accounts: Iaccount[] = [];
   arrayImagen = [];
@@ -72,13 +72,12 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   options: any;
   isLoadPosition: boolean = false;
   isLoadPublication: boolean = false;
-  // isSelectCategory: boolean;
   isEditNamePublication: boolean = true;
   suscription_predictor: Subscription;
   suscription_attribute: Subscription;
   categories: any[] = [];
   isOpenCategoriesTree: boolean = false;
-
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.s_catalogo.create_publications().subscribe((res) => {
@@ -110,13 +109,13 @@ export class CreateOrEditPublicacionComponent implements OnInit {
                 const sorted = collection.sortBy('position');
                 response.data.publication.images = sorted.all();
               }
-              this.publication = response.data.publication as Ipublication;
+              this.publication = response.data.publication as Publication;
               this.setDataFormPublication();
               this.spinner_ngx.hide();
             }
           });
       } else {
-        this.title = 'Creando Publicacion';
+        this.title = 'Creando Publicación';
         this.id = null;
       }
     });
@@ -229,31 +228,35 @@ export class CreateOrEditPublicacionComponent implements OnInit {
     }
   }
 
-  createPulicationName(): void {
+  createPublicationName(): void {
     if (this.formName.valid) {
-      if (this.state == 'create') {
-        this.s_standart
-          .store('catalogs/publications', this.formName.value)
-          .subscribe((res) => {
-            if (res.success) {
-              this.isEditNamePublication = false;
-              this.publication = res.data;
-            }
-          });
+      this.isLoading = true;
+      let observable: Observable<any>
+      const isCreate = this.state == 'create';
+      if (isCreate) {
+        observable = this.s_standart
+          .methodPost('catalogs/publications', this.formName.value)
       } else {
-        this.s_standart
-          .updatePut(
+        observable = this.s_standart
+          .methodPut(
             'catalogs/publications/' + this.publication.id,
             this.formName.value
           )
-          .subscribe((res) => {
-            if (res.success) {
-              this.isEditNamePublication = false;
-              this.publication = res.data;
+      }
+      observable.subscribe({
+        next: (res) => {
+          if (res?.success) {
+            this.isEditNamePublication = false;
+            this.publication = res.data;
+            if (!isCreate) {
               this.setDataFormPublication();
             }
-          });
-      }
+            this.isLoading = false;
+          }
+        }, error: () => {
+          this.isLoading = false;
+        }
+      })
     }
   }
 
@@ -315,7 +318,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
   }
 
   publicationNow() {
-    if (this.publication?.images?.length  && this.publication?.images?.length < 1) {
+    if (this.publication?.images?.length && this.publication?.images?.length < 1) {
       SwalService.swalToast('Se necesita por lo menos una imagen', 'warning');
       return;
     }
@@ -337,7 +340,7 @@ export class CreateOrEditPublicacionComponent implements OnInit {
       this.s_standart
         .store('catalogs/publications/' + this.publication.id, data_request)
         .subscribe(
-          (res: { success: boolean; data: Ipublication }) => {
+          (res: { success: boolean; data: Publication }) => {
             if (res.success) {
               this.spinner_ngx.hide();
               this.router.navigate([

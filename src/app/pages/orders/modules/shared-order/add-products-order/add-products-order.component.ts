@@ -17,9 +17,10 @@ export class AddProductsOrderComponent implements OnInit {
 
   constructor(private standard: StandartSearchService) { }
   @Input() order: IOrder;
-  @Input() items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
+  @Input() items
   @Input() isCancelled: boolean;
   @Output() changeOrder = new EventEmitter<string>();
+  productsSelected : Map<number, IItemOrder> = new Map<number, IItemOrder>();
   itemEditing: IItemOrder;
   isOpenSearchProducts = false;
   isEditingItem = false;
@@ -28,14 +29,14 @@ export class AddProductsOrderComponent implements OnInit {
   urlProducts: string = 'system-orders/products';
   form: FormGroup = new FormGroup({
     product: new FormControl(null, [Validators.required]),
-    product_id: new FormControl(null, [Validators.required]),
+    // product_id: new FormControl(null, [Validators.required]),
     quantity: new FormControl(1, [Validators.required]),
     description: new FormControl(null),
     price: new FormControl(null, [Validators.required]),
   });
   formEdit: FormGroup = new FormGroup({
     product: new FormControl({ value: null, disabled: true }, [Validators.required]),
-    product_id: new FormControl(null, [Validators.required]),
+    // product_id: new FormControl(null, [Validators.required]),
     description: new FormControl(null),
     quantity: new FormControl(null, [Validators.required]),
     price: new FormControl(null, [Validators.required]),
@@ -50,10 +51,32 @@ export class AddProductsOrderComponent implements OnInit {
   createOrEditItemOrder(): void {
     const form = this.isEditingItem ? this.formEdit : this.form;
     if (form.valid) {
-      this.createOrEdit({ order_id: this.order.id, form: form.value, isEdit: this.isEditingItem });
+      this.createOrEdit({ order_id: this.order.id, form: {...form.value, product_id: form.value.product.id}, isEdit: this.isEditingItem });
     } else {
       SwalService.swalFire({ title: 'Error', text: 'Faltan datos', icon: 'error' });
     }
+  }
+
+  openSearchProducts(): void {
+    this.isOpenSearchProducts = true;
+    // const currentProduct = this.form.get('product')?.value;
+    // if (currentProduct) {
+    //   this.productsSelected.delete(currentProduct.id);
+    // }
+  }
+
+  addProduct(product: any | null) : void {
+    // const product = this.productsSelected.get(id);
+    // this.form.get('product_id')?.setValue(product?.id);
+    if (product) {
+      if (this.isEditingItem) {
+        this.formEdit.get('product')?.setValue(product);
+      } else {
+        this.form.get('product')?.setValue(product);
+      }
+      this.isOpenSearchProducts = false;
+    }
+
   }
 
   createOrEdit({ order_id, form, isEdit }): void {
@@ -93,11 +116,10 @@ export class AddProductsOrderComponent implements OnInit {
     this.form.disable();
     this.formEdit.enable();
     this.formEdit.patchValue({
-      product_id: this.itemEditing.product_id,
       quantity: this.itemEditing.quantity,
       price: this.itemEditing.price,
       description: this.itemEditing.description,
-      product: this.itemEditing.product.code + '-' + this.itemEditing.product.name,
+      product: this.itemEditing?.product,
     });
   }
 

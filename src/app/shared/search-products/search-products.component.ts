@@ -8,6 +8,7 @@ import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateR
 export class SearchProductsComponent implements OnInit {
 
   @Input() urlSearch: string;
+  @Input() onlyOne: boolean = false;
   constructor() { }
   products:  Map<number, any> = new Map<number, any>();
   @Input() productsSelected: Map<number, any> = new Map<number, any>();
@@ -20,12 +21,15 @@ export class SearchProductsComponent implements OnInit {
 
   getData(data) {
     this.products = new Map(data.data.map((item: any) => [item.id, item]));
-    console.log(this.products);
+    // console.log(this.products);
   }
 
   addProduct(key) {
+    if (this.onlyOne) {
+      this.productsSelected.clear();
+    }
     this.productsSelected.set(key, this.products.get(key));
-    this.add.emit(key);
+    this.add.emit(this.products.get(key));
   }
 
   removeProduct(key) {
@@ -35,7 +39,6 @@ export class SearchProductsComponent implements OnInit {
 
   close() {
     this.isClose.emit(true);
-    
   }
 
 }

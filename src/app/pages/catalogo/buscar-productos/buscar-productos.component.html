@@ -96,12 +96,12 @@
                     <i class="far fa-copy"></i>
                   </small>
                 </mat-chip>
-                <mat-chip>
+                <!-- <mat-chip>
                   <small>
                     <strong>Código Alt:</strong>
                     {{ p.code_alt }}
                   </small>
-                </mat-chip>
+                </mat-chip> -->
                 <mat-chip>
                   <small>
                     <strong>Marca:</strong>
@@ -114,12 +114,12 @@
                     {{ p?.category?.name }}
                   </small>
                 </mat-chip>
-                <mat-chip>
+                <!-- <mat-chip>
                   <small>
                     <strong>Secuencia:</strong>
                     {{ p?.sequence?.sequence_number }}
                   </small>
-                </mat-chip>
+                </mat-chip> -->
                 <mat-chip selected [color]="p.available > 0 ? 'accent' : 'warn'">
                   <small>
                     <strong>Stock para ventas:</strong>
@@ -174,7 +174,7 @@
                         <small>Detalles</small>
                         <ul class="list">
                           <li>
-                            Precio: <b>{{ promotion.price_formated | currency }}</b>
+                            Precio: <b class="text-primary">{{ promotion.price_formated | currency }}</b>
                           </li>
                           <li>
                             Creado: <b>{{ promotion.created_at | date: 'medium' }}</b>
@@ -222,18 +222,16 @@
                   </swiper>
                 </div>
               </ng-container>
-              <div class="overflow-hidden" *ngIf="p.ml_infos.length > 0">
+              <!-- <div class="overflow-hidden" *ngIf="p.ml_infos.length > 0">
                 <div class="font-3xl my-4">Mercado Libre</div>
                 <div class="container mb-3">
                   <swiper [config]="config" [useSwiperClass]="false">
                     <mat-card style="background: inherit" *ngFor="let ml of p.ml_infos">
-                      <!-- <mat-card> -->
                       <app-ml [ml]="ml"></app-ml>
-                      <!-- </mat-card> -->
                     </mat-card>
                   </swiper>
                 </div>
-              </div>
+              </div> -->
             </div>
           </mat-card-content>
         </mat-card>

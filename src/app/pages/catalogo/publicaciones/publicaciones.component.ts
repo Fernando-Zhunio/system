@@ -10,7 +10,7 @@ import { HeaderSearchComponent } from '../../../components/header-search/header-
 import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
 import { Ipagination } from '../../../interfaces/ipagination';
 import { IpermissionStandart } from '../../../interfaces/ipermission-standart';
-import { Ipublication } from '../../../interfaces/ipublication';
+import { Publication } from '../../../interfaces/ipublication';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../services/mercado-libre.service';
 import { StorageService } from '../../../services/storage.service';
@@ -52,7 +52,7 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     state_binding: string;
     //#endregion
 
-    paginator: Ipagination<Ipublication>;
+    paginator: Ipagination<Publication>;
     states: {name: string, slug: string}[] = [{name: 'Publicado', slug: 'published'}, {name: 'Despublicado', slug: 'unpublished'}, {name: 'Incompleto', slug: 'incomplete'}, {name: 'En cola', slug: 'queue'}, {name: 'Procesando', slug: 'processing'}, {name: 'Actualizando', slug: 'updating'}, {name: 'Parciales procesados', slug: 'partially_processed'}, {name: 'Eliminados', slug: 'deleting_unselected_item'}, {name: 'Con errores', slug: 'error'}, ]
 
     //#region  filter

@@ -4,9 +4,7 @@
       <a [href]="ml.link" target="_blank">
         <img class="w-100 rounded-fz img-product position-relative" [src]="ml.image" alt="">
       </a>
-      <!-- <span class=""> -->
       <img src="/assets/logos/mercado-libre.svg" class="logo-mercado-libre" alt="ml">
-      <!-- </span><br> -->
       <div style="top: 10px;left: 10px;" class="position-absolute text-left">
         <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
           <span class="mb-1 badge text-white {{ml.listing_type_id}}">
@@ -17,8 +15,8 @@
         <ng-container *ngIf="ml.account">
           <span *ngFor="let company of ml.account?.companies_access" class="mb-1 badge  bg-pink text-white">
             {{company.name}}</span><br>
-          <span class="mb-1 badge  bg-green text-white">{{ml.account.city.name}}</span><br>
-          <span class="mb-1 badge  bg-green text-white">{{ml.account.user_name}}</span>
+          <span class="mb-1 badge  bg-success text-white">{{ml.account.city.name}}</span><br>
+          <span class="mb-1 badge  bg-success text-white">{{ml.account.user_name}}</span>
         </ng-container>
       </div>
     </div>

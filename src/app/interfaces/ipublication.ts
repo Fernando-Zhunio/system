@@ -1,14 +1,14 @@
 import { Iaccount, CompanyAccess, ImlInfo } from "./iml-info";
 
 
-export interface Ipublication {
+export interface Publication {
   aditional_data: { attributes: any[] };
   buying_mode: string;
   category: string;
   companies_access: CompanyAccess[];
   created_at: string;
   description: string;
-  errors: [];
+  errors: ErrorPublication[];
   id: number;
   listing_type: string;
   ml_accounts: Iaccount[];
@@ -41,4 +41,15 @@ export interface Iimages {
   updated_at: string;
   url: string;
   permalink: string;
+}
+
+interface ErrorPublication {
+  id: number;
+  code: string;
+  message: string;
+  references: string;
+  publication_id: number;
+  ml_account_id: number;
+  created_at: string;
+  updated_at: string;
 }

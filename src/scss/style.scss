@@ -287,7 +287,7 @@ button {
 }
 
 .mat-dialog-container {
-  border-radius: 20px !important;
+  border-radius: 10px !important;
 }
 
 // cambia el color del sidebar de los item title
@@ -475,6 +475,14 @@ button {
   font-size: small;
 }
 
+.font-sm {
+  font-size: smaller;
+}
+
 .bg-stack-overflow  {
   background: #f48024 !important;
+}
+
+.mat-select-trigger {
+  height: auto;
 }

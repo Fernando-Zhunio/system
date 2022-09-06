@@ -1,18 +1,18 @@
 <div>
     <div *ngIf="isEditNamePublication;else templatePublication" class="mb-3">
-        <h2 class="font-weight-bold font-3xl">Publicaciones</h2>
-        <form [formGroup]="formName" (ngSubmit)="createPulicationName()">
+        <h2 class="font-weight-bold font-4xl mt-3">Publicaciones</h2>
+        <form [formGroup]="formName" (ngSubmit)="createPublicationName()">
             <mat-form-field appearance="fill" class="d-block">
-                <mat-label>Ingrese el nombre de la publicacion</mat-label>
+                <mat-label>Ingrese el nombre de la publicación</mat-label>
                 <input type="text" matInput formControlName="name" required>
                 <mat-error *ngIf="formName.invalid">Nombre Requerido</mat-error>
             </mat-form-field>
-            <button mat-raised-button type="submit" [disabled]="formName.invalid" color="accent">Guardar</button>
+            <button mat-raised-button [disabled]="isLoading" type="submit" [disabled]="formName.invalid" color="accent">Guardar</button>
         </form>
     </div>
     <ng-template #templatePublication>
         <div>
-            <h3 class="font-4xl font-weight-bold mt-3">Publicacion # {{publication?.id}}</h3>
+            <h3 class="font-4xl font-weight-bold mt-3">Publicación # {{publication?.id}}</h3>
             <h2 *ngIf="publication" class="font-2xl">
                 {{publication.name}}
                 <button (click)="editName()" mat-mini-fab color="primary">
@@ -28,7 +28,7 @@
                             <mat-form-field class="w-100">
                                 <mat-label>Selecciones Empresas</mat-label>
                                 <mat-select formControlName="mlaccounts" multiple>
-                                    <mat-select-trigger *ngIf="formPublication.get('mlaccounts')?.value?.length > 0">
+                                    <mat-select-trigger class="h-auto" *ngIf="formPublication.get('mlaccounts')?.value?.length > 0">
                                         <mat-chip-list>
                                             <mat-chip (removed)="removeItemMlAccount(ml_account)" *ngFor="let ml_account of formPublication.get('mlaccounts')?.value" [removable]="true">
                                                 {{getNameMlAccount(ml_account)}}

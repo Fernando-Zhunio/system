@@ -4,7 +4,7 @@ import Echo from 'laravel-echo';
 import { EchoManager } from '../../../../class/echo-manager';
 import { Iresponse } from '../../../../interfaces/Imports/invoice-item';
 import { IpermissionStandart } from '../../../../interfaces/ipermission-standart';
-import { Ipublication } from '../../../../interfaces/ipublication';
+import { Publication } from '../../../../interfaces/ipublication';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { StorageService } from '../../../../services/storage.service';
 
@@ -17,11 +17,10 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
   constructor(
     private active_router: ActivatedRoute,
     private s_standart: StandartSearchService,
-    // private s_shared: SharedService,
     private s_storage: StorageService
   ) {}
 
-  publication: Ipublication | null = null;
+  publication: Publication | null = null;
   isLoadPublication: boolean = false;
   permission_page: IpermissionStandart;
   echo: Echo;

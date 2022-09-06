@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Ipublication } from '../../interfaces/ipublication';
+import { Publication } from '../../interfaces/ipublication';
 import { MercadoLibreService } from '../../services/mercado-libre.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { InfoViewComponent } from '../modals/info-view/info-view.component';
@@ -28,7 +28,7 @@ export class PublicationComponent implements OnInit {
   // permission_edit = ["super-admin", "catalogs.publications.edit"];
   // permission_destroy = ["super-admin", "catalogs.publications.destroy"];
   @Input() permission_page: IpermissionStandart;
-  @Input() publication: Ipublication;
+  @Input() publication: Publication;
   @Output() delete: EventEmitter<any> = new EventEmitter();
   public config: SwiperOptions = {
     direction: 'horizontal',
@@ -127,5 +127,10 @@ export class PublicationComponent implements OnInit {
         }
       });
     }
+  }
+
+  deleteError(id: number): void {
+    const indexError = this.publication.errors.findIndex((error) => error.id === id);
+    if (indexError != -1) this.publication.errors.splice(indexError, 1);
   }
 }
