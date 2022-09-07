@@ -96,12 +96,6 @@
                     <i class="far fa-copy"></i>
                   </small>
                 </mat-chip>
-                <!-- <mat-chip>
-                  <small>
-                    <strong>Código Alt:</strong>
-                    {{ p.code_alt }}
-                  </small>
-                </mat-chip> -->
                 <mat-chip>
                   <small>
                     <strong>Marca:</strong>
@@ -114,12 +108,6 @@
                     {{ p?.category?.name }}
                   </small>
                 </mat-chip>
-                <!-- <mat-chip>
-                  <small>
-                    <strong>Secuencia:</strong>
-                    {{ p?.sequence?.sequence_number }}
-                  </small>
-                </mat-chip> -->
                 <mat-chip selected [color]="p.available > 0 ? 'accent' : 'warn'">
                   <small>
                     <strong>Stock para ventas:</strong>
@@ -192,6 +180,30 @@
                             Fin: <b>{{ promotion.end_date | date: 'medium' }}</b>
                           </li>
                         </ul>
+                      </div>
+                      <div>
+                        <hr>
+                        <small>Productos</small>
+                        <div>
+                          <table class="table table-sm">
+                            <thead class="text-black-50 ">
+                              <tr>
+                                <th>Imagen</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let product of promotion?.products">
+                                <td>
+                                  <img class="shadow rounded-lg" [src]="product.image || 'assets/img/img_default_null.jpg'" alt="" width="50" height="50" />
+                                </td>
+                                <td> <span class="text-danger">{{ product.code }}</span>  {{ product.name }}</td>
+                                <td>{{ product.pivot.quantity }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </mat-card-content>
                   </mat-card>

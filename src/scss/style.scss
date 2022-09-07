@@ -35,6 +35,10 @@ app-root {
   }
 }
 
+html {
+  top: 0 !important;
+}
+
 .title-line {
   border-bottom: 2px solid rgb(0 0 0 / 87%);
 }
