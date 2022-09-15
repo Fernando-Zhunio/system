@@ -7,4 +7,5 @@ export interface Promotion extends Campaign {
   },
   price_formatted: string;
   products: IProduct[];
+  note: string
 }

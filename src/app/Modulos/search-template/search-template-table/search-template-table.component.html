@@ -10,7 +10,9 @@
   <ng-content select="[menuBar]"></ng-content>
   <ng-content filterMenu select="[filterMenu]"></ng-content>
 </app-header-search>
-
+<div>
+  <ng-content select="[subheader]"></ng-content>
+</div>
 <div class="container-table">
   <div *ngIf="__isLoading" class="is-loading center w-100 h-100">
     <div class="center">

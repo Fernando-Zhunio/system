@@ -1,0 +1,26 @@
+<mat-list dense>
+  <mat-list-item *ngIf="isLoading; else TemplateIsLoading">
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+  </mat-list-item>
+  <ng-template #TemplateIsLoading>
+    <ng-container *ngIf="promotion?.note">
+      <mat-list-item>
+        <h2 class="font-weight-bold m-0">Descripción</h2>
+      </mat-list-item>
+      <mat-list-item class="h-auto">
+        <div style="max-width: 350px">{{promotion?.note}}</div>
+      </mat-list-item>
+    </ng-container>
+    <mat-list-item>
+      <h2 class="font-weight-bold m-0 mt-2">Productos</h2>
+    </mat-list-item>
+    <mat-list-item *ngFor="let product of promotion.products">
+      <img matListAvatar [src]="product.image || 'assets/img/img_default_null.jpg'" />
+      <div mat-line>{{ product.name }}</div>
+      <div mat-line>
+        Cantidad:
+        <span class="text-primary">{{ product.pivot.quantity }}</span>
+      </div>
+    </mat-list-item>
+  </ng-template>
+</mat-list>

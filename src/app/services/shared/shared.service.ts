@@ -7,6 +7,8 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Iswal, SwalService } from '../swal.service';
+import { FilePondOptions } from 'filepond';
+import { StorageService } from '../storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,14 +31,12 @@ export class SharedService {
   }
 
   public static navItems = null;
-
-  constructor(private Http: HttpClient) { }
-
   public static disabled_loader: boolean = false;
-
   public static dates_of_dashboard: { start_date: Date, end_date: Date } | null = null;
-
   public urlServer = environment.server;
+
+  constructor(private Http: HttpClient, private storage: StorageService) {
+  }
 
   private notifications = new BehaviorSubject<INotification[]>([]);
   public currentNotifications = this.notifications.asObservable();
@@ -188,7 +188,68 @@ export class SharedService {
     }
   }
 
+  filePondOptions(customFilePondOptions: CustomFilePondOptions) {
+    const pondOptions: FilePondOptions = new PondOptions(customFilePondOptions, this.storage.getCurrentToken() as string);
+    return pondOptions;
+  }
+}
 
+interface CustomFilePondOptions {
+  labelIdle?,
+  name?,
+  allowMultiple?,
+  maxParallelUploads?,
+  url,
+  callback?
+}
 
+export class PondOptions implements FilePondOptions {
+  allowMultiple: boolean;
+  labelIdle: string = 'Arrastre o presione aquí';
+  name: string;
+  maxParallelUploads: number;
+  server: any;
+  url: string;
+  constructor(options: CustomFilePondOptions = {
+    labelIdle: 'Arrastre o presione aquí',
+    name: 'file',
+    allowMultiple: true,
+    maxParallelUploads: 5,
+    url: '',
+    callback: null
+  }, token: string) {
+    this.allowMultiple = options.allowMultiple;
+    this.labelIdle = options.labelIdle;
+    this.name = options.name;
+    this.maxParallelUploads = options.maxParallelUploads;
+    this.server = {
+      url: `${environment.server}`,
+      process: {
+        url: options.url,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+        onload: (response: any) => {
+          if (options.callback) {
+            options.callback(response);
+            return;
+          }
+          const data = JSON.parse(response);
+          SwalService.swalFire({ title: 'Procesando excel en el servidor', text: 'El excel se esta procesando en el servidor, en unos momento recibirá una notificación describiendo el estado del proceso', icon: 'success' });
+          return data.id;
+        }
+      },
+    }
+  }
 
+  getFilePondOptions() {
+    return {
+      allowMultiple: this.allowMultiple,
+      labelIdle: 'Arrastre o presione aquí',
+      name: this.name,
+      maxParallelUploads: this.maxParallelUploads,
+      server: this.server
+    }
+  }
 }

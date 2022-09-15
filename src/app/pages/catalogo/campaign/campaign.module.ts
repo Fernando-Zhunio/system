@@ -17,6 +17,13 @@ import { PromotionIndexComponent } from './pages/promotion-index/promotion-index
 import { CreateOrEditPromotionComponent } from './pages/create-or-edit-promotion/create-or-edit-promotion.component';
 import { SearchProductsModule } from '../../../shared/search-products/search-products.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { MatTableModule } from '@angular/material/table';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { DetailsPromotionComponent } from './components/details-promotion/details-promotion.component';
+import { MatListModule } from '@angular/material/list';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { FilePondModule } from 'ngx-filepond';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -33,8 +40,14 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     MatSelectModule,
     TranslatefzModule,
     SearchProductsModule,
-    NgxPermissionsModule
+    NgxPermissionsModule,
+    MatTableModule,
+    MatBottomSheetModule,
+    MatListModule,
+    MatProgressBarModule,
+    FilePondModule,
+    MatRippleModule,
   ],
-  declarations: [CampaignIndexComponent, CreateOrEditPromotionComponent, CreateOrEditCampaignComponent, PromotionIndexComponent]
+  declarations: [DetailsPromotionComponent, CampaignIndexComponent, CreateOrEditPromotionComponent, CreateOrEditCampaignComponent, PromotionIndexComponent]
 })
 export class CampaignModule { }

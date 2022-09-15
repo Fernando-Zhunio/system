@@ -7,6 +7,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 // import { SwalService } from './swal.service';
 import { User } from '../shared/interfaces/user';
 import { Person } from '../shared/interfaces/person';
+import { Token, User as UserFast } from '../class/fast-data';
 
 declare var require: any;
 const CryptoJS = require('crypto-js');
@@ -77,6 +78,10 @@ export class StorageService {
 
   init(): void {
     this.currentSession = this.getCurrentSession();
+    if (this.currentSession) {
+      Token.setToken = this.getCurrentToken() as string;
+      UserFast.setUser = this.getCurrentUser() as User;
+    }
     this.permissions = this.getPermissions();
     if (this.permissions) {
     this.s_permissionsService.loadPermissions(this.permissions);
@@ -95,8 +100,6 @@ export class StorageService {
     }
     return false;
   }
-
-
 
   getCurrentUser(): User | null {
     const session: Session = this.getCurrentSession() as Session;

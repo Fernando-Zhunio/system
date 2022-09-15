@@ -357,17 +357,6 @@
               {{ element?.additional_data?.warehouses?.join(",") }}
             </td>
           </ng-container>
-
-          <!-- <ng-container matColumnDef="products">
-            <th mat-header-cell *matHeaderCellDef># productos</th>
-            <td mat-cell *matCellDef="let element">{{ element?.items_count }}</td>
-          </ng-container>
-          <ng-container matColumnDef="payments">
-            <th mat-header-cell *matHeaderCellDef># pagos</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element?.payments_count }}
-            </td>
-          </ng-container> -->
           <ng-container matColumnDef="company">
             <th mat-header-cell *matHeaderCellDef>Compañía</th>
             <td mat-cell *matCellDef="let element">{{ element.company?.name }}</td>
@@ -439,31 +428,11 @@
               </div>
             </td>
           </ng-container>
-          <!-- <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-              <div
-                class="example-element-detail"
-                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                <div class="my-2">
-                  <mat-chip-list>
-                    <mat-chip>Email: {{ element.client.email }}</mat-chip>
-                    <mat-chip>Teléfono: {{ element.client.phone }}</mat-chip>
-                    <mat-chip>Dirección: {{ element.client.state }} - {{ element.client.city }}</mat-chip>
-                    <mat-chip>Doc ID: {{ element.client.doc_id }}</mat-chip>
-                    <mat-chip>Total: ${{ element.total }}</mat-chip>
-                    <mat-chip>Total pagado: ${{ element.total_paid }}</mat-chip>
-                    <mat-chip>Vendedor: {{ element.seller_code }}</mat-chip>
-                  </mat-chip-list>
-                </div>
-              </div>
-            </td>
-          </ng-container> -->
           <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
           <tr
             mat-row
             *matRowDef="let element; columns: columnsToDisplay"
             ></tr>
-          <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
         </table>
       </div>
     </div>

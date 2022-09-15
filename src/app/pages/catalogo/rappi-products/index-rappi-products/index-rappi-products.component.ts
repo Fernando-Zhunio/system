@@ -100,8 +100,4 @@ export class IndexRappiProductsComponent extends Crud<any> implements OnInit {
     this.dialog.open(StockRappiModalComponent, {data: {id, name}})
   }
 
-
-
-
-
 }

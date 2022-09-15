@@ -1,16 +1,15 @@
 // @import "variables";
 // @import "~@coreui/coreui/scss/coreui";
 @import "~air-datepicker/air-datepicker.css";
- 
+
 // @import "custom";
 @import "theme";
 @import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap");
 @import "~quill/dist/quill.core.css";
 @import "~quill/dist/quill.bubble.css";
 @import "~quill/dist/quill.snow.css";
-
 
 mat-card {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
@@ -35,6 +34,11 @@ app-root {
   }
 }
 
+td {
+  max-width: 150px;
+  padding: 0 10px !important;
+}
+
 html {
   top: 0 !important;
 }
@@ -43,7 +47,10 @@ html {
   border-bottom: 2px solid rgb(0 0 0 / 87%);
 }
 
-.font-2xl, .font-3xl, .font-4xl, .font-5xl {
+.font-2xl,
+.font-3xl,
+.font-4xl,
+.font-5xl {
   line-height: 1 !important;
 }
 
@@ -120,7 +127,6 @@ canvas {
 .mat-tab-labels {
   background-color: #e4e7ea !important;
 }
-
 
 .line-1 {
   line-height: 1;
@@ -244,16 +250,14 @@ button {
 //   border-radius: 10px;
 //   margin: 2px 5px;
 // }
- .main-style {
+.main-style {
   // background-color: #ffffff;
   background-color: white;
-
 }
 
 .dark-theme .main-style {
   background-color: $dark-bg;
 }
-
 
 .tab-content {
   border: none;
@@ -271,7 +275,7 @@ button {
 
 .chat-template .nav-tabs {
   background: #dadada;
-  .nav-link{
+  .nav-link {
     border: none !important;
   }
 }
@@ -339,12 +343,7 @@ button {
 .scrollbar-fz::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #fff;
-  background-image: -webkit-linear-gradient(
-    top,
-    #2ab0ed 0%,
-    #bfe8f9 50%,
-    /* #9fd8ef 51%, */ #2ab0ed 100%
-  );
+  background-image: -webkit-linear-gradient(top, #2ab0ed 0%, #bfe8f9 50%, /* #9fd8ef 51%, */ #2ab0ed 100%);
 }
 // #endregion sección scrollbar
 
@@ -379,7 +378,7 @@ button {
 // #endregion font-weight input material
 
 .shadow-filter {
-  filter: drop-shadow(0px 1px 3px rgba(60,64,67,0.3));
+  filter: drop-shadow(0px 1px 3px rgba(60, 64, 67, 0.3));
 }
 
 .bg-ro-fz {
@@ -396,7 +395,6 @@ button {
   position: absolute !important;
   top: 10px;
   right: 10px;
-
 }
 
 // add color to angular material
@@ -404,7 +402,7 @@ button {
 // success color
 .mat-success {
   color: #fff !important;
-  background-color: #6BCB77 !important;
+  background-color: #6bcb77 !important;
 }
 
 // .mat-success[disabled] {
@@ -412,7 +410,7 @@ button {
 // }
 .mat-info {
   color: #fff;
-  background-color: #4D96FF ;
+  background-color: #4d96ff;
 }
 
 // warning color
@@ -423,12 +421,12 @@ button {
 
 .mat-orange {
   color: #fff !important;
-  background-color: #E6521D !important;
+  background-color: #e6521d !important;
 }
 
 .mat-btn-add {
   color: #fff !important;
-  background-color: #E6521D !important;
+  background-color: #e6521d !important;
 }
 
 // .mat-warning[disabled] {
@@ -439,14 +437,13 @@ button {
 
 @media (max-width: 576px) {
   .card-columns {
-      column-count: 1 !important;
+    column-count: 1 !important;
   }
 }
 
 .flex-wrap {
   flex-wrap: wrap;
 }
-
 
 .pre-load-animation * {
   animation-duration: 0s !important;
@@ -483,10 +480,33 @@ button {
   font-size: smaller;
 }
 
-.bg-stack-overflow  {
+.bg-stack-overflow {
   background: #f48024 !important;
 }
 
 .mat-select-trigger {
   height: auto;
+}
+
+.btn-icon-edit {
+  color: #4d96ff !important;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  margin: 2px;
+  font-size: 15px;
+}
+
+.btn-icon-delete {
+  color: #e6521d !important;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  margin: 2px;
+  font-size: 15px;
+}
+
+.badge-fz {
+  padding: 5px 8px;
+  border-radius: 8px;
 }
