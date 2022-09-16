@@ -21,8 +21,8 @@ export class CreateOrEditReportComponent extends CreateOrEdit2<any> implements O
   override form = new FormGroup({
     name: new FormControl(null, Validators.required),
     format: new FormControl(null, Validators.required),
-    start_date: new FormControl(null, Validators.required),
-    end_date: new FormControl(null, Validators.required),
+    start_date: new FormControl<string | null>(null, Validators.required),
+    end_date: new FormControl<string | null>(null, Validators.required),
   });
   dpMin: any = null;
   dpMax: any = null;
@@ -62,13 +62,14 @@ export class CreateOrEditReportComponent extends CreateOrEdit2<any> implements O
       autoClose: true,
       dateFormat: 'yyyy/MM/dd',
       timeFormat: 'HH:mm',
-      onSelect: ({ date }) => {
+      onSelect: ({ date }: any) => {
         if (this.dpMin){
           this.dpMin.update({
             maxDate: date
           })
         }
-        this.form.get('end_date')?.setValue(moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm'));
+        const value = moment(date as any, 'YYYY/MM/DD HH:mm').format('YYYY-MM-DD HH:mm') as string;
+        this.form.get('end_date')?.setValue(value);
       }
     })
   }

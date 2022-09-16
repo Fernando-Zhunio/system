@@ -1,9 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
 import { Ipagination } from '../../../interfaces/ipagination';
+import { HeaderSearchModule } from '../../header-search/header-search.module';
+
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, HeaderSearchModule, MatProgressSpinnerModule, MatPaginatorModule],
   selector: 'app-search-template-table',
   templateUrl: './search-template-table.component.html',
   styleUrls: ['./search-template-table.component.scss']

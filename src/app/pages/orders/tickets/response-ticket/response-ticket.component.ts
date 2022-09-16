@@ -18,8 +18,8 @@ export class ResponseTicketComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, private methodsHttp: MethodsHttpService, private router: Router, private activatedRouter: ActivatedRoute) {}
   @ViewChild(ChatTicketComponent) chatComponent: ChatTicketComponent;
   form = new FormGroup({
-    message: new FormControl(null, [Validators.required]),
-    file: new FormControl(null),
+    message: new FormControl<string>('', [Validators.required]),
+    file: new FormControl<any>(null),
   });
   fileUrl: {url: any, file: File | null} = {
     url: null,
@@ -87,7 +87,7 @@ export class ResponseTicketComponent implements OnInit {
     if (this.form.valid) {
       this.isLoading = true;
       const formData = new FormData();
-      formData.append('message', this.form.value.message);
+      formData.append('message', this.form.value.message!);
       if (this.fileUrl.file) {
         formData.append('file', this.fileUrl.file);
       }

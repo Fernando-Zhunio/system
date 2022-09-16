@@ -25,30 +25,11 @@ export class StorageService {
     // this.isUserAuthenticated = this.isAuthenticated();
   }
 
-  // verifiedLoginUser(): boolean {
-  //   this.currentSession = this.loadSessionData();
-  //   if (!this.currentSession) {
-  //     return false;
-  //   }
-  //   const permissions = this.getPermissions();
-  //   if (permissions) {
-  //     this.s_permissionsService.loadPermissions(permissions);
-  //   } else {
-  //     SwalService.swalFire({title: 'Error', text: 'No tiene permisos para acceder a esta Novisolutions', icon: 'error'});
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  // setSession(session) {
-  //   this.currentSession = session;
-  // }
-
-  setCurrentSession(session): void {
+  setCurrentSession(session: Session): void {
     this.currentSession = session;
     localStorage.setItem('session', this.encryptedAes(JSON.stringify(session)));
-    // this.isUserAuthenticated = true;
-    // this.setPermission();
+    Token.setToken = this.currentSession.token;
+    UserFast.setUser = this.currentSession.user;
   }
 
   setCurrentUser(user: User): void {
@@ -56,25 +37,6 @@ export class StorageService {
     session.user = user;
     this.setCurrentSession(session);
   }
-
-  // setCompanyUser(id_company) {
-  //   (this.currentSession as Session).user.company_company_id = id_company;
-  //   localStorage.setItem('session', this.encryptedAes(JSON.stringify(this.currentSession)));
-  // }
-
-  // loadSessionData(): Session | boolean {
-  //   let sessionStr: any = null;
-  //   try {
-  //     const dataConvert = this.decryptAes(localStorage.getItem('session'));
-  //     if (dataConvert) {
-  //       sessionStr = JSON.parse(dataConvert) as Session;
-  //       return sessionStr;
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
 
   init(): void {
     this.currentSession = this.getCurrentSession();

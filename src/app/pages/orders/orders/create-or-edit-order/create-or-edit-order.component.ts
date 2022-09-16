@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
-import { MatHorizontalStepper } from '@angular/material/stepper';
+import { MatStepper } from '@angular/material/stepper';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
 import { IOrder } from '../../../../interfaces/iorder';
 import { IClientOrder } from '../../../../interfaces/iclient-order';
@@ -22,7 +22,7 @@ import { PermissionOrders, PermissionOrdersClients } from '../../../../class/per
 export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnInit {
   public title: string = 'Orden ';
   public urlSave: any = 'system-orders/orders';
-  @ViewChild('stepper') stepper: MatHorizontalStepper;
+  @ViewChild('stepper') stepper: MatStepper;
 
   override loadCreate: boolean = false;
   typesOrders: any[] = [];

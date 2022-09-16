@@ -24,6 +24,7 @@ export const Permission_products_prices = {
 
 export const Permission_categories = {
     categories: {
+        index: ['super-admin', 'products-admin.categories.index'],
         edit: ['super-admin', 'products-admin.categories.edit'],
         destroy: ['super-admin', 'products-admin.categories.destroy'],
         create: ['super-admin', 'products-admin.categories.create']

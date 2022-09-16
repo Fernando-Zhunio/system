@@ -15,11 +15,11 @@ export class CreateTicketComponent implements OnInit {
   constructor(private router: Router, private methodsHttp: MethodsHttpService, private activatedRoute: ActivatedRoute) { }
   departments: any = [];
   form = new FormGroup({
-    order_id: new FormControl(null, [Validators.required]),
-    department_id: new FormControl(null, [Validators.required]),
-    subject: new FormControl(null, [Validators.required]),
-    message: new FormControl(null, [Validators.required]),
-    file: new FormControl(null),
+    order_id: new FormControl<string>('', [Validators.required]),
+    department_id: new FormControl<any>(null, [Validators.required]),
+    subject: new FormControl<any>(null, [Validators.required]),
+    message: new FormControl<any>(null, [Validators.required]),
+    file: new FormControl<any>(null),
   });
   fileUrl = {
     url: null};
@@ -69,7 +69,7 @@ export class CreateTicketComponent implements OnInit {
     if (this.form.valid) {
       this.isLoading = true;
       const formData = new FormData();
-      formData.append('order_id', this.form.value.order_id);
+      formData.append('order_id', this.form.value.order_id!);
       formData.append('department_id', this.form.value.department_id);
       formData.append('subject', this.form.value.subject);
       formData.append('message', this.form.value.message);

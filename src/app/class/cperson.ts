@@ -16,7 +16,6 @@ export class Cperson {
   start_date: string;
   status: string;
   updated_at: string;
-  // user: Iuser;
   contact_info?: any;
   user_id: number;
   location: {
@@ -70,15 +69,3 @@ interface Idepartment {
   parent_department_id: number;
   updated_at: string;
 }
-
-// interface Iuser {
-//   admin: number;
-//   api_token: string;
-//   created_at: string;
-//   deleted_at: string;
-//   email: string;
-//   id: number;
-//   last_activity: string;
-//   name: string;
-//   updated_at: string;
-// }

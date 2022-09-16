@@ -6,13 +6,13 @@ import { HeaderSearchModule } from '../header-search/header-search.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { SearchTemplateTableComponent } from './search-template-table/search-template-table.component';
+// import { SearchTemplateTableComponent } from './search-template-table/search-template-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
 @NgModule({
-  declarations: [SearchTemplateComponent, SearchTemplateTableComponent],
+  declarations: [SearchTemplateComponent],
   imports: [
     CommonModule,
     HeaderSearchModule,
@@ -21,6 +21,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgxSkeletonLoaderModule,
     MatProgressSpinnerModule,
   ],
-  exports: [SearchTemplateComponent, SearchTemplateTableComponent]
+  exports: [SearchTemplateComponent]
 })
 export class SearchTemplateModule { }

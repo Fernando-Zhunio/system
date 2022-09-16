@@ -18,11 +18,11 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   urlPermission: string = 'admin/sidebar/permissions';
   override loadCreate: boolean = false;
   permissions: IPermission[] = [];
-  formPermission = new FormControl(null, [Validators.required]);
+  formPermission = new FormControl('', [Validators.required]);
   override form: FormGroup = new FormGroup({
-    name: new FormControl(null, [Validators.required]),
-    url: new FormControl(null, [Validators.required]),
-    icon: new FormControl(null, [Validators.required]),
+    name: new FormControl<string>('', [Validators.required]),
+    url: new FormControl('', [Validators.required]),
+    icon: new FormControl('', [Validators.required]),
     permission_id: new FormControl(null, [Validators.required]),
   });
   formSearchPermission = new FormControl(null, [Validators.required]);

@@ -34,5 +34,13 @@ export abstract class MatTableHelper<T> {
         this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
         this.table.renderRows();
     }
+
+    updateItemInTable(id: any, newData, key = 'id') {
+        const index = this.dataSource.findIndex(order => order[key] === id);
+        if (index !== -1) {
+            this.dataSource[index] = {...this.dataSource[index],...newData};
+            this.table.renderRows();
+        }
+    }
 }
 

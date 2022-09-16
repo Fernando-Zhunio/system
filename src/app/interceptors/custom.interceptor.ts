@@ -12,125 +12,65 @@ import { SwalService } from '../services/swal.service';
 import { StorageService } from '../services/storage.service';
 import { SharedService } from '../services/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
+import { Token } from '../class/fast-data';
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
   constructor(
     private s_storage: StorageService,
-    public s_shared: SharedService,
-    private snack_bar: MatSnackBar,
-    private router: Router
-  ) {}
+    private snackBar: MatSnackBar,
+  ) { }
 
-  intercept(
-    request: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    let headers: any = null;
-    // * si esta autenticado
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    let headers: any = new HttpHeaders();
     const isAuthenticated = this.s_storage.isAuthenticated();
     if (isAuthenticated) {
-      headers = this.createHeader();
-    } else {
-      headers = new HttpHeaders({
-        // accept: 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      });
+      headers =  this.createHeader();
     }
-
-    if  (SharedService.disabled_loader) {
+    if (SharedService.disabled_loader) {
       SharedService.disabled_loader = false;
     } else {
-    this.snack_bar.open('Espere un momento...');
+      this.snackBar.open('Espere un momento...');
     }
 
-    const newResquest = request.clone({ headers });
+    const newRequest = request.clone({ headers });
 
-    return next.handle(newResquest).pipe(
+    return next.handle(newRequest).pipe(
       finalize(() => {
-        this.snack_bar.dismiss();
+        this.snackBar.dismiss();
       }),
       catchError((err) => {
-        this.snack_bar.dismiss();
-        switch (err.status) {
-          case 401:
-            SwalService.swalToast(
-              'Error de credenciales comprueben que sean correctas',
-              'warning'
-              );
-              this.s_storage.logout();
-            break;
-          case 403:
-            SwalService.swalToast(
-              'No posee los permisos necesarios para este contenido',
-              'warning'
-            );
-            if (this.s_storage.isAuthenticated()) { this.s_storage.logout(); }
-            break;
-          case 422:
-            if (err?.error.hasOwnProperty('success')) {
-              SwalService.swalToast(err.error.data, 'warning');
-            } else {
-              SwalService.swalToast(
-                'Contenido no valido código 422',
-                'warning'
-              );
-            }
-            break;
-          case 404:
-            SwalService.swalToast(
-              'El servidor no pudo encontrar el contenido solicitado. 404',
-              'warning'
-            );
-            if (isAuthenticated) {
-              this.router.navigate(['/system/404']);
-            } else {
-              this.router.navigate(['/404']);
-            }
-            break;
-          case 500:
-            SwalService.swalToast(
-              'Error del servidor, inténtalo otra vez,500',
-              'warning'
-            );
-            break;
-
-          default:
-            if (err?.error.hasOwnProperty('success')) {
-              SwalService.swalToast(err.error.data, 'warning');
-            } else {
-              SwalService.swalToast(
-                'Ups! Ocurrió un problema inténtalo de nuevo, código: 500',
-                'warning'
-              );
-            }
-            break;
-        }
+        console.log(err);
+        this.snackBar.dismiss();
+        let message: string = '';
+        message = err?.error?.hasOwnProperty('success') ? err.error.data : 'Error de servidor';
+        if (err.status === 401 || err.status === 403) {this.s_storage.logout();}
+        SwalService.swalToast( message, 'warning' )
         return throwError(err);
       })
     );
   }
 
-  hasInternet(): boolean {
-    const condition = navigator.onLine ? 'online' : 'offline';
-    if (condition === 'offline') {
-      SwalService.swalFire({allowOutsideClick: false, showConfirmButton: true, confirmButtonText: 'Recargar pagina', title: 'No hay conexion a internet', text: 'Por favor revise su conexion a internet', icon: 'warning'}).then((result) => {
-        if (result.isConfirmed) {
-          window.location.reload();
-        }
-      });
-      return false;
-    }
-    return true;
-  }
+  // hasInternet(): boolean {
+  //   const condition = navigator.onLine ? 'online' : 'offline';
+  //   if (condition === 'offline') {
+  //     SwalService.swalFire({ allowOutsideClick: false, showConfirmButton: true, confirmButtonText: 'Recargar pagina', title: 'No hay conexion a internet', text: 'Por favor revise su conexion a internet', icon: 'warning' })
+  //       .then((result) => {
+  //       if (result.isConfirmed) {
+  //         window.location.reload();
+  //       }
+  //     });
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   createHeader() {
-    const token = this.s_storage.getCurrentToken();
-    const Header = new HttpHeaders({
+    const header = new HttpHeaders({
       accept: 'application/json',
-      Authorization: 'Bearer ' + token,
+      Authorization: 'Bearer ' + Token.getToken,
     });
-    return Header;
+    return header;
   }
 }

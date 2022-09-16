@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatHorizontalStepper } from '@angular/material/stepper';
+import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { Cperson } from '../../../../class/cperson';
 import { StandartSearchService } from '../../../../services/standart-search.service';
@@ -20,7 +20,7 @@ export class CreateOrEditPersonComponent implements OnInit {
   ) {}
 
   @ViewChild('photoUserInput') photoUserInput: ElementRef;
-  @ViewChild('stepper') stepper: MatHorizontalStepper;
+  @ViewChild('stepper') stepper: MatStepper;
   // minDate = new Date();
   maxDateBirthDay = new Date();
   maxDate = new Date();

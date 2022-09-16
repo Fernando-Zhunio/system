@@ -17,6 +17,8 @@ export abstract class CreateOrEdit2<T> {
     public key_param = 'id';
     protected location: Location;
     public abstract title: string;
+    protected isDialog: boolean = false;
+    protected isEdit: boolean = false;
     public abstract urlSave;
     protected abstract act_router: ActivatedRoute;
     protected abstract router: Router
@@ -25,25 +27,34 @@ export abstract class CreateOrEdit2<T> {
     }
 
     init(loadCreate: boolean = true) {
-        this.act_router.data.subscribe(data => {
-            const isEdit = data['isEdit'];
-            if (isEdit) {
-                this.status = 'edit';
-                this.title += ' Editando';
-                this.edit();
-            } else {
-                this.status = 'create';
-                this.title += ' Creando';
-                if (loadCreate) {
-                    this.loaderDataForCreate();
-                }
+        if(this.isDialog){
+            this.loaderDataInit(this.isEdit, loadCreate);
+        } else{
+            this.act_router.data.subscribe(data => {
+                this.isEdit = data['isEdit'];
+                this.loaderDataInit(this.isEdit, loadCreate);
+            });
+        }
+    }
+
+    loaderDataInit(isEdit: boolean, loadCreate: boolean): void {
+        if (isEdit) {
+            this.status = 'edit';
+            this.title += ' Editando';
+            this.edit();
+        } else {
+            this.status = 'create';
+            this.title += ' Creando';
+            if (loadCreate) {
+                this.loaderDataForCreate();
             }
-        });
+        }
     }
 
     edit() {
         this.isLoading = true;
         const url = this.generateUrl();
+        console.log(url);
         this.methodsHttp.methodGet(`${url}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
@@ -60,6 +71,7 @@ export abstract class CreateOrEdit2<T> {
     }
 
     getId(key: string = this.key_param): any {
+        console.log('fer');
         return this.act_router.snapshot.params[key];
     }
 
@@ -103,7 +115,7 @@ export abstract class CreateOrEdit2<T> {
         }
     }
 
-    go(_data = null) { }
+    go(_data: any = null) { }
 
     getDataForSendServer(): any {
         if (this.form.valid) {

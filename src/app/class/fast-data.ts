@@ -8,7 +8,6 @@ export class Token {
     static set setToken(token: string) {
         this.token = token;
     }
-
 }
 
 export class User {

@@ -120,12 +120,12 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
                 mba_code,
                 phone,
                 schedules
-              } = this.location;
+              }: any = this.location;
               this.formLocation.patchValue({
                 name,
                 address,
                 type,
-                city: city.toString(),
+                city: city!.toString(),
                 company,
                 status,
                 latitude,
@@ -176,7 +176,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     });
   }
 
-  autofillSchedules(value:{start, end}) {
+  autofillSchedules(value:any) {
     this.formSchedules.get('monday')?.setValue(value);
     this.formSchedules.get('tuesday')?.setValue(value);
     this.formSchedules.get('wednesday')?.setValue(value);
@@ -232,8 +232,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       var lngLat = this.marker.getLngLat();
       this.coordinate.latitud = lngLat.lat;
       this.coordinate.longitud = lngLat.lng;
-      this.formLocation.get('latitude')?.setValue(this.coordinate.latitud);
-      this.formLocation.get('longitude')?.setValue(this.coordinate.longitud);
+      this.formLocation.get('latitude')?.setValue(String(this.coordinate.latitud));
+      this.formLocation.get('longitude')?.setValue(String(this.coordinate.longitud));
     };
     this.marker.on('dragend', drag);
   }
@@ -269,7 +269,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       this.isLoadServer = true;
       let dataSend = this.formLocation.value;
       if (this.formLocation.get('type')?.value == 'store') {
-        dataSend.schedules = this.formSchedules.value;
+        dataSend['schedules'] = this.formSchedules.value;
       }
       if (this.state === 'create') {
         this.methodHttp.methodPost('admin/locations', dataSend ).subscribe(res => {
