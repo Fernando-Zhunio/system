@@ -15,6 +15,7 @@ import { StockRappiModalComponent } from './components/stock-rappi-modal/stock-r
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     FilePondModule,
     MatProgressBarModule,
     NgxPermissionsModule,
+    SearchTemplateTableComponent,
   ],
   declarations: [IndexRappiProductsComponent, StockRappiModalComponent]
 })

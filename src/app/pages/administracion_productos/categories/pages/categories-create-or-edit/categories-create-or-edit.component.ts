@@ -36,7 +36,7 @@ export class CategoriesCreateOrEditComponent extends CreateOrEdit2<any> implemen
   });
 
   ngOnInit(): void {
-    this.init();
+    this.init(false);
   }
 
   override getId(): any {

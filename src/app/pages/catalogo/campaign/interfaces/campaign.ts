@@ -11,4 +11,5 @@ export interface Campaign {
     created_at: string;
     promotions: Promotion[];
     updated_at: string;
+    promotions_count?: number;
 }

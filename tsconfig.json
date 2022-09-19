@@ -22,7 +22,7 @@
       "dom"
     ],
     "forceConsistentCasingInFileNames": true,
-    "target": "es2017",
+    "target": "ES2015",
 
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

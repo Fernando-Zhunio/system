@@ -31,6 +31,24 @@ export const Permission_categories = {
     }
 }
 
+export const Permission_brands = {
+    brands: {
+        index: ['super-admin', 'products-admin.brands.index'],
+        edit: ['super-admin', 'products-admin.brands.edit'],
+        destroy: ['super-admin', 'products-admin.brands.destroy'],
+        create: ['super-admin', 'products-admin.brands.create']
+    }
+}
+
+export const Permission_prefixes = {
+    prefixes: {
+        index: ['super-admin', 'products-admin.prefixes.index'],
+        edit: ['super-admin', 'products-admin.prefixes.edit'],
+        destroy: ['super-admin', 'products-admin.prefixes.destroy'],
+        create: ['super-admin', 'products-admin.prefixes.create']
+    }
+}
+
 export const permission_admin_products = {
     categories: {
         index: 'products-admin.categories.index',

@@ -12,7 +12,7 @@ import { Campaign } from '../../interfaces/campaign';
   styleUrls: ['./campaign-index.component.scss']
 })
 export class CampaignIndexComponent extends MatTableHelper<Campaign> implements OnInit {
-  protected columnsToDisplay: string[] = ['id', 'title', 'duration_type', 'start_date', 'end_date', 'status', 'created_at', 'actions'];
+  protected columnsToDisplay: string[] = ['id', 'title', 'description', 'duration_type', 'start_date', 'end_date', 'status', 'created_at', 'actions'];
   protected table: MatTable<any>;
 
   url: string = 'catalogs/campaigns';

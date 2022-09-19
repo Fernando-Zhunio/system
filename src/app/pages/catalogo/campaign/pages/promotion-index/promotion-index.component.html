@@ -16,7 +16,7 @@
     </mat-chip-list>
   </ng-container>
   <ng-container subheader>
-    <div class="attach-file mb-4" *ngIf="isOpenFile">
+    <div class="attach-file mb-4 position-relative" *ngIf="isOpenFile">
       <button mat-icon-button class="btn-close" color="warn" (click)="isOpenFile = false">
         <mat-icon>close</mat-icon>
       </button>
@@ -41,8 +41,8 @@
         <td mat-cell *matCellDef="let row"><span [class]="row.status" class="badge-fz">{{ row.status | translatefz }}</span></td>
       </ng-container>
       <ng-container matColumnDef="duration_type">
-        <th mat-header-cell *matHeaderCellDef>Tipo de Duración</th>
-        <td mat-cell *matCellDef="let row" class="text-muted"><span><i class="fas fa-calendar-alt"></i> {{ row.duration_type | translatefz }}</span></td>
+        <th mat-header-cell *matHeaderCellDef> Tipo duración </th>
+        <td mat-cell *matCellDef="let row"><span [class]="row.duration_type" class="badge-fz "><i [hidden]="row.duration_type == 'undefined'" class="fas fa-calendar-alt"></i>  {{row.duration_type | translatefz}}</span> </td>
       </ng-container>
       <!-- <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef>Tiempo</th>

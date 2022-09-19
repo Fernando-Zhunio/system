@@ -42,5 +42,9 @@ export abstract class MatTableHelper<T> {
             this.table.renderRows();
         }
     }
+    addItemInTable<T=any>(newData: T) {
+        this.dataSource.unshift(newData);
+        this.table.renderRows();
+    }
 }
 

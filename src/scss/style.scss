@@ -34,7 +34,7 @@ app-root {
   }
 }
 
-td {
+.mat-table td {
   max-width: 150px;
   padding: 0 10px !important;
 }
@@ -298,11 +298,10 @@ button {
   border-radius: 10px !important;
 }
 
-// cambia el color del sidebar de los item title
-// .sidebar .nav-title {
-//   color: #009688;
-//   // background: darkslategray;
-// }
+.body.main {
+  min-height: calc(100vh - 55px);
+}
+
 
 .dark-theme .shadow-1-fz {
   box-shadow: 7px 7px 14px #353535, -7px -7px 14px #000000 !important;

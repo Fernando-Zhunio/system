@@ -15,7 +15,7 @@ import { CategoriesCreateOrEditComponent } from '../categories-create-or-edit/ca
 })
 export class CategoriesIndexComponent extends MatTableHelper<any> implements OnInit {
   protected columnsToDisplay: string[] = ['id', 'name', 'code', 'products_count', 'actions'];
-  protected url: string;
+  protected url: string = 'products-admin/categories';
   
   @ViewChild(MatTable) table: MatTable<any>;
   
@@ -23,10 +23,6 @@ export class CategoriesIndexComponent extends MatTableHelper<any> implements OnI
   constructor(protected methodsHttp: MethodsHttpService, private dialog: MatDialog) {
     super();
   }
-  // categories: any;
-  // pageCurrent = 1;
-  // perPage = 10;
-  // totalItem = 0;
 
   permissions = Permission_categories.categories;
   ngOnInit(): void {
@@ -38,8 +34,11 @@ export class CategoriesIndexComponent extends MatTableHelper<any> implements OnI
       disableClose: true,
     }).beforeClosed().subscribe((data) => {
       if (data) {
-        console.log(data);
-        this.updateItemInTable(data.category.id, data.category);
+        if(isEdit) {
+        this.updateItemInTable(data.id, data);
+        } else {
+          this.addItemInTable(data);
+        }
       }
     });
   }

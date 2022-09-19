@@ -3,25 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 // import { CategoriasMainComponent } from './categorias-main.component';
 // import { Component } from '@angular/core';
-import { MarcasCreateOrEditComponent } from './marcas-create-or-edit/marcas-create-or-edit.component';
-import { MarcasComponent } from './marcas.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-
-// @Component({
-//   selector: "app-marcas",
-//   template: "<router-outlet></router-outlet>",
-// })
-// export class MarcasMainComponents {}
+import { BrandsIndexComponent } from './pages/brands-index/brands-index.component';
+import { CreateOrEditBrandComponent } from './pages/create-or-edit-brand/create-or-edit-brand.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    // component: MarcasMainComponents,
-    data: {name: 'marcas_main'},
-    children: [
       {
         path: '',
-        component: MarcasComponent,
+        component: BrandsIndexComponent,
         data: {
           name: 'marcas',
           permissions: {
@@ -32,7 +21,7 @@ const routes: Routes = [
       },
       {
         path: 'create',
-        component: MarcasCreateOrEditComponent,
+        component: CreateOrEditBrandComponent,
         data: {
           isEdit: false,
           permissions: {
@@ -43,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: 'edit/:id',
-        component: MarcasCreateOrEditComponent,
+        component: CreateOrEditBrandComponent,
         canActivate: [NgxPermissionsGuard],
         data: {
           isEdit: true,
@@ -52,8 +41,6 @@ const routes: Routes = [
           },
         },
       },
-    ],
-  },
 ];
 
 @NgModule({

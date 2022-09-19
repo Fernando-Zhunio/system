@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CampaignIndexComponent } from './pages/campaign-index/campaign-index.component';
 import { CampaignRoutingModule } from './campaign.routing';
-import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,13 +23,14 @@ import { MatListModule } from '@angular/material/list';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FilePondModule } from 'ngx-filepond';
 import {MatRippleModule} from '@angular/material/core';
+import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     CampaignRoutingModule,
-    SearchTemplateModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
@@ -47,6 +47,8 @@ import {MatRippleModule} from '@angular/material/core';
     MatProgressBarModule,
     FilePondModule,
     MatRippleModule,
+    SearchTemplateTableComponent,
+    MatBadgeModule
   ],
   declarations: [DetailsPromotionComponent, CampaignIndexComponent, CreateOrEditPromotionComponent, CreateOrEditCampaignComponent, PromotionIndexComponent]
 })

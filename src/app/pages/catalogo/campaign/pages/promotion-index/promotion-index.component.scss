@@ -4,14 +4,6 @@
     color: gray;
 }
 
-.active {
-    color: green;
-}
-
-.inactive {
-    color: red;
-}
-
 .campaign {
     position: fixed;
     bottom: 10px;
@@ -31,4 +23,14 @@
 .inactive {
     color: red;
     background-color: rgba(255, 0, 0, 0.2);
+}
+
+.date_range {
+    color: rgb(44, 139, 202);
+    background-color: rgba(44, 139, 202, 0.2);
+}
+
+.undefined {
+    color: rgb(104, 104, 104);
+    background-color: rgba(104, 104, 104, 0.2);
 }
