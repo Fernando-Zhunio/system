@@ -2,7 +2,7 @@
   <app-header-search
     (isLoading)="isLoading = $event"
     [placeholder]="'Nombre de usuario'"
-    [title]="'Solicitudes de trabajo'"
+    [title]="'Solicitudes'"
     [filter_data]="filters"
     [active_filters_menu]="true"
     [url]="url"
@@ -110,7 +110,7 @@
               </div>
             </th>
             <td mat-cell *matCellDef="let element">
-              <span [class]="element.status" class="badge">{{ element.work.title }}</span>
+              <span [class]="element.status" class="font-sm">{{ element.work.title }}</span>
             </td>
           </ng-container>
           <ng-container matColumnDef="age">
