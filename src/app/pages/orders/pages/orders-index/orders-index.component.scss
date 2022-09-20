@@ -79,54 +79,65 @@ td, th {
 
 .init {
   background-color: #e2e2e2;
+  color:gray;
 }
 
 .published {
-  background-color: #87bd85;
+  color: #29b624;
+  background-color: #29b6242a;
+  
 }
 .cancelled {
-  background-color: #eb1313;
+  color: #eb1313;
+  background-color: #eb13132a;
 }
 .payment_paid {
-  background-color: #77c757;
+  color: #77c757;
+  background-color: #77c7572a;
 }
 .payment_partially_paid {
-  background-color: #dabe32;
+  color: #dabe32;
+  background-color: #dabe322a;
 }
 .payment_refunded {
-  background-color: #5e686d;
-  color: white;
+  color: #973449;
+  background-color: #9734492a;
 }
 .payment_partially_refunded {
-  background-color: #8a8987;
-  color: white;
+  color: #af344e;
+  background-color: #af344e2a;
 }
 .shipping_processed {
-  background-color: #b5e24d;
+  color: #b5e24d;
+  background-color: #b5e24d2a;
 }
 .shipping_partially_processed {
-  background-color: #74ca63;
+  color: #74ca63;
+  background-color: #74ca632a;
 }
 .shipping_shipped {
-  background-color: #3d9a9a;
+  color: #3d9a9a;
+  background-color: #3d9a9a2a;
 }
 .shipping_partially_shipped {
-  background-color: #5e686d;
-  color: white;
+  color: #386379;
+  background-color: #3863792a;
 }
 .shipping_delivered {
-  background-color: #3d9a9a;
+  color: #3d9a9a;
+  background-color: #3d9a9a2a;
 }
 .shipping_partially_delivered {
-  background-color: #5e6d66;
-  color: white;
+  color: #5e6d66;
+  background-color: #5e6d662a;
 }
 .shipping_returned {
-  background-color: #3d9a9a;
+  color: #3d9a9a;
+  background-color: #3d9a9a2a;
 }
 .shipping_partially_returned {
-  background-color: #5e686d;
-  color: white;
+  color: #5e686d;
+  background-color: #5e686d2a;
 }
 
 .is-loading {
@@ -160,3 +171,25 @@ td.mat-table-sticky-border-elem-right {
   overflow: auto;
   height: 100%;
 }
+
+.whatsapp {
+  color: green;
+  background-color: rgba(0, 128, 0, 0.164);
+}
+
+.webstore {
+  color: #3b5998;
+  background-color: rgba(59, 89, 152, 0.164);
+}
+
+.marketplace {
+  color: #ff4500;
+  background-color: rgba(255, 69, 0, 0.164);
+}
+
+.ml {
+  color: #95b422;
+  background-color: #95b4222a;
+}
+
+

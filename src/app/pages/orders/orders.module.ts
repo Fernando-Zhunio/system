@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrdersRoutingModule } from './orders.routing';
-import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,33 +24,34 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { ClientComponent } from './components/client/client.component';
 import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
-import { AddItemTemplateComponent } from './components/add-item-template/add-item-template.component';
+// import { AddItemTemplateComponent } from './components/add-item-template/add-item-template.component';
 import { CreateOrEditDiscountOrTaxOrderComponent } from './components/create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component';
 import { SharedOrderModule } from './modules/shared-order/shared-order.module';
 import { MatMenuModule } from '@angular/material/menu';
-import { EditOrderComponent } from './orders/edit-order/edit-order.component';
-import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create-or-edit-order.component';
-import { OrdersIndexComponent } from './orders/orders-index/orders-index.component';
+import { EditOrderComponent } from './pages/edit-order/edit-order.component';
+import { CreateOrEditOrderComponent } from './pages/create-or-edit-order/create-or-edit-order.component';
+import { OrdersIndexComponent } from './pages/orders-index/orders-index.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
+// import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+// import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { DetailButtonSheetComponent } from './orders/edit-order/detail-button-sheet/detail-button-sheet.component';
+import { DetailButtonSheetComponent } from './pages/edit-order/detail-button-sheet/detail-button-sheet.component';
 import { MomentModule } from 'ngx-moment';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LogOrderModalComponent } from './orders/log-order-modal/log-order-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { EditDataOrderModalComponent } from './orders/tools/edit-data-order-modal/edit-data-order-modal.component';
+import { EditDataOrderModalComponent } from './components/edit-data-order-modal/edit-data-order-modal.component';
+import { SearchTemplateTableComponent } from '../../Modulos/search-template/search-template-table/search-template-table.component';
 
 @NgModule({
   declarations: [DashboardOrdersComponent,
     SelectClientModalComponent, EditOrderComponent,
     OrdersIndexComponent, CreateOrEditOrderComponent,
-    ClientComponent, AddItemTemplateComponent,
+    ClientComponent,
     CreateOrEditDiscountOrTaxOrderComponent, StateFlowOrderComponent,
     DetailButtonSheetComponent,
     LogOrderModalComponent,
@@ -61,7 +61,7 @@ import { EditDataOrderModalComponent } from './orders/tools/edit-data-order-moda
     CommonModule,
     RouterModule,
     OrdersRoutingModule,
-    SearchTemplateModule,
+    SearchTemplateTableComponent,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
@@ -86,9 +86,9 @@ import { EditDataOrderModalComponent } from './orders/tools/edit-data-order-moda
     NgxPermissionsModule,
     DragDropModule,
     MatDatepickerModule,
-    HeaderSearchModule,
+    // HeaderSearchModule,
     MatTableModule,
-    MatPaginatorModule,
+    // MatPaginatorModule,
     MatSortModule,
     MatBottomSheetModule,
     MomentModule,

@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectionListChange } from '@angular/material/list';
 import { Observable } from 'rxjs';
-import { PermissionOrdersItems } from '../../../../../class/permissions-modules';
-import { IItemOrder, IOrder } from '../../../../../interfaces/iorder';
-import { IProduct } from '../../../../../interfaces/iproducts';
-import { IPaginate, StandartSearchService } from '../../../../../services/standart-search.service';
-import { SwalService } from '../../../../../services/swal.service';
+import { PermissionOrdersItems } from '../../../../class/permissions-modules';
+import { IItemOrder, IOrder } from '../../../../interfaces/iorder';
+import { IProduct } from '../../../../interfaces/iproducts';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
+import { IPaginate } from '../../../../services/standart-search.service';
+import { SwalService } from '../../../../services/swal.service';
 
 @Component({
   selector: 'app-add-products-order',
@@ -15,7 +16,7 @@ import { SwalService } from '../../../../../services/swal.service';
 })
 export class AddProductsOrderComponent implements OnInit {
 
-  constructor(private standard: StandartSearchService) { }
+  constructor(private methodsHttp: MethodsHttpService) { }
   @Input() order: IOrder;
   @Input() items
   @Input() isCancelled: boolean;
@@ -29,14 +30,12 @@ export class AddProductsOrderComponent implements OnInit {
   urlProducts: string = 'system-orders/products';
   form: FormGroup = new FormGroup({
     product: new FormControl(null, [Validators.required]),
-    // product_id: new FormControl(null, [Validators.required]),
     quantity: new FormControl(1, [Validators.required]),
     description: new FormControl(null),
     price: new FormControl(null, [Validators.required]),
   });
   formEdit: FormGroup = new FormGroup({
     product: new FormControl({ value: null, disabled: true }, [Validators.required]),
-    // product_id: new FormControl(null, [Validators.required]),
     description: new FormControl(null),
     quantity: new FormControl(null, [Validators.required]),
     price: new FormControl(null, [Validators.required]),
@@ -83,9 +82,9 @@ export class AddProductsOrderComponent implements OnInit {
     this.isLoading = true;
     let observer: Observable<any>;
     if (isEdit) {
-      observer = this.standard.methodPut(`system-orders/orders/${order_id}/items/${this.itemEditing.id}`, form);
+      observer = this.methodsHttp.methodPut(`system-orders/orders/${order_id}/items/${this.itemEditing.id}`, form);
     } else {
-      observer = this.standard.methodPost(`system-orders/orders/${order_id}/items`, form);
+      observer = this.methodsHttp.methodPost(`system-orders/orders/${order_id}/items`, form);
     }
     observer.subscribe(res => {
       if (res?.success) {
@@ -126,7 +125,7 @@ export class AddProductsOrderComponent implements OnInit {
   deleteItemOrder(order_id, id, _callback = null): void {
     SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el item?', 'warning').then(res => {
       if (res.isConfirmed) {
-        this.standard.methodDelete(`system-orders/orders/${order_id}/items/${id}`).subscribe(res => {
+        this.methodsHttp.methodDelete(`system-orders/orders/${order_id}/items/${id}`).subscribe(res => {
           if (res?.success) {
             SwalService.swalFire({ title: 'Eliminado', text: 'Item eliminado', icon: 'success' });
             this.changeOrder.emit('change');

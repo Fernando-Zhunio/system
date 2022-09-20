@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AddProductsOrderComponent } from './add-products-order/add-products-order.component';
+import { AddProductsOrderComponent } from '../../components/add-products-order/add-products-order.component';
 import { SearchesModule } from '../../../../Modulos/searches/searches.module';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';

@@ -17,3 +17,7 @@ td, th {
   z-index: 2;
   backdrop-filter: blur(3px);
 }
+
+.table-container {
+  overflow: auto;
+}

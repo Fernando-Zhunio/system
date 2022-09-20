@@ -40,7 +40,7 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   productSearch: string = '';
   subscription: Subscription;
   intervalSearch: any;
-  countFilter = null;
+  countFilter: number = 0;
 
   constructor(
     private router: Router,
@@ -131,18 +131,18 @@ export class HeaderSearchComponent implements OnInit, OnDestroy {
   // }
 
   filterWithNotNull(): object {
-    this.countFilter = null;
+    this.countFilter = 0;
     const filter_data = {};
     Object.keys(this.filter_data).forEach((key) => {
       if (!empty(this.filter_data[key]) || this.filter_data[key] === '0') {
-      // if (this.filter_data[key] && this.filter_data[key] !== '' && this.filter_data[key] !== 0) {
         if (this.filter_data[key]?.length < 1) {
           return;
         }
         filter_data[key] = this.filter_data[key];
-        if (this.countFilter) {
+        // if (this.countFilter) {
+        //   alert('entro');
           this.countFilter++;
-        }
+        // }
       }
     });
     return filter_data;

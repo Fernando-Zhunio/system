@@ -16,7 +16,7 @@ import { DetailButtonSheetComponent } from './detail-button-sheet/detail-button-
 import { StateFlowOrderComponent } from '../../components/state-flow-order/state-flow-order.component';
 import * as moment from 'moment';
 import { PdfDetailOrderComponent } from '../../modules/shared-order/pdf-detail-order/pdf-detail-order.component';
-import { EditDataOrderModalComponent } from '../tools/edit-data-order-modal/edit-data-order-modal.component';
+import { EditDataOrderModalComponent } from '../../components/edit-data-order-modal/edit-data-order-modal.component';
 
 interface Record {
   icon?: string | null;

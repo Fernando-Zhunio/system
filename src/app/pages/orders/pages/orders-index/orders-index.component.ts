@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Crud } from '../../../../class/crud';
+// import { Crud } from '../../../../class/crud';
 import { PermissionOrders } from '../../../../class/permissions-modules';
 import { IOrder, IOrderWorkspace } from '../../../../interfaces/iorder';
 import { DetailsOrderComponent } from '../../modules/shared-order/details-order/details-order.component';
@@ -9,18 +9,18 @@ import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
-import { PageEvent } from '@angular/material/paginator';
-import { IPaginate, IResponse, MethodsHttpService } from '../../../../services/methods-http.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { MatSort } from '@angular/material/sort';
-import { SwalService } from '../../../../services/swal.service';
+// import { SwalService } from '../../../../services/swal.service';
 import { MatTable } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
 import { EchoManager } from '../../../../class/echo-manager';
 import { StorageService } from '../../../../services/storage.service';
 import { SharedService } from '../../../../services/shared/shared.service';
-import { LogOrderModalComponent } from '../log-order-modal/log-order-modal.component';
+import { LogOrderModalComponent } from '../../orders/log-order-modal/log-order-modal.component';
 import { ReuseComponent } from '../../../../interfaces/reuse-component';
+import { MatTableHelper } from '../../../../shared/class/mat-table-helper';
+import { SearchTemplateTableComponent } from '../../../../Modulos/search-template/search-template-table/search-template-table.component';
 // import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -35,28 +35,35 @@ import { ReuseComponent } from '../../../../interfaces/reuse-component';
     ]),
   ],
 })
-export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDestroy, ReuseComponent {
+export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnInit, OnDestroy, ReuseComponent {
 
   constructor(private storage: StorageService, private dialog: MatDialog, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
     super();
   }
 
   loadInfo(): void {
-      this.changePaginator();
+      // this.changePaginator();
   }
 
   @ViewChild('filterOrderMin', { static: false }) dpMinDateElement: ElementRef;
   @ViewChild('filterOrderMax', { static: false }) dpMaxDateElement: ElementRef;
   @ViewChild(MatTable) table: MatTable<IOrder>;
-  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  @ViewChild(SearchTemplateTableComponent) searchTemplateTable: SearchTemplateTableComponent;
   @ViewChild(MatSort) sort: MatSort;
 
   url: string = 'system-orders/orders';
-  detailPaginator = {
-    current_page: 1,
-    per_page: 10,
-    total: 0
+  // detailPaginator = {
+  //   current_page: 1,
+  //   per_page: 10,
+  //   total: 0
+  // }
+  iconChannels: {[key:string]: string} = {
+    'whatsapp': 'fab fa-whatsapp',
+    'webstore': 'fas fa-cart-shopping ',
+    'marketplace': 'far fa-store',
+    'ml': 'fab fa-ml',
   }
+
   filters: any = {
     'status[]': [],
     minDate: null,
@@ -90,7 +97,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   dpMax: any;
   dpMin: any;
 
-  dataSource: IOrder[] = [];
+  override dataSource: IOrder[] = [];
   columnsToDisplay = ['id', 'type', 'status', 'client', 'channel', 'transference', 'guide', 'anticipe', 'invoice', 'warehouse', 'company', 'total', 'seller', 'created_at', 'started_at', 'ended_at', 'actions'];
   expandedElement: IOrder | null;
   workspaceSelect = null;
@@ -117,7 +124,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
   listener(_e): void {
     SharedService.disabled_loader = true;
     this.canLoading = false;
-    this.changePaginator();
+    // this.changePaginator();
   }
 
   ngAfterViewInit() {
@@ -164,23 +171,23 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
       )
   }
 
-  override getData($event: IResponse<IPaginate<any>>): void {
-    this.dataSource = $event.data.data;
-    this.detailPaginator.current_page = $event.data.current_page;
-    this.detailPaginator.per_page = $event.data.per_page;
-    this.detailPaginator.total = $event.data.total;
-  }
+  // override getData($event: IResponse<IPaginate<any>>): void {
+  //   this.dataSource = $event.data.data;
+  //   this.detailPaginator.current_page = $event.data.current_page;
+  //   this.detailPaginator.per_page = $event.data.per_page;
+  //   this.detailPaginator.total = $event.data.total;
+  // }
 
-  changePaginator(event: PageEvent | null = null): void {
-    this.headerComponent.searchBar(event);
-  }
+  // changePaginator(event: PageEvent | null = null): void {
+  //   this.headerComponent.searchBar(event);
+  // }
 
   changeWorkspaces(event: MatSelectChange) {
     this.methodsHttp.methodPut(`system-orders/workspaces/preference/${event.value}`)
       .subscribe(
         {
           next: () => {
-            this.headerComponent.searchBar(null);
+            this.searchTemplateTable.searchNow();
           }
         }
       )
@@ -190,7 +197,7 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     console.log(event);
     this.filters.orderBy = event.direction;
     this.filters.orderByColumn = event.active;
-    this.headerComponent.searchBar();
+    this.searchTemplateTable.searchNow();
   }
 
   getDataForFilter(): void {
@@ -217,23 +224,23 @@ export class OrdersIndexComponent extends Crud<IOrder> implements OnInit, OnDest
     });
   }
 
-  deleteOrder(id: number) {
-    SwalService.swalFire({ text: '¿Está seguro de eliminar el pedido?', icon: 'warning', showConfirmButton: true, showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'No, cancelar' })
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.methodsHttp.methodDelete(`system-orders/orders/${id}`).subscribe(
-            {
-              next: () => {
-                this.snackBar.open('Orden eliminada', 'Cerrar', {
-                  duration: 5000,
-                });
-                this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
-                this.table.renderRows();
-              }
-            });
-        }
-      })
-  }
+  // deleteOrder(id: number) {
+  //   SwalService.swalFire({ text: '¿Está seguro de eliminar el pedido?', icon: 'warning', showConfirmButton: true, showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'No, cancelar' })
+  //     .then((result) => {
+  //       if (result.isConfirmed) {
+  //         this.methodsHttp.methodDelete(`system-orders/orders/${id}`).subscribe(
+  //           {
+  //             next: () => {
+  //               this.snackBar.open('Orden eliminada', 'Cerrar', {
+  //                 duration: 5000,
+  //               });
+  //               this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
+  //               this.table.renderRows();
+  //             }
+  //           });
+  //       }
+  //     })
+  // }
 
   addWarehouse(warehouse): void {
     // console.log(warehouse);

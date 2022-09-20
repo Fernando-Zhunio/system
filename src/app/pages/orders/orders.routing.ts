@@ -4,9 +4,9 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { environment } from '../../../environments/environment';
 import { PermissionOrders } from '../../class/permissions-modules';
 import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
-import { CreateOrEditOrderComponent } from './orders/create-or-edit-order/create-or-edit-order.component';
-import { EditOrderComponent } from './orders/edit-order/edit-order.component';
-import { OrdersIndexComponent } from './orders/orders-index/orders-index.component';
+import { CreateOrEditOrderComponent } from './pages/create-or-edit-order/create-or-edit-order.component';
+import { EditOrderComponent } from './pages/edit-order/edit-order.component';
+import { OrdersIndexComponent } from './pages/orders-index/orders-index.component';
 
 const permissionsModuleRoutes = PermissionOrders;
 const routes = [

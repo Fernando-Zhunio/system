@@ -163,7 +163,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       } else {
         this.methodHttp.methodGet('admin/locations/create').subscribe(
           (response) => {
-            if (response.success) {
+            if (response?.success) {
+              console.log(response.data, response);
               this.setDataSelects(response.data);
             }
             this.ngx_spinner.hide();
@@ -203,6 +204,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   setDataSelects(data): void {
     this.companies = data.companies;
     this.cities = data.cities;
+    console.log(this.cities, data);
     this.keyCities = Object.keys(this.cities);
     this.types = data.types;
     this.keyTypes = Object.keys(this.types);
