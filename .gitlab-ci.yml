@@ -101,7 +101,7 @@ production:
   script:
     - *init_ssh
     - npm i -g @angular/cli
-    - ng ng b --configuration production
+    - ng b --configuration production
     - apt-get update
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
