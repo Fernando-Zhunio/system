@@ -1,4 +1,5 @@
 import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+// import { DialogProductsService } from '../../services/dialog-products.service';
 
 @Component({
   selector: 'app-search-products',
@@ -40,5 +41,9 @@ export class SearchProductsComponent implements OnInit {
   close() {
     this.isClose.emit(true);
   }
+
+  // closeDialog() {
+  //   this.dialogProduct.close('hola');
+  // }
 
 }

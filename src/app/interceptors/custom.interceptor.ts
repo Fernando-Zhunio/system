@@ -41,7 +41,7 @@ export class CustomInterceptor implements HttpInterceptor {
         this.snackBar.dismiss();
       }),
       catchError((err) => {
-        console.log(err);
+        console.error(err);
         this.snackBar.dismiss();
         let message: string = '';
         message = err?.error?.hasOwnProperty('success') ? err.error.data : 'Error de servidor';

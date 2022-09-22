@@ -23,7 +23,7 @@ export interface IOrderWorkspace {
   updated_at: string;
 }
 
-export interface ItemOrder {
+export interface ProductOrder {
   product_id: number;
   description: string;
   quantity: number;
@@ -33,7 +33,7 @@ export interface ItemOrder {
   created_at: string;
   id: number;
   order: Order;
-  product: IProductItemOrder;
+  product: SubProductItem;
 }
 export interface IDiscountAndTaxes {
   id: number;
@@ -66,7 +66,7 @@ export interface ItemsEntity {
   created_at: string;
   updated_at: string;
 }
-export interface IProductItemOrder {
+export interface SubProductItem {
   id: number;
   name: string;
   description: string;
@@ -94,6 +94,7 @@ export interface IProductItemOrder {
 
 export interface Order {
   id: number;
+  additional_data: {transfers_status: any}
   type: string;
   status: string;
   channel_id: number;
@@ -113,7 +114,7 @@ export interface Order {
   shipping_address: ShippingAddress;
   payments?: (any)[] | any;
   additional_amounts?: (IDiscountAndTaxes)[] | any;
-  items?: (ItemOrder)[] | any;
+  items?: (ProductOrder)[] | any;
   transfers?: ITransference[];
   statuses: Status[];
   invoices: IInvoice[];
@@ -182,7 +183,7 @@ export interface ITransference {
   updated_at: string;
   origin_warehouse: IOriginWarehouse | null;
   destination_warehouse: IOriginWarehouse | null;
-  items?: ItemOrder[];
+  items?: ProductOrder[];
   pivot?: IPivot;
   statuses: Status[];
 
@@ -288,11 +289,16 @@ export interface Warehouse {
 }
 export interface Client {
   id: number;
-  code: string;
-  name: string;
-  identification: string;
-  address: string;
+  first_name: string;
+  last_name: string;
+  doc_type: string;
+  doc_id: string;
   email: string;
+  phone: string;
+  city: string;
+  state: string;
+  country: string;
+  novisys_id?: any;
   created_at: string;
   updated_at: string;
 }

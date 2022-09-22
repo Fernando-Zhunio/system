@@ -113,7 +113,7 @@
                       "main": "src/test.ts",
                       "karmaConfig": "./karma.conf.js",
                       "polyfills": "src/polyfills.ts",
-                      "tsConfig": "src/tsconfig.spec.json",
+                      "tsConfig": "src/tsconfig.test.spec.json",
                       "scripts": [
                           "node_modules/chart.js/dist/chart.min.js"
                       ],

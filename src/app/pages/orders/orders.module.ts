@@ -46,6 +46,8 @@ import { LogOrderModalComponent } from './orders/log-order-modal/log-order-modal
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EditDataOrderModalComponent } from './components/edit-data-order-modal/edit-data-order-modal.component';
 import { SearchTemplateTableComponent } from '../../Modulos/search-template/search-template-table/search-template-table.component';
+import { EditProductOrderComponent } from './components/edit-product-order/edit-product-order.component';
+import { SearchProductsDialogModule } from '../../shared/search-products-dialog/search-products-dialog.module';
 
 @NgModule({
   declarations: [DashboardOrdersComponent,
@@ -56,6 +58,7 @@ import { SearchTemplateTableComponent } from '../../Modulos/search-template/sear
     DetailButtonSheetComponent,
     LogOrderModalComponent,
     EditDataOrderModalComponent,
+    EditProductOrderComponent
   ],
   imports: [
     CommonModule,
@@ -94,6 +97,7 @@ import { SearchTemplateTableComponent } from '../../Modulos/search-template/sear
     MomentModule,
     MatSlideToggleModule,
     MatProgressBarModule,
+    SearchProductsDialogModule
   ]
 })
 export class OrdersModule { }

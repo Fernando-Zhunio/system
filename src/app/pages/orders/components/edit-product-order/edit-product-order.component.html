@@ -1,0 +1,57 @@
+<h1 matDialogTitle>Editor de producto</h1>
+
+<mat-dialog-content>
+  <div [formGroup]="form">
+    <p><strong class="text-primary">Reemplazar: </strong>{{data.item.product.name}}</p>
+    <div>
+      <small class="text-muted d-block">Producto:</small>
+      <div>
+        <input
+          readonly
+          class="input-product"
+          type="text"
+          (click)="openSearchProducts()"
+          [value]="form.get('product')?.value?.name"
+          placeholder="Producto" />
+      </div>
+    </div>
+    <div>
+      <div class="row">
+        <div class="col-md-6">
+          <small class="text-muted d-block">Precio *:</small>
+          <input
+            min="0"
+            class="input-price input-product"
+            formControlName="price"
+            type="number"
+            placeholder="Precio" />
+        </div>
+        <div class="col-md-6">
+          <small class="text-muted d-block">Cantidad *:</small>
+          <input
+            min="1"
+            class="input-quantity input-product"
+            type="number"
+            formControlName="quantity"
+            placeholder="Cantidad" />
+        </div>
+      </div>
+      <div>
+        <small class="text-muted d-block">Descripción:</small>
+        <textarea class="input-product" formControlName="description" placeholder="Descripción"></textarea>
+      </div>
+      <div class="pt-md-2 col">
+        <button
+          color="primary"
+          mat-raised-button
+          Editar producto>
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button [disabled]="isLoading" color="warn" matDialogClose>Salir <i class="fa-solid fa-xmark"></i></button>
+    <button mat-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-floppy-disk"></i></button>
+</mat-dialog-actions>

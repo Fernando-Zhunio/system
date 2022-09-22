@@ -158,14 +158,14 @@
     </div>
 
     <mat-accordion #accordion2 class="example-headers-align" multi>
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsProducts.index">
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>Productos</mat-panel-title>
           <mat-panel-description>
             <span class="d-md-inline-block d-none">Gestionar productos de la orden</span>
             <span class="center">
               <span class="badge bg-warning font-lg mr-1">{{ items?.size || 0 }}</span>
-              <mat-icon>precision_manufacturing</mat-icon>
+              <i class="fa-solid fa-cash-register"></i>
             </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
@@ -183,7 +183,7 @@
             <span class="d-md-inline-block d-none">Gestionar envíos de la orden</span>
             <span class="center">
               <span class="badge bg-warning font-lg mr-1">{{ order?.shippings?.length || 0 }}</span>
-              <mat-icon>local_shipping</mat-icon>
+              <i class="fa-solid fa-truck-fast"></i>
             </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
@@ -204,7 +204,7 @@
             <span class="d-md-inline-block d-none">Agregar, editar o eliminar pagos de la orden</span>
             <span class="center">
               <span class="badge bg-warning font-lg mr-1">{{ order?.payments?.length || 0 }}</span>
-              <mat-icon>attach_money</mat-icon>
+              <i class="fa-regular fa-credit-card"></i>
             </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
@@ -221,7 +221,7 @@
             <span class="d-md-inline-block d-none">Agregar, editar o eliminar descuentos e impuestos de la orden</span>
             <span class="center">
               <span class="badge bg-warning font-lg mr-1">{{ discountsAndTaxes?.size || 0 }}</span>
-              <mat-icon>discount</mat-icon>
+              <i class="fa-solid fa-percent"></i>
             </span>
           </mat-panel-description>
         </mat-expansion-panel-header>

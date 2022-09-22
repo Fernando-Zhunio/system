@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PermissionOrdersAdditionalAmounts, PermissionOrdersInvoicesMba, PermissionOrdersItems, PermissionOrdersPayments, PermissionOrdersPaymentsMba, PermissionOrdersShippings, PermissionOrdersTransfersMba } from '../../../../class/permissions-modules';
-import { IChannelOrder, IItemOrder, IOrder, IPaymentOrder, IStatus } from '../../../../interfaces/iorder';
+import {  IItemOrder, IPaymentOrder, IStatus } from '../../../../interfaces/iorder';
 import { TranslatefzPipe } from '../../../../pipes/translatefz.pipe';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -17,6 +17,8 @@ import { StateFlowOrderComponent } from '../../components/state-flow-order/state
 import * as moment from 'moment';
 import { PdfDetailOrderComponent } from '../../modules/shared-order/pdf-detail-order/pdf-detail-order.component';
 import { EditDataOrderModalComponent } from '../../components/edit-data-order-modal/edit-data-order-modal.component';
+import { OrdersService } from '../../services/orders.service';
+import { Order } from '../../interfaces/order';
 
 interface Record {
   icon?: string | null;
@@ -32,13 +34,13 @@ interface Record {
 })
 export class EditOrderComponent implements OnInit {
 
-  constructor(private bottomSheet: MatBottomSheet, private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
+  constructor(private orderService: OrdersService, private bottomSheet: MatBottomSheet, private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   @ViewChild(StateFlowOrderComponent) stateFlow: StateFlowOrderComponent;
   id: string | null;
-  order: IOrder;
+  order: Order;
   items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
-  types: any[] = [];
-  channels: IChannelOrder[] = [];
+  // types: any[] = [];
+  // channels: IChannelOrder[] = [];
   paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
   payments: IPaymentOrder[] = [];
   discountsAndTaxes: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
@@ -69,30 +71,36 @@ export class EditOrderComponent implements OnInit {
     this.id = this.activated_router.snapshot.paramMap.get('order_id');
     this.spinner.show();
     this.getStatuses();
-    this.standard.methodGet(`system-orders/orders/${this.id}/edit`).subscribe(data => {
+    // this.standard.methodGet(`system-orders/orders/${this.id}/edit`)
+    this.orderService.$order.subscribe((order) => {
+      if (order) {
+        this.order = order;
+        this.metaDataTransference = order.additional_data?.transfers_status;
+        this.fillData();
+        this.withTiming();
+      }
+    });
+
+    this.orderService.init(this.id!)
+    .subscribe(data => {
       if (data?.success) {
-        this.order = data.data.order;
+        // this.order = data.data.order;
         this.metaDataTransference = data.data?.order.additional_data?.transfers_status;
         this.withTiming();
-        this.channels = data.data.channels;
-        this.types = data.data.types;
+        // this.channels = data.data.channels;
+        // this.types = data.data.types;
         this.fillData();
         this.spinner.hide();
         this.detailClient = [
           ['Ciudad', this.order?.client?.city],
-          // ['Compañía',this.order?.client?.company],
           ['País', this.order?.client?.country],
           ['Estado', this.order?.client?.state],
           ['Creado', this.order?.client?.created_at],
           ['# Documento', this.order?.client?.doc_id],
-          // ['', this.order?.client?.doc_type],
           ['Correo', this.order?.client?.email],
           ['Nombres', this.order?.client?.first_name],
-          // ['', this.order?.client?.id],
           ['Apellidos', this.order?.client?.last_name],
-          // ['', this.order?.client?.novisys_id],
           ['Telefono', this.order?.client?.phone],
-          // ['', this.order?.client?.updated_at],
         ]
       }
     }, err => {
@@ -216,15 +224,16 @@ export class EditOrderComponent implements OnInit {
   }
 
   getOrder(_$event = null): void {
-    this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
-      if (res.success) {
-        this.order = res.data;
-        this.metaDataTransference = res.data.additional_data?.transfers_status;
+    // this.standard.methodGet(`system-orders/orders/${this.order.id}`).subscribe(res => {
+    //   if (res.success) {
+    //     this.order = res.data;
+    //     this.metaDataTransference = res.data.additional_data?.transfers_status;
 
-        this.fillData();
-        this.withTiming();
-      }
-    });
+    //     this.fillData();
+    //     this.withTiming();
+    //   }
+    // });
+    this.orderService.refreshOrders();
     this.getStatuses();
   }
 

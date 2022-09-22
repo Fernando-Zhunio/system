@@ -1,0 +1,31 @@
+.input-price {
+    width: 84px;
+  }
+  
+  .input-quantity {
+    width: 84px;
+  }
+
+  .input-product {
+    background: #dadada;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    margin-right: 10px;
+    width: 100%;
+  }
+
+  .table-container-products {
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .table-header-products {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
