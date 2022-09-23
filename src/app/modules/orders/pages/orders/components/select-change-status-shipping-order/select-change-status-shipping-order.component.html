@@ -1,0 +1,40 @@
+<div>
+  <span>
+    <span class="text-primary">Estado:</span>
+    <span [class]="status" class="badge-fz">{{status | translatefz: "orders"}}</span>
+    <small class="text-muted" *ngIf="isLoading">procesando ...</small>
+    <ng-container *ngIf="!isServientregaDelivered()">
+      <button color="primary" mat-icon-button [matMenuTriggerFor]="menu"><i class="fa-solid fa-retweet"></i></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="changeStatus('pending')">Pendiente</button>
+        <button mat-menu-item (click)="changeStatus('processed')">Listo para recoger</button>
+        <button mat-menu-item (click)="changeStatus('delivered')">Entregado</button>
+        <button mat-menu-item (click)="changeStatus('cancelled')">Cancelado</button>
+      </mat-menu>
+    </ng-container>
+  </span>
+</div>
+<ng-template #templateSelectStatus>
+  <div *ngxPermissionsOnly="permissionsShipping.edit; else elseStatePermission; then: thenStatePermission"></div>
+  <ng-template #thenStatePermission>
+    <div class="d-flex">
+      <mat-form-field>
+        <mat-select
+          [disabled]="isCancelled"
+          [value]="status"
+          (selectionChange)="changeStatus($event)"
+          placeholder="Cambio de estado">
+          <mat-option (click)="changeStatus('pending')">Pendiente</mat-option>
+          <mat-option (click)="changeStatus('processed')">Listo para recoger</mat-option>
+          <mat-option (click)="changeStatus('delivered')">Entregado</mat-option>
+          <mat-option (click)="changeStatus('cancelled')">Cancelado</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </ng-template>
+  <ng-template #elseStatePermission>
+    <div class="d-flex">
+      <span class="badge font-sm {{ status }}">Estado: {{ status | translatefz: "orders" }}</span>
+    </div>
+  </ng-template>
+</ng-template>

@@ -82,7 +82,7 @@ export const routes: Routes = [
   },
   {
     path: 'authetication',
-    loadChildren: () => import('./pages/authenticate/authenticate.module').then(m => m.AuthenticateModule),
+    loadChildren: () => import('./modules/authenticate/authenticate.module').then(m => m.AuthenticateModule),
     canActivate: [AuthReverseGuard],
     data: {
       title: 'pageRedirect',
@@ -100,43 +100,43 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
+        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
       },
       {
         path: 'catalogo',
-        loadChildren: () => import('./pages/catalogo/catalogo.module').then(m => m.CatalogoModule),
+        loadChildren: () => import('./modules/catalogo/catalogo.module').then(m => m.CatalogoModule),
       },
       {
         path: 'admin-products',
-        loadChildren: () => import('./pages/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule),
+        loadChildren: () => import('./modules/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule),
       },
       {
         path: 'importaciones',
-        loadChildren: () => import('./pages/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
+        loadChildren: () => import('./modules/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
       },
       {
         path: 'reports',
-        loadChildren: () => import('./pages/reportes/reportes.module').then(m => m.ReportesModule)
+        loadChildren: () => import('./modules/reportes/reportes.module').then(m => m.ReportesModule)
       },
       {
         path: 'information-general',
-        loadChildren: () => import('./pages/information-user/information-user.module').then(m => m.InformationUserModule)
+        loadChildren: () => import('./modules/information-user/information-user.module').then(m => m.InformationUserModule)
       },
       {
         path: 'administracion-sistema',
-        loadChildren: () => import('./pages/administracion-sistema/administracion-sistema.module').then(m => m.AdministracionSistemaModule)
+        loadChildren: () => import('./modules/administracion-sistema/administracion-sistema.module').then(m => m.AdministracionSistemaModule)
       },
       {
         path: 'recursos-humanos',
-        loadChildren: () => import('./pages/rrhh/rrhh.module').then(m => m.RrhhModule),
+        loadChildren: () => import('./modules/rrhh/rrhh.module').then(m => m.RrhhModule),
       },
       {
         path: 'chats',
-        loadChildren: () => import('./pages/chats/chats.module').then(m => m.ChatsModule),
+        loadChildren: () => import('./modules/chats/chats.module').then(m => m.ChatsModule),
       },
       {
         path: 'system-orders',
-        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule),
+        loadChildren: () => import('./modules/orders/orders.module').then(m => m.OrdersModule),
       },
       // {
       //   path: 'system-orders',

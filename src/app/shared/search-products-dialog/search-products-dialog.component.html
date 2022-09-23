@@ -1,7 +1,7 @@
 <div class="container-search-products center">
   <button (click)="close()" color="warn" class="btn-close" mat-icon-button><mat-icon>close</mat-icon></button>
   <div class="col-md-5 col-10 overflow-hidden h-100">
-    <app-search (data)="getData($event)" placeholder="Buscador de productos" [url]="url">
+    <app-search [init]="false" @fade (data)="getData($event)" placeholder="Buscador de productos" [url]="url">
       <ng-container data>
         <div class="section-data bg-product shadow p-3 main-style">
           <div *ngFor="let product of products | keyvalue">

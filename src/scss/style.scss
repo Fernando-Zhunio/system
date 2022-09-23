@@ -13,7 +13,7 @@
 
 mat-card {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-  border-radius: 30px !important;
+  border-radius: 15px !important;
 }
 
 .app,
@@ -21,7 +21,7 @@ app-dashboard,
 app-root {
   display: flex;
   flex-direction: column;
-  max-height: 100vh !important;
+  min-height: 100vh !important;
 }
 
 .chat-font {
@@ -39,9 +39,9 @@ app-root {
   padding: 0 10px !important;
 }
 
-html {
-  top: 0 !important;
-}
+// html {
+//   top: 0 !important;
+// }
 
 .title-line {
   border-bottom: 2px solid rgb(0 0 0 / 87%);

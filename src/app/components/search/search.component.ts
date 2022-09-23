@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { IProduct } from '../../interfaces/iproducts';
-import { StandartSearchService } from '../../services/standart-search.service';
+import { MethodsHttpService } from '../../services/methods-http.service';
 
 @Component({
   selector: 'app-search',
@@ -10,7 +9,7 @@ import { StandartSearchService } from '../../services/standart-search.service';
 })
 export class SearchComponent implements OnInit {
 
-  constructor(private s_standart: StandartSearchService) { }
+  constructor(private methodsHttp: MethodsHttpService) {}
 
   @Input() classes: string = '';
   @Input() title: string | null = null;
@@ -18,8 +17,9 @@ export class SearchComponent implements OnInit {
   @Input() url: string;
   @Input() init: boolean = true;
   @Input() styles: string = '';
+  @Input() commentLoading: string = 'Cargando espere por favor...';
   @Output() data = new EventEmitter<any>();
-  isLoading: boolean = false;
+  isLoading: boolean | undefined = false;
   // length: number = 0;
   paginator: PageEvent = new PageEvent();
   textSearch: string = '';
@@ -27,9 +27,9 @@ export class SearchComponent implements OnInit {
     this.paginator.length = 0;
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
-    if (this.init) {
-      this.search();
-    }
+    this.init ? this.search() : this.isLoading = undefined;
+     
+    console.log(this.isLoading);
   }
 
   search(pageEvent: any = null): void {
@@ -40,13 +40,12 @@ export class SearchComponent implements OnInit {
       pageSize: pageEvent.pageSize,
       search: this.textSearch
     };
-    this.s_standart.methodGetPaginate<IProduct>(this.url, params).subscribe(
+    this.methodsHttp.methodGetPaginate<any>(this.url, params).subscribe(
       (response) => {
         this.isLoading = false;
         this.paginator.length = response.data.total;
         this.paginator.pageIndex = response.data.current_page - 1;
         this.paginator.pageSize = response.data.per_page;
-        // console.log(this.paginator);
         this.data.emit(response.data);
       },
       (error) => {

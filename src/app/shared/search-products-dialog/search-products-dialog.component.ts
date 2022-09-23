@@ -1,10 +1,12 @@
 import { Component, ContentChild, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
+import { animation_conditional } from '../../animations/animate_leave_enter';
 import { DialogProductsService } from '../../services/dialog-products.service';
 
 @Component({
   selector: 'search-products-dialog',
   templateUrl: './search-products-dialog.component.html',
-  styleUrls: ['./search-products-dialog.component.scss']
+  styleUrls: ['./search-products-dialog.component.scss'],
+  animations: animation_conditional
 })
 export class SearchProductsDialogComponent implements OnInit {
 
@@ -14,8 +16,7 @@ export class SearchProductsDialogComponent implements OnInit {
 
   constructor(
     private dialogService: DialogProductsService 
-  ) {
-  }
+  ) {}
 
   products: Map<number, any> = new Map<number, any>();
   @Output() add: EventEmitter<any> = new EventEmitter<any>();

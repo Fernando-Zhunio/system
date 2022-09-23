@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchComponent } from '../../components/search/search.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   CommonModule,
     FormsModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
   ],
   exports: [
     SearchComponent

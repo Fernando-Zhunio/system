@@ -6,9 +6,11 @@
     font-weight: bold;
     padding-right: 35px;
     font-size: 1.3em;
-    padding-left: 15px;
-    border: 2px solid #d1d1d1;
-    border-radius: 10px;
+    padding-left: 40px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 400;
+    height: 45px;
 }
 
 .btn-default {
@@ -19,6 +21,8 @@
     background: transparent;
     font-size: 18px;
     color: gray;
+    position: absolute;
+    left: 9px;
 }
 
 .content-btns {
@@ -31,4 +35,20 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
     margin-top: 20px;
+}
+
+.loading-container {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    margin: 10px;
+    
+}
+
+.loading-container > div {
+    background: #dadada3d;
+    backdrop-filter: blur(4px);
+    height: 100%;
+    width: 100%;
 }

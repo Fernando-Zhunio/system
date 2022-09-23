@@ -1,0 +1,41 @@
+<h1 class="list-group-item-accent-warning pl-2" matDialogTitle><span class="font-weight-bold">Lista de Precios</span>
+  <br>
+  <small>{{product_name}}</small>
+</h1>
+
+<mat-dialog-content>
+  <ng-container *ngFor="let prices of data | keyvalue">
+    <mat-card>
+      <h2 class="font-facebook font-2x1 sticky-top bg-gray-200 pl-3">{{prices?.value[0]?.group?.name}}</h2>
+       <table class="table table-responsive">
+        <thead>
+          <tr>
+            <th>Precio</th>
+            <th>precio con impuestos</th>
+            <th>Estado</th>
+            <th>Acción</th>
+            <th>Creado</th>
+            <th>Opciones</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let price of prices.value">
+              <td>${{price?.price}}</td>
+              <td>${{price?.full_price_formated}}</td>
+              <td>{{price?.status}}</td>
+              <td>{{price?.action}}</td>
+              <td>{{price?.created_at | date}}</td>
+              <td><button *ngxPermissionsOnly="permissions.delete" mat-icon-button color="warn" (click)="deletePrice(price?.id, price.price_group_id)"><mat-icon>delete</mat-icon></button></td>
+            </tr>
+  
+          </tbody>
+      </table>
+    </mat-card>
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button matDialogClose color="warn">Cerrar</button>
+    <!-- <button mat-button>Action</button> -->
+
+</mat-dialog-actions>
