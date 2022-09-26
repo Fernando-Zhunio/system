@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PermissionOrdersPaymentsMba } from '../../../../../../class/permissions-modules';
 import { StandartSearchService } from '../../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../../services/swal.service';
@@ -10,7 +10,7 @@ import { PaymentMbaData } from '../../../../interfaces/payment-mba';
   templateUrl: './payment-mba-item.component.html',
   styleUrls: ['./payment-mba-item.component.scss']
 })
-export class PaymentMbaItemComponent implements OnInit {
+export class PaymentMbaItemComponent {
 
   constructor(private standard: StandartSearchService) { }
   isLoading = false;
@@ -19,8 +19,6 @@ export class PaymentMbaItemComponent implements OnInit {
   @Input() item: MbaSchema<PaymentMbaData>;
   @Input() isCancelled = false;
   permissionsPaymentsMBA = PermissionOrdersPaymentsMba;
-  ngOnInit(): void {
-  }
 
   unlink(id): void {
     SwalService.swalFire({

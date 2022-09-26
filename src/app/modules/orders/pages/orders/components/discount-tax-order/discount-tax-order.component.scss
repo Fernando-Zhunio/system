@@ -1,0 +1,19 @@
+.body-info tr  {
+    td:nth-child(1) {
+     font-weight: bold;
+     color: gray;
+   }
+ }
+
+ .retention {
+     color: #ffc107;
+     background-color: #ffc1072d;
+ }
+ .discount {
+     color: #07ff13;
+     background-color: #07ff132d;
+ }
+  .tax {
+      color: #ff0707;
+      background-color: #ff07072d;
+  }

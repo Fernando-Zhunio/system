@@ -2,17 +2,36 @@
     color: #f0ad4e;
     background-color: #f0ac4e2d;
 }
+.generated_guide {
+    color: #138cb1;
+    background-color: #138cb12d;
+}
 
 .processed {
     color: #5cb85c;
     background-color: #5cb85c2d;
+}
+.in_transit {
+    color: #9ade5b;
+    background-color: #9ade5b2d;
+}
+.shipped {
+    color: #cf5bde;
+    background-color: #cf5bde2d;
 }
 
 .delivered {
     color: #5bc0de;
     background-color: #5bc0de2d;
 }
-
+.returned {
+    color: #d97b4f;
+    background-color: #d97b4f2d;
+}
+.returned_to_courier_warehouse {
+    color: #4f51d9;
+    background-color: #4f51d92d;
+}
 .cancelled {
     color: #d9534f;
     background-color: #d9534f2d;

@@ -88,12 +88,12 @@ export class ModalAddProductsShippingComponent implements OnInit {
   }
 
   validateMinMaxRangeQuantity(e, max): void {
-    // tslint:disable-next-line: radix
+    // eslint-disable-next-line radix
     const typedNumber = parseInt(e.key);
-    // tslint:disable-next-line: radix
+    // eslint-disable-next-line radix
     const currentVal = parseInt(e.target.value) || '';
     console.log(currentVal);
-    // tslint:disable-next-line: radix
+    // eslint-disable-next-line radix
     const newVal = parseInt(typedNumber.toString() + currentVal.toString());
 
     if (newVal < 1 || newVal > max) {

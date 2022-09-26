@@ -114,6 +114,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.3",
+    "@angular-eslint/builder": "14.1.2",
+    "@angular-eslint/eslint-plugin": "14.1.2",
+    "@angular-eslint/eslint-plugin-template": "14.1.2",
+    "@angular-eslint/schematics": "14.1.2",
+    "@angular-eslint/template-parser": "14.1.2",
     "@angular/cli": "^14.2.3",
     "@angular/compiler-cli": "^14.2.2",
     "@angular/language-service": "^14.2.2",
@@ -125,7 +130,9 @@
     "@types/jest": "^27.4.0",
     "@types/node": "^13.13.52",
     "@types/sortablejs": "^1.10.6",
-    "codelyzer": "^5.2.2",
+    "@typescript-eslint/eslint-plugin": "5.37.0",
+    "@typescript-eslint/parser": "5.37.0",
+    "eslint": "^8.23.1",
     "fs": "0.0.1-security",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -141,7 +148,6 @@
     "protractor": "~7.0.0",
     "sqlite3": "^5.0.2",
     "ts-node": "^8.10.2",
-    "tslint": "~6.1.0",
     "typescript": "4.6.4"
   },
   "engines": {

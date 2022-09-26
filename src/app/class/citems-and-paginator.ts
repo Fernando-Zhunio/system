@@ -27,7 +27,7 @@ export class CitemsAndPaginator<T> {
   }
 
   removeItemTable(id): void {
-    // tslint:disable-next-line: triple-equals
+    // eslint-disable-next-line eqeqeq
     const index = this.ELEMENT_DATA.findIndex((x) => x['id'] === id);
     this.ELEMENT_DATA.splice(index, 1);
 

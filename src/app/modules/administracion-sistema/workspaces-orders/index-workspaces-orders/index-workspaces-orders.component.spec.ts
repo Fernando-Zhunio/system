@@ -1,4 +1,4 @@
-// /* tslint:disable:no-unused-variable */
+/* eslint-disable */
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 // import { IndexWorkspacesOrdersComponent } from './index-workspaces-orders.component';

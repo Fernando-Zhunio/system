@@ -196,7 +196,7 @@ export class FormProductComponent implements OnInit {
   convertDataSpecificationForServer() {
     const dataSpecification = Object.assign({}, this.formSpecification.value);
     const sendSpecifications: IformatSpecification[] = [];
-    // tslint:disable-next-line: forin
+    // eslint-disable-next-line guard-for-in
     for (const specification in dataSpecification) {
       const itemSpecification = this.vtexSpecificationProduct.find(
         (x) => x.FieldId == specification

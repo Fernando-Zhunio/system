@@ -3,7 +3,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IShippingOrder } from '../../../interfaces/iorder';
 import { StandartSearchService } from '../../../services/standart-search.service';
-import { SelectedViewServientregaPdfComponent } from '../modules/shared-order/selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
+import { SelectedViewServientregaPdfComponent } from '../pages/orders/components/selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
 
 @Component({
   selector: 'app-servientrega',

@@ -78,7 +78,7 @@ export class MlComponent implements OnInit {
           subscribe(res => {
             if (res) {
               const snack = this.snack_bar.open('Cambiando estado espere...');
-              // tslint:disable-next-line: max-line-length
+              // eslint-disable-next-line max-len
               this.s_mercado_libre.postRealistProduct(this.ml.id, res).subscribe( res1 => {
                 snack.dismiss();
                 if (res1 && res1.hasOwnProperty('success') && res1.success) {

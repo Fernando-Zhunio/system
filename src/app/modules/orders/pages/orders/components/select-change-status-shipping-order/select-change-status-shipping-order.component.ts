@@ -37,13 +37,6 @@ export class SelectChangeStatusShippingOrderComponent implements OnInit {
       })
       .then(res => {
         if (res.isConfirmed) {
-          // this.methodsHttp.methodPut(`system-orders/orders/${this.order_id}/shippings/${id}/status`, { status: selectionValue }).subscribe(res => {
-          //   if (res?.success) {
-          //     this.change.emit('update status');
-          //   }
-          // }, () => {
-            
-          // });
           this.isLoading = true;
           this.orderService.changeStatusShipping(this.id, status).subscribe(res => {
             if (res?.success) {
@@ -66,7 +59,7 @@ export class SelectChangeStatusShippingOrderComponent implements OnInit {
   }
 
   convertTranslateStatus(): string {
-    return this.status == ShippingStatus.shipped && this.type == ShippingTypes.pickup ? 'Listo para recoger' : this.status;
+    return this.status == ShippingStatus.processed && this.type == ShippingTypes.pickup ? 'Listo para recoger' : this.status;
   }
 
 }

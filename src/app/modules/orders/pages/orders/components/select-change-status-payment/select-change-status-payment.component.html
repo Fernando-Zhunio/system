@@ -1,0 +1,60 @@
+<!-- <div>
+  <span
+    class="badge-fz {{ status }}"
+    *ngIf="
+      status != 'pending' ||
+      type == 'paymentez';
+      else templateChangePayment
+    "
+    >Estado: {{ status | translatefz: "orders" }}</span>
+  <ng-template #templateChangePayment>
+    <span
+      *ngxPermissionsOnly="
+        permissionsPayments.edit;
+        else elseEdit;
+        then thenEdit
+      "
+    ></span>
+    <ng-template #thenEdit>
+      <span class="mt-2">
+        <mat-form-field>
+          <mat-select
+            [disabled]="isCancelled"
+            [value]="status"
+            (selectionChange)="
+              changeStatusPayment($event, id)
+            "
+            placeholder="Cambio de estado"
+          >
+            <mat-option value="pending">Pendiente</mat-option>
+            <mat-option value="paid">Pagado</mat-option>
+            <mat-option value="cancelled">Cancelado</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </span>
+    </ng-template>
+    <ng-template #elseEdit>
+      <span
+        class="badge font-xs bg-secondary {{ status }}"
+        >Estado:
+        {{ status | translatefz: "orders" }}</span
+      >
+    </ng-template>
+  </ng-template>
+</div> -->
+
+<div>
+  <span>
+    <span class="text-primary">Estado:</span>
+    <span [class]="status" class="badge-fz">{{status | translatefz: "orders"}}</span>
+    <small class="text-muted" *ngIf="isLoading">procesando ...</small>
+    <ng-container *ngIf="!(status != 'pending' || type == 'paymentez')">
+      <button [hidden]="isLoading" color="primary" mat-icon-button [matMenuTriggerFor]="menu"><i class="fa-solid fa-retweet"></i></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="changeStatus('pending')">Pendiente</button>
+        <button mat-menu-item (click)="changeStatus('paid')">Pagado</button>
+        <button mat-menu-item (click)="changeStatus('cancelled')">Cancelado</button>
+      </mat-menu>
+    </ng-container>
+  </span>
+</div>

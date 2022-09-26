@@ -9,10 +9,10 @@ import { MethodsHttpService } from '../../../../../../services/methods-http.serv
 import { SwalService } from '../../../../../../services/swal.service';
 import { Client } from '../../../../interfaces/client';
 import { ShippingOrder } from '../../../../interfaces/order';
-import { HistoryStatusesComponent } from '../../../../modules/shared-order/history-statuses/history-statuses.component';
-import { SelectedViewServientregaPdfComponent } from '../../../../modules/shared-order/selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
-import { GenerateGuideServientregaComponent } from '../../../../modules/shared-order/tools/generate-guide-servientrega/generate-guide-servientrega.component';
-import { ShippingOrderSectionComponent } from '../../../../components/shipping-order-section/shipping-order-section.component';
+import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
+import { SelectedViewServientregaPdfComponent } from '../selected-view-servientrega-pdf/selected-view-servientrega-pdf.component';
+import { GenerateGuideServientregaComponent } from '../generate-guide-servientrega/generate-guide-servientrega.component';
+import { ShippingOrderSectionComponent } from '../shipping-order-section/shipping-order-section.component';
 import { ModalAddProductsShippingComponent } from '../modal-add-products-shipping/modal-add-products-shipping.component';
 
 @Component({

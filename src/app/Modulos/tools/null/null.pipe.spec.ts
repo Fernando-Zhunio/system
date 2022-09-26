@@ -1,4 +1,4 @@
-// /* tslint:disable:no-unused-variable */
+/* eslint-disable */
 
 // import { TestBed, async } from '@angular/core/testing';
 // import { NullPipe } from './null.pipe';

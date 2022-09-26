@@ -39,8 +39,6 @@ export class EditOrderComponent implements OnInit {
   id: string | null;
   order: Order;
   items: Map<number, IItemOrder> = new Map<number, IItemOrder>();
-  // types: any[] = [];
-  // channels: IChannelOrder[] = [];
   paymentsMap: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
   payments: IPaymentOrder[] = [];
   discountsAndTaxes: Map<number, IPaymentOrder> = new Map<number, IPaymentOrder>();
@@ -65,7 +63,6 @@ export class EditOrderComponent implements OnInit {
   metaDataTransference = null;
 
   transcurrentTime: { hours, days } = { hours: '00:00:00', days: '0' };
-
 
   ngOnInit() {
     this.id = this.activated_router.snapshot.paramMap.get('order_id');

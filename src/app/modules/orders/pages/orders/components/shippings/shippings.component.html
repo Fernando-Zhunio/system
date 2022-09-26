@@ -15,73 +15,18 @@
   <hr />
   <div class="row">
     <div class="col-md-4 p-2" *ngFor="let shipping of shippings">
-      <mat-card class="border-0 " >
-        <div class=>
+      <mat-card  >
+        <div class="d-flex justify-content-between align-items-center">
           <div>
             <span [class]="shipping.type" class="badge-fz">{{ shipping.type }}</span>
+            <small *ngIf="shipping.is_return" class="text-danger text-sm ">Esta es una guía retornada guía de retorno</small>
           </div>
-          <small *ngIf="shipping.is_return" class="text-danger text-sm ">Esta es una guía retornada guía de retorno</small>
+          <span>
+            <app-select-change-status-shipping-order [id]="shipping.id" [status]="shipping.status" [type]="shipping.type">
+            </app-select-change-status-shipping-order>
+          </span>
         </div>
-<div>
-          <!-- <div
-            class="badge-fz {{ shipping.status }}"
-            *ngIf="
-              shipping.type != 'pickup' ||
-                shipping.status == 'delivered' ||
-                shipping.status == 'cancelled';
-              else templateSelectStatus
-            "
-          >
-            <span
-              >Estado:
-              <ng-container
-                *ngIf="
-                  shipping.status == 'shipped' && shipping.type == 'pickup';
-                  else elseTemplateCustomShippedStatus
-                "
-                >Listo para recoger</ng-container
-              >
-              <ng-template #elseTemplateCustomShippedStatus>{{
-                shipping.status | translatefz: "orders"
-              }}</ng-template>
-            </span>
-          </div>
-          <ng-template #templateSelectStatus>
-            <div
-              *ngxPermissionsOnly="
-                permissionsShipping.edit;
-                else elseStatePermission;
-                then: thenStatePermission
-              "
-            ></div>
-            <ng-template #thenStatePermission>
-              <div class="d-flex">
-                <mat-form-field>
-                  <mat-select
-                    [disabled]="isCancelled"
-                    [value]="shipping.status"
-                    (selectionChange)="
-                      changeStatusShipping($event, shipping.id)
-                    "
-                    placeholder="Cambio de estado"
-                  >
-                    <mat-option value="pending">Pendiente</mat-option>
-                    <mat-option value="processed">Listo para recoger</mat-option>
-                    <mat-option value="delivered">Entregado</mat-option>
-                    <mat-option value="cancelled">Cancelado</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </ng-template>
-            <ng-template #elseStatePermission>
-              <div class="d-flex">
-                <span class="badge font-sm {{ shipping.status }}"
-                  >Estado: {{ shipping.status | translatefz: "orders" }}</span
-                >
-              </div>
-            </ng-template>
-          </ng-template> -->
-        <app-select-change-status-shipping-order [id]="shipping.id" [status]="shipping.status" [type]="shipping.type"></app-select-change-status-shipping-order>
+        <div>
           <table class="table table-sm table-borderless">
             <tbody class="body-info">
               <tr>
@@ -115,9 +60,9 @@
               <tr *ngIf="shipping?.origin_warehouse">
                 <td>Bodegas:</td>
                 <td class="center justify-content-start">
-                  <span class="badge bg-success">{{
+                  <span class="text-info">{{
                     shipping?.origin_warehouse?.code
-                  }}</span
+                  }} </span
                   >{{ shipping?.origin_warehouse?.name }}
                 </td>
               </tr>
@@ -150,13 +95,13 @@
                   openDialogProductsShipping(shipping.id, shipping.status)
                 "
               >
-                <mat-icon>category</mat-icon> Productos
+              <i class="fa-solid fa-plus"></i> Productos
               </button>
               <ng-container
                 *ngIf="
-                  shipping.status != 'delivered' &&
+                  shipping.status !== 'delivered' &&
                   !shipping.tracking_number &&
-                  shipping.status != 'cancelled'
+                  shipping.status !== 'cancelled'
                 "
               >
                 <button
@@ -165,7 +110,7 @@
                   color="primary"
                   (click)="openDialogShipping(shipping.id)"
                 >
-                  <mat-icon>edit</mat-icon>
+                  <i class="fa-regular fa-pen-to-square"></i>
                 </button>
                 <ng-container *ngxPermissionsOnly="permissionsShipping.destroy">
                   <button
@@ -174,13 +119,13 @@
                     *ngIf="!shipping.tracking_number"
                     (click)="deleteShipping(shipping.id)"
                   >
-                    <mat-icon>delete</mat-icon>
+                    <i class="fa-solid fa-trash"></i>
                   </button>
                 </ng-container>
               </ng-container>
             </div>
             <button mat-icon-button [matMenuTriggerFor]="menuRef">
-              <mat-icon>more_vert</mat-icon>
+              <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
           </div>
           <mat-menu #menuRef="matMenu">
@@ -188,33 +133,33 @@
               (click)="openDialogHistoryStatus(shipping.id)"
               mat-menu-item
             >
-              <mat-icon>manage_search</mat-icon>
+              <i class="fa-solid fa-clock-rotate-left"></i>
               <span>Ver Historial</span>
             </button>
 
-            <button *ngIf="shipping.type == 'servientrega' && isVisibilityBtnReturn(shipping?.status)" mat-menu-item (click)="returnShipping(shipping.id)">
-              <mat-icon>rv_hookup</mat-icon>
+            <button *ngIf="shipping.type === 'servientrega' && isVisibilityBtnReturn(shipping?.status)" mat-menu-item (click)="returnShipping(shipping.id)">
+              <i class="fa-solid fa-right-left"></i>
               <span>Retornar envío</span>
             </button>
-            <ng-container *ngIf="shipping.type == 'servientrega'">
+            <ng-container *ngIf="shipping.type === 'servientrega'">
               <ng-container *ngxPermissionsOnly="permissionsShipping.send">
                 <button
                   *ngIf="!shipping.tracking_number; else templateDeleteGuie"
                   mat-menu-item
                   (click)="openGenerateGuide(shipping.id)"
                 >
-                  <mat-icon>grading</mat-icon>
+                  <i class="fa-solid fa-gear"></i>
                   <span>Generar guía</span>
                 </button>
               </ng-container>
               <ng-template #templateDeleteGuie>
-                <button mat-menu-item (click)="deleteGuie(shipping.id)">
-                  <mat-icon>delete</mat-icon>
+                <button mat-menu-item color="warn" (click)="deleteGuie(shipping.id)">
+                  <i class="fa-solid fa-trash"></i>
                   <span>Eliminar guía</span>
                 </button>
 
                 <button mat-menu-item (click)="openViewPdf(shipping.id)">
-                  <mat-icon>picture_as_pdf</mat-icon>
+                  <i class="fa-solid fa-file-pdf"></i>
                   <span>Ver PDF</span>
                 </button>
               </ng-template>
@@ -237,7 +182,7 @@
       (click)="isOpenCv = false"
       mat-mini-fab
     >
-      <mat-icon>close</mat-icon>
+          <i class="fa-solid fa-xmark"></i>
     </button>
     <div class="container-cv shadow p-3">
       <div class="row h-100">

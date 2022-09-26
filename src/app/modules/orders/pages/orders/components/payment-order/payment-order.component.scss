@@ -1,0 +1,74 @@
+.pending {
+    background-color: #00e6f7 !important;
+    color: white;
+}
+
+.returned{
+    background-color: #ffc107 !important;
+    color: white;
+}
+
+.cancelled {
+    background-color: #f86c6b !important;
+    color: white;
+}
+
+.paid {
+    background-color: #009225 !important;
+    color: white;
+}
+
+.upload-file-paid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(248, 248, 248, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-close-filepond {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    // background-color: rgb(167, 0, 0);
+
+    cursor: pointer;
+}
+
+.body-info tr  {
+    td:nth-child(1) {
+     font-weight: bold;
+     color: gray;
+    }
+    a {
+        word-break: break-all;
+    }
+ }
+
+//  Types
+.cast {
+    color: #00e6f7;
+    background-color: #00e7f728;
+}
+.wire_transfer {
+    color: #0787ff;
+    background-color: #0787ff28;
+}
+.paymentez {
+    color: #009225;
+    background-color: #00922528;
+}
+.paymentez_web {
+    color: #003392;
+    background-color: #00339228;
+}
+.other {
+    color: #f86c6b;
+    background-color: #f86c6b28;
+}

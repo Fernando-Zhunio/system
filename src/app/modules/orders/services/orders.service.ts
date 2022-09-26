@@ -41,6 +41,12 @@ export class OrdersService {
     .pipe(tap(res => { if(res?.success) this.refreshOrders() }));
   }
 
+  changeStatusPayment(id: string, status: string): Observable<IResponse<any>> {
+    return this.httpClient.put<IResponse<any>>
+    (`${environment.server}system-orders/orders/${this.order_id}/payments/${id}`, { status })
+    .pipe(tap(res => { if(res?.success) this.refreshOrders() }));
+  }
+
 
 
 }

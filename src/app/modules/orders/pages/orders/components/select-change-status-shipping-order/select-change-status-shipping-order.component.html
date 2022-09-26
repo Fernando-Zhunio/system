@@ -1,10 +1,10 @@
 <div>
   <span>
     <span class="text-primary">Estado:</span>
-    <span [class]="status" class="badge-fz">{{status | translatefz: "orders"}}</span>
+    <span [class]="status" class="badge-fz">{{convertTranslateStatus() | translatefz: "orders"}}</span>
     <small class="text-muted" *ngIf="isLoading">procesando ...</small>
     <ng-container *ngIf="!isServientregaDelivered()">
-      <button color="primary" mat-icon-button [matMenuTriggerFor]="menu"><i class="fa-solid fa-retweet"></i></button>
+      <button [hidden]="isLoading" color="primary" mat-icon-button [matMenuTriggerFor]="menu"><i class="fa-solid fa-retweet"></i></button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="changeStatus('pending')">Pendiente</button>
         <button mat-menu-item (click)="changeStatus('processed')">Listo para recoger</button>
@@ -14,7 +14,7 @@
     </ng-container>
   </span>
 </div>
-<ng-template #templateSelectStatus>
+<!-- <ng-template #templateSelectStatus>
   <div *ngxPermissionsOnly="permissionsShipping.edit; else elseStatePermission; then: thenStatePermission"></div>
   <ng-template #thenStatePermission>
     <div class="d-flex">
@@ -37,4 +37,4 @@
       <span class="badge font-sm {{ status }}">Estado: {{ status | translatefz: "orders" }}</span>
     </div>
   </ng-template>
-</ng-template>
+</ng-template> -->

@@ -8,7 +8,7 @@
             {{ order?.client?.first_name }} {{ order?.client?.last_name }}
             <small>(cliente)</small>
           </span>
-          <span *ngIf="order?.status != 'cancelled'">
+          <span *ngIf="order?.status !== 'cancelled'">
             <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon>
             <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon>
             <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon>
@@ -113,7 +113,7 @@
   <div class="border-left col-md-3">
     <h3 class="font-2xl m-0">
       Dirección de envío
-      <span *ngIf="order?.status != 'cancelled'">
+      <span *ngIf="order?.status !== 'cancelled'">
         <mat-icon color="accent" (click)="addClientAddress(order.shipping_address?.address_id)">edit</mat-icon>
         <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon>
       </span>
@@ -170,7 +170,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <app-add-products-order
-          [isCancelled]="order?.status == 'cancelled'"
+          [isCancelled]="order?.status === 'cancelled'"
           (changeOrder)="getOrder()"
           [items]="items"
           [order]="order"></app-add-products-order>
@@ -189,7 +189,7 @@
         </mat-expansion-panel-header>
 
         <app-shippings
-          [isCancelled]="order?.status == 'cancelled'"
+          [isCancelled]="order?.status === 'cancelled'"
           (change)="getOrder()"
           [client]="order?.client"
           [shipping_address]="order?.shipping_address"
@@ -209,7 +209,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <app-payment-order
-          [isCancelled]="order?.status == 'cancelled'"
+          [isCancelled]="order?.status === 'cancelled'"
           (change)="getOrder()"
           [order_id]="order?.id"
           [payments]="order?.payments"></app-payment-order>
@@ -226,8 +226,8 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <app-discount-tax-order
-          [isCancelled]="order?.status == 'cancelled'"
-          (change)="getOrder()"
+          [isCancelled]="order?.status === 'cancelled'"
+          (reload)="getOrder()"
           [order_id]="order?.id"
           [discountsAndTaxes]="discountsAndTaxes"></app-discount-tax-order>
       </mat-expansion-panel>
@@ -252,7 +252,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <app-transference-order
-          [isCancelled]="order?.status == 'cancelled'"
+          [isCancelled]="order?.status === 'cancelled'"
           (changeOrder)="getOrder()"
           [metaData]="metaDataTransference"
           [order_id]="order?.id"
@@ -277,13 +277,13 @@
           path="system-orders/orders/{{ order?.id }}/mba-payments"
           [title]="'Anticipos (pagos o cobros) MBA'"
           placeholder="Escriba el código de pago"
-          [isCancelled]="order?.status == 'cancelled'">
+          [isCancelled]="order?.status === 'cancelled'">
           <div class="row mt-2" items>
             <app-payment-mba-item
               class="col-md-4"
               *ngFor="let payment of order?.mba_payments"
               [item]="payment"
-              [isCancelled]="order?.status == 'cancelled'"
+              [isCancelled]="order?.status === 'cancelled'"
               (changeOrder)="getOrder()"
               [order_id]="order?.id"></app-payment-mba-item>
           </div>
@@ -302,7 +302,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <app-invoices-order
-          [isCancelled]="order?.status == 'cancelled'"
+          [isCancelled]="order?.status === 'cancelled'"
           (changeOrder)="getOrder()"
           [invoices]="order?.invoices"
           [order_id]="order?.id"></app-invoices-order>
@@ -368,16 +368,16 @@
 </div>
 
 <div class="btn-created-order">
-  <button *ngIf="order?.status != 'cancelled'" mat-raised-button (click)="changeStatusPublish()">
+  <button *ngIf="order?.status !== 'cancelled'" mat-raised-button (click)="changeStatusPublish()">
     Publicar
     <mat-icon>publish</mat-icon>
   </button>
-  <button *ngIf="order?.status != 'cancelled'" color="warn" mat-raised-button (click)="deleteOrder()" class="mr-1">
+  <button *ngIf="order?.status !== 'cancelled'" color="warn" mat-raised-button (click)="deleteOrder()" class="mr-1">
     Cancelar orden
     <mat-icon>delete</mat-icon>
   </button>
 
-  <button
+  <!-- <button
     (click)="getOrder()"
     data-toggle="tooltip"
     data-placement="top"
@@ -385,5 +385,5 @@
     mat-icon-button
     class="btn-refresh-order">
     <mat-icon>refresh</mat-icon>
-  </button>
+  </button> -->
 </div>

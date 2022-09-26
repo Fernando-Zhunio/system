@@ -1,0 +1,32 @@
+<!-- <div>
+  <app-search placeholder="Buscador de bodegas" (data)="getDataWarehouses($event)" url="system-orders/warehouses/search">
+    <ng-container data>
+      <div class="row shadow main-style">
+        <div class="col-md-6 p-2" *ngFor="let warehouse of warehouses">
+          <div class="shadow p-2">
+            <div>{{ warehouse.name }}</div>
+            <div>
+              <small>Código: {{ warehouse.code }}</small>
+            </div>
+            <button *ngIf="!warehousesSelected.has(warehouse.id); else templateRemoveBtn"
+              color="primary"
+              (click)="addWarehouse(warehouse.id, warehouse.name)"
+              mat-button>
+              <mat-icon>done</mat-icon>
+              Seleccionar
+            </button>
+            <ng-template #templateRemoveBtn>
+              <button
+                color="warn"
+                (click)="removeWarehouse(warehouse.id)"
+                mat-button>
+                <mat-icon>close</mat-icon>
+                Remover
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </app-search>
+</div> -->

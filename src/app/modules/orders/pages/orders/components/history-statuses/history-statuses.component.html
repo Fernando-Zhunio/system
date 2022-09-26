@@ -1,0 +1,26 @@
+<h1 matDialogTitle class="font-weight-bold">{{dataExternal.title}}</h1>
+
+<mat-dialog-content>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Razón</th>
+          <th>Usuario</th>
+          <th>Creado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataExternal.list">
+          <td>{{item.type | translatefz: 'orders'}}</td>
+          <td>{{item?.reason}}</td>
+          <td>{{item?.user?.name}}</td>
+          <td>{{item.created_at | date: 'medium'}}</td>
+        </tr>
+      </tbody>
+    </table>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button color="warn" mat-button matDialogClose >Cerrar <i class="fa-solid fa-xmark"></i></button>
+</mat-dialog-actions>
