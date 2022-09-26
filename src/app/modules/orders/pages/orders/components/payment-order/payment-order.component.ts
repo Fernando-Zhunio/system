@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StandartSearchService } from '../../../../../../services/standart-search.service';
 import { CreateOrEditPaymentOrderComponent } from '../create-or-edit-payment-order/create-or-edit-payment-order.component';
@@ -16,13 +16,13 @@ import { PaymentStatus } from '../../../../enums/payment.enum';
   templateUrl: './payment-order.component.html',
   styleUrls: ['./payment-order.component.scss']
 })
-export class PaymentOrderComponent implements OnInit {
+export class PaymentOrderComponent {
 
   constructor(private dialog: MatDialog, private standard: StandartSearchService) { }
   @Input() order_id: number;
   @Input() isCancelled: boolean;
   @Input() payments: IPaymentOrder[] = [];
-  @Output() change = new EventEmitter<string>();
+  @Output() reload = new EventEmitter<string>();
 
   statuses = PaymentStatus;
   isOpenUploadFile = false;
@@ -32,7 +32,6 @@ export class PaymentOrderComponent implements OnInit {
 
   permissionsPayments = PermissionOrdersPayments;
 
-  ngOnInit() { }
 
   openDialog(id: number | null = null) {
     const payment = this.payments.find(x => x.id === id);
@@ -45,7 +44,7 @@ export class PaymentOrderComponent implements OnInit {
       disableClose: true
     }).afterClosed().subscribe(x => {
       if (x && x?.success) {
-        this.change.emit('create or update');
+        this.reload.emit('create or update');
       }
     });
   }
@@ -59,7 +58,7 @@ export class PaymentOrderComponent implements OnInit {
       }
     }).beforeClosed().subscribe(x => {
       if (x?.success) {
-        this.change.emit('add file');
+        this.reload.emit('add file');
       }
     });
   }
@@ -69,7 +68,7 @@ export class PaymentOrderComponent implements OnInit {
       if (result.isConfirmed) {
         this.standard.methodDelete(`system-orders/orders/${order_id}/payments/${id}`).subscribe(() => {
           SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Se elimino correctamente' });
-          this.change.emit('delete');
+          this.reload.emit('delete');
         });
       }
     });
@@ -91,7 +90,7 @@ export class PaymentOrderComponent implements OnInit {
         if (res.isConfirmed) {
           this.standard.methodPut(`system-orders/orders/${this.order_id}/payments/${id}`, { status: select.value }).subscribe(res => {
             if (res?.success) {
-              this.change.emit('update status');
+              this.reload.emit('update status');
             }
           }, () => {
             select.source.value = payment?.status;
@@ -121,7 +120,7 @@ export class PaymentOrderComponent implements OnInit {
         if (res.isConfirmed) {
           this.standard.methodPost(`system-orders/orders/${this.order_id}/payments/${id}/paymentez/refund`, { }).subscribe(res => {
             if (res?.success) {
-              this.change.emit('update status');
+              this.reload.emit('update status');
             }
           });
         }

@@ -121,7 +121,7 @@
         <mat-checkbox class="col-12" formControlName="IsActive">Esta Activo?</mat-checkbox>
         <mat-checkbox class="col-12" formControlName="IsKit">Esta Un Kit?</mat-checkbox>
         <button *ngxPermissionsOnly="permission_page.product_create_or_edit" [disabled]="isLoadSku" mat-raised-button color="primary"
-          (click)="saveInServeSku()">{{status=="create"?"Guardar":"Actualizar"}} Sku</button>
+          (click)="saveInServeSku()">{{status==="create"?"Guardar":"Actualizar"}} Sku</button>
       </div>
     </mat-tab>
 
@@ -208,7 +208,7 @@
             <!-- {{item.Name}} -->
             <div class="item-specification">
               <label>{{item.Name}}:</label>
-              <mat-radio-group *ngIf="item.FieldTypeName == 'Radio'"
+              <mat-radio-group *ngIf="item.FieldTypeName === 'Radio'"
               [required]="item.IsRequired" [formControlName]="item.FieldId"
               aria-label="Select an option">
                 <mat-radio-button #button *ngFor="let value of item.Values"
@@ -216,7 +216,7 @@
                 <!-- <mat-radio-button value="2">Option 2</mat-radio-button> -->
               </mat-radio-group>
 
-              <mat-selection-list *ngIf="item.FieldTypeName == 'CheckBox'"
+              <mat-selection-list *ngIf="item.FieldTypeName === 'CheckBox'"
               [formControlName]="item.FieldId">
                 <mat-list-option [value]="value.Value" *ngFor="let value of item.Values">
                   {{value.Value}}

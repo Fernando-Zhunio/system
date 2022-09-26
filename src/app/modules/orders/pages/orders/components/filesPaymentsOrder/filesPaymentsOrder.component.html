@@ -34,7 +34,7 @@
         </div>
         <div class="text-center mt-2">
           <a
-            *ngIf="file.file.ext != 'pdf'; else templateFilePdf"
+            *ngIf="file.file.ext !== 'pdf'; else templateFilePdf"
             color="warning"
             [href]="file.file.permalink"
             target="_blank"

@@ -107,7 +107,7 @@
                 </div>
                 <div>
                     <button color="primary" mat-raised-button [disabled]="isloadperson" type="button" (click)="saveInServerPerson()">Guardar</button>
-                    <button color="accent" *ngIf="state=='edit'" [disabled]="isloadperson" mat-raised-button color="accent" (click)="goInfo()" type="button">Gestionar datos de la persona</button>
+                    <button color="accent" *ngIf="state==='edit'" [disabled]="isloadperson" mat-raised-button color="accent" (click)="goInfo()" type="button">Gestionar datos de la persona</button>
                 </div>
             </form>
         </mat-step>
@@ -116,7 +116,7 @@
             <form [formGroup]="form_data_person" (ngSubmit)="saveInServerInfo()">
                 <div class="col-12">
                     <h2 class="m-0">Información de contacto {{person.first_name}} {{person.last_name}}</h2>
-                    <mat-chip-list *ngIf="stateInfoAndContact =='edit'">
+                    <mat-chip-list *ngIf="stateInfoAndContact ==='edit'">
                         <mat-chip class="bg-blue parpadeo text-white" [removable]="true" (removed)="asCreateInfo()">
                             Editando #{{itemCurrentForEdit?.id}}
                             <mat-icon matChipRemove>cancel</mat-icon>

@@ -11,7 +11,7 @@
                     <ng-template #outSubattachments>
                         <slide *ngFor="let attach of post.attachments">
                             <a target="_blank" class="carousel-inner" style="display:block" [href]="post.permalink_url">
-                                <img *ngIf="attach.type == 'native_templates';else imageOk" class="w-100" src="/assets/img/img_not_available.png" alt="error de data">
+                                <img *ngIf="attach.type === 'native_templates';else imageOk" class="w-100" src="/assets/img/img_not_available.png" alt="error de data">
                                 <ng-template #imageOk>
                                     <img class="d-block w-100" [src]="attach.media.image.src" alt="..." />
                                 </ng-template>

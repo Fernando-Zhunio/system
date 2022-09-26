@@ -6,7 +6,7 @@
       </a>
       <img src="/assets/logos/mercado-libre.svg" class="logo-mercado-libre" alt="ml">
       <div style="top: 10px;left: 10px;" class="position-absolute text-left">
-        <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
+        <ng-container *ngIf="ml.listing_type_id === 'gold' || ml.listing_type_id === 'silver'">
           <span class="mb-1 badge text-white {{ml.listing_type_id}}">
             <i class="fas fa-coins {{ml.listing_type_id}}"></i>
             PUBLICACIÓN {{ml.listing_type_id}}
@@ -33,7 +33,7 @@
           | currency}}</div>
         <!-- <button mat-raised-button class="" (click)="openDescription()" color="accent">Ver descripcion</button> -->
 
-        <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
+        <div *ngIf="ml.status === 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
           <div class="alert alert-warning">
             <button type="button" class="close"></button>
             <strong>Atención!</strong> Este item ha sido publicado como <b>"{{ml.listing_type_id
@@ -54,10 +54,10 @@
         </div>
         <!-- <mat-chip-list class="d-block text-center"> -->
         <div class="text-center">
-          <div class="badge badge-info">{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
+          <div class="badge badge-info">{{(ml.status === 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
             amLocale:'es' | amTimeAgo }}</div>
           <div class="mt-1 badge badge-secondary d-flex justify-content-center align-items-center"
-            *ngIf="ml.relist_forever == 'on'">
+            *ngIf="ml.relist_forever === 'on'">
             <mat-icon>restore</mat-icon>Republicación Activada
           </div>
         </div>

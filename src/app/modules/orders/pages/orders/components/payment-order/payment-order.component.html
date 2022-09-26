@@ -34,9 +34,7 @@
                 </tr>
                 <tr
                   *ngIf="
-                    payment?.type == 'paymentez' &&
-                    payment?.link_to_pay
-                  "
+                    payment?.type === 'paymentez' && payment?.link_to_pay"
                 >
                   <td>Link de pago:</td>
                   <td>
@@ -67,9 +65,7 @@
             <div>
               <ng-container
                 *ngIf="
-                  payment?.status == 'pending' ||
-                  payment?.type != 'paymentez'
-                "
+                  payment?.status === 'pending' || payment?.type !== 'paymentez'"
               >
                 <button
                   *ngxPermissionsOnly="permissionsPayments.edit"
@@ -96,7 +92,7 @@
             </button>
             <mat-menu #menuRefPayment="matMenu">
               <button
-                *ngIf="payment?.type == 'paymentez'"
+                *ngIf="payment?.type === 'paymentez'"
                 mat-menu-item
                 (click)="lookTransaction(payment.id)"
               >
@@ -114,9 +110,7 @@
              <button
                 mat-menu-item
                 *ngIf="
-                  payment?.type == 'paymentez' &&
-                  payment?.status == 'paid'
-                "
+                  payment?.type === 'paymentez' && payment?.status === 'paid'"
                 (click)="refundPayment(payment.id)"
               >
               <i class="fa-solid fa-money-bill-trend-up"></i> <span>Reembolsar</span>

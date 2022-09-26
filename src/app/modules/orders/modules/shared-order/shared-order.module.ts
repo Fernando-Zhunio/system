@@ -41,7 +41,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 // import { PdfDetailOrderComponent } from './pdf-detail-order/pdf-detail-order.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 // import { SearchWarehousesComponent } from './components/search-warehouses/search-warehouses.component';
-import { ViewerGalleryModule } from '../../../../Modulos/viewer-gallery/viewer-gallery.module';
+// import { ViewerGalleryModule } from '../../../../Modulos/viewer-gallery/viewer-gallery.module';
 import { SearchProductsModule } from '../../../../shared/search-products/search-products.module';
  
 @NgModule({
@@ -70,7 +70,7 @@ import { SearchProductsModule } from '../../../../shared/search-products/search-
         MatMenuModule,
         NgxPermissionsModule,
         NgxFileDropModule,
-        ViewerGalleryModule,
+        // ViewerGalleryModule,
     ],
     exports: [
         // ShippingOrderSectionComponent,

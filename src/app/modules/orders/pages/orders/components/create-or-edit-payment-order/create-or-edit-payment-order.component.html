@@ -9,7 +9,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field *ngIf="form.get('type')?.value == 'paymentez'" class="col-md-6">
+      <mat-form-field *ngIf="form.get('type')?.value === 'paymentez'" class="col-md-6">
         <mat-select [disabled]="isEdit" placeholder="Seleccione un tipo de cuota" formControlName="installments_type">
           <!-- <mat-option *ngFor="let type of types" [value]="type">
             {{type | translatefz:'orders'}}
@@ -18,7 +18,7 @@
           <mat-option value="deferred">Diferido</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field [ngClass]="form.get('type')?.value == 'paymentez'?'col-12':'col-md-6'">
+      <mat-form-field [ngClass]="form.get('type')?.value === 'paymentez'?'col-12':'col-md-6'">
         <input matInput placeholder="Monto" type="number" formControlName="amount">
       </mat-form-field>
       <mat-form-field class="col-12">

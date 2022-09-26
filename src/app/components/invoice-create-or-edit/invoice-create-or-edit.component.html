@@ -1,7 +1,7 @@
 <mat-card class="my-4 border-0 shadow rounded-fz">
-    <form [formGroup]="formInvoice" *ngIf="state == 'create' || state == 'edit';else formMore"
+    <form [formGroup]="formInvoice" *ngIf="state === 'create' || state === 'edit';else formMore"
         (ngSubmit)="saveInvoice()" class="position-relative">
-        <button mat-icon-button [disabled]="isLoadInvoice" *ngIf="state == 'create';else removeInvoice"
+        <button mat-icon-button [disabled]="isLoadInvoice" *ngIf="state === 'create';else removeInvoice"
             (click)="closeInvoice()" class="bg-gray-300" style="position: absolute;right: 10px;top: -30px;">
             <mat-icon>close</mat-icon>
         </button>
@@ -42,7 +42,7 @@
         </div>
         <button mat-raised-button [disabled]="formInvoice.invalid || isLoadInvoice" color="primary"
             type="submit">Guardar</button>
-        <button mat-raised-button *ngIf="state != 'create'" type="button" [disabled]="isLoadInvoice"
+        <button mat-raised-button *ngIf="state !== 'create'" type="button" [disabled]="isLoadInvoice"
             (click)="cancelEditInvoice()">
             Ir a añadir item
         </button>

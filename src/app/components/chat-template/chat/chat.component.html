@@ -9,7 +9,7 @@
           <mat-card-title class="text-truncate mb-2 chat-font">{{chat?.name}}
           </mat-card-title>
           <mat-card-subtitle class="chat-font">
-            <ng-container *ngIf="chat?.data?.type != 'group';else TemplateGroup">
+            <ng-container *ngIf="chat?.data?.type !== 'group';else TemplateGroup">
               <ng-container *ngIf="!chat?.typing;else typingTemplate">
                 <span class="text-success"
                   *ngIf="chat?.connected; else TemplateOffline">
@@ -66,10 +66,10 @@
         [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="0" (scrolledUp)="onScrollUp()" [scrollWindow]="false">
         <div #ngfor *ngFor="let message of chat?.messages"
           [ngClass]="{'text-right': message.author_user_id == my_id}">
-          <ng-container *ngIf="message.type != 'info';else templateInfo">
+          <ng-container *ngIf="message.type !== 'info';else templateInfo">
             <p class="shadow message chat-font" [ngClass]="message.author_user_id == my_id ?'message-send':'message-recept'">
               <ng-container *ngIf="!message.files; else templateFile">
-                <ng-container *ngIf="chat.data.type == 'group' && message.author_user_id != my_id">
+                <ng-container *ngIf="chat.data.type === 'group' && message.author_user_id != my_id">
                   <span class="font-xs text-muted text-truncate ">{{message?.author?.info?.name}}</span><br>
                 </ng-container>
                 <ng-container *ngIf="message.links && message.links.length > 0 ">
@@ -92,11 +92,11 @@
                     </div>
                   </div>
 
-                  <ng-container *ngIf="chat.data.type == 'group' && message.author_user_id != my_id">
+                  <ng-container *ngIf="chat.data.type === 'group' && message.author_user_id != my_id">
                     <span class="font-xs text-muted text-truncate text-value-lg">{{message.author.info.name}}</span><br>
                   </ng-container>
                   <span class="download-file">
-                    <button class="btn-download" mat-icon-button *ngIf="file.type == 'image'"
+                    <button class="btn-download" mat-icon-button *ngIf="file.type === 'image'"
                       (click)="downloadResource(file.file, file.original_name,message?._id)">
                       <mat-icon>download_for_offline</mat-icon>
                     </button>

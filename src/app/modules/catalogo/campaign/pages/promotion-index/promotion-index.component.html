@@ -9,7 +9,7 @@
         <mat-icon>add</mat-icon>
         promoción
       </mat-chip>
-      <mat-chip (click)="isOpenFile = !isOpenFile" selected color="primary" class=" ml-2">
+      <mat-chip (click)="isOpenFile = !isOpenFile" selected color="primary" class="ml-2">
         <i class="fas fa-file-excel mr-1"></i>
         Importar por excel
       </mat-chip>
@@ -21,13 +21,12 @@
         <mat-icon>close</mat-icon>
       </button>
       <div class="container">
-        <file-pond  #myPond className="m-0 shadow" [options]="pondOptions">
-        </file-pond>
+        <file-pond #myPond className="m-0 shadow" [options]="pondOptions"></file-pond>
       </div>
     </div>
   </ng-container>
   <ng-container table>
-    <table class="w-100" mat-table #table [dataSource]="dataSource">
+    <table multiTemplateDataRows class="w-100" mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
         <td mat-cell *matCellDef="let row">{{ row.id }}</td>
@@ -36,33 +35,43 @@
         <th mat-header-cell *matHeaderCellDef>Titulo</th>
         <td mat-cell *matCellDef="let row">{{ row.title }}</td>
       </ng-container>
+      <ng-container matColumnDef="products">
+        <th mat-header-cell *matHeaderCellDef>Productos</th>
+        <td mat-cell style="max-width: 300px;" *matCellDef="let row">
+          <mat-list dense>
+            <mat-list-item *ngFor="let product of row.products">
+              <img matListAvatar width="50" [src]="product.image || 'assets/img/img_default_null.jpg'" />
+              <div style="white-space: normal;" mat-line><span class="text-primary mr-1">{{product.code}}</span>{{ product.name }}</div>
+              <div mat-line>
+                Cantidad:
+                <span class="text-primary">{{ product.pivot.quantity }}</span>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </td>
+      </ng-container>
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Estado</th>
-        <td mat-cell *matCellDef="let row"><span [class]="row.status" class="badge-fz">{{ row.status | translatefz }}</span></td>
+        <td mat-cell *matCellDef="let row">
+          <span [class]="row.status" class="badge-fz">{{ row.status | translatefz }}</span>
+        </td>
       </ng-container>
       <ng-container matColumnDef="duration_type">
-        <th mat-header-cell *matHeaderCellDef> Tipo duración </th>
-        <td mat-cell *matCellDef="let row"><span [class]="row.duration_type" class="badge-fz "><i [hidden]="row.duration_type == 'undefined'" class="fas fa-calendar-alt"></i>  {{row.duration_type | translatefz}}</span> </td>
-      </ng-container>
-      <!-- <ng-container matColumnDef="time">
-        <th mat-header-cell *matHeaderCellDef>Tiempo</th>
+        <th mat-header-cell *matHeaderCellDef>Tipo duración</th>
         <td mat-cell *matCellDef="let row">
-          <ng-container *ngIf="row.duration_type == 'date_range'">
-            De:
-            <span class="text-success">{{ row?.start_date | date: "medium" }}</span>
-            <br />
-            Hasta:
-            <span class="text-danger">{{ row?.end_date | date: "medium" }}</span>
-          </ng-container>
+          <span [class]="row.duration_type" class="badge-fz">
+            <i [hidden]="row.duration_type === 'undefined'" class="fas fa-calendar-alt"></i>
+            {{ row.duration_type | translatefz }}
+          </span>
         </td>
-      </ng-container> -->
+      </ng-container>
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef>Precio</th>
         <td mat-cell *matCellDef="let row">{{ row.price_formated | currency }}</td>
       </ng-container>
       <ng-container matColumnDef="created_at">
         <th mat-header-cell *matHeaderCellDef>Creado</th>
-        <td mat-cell *matCellDef="let row">{{ row.created_at | date:'medium' }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.created_at | date: "medium" }}</td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
@@ -73,9 +82,9 @@
             mat-icon-button
             color="primary"
             mat-icon-button>
-            <mat-icon>edit</mat-icon>
+            <i class="fa-regular fa-pen-to-square"></i>
           </button>
-          <button
+          <!-- <button
             *ngxPermissionsOnly="permissions.create"
             mat-icon-button
             color="accent"
@@ -84,27 +93,57 @@
     
             >
             <mat-icon>info</mat-icon>
-          </button>
-          <button
-            *ngxPermissionsOnly="permissions.destroy"
-            (click)="deleteData(row.id)"
-            mat-icon-button
-            color="warn">
-            <mat-icon>delete</mat-icon>
+          </button> -->
+          <button *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(row.id)" mat-icon-button color="warn">
+            <i class="fa-solid fa-trash"></i>
           </button>
         </td>
       </ng-container>
+      <!-- <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+          <mat-list-item *ngIf="element.products?.length < 1; else TemplateIsLoading">
+            <mat-icon matListIcon>info</mat-icon>
+            <h4 matLine>Esta promoción no tiene productos asociados</h4>
+          </mat-list-item>
+          <ng-template #TemplateIsLoading>
+            <mat-list dense>
+              <ng-container *ngIf="element?.note">
+                <mat-list-item>
+                  <h2 class="font-weight-bold m-0">Descripción</h2>
+                </mat-list-item>
+                <mat-list-item class="h-auto">
+                  <div style="max-width: 350px">{{ element?.note }}</div>
+                </mat-list-item>
+              </ng-container>
+              <mat-list-item>
+                <h2 class="font-weight-bold m-0 mt-2">Productos</h2>
+              </mat-list-item>
+              <mat-list-item *ngFor="let product of element.products">
+                <img matListAvatar width="50" [src]="product.image || 'assets/img/img_default_null.jpg'" />
+                <div mat-line>{{ product.name }}</div>
+                <div mat-line>
+                  Cantidad:
+                  <span class="text-primary">{{ product.pivot.quantity }}</span>
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </ng-template>
+        </td>
+      </ng-container> -->
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      <!-- <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
     </table>
-
   </ng-container>
 </app-search-template-table>
 
 <div *ngIf="campaign" class="campaign">
-  <div *ngIf="campaign?.duration_type == 'date_range'">
-    De : <span class="text-success">{{campaign.start_date | date: 'medium'}}</span><br>
-    Hasta : <span class="text-danger">{{campaign.end_date | date: 'medium'}}</span>
+  <div *ngIf="campaign?.duration_type === 'date_range'">
+    De :
+    <span class="text-success">{{ campaign.start_date | date: "medium" }}</span>
+    <br />
+    Hasta :
+    <span class="text-danger">{{ campaign.end_date | date: "medium" }}</span>
   </div>
   <div>
     Campaña :

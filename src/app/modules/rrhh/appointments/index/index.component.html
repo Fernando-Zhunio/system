@@ -106,7 +106,7 @@
               <mat-chip (click)="goWork(p.request.work.id)" class="text-truncate">
                 <mat-icon>description</mat-icon> Empleo
               </mat-chip>
-              <mat-chip *ngIf="p.type =='video_conference'" color="accent" (click)="modalZoom(p.id)"
+              <mat-chip *ngIf="p.type ==='video_conference'" color="accent" (click)="modalZoom(p.id)"
                 class="text-truncate">
                 <mat-icon>videocam</mat-icon> Zoom
               </mat-chip>
@@ -120,16 +120,16 @@
                 <mat-icon>edit</mat-icon>
               </mat-chip>
               <mat-chip class="bg-success" matTooltip="Hacer Finalista"
-                *ngIf="p.request.current_status.type_action == 'request_in_process'" color="accent"
+                *ngIf="p.request.current_status.type_action === 'request_in_process'" color="accent"
                 (click)="doFinalist(p.id)" class="text-truncate">
                 <mat-icon>file_download_done</mat-icon>
               </mat-chip>
               <mat-chip class="bg-success" matTooltip="Contratar a esta persona"
-                *ngIf="p.request.current_status.type_action == 'request_finalist'" color="accent"
+                *ngIf="p.request.current_status.type_action === 'request_finalist'" color="accent"
                 (click)="doHired(p.id)" class="text-truncate">
                 <mat-icon>military_tech</mat-icon>
               </mat-chip>
-              <mat-chip class="bg-success" selected *ngIf="p.request.current_status.type_action == 'request_hired'"
+              <mat-chip class="bg-success" selected *ngIf="p.request.current_status.type_action === 'request_hired'"
                 color="primary" class="text-truncate">
                 Esta persona ya fue contratada
               </mat-chip>

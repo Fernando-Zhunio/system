@@ -21,7 +21,7 @@
                         <mat-chip><span class="text-primary"> Estado:&nbsp;</span> {{promotion.value.status | translatefz}}</mat-chip>
                         <mat-chip><span class="text-primary">Por:&nbsp;</span> {{promotion.value.duration_type | translatefz:'promotions'}}</mat-chip>
                         <mat-chip><span class="text-primary">Precio:&nbsp;</span> {{promotion.value.price.full_price_formated}}</mat-chip>
-                        <ng-container *ngIf="promotion.value.duration_type == 'date_range'">
+                        <ng-container *ngIf="promotion.value.duration_type === 'date_range'">
                             <mat-chip><span class="text-primary">Fecha de inicio:&nbsp;</span> {{promotion.value.start_date | date}}</mat-chip>
                             <mat-chip><span class="text-primary">Fecha final:&nbsp;</span> {{promotion.value.end_date |date}}</mat-chip>
                         </ng-container>

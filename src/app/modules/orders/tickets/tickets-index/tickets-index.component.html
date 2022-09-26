@@ -29,8 +29,8 @@
             <span class="mr-1">Estado:</span>
             <mat-chip
               selected
-              [class]="ticket.status == 'open' ? 'bg-info' : 'bg-warning'"
-              >{{ ticket.status == "open" ? "Abierto" : "Cerrado" }}</mat-chip
+              [class]="ticket.status === 'open' ? 'bg-info' : 'bg-warning'"
+              >{{ ticket.status === "open" ? "Abierto" : "Cerrado" }}</mat-chip
             >
           </div>
           <div>

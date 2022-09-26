@@ -14,7 +14,7 @@
               <li (click)="openChatOfChat(chat.key)" *ngFor="let chat of chats|keyvalue | orderBy:'.value.last_message.created_at':true"
                 class="m-1 my-2 shadow-sm  p-2 rounded-fz  item-chat btn ">
                 <div class="text-truncate item-chat position-relative">
-                  <ng-container *ngIf="chat.value.data.type == 'group'; else elseTemplate">
+                  <ng-container *ngIf="chat.value.data.type === 'group'; else elseTemplate">
                     <span class="position-relative">
                       <img class="photo-user" [src]="getPhotoGroup(chat.value?.img)" />
                     </span>
@@ -30,8 +30,8 @@
                           <ng-template #typingTemplateGroup>
                             <span class="text-success parpadeo">Escribiendo...</span>
                           </ng-template>
-                           <i *ngIf="chat.value?.last_message.author_user_id == myUser.id"
-                            class="{{chat.value?.last_message.is_readed_for_all == true?'fas text-success':'far'}} fa-check-circle"></i></small>
+                           <i *ngIf="chat.value?.last_message.author_user_id === myUser.id"
+                            class="{{chat.value?.last_message.is_readed_for_all === true?'fas text-success':'far'}} fa-check-circle"></i></small>
                       </ng-container>
                     </span>
                     <span *ngIf="chat.value.data.unread_messages_count > 0" style="font-size: 12px;"
@@ -57,7 +57,7 @@
                             <ng-template #typingTemplate>
                               <span class="text-success parpadeo">Escribiendo...</span>
                             </ng-template>
-                            <i *ngIf="chat.value?.last_message?.author_user_id == myUser.id"
+                            <i *ngIf="chat.value?.last_message?.author_user_id === myUser.id"
                             [ngClass]="(chat.value?.last_message?.is_readed_for_all ) ? 'fas text-success': (chat.value?.last_message.is_delivered_for_all)?'fas':'far'"
                             class="fa-check-circle"></i></small>
                       </ng-container>

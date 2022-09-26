@@ -6,11 +6,11 @@
       <div class="d-flex align-items-center mb-2">
         <span class="lead">Estado del servicio MBA:&nbsp;</span>
         <mat-chip-list>
-          <mat-chip [ngClass]=" mbaStatus?.value == 'down'?'down':'up'">{{mbaStatus?.value == 'down'?'CAIDO':'EN LINEA'}} DESDE : {{mbaStatus.updated_at | amLocale:'es' | amTimeAgo}}
+          <mat-chip [ngClass]="mbaStatus?.value ==='down'?'down':'up'">{{mbaStatus?.value === 'down'?'CAIDO':'EN LINEA'}} DESDE : {{mbaStatus.updated_at | amLocale:'es' | amTimeAgo}}
           </mat-chip>
         </mat-chip-list>
       </div>
-      <div *ngIf="mbaStatus.value == 'down'" class="alert alert-warning">
+      <div *ngIf="mbaStatus.value === 'down'" class="alert alert-warning">
         <strong>CUIDADO!</strong> los datos de stock no se han actualizado desde <b>{{mbaStatus.updated_at | amLocale:'es' | amTimeAgo}}</b>, lo
         cual significa que la información de este reporte no es fiable, úsela bajo su responsabilidad.
       </div>

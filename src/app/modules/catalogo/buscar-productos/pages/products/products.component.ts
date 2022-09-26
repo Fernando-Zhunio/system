@@ -7,29 +7,29 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
-import { StockBodegasComponent } from '../../../components/modals/stock-bodegas/stock-bodegas.component';
-import { IpostProduct } from '../../../interfaces/ipost-product';
-import { Iprefix } from '../../../interfaces/iprefix';
-import { IproductWithVtex } from '../../../interfaces/iproducts';
-import { Iwarehouse } from '../../../interfaces/iwarehouse';
-import { ProductsService } from '../../../services/products.service';
 import { SwiperOptions } from 'swiper';
 import { MatSelect } from '@angular/material/select';
-import { Ipagination } from '../../../interfaces/ipagination';
-import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
-
-import { animation_conditional } from '../../../animations/animate_leave_enter';
-import { search_product_permission_module } from '../../../class/permissions-modules/search-products-permissions';
-import { MethodsHttpService } from '../../../services/methods-http.service';
-import { InfoViewComponent } from '../../../components/modals/info-view/info-view.component';
+import { animation_conditional } from '../../../../../animations/animate_leave_enter';
+import { ProductsService } from '../../../../../services/products.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { HeaderSearchComponent } from '../../../../../components/header-search/header-search.component';
+import { IproductWithVtex } from '../../../../../interfaces/iproducts';
+import { IpostProduct } from '../../../../../interfaces/ipost-product';
+import { Iprefix } from '../../../../../interfaces/iprefix';
+import { Iwarehouse } from '../../../../../interfaces/iwarehouse';
+import { Ipagination } from '../../../../../interfaces/ipagination';
+import { Permission_catalog_products } from '../../../../../class/permissions-modules';
+import { InfoViewComponent } from '../../../../../components/modals/info-view/info-view.component';
+import { StockBodegasComponent } from '../../../../../components/modals/stock-bodegas/stock-bodegas.component';
+import { DialogHistoryPricesProductComponent } from '../../components/dialog-history-prices-product/dialog-history-prices-product.component';
 
 @Component({
-  selector: 'app-buscar-productos',
-  templateUrl: './buscar-productos.component.html',
-  styleUrls: ['./buscar-productos.component.css'],
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.css'],
   animations: animation_conditional
 })
-export class BuscarProductosComponent implements OnInit {
+export class ProductsComponent implements OnInit {
   constructor(
     private clipboard: Clipboard,
     private snack_bar: MatSnackBar,
@@ -89,7 +89,7 @@ export class BuscarProductosComponent implements OnInit {
     scrollbar: false,
     pagination: false,
   };
-  permission = search_product_permission_module;
+  permission = Permission_catalog_products;
   filter: any = {
     min: null,
     max: null,
@@ -146,6 +146,12 @@ export class BuscarProductosComponent implements OnInit {
     });
   }
 
+  openListPrices(id: number): void {
+    this.dialog.open(StockBodegasComponent, {
+      data: { id },
+    });
+  }
+
   viewWareHouse(index) {
     let warehouse = {};
     if ((this.filter["warehouse_ids[]"] as any)?.length > 0) {
@@ -194,7 +200,7 @@ export class BuscarProductosComponent implements OnInit {
   }
 
 
-  goSpy(id) {
+  goSpy(id: any) {
     if (this.current_go == id) {return; }
     const element = document.getElementById(id);
     if (element) {
@@ -216,6 +222,15 @@ export class BuscarProductosComponent implements OnInit {
       this.icon_go = 'close';
     } else {
       this.icon_go = 'segment';
+    }
+  }
+
+  openDialogHistoryPrices(id: number): void {
+    const product = this.products.find((x) => x.id == id);
+    if (product) {
+      this.dialog.open(DialogHistoryPricesProductComponent, {
+        data: { product },
+      });
     }
   }
 

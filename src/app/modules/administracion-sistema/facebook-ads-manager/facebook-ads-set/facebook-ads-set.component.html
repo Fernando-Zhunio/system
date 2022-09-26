@@ -42,7 +42,7 @@
             <mat-cell class="state-item" *matCellDef="let element">
                 <label class="switch switch-label switch-pill switch-success switch-sm float-right">
           <input (change)="changeState(element.id,$event)" type="checkbox" class="switch-input"
-            [checked]="(element?.status=='ACTIVE')?true:false">
+            [checked]="(element?.status==='ACTIVE')?true:false">
           <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
         </label>
             </mat-cell>

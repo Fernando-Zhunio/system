@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'buscar_productos',
-    loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule),
+    loadChildren: () => import('./buscar-productos/products.module').then(m => m.BuscarProductosModule),
   },
   {
     path: 'publicaciones',

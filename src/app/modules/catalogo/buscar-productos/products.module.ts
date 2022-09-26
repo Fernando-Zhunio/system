@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BuscarProductosRoutingModule } from './buscar_productos.routing';
-import { BuscarProductosComponent } from './buscar-productos.component';
+import { ProductsRoutingModule } from './products.routing';
 import { NgxAutocompleteModule } from 'ngx-angular-autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,25 +24,24 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { SwiperModule } from 'ngx-swiper-wrapper';
-import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
+// import { HeaderSearchModule } from '../../../Modulos/header-search/header-search.module';
 import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 import { StockBodegasComponent } from '../../../components/modals/stock-bodegas/stock-bodegas.component';
 import { MomentModule } from 'ngx-moment';
 import { MatDialogModule } from '@angular/material/dialog';
-// import { NgxMasonryModule } from 'ngx-masonry';
-// import { TranslatefzModule } from '../../../Modulos/translatefz/translatefz.module';
-// import { SimpleScrollSpyModule } from "angular-simple-scroll-spy";
+import { ProductsComponent } from './pages/products/products.component';
+import { DialogHistoryPricesProductComponent } from './components/dialog-history-prices-product/dialog-history-prices-product.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
-  declarations: [BuscarProductosComponent, StockBodegasComponent],
+  declarations: [ProductsComponent, StockBodegasComponent, DialogHistoryPricesProductComponent],
   imports: [
     CommonModule,
-    BuscarProductosRoutingModule,
+    ProductsRoutingModule,
     NgxAutocompleteModule,
     CarouselModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    // BsDropdownModule,
     MatFormFieldModule,
     MatAutocompleteModule,
     MatInputModule,
@@ -64,11 +62,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSidenavModule,
     PostModule,
     SwiperModule,
-    HeaderSearchModule,
-    // TemplateSearchModule
+    // HeaderSearchModule,
     SearchTemplateModule,
     MomentModule,
     MatDialogModule,
+    MatProgressBarModule,
     // NgxMasonryModule,
     // SimpleScrollSpyModule,
     ],

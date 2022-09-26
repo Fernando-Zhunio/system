@@ -210,7 +210,7 @@
         </mat-expansion-panel-header>
         <app-payment-order
           [isCancelled]="order?.status === 'cancelled'"
-          (change)="getOrder()"
+          (reload)="getOrder()"
           [order_id]="order?.id"
           [payments]="order?.payments"></app-payment-order>
       </mat-expansion-panel>

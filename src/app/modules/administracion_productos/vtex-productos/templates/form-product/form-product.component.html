@@ -49,7 +49,7 @@
         </div>
       </div>
       <div>
-        <h1 class="font-5xl font-facebook my-4">{{status=='create'?'Creación':'Edición'}} de producto</h1>
+        <h1 class="font-5xl font-facebook my-4">{{status==='create'?'Creación':'Edición'}} de producto</h1>
       </div>
 
       <mat-card>
@@ -189,20 +189,20 @@
         <div *ngFor="let item of vtexSpecificationProduct">
           <div class="item-specification">
             <label>{{item.Name}}:</label>
-            <mat-radio-group *ngIf="item.FieldTypeName == 'Radio'" [required]="item.IsRequired"
+            <mat-radio-group *ngIf="item.FieldTypeName === 'Radio'" [required]="item.IsRequired"
               [formControlName]="item.FieldId" aria-label="Select an option">
               <mat-radio-button #button (click)="checkState($event,button,item.FieldId)"
                 *ngFor="let value of item.Values" [value]="value.Value">{{value.Value}}</mat-radio-button>
               <!-- <mat-radio-button value="2">Option 2</mat-radio-button> -->
             </mat-radio-group>
 
-            <mat-selection-list *ngIf="item.FieldTypeName == 'CheckBox'" [formControlName]="item.FieldId">
+            <mat-selection-list *ngIf="item.FieldTypeName === 'CheckBox'" [formControlName]="item.FieldId">
               <mat-list-option [value]="value.Value" *ngFor="let value of item.Values">
                 {{value.Value}}
               </mat-list-option>
             </mat-selection-list>
 
-            <mat-form-field *ngIf="item.FieldTypeName == 'Texto'">
+            <mat-form-field *ngIf="item.FieldTypeName === 'Texto'">
               <input [formControlName]="item.FieldId" matInput>
               <mat-error *ngIf="formSpecification.get(item.FieldId.toString())?.invalid">Este campo es requerido</mat-error>
             </mat-form-field>
@@ -214,11 +214,11 @@
     </ng-template>
   </mat-tab>
 </mat-tab-group>
-<div *ngIf="status == 'create'">
+<div *ngIf="status === 'create'">
   <button *ngxPermissionsOnly="permission_page.product_create_or_edit"  [disabled]="isLoadProduct"  (click)="saveProduct('onlySave')" type="submit" color="primary"
     mat-raised-button>Guardar y gestionar skus</button>
 </div>
-<div *ngIf="status=='edit'">
+<div *ngIf="status==='edit'">
   <button *ngxPermissionsOnly="permission_page.product_create_or_edit" [disabled]="isLoadProduct"  (click)="saveProduct('onlySave')" type="submit" color="primary"
     mat-raised-button>Guardar</button>
 </div>

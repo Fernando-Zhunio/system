@@ -104,7 +104,7 @@
                   </mat-card>
                 </div>
               </div>
-              <button color="primary" [disabled]="!(agregados.length > 0) && status !='edit'" mat-raised-button
+              <button color="primary" [disabled]="!(agregados.length > 0) && status !=='edit'" mat-raised-button
                 (click)="goForward()">Continuar</button>
             </mat-card>
           </div>
@@ -113,7 +113,7 @@
     </mat-step>
     <mat-step [stepControl]="formValidationTwo" [editable]="false">
       <form [formGroup]="formValidationTwo">
-        <ng-template matStepLabel>{{status=='create'?'Creación':'Edición'}} de Producto</ng-template>
+        <ng-template matStepLabel>{{status==='create'?'Creación':'Edición'}} de Producto</ng-template>
         <app-form-product (vtexSpecifications)="getSpecification($event)" [status]="status" (product)="getSkusAfterSaveProduct($event)" [agregados]="agregados" [vtexProduct]="vtexProduct"></app-form-product>
       </form>
     </mat-step>

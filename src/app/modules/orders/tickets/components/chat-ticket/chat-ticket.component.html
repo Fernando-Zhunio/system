@@ -11,7 +11,7 @@
                     <div class="message-container">
                         <div *ngIf="message.attachments && message.attachments.length > 0" [ngClass]="message.is_staff_message ? 'justify-content-start':'justify-content-end'" class="d-flex  mb-1">
                             <!-- <img [src]="message.attachments[0].permalink" alt="" class="rounded-fz shadow w-100"> -->
-                            <ng-container *ngIf="message.attachments[0].type == 'image'; else templateFile">
+                            <ng-container *ngIf="message.attachments[0].type === 'image'; else templateFile">
                                 <a [href]="message.attachments[0].permalink" target="_blank"><img class="rounded-fz shadow w-100" [src]="message.attachments[0].permalink" alt=""></a>
                             </ng-container>
                             

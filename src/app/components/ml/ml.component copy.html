@@ -17,7 +17,7 @@
                 <a [href]="ml.link" mat-raised-button target="_blank" color="primary">Ver en Web </a>
 
                 <button mat-raised-button (click)="openDescription()" color="accent">Ver descripcion</button>
-                <div *ngIf="ml.status == 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
+                <div *ngIf="ml.status === 'payment_required'" class="col-lg-12 mt-2 col-md-12 col-sm-12" style="margin: 0px">
                     <div class="alert alert-warning">
                         <button type="button" class="close"></button>
                         <strong>Atención!</strong> Este item ha sido publicado como <b>"{{ml.listing_type_id
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="col-md-4 text-right">
-                <ng-container *ngIf="ml.listing_type_id == 'gold' || ml.listing_type_id == 'silver'">
+                <ng-container *ngIf="ml.listing_type_id === 'gold' || ml.listing_type_id === 'silver'">
                     <span class="text-uppercase {{ml.listing_type_id}}">
                         <i class="fas fa-coins {{ml.listing_type_id}}"></i>
                         PUBLICACIÓN {{ml.listing_type_id}}
@@ -52,8 +52,8 @@
                         amTimeAgo}}</small>
                 </div>
                 <div class="options-bar">
-                    <span [ngClass]=" ml.status == 'closed'?'list-group-item-dark':'list-group-item-success'" class="mat-button d-inline-flex align-items-center">
-                        <mat-icon>{{(ml.status != 'closed') ? 'play_circle_outline' : 'stop'}}</mat-icon>
+                    <span [ngClass]=" ml.status == ='closed'?'list-group-item-dark':'list-group-item-success'" class="mat-button d-inline-flex align-items-center">
+                        <mat-icon>{{(ml.status !== 'closed') ? 'play_circle_outline' : 'stop'}}</mat-icon>
                         <span class="text-uppercase">{{ml.status }}</span>
                     </span>
 
@@ -61,12 +61,12 @@
 
                     <span class="mat-button list-group-item-info d-inline-flex align-items-center">
                         <mat-icon>access_alarm</mat-icon>
-                        <span>{{(ml.status == 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
+                        <span>{{(ml.status === 'closed') ? 'Finalizado' : 'Finaliza'}} {{ ml.stop_time |
                             amLocale:'es' |
                             amTimeAgo }} </span>
                     </span>
 
-                    <span *ngIf="ml.relist_forever == 'on'" class="mat-button list-group-item-secondary d-inline-flex align-items-center">
+                    <span *ngIf="ml.relist_forever === 'on'" class="mat-button list-group-item-secondary d-inline-flex align-items-center">
                         <mat-icon>restore</mat-icon><span>Republicación Activada </span>
                     </span>
                     <ng-container *ngIf="ml.menu">

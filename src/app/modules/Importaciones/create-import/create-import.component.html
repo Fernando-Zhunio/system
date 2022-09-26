@@ -1,5 +1,5 @@
 <div>
-    <mat-card *ngIf="state_import =='create';else importGenerate" class="my-1">
+    <mat-card *ngIf="state_import ==='create';else importGenerate" class="my-1">
         <form [formGroup]="form_import" (ngSubmit)="createimport()">
             <mat-card-title>Creando importacion</mat-card-title>
             <mat-form-field class="d-block">

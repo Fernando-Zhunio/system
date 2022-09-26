@@ -48,7 +48,7 @@
     <span class="text-primary">Estado:</span>
     <span [class]="status" class="badge-fz">{{status | translatefz: "orders"}}</span>
     <small class="text-muted" *ngIf="isLoading">procesando ...</small>
-    <ng-container *ngIf="!(status != 'pending' || type == 'paymentez')">
+    <ng-container *ngIf="!(status !== 'pending' || type === 'paymentez')">
       <button [hidden]="isLoading" color="primary" mat-icon-button [matMenuTriggerFor]="menu"><i class="fa-solid fa-retweet"></i></button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="changeStatus('pending')">Pendiente</button>

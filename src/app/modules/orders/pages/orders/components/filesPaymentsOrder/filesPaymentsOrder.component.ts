@@ -11,6 +11,7 @@ import { StandartSearchService } from '../../../../../../services/standart-searc
 import { SwalService } from '../../../../../../services/swal.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-filesPaymentsOrder',
   templateUrl: './filesPaymentsOrder.component.html',
   styleUrls: ['./filesPaymentsOrder.component.scss']

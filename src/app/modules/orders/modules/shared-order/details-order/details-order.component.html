@@ -87,7 +87,7 @@
                 <div>
                     <mat-list dense>
                         <mat-list-item *ngFor="let item of order?.items">
-                            <img mat-list-avatar [src]="item.product.image | nullFz:['img']" alt="">
+                            <img mat-list-avatar [src]="item.product.image" alt="">
                             <div mat-line>{{item.product.name}}</div>
                             <div mat-line>Cantidad: {{item.quantity}}</div>
                             <div mat-line>Precio: {{item.price}}</div>

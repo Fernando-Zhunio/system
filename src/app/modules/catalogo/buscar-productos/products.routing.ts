@@ -3,14 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { environment } from '../../../../environments/environment';
 import { PermissionSearchProducts } from '../../../class/permissions-modules';
-import { BuscarProductosComponent } from './buscar-productos.component';
+import { ProductsComponent } from './pages/products/products.component';
 
 const permission_module = PermissionSearchProducts;
 
 const routes: Routes = [
   {
     path: '',
-    component: BuscarProductosComponent,
+    component: ProductsComponent,
     data: {
       permissions: {
         only:  permission_module.index,
@@ -25,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BuscarProductosRoutingModule {}
+export class ProductsRoutingModule {}

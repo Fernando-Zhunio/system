@@ -69,6 +69,11 @@ import { InvoicesOrderComponent } from './modules/shared-order/invoices-order/in
 import { PaymentMbaItemComponent } from './modules/shared-order/components/payment-mba-item/payment-mba-item.component';
 import { CustomTemplateOnlyInputComponent } from './modules/shared-order/custom-template-only-input/custom-template-only-input.component';
 import { SearchWarehousesComponent } from './pages/orders/components/search-warehouses/search-warehouses.component';
+import { ToolsModule } from '../../Modulos/tools/tools.module';
+import { ViewerGalleryComponent } from '../../Modulos/viewer-gallery/viewer-gallery.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { PdfDetailOrderComponent } from './modules/shared-order/pdf-detail-order/pdf-detail-order.component';
+import { DetailsOrderComponent } from './modules/shared-order/details-order/details-order.component';
 
 @NgModule({
   declarations: [DashboardOrdersComponent,
@@ -100,7 +105,10 @@ import { SearchWarehousesComponent } from './pages/orders/components/search-ware
     InvoicesOrderComponent,
     PaymentMbaItemComponent,
     CustomTemplateOnlyInputComponent,
-    SearchWarehousesComponent
+    SearchWarehousesComponent,
+    ViewerGalleryComponent,
+    PdfDetailOrderComponent,
+    DetailsOrderComponent
   ],
   imports: [
     CommonModule,
@@ -137,7 +145,9 @@ import { SearchWarehousesComponent } from './pages/orders/components/search-ware
     MomentModule,
     MatSlideToggleModule,
     MatProgressBarModule,
-    SearchProductsDialogModule
+    SearchProductsDialogModule,
+    ToolsModule,
+    NgxFileDropModule,
   ]
 })
 export class OrdersModule { }
