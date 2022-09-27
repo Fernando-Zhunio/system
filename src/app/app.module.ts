@@ -107,6 +107,7 @@ import { P403Component } from './views/error/p403/p403.component';
 import { SidebarFzComponent } from './shared/components/sidebar-fz/sidebar-fz.component';
 import { HeaderFzComponent } from './shared/components/header-fz/header-fz.component';
 import { StorageService } from './services/storage.service';
+import { HeaderSearchModule } from './Modulos/header-search/header-search.module';
 
 
 function getPermissionAndVersionServer(_st: StorageService) {
@@ -143,7 +144,7 @@ registerLocaleData(localeEs, 'es');
     MatBottomSheetModule,
     MatInputModule,
     MatSidenavModule,
-    // HeaderSearchModule,
+    HeaderSearchModule,
     NgxGalleryModule,
     MatSnackBarModule,
     MatSlideToggleModule,
