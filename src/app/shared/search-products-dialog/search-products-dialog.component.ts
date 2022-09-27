@@ -1,14 +1,14 @@
-import { Component, ContentChild, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Output, TemplateRef } from '@angular/core';
 import { animation_conditional } from '../../animations/animate_leave_enter';
 import { DialogProductsService } from '../../services/dialog-products.service';
 
 @Component({
-  selector: 'search-products-dialog',
+  selector: 'app-search-products-dialog',
   templateUrl: './search-products-dialog.component.html',
   styleUrls: ['./search-products-dialog.component.scss'],
   animations: animation_conditional
 })
-export class SearchProductsDialogComponent implements OnInit {
+export class SearchProductsDialogComponent {
 
   url: string;
   onlyOne: boolean = false;
@@ -22,8 +22,6 @@ export class SearchProductsDialogComponent implements OnInit {
   @Output() add: EventEmitter<any> = new EventEmitter<any>();
   @Output() remove: EventEmitter<any> = new EventEmitter<any>();
   @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
-  ngOnInit() {
-  }
 
   getData(data: { data: any[]; }) {
     this.products = new Map(data.data.map((item: any) => [item.id, item]));

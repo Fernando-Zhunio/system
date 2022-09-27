@@ -24,7 +24,7 @@ export class PromotionIndexComponent extends MatTableHelper<Promotion> implement
   url: string;
   campaignId: string;
   isOpenFile: boolean = false;
-  columnsToDisplay = ['id', 'title', 'products', 'duration_type', 'status', 'price', 'created_at', 'actions'];
+  columnsToDisplay = ['id', 'title', 'products', 'description', 'status', 'price', 'created_at', 'actions'];
   
   constructor(
     protected methodsHttp: MethodsHttpService,

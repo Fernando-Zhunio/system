@@ -1,13 +1,22 @@
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import AirDatepicker from 'air-datepicker';
 import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
+import { DialogProductsService } from '../../../../../services/dialog-products.service';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../services/swal.service';
 import { Campaign } from '../../interfaces/campaign';
 
+// interface PromotionProductSend {
+//   id: number;
+//   price: number;
+//   quantity: number;
+//   name: string;
+//   img: string;
+//   code: string;
+// }
 @Component({
   selector: 'app-create-or-edit-promotion',
   templateUrl: './create-or-edit-promotion.component.html',
@@ -22,25 +31,28 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   @ViewChild('inputQuantity') inputQuantity: ElementRef;
   dpMax: any;
   dpMin: any;
-  urlSearch: string;
-  hiddenSearchProducts: boolean = true;
-  productsSelected: Map<number, any> = new Map<number, any>();
+  // urlSearch: string;
+  // hiddenSearchProducts: boolean = true;
+  // productsSelected: Map<number, PromotionProductSend> = new Map<number, PromotionProductSend>();
   override form: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl(''),
     status: new FormControl('', [Validators.required]),
     price: new FormControl(1, [Validators.required]),
   });
-  currentKey: number
-  hiddenAddQuantity: boolean = true;
-  formControlQuantity: FormControl = new FormControl(1, [Validators.min(1)]);
+  // currentKey: number
+  // hiddenAddQuantity: boolean = true;
+  // formControlQuantity: FormControl = new FormControl(1, [Validators.min(1)]);
   campaign: Campaign;
+  formArrayProductSelected: FormArray = new FormArray<FormGroup>([]);
+  // onlyQuantity: boolean = false;
 
   constructor(
     protected act_router: ActivatedRoute,
     protected methodsHttp: MethodsHttpService,
     protected router: Router,
-    protected override location: Location
+    protected override location: Location,
+    private dialogProductSearch: DialogProductsService
   ) {
     super();
   }
@@ -63,55 +75,36 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
     this.location.back();
   }
 
-  addProduct(product): void {
-    if (product) {
-      this.currentKey = product.id;
-      this.hiddenAddQuantity = false;
-      this.inputQuantity.nativeElement.focus();
+  addProduct( {id, name, img, code}, price = null, quantity = null ): void {
+    if (this.validateNotRepeatProduct(id)) {
+      this.formArrayProductSelected.push(new FormGroup({
+        id: new FormControl(id, [Validators.required]),
+        price: new FormControl(price ?? 1, [Validators.required, Validators.min(0)]),
+        quantity: new FormControl(quantity ?? 1, [Validators.required, Validators.min(1)]),
+        name: new FormControl(name),
+        img: new FormControl(img),
+        code: new FormControl(code),
+      }));
     }
   }
 
-  onlyQuantity: boolean = false;
-  editQuantity(key: number): void {
-    this.currentKey = key;
-    this.hiddenAddQuantity = false;
-    this.formControlQuantity.setValue(this.productsSelected.get(key).quantity);
-    this.onlyQuantity = true;
-    this.inputQuantity.nativeElement.focus();
-  }
 
-
-  addQuantity(): void {
-    if (this.formControlQuantity.valid) {
-      this.productsSelected.get(this.currentKey).quantity = this.formControlQuantity.value;
-      this.hiddenAddQuantity = true;
-      this.formControlQuantity.reset(1);
-    } else {
-      this.formControlQuantity.markAllAsTouched();
-    }
-  }
-
-  quitAddQuantity(): void {
-    this.hiddenAddQuantity = true;
-    if (!this.onlyQuantity) {
-      this.productsSelected.delete(this.currentKey);
-    }
-    this.onlyQuantity = false;
-  }
-
-  deleteProduct(key: number): void {
-    this.productsSelected.delete(key);
+  deleteProduct(index: number): void {
+    this.formArrayProductSelected.removeAt(index);
+    // this.productsSelected.delete(key);
   }
 
   override getDataForSendServer(): any {
-    if (this.form.valid && this.productsSelected.size > 0) {
+    console.log(this.formArrayProductSelected.controls.values());
+    if (this.form.valid && this.formArrayProductSelected.controls.length > 0) {
       return {
         ...this.form.value,
-        products: Array.from(this.productsSelected.values())
+        products: Array.from(this.formArrayProductSelected.controls.values())
           .map(item => {
             return {
-              id: item.id,
-              quantity: item.quantity
+              id: item.value.id,
+              quantity: item.value.quantity,
+              price: item.value.price
             }
           })
       }
@@ -128,13 +121,38 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
       status: data.status,
       price: data.price_formated
     });
-    this.productsSelected = new Map(data.products.map((item: any) => {
+    data.products.forEach((item: any) => {
+      this.addProduct({id: item.id, name: item.name, img: item.image, code: item.code}, item.pivot.price, item.pivot.quantity);
+      // return [item.id, {
+      //   ...item,
+      //   quantity: item.pivot.quantity
+      // }]
+    });
+  }
 
-      return [item.id, {
-        ...item,
-        quantity: item.pivot.quantity
-      }]
-    }));
+  openDialogProductSearch(): void {
+    const options = {
+      data: {
+        isMultiple: true,
+      }
+    }
+    this.dialogProductSearch.open('catalogs/campaigns/promotions/search-products', options).subscribe((res: any) => {
+      if (res?.data) {
+        console.log(res);
+        this.addProduct(res.data);
+      }
+    });
+  }
+
+  validateNotRepeatProduct(id: number): boolean {
+    return this.formArrayProductSelected.controls.findIndex(item => item.value.id === id) === -1;
+  }
+
+  getTotalPrice(): number {
+    return Array.from(this.formArrayProductSelected.controls.values())
+      .reduce((acc, item) => {
+        return acc + (item.value.price);
+      }, 0);
   }
 
 }

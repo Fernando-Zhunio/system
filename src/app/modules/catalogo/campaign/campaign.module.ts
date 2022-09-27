@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { CreateOrEditCampaignComponent } from './pages/create-or-edit-campaign/create-or-edit-campaign.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -25,11 +25,13 @@ import { FilePondModule } from 'ngx-filepond';
 import {MatRippleModule} from '@angular/material/core';
 import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 import {MatBadgeModule} from '@angular/material/badge';
+import { SearchProductsDialogModule } from '../../../shared/search-products-dialog/search-products-dialog.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     CampaignRoutingModule,
     MatCardModule,
     MatIconModule,
@@ -48,8 +50,14 @@ import {MatBadgeModule} from '@angular/material/badge';
     FilePondModule,
     MatRippleModule,
     SearchTemplateTableComponent,
-    MatBadgeModule
+    MatBadgeModule,
+    SearchProductsDialogModule,
   ],
-  declarations: [DetailsPromotionComponent, CampaignIndexComponent, CreateOrEditPromotionComponent, CreateOrEditCampaignComponent, PromotionIndexComponent]
+  declarations: [
+    DetailsPromotionComponent, 
+    CampaignIndexComponent, 
+    CreateOrEditPromotionComponent, 
+    CreateOrEditCampaignComponent, 
+    PromotionIndexComponent]
 })
 export class CampaignModule { }

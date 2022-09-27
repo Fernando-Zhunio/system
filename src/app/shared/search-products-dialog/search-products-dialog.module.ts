@@ -12,7 +12,8 @@ import { SearchProductsDialogComponent } from './search-products-dialog.componen
     SearchesModule,
     MatButtonModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+
   ],
   exports: [SearchProductsDialogComponent],
   declarations: [SearchProductsDialogComponent]

@@ -32,7 +32,7 @@
         <mat-progress-bar color="accent" mode="buffer"></mat-progress-bar>
       </div>
     </div>
-    <div *ngIf="paginator.length <= 0 && !isLoading && isLoading != undefined">
+    <div *ngIf="paginator.length <= 0 && !isLoading && isLoading !== undefined">
       <h2 class="text-center">No hay resultados</h2>
     </div>
     <div class="font-weight-lighter lead m-3 text-center" *ngIf="isLoading === undefined">

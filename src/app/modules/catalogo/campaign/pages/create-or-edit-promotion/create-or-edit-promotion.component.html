@@ -1,10 +1,10 @@
-<div style="height: calc(100vh - 55px);">
+<div style="height: calc(100vh - 55px)">
   <div class="my-3 position-absolute">
-    <button (click)="goBack()"  mat-mini-fab><mat-icon>arrow_back</mat-icon></button>
+    <button (click)="goBack()" mat-mini-fab><mat-icon>arrow_back</mat-icon></button>
   </div>
   <div class="row h-100 center">
     <div class="col-md-6 center">
-      <div  class="col-9">
+      <div class="col-9">
         <h1 class="font-4xl font-weight-bold text-center">{{ title }}</h1>
         <mat-card class="w-100">
           <div>
@@ -17,7 +17,7 @@
               <div>
                 <mat-form-field class="w-100">
                   <input type="number" matInput placeholder="Precio" formControlName="price" />
-                  <span matPrefix>$ </span>
+                  <span matPrefix>$</span>
                 </mat-form-field>
               </div>
               <div>
@@ -27,13 +27,13 @@
               </div>
               <div>
                 <mat-form-field class="w-100">
-                  <mat-select #selectType placeholder="Estado"  formControlName="status">
+                  <mat-select #selectType placeholder="Estado" formControlName="status">
                     <mat-option select value="active">Activo</mat-option>
                     <mat-option value="inactive">Inactivo</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              
+
               <!-- <div>
                 <mat-form-field class="w-100">
                   <mat-select #selectType placeholder="Tipo de duración" formControlName="duration_type">
@@ -55,48 +55,73 @@
                 </div>
               </div> -->
               <div>
-                <button [disabled]="isLoading" (click)="saveInServer()" color="primary" mat-raised-button><mat-icon>save</mat-icon> Guardar</button>
+                <button color="primary" [disabled]="isLoading" (click)="saveInServer()" mat-button>
+                  Guardar
+                  <i class="fa-regular fa-floppy-disk"></i>
+                </button>
               </div>
             </form>
-
           </div>
         </mat-card>
       </div>
     </div>
     <div class="col-md-6">
-      <div *ngIf="productsSelected.size < 1; else TemplateProducts">
+      <div *ngIf="formArrayProductSelected.controls.length < 1; else TemplateProducts">
         <h3>Sin productos seleccionados</h3>
       </div>
       <ng-template #TemplateProducts>
         <div>
           <h3 class="font-3xl font-weight-bold">Productos seleccionados</h3>
           <div>
-            <div class="my-3 item-product" *ngFor="let product of productsSelected | keyvalue">
-                <div class="d-flex align-items-center">
-                  <img class="img-product mr-2" [src]="product.image || 'assets/img/img_not_available.png'" alt="produt image">
+            <div style="max-height: 60vh; overflow: auto;" class="px-2">
+              <div class="my-3 item-product" *ngFor="let formProduct of formArrayProductSelected.controls; let i = index">
+                <div [formGroup]="formProduct" class="d-flex align-items-center">
+                  <img
+                    class="img-product mr-2"
+                    [src]="formProduct.get('img').value || 'assets/img/img_not_available.png'"
+                    alt="product image" />
                   <div>
-                    <h3 class="m-0"><span class="text-danger">#{{product.value.code}} </span>{{ product.value.name }}</h3>
-                    <h4 class="m-0">Cantidad: {{product.value?.quantity}} <button (click)="editQuantity(product.key)" color="primary" mat-icon-button><mat-icon>edit</mat-icon></button></h4>
+                    <h3 class="m-0">
+                      <span class="text-danger">#{{ formProduct.get("code").value }}</span>
+                      {{ formProduct.get("name").value }}
+                    </h3>
+                    <mat-form-field>
+                      <input matInput min="1" type="number" placeholder="Cantidad" formControlName="quantity" />
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput min="0.1" type="number" placeholder="Precio" formControlName="price" />
+                    </mat-form-field>
                   </div>
                 </div>
-                <button (click)="deleteProduct(product.key)" color="warn" mat-icon-button><mat-icon>delete</mat-icon></button>
+                <button (click)="deleteProduct(i)" color="warn" mat-icon-button><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            <div class="mb-2 px-3 py-2">
+              <h3 class="my-1">
+                Total:
+                <span class="text-primary">{{ getTotalPrice() | currency }}</span>
+              </h3>
             </div>
           </div>
         </div>
       </ng-template>
-      <button (click)="hiddenSearchProducts = false" mat-raised-button color="primary">Buscar productos</button>
+      <button (click)="openDialogProductSearch()" mat-raised-button color="primary">
+        Buscar productos
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
     </div>
   </div>
 
-  <div [hidden]="hiddenSearchProducts">
+  <!-- <div [hidden]="hiddenSearchProducts">
     <app-search-products (add)="addProduct($event)" (isClose)="hiddenSearchProducts = true" [(productsSelected)]="productsSelected" [urlSearch]="'catalogs/campaigns/promotions/search-products'">
       <ng-template let-product>
         <h5 *ngIf="product?.value?.quantity">Cantidad: {{product?.value?.quantity}}</h5>
       </ng-template>
       
     </app-search-products>
-  </div>
-  <div [hidden]="hiddenAddQuantity" class="container-quantity">
+  </div> -->
+
+  <!-- <div [hidden]="hiddenAddQuantity" class="container-quantity">
     <div class="col-md-3">
       <mat-card>
         <h3>{{productsSelected.get(currentKey)?.name}}</h3>
@@ -109,9 +134,10 @@
         </div>
       </mat-card>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <div *ngIf="campaign" class="campaign">
-  Campaña : <span class="text-success">#{{campaign.id}} {{campaign.title}}</span>
+  Campaña :
+  <span class="text-success">#{{ campaign.id }} {{ campaign.title }}</span>
 </div>

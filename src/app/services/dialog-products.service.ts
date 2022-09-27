@@ -16,11 +16,11 @@ export class DialogProductsService {
     private appRef: ApplicationRef,
     private injector: Injector) { }
 
-  open( url, options: { data: { isMultiple: boolean, productsSelected?: Map<number, any> } }) {
+  open( url, options: { data: { isMultiple: boolean, productsSelected?: Map<number, any> }} | null = null) {
     const componentFactory: any = this.componentFactoryResolver.resolveComponentFactory(SearchProductsDialogComponent);
     const componentRef = componentFactory.create(this.injector);
     componentRef.instance.url = url;
-    if (options.data) {
+    if (options && options.data) {
       componentRef.instance.onlyOne = options.data.isMultiple;
       componentRef.instance.productsSelected = options.data?.productsSelected || new Map<number, any>();
     }
