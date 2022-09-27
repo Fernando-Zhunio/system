@@ -1,4 +1,6 @@
 services:
   - type: web
+    name: webdis
+    env: docker
     buildCommand: ng b --configuration production
     startCommand: npm install --force && npm i -g @angular/cli
