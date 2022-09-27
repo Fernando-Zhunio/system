@@ -7,7 +7,7 @@ import {
 } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+// import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 
 import { AppComponent } from './app.component';
@@ -62,7 +62,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { InvoiceItemModalComponent } from './components/modals/invoice-item-modal/invoice-item-modal.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { HeaderSearchModule } from './Modulos/header-search/header-search.module';
+// import { HeaderSearchModule } from './Modulos/header-search/header-search.module';
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { CreateProviderOrContactComponent } from './components/modals/create-provider-or-contact/create-provider-or-contact.component';
 import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
@@ -83,7 +83,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
-import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
+// import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PopoverModule } from 'ngx-bootstrap/popover';
@@ -103,17 +103,10 @@ import { preferenceReducer } from './redux/reducers/preference.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-// import { StorageService } from './services/storage.service';
-// import { TicketsModule } from './pages/orders/tickets/tickets.module';
 import { P403Component } from './views/error/p403/p403.component';
 import { SidebarFzComponent } from './shared/components/sidebar-fz/sidebar-fz.component';
 import { HeaderFzComponent } from './shared/components/header-fz/header-fz.component';
 import { StorageService } from './services/storage.service';
-// import * as Sentry from "@sentry/angular";
-// import { BrowserTracing } from "@sentry/tracing";
-// import { enableProdMode } from "@angular/core";
-
-//   enableProdMode();
 
 
 function getPermissionAndVersionServer(_st: StorageService) {
@@ -128,12 +121,7 @@ registerLocaleData(localeEs, 'es');
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    // AppAsideModule,
-    // AppBreadcrumbModule.forRoot(),
-    // AppFooterModule,
-    // AppHeaderModule,
-    // AppSidebarModule,
-    PerfectScrollbarModule,
+    // PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ReactiveFormsModule,
@@ -155,7 +143,7 @@ registerLocaleData(localeEs, 'es');
     MatBottomSheetModule,
     MatInputModule,
     MatSidenavModule,
-    HeaderSearchModule,
+    // HeaderSearchModule,
     NgxGalleryModule,
     MatSnackBarModule,
     MatSlideToggleModule,
@@ -163,7 +151,7 @@ registerLocaleData(localeEs, 'es');
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxEmojiPickerModule,
+    // NgxEmojiPickerModule,
     OverlayModule,
     InfiniteScrollModule,
     FilePondModule,

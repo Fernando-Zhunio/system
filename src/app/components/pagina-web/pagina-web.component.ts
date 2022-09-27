@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IproductVtexSku } from '../../interfaces/iproducts';
 import { InfoViewComponent } from '../modals/info-view/info-view.component';
@@ -9,13 +9,11 @@ import { SharedService } from './../../services/shared/shared.service';
   templateUrl: './pagina-web.component.html',
   styleUrls: ['./pagina-web.component.css']
 })
-export class PaginaWebComponent implements OnInit {
+export class PaginaWebComponent {
 
   constructor(private dialog: MatDialog) { }
 
   @Input() prestashop_product: IproductVtexSku;
-  ngOnInit(): void {
-  }
 
   openDescription(): void{
     this.dialog.open(InfoViewComponent, {
