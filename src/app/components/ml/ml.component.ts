@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImlInfo, ImlMenu } from '../../interfaces/iml-info';
@@ -13,7 +13,7 @@ import { ModalRealistComponent } from './tools/modal-realist/modal-realist.compo
   templateUrl: './ml.component.html',
   styleUrls: ['./ml.component.css']
 })
-export class MlComponent implements OnInit {
+export class MlComponent {
 
   constructor(private s_mercado_libre: MercadoLibreService, public dialog: MatDialog, private snack_bar: MatSnackBar) { }
 
@@ -22,8 +22,6 @@ export class MlComponent implements OnInit {
   @Input() withName: boolean = false;
   ml_menu: ImlMenu | null = null;
   isLoadMenu: boolean = false;
-  ngOnInit(): void {
-  }
 
   openDescription(): void {
      this.dialog.open(InfoViewComponent, {
