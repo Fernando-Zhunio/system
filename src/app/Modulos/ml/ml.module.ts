@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MlComponent } from '../../components/ml/ml.component';
+import { MlComponent } from '../../modules/catalogo/components/ml/ml.component';
 import { MomentModule } from 'ngx-moment';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +10,7 @@ import { PromocionesComponent } from '../../components/promociones/promociones.c
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PaginaWebComponent } from '../../components/pagina-web/pagina-web.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { ModalRealistComponent } from '../../components/ml/tools/modal-realist/modal-realist.component';
+import { ModalRealistComponent } from '../../modules/catalogo/components/ml/tools/modal-realist/modal-realist.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';

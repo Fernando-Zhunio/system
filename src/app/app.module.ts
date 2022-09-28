@@ -16,8 +16,8 @@ import { AppComponent } from './app.component';
 import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+// import { LoginComponent } from './modules/authenticate/pages/login/login.component';
+// import { RegisterComponent } from './views/register/register.component';
 const APP_CONTAINERS = [DefaultLayoutComponent];
 // import {
 //   AppAsideModule,
@@ -30,7 +30,6 @@ const APP_CONTAINERS = [DefaultLayoutComponent];
 // Import routing module
 import { AppRoutingModule } from './app.routing';
 
-// Import 3rd party components
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 // import { ChartsModule } from 'ng2-charts';
@@ -44,30 +43,17 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { RepricarMlModalComponent } from './components/repricar-ml-modal/repricar-ml-modal.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { InfoViewComponent } from './components/modals/info-view/info-view.component';
+// import { RepricarMlModalComponent } from './modules/catalogo/components/repricar-ml-modal/repricar-ml-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
-import { MomentModule } from 'ngx-moment';
-// import { StockBodegasComponent } from './components/modals/stock-bodegas/stock-bodegas.component';
-import { MatTableModule } from '@angular/material/table';
+import { MomentModule } from 'ngx-moment'; 
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
-import { SelectProviderComponent } from './components/modals/select-provider/select-provider.component';
-import { ActionProviderComponent } from './components/Sheet/action-provider/action-provider.component';
-import { MatListModule } from '@angular/material/list';
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { InvoiceItemModalComponent } from './components/modals/invoice-item-modal/invoice-item-modal.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatSidenavModule } from '@angular/material/sidenav';
-// import { HeaderSearchModule } from './Modulos/header-search/header-search.module';
-import { NgxGalleryModule } from 'ngx-gallery-9';
-import { CreateProviderOrContactComponent } from './components/modals/create-provider-or-contact/create-provider-or-contact.component';
-import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
-// import { InConstructionComponent } from './views/in-construction/in-construction.component';
-import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
+// import { SelectProviderComponent } from './components/modals/select-provider/select-provider.component';
+// import { ActionProviderComponent } from './components/Sheet/action-provider/action-provider.component';
+// import { InvoiceItemModalComponent } from './components/modals/invoice-item-modal/invoice-item-modal.component';
+// import { CreateProviderOrContactComponent } from './components/modals/create-provider-or-contact/create-provider-or-contact.component';
+// import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
+// import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -76,14 +62,9 @@ import { CustomReusingStrategy } from './class/custom-reusing-strategy';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { MatBadgeModule } from '@angular/material/badge';
-import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
+// import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { AddInfoPersonModalComponent } from './components/modals/add-info-person-modal/add-info-person-modal.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { OverlayModule } from '@angular/cdk/overlay';
 import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
-// import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { ChatComponent } from './components/chat-template/chat/chat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PopoverModule } from 'ngx-bootstrap/popover';
@@ -107,7 +88,20 @@ import { P403Component } from './views/error/p403/p403.component';
 import { SidebarFzComponent } from './shared/components/sidebar-fz/sidebar-fz.component';
 import { HeaderFzComponent } from './shared/components/header-fz/header-fz.component';
 import { StorageService } from './services/storage.service';
-import { HeaderSearchModule } from './Modulos/header-search/header-search.module';
+import { MatCardModule } from '@angular/material/card';
+// import { MatTableModule } from '@angular/material/table';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatSelectModule } from '@angular/material/select';
+// import { MatListModule } from '@angular/material/list';
+// import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatSidenavModule } from '@angular/material/sidenav';
+// import { NgxGalleryModule } from 'ngx-gallery-9';
+import { MatBadgeModule } from '@angular/material/badge';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { MatNativeDateModule } from '@angular/material/core';
+// import { OverlayModule } from '@angular/cdk/overlay';
+// import { HeaderSearchModule } from './Modulos/header-search/header-search.module';
 
 
 function getPermissionAndVersionServer(_st: StorageService) {
@@ -122,7 +116,6 @@ registerLocaleData(localeEs, 'es');
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    // PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ReactiveFormsModule,
@@ -133,27 +126,26 @@ registerLocaleData(localeEs, 'es');
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    MatFormFieldModule,
-    MatSelectModule,
+    // MatFormFieldModule,
+    // MatSelectModule,
     FormsModule,
     MatDialogModule,
     MatCardModule,
     MomentModule,
-    MatTableModule,
-    MatListModule,
-    MatBottomSheetModule,
-    MatInputModule,
-    MatSidenavModule,
-    HeaderSearchModule,
-    NgxGalleryModule,
+    // MatTableModule,
+    // MatListModule,
+    // MatBottomSheetModule,
+    // MatInputModule,
+    // MatSidenavModule,
+    // HeaderSearchModule,
+    // NgxGalleryModule,
     MatSnackBarModule,
     MatSlideToggleModule,
     MatBadgeModule,
     MatDialogModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    // NgxEmojiPickerModule,
-    OverlayModule,
+    // MatDatepickerModule,
+    // MatNativeDateModule,
+    // OverlayModule,
     InfiniteScrollModule,
     FilePondModule,
     MatTooltipModule,
@@ -167,7 +159,6 @@ registerLocaleData(localeEs, 'es');
     EffectsModule.forRoot([PreferenceEffects]),
     StoreDevtoolsModule.instrument({}),
     LoadingBarRouterModule,
-    // TicketsModule,
   ],
   declarations: [
     SidebarFzComponent,
@@ -176,21 +167,18 @@ registerLocaleData(localeEs, 'es');
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    LoginComponent,
-    RegisterComponent,
-    RepricarMlModalComponent,
-    InfoViewComponent,
-    // StockBodegasComponent,
-    SelectProviderComponent,
-    ActionProviderComponent,
-    InvoiceItemModalComponent,
-    CreateProviderOrContactComponent,
-    SearchProductModalComponent,
-    // InConstructionComponent,
-    RedirectToComponent,
+    // LoginComponent,
+    // RegisterComponent,
+    // RepricarMlModalComponent,
+    // SelectProviderComponent,
+    // ActionProviderComponent,
+    // InvoiceItemModalComponent,
+    // CreateProviderOrContactComponent,
+    // SearchProductModalComponent,
+    // RedirectToComponent,
     SnackBarLoaderComponent,
     OkLoginComponent,
-    FormRecuperationPasswordComponent,
+    // FormRecuperationPasswordComponent,
     AddInfoPersonModalComponent,
     ChatTemplateComponent,
     ChatComponent,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { PATH_LOGIN } from '../class/fast-data';
 import { Iresponse } from '../interfaces/Imports/invoice-item';
 import { StandartSearchService } from '../services/standart-search.service';
 
@@ -21,7 +22,7 @@ export class ConfirmCodeGuard implements Resolve<Iresponse> {
       }),
       catchError((res) => {
         console.log(res);
-        this.router.navigate(['login']);
+        this.router.navigate([PATH_LOGIN]);
         return EMPTY;
       })
     );

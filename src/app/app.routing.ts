@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
-import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
+// import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
@@ -10,11 +10,11 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+// import { LoginComponent } from './modules/authenticate/pages/login/login.component';
+// import { RegisterComponent } from './views/register/register.component';
 
-import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
-import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
+// import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
+// import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { P403Component } from './views/error/p403/p403.component';
 import { MainResolver } from './guards/resolvers/main.resolver';
@@ -38,50 +38,51 @@ export const routes: Routes = [
       title: 'Page 500'
     }
   },
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Login Page',
-      guard: 'guest'
-    },
-    canActivate: [AuthReverseGuard]
-  },
-  {
-    path: 'recuperation-password',
-    component: FormRecuperationPasswordComponent,
-    // canLoad: [RecuperatePasswordGuard],
-    resolve: { user: RecuperatePasswordGuard },
-    data: {
-      title: 'Recuperation password Page',
-      guard: 'guest'
-    },
-    // canActivate: [AuthReverseGuard]
-  },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent,
+  //   data: {
+  //     title: 'Login Page',
+  //     guard: 'guest'
+  //   },
+  //   canActivate: [AuthReverseGuard]
+  // },
+  // {
+  //   path: 'recuperation-password',
+  //   component: FormRecuperationPasswordComponent,
+  //   resolve: { user: RecuperatePasswordGuard },
+  //   data: {
+  //     title: 'Recuperation password Page',
+  //     guard: 'guest'
+  //   },
+  // },
+  // {
+  //   path: 'auth',
+  // }
 
-  {
-    path: 'register',
-    component: RegisterComponent,
-    data: {
-      title: 'Register Page',
-      guard: 'guest'
-    },
-    canActivate: [AuthReverseGuard]
-  },
-  {
-    path: 'redirect-to',
-    component: RedirectToComponent,
-    data: {
-      title: 'pageRedirect',
-      guard: 'guest'
-    },
-  },
+  // {
+  //   path: 'register',
+  //   component: RegisterComponent,
+  //   data: {
+  //     title: 'Register Page',
+  //     guard: 'guest'
+  //   },
+  //   canActivate: [AuthReverseGuard]
+  // },
+  // {
+  //   path: 'redirect-to',
+  //   component: RedirectToComponent,
+  //   data: {
+  //     title: 'pageRedirect',
+  //     guard: 'guest'
+  //   },
+  // },
   {
     path: 'sesion-ml',
     component: OkLoginComponent,
   },
   {
-    path: 'authetication',
+    path: 'authentication',
     loadChildren: () => import('./modules/authenticate/authenticate.module').then(m => m.AuthenticateModule),
     canActivate: [AuthReverseGuard],
     data: {
@@ -110,10 +111,10 @@ export const routes: Routes = [
         path: 'admin-products',
         loadChildren: () => import('./modules/administracion_productos/administracion-productos.module').then(m => m.AdministracionProductosModule),
       },
-      {
-        path: 'importaciones',
-        loadChildren: () => import('./modules/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
-      },
+      // {
+      //   path: 'importaciones',
+      //   loadChildren: () => import('./modules/Importaciones/importaciones.module').then(m => m.ImportacionesModule)
+      // },
       {
         path: 'reports',
         loadChildren: () => import('./modules/reportes/reportes.module').then(m => m.ReportesModule)

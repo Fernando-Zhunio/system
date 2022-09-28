@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IproductVtexSku } from '../../interfaces/iproducts';
-import { InfoViewComponent } from '../modals/info-view/info-view.component';
+import { InfoViewComponent } from '../../modules/catalogo/components/info-view/info-view.component';
 import { SharedService } from './../../services/shared/shared.service';
 
 @Component({

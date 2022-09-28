@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PATH_LOGIN } from '../../class/fast-data';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { SwalService } from '../../services/swal.service';
 
@@ -34,7 +35,7 @@ export class FormRecuperationPasswordComponent implements OnInit {
       const token = this.activeRouter.snapshot.queryParamMap.get("token");
       this.s_standart.store('auth/password/reset',{email,token,...this.formRecuperationPassword.value}).subscribe(
         ()=>{
-            this.router.navigate(['/login']);
+            this.router.navigate([PATH_LOGIN]);
             SwalService.swalFire({position:"center",icon:'success',title:'Contraseña cambiada con exito',html:'Ahora inicia sesion con tu nueva contraseña y email'})
             this.s_spinner.hide();
         },()=>{
@@ -44,7 +45,7 @@ export class FormRecuperationPasswordComponent implements OnInit {
     }
   }
   goLogin(){
-    this.router.navigate(['/login']);
+    this.router.navigate([PATH_LOGIN]);
   };
 
 }

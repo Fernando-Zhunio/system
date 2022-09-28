@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,15 +6,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './search-product-modal.component.html',
   styleUrls: ['./search-product-modal.component.css']
 })
-export class SearchProductModalComponent implements OnInit {
+export class SearchProductModalComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private dialogRef: MatDialogRef<SearchProductModalComponent>
   ) { }
-  ngOnInit(): void {
-
-  }
 
   products: any[] = []
 

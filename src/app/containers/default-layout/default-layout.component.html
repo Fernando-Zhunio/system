@@ -1,126 +1,3 @@
-<!-- <app-header
-  style="z-index: 3"
-  class="border-0 shadow-sm"
-  [navbarBrandRouterLink]="['/home/dashboard']"
-  [fixed]="true"
-  [navbarBrandFull]="{ src: imgCompany.url, width: imgCompany.size, height: imgCompany.size, alt: 'Novisolutions' }"
-  [navbarBrandMinimized]="{ src: 'assets/icons_custom/icon-512x512.png', width: 30, height: 30, alt: 'Novisolutions' }"
-  [sidebarToggler]="'lg'"
-  [asideMenuToggler]="false"
-  [mobileAsideMenuToggler]="false">
-  <ul class="nav navbar-nav ml-auto">
-    <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
-      <mat-icon class="text-warning" [ngClass]="{ 'text-muted': isDark }">light_mode</mat-icon>
-      &nbsp;
-      <mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>
-      &nbsp;
-      <mat-icon [ngClass]="{ 'text-muted': !isDark }" class="text-white">nightlight</mat-icon>
-    </li>
-    <li class="nav-item">
-      <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
-        <mat-icon
-          color="primary"
-          #IconNotify
-          [matBadge]="countNotificationUnRead"
-          matBadgePosition="above after"
-          matBadgeColor="accent">
-          notifications
-        </mat-icon>
-        <ng-container *ngIf="isProgressDownloadReport">
-          <small class="progress-download">{{ progressDownloadReport }}%</small>
-        </ng-container>
-      </button>
-      <mat-menu class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
-        <div class="menu-header main-style px-2">Notificaciones</div>
-        <ng-template matMenuContent>
-          <div
-            mat-menu-item
-            [disableRipple]="true"
-            (click)="goRouteNotification(notification.data)"
-            class="h-auto border-bottom rounded my-2"
-            *ngFor="let notification of notifications$ | async"
-            (click)="$event.stopPropagation()"
-            (keydown)="$event.stopPropagation()">
-            <div class="pl-2 content-menu">
-              <div class="d-flex align-items-center">
-                <div class="mr-1" *ngIf="notification.data.image">
-                  <img class="rounded-circle" style="width: 50px; height: 50px" [src]="notification.data.image" />
-                </div>
-                <div class="text-value-sm">
-                  {{ notification?.data?.user?.name ? notification?.data?.user?.name : "Sin Usuario" }}
-                </div>
-              </div>
-              <div class="font-weight-lighter text-muted">{{ notification.data.text }}</div>
-              <small class="text-capitalize text-muted">
-                {{ notification?.created_at | amLocale: "es" | amTimeAgo }}
-              </small>
-            </div>
-          </div>
-        </ng-template>
-
-        <div
-          class="main-style mt-0 py-2 h-auto action-notification"
-          (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()"
-          mat-menu-item
-          [disableRipple]="true">
-          <div class="line-1">
-            <div><small>Web push Notificaciones</small></div>
-            <mat-slide-toggle
-              [(ngModel)]="notificationType.webpush"
-              name="general_notification_webpush"
-              (change)="changeWebPush($event)">
-              {{ notificationType.webpush ? "Activado" : "Desactivado" }}
-            </mat-slide-toggle>
-          </div>
-          <div class="line-1">
-            <div><small>Notificación por email</small></div>
-            <mat-slide-toggle
-              [(ngModel)]="notificationType.email"
-              name="general_notification_email"
-              (change)="changeWebPush($event)">
-              {{ notificationType.email ? "Activado" : "Desactivado" }}
-            </mat-slide-toggle>
-          </div>
-        </div>
-      </mat-menu>
-    </li>
-    <li class="nav-item dropdown" dropdown placement="bottom right">
-      <a class="nav-link" [matMenuTriggerFor]="menu2">
-        <img [src]="user?.person?.photo?.permalink || url_img" class="img-avatar custom-avatar" alt="user" />
-      </a>
-      <mat-menu #menu2="matMenu">
-        <button (click)="goProfile()" mat-menu-item>
-          <mat-icon>account_circle</mat-icon>
-          <span>Mi perfil</span>
-        </button>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          <span>Cerrar sesión</span>
-        </button>
-      </mat-menu>
-      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-        <div class="dropdown-header text-center"><strong>Cuenta</strong></div>
-        <div (click)="logout()" class="dropdown-item">
-          <i class="fa fa-lock"></i>
-          Cerrar sesión
-        </div>
-      </div>
-    </li>
-    <li class="nav-item">
-      <button mat-icon-button (click)="openOrCloseChats()">
-        <div
-          [matBadge]="countMessages"
-          class="d-inline-flex"
-          matBadgePosition="above after"
-          matBadgeColor="accent"
-          color="primary">
-          <img class="logo-chat" src="assets/logos/chat-logo.png" alt="" />
-        </div>
-      </button>
-    </li>
-  </ul>
-</app-header> -->
 <app-header-fz (isOpenOrCloseMenu)="openOrCloseMenu()" class="app-header-fz main-style">
   <ul class="d-flex m-0 align-items-center">
     <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
@@ -237,55 +114,15 @@
 </app-header-fz>
 
 <div class="app-body main-style">
-  <!-- <app-sidebar
-    #appSidebar
-    [fixed]="true"
-    [display]="'lg'"
-    [minimized]="sidebarMinimized"
-    (minimizedChange)="toggleMinimize($event)">
-    <app-sidebar-nav
-      #appSidebarNav
-      [navItems]="navItems"
-      class="{{ !isDark ? 'bg-sidebar' : '' }}"
-      [perfectScrollbar]
-      [disabled]="appSidebar.minimized"></app-sidebar-nav>
-    <app-sidebar-minimizer class="before-version"></app-sidebar-minimizer>
-  </app-sidebar> -->
+
   <app-sidebar-fz [items]="navItems" (hiddenSidebar)="hiddenSidebar = $event" (isMinimizeSidebar)="sidebarMinimized = $event" class="main-style sidebar1 scroll scrollbar-sidebar-fz"></app-sidebar-fz>
 
   <!-- Main content -->
   <main [ngClass]="{ 'open-menu-chat': hideUsersChat, 'minimize-sidebar': sidebarMinimized, 'hidden-sidebar': hiddenSidebar }" class="main scroll body">
-    <!-- Breadcrumb -->
-    <!-- breaking change 'cui-breadcrumb' -->
-
-    <!-- Breadcrumb Menu-->
-    <!-- <cui-breadcrumb>
-            <li class="breadcrumb-menu d-md-down-none">
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <a class="btn" href="#"><i class="icon-speech"></i></a>
-                    <a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>
-                    <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
-                </div>
-            </li>
-        </cui-breadcrumb> -->
-
-    <!-- deprecation warning for 'app-breadcrumb' -->
-    <!-- <ol class="breadcrumb">
-    <app-breadcrumb></app-breadcrumb> -->
-    <!-- &lt;!&ndash; Breadcrumb Menu&ndash;&gt; -->
-    <!-- <li class="breadcrumb-menu d-md-down-none">
-    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-    <a class="btn" href="#"><i class="icon-speech"></i></a>
-    <a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>
-    <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
-    </div>
-    </li>
-    </ol> -->
-
+    
     <div class="container-fluid scroll">
       <router-outlet></router-outlet>
     </div>
-    <!-- /.container-fluid -->
   </main>
 
   <app-chat-template
@@ -297,7 +134,4 @@
     <p style="color: white">Cargando espere...</p>
   </ngx-spinner>
 </div>
-<!-- <app-footer>
-    <span><a href="https://coreui.io">CoreUI</a> &copy; 2018 creativeLabs.</span>
-    <span class="ml-auto">Powered by <a href="https://coreui.io/angular">CoreUI for Angular</a></span>
-</app-footer> -->
+

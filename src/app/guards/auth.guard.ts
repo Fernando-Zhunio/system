@@ -7,6 +7,7 @@ import {
   Router,
 } from "@angular/router";
 import { Observable } from "rxjs";
+import { PATH_LOGIN } from "../class/fast-data";
 import { StorageService } from "../services/storage.service";
 
 @Injectable({
@@ -22,14 +23,10 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // if(localStorage.getItem('token')) return true;
-
-    // this.route.navigate(['/login'])
-    // return false;
     if (this.s_storage.isAuthenticated()) {
       return true;
     }
-    this.route.navigate(["/login"]);
+    this.route.navigate([PATH_LOGIN]);
     return false;
   }
 }

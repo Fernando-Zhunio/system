@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PublicacionesComponent } from './publicaciones/publicaciones.component';
-import { CreateOrEditPublicacionComponent } from './publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
+import { PublicacionesComponent } from './modules/publicaciones/publicaciones.component';
+import { CreateOrEditPublicacionComponent } from './modules/publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { ShowPublicationComponent } from './publicaciones/show-publication/show-publication.component';
-import { MenuMultiPublicationComponent } from './publicaciones/menu-multi-publication/menu-multi-publication.component';
-import { CreateOrEditMultipublicationComponent } from './publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
+import { ShowPublicationComponent } from './modules/publicaciones/show-publication/show-publication.component';
+import { MenuMultiPublicationComponent } from './modules/publicaciones/menu-multi-publication/menu-multi-publication.component';
+import { CreateOrEditMultipublicationComponent } from './modules/publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 
 
 const permission_module = {
@@ -22,11 +22,11 @@ const routes: Routes = [
   {
     path: 'mercado-libre',
     data: { name: 'mercado_libre_ll' },
-    loadChildren: () => import('./mercado-libre/mercado-libre.module').then(m => m.MercadoLibreModule),
+    loadChildren: () => import('./modules/mercado-libre/mercado-libre.module').then(m => m.MercadoLibreModule),
   },
   {
     path: 'buscar_productos',
-    loadChildren: () => import('./buscar-productos/products.module').then(m => m.BuscarProductosModule),
+    loadChildren: () => import('./modules/buscar-productos/products.module').then(m => m.BuscarProductosModule),
   },
   {
     path: 'publicaciones',
@@ -98,7 +98,7 @@ const routes: Routes = [
   },
   {
     path: 'products',
-    loadChildren: () => import('./prices/prices.module').then(m => m.PricesModule),
+    loadChildren: () => import('./modules/prices/prices.module').then(m => m.PricesModule),
   },
   {
     path: 'promotions',
@@ -107,11 +107,11 @@ const routes: Routes = [
   },
   {
     path: 'rappi',
-    loadChildren: () => import('./rappi-products/rappi-products.module').then(m => m.RappiProductsModule),
+    loadChildren: () => import('./modules/rappi-products/rappi-products.module').then(m => m.RappiProductsModule),
   },
   {
     path: 'campaigns',
-    loadChildren: () => import('./campaign/campaign.module').then(m => m.CampaignModule),
+    loadChildren: () => import('./modules/campaign/campaign.module').then(m => m.CampaignModule),
   }
 ];
 

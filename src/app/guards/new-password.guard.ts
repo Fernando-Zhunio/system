@@ -6,6 +6,7 @@ import {
 } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { PATH_LOGIN } from '../class/fast-data';
 import { Iresponse } from '../interfaces/Imports/invoice-item';
 import { StandartSearchService } from '../services/standart-search.service';
 
@@ -25,7 +26,7 @@ export class NewPasswordGuard implements Resolve<Iresponse> {
       }),
       catchError((err) => {
           console.log(err);
-          this.route.navigate(['login']);
+          this.route.navigate([PATH_LOGIN]);
           return EMPTY;
         })
         );

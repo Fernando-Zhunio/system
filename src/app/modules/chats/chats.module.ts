@@ -13,8 +13,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-
-
 @NgModule({
   declarations: [ChatMainComponents, CreateGroupChatComponent],
   imports: [

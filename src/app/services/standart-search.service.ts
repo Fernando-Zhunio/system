@@ -114,12 +114,6 @@ export class StandartSearchService {
     return this.http.get<any>(this.end_point + url, { params });
   }
 
-  // public openDescription(name, title, info, isHtml = true) {
-  //   this.dialog.open(InfoViewComponent, {
-  //     data: { name, title, info, isHtml },
-  //   });
-  // }
-
   /**
    * @deprecated Este metodo esta en desuso
    *  @use methodGet or methodGetPaginate

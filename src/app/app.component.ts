@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'body',
   template: '<ngx-loading-bar height="5px"></ngx-loading-bar><router-outlet></router-outlet>'
 })

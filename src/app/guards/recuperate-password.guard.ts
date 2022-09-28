@@ -4,6 +4,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { Iresponse } from '../interfaces/Imports/invoice-item';
 import { StandartSearchService } from '../services/standart-search.service';
 import { catchError, map } from 'rxjs/operators';
+import { PATH_LOGIN } from '../class/fast-data';
 // import {  } from 'rxjs/operators';
 
 @Injectable({
@@ -25,7 +26,7 @@ export class RecuperatePasswordGuard implements  Resolve<Iresponse> {
         } else return EMPTY;
       }),
       catchError(() => {
-        this.route.navigate(['login']);
+        this.route.navigate([PATH_LOGIN]);
         return EMPTY;
       })
     );

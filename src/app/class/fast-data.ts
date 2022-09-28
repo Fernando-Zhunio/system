@@ -20,5 +20,6 @@ export class User {
     static set setUser(user: User) {
         this.user = user;
     }
-
 }
+
+export const PATH_LOGIN = '/authentication/login';

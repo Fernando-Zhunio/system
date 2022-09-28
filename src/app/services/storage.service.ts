@@ -7,7 +7,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 // import { SwalService } from './swal.service';
 import { User } from '../shared/interfaces/user';
 import { Person } from '../shared/interfaces/person';
-import { Token, User as UserFast } from '../class/fast-data';
+import { PATH_LOGIN, Token, User as UserFast } from '../class/fast-data';
 
 declare var require: any;
 const CryptoJS = require('crypto-js');
@@ -18,11 +18,9 @@ export class StorageService {
 
   private currentSession: Session | boolean | null = null;
   private permissions: string[] | null = null;
-  // private isUserAuthenticated: boolean = false;
 
   constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {
     this.init();
-    // this.isUserAuthenticated = this.isAuthenticated();
   }
 
   setCurrentSession(session: Session): void {
@@ -119,7 +117,7 @@ export class StorageService {
     this.removeCurrentSession();
     this.activatedRoute.data.subscribe(res => {
       if (res['guard'] != 'guest') {
-        this.router.navigate(['/login']);
+        this.router.navigate([PATH_LOGIN]);
       }
     })
   }
