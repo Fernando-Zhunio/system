@@ -4,7 +4,7 @@ import { SearchComponent } from '../../components/search/search.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+// import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [SearchComponent],
@@ -17,6 +17,5 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
   exports: [
     SearchComponent
   ]
-
 })
 export class SearchesModule { }

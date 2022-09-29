@@ -16,11 +16,33 @@ const CryptoJS = require('crypto-js');
 })
 export class StorageService {
 
-  private currentSession: Session | boolean | null = null;
+  private currentSession: Session | null;
   private permissions: string[] | null = null;
 
   constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {
     this.init();
+  }
+
+  init(): boolean {
+    try {
+      const sessionOrFalse: Session | boolean = this.getCurrentSessionLocalStorage();
+      if (sessionOrFalse) {
+        this.currentSession = sessionOrFalse as Session;
+        Token.setToken = this.getCurrentToken() as string;
+        UserFast.setUser = this.getCurrentUser() as User;
+        this.permissions = this.getPermissions();
+        if (this.permissions) {
+          this.s_permissionsService.loadPermissions(this.permissions);
+        }
+        return true;
+      } else {
+        this.logout();
+        return false;
+      }
+    } catch (error) {
+      this.logout();
+      return false;
+    }
   }
 
   setCurrentSession(session: Session): void {
@@ -36,21 +58,9 @@ export class StorageService {
     this.setCurrentSession(session);
   }
 
-  init(): void {
-    this.currentSession = this.getCurrentSession();
-    if (this.currentSession) {
-      Token.setToken = this.getCurrentToken() as string;
-      UserFast.setUser = this.getCurrentUser() as User;
-    }
-    this.permissions = this.getPermissions();
-    if (this.permissions) {
-    this.s_permissionsService.loadPermissions(this.permissions);
 
-    }
-  }
-
-  getCurrentSession(): Session | boolean {
-    return this.currentSession || this.getCurrentSessionLocalStorage();
+  getCurrentSession(): Session {
+    return this.currentSession!;
   }
 
   getCurrentSessionLocalStorage(): Session | boolean {
@@ -61,14 +71,16 @@ export class StorageService {
     return false;
   }
 
-  getCurrentUser(): User | null {
-    const session: Session = this.getCurrentSession() as Session;
-    return (session && session.user) ? session.user : null;
+  getCurrentUser(): User {
+    return this.currentSession!.user;
+    // const session: Session = this.getCurrentSession() as Session;
+    // return (session && session.user) ? session.user : null;
   }
 
   getCurrentPerson(): Person | null {
-    const session = this.getCurrentSession() as Session;
-    return  session.user.person || null;
+    return this.currentSession?.user?.person || null;
+    // const session = this.getCurrentSession() as Session;
+    // return session.user.person || null;
   }
 
   setPermission(permissions: any[]) {
@@ -77,7 +89,7 @@ export class StorageService {
   }
 
   getPermissions(): string[] | null {
-    return  this.permissions || this.getPermissionsLocalStorage();
+    return this.permissions || this.getPermissionsLocalStorage();
   }
 
   getPermissionsLocalStorage(): string[] | null {
@@ -89,12 +101,13 @@ export class StorageService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getCurrentToken();
+    return !!this.currentSession?.token;
   }
 
-  getCurrentToken(): string | false {
-    const session = this.getCurrentSession() as Session;
-    return  session?.token || false;
+  getCurrentToken(): string {
+    return this.currentSession!.token;
+    // const session = this.getCurrentSession() as Session;
+    // return session?.token || false;
   }
 
   getItemLocalStorage(key): any {

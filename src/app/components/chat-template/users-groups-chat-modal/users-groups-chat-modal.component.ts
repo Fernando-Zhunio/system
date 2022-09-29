@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IparticipantChat } from '../../../interfaces/chats/ichats';
 import { StandartSearchService } from '../../../services/standart-search.service';
@@ -21,16 +21,12 @@ interface ImodalChatInfo {
   templateUrl: './users-groups-chat-modal.component.html',
   styleUrls: ['./users-groups-chat-modal.component.css']
 })
-export class UsersGroupsChatModalComponent implements OnInit {
+export class UsersGroupsChatModalComponent {
 
   constructor(private dialogRef: MatDialogRef<UsersGroupsChatModalComponent>, private s_standart: StandartSearchService, @Inject(MAT_DIALOG_DATA) public data: ImodalChatInfo) { }
 
-  ngOnInit(): void {
-  }
-
   deleteChat() {
     this.s_standart.destory(`chats/users/${this.data.id_chat}`).subscribe(() => {
-      // console.log(res);
       SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Esta Chat a sido eliminado con éxito' });
       this.dialogRef.close({ state: 'deleted' });
     });
@@ -38,12 +34,10 @@ export class UsersGroupsChatModalComponent implements OnInit {
 
   deleteParticipants(participant_id): void {
     this.s_standart.destory(`chats/groups/${this.data.id_chat}/participants/${participant_id}`).subscribe(res => {
-      // console.log(res);
       if (res && res.hasOwnProperty('success') && res.success){
         this.data.participants = this.data.participants.filter(p => p.id != participant_id);
         SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Esta participante a sido eliminado con éxito' });
       }
-      // this.dialogRef.close({ state: 'deleted' });
     });
   }
 

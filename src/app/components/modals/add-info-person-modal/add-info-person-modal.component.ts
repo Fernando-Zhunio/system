@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StandartSearchService } from '../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../services/methods-http.service';
+// import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
 
 @Component({
@@ -19,7 +20,7 @@ export class AddInfoPersonModalComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddInfoPersonModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
-    private s_standard: StandartSearchService
+    private methodsHttp: MethodsHttpService
   ) {}
 
   maxDateBirthDay = new Date();
@@ -44,17 +45,15 @@ export class AddInfoPersonModalComponent implements OnInit {
   file_img: File | null;
   photo: any;
   id_types: any = [];
-  isload: boolean = false;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.maxDateBirthDay.setFullYear(this.maxDateBirthDay.getFullYear() - 18);
-    console.log(this.maxDateBirthDay);
-
-    this.isload = true;
-    this.s_standard.show('user/people/create').subscribe((response) => {
-      if (response && response.hasOwnProperty('success') && response.success) {
+    this.isLoading = true;
+    this.methodsHttp.methodGet('user/people/create').subscribe((response) => {
+      if (response?.success) {
         this.setDataDefault(response.data);
-        this.isload = false;
+        this.isLoading = false;
       }
     });
   }
@@ -102,27 +101,22 @@ export class AddInfoPersonModalComponent implements OnInit {
   saveInServer(): void {
     if (this.form_person.valid) {
       const data_send = this.createFormData();
-      this.isload = true;
-      this.s_standard
-        .uploadFormData(
+      this.isLoading = true;
+      this.methodsHttp.methodPost(
           'user/' + this.data.user.id + '/people',
           data_send
         )
         .subscribe((response) => {
-          if (
-            response &&
-            response.hasOwnProperty('success') &&
-            response.success
-          ) {
+          if (response?.success) {
             SwalService.swalFire({
               title: 'Gracias!',
-              text: 'Guardado con exito',
+              text: 'Guardado con éxito',
               icon: 'success',
             });
             this.dialogRef.close(response.data.person);
           }
-          this.isload = false;
-        }, (error) => { this.isload = false; console.log(error); });
+          this.isLoading = false;
+        }, () => { this.isLoading = false; });
     } else {
       this.form_person.markAllAsTouched();
     }
@@ -130,8 +124,6 @@ export class AddInfoPersonModalComponent implements OnInit {
 
   createFormData(): FormData {
     const data_send = this.form_person.value;
-    data_send.start_date = this.s_standard.formatDate(data_send.start_date);
-    data_send.birthday = this.s_standard.formatDate(data_send.birthday);
     const form_data_send = new FormData();
     form_data_send.append('first_name', data_send.first_name);
     form_data_send.append('last_name', data_send.last_name);

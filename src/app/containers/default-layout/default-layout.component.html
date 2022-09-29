@@ -1,22 +1,23 @@
 <app-header-fz (isOpenOrCloseMenu)="openOrCloseMenu()" class="app-header-fz main-style">
   <ul class="d-flex m-0 align-items-center">
     <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
-      <mat-icon class="text-warning" [ngClass]="{ 'text-muted': isDark }">light_mode</mat-icon>
+      <!-- <mat-icon class="text-warning" [ngClass]="{ 'text-muted': isDark }">light_mode</mat-icon> -->
+      <i class="fa-regular fa-sun text-warning icon-size" [ngClass]="{ 'text-muted': isDark }"></i>
       &nbsp;
       <mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>
       &nbsp;
-      <mat-icon [ngClass]="{ 'text-muted': !isDark }" class="text-white">nightlight</mat-icon>
+      <!-- <mat-icon [ngClass]="{ 'text-muted': !isDark }" class="text-white">nightlight</mat-icon> -->
+      <i [ngClass]="{ 'text-muted': !isDark }" class="fa-regular fa-moon text-white icon-size"></i>
     </li>
     <li class="nav-item">
       <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
-        <mat-icon
-          color="primary"
+        <i
+          class="fa-regular fa-bell icon-size"
           #IconNotify
           [matBadge]="countNotificationUnRead"
           matBadgePosition="above after"
           matBadgeColor="accent">
-          notifications
-        </mat-icon>
+        </i>
         <ng-container *ngIf="isProgressDownloadReport">
           <small class="progress-download">{{ progressDownloadReport }}%</small>
         </ng-container>
@@ -78,14 +79,19 @@
     </li>
     <li class="nav-item">
       <button mat-icon-button (click)="openOrCloseChats()">
-        <div
+        <!-- <div
           [matBadge]="countMessages"
           class="d-inline-flex"
           matBadgePosition="above after"
           matBadgeColor="accent"
           color="primary">
           <img class="logo-chat" src="assets/logos/chat-logo.png" alt="" />
-        </div>
+        </div> -->
+        <i [matBadge]="countMessages"
+        class="d-inline-flex"
+        matBadgePosition="above after"
+        matBadgeColor="accent"
+        color="primary" class="fa-regular fa-comment icon-size"></i>
       </button>
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">

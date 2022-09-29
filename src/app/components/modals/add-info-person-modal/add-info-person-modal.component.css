@@ -1,0 +1,14 @@
+.form-modal-person input, .form-modal-person select {
+    width: 100%;
+    border:none;
+    background-color: #e7e7e7;
+    height: 40px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    outline: none;
+}
+
+small.text-danger {
+    font-size: small;
+}

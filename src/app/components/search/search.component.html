@@ -41,9 +41,8 @@
     <mat-paginator
       [hidden]="isLoading"
       *ngIf="paginator.length > 0"
-      [pageSizeOptions]="[10, 20, 30]"
       (page)="changePaginator($event)"
-      showFirstLastButtons
+      [showFirstLastButtons]="true"
       [pageSize]="paginator.pageSize"
       [length]="paginator.length"
       [pageIndex]="paginator.pageIndex"></mat-paginator>

@@ -98,6 +98,7 @@ import { MatCardModule } from '@angular/material/card';
 // import { MatSidenavModule } from '@angular/material/sidenav';
 // import { NgxGalleryModule } from 'ngx-gallery-9';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatListModule } from '@angular/material/list';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { MatNativeDateModule } from '@angular/material/core';
 // import { OverlayModule } from '@angular/cdk/overlay';
@@ -133,7 +134,7 @@ registerLocaleData(localeEs, 'es');
     MatCardModule,
     MomentModule,
     // MatTableModule,
-    // MatListModule,
+    MatListModule,
     // MatBottomSheetModule,
     // MatInputModule,
     // MatSidenavModule,

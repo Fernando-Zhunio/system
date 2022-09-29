@@ -1,5 +1,5 @@
 <div class="container-search-products center">
-  <button (click)="close()" color="warn" class="btn-close" mat-icon-button><mat-icon>close</mat-icon></button>
+  <button (click)="close()" color="warn" class="btn-close" mat-icon-button><i class="fa-2x fa-solid fa-circle-xmark"></i></button>
   <div class="col-md-5 col-10 overflow-hidden h-100">
     <app-search [init]="false" @fade (data)="getData($event)" placeholder="Buscador de productos" [url]="url">
       <ng-container data>
@@ -10,9 +10,9 @@
                 <img class="img-product mr-2" [src]="product.image || 'assets/img/img_not_available.png'" alt="product image">
                 <h3 class="m-0"><span class="text-danger"># {{product.value.code}} </span> {{ product.value.name }}</h3>
               </div>
-              <button data-test="add-product" (click)="addProduct(product.key)" *ngIf="!productsSelected.has(product.key); else TemplateRemove" color="primary" mat-icon-button><mat-icon>add</mat-icon></button>
+              <button data-test="add-product" (click)="addProduct(product.key)" *ngIf="!productsSelected.has(product.key); else TemplateRemove" color="primary" mat-icon-button><i class="fa-solid fa-plus"></i></button>
               <ng-template #TemplateRemove>
-                <button (click)="removeProduct(product.key)" color="warn" mat-icon-button><mat-icon>close</mat-icon></button></ng-template>
+                <button (click)="removeProduct(product.key)" color="warn" mat-icon-button><i class="fa-solid fa-xmark"></i></button></ng-template>
             </div>
           </div>
         </div>

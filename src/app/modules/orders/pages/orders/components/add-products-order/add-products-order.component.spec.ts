@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {  NgxPermissionsAllowStubModule } from 'ngx-permissions';
+import { NgxPermissionsAllowStubModule } from 'ngx-permissions';
 import { environment } from '../../../../../../../environments/environment';
 import { DialogProductsService } from '../../../../../../services/dialog-products.service';
 
@@ -12,7 +13,7 @@ import { AddProductsOrderComponent } from './add-products-order.component';
 describe('AddProductsOrderComponent', () => {
     let component: AddProductsOrderComponent;
     let fixture: ComponentFixture<AddProductsOrderComponent>;
-    let compiled: any;   
+    let compiled: any;
     let httpMock: HttpTestingController;
 
     beforeEach((() => {
@@ -30,7 +31,9 @@ describe('AddProductsOrderComponent', () => {
                         return data
                     }
                 }
-            }],
+            }
+
+            ]
         })
             .compileComponents();
     }));
@@ -54,8 +57,8 @@ describe('AddProductsOrderComponent', () => {
             id: 10,
         } as any
         component.addItem();
-        const request = httpMock.expectOne( `${environment.server}system-orders/orders/${component.order.id}/items`);
-        request.flush({success:true, data: 'MockProducts'});
+        const request = httpMock.expectOne(`${environment.server}system-orders/orders/${component.order.id}/items`);
+        request.flush({ success: true, data: 'MockProducts' });
         expect(request.request.method).toBe('POST');
         expect(component.changeOrder.emit).toHaveBeenCalled();
     });
@@ -67,8 +70,8 @@ describe('AddProductsOrderComponent', () => {
             id: 10,
         } as any
         component.addItem();
-        const request = httpMock.expectOne( `${environment.server}system-orders/orders/${component.order.id}/items`);
-        request.flush({success:true, data: 'MockProducts'});
+        const request = httpMock.expectOne(`${environment.server}system-orders/orders/${component.order.id}/items`);
+        request.flush({ success: true, data: 'MockProducts' });
         expect(request.request.method).toBe('POST');
         expect(component.changeOrder.emit).toHaveBeenCalled();
     });

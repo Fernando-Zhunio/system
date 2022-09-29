@@ -20,7 +20,6 @@ export class SearchComponent implements OnInit {
   @Input() commentLoading: string = 'Cargando espere por favor...';
   @Output() data = new EventEmitter<any>();
   isLoading: boolean | undefined = false;
-  // length: number = 0;
   paginator: PageEvent = new PageEvent();
   textSearch: string = '';
   ngOnInit(): void {
@@ -28,13 +27,11 @@ export class SearchComponent implements OnInit {
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
     this.init ? this.search() : this.isLoading = undefined;
-     
-    console.log(this.isLoading);
   }
 
   search(pageEvent: any = null): void {
     this.isLoading = true;
-    pageEvent = pageEvent ? pageEvent : this.paginator;
+    pageEvent = pageEvent ?? this.paginator;
     const params = {
       page: pageEvent.pageIndex + 1,
       pageSize: pageEvent.pageSize,
@@ -46,6 +43,7 @@ export class SearchComponent implements OnInit {
         this.paginator.length = response.data.total;
         this.paginator.pageIndex = response.data.current_page - 1;
         this.paginator.pageSize = response.data.per_page;
+        console.log(this.paginator)
         this.data.emit(response.data);
       },
       (error) => {

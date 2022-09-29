@@ -10,18 +10,9 @@
 }
 
 .btn-find{
-  top: 0px;
   left: 56px;
-  height: 100%;
+  top: 18.5px;
 }
-
-/* .font-header{ */
-  /* font-family: Segoe ui !important; */
-  /* font-weight: 700 !important; */
-  /* font-size: 1.2rem !important;
-  font-weight: 300; */
-  /* border: 2px solid #cdcdcd; */
-/* } */
 
 .shadow-header{
   box-shadow: 0px 0px 10px 5px rgb(120 118 118 / 75%);
@@ -35,6 +26,10 @@
   left: 19px;
 }
 
+.icon-bar {
+  font-size: 20px;
+}
+
 @media (max-width:600px) {
   .font-header{
     font-size: 1rem !important;
@@ -44,3 +39,5 @@
     max-width: 100%;
   }
 }
+
+

@@ -76,11 +76,15 @@ import { PdfDetailOrderComponent } from './modules/shared-order/pdf-detail-order
 import { DetailsOrderComponent } from './modules/shared-order/details-order/details-order.component';
 
 @NgModule({
-  declarations: [DashboardOrdersComponent,
-    SelectClientModalComponent, EditOrderComponent,
-    OrdersIndexComponent, CreateOrEditOrderComponent,
+  declarations: [
+    DashboardOrdersComponent,
+    SelectClientModalComponent, 
+    EditOrderComponent,
+    OrdersIndexComponent, 
+    CreateOrEditOrderComponent,
     ClientComponent,
-    CreateOrEditDiscountOrTaxOrderComponent, StateFlowOrderComponent,
+    CreateOrEditDiscountOrTaxOrderComponent, 
+    StateFlowOrderComponent,
     DetailButtonSheetComponent,
     LogOrderModalComponent,
     EditDataOrderModalComponent,
@@ -132,7 +136,6 @@ import { DetailsOrderComponent } from './modules/shared-order/details-order/deta
     MatDialogModule,
     MatAutocompleteModule,
     NgxMatSelectSearchModule,
-    // SharedOrderModule,
     MatExpansionModule,
     MatBadgeModule,
     MatMenuModule,

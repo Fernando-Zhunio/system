@@ -1,4 +1,4 @@
-import { Component, ContentChild, EventEmitter, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { animation_conditional } from '../../animations/animate_leave_enter';
 import { DialogProductsService } from '../../services/dialog-products.service';
 
@@ -21,7 +21,7 @@ export class SearchProductsDialogComponent {
   products: Map<number, any> = new Map<number, any>();
   @Output() add: EventEmitter<any> = new EventEmitter<any>();
   @Output() remove: EventEmitter<any> = new EventEmitter<any>();
-  @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
+  // @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
   getData(data: { data: any[]; }) {
     this.products = new Map(data.data.map((item: any) => [item.id, item]));

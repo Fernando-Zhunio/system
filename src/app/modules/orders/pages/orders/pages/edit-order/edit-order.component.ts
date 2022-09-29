@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 import { PermissionOrdersAdditionalAmounts, PermissionOrdersInvoicesMba, PermissionOrdersItems, PermissionOrdersPayments, PermissionOrdersPaymentsMba, PermissionOrdersShippings, PermissionOrdersTransfersMba } from '../../../../../../class/permissions-modules';
 import { trans } from '../../../../../../class/translations';
 import { IItemOrder, IStatus } from '../../../../../../interfaces/iorder';
@@ -32,7 +33,7 @@ interface Record {
   templateUrl: './edit-order.component.html',
   styleUrls: ['./edit-order.component.scss']
 })
-export class EditOrderComponent implements OnInit {
+export class EditOrderComponent implements OnInit, OnDestroy {
 
   constructor(private orderService: OrdersService, private bottomSheet: MatBottomSheet, private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   @ViewChild(StateFlowOrderComponent) stateFlow: StateFlowOrderComponent;
@@ -47,9 +48,7 @@ export class EditOrderComponent implements OnInit {
   statuses: Record[] = [];
   pipeTrans = new TranslatefzPipe();
   isPublishing = false;
-
   detailClient: any[] = [];
-
   permissionsProducts = PermissionOrdersItems;
   permissionsShipping = PermissionOrdersShippings;
   permissionsPayments = PermissionOrdersPayments;
@@ -57,6 +56,8 @@ export class EditOrderComponent implements OnInit {
   permissionsTransfers = PermissionOrdersTransfersMba;
   permissionsAnticipe = PermissionOrdersPaymentsMba;
   permissionsInvoices = PermissionOrdersInvoicesMba;
+
+  subscriptionOrder: Subscription
 
   setIntervalOfTime: any = null;
 
@@ -68,7 +69,8 @@ export class EditOrderComponent implements OnInit {
     this.id = this.activated_router.snapshot.paramMap.get('order_id');
     this.spinner.show();
     this.getStatuses();
-    this.orderService.$order.subscribe((order) => {
+    this.subscriptionOrder = this.orderService.$order.subscribe((order) => {
+      console.log('fernando')
       if (order) {
         this.order = order;
         this.metaDataTransference = order.additional_data?.transfers_status;
@@ -106,6 +108,12 @@ export class EditOrderComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptionOrder) {
+      this.subscriptionOrder.unsubscribe();
+    }
   }
 
   withTiming(): void {
