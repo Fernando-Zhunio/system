@@ -1,8 +1,15 @@
 .active {
-    color: green;
-    background-color: rgba(0, 128, 0, 0.205);
+  color: green;
+  background-color: rgba(0, 128, 0, 0.205);
 }
 .discontinued {
-    color: red;
-    background-color: rgba(255, 0, 0, 0.205);
+  color: red;
+  background-color: rgba(255, 0, 0, 0.205);
+}
+
+.promotion {
+  border-radius: 10px;
+  small {
+    color: gray;
+  }
 }

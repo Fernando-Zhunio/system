@@ -5,11 +5,10 @@
     <div class="position-relative p-3 overflow-hidden">
       <input class="form-control shadow-sm  input-style" [placeholder]="placeholder" (keyup)="buscarInterval($event)"
         [(ngModel)]="productSearch" />
-      <button (click)="goBack()" class="btn-go-back" mat-icon-button>
+      <button (click)="goBack()" class="btn-go-back text-secondary" mat-icon-button>
         <i class="fa-solid fa-arrow-left icon-bar"></i>
       </button>
-      <button class="position-absolute btn-find" mat-icon-button (click)="searchBarReset()">
-        <!-- <mat-icon style="font-size: 30px;" class="text-black-50" type="search">search</mat-icon> -->
+      <button class="position-absolute btn-find text-secondary" mat-icon-button (click)="searchBarReset()">
         <i class="icon-bar fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
@@ -18,7 +17,6 @@
       right: 22px;height: 100%;">
     <mat-chip-list>
       <mat-chip (click)="paste()" class="text-truncate">
-        <!-- <mat-icon class="text-black-50" type="search">content_paste</mat-icon> -->
         <i class="fa-regular fa-paste"></i>
       </mat-chip>
     </mat-chip-list>

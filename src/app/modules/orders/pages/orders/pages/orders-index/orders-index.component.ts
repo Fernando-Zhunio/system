@@ -7,7 +7,6 @@ import { DetailsOrderComponent } from '../../../../modules/shared-order/details-
 import AirDatepicker from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -24,13 +23,6 @@ import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-t
   selector: 'app-orders-index',
   templateUrl: './orders-index.component.html',
   styleUrls: ['./orders-index.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
 })
 export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnInit, OnDestroy, ReuseComponent {
 
@@ -49,16 +41,11 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   @ViewChild(MatSort) sort: MatSort;
 
   url: string = 'system-orders/orders';
-  // detailPaginator = {
-  //   current_page: 1,
-  //   per_page: 10,
-  //   total: 0
-  // }
   iconChannels: {[key:string]: string} = {
-    'whatsapp': 'fab fa-whatsapp',
-    'webstore': 'fas fa-cart-shopping ',
-    'marketplace': 'far fa-store',
-    'ml': 'fab fa-ml',
+    'whatsapp': 'fa-brands fa-whatsapp',
+    'webstore': 'fa-solid fa-globe',
+    'marketplace': 'fa-solid fa-store',
+    'ml': 'fa-regular fa-handshake',
   }
 
   filters: any = {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
@@ -12,9 +12,8 @@ import { MethodsHttpService } from '../../../../services/methods-http.service';
   templateUrl: './promotions-index.component.html',
   styleUrls: ['./promotions-index.component.css'],
   animations: animation_conditional
-
 })
-export class PromotionsIndexComponent extends Crud<IPromotions> implements OnInit {
+export class PromotionsIndexComponent extends Crud<IPromotions> {
 
   url: string;
   key_paginator: string = 'promotions';
@@ -24,8 +23,6 @@ export class PromotionsIndexComponent extends Crud<IPromotions> implements OnIni
     this.url = 'catalogs/promotions';
   }
 
-  ngOnInit(): void {
-  }
 
   override getData(data: any): void {
     console.log(data);
