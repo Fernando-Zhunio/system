@@ -667,7 +667,24 @@
         </mat-form-field>
       </div>
     </ng-container>
-
+    <ng-container menuBar>
+      <mat-chip-list class="mx-1">
+        <mat-chip>
+          <mat-select
+            [(ngModel)]="workspaceSelect"
+            (selectionChange)="changeWorkspaces($event)"
+            placeholder="Espacio de trabajo">
+            <mat-option *ngFor="let workspace of workspaces" [value]="workspace.id">
+              {{ workspace.name }}
+            </mat-option>
+          </mat-select>
+        </mat-chip>
+        <mat-chip *ngxPermissionsOnly="permissions.create" [routerLink]="['./create']" class="ml-1 mat-btn-add">
+          <mat-icon>add</mat-icon>
+          Nueva
+        </mat-chip>
+      </mat-chip-list>
+    </ng-container>
     <ng-container table>
       <table
       style="width: max-content !important"
@@ -717,7 +734,7 @@
             *ngIf="element?.additional_data?.transfers_status"
             class="badge-fz font-sm"
             [class]="
-              element?.additional_data?.transfers_status == 'sended' ? ' bg==============================-secondary text-white' : 'bg-success'
+              element?.additional_data?.transfers_status == 'sended' ? ' bg=========================================-secondary text-white' : 'bg-success'
             ">
             {{ element?.additional_data?.transfers_status | translatefz: "orders" }}
           </span>
@@ -825,7 +842,6 @@
     </table>
     </ng-container>
     
-  
 </app-search-template-table>
 </div>
 
