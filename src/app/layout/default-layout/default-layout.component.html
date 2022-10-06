@@ -1,12 +1,10 @@
 <app-header-fz (isOpenOrCloseMenu)="openOrCloseMenu()" class="app-header-fz main-style">
   <ul class="d-flex m-0 align-items-center">
     <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
-      <!-- <mat-icon class="text-warning" [ngClass]="{ 'text-muted': isDark }">light_mode</mat-icon> -->
       <i class="fa-regular fa-sun text-warning icon-size" [ngClass]="{ 'text-muted': isDark }"></i>
       &nbsp;
       <mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>
       &nbsp;
-      <!-- <mat-icon [ngClass]="{ 'text-muted': !isDark }" class="text-white">nightlight</mat-icon> -->
       <i [ngClass]="{ 'text-muted': !isDark }" class="fa-regular fa-moon text-white icon-size"></i>
     </li>
     <li class="nav-item">
@@ -49,44 +47,11 @@
             </div>
           </div>
         </ng-template>
-
-        <div
-          class="main-style mt-0 py-2 h-auto action-notification"
-          (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()"
-          mat-menu-item
-          [disableRipple]="true">
-          <div class="line-1">
-            <div><small>Web push Notificaciones</small></div>
-            <mat-slide-toggle
-              [(ngModel)]="notificationType.webpush"
-              name="general_notification_webpush"
-              (change)="changeWebPush($event)">
-              {{ notificationType.webpush ? "Activado" : "Desactivado" }}
-            </mat-slide-toggle>
-          </div>
-          <div class="line-1">
-            <div><small>Notificación por email</small></div>
-            <mat-slide-toggle
-              [(ngModel)]="notificationType.email"
-              name="general_notification_email"
-              (change)="changeWebPush($event)">
-              {{ notificationType.email ? "Activado" : "Desactivado" }}
-            </mat-slide-toggle>
-          </div>
-        </div>
       </mat-menu>
-    </li>
+    </li >
+    
     <li class="nav-item">
       <button mat-icon-button (click)="openOrCloseChats()">
-        <!-- <div
-          [matBadge]="countMessages"
-          class="d-inline-flex"
-          matBadgePosition="above after"
-          matBadgeColor="accent"
-          color="primary">
-          <img class="logo-chat" src="assets/logos/chat-logo.png" alt="" />
-        </div> -->
         <i [matBadge]="countMessages"
         class="d-inline-flex"
         matBadgePosition="above after"
@@ -115,6 +80,9 @@
           Cerrar sesión
         </div>
       </div>
+    </li>
+    <li class="nav-item">
+      <app-configuration-menu></app-configuration-menu>
     </li>
   </ul>
 </app-header-fz>

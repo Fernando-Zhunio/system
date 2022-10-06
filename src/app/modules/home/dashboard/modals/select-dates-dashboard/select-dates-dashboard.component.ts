@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
+// import { Store } from '@ngrx/store';
 import AirDatepicker, { AirDatepickerOptions } from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
-import { loadPreference } from '../../../../../redux/actions/preference.action';
+// import { loadPreference } from '../../../../../redux/actions/preference.action';
 import { SharedService } from '../../../../../services/shared/shared.service';
 import { SwalService } from './../../../../../services/swal.service';
 
@@ -15,7 +15,7 @@ import { SwalService } from './../../../../../services/swal.service';
 })
 export class SelectDatesDashboardComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<SelectDatesDashboardComponent>, private store: Store) { }
+  constructor(private dialogRef: MatDialogRef<SelectDatesDashboardComponent>) { }
   airDate1: AirDatepicker | null = null;
   daysDate1: number = 0;
   isIntroRange: boolean = false;
@@ -81,9 +81,9 @@ export class SelectDatesDashboardComponent implements OnInit {
           from: SharedService.convertDateForLaravelOfDataPicker(this.airDate2.selectedDates[0])
         }
       };
-      this.store.dispatch(loadPreference({ preferenceDateDashboard: datesAll }));
-      this.dialogRef.close();
-      this.dialogRef.close(datesAll);
+      // this.store.dispatch(loadPreference({ preferenceDateDashboard: datesAll }));
+      // this.dialogRef.close();
+      this.dialogRef.close({data: datesAll});
     } else {
       SwalService.swalFire({ title: 'Error de selección de fechas', text: 'Seleccione fechas validas', icon: 'warning' });
     }

@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import {  LinearScale, LineController, LineElement, PointElement, registerables, Title } from 'chart.js';
-import Chart from 'chart.js/auto';
-import AirDatepicker from 'air-datepicker';
-import localeEs from 'air-datepicker/locale/es';
+// import {  LinearScale, LineController, LineElement, PointElement, registerables, Title } from 'chart.js';
+// import Chart from 'chart.js/auto';
+// import AirDatepicker from 'air-datepicker';
+// import localeEs from 'air-datepicker/locale/es';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { IheaderDashboard, IsalesHeader, ISeller, IsellForCity, IstatisticableLocation, ItopDashboard } from '../../../interfaces/idashboard';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import { PageEvent } from '@angular/material/paginator';
 import { SellChartComponent } from './chart/sell-chart/sell-chart.component';
 import { ProductChartComponent } from './chart/product-chart/product-chart.component';
@@ -19,13 +19,14 @@ import { HttpParams } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { LocalesChartComponent } from './chart/locales-chart/locales-chart.component';
 import { CategoryChartComponent } from './chart/category-chart/category-chart.component';
-import { Store } from '@ngrx/store';
-import { selectPreference } from '../../../redux/state/state.selectors';
+// import { Store } from '@ngrx/store';
+// import { selectPreference } from '../../../redux/state/state.selectors';
 import { IDatesDashboard } from '../../../interfaces/idates-dashboard';
 import { EKeyDashboard } from '../../../enums/EkeyDashboard.enum';
-moment.locale('es');
-Chart.register(...registerables);
-Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
+import { PreferencesService } from '../../../core/services/preferences.service';
+// moment.locale('es');
+// Chart.register(...registerables);
+// Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
 interface IsellCity {
   // id: number;
   name: string;
@@ -43,15 +44,21 @@ interface IsellerTable {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  constructor(private store: Store, public s_standard: StandartSearchService, private bottomSheet: MatBottomSheet, private dialogDates: MatDialog) {
+  constructor(
+    // private store: Store,
+    public s_standard: StandartSearchService,
+    private bottomSheet: MatBottomSheet,
+    private dialogDates: MatDialog,
+    private preferencesServices: PreferencesService
+  ) {
   }
   @ViewChild('chartSell', { static: true }) chartSellChart: SellChartComponent;
   @ViewChild('chartProduct', { static: true }) chartProductChart: ProductChartComponent;
   @ViewChild('chartLocales', { static: true }) chartLocales: LocalesChartComponent;
   @ViewChild('chartCategory', { static: true }) chartCategory: CategoryChartComponent;
 
-  chartVentas: Chart | null = null;
-  chartSellForCategories: Chart | null = null;
+  // chartVentas: any = null;
+  // chartSellForCategories: any = null;
   dateRange: IDatesDashboard | null = null;
   formDate: FormGroup = new FormGroup({
     star_date: new FormControl(new Date()),
@@ -83,44 +90,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ELEMENT_DATA_SELLER: IsellerTable[] = [];
   dataSourceSeller = new MatTableDataSource<IsellerTable>(this.ELEMENT_DATA_SELLER);
   paginatorSeller: PageEvent = new PageEvent();
-  airDate: AirDatepicker | null = null;
-  airDatePreview: AirDatepicker | null = null;
+  // airDate: AirDatepicker | null = null;
+  // airDatePreview: AirDatepicker | null = null;
   total_sell: IsalesHeader;
   value_middle: IsalesHeader;
   invoice_total: IsalesHeader;
   products_sold_count: IsalesHeader;
-  readonly keyDashboardDates: string = 'dashboard_dates';
+  // readonly keyDashboardDates: string = 'dashboard_dates';
   isLoadingHeader: boolean = false;
-  options = {
-    locale: localeEs,
-    dateFormat: 'yyyy MMMM dd',
-    range: true,
-    multipleDatesSeparator: ' A ',
-  };
-  notFirstCall: number = 0;
+  // options = {
+  //   locale: localeEs,
+  //   dateFormat: 'yyyy MMMM dd',
+  //   range: true,
+  //   multipleDatesSeparator: ' A ',
+  // };
+  canInit: boolean = false;
   unSubscriptedStorePreference: Subscription | null = null;
 
   ngOnInit(): void {
-    this.unSubscriptedStorePreference =  this.store.select(selectPreference).subscribe(preferences => {
-      console.log(preferences && preferences.hasOwnProperty(this.keyDashboardDates) && typeof preferences[this.keyDashboardDates] === 'object' && preferences[this.keyDashboardDates] !== null)
-      if (preferences && typeof preferences === 'object' && preferences.hasOwnProperty(this.keyDashboardDates) && typeof preferences[this.keyDashboardDates] === 'object' && preferences[this.keyDashboardDates] !== null) {
-        console.log(preferences);
-        this.dateRange = preferences[this.keyDashboardDates];
-        if (this.notFirstCall > 1) {
-        this.getDateHeader();
-        this.chartProductChart.updateChart();
-        this.chartSellChart.updateChart();
-        this.chartLocales.updateChart();
-        this.chartCategory.updateChart();
-        this.updateTableForLocales();
-        this.updateChartTableForCity();
-        this.updateTableForSellers();
-        return;
-        }
+    this.preferencesServices.getPreference(this.preferencesServices.DASHBOARD).subscribe((res: any) => {
+      if (res?.success && res?.data) {
+        this.dateRange = res.data;
+        this.canInit && this.refreshCharts();
       }
-      this.notFirstCall++;
+      this.canInit = true;
     });
-    // this.loadDate();
+    // this.unSubscriptedStorePreference =  this.store.select(selectPreference)
+    // .subscribe(preferences => {
+    // });
     this.getDateHeader();
     this.updateTableForLocales();
     this.updateChartTableForCity();
@@ -133,8 +130,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  refreshCharts(): void {
+    this.getDateHeader();
+    this.chartProductChart.updateChart();
+    this.chartSellChart.updateChart();
+    this.chartLocales.updateChart();
+    this.chartCategory.updateChart();
+    this.updateTableForLocales();
+    this.updateChartTableForCity();
+    this.updateTableForSellers();
+  }
+
   getDateHeader(): void {
-    // const date = this.getDate();
     this.isLoadingHeader = true;
     this.s_standard.index(`dashboard/stats/basic-metrics?start_date`).subscribe(
       (response) => {
@@ -155,7 +162,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openDialogDates(): void {
-    this.dialogDates.open(SelectDatesDashboardComponent, { panelClass: 'rounded-fz' });
+    this.dialogDates.open(SelectDatesDashboardComponent, { panelClass: 'rounded-fz' })
+    .beforeClosed().subscribe((res: any) => {
+      if (res?.data) {
+        this.dateRange = res.data;
+        this.refreshCharts();
+      }
+    })
   }
 
 
@@ -239,12 +252,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   suscribeForTop(key: EKeyDashboard, model_id: any = null, order: 'asc' | 'desc' = 'desc', limit: number = 7, page = 0): Observable<any> {
-    // const date = this.getDate();
     let params = new HttpParams();
-    // if (hasDate) {
-    //   params = params.append('start_date', date.first_date[0]);
-    //   params = params.append('end_date', date.first_date[1]);
-    // }
     params = params.append('key', key);
     params = params.append('order', order);
     params = params.append('limit', limit.toString());

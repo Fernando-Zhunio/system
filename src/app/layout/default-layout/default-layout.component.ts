@@ -20,14 +20,15 @@ import { Store } from '@ngrx/store';
 import { addNotification, overrideNotification } from '../../redux/actions/notification.action';
 import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
-import { setPreference } from '../../redux/actions/preference.action';
+// import { setPreference } from '../../redux/actions/preference.action';
 import { compare } from 'compare-versions';
 import { MethodsHttpService } from '../../services/methods-http.service';
 // import { TEST_PERMISSIONS } from '../../class/permissionsAll';
-import { NotificationType } from '../../enums/notification.enum';
+// import { NotificationType } from '../../enums/notification.enum';
 import { INavData } from '../../interfaces/inav-data';
 import { takeUntil } from 'rxjs/operators';
-import { SidebarFzComponent } from '../../shared/components/sidebar-fz/sidebar-fz.component';
+import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
+import { PreferencesService } from '../../core/services/preferences.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,6 +47,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     public sw_push: SwPush,
     private store: Store,
     private activatedRoute: ActivatedRoute,
+    private preferencesServices: PreferencesService,
   ) {
     this.notifications$ = this.store.select(selectNotification);
   }
@@ -73,7 +75,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   searchBar: ListPermissions;
   imgCompany: { size: string, url: string } = { size: '100%', url: 'assets/icons_custom/novisolutions.svg' };
 
-  notificationType = {
+  notification = {
     webpush: false,
     email: false
   }
@@ -81,7 +83,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ res }) => {
       this.getPermissionAndVersionServer(res.permissionsRolesAndVersion);
-      this.setPreferences(res.preferences); // in resolver
+      // this.setPreferences(res.preferences); // in resolver
     }).unsubscribe();
     this.getNotification(); // in resolver
     this.loadUnreadCountMessages();
@@ -183,12 +185,21 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  setPreferences(res): void {
-    if (res && res.hasOwnProperty('success') && res.success) {
-      this.notificationType.email = res.data[NotificationType.email] === 'on' ? true : false;
-      this.notificationType.webpush = res.data[NotificationType.webpush] === 'on' ? true : false;
-      this.store.dispatch(setPreference({ preference: res.data }));
-    }
+  
+  // setPreferences(res): void {
+  //   if (res && res.hasOwnProperty('success') && res.success) {
+  //     this.notificationType.email = res.data[NotificationType.email] === 'on' ? true : false;
+  //     this.notificationType.webpush = res.data[NotificationType.webpush] === 'on' ? true : false;
+  //     this.store.dispatch(setPreference({ preference: res.data }));
+  //   }
+  // }
+
+  getPreferences(): void {
+    this.preferencesServices.getPreferences().subscribe((res: any) => {
+      if (res) {
+        
+      }
+    });
   }
 
   getPermissionAndVersionServer(res): void {

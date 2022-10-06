@@ -230,29 +230,11 @@ button {
 .dark-theme .sidebar1 .content-sidebar {
   background-color: $dark-bg;
   color: #ffffff;
-  // border-radius: 10px;
-  // margin: 2px 5px;
+
 }
 
-// .sidebar .nav-link{
-//   color: #817e7e;
-//   font-weight: 500;
-// }
-
-// .sidebar {
-//   background: transparent;
-// }
-
-//  .sidebar .nav-link.active {
-//   background-color: #e4e5e6;
-//   // background: transparent;
-//   color: #2f353a;
-//   border-radius: 10px;
-//   margin: 2px 5px;
-// }
 .main-style {
-  // background-color: #ffffff;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .dark-theme .main-style {
@@ -356,7 +338,7 @@ button {
 
 .swal2-modal {
   font-weight: 700 !important;
-  border-radius: 20px !important;
+  border-radius: 10px !important;
   button {
     border-radius: 20px !important;
     box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
@@ -366,9 +348,9 @@ button {
 .custom-menu-notification {
   max-height: 80vh !important;
   padding: 5px !important;
-  border-radius: 20px !important;
+  border-radius: 10px !important;
   // max-height: 80vmax;
-  padding-bottom: 0 !important;
+  // padding-bottom: 0 !important;
 }
 
 .mat-line {

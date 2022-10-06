@@ -22,4 +22,16 @@ export class User {
     }
 }
 
+export class Preferences {
+    private static preferences: Map<string, any> = new Map();
+
+    static get getPreferences(): Map<string, any> {
+        return this.preferences;
+    }
+
+    static set setPreferences(preferences: Map<string, any>) {
+        this.preferences = preferences;
+    }
+}
+
 export const PATH_LOGIN = '/authentication/login';

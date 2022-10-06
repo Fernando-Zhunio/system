@@ -1,0 +1,18 @@
+.h-auto {
+  padding: 7px;
+  i {
+    font-size: 18px;
+  }
+}
+.content-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  >span {
+    display: flex;
+    align-items: center;
+    >span {
+        margin-left: 10px;
+    }
+  }
+}

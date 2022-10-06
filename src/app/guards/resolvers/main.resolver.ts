@@ -19,7 +19,7 @@ export class MainResolver implements Resolve<any> {
     return forkJoin(
       {
         permissionsRolesAndVersion: this.methodsHttp.methodGet('user/permissions-roles'),
-        preferences: this.methodsHttp.methodGet('user/preferences/ajax')
+        // preferences: this.methodsHttp.methodGet('user/preferences/ajax')
         // notifications: this.methodsHttp.methodGet('notifications/ajax'),
       }
     ).pipe(

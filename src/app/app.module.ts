@@ -13,12 +13,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 
 // Import containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from './layout/default-layout/default-layout.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 // import { LoginComponent } from './modules/authenticate/pages/login/login.component';
 // import { RegisterComponent } from './views/register/register.component';
-const APP_CONTAINERS = [DefaultLayoutComponent];
+// const APP_CONTAINERS = [DefaultLayoutComponent];
 // import {
 //   AppAsideModule,
 //   AppBreadcrumbModule,
@@ -85,8 +85,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { P403Component } from './views/error/p403/p403.component';
-import { SidebarFzComponent } from './shared/components/sidebar-fz/sidebar-fz.component';
-import { HeaderFzComponent } from './shared/components/header-fz/header-fz.component';
+import { SidebarFzComponent } from './layout/sidebar-fz/sidebar-fz.component';
+import { HeaderFzComponent } from './layout/header-fz/header-fz.component';
 import { StorageService } from './services/storage.service';
 import { MatCardModule } from '@angular/material/card';
 // import { MatTableModule } from '@angular/material/table';
@@ -99,6 +99,7 @@ import { MatCardModule } from '@angular/material/card';
 // import { NgxGalleryModule } from 'ngx-gallery-9';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
+import { ConfigurationMenuComponent } from './layout/configuration-menu/configuration-menu.component';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { MatNativeDateModule } from '@angular/material/core';
 // import { OverlayModule } from '@angular/cdk/overlay';
@@ -165,7 +166,9 @@ registerLocaleData(localeEs, 'es');
     SidebarFzComponent,
     HeaderFzComponent,
     AppComponent,
-    ...APP_CONTAINERS,
+    ConfigurationMenuComponent,
+    // ...APP_CONTAINERS,
+    DefaultLayoutComponent,
     P404Component,
     P500Component,
     // LoginComponent,
@@ -206,7 +209,9 @@ registerLocaleData(localeEs, 'es');
       useClass: CustomInterceptor,
       multi: true,
     },
-    { provide: RouteReuseStrategy, useClass: CustomReusingStrategy },
+    { provide: RouteReuseStrategy, 
+      useClass: CustomReusingStrategy
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: getPermissionAndVersionServer,

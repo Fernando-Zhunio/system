@@ -14,7 +14,6 @@ export class PreferenceEffects {
             ofType(loadPreference),
             // tap(() => { console.log('setPreference'); }),
             mergeMap((action) => {
-                console.log('setPreference', action);
                 const url = 'user/preferences/dashboard';
                 return this.s_standard.updatePut(url, action.preferenceDateDashboard)
                 .pipe(

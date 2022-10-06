@@ -4,7 +4,7 @@ import { OkLoginComponent } from './components/ok-login/ok-login.component';
 // import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 
 // Import Containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from './layout/default-layout/default-layout.component';
 import { AuthReverseGuard } from './guards/auth-reverse.guard';
 import { AuthGuard } from './guards/auth.guard';
 

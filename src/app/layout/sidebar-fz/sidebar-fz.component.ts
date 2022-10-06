@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { INavData } from '../../../interfaces/inav-data';
-import { StorageService } from '../../../services/storage.service';
-import { User } from '../../interfaces/user';
+import { INavData } from '../../interfaces/inav-data';
+import { StorageService } from '../../services/storage.service';
+import { User } from '../../shared/interfaces/user';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class SidebarFzComponent implements OnInit {
 
   onlyIcons: boolean = false;
   user: User | null = null;
-  urlImg = 'https://ui-avatars.com/api/?background=random&name=';
+  urlImg;
   name: string;
   auxSearchPage: INavData[] = [];
   hiddenMenu: boolean = false;
@@ -25,18 +25,18 @@ export class SidebarFzComponent implements OnInit {
 
   constructor(public storage: StorageService) {
     this.user = this.storage.getCurrentUser();
-    this.name = this.user!.person?.first_name ? this.user!.person?.first_name+' '+this.user?.person?.last_name[0] : this.getLastNameFirstLetter(this.user!.name);
-    this.urlImg += this.name;
+    this.name = this.user!.person?.first_name || this.user.name;
+    this.urlImg = this.user?.person?.photo?.permalink || `https://ui-avatars.com/api/?background=random&name=${this.name}` ;
   }
 
-  getLastNameFirstLetter(full_name: string): string {
-    const preName = full_name.split(' ');
-    let name = preName[0];
-    if (preName.length > 1) {
-      name += ' ' + preName[1][0];
-    }
-    return name;
-  }
+  // getLastNameFirstLetter(full_name: string): string {
+  //   const preName = full_name.split(' ');
+  //   let name = preName[0];
+  //   if (preName.length > 1) {
+  //     name += ' ' + preName[1][0];
+  //   }
+  //   return name;
+  // }
 
   ngOnInit() {
     const width = window.innerWidth;
