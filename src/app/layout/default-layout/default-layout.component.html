@@ -64,7 +64,7 @@
         <img [src]="user?.person?.photo?.permalink || url_img" class="img-avatar custom-avatar" alt="user" />
       </a>
       <mat-menu #menu2="matMenu">
-        <button (click)="goProfile()" mat-menu-item>
+        <button [routerLink]="['home/perfil']"  mat-menu-item>
           <mat-icon>account_circle</mat-icon>
           <span>Mi perfil</span>
         </button>

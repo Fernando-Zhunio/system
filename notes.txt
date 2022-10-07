@@ -1,0 +1,12 @@
+use in redux - ngrx
+
+effects 
+
+-- concatMap for
+Procesa todas las notificaciones en orden y de 1 en 1
+-- switchMap for
+Procesa solo la última notificación y descarta las anteriores
+-- mergeMap for
+Procesa todas las notificaciones en paralelo
+-- exhaustMap for
+Procesa solo la primera notificación y descarta las anteriores

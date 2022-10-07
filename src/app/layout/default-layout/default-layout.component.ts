@@ -87,7 +87,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }).unsubscribe();
     this.getNotification(); // in resolver
     this.loadUnreadCountMessages();
-    this.setImgCompanies(); //not loaded in resolver
+    // this.setImgCompanies(); //not loaded in resolver
     this.hasDarkTheme(); //not loaded in resolver
     this.notificationWeb = new NotificationsWebPush(this.methodsHttp); //not loaded in resolver
     // this.getPermissionAndVersionServerTest();
@@ -101,17 +101,17 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.echo.leave('App.Models.User.' + this.user.id);
   }
 
-  goProfile(): void {
-    this.route.navigate(['home/perfil']);
-  }
+  // goProfile(): void {
+  //   this.route.navigate(['home/perfil']);
+  // }
 
-  setImgCompanies(): void {
-    this.imgCompany = window.innerWidth > 600 ? { size: '100%', url: 'assets/icons_custom/novisolutions.svg' } : { size: '30px', url: 'assets/icons_custom/icon-512x512.png' };
-  }
+  // setImgCompanies(): void {
+  //   this.imgCompany = window.innerWidth > 600 ? { size: '100%', url: 'assets/icons_custom/novisolutions.svg' } : { size: '30px', url: 'assets/icons_custom/icon-512x512.png' };
+  // }
 
-  goPage(page): void {
-    this.route.navigate([page]);
-  }
+  // goPage(page): void {
+  //   this.route.navigate([page]);
+  // }
 
   openOrCloseMenu(): void {
     this.sidebarFz.toggleMenu();

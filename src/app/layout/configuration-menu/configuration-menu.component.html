@@ -1,5 +1,4 @@
 <button mat-icon-button [matMenuTriggerFor]="menuRef">
-  <!-- <i class="fa-solid fa-gear"></i> -->
   <i style="font-size: 20px" class="fa-solid fa-sliders"></i>
 </button>
 
@@ -18,7 +17,7 @@
         <mat-slide-toggle
         labelPosition="before"
           [checked]="preferences.general_notification_sound === 'on' ? true : false"
-          (change)="setPreference(s_preferences.SOUND, $event.checked ? 'on' : 'off')">
+          (change)="setPreference(typesPreferences.SOUND, $event.checked ? 'on' : 'off')">
         </mat-slide-toggle>
       </div>
     </div> 
@@ -34,7 +33,7 @@
         <span><i class="fa-solid fa-globe"></i><span>Webpush</span></span>
         <mat-slide-toggle
         labelPosition="before" [checked]="preferences.general_notification_webpush === 'on' ? true : false"
-          (change)="setPreference(s_preferences.WEBPUSH, $event.checked ? 'on' : 'off')">
+          (change)="setPreference(typesPreferences.WEBPUSH, $event.checked ? 'on' : 'off')">
         </mat-slide-toggle>
       </div>
     </div>
@@ -48,7 +47,7 @@
         <mat-slide-toggle
         labelPosition="before"
           [checked]="preferences.general_notification_email === 'on' ? true : false"
-          (change)="setPreference(s_preferences.EMAIL, $event.checked ? 'on' : 'off')">
+          (change)="setPreference(typesPreferences.EMAIL, $event.checked ? 'on' : 'off')">
         </mat-slide-toggle>
       </div>
     </div>
@@ -62,23 +61,9 @@
         <mat-slide-toggle
         labelPosition="before"
           [checked]="preferences.general_notification_whatsapp === 'on' ? true : false"
-          (change)="setPreference(s_preferences.WHATSAPP, $event.checked ? 'on' : 'off')">
+          (change)="setPreference(typesPreferences.WHATSAPP, $event.checked ? 'on' : 'off')">
         </mat-slide-toggle>
       </div>
     </div>
   </div>
-  <!-- <div
-    class="h-auto border-bottom rounded my-2"
-    (click)="$event.stopPropagation()"
-    (keydown)="$event.stopPropagation()"
-    mat-menu-item
-    [disableRipple]="true">
-    <div><small>Notificación por email</small></div>
-    <mat-slide-toggle
-      [(ngModel)]="notificationType.email"
-      name="general_notification_email"
-      (change)="changeWebPush($event)">
-      {{ notificationType.email ? "Activado" : "Desactivado" }}
-    </mat-slide-toggle>
-  </div> -->
 </mat-menu>

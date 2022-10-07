@@ -21,9 +21,12 @@ import { LocalesChartComponent } from './chart/locales-chart/locales-chart.compo
 import { CategoryChartComponent } from './chart/category-chart/category-chart.component';
 // import { Store } from '@ngrx/store';
 // import { selectPreference } from '../../../redux/state/state.selectors';
-import { IDatesDashboard } from '../../../interfaces/idates-dashboard';
+// import { IDatesDashboard } from '../../../interfaces/idates-dashboard';
 import { EKeyDashboard } from '../../../enums/EkeyDashboard.enum';
-import { PreferencesService } from '../../../core/services/preferences.service';
+// import { PreferencesService } from '../../../core/services/preferences.service';
+import { selectPreference } from '../../../redux/state/state.selectors';
+import { Store } from '@ngrx/store';
+import { PreferenceDashboard, Preferences } from '../../../core/interfaces/preferences';
 // moment.locale('es');
 // Chart.register(...registerables);
 // Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
@@ -45,11 +48,11 @@ interface IsellerTable {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
-    // private store: Store,
+    private store: Store,
     public s_standard: StandartSearchService,
     private bottomSheet: MatBottomSheet,
     private dialogDates: MatDialog,
-    private preferencesServices: PreferencesService
+    // private preferencesServices: PreferencesService
   ) {
   }
   @ViewChild('chartSell', { static: true }) chartSellChart: SellChartComponent;
@@ -57,9 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('chartLocales', { static: true }) chartLocales: LocalesChartComponent;
   @ViewChild('chartCategory', { static: true }) chartCategory: CategoryChartComponent;
 
-  // chartVentas: any = null;
-  // chartSellForCategories: any = null;
-  dateRange: IDatesDashboard | null = null;
+  dateRange: PreferenceDashboard | null = null;
   formDate: FormGroup = new FormGroup({
     star_date: new FormControl(new Date()),
     end_date: new FormControl(new Date()),
@@ -90,34 +91,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ELEMENT_DATA_SELLER: IsellerTable[] = [];
   dataSourceSeller = new MatTableDataSource<IsellerTable>(this.ELEMENT_DATA_SELLER);
   paginatorSeller: PageEvent = new PageEvent();
-  // airDate: AirDatepicker | null = null;
-  // airDatePreview: AirDatepicker | null = null;
   total_sell: IsalesHeader;
   value_middle: IsalesHeader;
   invoice_total: IsalesHeader;
   products_sold_count: IsalesHeader;
-  // readonly keyDashboardDates: string = 'dashboard_dates';
   isLoadingHeader: boolean = false;
-  // options = {
-  //   locale: localeEs,
-  //   dateFormat: 'yyyy MMMM dd',
-  //   range: true,
-  //   multipleDatesSeparator: ' A ',
-  // };
   canInit: boolean = false;
   unSubscriptedStorePreference: Subscription | null = null;
 
   ngOnInit(): void {
-    this.preferencesServices.getPreference(this.preferencesServices.DASHBOARD).subscribe((res: any) => {
-      if (res?.success && res?.data) {
-        this.dateRange = res.data;
-        this.canInit && this.refreshCharts();
-      }
-      this.canInit = true;
-    });
-    // this.unSubscriptedStorePreference =  this.store.select(selectPreference)
-    // .subscribe(preferences => {
+    // this.preferencesServices.getPreference(this.preferencesServices.DASHBOARD).subscribe((res: any) => {
+    //   if (res?.success && res?.data) {
+    //     this.dateRange = res.data;
+    //     this.canInit && this.refreshCharts();
+    //   }
+    //   this.canInit = true;
     // });
+    this.unSubscriptedStorePreference =  this.store.select(selectPreference)
+    .subscribe((preferences: Preferences) => {
+      console.log({preferences});
+      if (preferences.dashboard_dates) {
+        this.dateRange = preferences.dashboard_dates!;
+      }
+    });
     this.getDateHeader();
     this.updateTableForLocales();
     this.updateChartTableForCity();

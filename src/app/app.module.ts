@@ -157,7 +157,7 @@ registerLocaleData(localeEs, 'es');
       enabled: environment.production,
     }),
     OrderModule,
-    StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preference: preferenceReducer }),
+    StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preferences: preferenceReducer }),
     EffectsModule.forRoot([PreferenceEffects]),
     StoreDevtoolsModule.instrument({}),
     LoadingBarRouterModule,

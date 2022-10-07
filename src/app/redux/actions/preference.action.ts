@@ -1,4 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-interface IPreferenceDateDashboard { dates: { to: any }; dates_compare: { to: any, from: any }; }
-export const setPreference = createAction('[Preference] Set Preference', props<{ preference: any }>());
-export const loadPreference = createAction('[Preference] Get Preference', props<{ preferenceDateDashboard: IPreferenceDateDashboard }>());
+import { Preferences } from '../../core/interfaces/preferences';
+export const setPreference = createAction('[Preference] Set Preference', props<{ preference: string, value: string }>());
+export const setPreferences = createAction('[Preference] Set Preferences', props<{ preferences: Preferences  }>());
+export const RefreshPreference = createAction('[Preference] Get Preferences', props());
+export const UpdatePreference = createAction('[Preference] Update Preferences', props<{ preferences: Preferences }>());
