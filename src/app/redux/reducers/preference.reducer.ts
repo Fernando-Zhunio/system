@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Preferences } from '../../core/interfaces/preferences';
-import { setPreferenceSuccess } from '../actions/api/preferences-api.action';
-import { RefreshPreference, UpdatePreference, setPreferences } from '../actions/preference.action';
+import { setPreferences, setPreference } from '../actions/preference.action';
 
 export const initialState: Preferences = {
     general_notification_email: 'off',
@@ -13,15 +12,14 @@ export const initialState: Preferences = {
 
 const _preferenceReducer = createReducer(
     initialState,
-    on(setPreferences, (_state, {preferences}) => preferences),
-    on(setPreferenceSuccess, (state, { preference, value } ) => {
-        state[preference] = value;
-       return state;
+    // on(RefreshPreferenceSuccess, (_state, {preferences}) => preferences),
+    on(setPreference, (state, { preference, value } ) => {
+        console.log({preference, value, state})
+       const newState = {...state, [preference]: value};
+       console
+       return newState;
     }),
-    on(RefreshPreference, (state ) => state),
-    on(UpdatePreference, (_state, { preferences } ) => {
-        return preferences;
-    }),
+    on(setPreferences, (_state, { preferences } ) => preferences),
 );
 
 export function preferenceReducer(state, action) {

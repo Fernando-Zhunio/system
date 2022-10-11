@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PreferencesTypes } from '../../core/enums/preferences-types';
 import { Preferences } from '../../core/interfaces/preferences';
-import { RefreshPreference, setPreference } from '../../redux/actions/preference.action';
+import { refreshPreferenceApi, setPreferenceApi } from '../../redux/actions/api/preferences-api.action';
 import { selectPreference } from '../../redux/state/state.selectors';
 // import { PreferencesService } from '../../core/services/preferences.service';
 
@@ -18,30 +18,15 @@ export class ConfigurationMenuComponent implements OnInit {
   }
   typesPreferences = PreferencesTypes
   ngOnInit() {
-    // this.s_preferences.getPreferences().subscribe((res: any) => {
-    //   if (res?.success) {
-    //     this.preferences = res.data;
-    //   }
-    // });
-    this.store.dispatch(RefreshPreference({}));
+    this.store.dispatch(refreshPreferenceApi({}));
     this.store.select(selectPreference).subscribe((res: Preferences) => {
-      console.log(res);
       this.preferences = res;
     });
   }
 
   setPreference(preference: string, value: string): void {
     console.log(preference, value);
-    this.store.dispatch(setPreference({ preference, value}));
-    // this.setPreference(preference, value);
-    // this.s_preferences.setPreference(preference, value)
-    //   .subscribe((res: any) => {
-    //     if (res?.success) {
-    //       this.preferences[preference] = value;
-    //     }
-    //   }, () => {
-    //     this.preferences[preference] = value === 'on' ? 'off' : 'on';
-    //   });
+    this.store.dispatch(setPreferenceApi({ preference, value }));
   }
 
 }
