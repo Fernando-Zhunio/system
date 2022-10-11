@@ -100,13 +100,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   unSubscriptedStorePreference: Subscription | null = null;
 
   ngOnInit(): void {
-    // this.preferencesServices.getPreference(this.preferencesServices.DASHBOARD).subscribe((res: any) => {
-    //   if (res?.success && res?.data) {
-    //     this.dateRange = res.data;
-    //     this.canInit && this.refreshCharts();
-    //   }
-    //   this.canInit = true;
-    // });
     this.unSubscriptedStorePreference =  this.store.select(selectPreference)
     .subscribe((preferences: Preferences) => {
       console.log({preferences});
