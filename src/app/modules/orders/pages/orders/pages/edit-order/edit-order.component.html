@@ -9,15 +9,39 @@
             <small>(cliente)</small>
           </span>
           <span *ngIf="order?.status !== 'cancelled'">
-            <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon>
-            <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon>
-            <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon>
-            <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon>
+            <button mat-icon-button [matMenuTriggerFor]="menuRef">
+              <i style="font-size: 20px;" class="fa-solid fa-screwdriver-wrench"></i>
+            </button>
+            
+            <mat-menu panelClass="menu-options" #menuRef="matMenu">
+              <button mat-menu-item (click)="openGeneratedPDF()">
+                <i class="fa-solid fa-file-pdf"></i> <span class="ml-1">Generar PDF de bodegas</span>
+              </button>
+              <button mat-menu-item (click)="addClientAddress(order.shipping_address?.address_id)">
+                <i class="fa-regular fa-pen-to-square"></i> <span class="ml-1">Editar Dirección</span>
+              </button>
+              <button mat-menu-item (click)="openDialogAddress()">
+                <i class="fa-solid fa-rotate"></i> <span class="ml-1">Cambiar Dirección</span>
+              </button>
+              <!-- <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon> -->
+                <button mat-menu-item [routerLink]="['/system-orders/clients/create']">
+                  <i class="fa-solid fa-user-plus"></i> <span class="ml-1">Agregar cliente</span>
+                </button>
+                <button mat-menu-item [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">
+                  <i class="fa-solid fa-user-pen"></i> <span class="ml-1">Editar cliente</span>
+                </button>
+                <button mat-menu-item (click)="openSelectClient()">
+                  <i class="fa-solid fa-rotate"></i> <span class="ml-1">Cambiar cliente</span>
+                </button>
+                <button mat-menu-item (click)="openDetailClient()">
+                  <i class="fa-regular fa-eye"></i> <span class="ml-1">Detalles cliente</span>
+                </button>
+            </mat-menu>
+            <!-- <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon> -->
+            <!-- <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon> -->
+            <!-- <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon> -->
+            <!-- <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon> -->
           </span>
-          <button class="ml-1" mat-button color="accent" (click)="openGeneratedPDF()">
-            Generar PDF de bodegas
-            <i class="fa-solid fa-file-pdf"></i>
-          </button>
         </div>
         <span>
           <mat-icon>email</mat-icon>
@@ -27,6 +51,13 @@
         </span>
       </div>
     </div>
+    <ng-container *ngIf="order?.external_reference_type">
+      <div class="d-inline-block badge-fz badge-fz-green mt-2">
+        <span>Orden autogenerada por el sistema desde:</span>
+        <!-- <span>Desde: {{order?.external_reference_type}}</span> -->
+        <a target="_blank" [href]="urlVtexNovicompu + 'admin/orders/'+ order.external_reference" *ngIf="order?.external_reference_type === 'vtex'">{{order?.external_reference_type}} con numero # {{order.external_reference}}</a>
+      </div>
+    </ng-container>
     <div>
       <div class="container-info card-body d-md-flex mb-3 py-2 scrollbar-fz">
         <div class="px-md-3 py-md-2">
@@ -113,10 +144,10 @@
   <div class="border-left col-md-3">
     <h3 class="font-2xl m-0">
       Dirección de envío
-      <span *ngIf="order?.status !== 'cancelled'">
+      <!-- <span *ngIf="order?.status !== 'cancelled'">
         <mat-icon color="accent" (click)="addClientAddress(order.shipping_address?.address_id)">edit</mat-icon>
         <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon>
-      </span>
+      </span> -->
     </h3>
     <div class="content-address">
       <div>

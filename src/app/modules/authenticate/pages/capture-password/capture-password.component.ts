@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { PATH_LOGIN } from '../../../../class/fast-data';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -10,9 +10,9 @@ import { SwalService } from '../../../../services/swal.service';
   templateUrl: './capture-password.component.html',
   styleUrls: ['./capture-password.component.css']
 })
-export class CapturePasswordComponent implements OnInit {
+export class CapturePasswordComponent  {
 
-  constructor(private s_standard: StandartSearchService, private active_router: ActivatedRoute, private router: Router) { }
+  constructor(private s_standard: StandartSearchService, private router: Router) { }
 
   hide: boolean = true;
   hide2: boolean = true;
@@ -24,12 +24,12 @@ export class CapturePasswordComponent implements OnInit {
     password_confirmation: new FormControl('', [Validators.required])
   });
   token: string;
-  ngOnInit(): void {
-    this.token = this.active_router.snapshot.queryParams['token'];
-    if(!this.token){
-      this.router.navigate([PATH_LOGIN]);
-    }
-  }
+  // ngOnInit(): void {
+  //   this.token = this.active_router.snapshot.queryParams['token'];
+  //   // if(!this.token){
+  //   //   this.router.navigate([PATH_LOGIN]);
+  //   // }
+  // }
 
   saveInServer(): void {
     let data = this.formPassword.value;

@@ -9,7 +9,7 @@ import { SwalService } from '../../../../services/swal.service';
 import {YetiLook} from"../../../../class/yeti";
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-login',
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.scss']
 })

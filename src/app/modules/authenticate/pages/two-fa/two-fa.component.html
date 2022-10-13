@@ -1,36 +1,46 @@
-<div  class="pt-sm-0 pt-4 vh-100 bg-login">
-    <div class="row m-0 vh-100 main">
-        <div class="col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
-            <div class="text-info">
-                <form [formGroup]="formPassword" (ngSubmit)="SaveInServer()" class="">
-                    <mat-card>
-                        <mat-card-header>
-                            <mat-card-title class="font-4xl">Autenticación de dos pasos</mat-card-title>
-                            <mat-card-subtitle>Para ingresar a tu cuenta de forma segura ingresa el código enviado a tu mail <a href="mailto:{{user?.email}}">"{{user?.email}}"</a> </mat-card-subtitle>
-                        </mat-card-header>
-                        <mat-card-content>
-                              <div>
-                                <input #contentInput (input)="inputEvent($event, contentInput, i)" (keydown)="inputKeyDown($event,contentInput, i)" maxLength="1" *ngFor="let itemInput of inputsValue;let i = index" class="separator-input"  formControlName="code">
-                              </div>
+<!-- <div  class="pt-sm-0 pt-4 vh-100 bg-login">
+    <div class="row m-0 vh-100 main"> -->
+<div>
+  <div class="text-info">
+    <form [formGroup]="formPassword" (ngSubmit)="SaveInServer()" class="text-center">
+      <mat-card>
+        <mat-card-header class="center">
+          <mat-card-title class="font-4xl">NOVISOLUTIONS</mat-card-title>
+          <mat-card-subtitle>
+            Autenticación de dos pasos <br>Correo electrónico: 
+            <a href="mailto:{{ user?.email }}">"{{ user?.email }}"</a>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <input
+              #contentInput
+              (input)="inputEvent($event, contentInput, i)"
+              (keydown)="inputKeyDown($event, contentInput, i)"
+              maxLength="1"
+              *ngFor="let itemInput of inputsValue; let i = index"
+              class="separator-input"
+              formControlName="code" />
+          </div>
 
-                            <div class="col-12 mt-3 font-2xl  font-facebook">
-                                <countdown class="font-weight-bold font-4xl"  [config]="config" (event)="handleEvent($event)"></countdown>
-                                <span class="font-weight-normal">
-                                Tiempo para ingresar el código
-                              </span>
-                            </div>
-                        </mat-card-content>
-                        <mat-card-actions>
-                            <button color="primary" [disabled]="formPassword.invalid || isLoading" type="submit" mat-raised-button>Iniciar sesión</button>
-                        </mat-card-actions>
-                    </mat-card>
-                </form>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12 d-flex p-0 align-items-center ">
-            <img src="/assets/img/capture-password.svg" class="w-100 position-absolute" alt="">
-        </div>
-        <ngx-spinner name="spinner-tf" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true"><p style="color: white"> Cargando datos del usuario... </p></ngx-spinner>
-
-    </div>
+          <div class="col-12 mt-3 font-2xl font-facebook">
+            <countdown class="font-weight-bold font-4xl" [config]="config" (event)="handleEvent($event)"></countdown>
+          </div>
+          <small class="text-muted">Tiempo para ingresar el código</small>
+        </mat-card-content>
+        <mat-card-actions>
+          <button color="primary" [disabled]="formPassword.invalid || isLoading" type="submit" mat-raised-button>
+            Iniciar sesión
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
 </div>
+<!-- <div class="col-md-6 col-sm-12 d-flex p-0 align-items-center ">
+            <img src="/assets/img/capture-password.svg" class="w-100 position-absolute" alt="">
+        </div> -->
+<!-- <ngx-spinner name="spinner-tf" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true"><p style="color: white"> Cargando datos del usuario... </p></ngx-spinner> -->
+
+<!-- </div>
+</div> -->

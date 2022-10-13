@@ -20,7 +20,6 @@ export class StorageService {
   private permissions: string[] | null = null;
 
   constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {
-    this.init();
   }
 
   init(): boolean {
@@ -36,11 +35,17 @@ export class StorageService {
         }
         return true;
       } else {
-        this.logout();
+        const isAuthPath = window.location.href.includes('authentication');
+        if (!isAuthPath) {
+          this.router.navigate([PATH_LOGIN]);
+        }
         return false;
       }
     } catch (error) {
-      this.logout();
+      const isAuthPath = window.location.href.includes('authentication');
+      if (!isAuthPath) {
+        this.router.navigate([PATH_LOGIN]);
+      }
       return false;
     }
   }
@@ -126,10 +131,13 @@ export class StorageService {
     localStorage.setItem(key, this.encryptedAes(JSON.stringify(value)));
   }
 
-  logout(): void {
+  logout(canPass: boolean = false): void {
     this.removeCurrentSession();
+    console.log(this.activatedRoute.url);
     this.activatedRoute.data.subscribe(res => {
-      if (res['guard'] != 'guest') {
+      if (res?.['guard'] != 'guest' || canPass) {
+        console.log({ res });
+        console.log({ PATH_LOGIN }, this.router);
         this.router.navigate([PATH_LOGIN]);
       }
     })
@@ -155,6 +163,7 @@ export class StorageService {
   encryptedAes(text: string): string {
     return CryptoJS.AES.encrypt(text, 'fernando-zhunio-reyes').toString();
   }
+
   decryptAes(text: string | null): string | null {
     if (text) {
       return CryptoJS.AES.decrypt(text, 'fernando-zhunio-reyes').toString(CryptoJS.enc.Utf8);

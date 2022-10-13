@@ -1,14 +1,13 @@
-<div class="pt-sm-0 pt-4 vh-100 bg-login">
-  <main class="main h-100 d-flex align-items-center justify-content-center p-md-3">
-    <div class="row m-0 p-0">
+<!-- <div class="pt-sm-0 pt-4 vh-100 bg-login">
+  <main class="main h-100 d-flex align-items-center justify-content-center p-md-3"> -->
+    <!-- <div class="row m-0 p-0"> -->
       <form
         [hidden]="!isLoginActive"
         [formGroup]="formLogin"
         (ngSubmit)="login()"
-        class="col-md-6 col-12"
         >
         <div class=" d-flex align-items-center justify-content-center">
-          <mat-card class="col-md-8 col-12 rounded-fz">
+          <mat-card class="rounded-fz">
             <div class="svgContainer">
               <div class="monkey-container">
                 <svg
@@ -244,17 +243,17 @@
                 </svg>
               </div>
             </div>
-            <mat-card-header>
-              <mat-card-title class="font-facebook font-3xl">LOGIN SYSTEM</mat-card-title>
-              <mat-card-subtitle>Formulario de inicio de sesión de Novisolutions</mat-card-subtitle>
+            <mat-card-header class="center">
+              <mat-card-title class="font-facebook font-3xl text-center mt-2">NOVISOLUTIONS</mat-card-title>
+              <mat-card-subtitle>Formulario de inicio de sesión</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <mat-form-field class="d-block">
+              <mat-form-field appearance="fill" class="d-block">
                 <mat-label>Correo institucional</mat-label>
                 <input id="email" matInput autocomplete type="email" formControlName="email" />
                 <mat-error *ngIf="formLogin.get('email')?.invalid">Ingrese un correo valido</mat-error>
               </mat-form-field>
-              <mat-form-field class="d-block">
+              <mat-form-field appearance="fill" class="d-block">
                 <mat-label>Contraseña</mat-label>
                 <input
                   id="password"
@@ -276,10 +275,10 @@
             </mat-card-content>
             <mat-card-actions>
               <button color="accent" [disabled]="formLogin.invalid || btnLogin" type="submit" mat-raised-button>
-                Iniciar sesión
+                Iniciar sesión <i class="fa-solid fa-arrow-right-to-bracket"></i>
               </button>
               <button color="primary" (click)="isLoginActive = false" type="button" mat-raised-button>
-                Recuperar cuenta
+                Recuperar cuenta <i class="fa-solid fa-repeat"></i>
               </button>
             </mat-card-actions>
           </mat-card>
@@ -289,10 +288,9 @@
       <form
         [hidden]="isLoginActive"
         [formGroup]="formRestartAccount"
-        class="col-md-6 col-12"
        >
-        <div class=" d-flex align-items-center justify-content-center">
-          <mat-card class="col-md-8 col-12">
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-card >
             <mat-card-header>
               <mat-card-title class="font-3xl font-facebook">Recuperación de cuenta</mat-card-title>
               <mat-card-subtitle>Formulario de recuperación de cuenta de Novisolutions</mat-card-subtitle>
@@ -321,7 +319,7 @@
         </div>
       </form>
 
-      <div class="text-info col-md-6 d-flex align-items-center">
+      <!-- <div class="text-info col-md-6 d-flex align-items-center">
         <div style="color: darkslateblue" class="card-body text-justify">
           <div class="font-5xl font-facebook mb-3" style="font-size: 5vw">NOVISOLUTIONS</div>
           <p class="font-2xl lead">
@@ -329,10 +327,10 @@
             información relevante para los procesos fundamentales y las particularidades de la organización.
           </p>
         </div>
-      </div>
-    </div>
-  </main>
-</div>
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+      </div> -->
+    <!-- </div> -->
+  <!-- </main>
+</div> -->
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
   <p style="color: white">Cargando...</p>
-</ngx-spinner>
+</ngx-spinner> -->

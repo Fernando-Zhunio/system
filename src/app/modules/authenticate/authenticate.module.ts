@@ -13,9 +13,10 @@ import { CountdownModule } from 'ngx-countdown';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoginComponent } from './pages/login/login.component';
 import { FormRecuperationPasswordComponent } from '../../views/form-recuperation-password/form-recuperation-password.component';
+import { LayoutAuthComponent } from './components/layout-auth/layout-auth.component';
 
 @NgModule({
-  declarations: [FormRecuperationPasswordComponent, CapturePasswordComponent, TwoFAComponent, LoginComponent],
+  declarations: [LayoutAuthComponent, FormRecuperationPasswordComponent, CapturePasswordComponent, TwoFAComponent, LoginComponent],
   imports: [
     AuthenticationRoutingModule,
     CommonModule,
@@ -26,7 +27,7 @@ import { FormRecuperationPasswordComponent } from '../../views/form-recuperation
     MatInputModule,
     MatButtonModule,
     CountdownModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ]
 })
 export class AuthenticateModule { }

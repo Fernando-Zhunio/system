@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../../../../../environments/environment';
 import { PermissionOrdersAdditionalAmounts, PermissionOrdersInvoicesMba, PermissionOrdersItems, PermissionOrdersPayments, PermissionOrdersPaymentsMba, PermissionOrdersShippings, PermissionOrdersTransfersMba } from '../../../../../../class/permissions-modules';
 import { trans } from '../../../../../../class/translations';
 import { IItemOrder, IStatus } from '../../../../../../interfaces/iorder';
@@ -63,6 +64,8 @@ export class EditOrderComponent implements OnInit, OnDestroy {
 
   metaDataTransference = null;
 
+  urlVtexNovicompu: string = environment.STORE_VTEX_NOVICOMPU
+
   transcurrentTime: { hours, days } = { hours: '00:00:00', days: '0' };
 
   ngOnInit() {
@@ -70,7 +73,6 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.getStatuses();
     this.subscriptionOrder = this.orderService.$order.subscribe((order) => {
-      console.log('fernando')
       if (order) {
         this.order = order;
         this.metaDataTransference = order.additional_data?.transfers_status;

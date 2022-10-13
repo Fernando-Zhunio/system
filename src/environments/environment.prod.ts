@@ -22,7 +22,9 @@ export const environment = {
 
   staging_order: 'https://staging-orders-service-api.novisolutions.com',
   password_staging: 'BV1tz4Qao5SvjC0IK7gPftgPlDZ7Wg6psXGWTlytnxjzPtwRESj9EUkPagCI8E02Po0fPgYIQe5KL7st',
-  ERROR_403_REDIRECT_URL: 'system-error/403'
+  ERROR_403_REDIRECT_URL: 'system-error/403',
+
+  STORE_VTEX_NOVICOMPU: 'https://novicompu.myvtex.com/'
 
 };
 

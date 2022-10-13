@@ -8,40 +8,45 @@ import { LoginComponent } from './pages/login/login.component';
 import { AuthReverseGuard } from '../../guards/auth-reverse.guard';
 import { FormRecuperationPasswordComponent } from '../../views/form-recuperation-password/form-recuperation-password.component';
 import { RecuperatePasswordGuard } from '../../guards/recuperate-password.guard';
-
-
+import { LayoutAuthComponent } from './components/layout-auth/layout-auth.component';
 
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Login Page',
-      guard: 'guest'
-    },
-    canActivate: [AuthReverseGuard]
+    path: '',
+    component: LayoutAuthComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+        data: {
+          title: 'Login Page',
+          guard: 'guest'
+        },
+        canActivate: [AuthReverseGuard]
+      },
+      {
+        path: 'recuperation-password',
+        component: FormRecuperationPasswordComponent,
+        resolve: { user: RecuperatePasswordGuard },
+        data: {
+          title: 'Recuperation password Page',
+          guard: 'guest'
+        },
+      },
+      {
+        path: 'capture-password',
+        component: CapturePasswordComponent,
+        canLoad: [NewPasswordGuard],
+        resolve: { person: NewPasswordGuard }
+      },
+      {
+        path: 'codigo-confirmacion/:token',
+        component: TwoFAComponent,
+        resolve: { response: ConfirmCodeGuard },
+      }
+    ]
   },
-  {
-    path: 'recuperation-password',
-    component: FormRecuperationPasswordComponent,
-    resolve: { user: RecuperatePasswordGuard },
-    data: {
-      title: 'Recuperation password Page',
-      guard: 'guest'
-    },
-  },
-  {
-    path: 'capture-password',
-    component: CapturePasswordComponent,
-    canLoad: [NewPasswordGuard],
-    resolve: { person: NewPasswordGuard }
-  },
-  {
-    path: 'codigo-confirmacion/:token',
-    component: TwoFAComponent,
-    resolve: { response: ConfirmCodeGuard },
-  }
 ];
 
 @NgModule({

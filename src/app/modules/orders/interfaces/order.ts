@@ -98,6 +98,8 @@ export interface Order {
   type: string;
   status: string;
   channel_id: number;
+  external_reference_type: 'vtex' | 'ml';
+  external_reference: string;
   client_id: number;
   shipping: number;
   subtotal: number;

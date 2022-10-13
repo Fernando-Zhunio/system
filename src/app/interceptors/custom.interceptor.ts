@@ -12,7 +12,6 @@ import { SwalService } from '../services/swal.service';
 import { StorageService } from '../services/storage.service';
 import { SharedService } from '../services/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-// import { Router } from '@angular/router';
 import { Token } from '../class/fast-data';
 
 @Injectable()
@@ -26,11 +25,12 @@ export class CustomInterceptor implements HttpInterceptor {
     let headers: any = new HttpHeaders();
     const isAuthenticated = this.s_storage.isAuthenticated();
     if (isAuthenticated) {
-      headers =  this.createHeader();
+      headers = this.createHeader();
     }
     if (SharedService.disabled_loader) {
       SharedService.disabled_loader = false;
     } else {
+      console.log(request.url);
       this.snackBar.open('Espere un momento...');
     }
 
@@ -45,8 +45,8 @@ export class CustomInterceptor implements HttpInterceptor {
         this.snackBar.dismiss();
         let message: string = '';
         message = err?.error?.hasOwnProperty('success') ? err.error.data : 'Error de servidor';
-        if (err.status === 401 || err.status === 403) {this.s_storage.logout();}
-        SwalService.swalToast( message, 'warning' )
+        if (err.status === 401 || err.status === 403) { message= 'No autenticado'; this.s_storage.logout(); }
+        SwalService.swalToast(message, 'warning')
         return throwError(err);
       })
     );

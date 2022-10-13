@@ -6,54 +6,30 @@ import {
   DATE_PIPE_DEFAULT_TIMEZONE,
 } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 // import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-
 
 import { AppComponent } from './app.component';
 
-// Import containers
 import { DefaultLayoutComponent } from './layout/default-layout/default-layout.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-// import { LoginComponent } from './modules/authenticate/pages/login/login.component';
-// import { RegisterComponent } from './views/register/register.component';
-// const APP_CONTAINERS = [DefaultLayoutComponent];
-// import {
-//   AppAsideModule,
-//   AppBreadcrumbModule,
-//   AppHeaderModule,
-//   AppFooterModule,
-//   AppSidebarModule,
-// } from '@coreui/angular';
-
-// Import routing module
 import { AppRoutingModule } from './app.routing';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-// import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
-
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-// import { RepricarMlModalComponent } from './modules/catalogo/components/repricar-ml-modal/repricar-ml-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MomentModule } from 'ngx-moment'; 
+import { MomentModule } from 'ngx-moment';
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
-// import { SelectProviderComponent } from './components/modals/select-provider/select-provider.component';
-// import { ActionProviderComponent } from './components/Sheet/action-provider/action-provider.component';
-// import { InvoiceItemModalComponent } from './components/modals/invoice-item-modal/invoice-item-modal.component';
-// import { CreateProviderOrContactComponent } from './components/modals/create-provider-or-contact/create-provider-or-contact.component';
-// import { SearchProductModalComponent } from './components/modals/search-product-modal/search-product-modal.component';
-// import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 import { SnackBarLoaderComponent } from './components/snack-bar-loader/snack-bar-loader.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -62,7 +38,6 @@ import { CustomReusingStrategy } from './class/custom-reusing-strategy';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-// import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
 import { AddInfoPersonModalComponent } from './components/modals/add-info-person-modal/add-info-person-modal.component';
 import { ChatTemplateComponent } from './components/chat-template/chat-template.component';
 import { ChatComponent } from './components/chat-template/chat/chat.component';
@@ -89,26 +64,15 @@ import { SidebarFzComponent } from './layout/sidebar-fz/sidebar-fz.component';
 import { HeaderFzComponent } from './layout/header-fz/header-fz.component';
 import { StorageService } from './services/storage.service';
 import { MatCardModule } from '@angular/material/card';
-// import { MatTableModule } from '@angular/material/table';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatSelectModule } from '@angular/material/select';
-// import { MatListModule } from '@angular/material/list';
-// import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatSidenavModule } from '@angular/material/sidenav';
-// import { NgxGalleryModule } from 'ngx-gallery-9';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { ConfigurationMenuComponent } from './layout/configuration-menu/configuration-menu.component';
-// import { MatDatepickerModule } from '@angular/material/datepicker';
-// import { MatNativeDateModule } from '@angular/material/core';
-// import { OverlayModule } from '@angular/cdk/overlay';
-// import { HeaderSearchModule } from './Modulos/header-search/header-search.module';
 
 
 function getPermissionAndVersionServer(_st: StorageService) {
   return () => {
-    return null;
+    console.log('getPermissionAndVersionServer');
+    return _st.init();
   };
 }
 
@@ -128,26 +92,15 @@ registerLocaleData(localeEs, 'es');
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    // MatFormFieldModule,
-    // MatSelectModule,
     FormsModule,
     MatDialogModule,
     MatCardModule,
     MomentModule,
-    // MatTableModule,
     MatListModule,
-    // MatBottomSheetModule,
-    // MatInputModule,
-    // MatSidenavModule,
-    // HeaderSearchModule,
-    // NgxGalleryModule,
     MatSnackBarModule,
     MatSlideToggleModule,
     MatBadgeModule,
     MatDialogModule,
-    // MatDatepickerModule,
-    // MatNativeDateModule,
-    // OverlayModule,
     InfiniteScrollModule,
     FilePondModule,
     MatTooltipModule,
@@ -171,18 +124,8 @@ registerLocaleData(localeEs, 'es');
     DefaultLayoutComponent,
     P404Component,
     P500Component,
-    // LoginComponent,
-    // RegisterComponent,
-    // RepricarMlModalComponent,
-    // SelectProviderComponent,
-    // ActionProviderComponent,
-    // InvoiceItemModalComponent,
-    // CreateProviderOrContactComponent,
-    // SearchProductModalComponent,
-    // RedirectToComponent,
     SnackBarLoaderComponent,
     OkLoginComponent,
-    // FormRecuperationPasswordComponent,
     AddInfoPersonModalComponent,
     ChatTemplateComponent,
     ChatComponent,
@@ -209,7 +152,8 @@ registerLocaleData(localeEs, 'es');
       useClass: CustomInterceptor,
       multi: true,
     },
-    { provide: RouteReuseStrategy, 
+    {
+      provide: RouteReuseStrategy,
       useClass: CustomReusingStrategy
     },
     {

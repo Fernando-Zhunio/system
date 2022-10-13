@@ -1,23 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OkLoginComponent } from './components/ok-login/ok-login.component';
-// import { RedirectToComponent } from './components/redirect-to/redirect-to.component';
 
 // Import Containers
 import { DefaultLayoutComponent } from './layout/default-layout/default-layout.component';
-import { AuthReverseGuard } from './guards/auth-reverse.guard';
 import { AuthGuard } from './guards/auth.guard';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-// import { LoginComponent } from './modules/authenticate/pages/login/login.component';
-// import { RegisterComponent } from './views/register/register.component';
 
-// import { FormRecuperationPasswordComponent } from './views/form-recuperation-password/form-recuperation-password.component';
-// import { RecuperatePasswordGuard } from './guards/recuperate-password.guard';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { P403Component } from './views/error/p403/p403.component';
 import { MainResolver } from './guards/resolvers/main.resolver';
+import { AuthReverseGuard } from './guards/auth-reverse.guard';
 export const routes: Routes = [
   {
     path: '',
@@ -38,45 +33,6 @@ export const routes: Routes = [
       title: 'Page 500'
     }
   },
-  // {
-  //   path: 'login',
-  //   component: LoginComponent,
-  //   data: {
-  //     title: 'Login Page',
-  //     guard: 'guest'
-  //   },
-  //   canActivate: [AuthReverseGuard]
-  // },
-  // {
-  //   path: 'recuperation-password',
-  //   component: FormRecuperationPasswordComponent,
-  //   resolve: { user: RecuperatePasswordGuard },
-  //   data: {
-  //     title: 'Recuperation password Page',
-  //     guard: 'guest'
-  //   },
-  // },
-  // {
-  //   path: 'auth',
-  // }
-
-  // {
-  //   path: 'register',
-  //   component: RegisterComponent,
-  //   data: {
-  //     title: 'Register Page',
-  //     guard: 'guest'
-  //   },
-  //   canActivate: [AuthReverseGuard]
-  // },
-  // {
-  //   path: 'redirect-to',
-  //   component: RedirectToComponent,
-  //   data: {
-  //     title: 'pageRedirect',
-  //     guard: 'guest'
-  //   },
-  // },
   {
     path: 'sesion-ml',
     component: OkLoginComponent,

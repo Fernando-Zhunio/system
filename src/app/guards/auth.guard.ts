@@ -4,17 +4,17 @@ import {
   // ActivatedRouteSnapshot,
   // RouterStateSnapshot,
   UrlTree,
-  Router,
+  // Router,
 } from "@angular/router";
 import { Observable } from "rxjs";
-import { PATH_LOGIN } from "../class/fast-data";
+// import { PATH_LOGIN } from "../class/fast-data";
 import { StorageService } from "../services/storage.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthGuard implements CanActivate {
-  constructor(private route: Router, private s_storage: StorageService) {}
+  constructor( private s_storage: StorageService) {}
   canActivate(
     // next: ActivatedRouteSnapshot,
     // state: RouterStateSnapshot
@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     if (this.s_storage.isAuthenticated()) {
       return true;
     }
-    this.route.navigate([PATH_LOGIN]);
+    this.s_storage.logout();
     return false;
   }
 }
