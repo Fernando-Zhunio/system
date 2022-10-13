@@ -52,7 +52,7 @@ import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
 import { OrderModule } from 'ngx-order-pipe';
 import { StoreModule } from '@ngrx/store';
-import { notificationsReducer } from './redux/reducers/notifications.reducer';
+// import { notificationsReducer } from './redux/reducers/notifications.reducer';
 import { pricesReducer } from './redux/reducers/price.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { preferenceReducer } from './redux/reducers/preference.reducer';
@@ -67,6 +67,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { ConfigurationMenuComponent } from './layout/configuration-menu/configuration-menu.component';
+import { notificationsReducer } from './redux/notifications/reducers/notifications.reducer';
+import { NotificationEffectService } from './redux/notifications/effects/notification.effect.service';
 
 
 function getPermissionAndVersionServer(_st: StorageService) {
@@ -111,7 +113,7 @@ registerLocaleData(localeEs, 'es');
     }),
     OrderModule,
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preferences: preferenceReducer }),
-    EffectsModule.forRoot([PreferenceEffects]),
+    EffectsModule.forRoot([PreferenceEffects, NotificationEffectService]),
     StoreDevtoolsModule.instrument({}),
     LoadingBarRouterModule,
   ],

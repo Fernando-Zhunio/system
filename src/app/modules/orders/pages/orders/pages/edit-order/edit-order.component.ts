@@ -82,34 +82,34 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     });
 
     this.orderService.init(this.id!)
-    .subscribe(data => {
-      if (data?.success) {
-        this.metaDataTransference = data.data?.order.additional_data?.transfers_status;
-        this.withTiming();
-        this.fillData();
+      .subscribe(data => {
+        if (data?.success) {
+          this.metaDataTransference = data.data?.order.additional_data?.transfers_status;
+          this.withTiming();
+          this.fillData();
+          this.spinner.hide();
+          this.detailClient = [
+            ['Ciudad', this.order?.client?.city],
+            ['País', this.order?.client?.country],
+            ['Estado', this.order?.client?.state],
+            ['Creado', this.order?.client?.created_at],
+            ['# Documento', this.order?.client?.doc_id],
+            ['Correo', this.order?.client?.email],
+            ['Nombres', this.order?.client?.first_name],
+            ['Apellidos', this.order?.client?.last_name],
+            ['Telefono', this.order?.client?.phone],
+          ]
+        }
+      }, err => {
         this.spinner.hide();
-        this.detailClient = [
-          ['Ciudad', this.order?.client?.city],
-          ['País', this.order?.client?.country],
-          ['Estado', this.order?.client?.state],
-          ['Creado', this.order?.client?.created_at],
-          ['# Documento', this.order?.client?.doc_id],
-          ['Correo', this.order?.client?.email],
-          ['Nombres', this.order?.client?.first_name],
-          ['Apellidos', this.order?.client?.last_name],
-          ['Telefono', this.order?.client?.phone],
-        ]
-      }
-    }, err => {
-      this.spinner.hide();
-      if (err.status === 500) {
-        SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Error al cargar la orden, por favor intente de nuevo recargando la pagina', confirmButtonText: 'Recargar la pagina' }).then(res => {
-          if (res.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      }
-    });
+        if (err.status === 500) {
+          SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Error al cargar la orden, por favor intente de nuevo recargando la pagina', confirmButtonText: 'Recargar la pagina' }).then(res => {
+            if (res.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -133,8 +133,8 @@ export class EditOrderComponent implements OnInit, OnDestroy {
 
   openGeneratedPDF(): void {
     const _order = JSON.parse(JSON.stringify(this.order));
-    this.dialog.open(PdfDetailOrderComponent,{
-      data: {order:  _order },
+    this.dialog.open(PdfDetailOrderComponent, {
+      data: { order: _order },
       width: '90%',
       maxWidth: '90%',
       maxHeight: '80%',
@@ -290,11 +290,11 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   editDataOrder(): void {
     this.dialog.open(EditDataOrderModalComponent, {
       data: {
-      order_id: this.order.id,
-      company_id: this.order.company.id,
-      seller_code: this.order.seller_code,
-      channel_id: this.order.channel_id,
-      type: this.order.type
+        order_id: this.order.id,
+        company_id: this.order.company.id,
+        seller_code: this.order.seller_code,
+        channel_id: this.order.channel_id,
+        type: this.order.type
       },
       disableClose: true,
     }).afterClosed().subscribe(data => {

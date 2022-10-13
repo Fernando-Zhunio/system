@@ -17,7 +17,7 @@ import { HttpEventType } from '@angular/common/http';
 import { SwPush } from '@angular/service-worker';
 import { ListPermissions } from '../../class/list-permissions';
 import { Store } from '@ngrx/store';
-import { addNotification, overrideNotification } from '../../redux/actions/notification.action';
+// import { addNotification, overrideNotification } from '../../redux/actions/notification.action';
 import { selectNotification } from '../../redux/state/state.selectors';
 import { generatePrice, idlePrice } from '../../redux/actions/price.action';
 // import { setPreference } from '../../redux/actions/preference.action';
@@ -29,6 +29,7 @@ import { INavData } from '../../interfaces/inav-data';
 import { takeUntil } from 'rxjs/operators';
 import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
 import { PreferencesService } from '../../core/services/preferences.service';
+import { NOTIFICATIONS_CREATE_POPUP, SET_NOTIFICATIONS } from '../../redux/notifications/actions/notifications.action';
 
 @Component({
   selector: 'app-dashboard',
@@ -162,10 +163,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   getNotification(): void {
     this.methodsHttp.methodGet('notifications/ajax').subscribe((res: any) => {
     if (res?.success) {
-      this.store.dispatch(overrideNotification({ notifications: res.data }));
+      this.store.dispatch(SET_NOTIFICATIONS({ notifications: res.data }));
       const notifications = res.data;
       if (notifications.length > 0) {
-        // ? Si hay notificaciones sin leer */
         const countNotification = notifications.filter((notification) => !notification.read_at).length;
         this.countNotificationUnRead = countNotification > 0 ? countNotification : null;
       }
@@ -264,36 +264,37 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.echo
       .private('App.Models.User.' + user.id)
       .notification((notify: INotification) => {
-        this.store.dispatch(addNotification({ notification: notify }));
+        console.log({notify});
+        this.store.dispatch(NOTIFICATIONS_CREATE_POPUP({ notification: notify }));
         if (notify.type == 'App\\Notifications\\NotificationPrice') {
           this.store.dispatch(generatePrice({ data: notify.data }));
         }
         if (notify.type === 'App\\Notifications\\ErrorPriceNotification') {
           this.store.dispatch(idlePrice());
         }
-        const notificationData = notify.data;
-        let name_user = 'System';
-        if (
-          notificationData.user.hasOwnProperty('person') &&
-          notificationData.user.person
-        ) {
-          name_user = `${notificationData.user.person.first_name} ${notificationData.user.person.last_name}`;
-        } else {
-          name_user = notificationData.user.name;
-        }
+        // const notificationData = notify.data;
+        // let name_user = 'System';
+        // if (
+        //   notificationData.user.hasOwnProperty('person') &&
+        //   notificationData.user.person
+        // ) {
+        //   name_user = `${notificationData.user.person.first_name} ${notificationData.user.person.last_name}`;
+        // } else {
+        //   name_user = notificationData.user.name;
+        // }
         if (this.countNotificationUnRead) {
           this.countNotificationUnRead = this.countNotificationUnRead + 1;
         }
-        const url = notificationData.route;
-        SwalService.swalToastNotification(
-          name_user,
-          notificationData.text,
-          notificationData.type,
-          notificationData.image,
-          url,
-          'top-end',
-          this.goRouteNotification.bind(this)
-        );
+        // const url = notificationData.route;
+        // SwalService.swalToastNotification(
+        //   name_user,
+        //   notificationData.text,
+        //   notificationData.type,
+        //   notificationData.image,
+        //   url,
+        //   'top-end',
+        //   this.goRouteNotification.bind(this)
+        // );
       });
   }
 

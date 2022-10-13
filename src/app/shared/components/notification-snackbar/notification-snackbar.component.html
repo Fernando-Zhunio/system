@@ -1,0 +1,10 @@
+<div>
+  <ng-container *ngIf="notification?.data?.image">
+    <img [src]="notification?.data?.image" alt="notification">
+  </ng-container>
+  <div>
+    <h3>{{ notification?.data?.title }}</h3>
+    <p>{{ notification?.data?.message }}</p>
+    <small>{{notification?.created_at | date:'medium'}}</small>
+  </div>
+</div>
