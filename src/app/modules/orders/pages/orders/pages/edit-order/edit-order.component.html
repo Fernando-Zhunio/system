@@ -55,7 +55,7 @@
       <div class="d-inline-block badge-fz badge-fz-green mt-2">
         <span>Orden autogenerada por el sistema desde:</span>
         <!-- <span>Desde: {{order?.external_reference_type}}</span> -->
-        <a target="_blank" [href]="urlVtexNovicompu + 'admin/orders/'+ order.external_reference" *ngIf="order?.external_reference_type === 'vtex'">{{order?.external_reference_type}} con numero # {{order.external_reference}}</a>
+        <a target="_blank" [href]="urlVtexNovicompu + 'admin/orders/'+ order.external_reference" *ngIf="order?.external_reference_type === 'vtex'">&nbsp;{{order?.external_reference_type}} con numero # {{order.external_reference}}</a>
       </div>
     </ng-container>
     <div>
