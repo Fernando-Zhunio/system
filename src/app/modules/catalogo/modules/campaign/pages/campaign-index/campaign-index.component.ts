@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { PermissionCampaigns } from '../../../../../../class/permissions-modules';
@@ -13,7 +13,7 @@ import { Campaign } from '../../interfaces/campaign';
 })
 export class CampaignIndexComponent extends MatTableHelper<Campaign> {
   protected columnsToDisplay: string[] = ['id', 'title', 'description', 'duration_type', 'start_date', 'end_date', 'status', 'created_at', 'actions'];
-  protected table: MatTable<any>;
+  @ViewChild(MatTable) table: MatTable<any>;
 
   url: string = 'catalogs/campaigns';
   constructor(
