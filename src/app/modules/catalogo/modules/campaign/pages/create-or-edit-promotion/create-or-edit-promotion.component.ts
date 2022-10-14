@@ -38,7 +38,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
     title: new FormControl('', [Validators.required]),
     description: new FormControl(''),
     status: new FormControl('', [Validators.required]),
-    price: new FormControl(1, [Validators.required]),
+    // price: new FormControl(1, [Validators.required]),
   });
   // currentKey: number
   // hiddenAddQuantity: boolean = true;
