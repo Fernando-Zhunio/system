@@ -30,7 +30,6 @@ export class CustomInterceptor implements HttpInterceptor {
     if (SharedService.disabled_loader) {
       SharedService.disabled_loader = false;
     } else {
-      console.log(request.url);
       this.snackBar.open('Espere un momento...');
     }
 
@@ -41,7 +40,6 @@ export class CustomInterceptor implements HttpInterceptor {
         this.snackBar.dismiss();
       }),
       catchError((err) => {
-        console.error(err);
         this.snackBar.dismiss();
         let message: string = '';
         message = err?.error?.hasOwnProperty('success') ? err.error.data : 'Error de servidor';

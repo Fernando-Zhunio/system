@@ -19,7 +19,7 @@ interface IDeliveryMessageListen {
 @Component({
   selector: 'app-chat-template',
   templateUrl: './chat-template.component.html',
-  styleUrls: ['./chat-template.component.css'],
+  styleUrls: ['./chat-template.component.scss'],
   animations: [trigger('fade', [
     transition(
       ':leave', [
@@ -179,7 +179,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   messageDeliveredListen(event: IDeliveryMessageListen): void {
-    // console.log('message_delivered', event);
     if (this.chats.has(event.chat_id)) {
       this.chats.get(event.chat_id)!.last_message!.is_delivered_for_all = event.is_delivered_for_all;
     }
@@ -191,13 +190,11 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   deleteMessage(event: { chat_id: string, message_id: string }) {
-    console.log('message_deleted', event);
     if (this.chatsbubble.has(event.chat_id)) {
       const messages = this.chatsbubble.get(event.chat_id)!.messages;
       const indexMsm = messages.findIndex(msm => msm._id === event.message_id);
       if (indexMsm > -1) {
         const msm = messages[indexMsm];
-        console.log('message_deleted', msm);
         msm.text = '🚫 Este mensaje fue eliminado por el remitente';
         msm.files = [];
         msm.links = [];
@@ -267,7 +264,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
     // * si no esta abierto el panel de chat suma uno en el icono del chat
-    console.log('getMessages', event);
 
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
@@ -367,9 +363,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
           this.users.set(x.id, { connected, id, name: _name, person, data: (null as any), img: this.getPhotoParticipant(person?.photo?.permalink, _name), index: this.index, messages: [], typing: false, });
         });
         this.page++;
-      },
-      (error) => {
-        console.log(error);
       }
     );
   }
@@ -386,9 +379,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
           this.bots.set(_id, { connected: 1, id: _id, name: info.name, person: null, data: (null as any), img: info.photo, index: this.index, messages: [], typing: false, });
         });
         this.page++;
-      },
-      (error) => {
-        console.log(error);
       }
     );
   }
@@ -424,7 +414,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         }
         const res = data.data as { chats: Ichats, messages: any[] };
         const _chat = this.users.get(user_id)!;
-        // console.log({ _chat });
         _chat.data = res.chats;
         _chat.id = res.chats._id;
         _chat.messages = [];
@@ -470,7 +459,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
     if (this.chats.has(chat_id)) {
       const chat = this.chats.get(chat_id)!;
-      // console.log(chat);
       const _name = chat?.data.name || chat?.data.participants[0].info.name;
 
       const newChat: IchatBubble = {
@@ -513,9 +501,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
           this.users.set(x.id, { connected, id, name: _name, person, data: null as any, img: this.getPhotoParticipant(person?.photo?.permalink, _name), index: this.index, messages: [], typing: false });
         });
         this.page++;
-      },
-      (error) => {
-        console.log(error);
       }
     );
   }

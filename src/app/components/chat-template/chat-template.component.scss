@@ -1,4 +1,3 @@
-
 .users-chats {
   height: calc(100vh - 125px);
   right: 0;
@@ -7,19 +6,18 @@
 
 .container-chat {
   height: calc(100vh - 65px);
-  background: white;
+  /* background: white; */
   position: fixed;
-    width: 250px;
-    right: 10px;
-    z-index: 100;
-    margin-right: 16px;
-    top: 58px;
-    border-radius: 20px;
-    overflow: auto;
-    
+  width: 260px;
+  right: 0px;
+  z-index: 100;
+  margin-right: 16px;
+  top: 58px;
+  border-radius: 20px;
+  overflow: auto;
 }
 
-.line-user{
+.line-user {
   line-height: 1.1;
 }
 
@@ -54,43 +52,50 @@
   /* transform: translateY(0%); */
 }
 
-.chat-info{
-  
+.chat-list-info {
   /* font-family: 'Red Hat Display' !important; */
-    line-height: 1.1;
-    font-weight: 500;
+  /* line-height: 1.1;
+  font-weight: 500;
+  font-size: 15px; */
+  text-transform: capitalize;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  .user-name {
     font-size: 15px;
+    font-weight: 500;
+    line-height: 1.1;
+    text-transform: capitalize;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .item-chat {
-  /* display: grid; */
   display: flex;
-    /* grid-template-columns: 43px calc(100% - 43px); */
-    align-items: center;
-    cursor: pointer;
+  align-items: center;
+  cursor: pointer;
 }
 
-.item-chat.rounded-fz:hover{
+.item-chat.rounded-fz:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   border: none !important;
 }
-/* .item-chat div{
-  font-family: "Red Hat Display";
-} */
 
 .badge-chat {
   position: absolute;
-    right: 5px;
+  right: 5px;
 }
 
 .badge-online {
   font-size: 10px;
-    position: absolute;
-    right: 3px;
-    border-radius: 50%;
-    width: 14px;
-    height: 14px;
-    top: 0px;
+  position: absolute;
+  right: 3px;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  top: 0px;
 }
 
 .chat-bubble-position-250 {
@@ -115,7 +120,7 @@
   }
 
   .chat-template {
-    width: calc( 100% - 10px );
+    width: calc(100% - 10px);
   }
 }
 
@@ -124,7 +129,7 @@
   width: 40px;
   border-radius: 50%;
   position: absolute;
-  top:-44px
+  top: -44px;
 }
 
 .active-mini-chat {
@@ -140,7 +145,7 @@
   position: absolute;
   top: -13px;
   right: 6px;
-  content: '●';
+  content: "●";
   font-size: 28px;
   color: #4caf50;
   text-shadow: 0px 1px 4px black;
@@ -148,11 +153,17 @@
 }
 
 .input-search-user {
-  padding: 5px 10px;
+  padding: 7px 10px;
   border-radius: 10px;
-  font-family: 'Montserrat';
   font-weight: bold;
   border: none;
   outline: none;
 }
 
+.btn-add-group-chat {
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
