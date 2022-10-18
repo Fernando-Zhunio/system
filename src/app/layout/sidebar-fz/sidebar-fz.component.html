@@ -1,6 +1,6 @@
 <div [ngClass]="{'d-none': hiddenMenu}" class="h-100">
   <div class="overlay d-md-none d-block"></div>
-  <nav [ngClass]="{'icon-only-container': onlyIcons}" class="content-sidebar h-100">
+  <nav [ngClass]="{'icon-only-container': onlyIcons}" class="content-sidebar content-size">
     <div class="user-item">
       <span>
         <img [src]="urlImg">
@@ -13,19 +13,34 @@
       <div [hidden]="onlyIcons" class="position-relative search-page-container">
         <input #inputSearchPage (keydown)="searchPage($event)" type="text" class="search-page"
           placeholder="Buscar pagina">
-        <button (click)="searchPage($event)"  mat-icon-button class=" btn-search-page"><mat-icon class="text-muted">search</mat-icon></button>
+        <button (click)="searchPage($event)"  mat-icon-button class="btn-search-page"><mat-icon class="text-muted">search</mat-icon></button>
       </div>
     </div>
     <ul class="scrollbar-sidebar-fz">
+      <ng-container *ngIf="favoriteItems.size > 0">
+        <li [hidden]="onlyIcons">
+          <span class="title text-danger">Favoritos <i class="fa-regular fa-heart"></i></span>
+        </li>
+        <li *ngFor="let favoriteItem of favoriteItems | keyvalue" routerLinkActive="active">
+          <a [routerLink]="[favoriteItem.value.url]" [href]="favoriteItem.value.url">
+            <span>
+              <i [class]="favoriteItem.value.icon"></i>
+              <span [hidden]="onlyIcons">&nbsp; {{favoriteItem.value.name}}</span>
+            </span>
+            <button [hidden]="onlyIcons" (click)="addFavoriteItem(favoriteItem.value.id, $event)" class="content-sidebar btn-start"><i [ngClass]="favoriteItems.has(favoriteItem.key) ? 'fa-solid text-danger': 'fa-regular'" class=" fa-heart"></i></button>
+          </a>
+        </li>
+      </ng-container>
+      
       <li routerLinkActive="active" *ngFor="let item of items">
         <span [hidden]="onlyIcons" class="title" *ngIf="item?.title; else TemplateLink">{{item.name}}</span>
         <ng-template #TemplateLink>
-          <a [routerLink]="[item.url]"   [href]="item.url">
+          <a [routerLink]="[item.url]" [href]="item.url">
             <span>
-              <i [ngClass]="{'icon-only-size': onlyIcons}" [class]="item.icon"></i>
+              <i [class]="item.icon"></i>
               <span [hidden]="onlyIcons">&nbsp; {{item.name}}</span>
             </span>
-            <button (click)="addFavoriteItem(item.id)" class="btn-start"><i class="fa-regular fa-star"></i></button>
+            <button [hidden]="onlyIcons" (click)="addFavoriteItem(item.id, $event)" class="content-sidebar btn-start"><i [ngClass]="favoriteItems.has(item.id) ? 'fa-solid text-danger': 'fa-regular'" class=" fa-heart"></i></button>
           </a>
         </ng-template>
       </li>

@@ -1,8 +1,13 @@
 .content-sidebar {
+  
+  background: #efebeb;
+}
+
+.content-size {
   width: 200px;
   z-index: 2;
   position: relative;
-  background: #efebeb;
+  height: 100%;
 }
 
 .content-sidebar .scrollbar-sidebar-fz li a {
@@ -15,15 +20,14 @@
 
 .content-sidebar .scrollbar-sidebar-fz {
   padding: 8px;
-  
   li {
     position: relative;
     .btn-start {
+      display: none;
       position: absolute;
       right: 10px;
       border: none;
       border-radius: 5px;
-      background: floralwhite;
       i {
         font-size: 14px;
         color: gray;
@@ -31,6 +35,11 @@
     }
   }
 }
+
+.content-sidebar .scrollbar-sidebar-fz li:hover .btn-start {
+  display: inline-block;
+}
+
 .icon-only-size {
   font-size: 1.1rem;
 }

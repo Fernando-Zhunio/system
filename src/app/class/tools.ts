@@ -70,3 +70,12 @@ function getBase64Image(img: HTMLImageElement) {
 
   return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
+
+export function convertArrayOfObjectToMap<T = any>(array: Array<T> | null | undefined, key) {
+  if(!array || array?.length < 1) return new Map();
+  const map = new Map();
+  array.forEach(item => {
+    map.set(item[key], item);
+  });
+  return map;
+}

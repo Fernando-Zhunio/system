@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { convertArrayOfObjectToMap } from '../../class/tools';
+import { PreferencesTypes } from '../../core/enums/preferences-types';
+import { Preferences } from '../../core/interfaces/preferences';
 import { INavData } from '../../interfaces/inav-data';
+import { setPreference } from '../../redux/actions/preference.action';
+import { selectPreference } from '../../redux/state/state.selectors';
 import { StorageService } from '../../services/storage.service';
 import { User } from '../../shared/interfaces/user';
 
@@ -23,9 +30,9 @@ export class SidebarFzComponent implements OnInit {
   hiddenMenu: boolean = false;
   isMobile: boolean = false;
 
-  favoriteItems: INavData[] = [];
+  favoriteItems: Map<number, INavData> = new Map();
 
-  constructor(public storage: StorageService, ) {
+  constructor(public storage: StorageService, private store: Store ) {
     this.user = this.storage.getCurrentUser();
     this.name = this.user!.person?.first_name || this.user.name;
     this.urlImg = this.user?.person?.photo?.permalink || `https://ui-avatars.com/api/?background=random&name=${this.name}` ;
@@ -36,6 +43,15 @@ export class SidebarFzComponent implements OnInit {
     if (width < 600) {
       this.hiddenMenu = true;
     }
+  }
+
+  getFavorites(_take = 1) {
+    this.store.select(selectPreference).pipe(take(_take)).subscribe((preference: Preferences) => {
+      console.log({preference});
+      if (preference) {
+        this.favoriteItems = convertArrayOfObjectToMap(preference?.favorites_items_nav, 'id')  || new Map();
+      }
+    });
   }
 
   searchPage(e): void {
@@ -58,10 +74,18 @@ export class SidebarFzComponent implements OnInit {
     // return this.hiddenMenu;
   }
 
-  addFavoriteItem(id: number): void {
+  addFavoriteItem(id: number, $event): void {
+    $event.stopPropagation();
+    $event.preventDefault()
     const item = this.items.find((item: any) => item.id === id);
     if (item) {
-      this.favoriteItems.push(item);
+      if(this.favoriteItems.has(id)) {
+        this.favoriteItems.delete(id);
+      } else {
+        this.favoriteItems.set(id, item);
+      }
+      this.store.dispatch(setPreference({preference: PreferencesTypes.FAVORITES_ITEMS_NAV, value: Array.from(this.favoriteItems.values())}));
+      // this.favoriteItems.push(item);
     }
   }
 }

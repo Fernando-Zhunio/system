@@ -6,6 +6,7 @@ export interface Preferences {
     dashboard_dates: PreferenceDashboard | null;
     'user.order_system.work_space'?: string | null;
     app_warehouses_export?: string | null;
+    favorites_items_nav?: any[] | null;
 }
 
 export interface PreferenceDashboard {
