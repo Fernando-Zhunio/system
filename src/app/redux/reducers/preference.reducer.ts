@@ -7,19 +7,19 @@ export const initialState: Preferences = {
     general_notification_sound: 'off',
     general_notification_webpush: 'off',
     general_notification_whatsapp: 'off',
-    dashboard_dates: null 
+    dashboard_dates: null,
 };
 
 const _preferenceReducer = createReducer(
     initialState,
     // on(RefreshPreferenceSuccess, (_state, {preferences}) => preferences),
     on(setPreference, (state, { preference, value } ) => {
-        console.log({preference, value, state})
        const newState = {...state, [preference]: value};
-       console
        return newState;
     }),
-    on(setPreferences, (_state, { preferences } ) => preferences),
+    on(setPreferences, (_state, { preferences } ) =>  {
+        return {..._state, ...preferences};
+    }),
 );
 
 export function preferenceReducer(state, action) {

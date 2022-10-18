@@ -17,6 +17,7 @@ export interface Notification {
     type?: string;
     read_at?: string;
     created_at?: string;
+    callback?: Function;
 }
 
 export interface UserNotification {

@@ -27,7 +27,7 @@
               <li
                 (click)="openChatOfChat(chat.key)"
                 *ngFor="let chat of chats | keyvalue | orderBy: '.value.last_message.created_at':true"
-                class="m-1 my-2 p-2 rounded-fz item-chat">
+                class="m-1 p-2 rounded-fz item-chat">
                 <div class="text-truncate item-chat position-relative">
                   <ng-container *ngIf="chat.value.data.type === 'group'; else elseTemplate">
                     <span class="position-relative">
@@ -72,8 +72,11 @@
                       <div class="font-weight-bold text-truncate">{{ chat.value.name }}</div>
                       <ng-container *ngIf="chat.value?.last_message">
                         <div class="text-truncate font-sm text-muted">
-                          <div>
-                            <i *ngIf="chat.value?.last_message?.files?.length > 0" class="fas fa-file-alt"></i>
+                          <div class="text-truncate">
+                            <ng-container *ngIf="chat.value?.last_message?.files?.length > 0">
+                              <i class="fas fa-file-alt"></i>
+                              <span text-info>(Archivo)</span>
+                            </ng-container>  
                             <span>{{ chat.value?.last_message?.text }}</span>
                           </div>
                           <ng-container *ngIf="!chat.value.typing; else typingTemplate">
@@ -125,17 +128,18 @@
         (scrolled)="onScroll(searchUser.value)"
         [scrollWindow]="false">
         <div class="position-relative p-0 m-0">
-          <div class="bg-gray-100 sticky-top p-3">
+          <div class="content-input-user sticky-top p-3">
             <input
               #searchUser
               (keyup.enter)="getAllUsers($event.target.value)"
               class="input-search-user w-100"
               type="search"
               placeholder="Buscador de usuarios" />
+            <button mat-icon-button><i class="fa-solid fa-magnifying-glass"></i></button>
           </div>
-          <ul [hidden]="users.size < 1" class="list-group">
+          <ul [hidden]="users.size < 1" class="list-group px-3">
             <li
-              class="d-flex align-items-center item-chat rounded-0"
+              class="d-flex align-items-center item-chat rounded-0 py-1"
               (click)="openChatUser(user.key, user.value?.id)"
               *ngFor="let user of users | keyvalue">
               <span [ngClass]="{ 'chat-inline': user.value.connected }">

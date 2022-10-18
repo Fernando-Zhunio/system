@@ -3,7 +3,6 @@
   z-index: 2;
   position: relative;
   background: #efebeb;
-
 }
 
 .content-sidebar .scrollbar-sidebar-fz li a {
@@ -16,6 +15,21 @@
 
 .content-sidebar .scrollbar-sidebar-fz {
   padding: 8px;
+  
+  li {
+    position: relative;
+    .btn-start {
+      position: absolute;
+      right: 10px;
+      border: none;
+      border-radius: 5px;
+      background: floralwhite;
+      i {
+        font-size: 14px;
+        color: gray;
+      }
+    }
+  }
 }
 .icon-only-size {
   font-size: 1.1rem;
@@ -30,13 +44,14 @@
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
   padding-top: 10px !important;
   padding-bottom: 11px !important;
-  position: sticky;
-  top: 20px;
   color: white;
 }
 
 a {
-  color: #7D84A0;
+  color: #7d84a0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .title {

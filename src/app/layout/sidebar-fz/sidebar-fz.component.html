@@ -20,7 +20,13 @@
       <li routerLinkActive="active" *ngFor="let item of items">
         <span [hidden]="onlyIcons" class="title" *ngIf="item?.title; else TemplateLink">{{item.name}}</span>
         <ng-template #TemplateLink>
-          <a [routerLink]="[item.url]"   [href]="item.url"><i [ngClass]="{'icon-only-size': onlyIcons}" [class]="item.icon"></i><span [hidden]="onlyIcons">&nbsp; {{item.name}}</span></a>
+          <a [routerLink]="[item.url]"   [href]="item.url">
+            <span>
+              <i [ngClass]="{'icon-only-size': onlyIcons}" [class]="item.icon"></i>
+              <span [hidden]="onlyIcons">&nbsp; {{item.name}}</span>
+            </span>
+            <button (click)="addFavoriteItem(item.id)" class="btn-start"><i class="fa-regular fa-star"></i></button>
+          </a>
         </ng-template>
       </li>
     </ul>

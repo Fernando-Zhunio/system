@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { SoundNotification } from '../../../shared/class/sound-notification';
 import { NotificationSnackbarComponent } from '../../../shared/components/notification-snackbar/notification-snackbar.component';
 // import { Notification } from '../../../shared/interfaces/notification';
 import { ADD_NOTIFICATIONS, NOTIFICATIONS_CREATE_POPUP } from '../actions/notifications.action';
@@ -13,7 +14,7 @@ import { ADD_NOTIFICATIONS, NOTIFICATIONS_CREATE_POPUP } from '../actions/notifi
 })
 export class NotificationEffectService {
 
-  constructor(private actions$: Actions, private snackbar: MatSnackBar) { }
+  constructor(private actions$: Actions, private snackbar: MatSnackBar, private _sn: SoundNotification) { }
 
   createNotification$ = createEffect(() => this.actions$.pipe(
     ofType(NOTIFICATIONS_CREATE_POPUP),
@@ -25,21 +26,12 @@ export class NotificationEffectService {
   ));
 
   generateSweetAlertNotification(notification: any) {
-    // const fire = Swal.mixin({
-    //   toast: true,
-    //   position: 'bottom-end',
-    // });
-    // Swal.fire({
-    //   title: 'Sweet!',
-    //   text: 'Modal with a custom image.',
-    //   imageUrl: 'https://unsplash.it/400/200',
-    //   imageWidth: 50,
-    //   imageHeight: 50,
-    //   imageAlt: 'Custom image',
-    //   position: 'top-end'
-    // });
+    this._sn.play();
     this.snackbar.openFromComponent(NotificationSnackbarComponent, {
       data: notification,
-    });
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      duration: 4000,
+    }, );
   }
 }

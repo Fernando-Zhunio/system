@@ -28,7 +28,7 @@ import { MethodsHttpService } from '../../services/methods-http.service';
 import { INavData } from '../../interfaces/inav-data';
 import { takeUntil } from 'rxjs/operators';
 import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
-import { PreferencesService } from '../../core/services/preferences.service';
+// import { PreferencesService } from '../../core/services/preferences.service';
 import { NOTIFICATIONS_CREATE_POPUP, SET_NOTIFICATIONS } from '../../redux/notifications/actions/notifications.action';
 
 @Component({
@@ -48,7 +48,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     public sw_push: SwPush,
     private store: Store,
     private activatedRoute: ActivatedRoute,
-    private preferencesServices: PreferencesService,
+    // private preferencesServices: PreferencesService,
   ) {
     this.notifications$ = this.store.select(selectNotification);
   }
@@ -194,13 +194,13 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  getPreferences(): void {
-    this.preferencesServices.getPreferences().subscribe((res: any) => {
-      if (res) {
+  // getPreferences(): void {
+  //   this.preferencesServices.getPreferences().subscribe((res: any) => {
+  //     if (res) {
         
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
 
   getPermissionAndVersionServer(res): void {
     if (res?.success) {

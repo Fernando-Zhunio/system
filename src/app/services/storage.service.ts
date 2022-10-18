@@ -22,33 +22,34 @@ export class StorageService {
   constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {
   }
 
-  init(): boolean {
-    try {
-      const sessionOrFalse: Session | boolean = this.getCurrentSessionLocalStorage();
-      if (sessionOrFalse) {
-        this.currentSession = sessionOrFalse as Session;
-        Token.setToken = this.getCurrentToken() as string;
-        UserFast.setUser = this.getCurrentUser() as User;
-        this.permissions = this.getPermissions();
-        if (this.permissions) {
-          this.s_permissionsService.loadPermissions(this.permissions);
-        }
-        return true;
-      } else {
-        const isAuthPath = window.location.href.includes('authentication');
-        if (!isAuthPath) {
-          this.router.navigate([PATH_LOGIN]);
-        }
-        return false;
-      }
-    } catch (error) {
-      const isAuthPath = window.location.href.includes('authentication');
-      if (!isAuthPath) {
-        this.router.navigate([PATH_LOGIN]);
-      }
-      return false;
-    }
-  }
+  // init(): boolean {
+  //   try {
+  //     const sessionOrFalse: Session | null = this.getCurrentSessionLocalStorage();
+  //     if (sessionOrFalse) {
+  //       this.currentSession = sessionOrFalse as Session;
+  //       Token.setToken = this.getCurrentToken() as string;
+  //       UserFast.setUser = this.getCurrentUser() as User;
+  //       this.permissions = this.getPermissions();
+  //       if (this.permissions) {
+  //         this.s_permissionsService.loadPermissions(this.permissions);
+  //       }
+  //       return true;
+  //     } else {
+  //       const isAuthPath = window.location.href.includes('authentication');
+  //       console.log(window.location.href);
+  //       if (!isAuthPath) {
+  //         this.router.navigate([PATH_LOGIN]);
+  //       }
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     const isAuthPath = window.location.href.includes('authentication');
+  //     if (!isAuthPath) {
+  //       this.router.navigate([PATH_LOGIN]);
+  //     }
+  //     return false;
+  //   }
+  // }
 
   setCurrentSession(session: Session): void {
     this.currentSession = session;
@@ -57,40 +58,40 @@ export class StorageService {
     UserFast.setUser = this.currentSession.user;
   }
 
+  setSession(session: Session): void {
+    this.currentSession = session;
+  }
+
   setCurrentUser(user: User): void {
     const session: Session = this.getCurrentSession() as Session;
     session.user = user;
     this.setCurrentSession(session);
   }
 
-
   getCurrentSession(): Session {
     return this.currentSession!;
   }
 
-  getCurrentSessionLocalStorage(): Session | boolean {
+  getCurrentSessionLocalStorage(): Session | null {
     const dataConvert = this.decryptAes(localStorage.getItem('session'));
     if (dataConvert) {
       return JSON.parse(dataConvert);
     }
-    return false;
+    return null;
   }
 
   getCurrentUser(): User {
     return this.currentSession!.user;
-    // const session: Session = this.getCurrentSession() as Session;
-    // return (session && session.user) ? session.user : null;
   }
 
   getCurrentPerson(): Person | null {
     return this.currentSession?.user?.person || null;
-    // const session = this.getCurrentSession() as Session;
-    // return session.user.person || null;
   }
 
   setPermission(permissions: any[]) {
     localStorage.setItem('permissions', this.encryptedAes(JSON.stringify(permissions)));
     this.s_permissionsService.loadPermissions(permissions);
+    this.permissions = permissions;
   }
 
   getPermissions(): string[] | null {
@@ -111,8 +112,6 @@ export class StorageService {
 
   getCurrentToken(): string {
     return this.currentSession!.token;
-    // const session = this.getCurrentSession() as Session;
-    // return session?.token || false;
   }
 
   getItemLocalStorage(key): any {

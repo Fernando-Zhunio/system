@@ -22,7 +22,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
-import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -69,14 +69,46 @@ import { MatListModule } from '@angular/material/list';
 import { ConfigurationMenuComponent } from './layout/configuration-menu/configuration-menu.component';
 import { notificationsReducer } from './redux/notifications/reducers/notifications.reducer';
 import { NotificationEffectService } from './redux/notifications/effects/notification.effect.service';
+import { MatSliderModule } from '@angular/material/slider';
+import { Token, User } from './class/fast-data';
+import { SoundNotification } from './shared/class/sound-notification';
 
 
-function getPermissionAndVersionServer(_st: StorageService) {
+function initializer(_st: StorageService, s_permissions: NgxPermissionsService, _sn: SoundNotification) {
   return () => {
-    console.log('getPermissionAndVersionServer');
-    return _st.init();
+    try {
+      const session = _st.getCurrentSessionLocalStorage();
+      if (session) {
+        _st.setSession(session);
+        Token.setToken = _st.getCurrentToken();
+        User.setUser = _st.getCurrentUser();
+        loadPermissions(_st, s_permissions);
+        initSoundNotification(_st, _sn);
+      } else {
+        const isAuthPath = window.location.href.includes('authentication');
+        console.log(window.location.href);
+        if (!isAuthPath) {
+          _st.logout();
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      _st.logout();
+    }
   };
 }
+
+function loadPermissions(_st: StorageService, s_permissions: NgxPermissionsService) {
+  const permissions = _st.getPermissions();
+  if (permissions) {
+    s_permissions.loadPermissions(permissions);
+  }
+}
+
+function initSoundNotification(_st: StorageService, _sn: SoundNotification) {
+    _sn.initVolume(_st);
+}
+
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -114,8 +146,19 @@ registerLocaleData(localeEs, 'es');
     OrderModule,
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preferences: preferenceReducer }),
     EffectsModule.forRoot([PreferenceEffects, NotificationEffectService]),
-    StoreDevtoolsModule.instrument({}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: false,
+      features: {
+        pause: false,
+        lock: true,
+        persist: true,
+        dispatch: true,
+        test: true
+      }
+    }),
     LoadingBarRouterModule,
+    MatSliderModule
   ],
   declarations: [
     SidebarFzComponent,
@@ -160,9 +203,9 @@ registerLocaleData(localeEs, 'es');
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: getPermissionAndVersionServer,
+      useFactory: initializer,
       multi: true,
-      deps: [StorageService]
+      deps: [StorageService, NgxPermissionsService, SoundNotification],
     },
 
     { provide: DATE_PIPE_DEFAULT_TIMEZONE, useValue: "GMT-5" },

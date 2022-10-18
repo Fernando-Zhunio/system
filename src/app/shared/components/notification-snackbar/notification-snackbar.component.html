@@ -1,10 +1,11 @@
-<div>
+<div (click)="action()" class="center cp">
   <ng-container *ngIf="notification?.data?.image">
-    <img [src]="notification?.data?.image" alt="notification">
+    <img class="img-notification mt-2" [src]="notification?.data?.image" alt="notification">
   </ng-container>
   <div>
-    <h3>{{ notification?.data?.title }}</h3>
-    <p>{{ notification?.data?.message }}</p>
-    <small>{{notification?.created_at | date:'medium'}}</small>
+    <small>{{notification.data?.user.name}}</small>
+    <h3 class="m-0 text-warning">{{ notification?.data?.title }}</h3>
+    <p class="m-0">{{ notification?.data?.text }}</p>
+    <small class="text-info">{{notification?.created_at | date:'medium'}}</small>
   </div>
 </div>

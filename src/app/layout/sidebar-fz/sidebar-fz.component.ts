@@ -23,25 +23,17 @@ export class SidebarFzComponent implements OnInit {
   hiddenMenu: boolean = false;
   isMobile: boolean = false;
 
-  constructor(public storage: StorageService) {
+  favoriteItems: INavData[] = [];
+
+  constructor(public storage: StorageService, ) {
     this.user = this.storage.getCurrentUser();
     this.name = this.user!.person?.first_name || this.user.name;
     this.urlImg = this.user?.person?.photo?.permalink || `https://ui-avatars.com/api/?background=random&name=${this.name}` ;
   }
 
-  // getLastNameFirstLetter(full_name: string): string {
-  //   const preName = full_name.split(' ');
-  //   let name = preName[0];
-  //   if (preName.length > 1) {
-  //     name += ' ' + preName[1][0];
-  //   }
-  //   return name;
-  // }
-
   ngOnInit() {
     const width = window.innerWidth;
     if (width < 600) {
-      // this.isMobile = true;
       this.hiddenMenu = true;
     }
   }
@@ -64,6 +56,13 @@ export class SidebarFzComponent implements OnInit {
     this.hiddenMenu = !this.hiddenMenu;
     this.hiddenSidebar.emit(this.hiddenMenu);
     // return this.hiddenMenu;
+  }
+
+  addFavoriteItem(id: number): void {
+    const item = this.items.find((item: any) => item.id === id);
+    if (item) {
+      this.favoriteItems.push(item);
+    }
   }
 }
 
