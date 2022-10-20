@@ -2,27 +2,10 @@ button {
   outline: none;
 }
 
-.dark {
-  color: gray;
-}
-
-.not-dark {
-  color: goldenrod;
-}
 
 .disabled {
   pointer-events: none;
   cursor: default;
-}
-
-.bg-error {
-  background: red;
-  color: white;
-}
-
-.custom-menu-notification {
-  max-height: 80vmax;
-  padding-bottom: 0 !important;
 }
 
 .custom-avatar {
@@ -51,22 +34,6 @@ button {
 .action-notification:hover {
   background-color: white !important;
   border-top: 1px solid #c8ced3 !important;
-}
-
-.progress-download {
-  line-height: 1;
-  font-family: "Montserrat";
-  font-weight: 800;
-  position: absolute;
-  bottom: 18px;
-  left: 25px;
-  background: aqua;
-  display: inline-block;
-  height: 20px;
-  border-radius: 9px;
-  padding: 5px;
-  z-index: 1;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
 .search-page {
@@ -106,29 +73,14 @@ button {
   height: 37px;
 }
 
-.content-menu {
-  white-space: initial; line-height: 1.3
-}
 
-.text-name {
-  color: cadetblue;
-}
-
-.menu-header {
-  font-weight: bold;
-  font-family: system-ui;
-  font-size: 1.75rem !important;
-}
 
 .sidebar1 {
   position: fixed;
-    z-index: 1019;
-    /* width: 200px; */
-    height: 100vh;
-    height: calc(100vh - 55px);
-    top: 55px;
-
-    /* overflow: hidden; */
+  z-index: 1019;
+  height: 100vh;
+  height: calc(100vh - 55px);
+  top: 55px;
 }
 
 @media screen and (min-width: 600px) {
@@ -137,10 +89,8 @@ button {
   }
 }
 
-
-
 .minimize-sidebar {
-  margin-left: 60px
+  margin-left: 60px;
 }
 
 .app-header-fz {

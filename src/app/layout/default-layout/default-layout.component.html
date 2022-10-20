@@ -8,7 +8,7 @@
       <i [ngClass]="{ 'text-muted': !isDark }" class="fa-regular fa-moon text-white icon-size"></i>
     </li>
     <li class="nav-item">
-      <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
+      <!-- <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
         <i
           class="fa-regular fa-bell icon-size"
           #IconNotify
@@ -47,7 +47,8 @@
             </div>
           </div>
         </ng-template>
-      </mat-menu>
+      </mat-menu> -->
+      <app-menu-notifications></app-menu-notifications>
     </li >
     
     <li class="nav-item">

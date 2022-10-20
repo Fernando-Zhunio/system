@@ -1,0 +1,10 @@
+<span *ngIf="show" class="spinner-loader-file shadow main-style p-3">
+  <span class="mr-2">{{ text }}</span>
+  <span class="container-percent">
+    <span class="percent badge-fz" [hidden]="!percent">{{percent}}</span>
+    <span class="center">
+      <span class="spinner"></span>
+      <i class="fa-solid fa-download"></i>
+    </span>
+  </span>
+</span>

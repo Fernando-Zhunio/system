@@ -79,3 +79,4 @@ export function convertArrayOfObjectToMap<T = any>(array: Array<T> | null | unde
   });
   return map;
 }
+

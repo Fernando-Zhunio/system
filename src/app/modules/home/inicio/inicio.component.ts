@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Cperson } from '../../../class/cperson';
+import { User } from '../../../class/fast-data';
 import { INotification } from '../../../interfaces/inotification';
 import { selectNotification } from '../../../redux/state/state.selectors';
-import { StandartSearchService } from '../../../services/standart-search.service';
-import { StorageService } from '../../../services/storage.service';
+import { MethodsHttpService } from '../../../services/methods-http.service';
 import { Inewsletter } from './../../../interfaces/inewsletter';
 
 @Component({
@@ -14,22 +13,16 @@ import { Inewsletter } from './../../../interfaces/inewsletter';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent implements OnInit {
+export class InicioComponent implements OnInit, OnDestroy {
 
-  person: Cperson = new Cperson();
-  notifications$: Observable<INotification[]>;
-  constructor(private s_storage: StorageService, private s_standart: StandartSearchService, store: Store) {
-    this.notifications$ = store.select(selectNotification);
-   }
+  constructor(private sm: MethodsHttpService, private store: Store) {
+  }
 
-  categoriesCount: number;
-  brandCount: number;
-  productsCount: number;
   newsletters: Inewsletter[] = [];
   icon_url: string;
   date = new Date().getTime();
   notifications: INotification[] = [];
-  suscription_notifications: Subscription;
+  subscriptionNotifications: Subscription;
   weather_key = environment.weather_key;
   weather_date: {
     'coord': {
@@ -122,25 +115,32 @@ export class InicioComponent implements OnInit {
       'id': 3657509,
       'name': 'Guayaquil',
       'cod': 200
-    };
-  city: string;
-
+  };
+  user: User;
 
   ngOnInit(): void {
-    this.person.first_name = this.s_storage.getCurrentUser()!?.name;
-    this.city = this.person?.city?.name || 'guayaquil';
-
-
+    this.user = User.getInstance();
     this.getDataWeather();
-    this.s_standart.index('home').subscribe(res => {
-      if (res && res.hasOwnProperty('success') && res.success) {
+    this.sm.methodGet('home').subscribe(res => {
+      if (res?.success) {
         this.newsletters = res.data.newsletter;
       }
+    });
+    this.getNotification();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionNotifications?.unsubscribe();
+  }
+
+  getNotification(): void {
+    this.subscriptionNotifications = this.store.select(selectNotification).subscribe(res => {
+      this.notifications = res;
     });
   }
 
   getDataWeather(): void {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&lang=es&units=metric&appid=${this.weather_key}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.user?.person?.city?.name || 'Guayaquil'}&lang=es&units=metric&appid=${this.weather_key}`;
     fetch(url).then(res => res.json()).then(res => {
       this.weather_date = res;
       this.icon_url = `assets/weather/${this.weather_date.weather[0].main.toLowerCase()}.svg`

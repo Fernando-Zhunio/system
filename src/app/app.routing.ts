@@ -11,7 +11,7 @@ import { P500Component } from './views/error/500.component';
 
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { P403Component } from './views/error/p403/p403.component';
-import { MainResolver } from './guards/resolvers/main.resolver';
+// import { MainResolver } from './guards/resolvers/main.resolver';
 import { AuthReverseGuard } from './guards/auth-reverse.guard';
 export const routes: Routes = [
   {
@@ -53,7 +53,7 @@ export const routes: Routes = [
       title: 'Home'
     },
     canActivate: [AuthGuard],
-    resolve: {res: MainResolver},
+    // resolve: {res: MainResolver},
     children: [
       {
         path: 'home',

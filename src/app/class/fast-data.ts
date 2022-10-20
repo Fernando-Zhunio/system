@@ -1,3 +1,8 @@
+import { PreferencesTypes } from "../core/enums/preferences-types";
+import { Preferences as IPreferences } from "../core/interfaces/preferences";
+import { Person } from "../shared/interfaces/person";
+import { User as IUser } from "../shared/interfaces/user";
+
 export class Token {
     private static token: string;
 
@@ -11,27 +16,65 @@ export class Token {
 }
 
 export class User {
-    private static user: User;
-
-    static get getUser(): User {
-        return this.user;
-    }
-
-    static set setUser(user: User) {
-        this.user = user;
+    private static instance: User;
+    id: number;
+    name: string;
+    email: string;
+    person: Person;
+    private constructor() { }
+    public static getInstance(): User {
+        if (!User.instance) {
+            User.instance = new User();
+        }
+        return User.instance;
     }
 }
 
-export class Preferences {
-    private static preferences: Map<string, any> = new Map();
+export function fillUser(user: IUser): void {
+    User.getInstance().id = user.id;
+    User.getInstance().name = user.name;
+    User.getInstance().email = user.email;
+    User.getInstance().person = user.person;
+}
 
-    static get getPreferences(): Map<string, any> {
+
+export class Preferences {
+    private static preferences: Preferences;
+    private preferences: IPreferences = {
+        general_notification_email: 'off',
+        general_notification_sound: 'off',
+        general_notification_webpush: 'off',
+        general_notification_whatsapp: 'off',
+        dashboard_dates: null,
+        [PreferencesTypes.FAVORITES_ITEMS_NAV]: [],
+        enable_notifications_popup: false
+    };
+
+    get(): IPreferences {
         return this.preferences;
     }
 
-    static set setPreferences(preferences: Map<string, any>) {
+    set(preferences: IPreferences): void {
         this.preferences = preferences;
     }
+
+    private constructor() { }
+
+    public static getInstance(): Preferences {
+        if (!Preferences.preferences) {
+            Preferences.preferences = new Preferences();
+        }
+        return Preferences.preferences;
+    }
 }
+
+//     // static get getPreferences(): Map<string, any> {
+//     //     return this.preferences;
+//     // }
+
+//     // static set setPreferences(preferences: Map<string, any>) {
+//     //     this.preferences = preferences;
+//     // }
+// }
 
 export const PATH_LOGIN = '/authentication/login';

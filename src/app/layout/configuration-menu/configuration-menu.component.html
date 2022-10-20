@@ -16,7 +16,7 @@
         <mat-slide-toggle
           labelPosition="before"
           [checked]="preferences.general_notification_sound === 'on' ? true : false"
-          (change)="setPreference(typesPreferences.SOUND, $event.checked ? 'on' : 'off')"></mat-slide-toggle>
+          (change)="setPreference('general_notification_sound', $event.checked ? 'on' : 'off')"></mat-slide-toggle>
         </div>
         <div class="mt-2">
           <div>Volumen</div>
@@ -69,7 +69,19 @@
         <mat-slide-toggle
           labelPosition="before"
           [checked]="preferences.general_notification_whatsapp === 'on' ? true : false"
-          (change)="setPreference(typesPreferences.WHATSAPP, $event.checked ? 'on' : 'off')"></mat-slide-toggle>
+          (change)="setPreference('general_notification_whatsapp', $event.checked ? 'on' : 'off')"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="h-auto" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+      <div class="content-menu">
+        <span>
+          <i [ngClass]="preferences.enable_notifications_popup ? 'fa-bell': 'fa-bell-slash'" class="fa-regular"></i>
+          <span>Notificaciones popup</span>
+        </span>
+        <mat-slide-toggle
+          labelPosition="before"
+          [checked]="preferences.enable_notifications_popup ? true : false"
+          (change)="setPreference('enable_notifications_popup', $event.checked ? 1 : 0)"></mat-slide-toggle>
       </div>
     </div>
   </div>

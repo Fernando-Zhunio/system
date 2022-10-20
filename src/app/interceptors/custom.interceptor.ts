@@ -13,12 +13,14 @@ import { StorageService } from '../services/storage.service';
 import { SharedService } from '../services/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Token } from '../class/fast-data';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
   constructor(
     private s_storage: StorageService,
     private snackBar: MatSnackBar,
+    private sa: AuthService
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -43,7 +45,7 @@ export class CustomInterceptor implements HttpInterceptor {
         this.snackBar.dismiss();
         let message: string = '';
         message = err?.error?.hasOwnProperty('success') ? err.error.data : 'Error de servidor';
-        if (err.status === 401 || err.status === 403) { message= 'No autenticado'; this.s_storage.logout(); }
+        if (err.status === 401 || err.status === 403) { message= 'No autenticado'; this.sa.logout(); }
         SwalService.swalToast(message, 'warning')
         return throwError(err);
       })

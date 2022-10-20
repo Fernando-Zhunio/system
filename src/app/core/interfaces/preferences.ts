@@ -7,6 +7,7 @@ export interface Preferences {
     'user.order_system.work_space'?: string | null;
     app_warehouses_export?: string | null;
     favorites_items_nav?: any[] | null;
+    enable_notifications_popup: boolean ;
 }
 
 export interface PreferenceDashboard {

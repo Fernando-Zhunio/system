@@ -7,14 +7,15 @@ import {
   // Router,
 } from "@angular/router";
 import { Observable } from "rxjs";
-// import { PATH_LOGIN } from "../class/fast-data";
+import { AuthService } from "../services/auth.service";
 import { StorageService } from "../services/storage.service";
+// import { PATH_LOGIN } from "../class/fast-data";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthGuard implements CanActivate {
-  constructor( private s_storage: StorageService) {}
+  constructor( private sa: AuthService, private ss: StorageService ) {}
   canActivate(
     // next: ActivatedRouteSnapshot,
     // state: RouterStateSnapshot
@@ -23,10 +24,10 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.s_storage.isAuthenticated()) {
+    if (this.ss.isAuthenticated()) {
       return true;
     }
-    this.s_storage.logout();
+    this.sa.logout();
     return false;
   }
 }

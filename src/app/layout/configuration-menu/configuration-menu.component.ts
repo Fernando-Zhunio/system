@@ -39,8 +39,8 @@ export class ConfigurationMenuComponent implements OnInit, OnDestroy {
     this.volume = this.soundNotification.getVolume() * 100;
   }
 
-  setPreference(preference: string, value: string): void {
-    console.log(preference, value);
+  setPreference(preference: string, value: string | number): void {
+    console.log({ preference, value });
     this.store.dispatch(setPreferenceApi({ preference, value }));
   }
 

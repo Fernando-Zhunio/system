@@ -5,6 +5,9 @@ import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { refreshPreferenceApi, setPreferenceApi } from '../actions/api/preferences-api.action';
+// import { PreferencesTypes } from '../../core/enums/preferences-types';
+import { SharedService } from '../../services/shared/shared.service';
+import { Preferences } from '../../core/interfaces/preferences';
 
 @Injectable()
 export class PreferenceEffects {
@@ -14,10 +17,13 @@ export class PreferenceEffects {
         ofType(refreshPreferenceApi),
         switchMap(() => {
             const url = 'user/preferences';
+            SharedService.disabled_loader = true;
             return this.methodsHttp.methodGet(url)
                 .pipe(
                     map(data => {
-                        return setPreferences({ preferences: data.data })
+                        const prePreferences = data.data;
+                        const preferences = this.convertPreferencesStringToAny(prePreferences);
+                        return setPreferences({ preferences })
                     }),
                     catchError(error => { console.log('error', error); return EMPTY; })
                 );
@@ -29,17 +35,36 @@ export class PreferenceEffects {
         ofType(setPreferenceApi),
         exhaustMap((preference) => {
             const url = 'user/preferences';
-            return this.methodsHttp.methodPut(url, { preference: preference.preference, value: preference.value })
+            SharedService.disabled_loader = true;
+            return this.methodsHttp.methodPut(url, { preference: preference.preference, value: preference.value.toString() })
                 .pipe(
                     map((res: any) => {
+                        
+                        const value = this.convertPreferenceStringToAny(res.data.preference, res.data.value);
                         return setPreference
-                            ({ preference: res.data.preference, value: res.data.value })
+                            ({ preference: res.data.preference, value });
                     }),
-                    catchError(() => {
-                        return EMPTY;
-                    })
+                    catchError(error => { console.log('error', error); return EMPTY; })
                 );
         })
     )
     );
+
+    convertPreferencesStringToAny(preferences: Preferences) {
+        const preferencesKeysToArray = ['favorites_items_nav', 'enable_notifications_popup'];
+        preferencesKeysToArray.forEach((key) => {
+            preferences[key] = this.convertStringToArrayOrBoolean(preferences[key]);
+        });
+        return preferences;
+    }
+    
+    convertPreferenceStringToAny(preference: string, value: string): any {
+        const preferencesKeysToArray = ['favorites_items_nav', 'enable_notifications_popup'];
+        return preferencesKeysToArray.includes(preference) ?  JSON.parse(value) : value;
+    }
+
+    convertStringToArrayOrBoolean(preferences: string): any[] | boolean {
+        return JSON.parse(preferences);
+    }
+
 }

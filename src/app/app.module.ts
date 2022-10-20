@@ -70,45 +70,12 @@ import { ConfigurationMenuComponent } from './layout/configuration-menu/configur
 import { notificationsReducer } from './redux/notifications/reducers/notifications.reducer';
 import { NotificationEffectService } from './redux/notifications/effects/notification.effect.service';
 import { MatSliderModule } from '@angular/material/slider';
-import { Token, User } from './class/fast-data';
 import { SoundNotification } from './shared/class/sound-notification';
-
-
-function initializer(_st: StorageService, s_permissions: NgxPermissionsService, _sn: SoundNotification) {
-  return () => {
-    try {
-      const session = _st.getCurrentSessionLocalStorage();
-      if (session) {
-        _st.setSession(session);
-        Token.setToken = _st.getCurrentToken();
-        User.setUser = _st.getCurrentUser();
-        loadPermissions(_st, s_permissions);
-        initSoundNotification(_st, _sn);
-      } else {
-        const isAuthPath = window.location.href.includes('authentication');
-        console.log(window.location.href);
-        if (!isAuthPath) {
-          _st.logout();
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      _st.logout();
-    }
-  };
-}
-
-function loadPermissions(_st: StorageService, s_permissions: NgxPermissionsService) {
-  const permissions = _st.getPermissions();
-  if (permissions) {
-    s_permissions.loadPermissions(permissions);
-  }
-}
-
-function initSoundNotification(_st: StorageService, _sn: SoundNotification) {
-    _sn.initVolume(_st);
-}
-
+import { AuthService } from './services/auth.service';
+import { MenuNotificationsComponent } from './layout/menu-notifications/menu-notifications.component';
+import { InitializerAppNovisolutions } from './core/class/initializer-app-novisolutions';
+import { SpinnerLoaderFileComponent } from './shared/components/spinner-loader-file/spinner-loader-file.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -158,9 +125,12 @@ registerLocaleData(localeEs, 'es');
       }
     }),
     LoadingBarRouterModule,
-    MatSliderModule
+    MatSliderModule,
+    SpinnerLoaderFileComponent,
+    NgxSkeletonLoaderModule
   ],
   declarations: [
+    // CreateHostDirective,
     SidebarFzComponent,
     HeaderFzComponent,
     AppComponent,
@@ -176,6 +146,7 @@ registerLocaleData(localeEs, 'es');
     ChatComponent,
     UsersGroupsChatModalComponent,
     P403Component,
+    MenuNotificationsComponent,
   ],
   providers: [
     // {
@@ -203,9 +174,9 @@ registerLocaleData(localeEs, 'es');
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: initializer,
+      useFactory: InitializerAppNovisolutions,
       multi: true,
-      deps: [StorageService, NgxPermissionsService, SoundNotification],
+      deps: [StorageService, NgxPermissionsService, SoundNotification, AuthService],
     },
 
     { provide: DATE_PIPE_DEFAULT_TIMEZONE, useValue: "GMT-5" },

@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Session } from '../clases/session';
-// import { User } from '../clases/user';
 import { NgxPermissionsService } from 'ngx-permissions';
-// import { Cperson } from '../class/cperson';
-// import { SwalService } from './swal.service';
 import { User } from '../shared/interfaces/user';
 import { Person } from '../shared/interfaces/person';
-import { PATH_LOGIN, Token, User as UserFast } from '../class/fast-data';
+import { fillUser, Token } from '../class/fast-data';
 
 declare var require: any;
 const CryptoJS = require('crypto-js');
@@ -19,8 +15,7 @@ export class StorageService {
   private currentSession: Session | null;
   private permissions: string[] | null = null;
 
-  constructor(private router: Router, public s_permissionsService: NgxPermissionsService, private activatedRoute: ActivatedRoute) {
-  }
+  constructor( public s_permissionsService: NgxPermissionsService) {}
 
   // init(): boolean {
   //   try {
@@ -55,7 +50,8 @@ export class StorageService {
     this.currentSession = session;
     localStorage.setItem('session', this.encryptedAes(JSON.stringify(session)));
     Token.setToken = this.currentSession.token;
-    UserFast.setUser = this.currentSession.user;
+    fillUser(this.currentSession.user);
+    // UserFast.setUser = this.currentSession.user;
   }
 
   setSession(session: Session): void {
@@ -130,17 +126,14 @@ export class StorageService {
     localStorage.setItem(key, this.encryptedAes(JSON.stringify(value)));
   }
 
-  logout(canPass: boolean = false): void {
-    this.removeCurrentSession();
-    console.log(this.activatedRoute.url);
-    this.activatedRoute.data.subscribe(res => {
-      if (res?.['guard'] != 'guest' || canPass) {
-        console.log({ res });
-        console.log({ PATH_LOGIN }, this.router);
-        this.router.navigate([PATH_LOGIN]);
-      }
-    })
-  }
+  // logout(canPass: boolean = false): void {
+  //   this.removeCurrentSession();
+  //   this.activatedRoute.data.subscribe(res => {
+  //     if (res?.['guard'] != 'guest' || canPass) { 
+  //       this.router.navigate([PATH_LOGIN]);
+  //     }
+  //   })
+  // }
 
   removeCurrentSession(): void {
     this.currentSession = null;
