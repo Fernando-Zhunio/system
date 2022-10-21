@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { User } from '../../class/fast-data';
 import { convertArrayOfObjectToMap } from '../../class/tools';
 import { PreferencesTypes } from '../../core/enums/preferences-types';
-import { Preferences } from '../../core/interfaces/preferences';
+import { Preferences as IPreferences } from '../../core/interfaces/preferences';
 import { INavData } from '../../interfaces/inav-data';
 import { setPreferenceApi } from '../../redux/actions/api/preferences-api.action';
 import { selectPreference } from '../../redux/state/state.selectors';
@@ -23,7 +23,7 @@ import { SwalService } from '../../services/swal.service';
 })
 export class SidebarFzComponent implements OnInit {
 
-  navItems: INavData[];
+  navItems: INavData[] = [];
   @Output() isMinimizeSidebar: EventEmitter<boolean> = new EventEmitter();
   @Output() hiddenSidebar: EventEmitter<boolean> = new EventEmitter();
 
@@ -48,7 +48,6 @@ export class SidebarFzComponent implements OnInit {
     if (width < 600) {
       this.hiddenMenu = true;
     }
-    this.getFavorites(2);
     this.getSidebar();
   }
 
@@ -65,9 +64,11 @@ export class SidebarFzComponent implements OnInit {
               [my_permissions] : my_permissions;
             this.ss.setPermission(array_permissions);
             this.navItems = res.data.item_sidebar;
+            this.getFavorites(2);
           }
         },
-        error: () => {
+        error: (err) => {
+          console.log(err);
           SwalService.swalFire({
             position: 'center',
             title: 'Error al cargar datos',
@@ -90,9 +91,10 @@ export class SidebarFzComponent implements OnInit {
       });
   }
 
+  
+
   getFavorites(_take = 1) {
-    this.store.select(selectPreference).pipe(take(_take)).subscribe((preference: Preferences) => {
-      console.log({ preference });
+    this.store.select(selectPreference).pipe(take(_take)).subscribe((preference: IPreferences) => {
       if (preference && preference?.favorites_items_nav) {
         this.favoriteItems = convertArrayOfObjectToMap(
           this.convertItemsNav(preference?.favorites_items_nav), 'id') || new Map();
@@ -101,9 +103,8 @@ export class SidebarFzComponent implements OnInit {
   }
 
   convertItemsNav(_favorites: Array<number>): INavData[] {
-    if (Array.isArray(_favorites)) {
-      const navItems = this.navItems.filter((item: any) => _favorites.includes(item.id));
-      return navItems;
+    if (Array.isArray(_favorites) && this.navItems.length > 0) {
+      return this.navItems.filter((item: any) => _favorites.includes(item.id)) || []; 
     } else {
       return [];
     }
@@ -117,7 +118,6 @@ export class SidebarFzComponent implements OnInit {
       (item: any) => item?.name.toLowerCase().includes(e.target.value.toLowerCase()));
   }
 
-
   minimizeSidebar(): void {
     this.onlyIcons = !this.onlyIcons;
     this.isMinimizeSidebar.emit(this.onlyIcons);
@@ -130,7 +130,7 @@ export class SidebarFzComponent implements OnInit {
 
   addFavoriteItem(id: number, $event): void {
     $event.stopPropagation();
-    $event.preventDefault()
+    $event.preventDefault();
     const item = this.navItems.find((item: any) => item.id === id);
     if (item) {
       if (this.favoriteItems.has(id)) {
@@ -159,7 +159,6 @@ export class SidebarFzComponent implements OnInit {
         if (isNewVersion) {
           SwalService.swalFire({ allowOutsideClick: false, showCancelButton: true, cancelButtonText: 'No, gracias', confirmButtonText: 'Si, actualizar', showConfirmButton: true, title: 'Actualización disponible', text: 'Hay una nueva versión de la aplicación, por favor actualice la aplicación, presione Ctrl + f5 \n' + message, icon: 'info' })
             .then((res) => {
-              console.log(res);
               if (res.isConfirmed) {
                 this.ss.setItemLocalStorage('version', latestVersion);
                 location.reload();
@@ -170,7 +169,7 @@ export class SidebarFzComponent implements OnInit {
         this.ss.setItemLocalStorage('version', latestVersion);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }

@@ -49,9 +49,8 @@ export class StorageService {
   setCurrentSession(session: Session): void {
     this.currentSession = session;
     localStorage.setItem('session', this.encryptedAes(JSON.stringify(session)));
-    Token.setToken = this.currentSession.token;
+    Token.getInstance().setToken(this.currentSession.token);
     fillUser(this.currentSession.user);
-    // UserFast.setUser = this.currentSession.user;
   }
 
   setSession(session: Session): void {

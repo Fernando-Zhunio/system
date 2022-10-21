@@ -7,6 +7,7 @@
   (isLoading)="isLoadingNow($event)"
   [url]="url$"
   (products)="loadData($event)">
+  <ng-content select="[title]"></ng-content>
   <ng-content select="[menuBar]"></ng-content>
   <ng-content filterMenu select="[filterMenu]"></ng-content>
 </app-header-search>
@@ -20,7 +21,7 @@
       <p class="m-0 ml-2">Cargando datos</p>
     </div>
   </div>
-  <div class="position-relative table-container shadow ">
+  <div class="position-relative table-container shadow  ">
     <ng-content select="[table]"></ng-content>
   </div>
 </div>

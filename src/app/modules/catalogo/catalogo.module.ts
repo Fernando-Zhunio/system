@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CatalogoRoutingModule } from './catalogo-routing.module';
+import { CatalogoRoutingModule } from './catalogo.routing';
 import { PublicacionesComponent } from './modules/publicaciones/publicaciones.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';

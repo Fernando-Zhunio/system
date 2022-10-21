@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { SharedService } from '../../services/shared/shared.service';
-import { SpinnerLoaderFileTemplateComponent } from '../components/spinner-loader-file/spinner-loader-file.component';
-import { CreateHostService } from './create-host.service';
+// import { SpinnerLoaderFileTemplateComponent } from '../components/spinner-loader-file/spinner-loader-file.component';
+// import { CreateHostService } from './create-host.service';
 
 interface DownloadOptions { 
   outHash?: boolean
@@ -26,13 +26,16 @@ export class DownloadAndRedirectService {
     spinnerText: 'Descargando archivo',
     spinnerPercent: 0
   }
-  constructor(private router: Router, private http: HttpClient, private chs: CreateHostService) { }
+  constructor(private router: Router, private http: HttpClient) { }
   urlServer = environment.server;
   download(url, options?: DownloadOptions) {
     if (!options) {
       options = this.defaultOptions;
     }
-    options?.showSpinner && this.chs.createComponent(SpinnerLoaderFileTemplateComponent, null, false);
+    // let spinner;
+    // if (options?.showSpinner) {
+    //   spinner =  this.chs.injectComponent(SpinnerLoaderFileTemplateComponent, null, false);
+    // }
     const path = options?.outHash ? url : this.urlServer + url;
     SharedService.disabled_loader = true;
     return this.http.get(path, {
@@ -59,10 +62,10 @@ export class DownloadAndRedirectService {
           a.click();
           window.URL.revokeObjectURL(urlDownload);
           a.remove();
-          options?.showSpinner &&  this.chs.destroyComponent();
+          // options?.showSpinner &&  spinner?.close();
       }
     },() => {
-      options?.showSpinner && this.chs.destroyComponent();
+      // options?.showSpinner && spinner.close();
     });
   }
 

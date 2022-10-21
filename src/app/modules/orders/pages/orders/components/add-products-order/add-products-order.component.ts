@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 // import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -19,7 +19,7 @@ import { EditProductOrderComponent } from '../edit-product-order/edit-product-or
   templateUrl: './add-products-order.component.html',
   styleUrls: ['./add-products-order.component.scss']
 })
-export class AddProductsOrderComponent implements OnInit {
+export class AddProductsOrderComponent  {
 
   constructor(private matDialog: MatDialog, private methodsHttp: MethodsHttpService, private dialog: DialogProductsService) { }
   @Input() order: IOrder;
@@ -39,10 +39,6 @@ export class AddProductsOrderComponent implements OnInit {
   });
 
   permissionsProducts = PermissionOrdersItems;
-
-
-  ngOnInit() {
-  }
 
   openSearchProducts(): void {
     this.dialog.open(

@@ -1,9 +1,17 @@
-<div class="m-0 mb-2 d-md-flex flex-wrap align-items-center justify-content-between py-1 px-0 px-md-3 main-style"
-  [ngClass]="{'sticky-top': isSticky}" style="z-index: 2;top: 55px;">
+<div
+  class="m-0 mb-2 d-md-flex flex-wrap align-items-center justify-content-between py-1 px-0 px-md-3 main-style"
+  [ngClass]="{ 'sticky-top': isSticky }"
+  style="z-index: 2; top: 55px">
   <div class="center flex-wrap overflow-auto">
-    <h1 class="m-0 font-weight-bolder font-4xl">{{title}}</h1>
+    <ng-content #defaultTitle select=".title"></ng-content>
+    <h1 *ngIf="!defaultTitle" class="m-0 font-weight-bolder font-4xl">{{ title }}</h1>
+
+    <ng-content select=".selections-back"></ng-content>
     <div class="position-relative p-3 overflow-hidden">
-      <input class="form-control shadow-sm  input-style" [placeholder]="placeholder" (keyup)="buscarInterval($event)"
+      <input
+        class="form-control shadow-sm input-style"
+        [placeholder]="placeholder"
+        (keyup)="buscarInterval($event)"
         [(ngModel)]="productSearch" />
       <button (click)="goBack()" class="btn-go-back text-secondary" mat-icon-button>
         <i class="fa-solid fa-arrow-left icon-bar"></i>
@@ -13,8 +21,7 @@
       </button>
     </div>
   </div>
-  <div class=" d-flex align-items-center" style="top: 0px;
-      right: 22px;height: 100%;">
+  <div class="d-flex align-items-center" style="top: 0px; right: 22px; height: 100%">
     <mat-chip-list>
       <mat-chip (click)="paste()" class="text-truncate">
         <i class="fa-regular fa-paste"></i>
@@ -23,8 +30,9 @@
     <ng-content></ng-content>
     <ng-container *ngIf="active_filters_menu">
       <mat-chip-list class="ml-1">
-        <mat-chip [matBadge]="countFilter || null" [matMenuTriggerFor]="menu" class="text-truncate ">
-          <i class="fa-solid fa-filter mr-1"></i> filtros
+        <mat-chip [matBadge]="countFilter || null" [matMenuTriggerFor]="menu" class="text-truncate">
+          <i class="fa-solid fa-filter mr-1"></i>
+          filtros
         </mat-chip>
       </mat-chip-list>
       <mat-menu class="menu-style" #menu="matMenu" [overlapTrigger]="false">

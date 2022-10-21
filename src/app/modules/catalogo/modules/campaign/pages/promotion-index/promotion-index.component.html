@@ -112,16 +112,6 @@
               mat-icon-button>
               <i class="fa-regular fa-pen-to-square"></i>
             </button>
-            <!-- <button
-              *ngxPermissionsOnly="permissions.create"
-              mat-icon-button
-              color="accent"
-              mat-icon-button
-              (click)="openDetails(row.id)"
-      
-              >
-              <mat-icon>info</mat-icon>
-            </button> -->
             <button *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(row.id)" mat-icon-button color="warn">
               <i class="fa-solid fa-trash"></i>
             </button>

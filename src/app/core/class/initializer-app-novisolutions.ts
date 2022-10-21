@@ -23,7 +23,7 @@ export function InitializerAppNovisolutions(_st: StorageService, s_permissions: 
 }
 
 function initializerFastData(st: StorageService) {
-    Token.setToken = st.getCurrentToken();
+    Token.getInstance().setToken(st.getCurrentToken())
     fillUser(st.getCurrentUser());
 }
 

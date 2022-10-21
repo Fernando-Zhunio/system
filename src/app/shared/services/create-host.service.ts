@@ -1,4 +1,7 @@
-import { ComponentRef, Injectable } from '@angular/core';
+import { ComponentRef, Injectable, Injector } from '@angular/core';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { CreateHostRef } from '../class/create-host-ref';
 import { CreateHostDirective } from '../directives/create-host.directive';
 
 type DataComponent = {
@@ -11,34 +14,54 @@ type DataComponent = {
 export class CreateHostService {
 
   private createHostDirective: CreateHostDirective;
-  componentRef: ComponentRef<any>;
-  counterImplements = 0
+  componentRefMap: Map<Symbol, ComponentRef<any>> = new Map<Symbol, ComponentRef<any>>();
+
+  data: any = null;
+  observerComponent: Subject<any> = new Subject();
   constructor() { }
 
   setCreateHostDirective(createHostDirective: CreateHostDirective) {
     this.createHostDirective = createHostDirective;
   }
-  
-  createComponent(component, data: DataComponent | null = null, multi: boolean = true) {
-    if(!multi && this.counterImplements > 0) {
-      this.counterImplements++;
-      return;
-    }
-    const componentRef = this.createHostDirective
-      .viewContainerRef.createComponent<any>(component);
-    
+
+  injectComponent(component: any, data: DataComponent | null = null, _multi: boolean = true, customHost: CreateHostDirective | null = null) {
+    const host: CreateHostDirective = customHost ? customHost : this.createHostDirective;
+    const id = Symbol();
+    const componentRef = host.viewContainerRef
+      .createComponent<any>(component, { injector: this.generateInjector(id) });
+    this.componentRefMap.set(id, componentRef);
+
+    this.assignData(data, componentRef);
+    return this.observerComponent.pipe(take(1));
+  }
+
+  assignData(data: DataComponent | null, componentRef) {
     if (data) {
       Object.keys(data).forEach(key => {
         componentRef.instance[key] = data[key];
       });
     }
-    this.counterImplements++;
-    return componentRef;
   }
 
-  destroyComponent() {
+  generateInjector(id): Injector {
+    const overrideClass = new CreateHostRef(this)
+    overrideClass.setId(id)
+    return Injector.create({
+      providers: [
+        {
+          provide: CreateHostRef,
+          useValue: overrideClass
+        }
+      ]
+    });
+  }
+
+  destroyAllComponents() {
     this.createHostDirective.viewContainerRef.clear();
-    this.counterImplements--;
-    console.log(this.componentRef);
+  }
+
+  close(id: any, data: any = null) {
+    this.componentRefMap.get(id)?.destroy();
+    this.observerComponent.next(data);
   }
 }

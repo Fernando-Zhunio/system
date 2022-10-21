@@ -4,8 +4,8 @@ import { PublicacionesComponent } from './modules/publicaciones/publicaciones.co
 import { CreateOrEditPublicacionComponent } from './modules/publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ShowPublicationComponent } from './modules/publicaciones/show-publication/show-publication.component';
-import { MenuMultiPublicationComponent } from './modules/publicaciones/menu-multi-publication/menu-multi-publication.component';
-import { CreateOrEditMultipublicationComponent } from './modules/publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
+// import { MenuMultiPublicationComponent } from './modules/publicaciones/menu-multi-publication/menu-multi-publication.component';
+// import { CreateOrEditMultipublicationComponent } from './modules/publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 
 
 const permission_module = {
@@ -40,28 +40,28 @@ const routes: Routes = [
 
     },
   },
-  {
-    path: 'publicaciones/menu-multi-publicaciones',
-    component: MenuMultiPublicationComponent,
-    data: {
-      isEdit: false,
-      permissions: {
-        only: ['super-admin', 'catalogs.publications.menu-multi'],
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
-  },
-  {
-    path: 'publicaciones/multi-publicaciones',
-    component: CreateOrEditMultipublicationComponent,
-    data: {
-      isEdit: false,
-      permissions: {
-        only: ['super-admin', 'catalogs.publications.multi'],
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
-  },
+  // {
+  //   path: 'publicaciones/menu-multi-publicaciones',
+  //   component: MenuMultiPublicationComponent,
+  //   data: {
+  //     isEdit: false,
+  //     permissions: {
+  //       only: ['super-admin', 'catalogs.publications.menu-multi'],
+  //     },
+  //   },
+  //   canActivate: [NgxPermissionsGuard],
+  // },
+  // {
+  //   path: 'publicaciones/multi-publicaciones',
+  //   component: CreateOrEditMultipublicationComponent,
+  //   data: {
+  //     isEdit: false,
+  //     permissions: {
+  //       only: ['super-admin', 'catalogs.publications.multi'],
+  //     },
+  //   },
+  //   canActivate: [NgxPermissionsGuard],
+  // },
   {
     path: 'publicaciones/edit/:id',
     component: CreateOrEditPublicacionComponent,
@@ -102,8 +102,7 @@ const routes: Routes = [
   },
   {
     path: 'promotions',
-    data: { name: 'promotions' },
-    loadChildren: () => import('./promotions/promotions.module').then(m => m.PromotionsModule),
+    loadChildren: () => import('./modules/promotions/promotions.module').then(m => m.PromotionsModule),
   },
   {
     path: 'rappi',

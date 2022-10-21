@@ -4,13 +4,23 @@ import { Person } from "../shared/interfaces/person";
 import { User as IUser } from "../shared/interfaces/user";
 
 export class Token {
-    private static token: string;
+    private static instance: Token;
+    private token: string | null = null ;
+    // private static token: string;
+    private constructor() {}
 
-    static get getToken(): string {
+    static getInstance(): Token {
+        if (!this.instance) {
+            this.instance = new Token();
+        }
+        return this.instance;
+    }
+
+    getToken(): string | null {
         return this.token;
     }
 
-    static set setToken(token: string) {
+    setToken(token: string) {
         this.token = token;
     }
 }
@@ -49,15 +59,7 @@ export class Preferences {
         [PreferencesTypes.FAVORITES_ITEMS_NAV]: [],
         enable_notifications_popup: false
     };
-
-    get(): IPreferences {
-        return this.preferences;
-    }
-
-    set(preferences: IPreferences): void {
-        this.preferences = preferences;
-    }
-
+    
     private constructor() { }
 
     public static getInstance(): Preferences {
@@ -65,6 +67,14 @@ export class Preferences {
             Preferences.preferences = new Preferences();
         }
         return Preferences.preferences;
+    }
+
+    get(): IPreferences {
+        return this.preferences;
+    }
+
+    set(preferences: IPreferences): void {
+        this.preferences = preferences;
     }
 }
 

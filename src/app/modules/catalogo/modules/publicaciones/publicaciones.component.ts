@@ -13,8 +13,8 @@ import { IpermissionStandart } from '../../../../interfaces/ipermission-standart
 import { Publication } from '../../../../interfaces/ipublication';
 import { CatalogoService } from '../../../../services/catalogo.service';
 import { MercadoLibreService } from '../../../../services/mercado-libre.service';
-import { StorageService } from '../../../../services/storage.service';
 import { SwalService } from '../../../../services/swal.service';
+import { CONST_ECHO_PUBLICATIONS_CHANNEL_PRIVATE } from '../../../../shared/objects/constants';
 
 @Component({
   selector: 'app-publicaciones',
@@ -35,7 +35,7 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   menu = [];
   isLoading: boolean = true;
   aux_page_next: number;
-  suscrition_api: Subscription;
+  subscription_api: Subscription;
   permission_page: IpermissionStandart;
   constructor(
     private actived_router: ActivatedRoute,
@@ -44,7 +44,6 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     private s_catalogo: CatalogoService,
     private s_mercado_libre: MercadoLibreService,
     private router: Router,
-    private s_storage: StorageService,
   ) {}
     //#region FILTER DATA
     min: string;
@@ -64,8 +63,8 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
     this.actived_router.data.subscribe((res: any) => {
       this.permission_page = res.permissions.all;
     });
-    this.echo = new EchoManager(this.s_storage).echo;
-    this.echo.private('catalogs.publications').listen('.publication', this.listener.bind(this));
+    this.echo = new EchoManager().get();
+    this.echo.private(this.getChannelPublications()).listen('.publication', this.listener.bind(this));
   }
 
   listener(e): void {
@@ -85,7 +84,11 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.echo.leave('catalogs.publications');
+    this.echo.leave(this.getChannelPublications());
+  }
+
+  getChannelPublications(): string {
+    return CONST_ECHO_PUBLICATIONS_CHANNEL_PRIVATE;
   }
 
   goNewPublication(): void {
@@ -100,9 +103,9 @@ export class PublicacionesComponent implements OnInit, OnDestroy {
         snack.dismiss();
         this.isLoader = false;
         if (res.success) {
-          this.snack_bar.open('Eliminado con exito', 'OK', { duration: 2000 });
+          this.snack_bar.open('Eliminado con éxito', 'OK', { duration: 2000 });
           this.products.splice(index, 1);
-          SwalService.swalToast('Eliminado con exito', 'success');
+          SwalService.swalToast('Eliminado con éxito', 'success');
         }
       },
       () => {

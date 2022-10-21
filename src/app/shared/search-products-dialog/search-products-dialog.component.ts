@@ -1,27 +1,29 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { animation_conditional } from '../../animations/animate_leave_enter';
-import { DialogProductsService } from '../../services/dialog-products.service';
+import { CreateHostRef } from '../class/create-host-ref';
+// import { CreateHostService } from '../services/create-host.service';
 
 @Component({
+  
   selector: 'app-search-products-dialog',
   templateUrl: './search-products-dialog.component.html',
   styleUrls: ['./search-products-dialog.component.scss'],
   animations: animation_conditional
 })
-export class SearchProductsDialogComponent {
+export class SearchProductsDialogComponent implements OnInit {
 
   url: string;
   onlyOne: boolean = false;
   productsSelected: Map<number, any> = new Map<number, any>();
 
-  constructor(
-    private dialogService: DialogProductsService 
-  ) {}
+  constructor(private componentRef: CreateHostRef) {}
+  ngOnInit(): void {
+    console.log(this.componentRef.getId());
+  }
 
   products: Map<number, any> = new Map<number, any>();
   @Output() add: EventEmitter<any> = new EventEmitter<any>();
   @Output() remove: EventEmitter<any> = new EventEmitter<any>();
-  // @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
 
   getData(data: { data: any[]; }) {
     this.products = new Map(data.data.map((item: any) => [item.id, item]));
@@ -45,10 +47,10 @@ export class SearchProductsDialogComponent {
 
   close() {
     if (this.productsSelected.size > 0) {
-      this.dialogService.close({ data: this.onlyOne ? [...this.productsSelected][0][1] : this.productsSelected });
+      this.componentRef.close({ data: this.onlyOne ? [...this.productsSelected][0][1] : this.productsSelected });
     }
     else {
-      this.dialogService.close();
+      this.componentRef.close();
     }
   }
 

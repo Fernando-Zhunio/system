@@ -1,12 +1,15 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren } from '@angular/core';
 import Echo from 'laravel-echo';
-import { EchoManager } from '../../class/echo-manager';
+import { environment } from '../../../environments/environment';
+import { EchoManager, EchoOptions } from '../../class/echo-manager';
+import { User } from '../../class/fast-data';
 import { IchatBot, IchatBubble, Ichats, ImessageChat, IparticipantChat, IuserChat } from '../../interfaces/chats/ichats';
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
+import { CONST_ECHO_CHAT_CHANNEL_PRIVATE } from '../../shared/objects/constants';
 import { ChatComponent } from './chat/chat.component';
 
 
@@ -146,8 +149,13 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
 
   connectionChat(): void {
-    this.echoChat = new EchoManager(this.s_storage).chat_echo;
-    this.echoChat.private(`chat.${this.myUser.id}`)
+    const optionEcho: EchoOptions = {
+      wsHost: environment.domain_serve_chat,
+      wsPort: environment.portSocket_chat,
+      wssPort: environment.portSocket_chat,
+    }
+    this.echoChat = new EchoManager().set(optionEcho).get();
+    this.echoChat.private(this.getChannelChat())
       .listen(`.chat`, this.modificationChatListen.bind(this))
       .listen('.message', this.getMessages.bind(this))
       .listen('.typing', this.typingUserListen.bind(this))
@@ -159,8 +167,12 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       .listen('.user', this.getChatUserStatus.bind(this));
   }
 
+  getChannelChat(): string {
+    return CONST_ECHO_CHAT_CHANNEL_PRIVATE(User.getInstance().id);
+  }
+
   ngOnDestroy(): void {
-    this.echoChat.leave(`chat.${this.myUser.id}`);
+    this.echoChat.leave(this.getChannelChat());
   }
 
   markDoDeliveryAll(): void {

@@ -22,19 +22,6 @@ import { Permission_catalog_products } from '../../../../../../class/permissions
 import { StockBodegasComponent } from '../../../../../../components/modals/stock-bodegas/stock-bodegas.component';
 import { InfoViewComponent } from '../../../../components/info-view/info-view.component';
 import { DialogHistoryPricesProductComponent } from '../../components/dialog-history-prices-product/dialog-history-prices-product.component';
-// import { animation_conditional } from '../../../../../animations/animate_leave_enter';
-// import { ProductsService } from '../../../../../services/products.service';
-// import { MethodsHttpService } from '../../../../../services/methods-http.service';
-// import { HeaderSearchComponent } from '../../../../../components/header-search/header-search.component';
-// import { IproductWithVtex } from '../../../../../interfaces/iproducts';
-// import { IpostProduct } from '../../../../../interfaces/ipost-product';
-// import { Iprefix } from '../../../../../interfaces/iprefix';
-// import { Iwarehouse } from '../../../../../interfaces/iwarehouse';
-// import { Ipagination } from '../../../../../interfaces/ipagination';
-// import { Permission_catalog_products } from '../../../../../class/permissions-modules';
-// import { InfoViewComponent } from '../../../components/info-view/info-view.component';
-// import { StockBodegasComponent } from '../../../../../components/modals/stock-bodegas/stock-bodegas.component';
-// import { DialogHistoryPricesProductComponent } from '../../components/dialog-history-prices-product/dialog-history-prices-product.component';
 
 @Component({
   selector: 'app-products',

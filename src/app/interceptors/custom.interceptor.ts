@@ -43,9 +43,8 @@ export class CustomInterceptor implements HttpInterceptor {
       }),
       catchError((err) => {
         this.snackBar.dismiss();
-        let message: string = '';
-        message = err?.error?.hasOwnProperty('success') ? err.error.data : 'Error de servidor';
-        if (err.status === 401 || err.status === 403) { message= 'No autenticado'; this.sa.logout(); }
+        if (err.status === 401 || err.status === 403) { this.sa.logout(); }
+        const message = this.getStatusMessage(err.status);
         SwalService.swalToast(message, 'warning')
         return throwError(err);
       })
@@ -69,8 +68,22 @@ export class CustomInterceptor implements HttpInterceptor {
   createHeader() {
     const header = new HttpHeaders({
       accept: 'application/json',
-      Authorization: 'Bearer ' + Token.getToken,
+      Authorization: 'Bearer ' + Token.getInstance().getToken(),
     });
     return header;
+  }
+
+  getStatusMessage(status: number) {
+    const statusMessage = {
+      400: 'Error de validación',
+      401: 'No autenticado',
+      403: 'No autorizado',
+      404: 'Recurso no encontrado',
+      500: 'Error interno de servidor',
+    };
+    if (statusMessage.hasOwnProperty(status)) {
+      return statusMessage[status] + ' (' + status + ')';
+    }
+    return 'Error de servidor';
   }
 }

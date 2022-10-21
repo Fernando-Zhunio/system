@@ -6,7 +6,7 @@ import { Iresponse } from '../../../../../interfaces/Imports/invoice-item';
 import { IpermissionStandart } from '../../../../../interfaces/ipermission-standart';
 import { Publication } from '../../../../../interfaces/ipublication';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
-import { StorageService } from '../../../../../services/storage.service';
+import { CONST_ECHO_PUBLICATIONS_CHANNEL_PRIVATE } from '../../../../../shared/objects/constants';
 
 @Component({
   selector: 'app-show-publication',
@@ -17,7 +17,6 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
   constructor(
     private active_router: ActivatedRoute,
     private s_standart: StandartSearchService,
-    private s_storage: StorageService
   ) {}
 
   publication: Publication | null = null;
@@ -31,9 +30,9 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
     const idString = this.active_router.snapshot.paramMap.get('id')!;
     const id = Number.parseInt(idString);
     this.changePublication(id);
-    this.echo = new EchoManager(this.s_storage).echo;
+    this.echo = new EchoManager().get();
     this.echo
-      .private('catalogs.publications')
+      .private(this.getChannelPublication())
       .listen('.publication', this.listener.bind(this));
   }
 
@@ -49,7 +48,11 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.echo.leave('catalogs.publications');
+    this.echo.leave(this.getChannelPublication());
+  }
+
+  getChannelPublication(): string {
+    return CONST_ECHO_PUBLICATIONS_CHANNEL_PRIVATE;
   }
 
   changePublication(id): void {

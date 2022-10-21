@@ -90,7 +90,7 @@
 
 <div class="app-body main-style">
 
-  <app-sidebar-fz [items]="navItems" (hiddenSidebar)="hiddenSidebar = $event" (isMinimizeSidebar)="sidebarMinimized = $event" class="main-style sidebar1 scroll scrollbar-sidebar-fz"></app-sidebar-fz>
+  <app-sidebar-fz (hiddenSidebar)="hiddenSidebar = $event" (isMinimizeSidebar)="sidebarMinimized = $event" class="main-style sidebar1 scroll scrollbar-sidebar-fz"></app-sidebar-fz>
 
   <!-- Main content -->
   <main [ngClass]="{ 'open-menu-chat': hideUsersChat, 'minimize-sidebar': sidebarMinimized, 'hidden-sidebar': hiddenSidebar }" class="main scroll body">
