@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
@@ -14,7 +14,7 @@ declare let Swal: any;
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css']
 })
-export class UsuariosComponent implements OnInit {
+export class UsuariosComponent  {
 
   constructor(private methodsHttp: MethodsHttpService, private snack_bar: MatSnackBar) { }
   displayedColumns: string[] = [
@@ -35,9 +35,6 @@ export class UsuariosComponent implements OnInit {
   paginator: Ipagination<IuserSystem>;
   isLoading: boolean;
   users: IuserSystem[];
-
-  ngOnInit(): void {
-  }
 
   refreshDataTable(data) {
     const row: IuserSystem[] = data as IuserSystem[];

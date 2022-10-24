@@ -34,7 +34,6 @@ export class MercadoLibreIndexComponent implements OnInit, OnDestroy {
     private s_storage: StorageService,
   ) {}
 
-  // paginator: Ipagination<ImlInfo>
   mlInfos: ImlInfo[] = [];
 
   ngOnInit(): void {
