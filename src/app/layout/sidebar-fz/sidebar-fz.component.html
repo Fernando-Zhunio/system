@@ -17,7 +17,7 @@
       </div>
     </div>
     <ul class="scrollbar-sidebar-fz">
-      <ngx-skeleton-loader  *ngIf="navItems?.length < 1" [theme]="{
+      <ngx-skeleton-loader  *ngIf="isLoading" [theme]="{
         height: '40px'
       }" count="5" appearance="line"></ngx-skeleton-loader>
       <ng-container *ngIf="favoriteItems.size > 0">

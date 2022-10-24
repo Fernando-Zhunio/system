@@ -4,9 +4,11 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import AirDatepicker from 'air-datepicker';
 import { CreateOrEdit2 } from '../../../../../../class/create-or-edit-2';
-import { DialogProductsService } from '../../../../../../services/dialog-products.service';
+// import { DialogProductsService } from '../../../../../../services/dialog-products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../../services/swal.service';
+import { SearchProductsDialogComponent } from '../../../../../../shared/search-products-dialog/search-products-dialog.component';
+import { CreateHostService } from '../../../../../../shared/services/create-host.service';
 import { Campaign } from '../../interfaces/campaign';
 
 // interface PromotionProductSend {
@@ -52,7 +54,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
     protected methodsHttp: MethodsHttpService,
     protected router: Router,
     protected override location: Location,
-    private dialogProductSearch: DialogProductsService
+    private chs: CreateHostService
   ) {
     super();
   }
@@ -132,11 +134,10 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
 
   openDialogProductSearch(): void {
     const options = {
-      data: {
-        isMultiple: true,
-      }
-    }
-    this.dialogProductSearch.open('catalogs/campaigns/promotions/search-products', options).subscribe((res: any) => {
+        onlyOne: true,
+        url: 'catalogs/campaigns/promotions/search-products'
+    };
+    this.chs.injectComponent(SearchProductsDialogComponent, options).beforeClose().subscribe((res: any) => {
       if (res?.data) {
         console.log(res);
         this.addProduct(res.data);

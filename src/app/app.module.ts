@@ -74,8 +74,8 @@ import { SoundNotification } from './shared/class/sound-notification';
 import { AuthService } from './services/auth.service';
 import { MenuNotificationsComponent } from './layout/menu-notifications/menu-notifications.component';
 import { InitializerAppNovisolutions } from './core/class/initializer-app-novisolutions';
-import { SpinnerLoaderFileComponent } from './shared/components/spinner-loader-file/spinner-loader-file.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { CreateHostDirective } from './shared/directives/create-host.directive';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -126,16 +126,14 @@ registerLocaleData(localeEs, 'es');
     }),
     LoadingBarRouterModule,
     MatSliderModule,
-    SpinnerLoaderFileComponent,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    CreateHostDirective
   ],
   declarations: [
-    // CreateHostDirective,
     SidebarFzComponent,
     HeaderFzComponent,
     AppComponent,
     ConfigurationMenuComponent,
-    // ...APP_CONTAINERS,
     DefaultLayoutComponent,
     P404Component,
     P500Component,

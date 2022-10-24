@@ -34,6 +34,7 @@ export class SidebarFzComponent implements OnInit {
   auxSearchPage: INavData[] = [];
   hiddenMenu: boolean = false;
   isMobile: boolean = false;
+  isLoading: boolean = false;
 
   favoriteItems: Map<number, INavData> = new Map();
 
@@ -52,9 +53,11 @@ export class SidebarFzComponent implements OnInit {
   }
 
   getSidebar(): void {
+    this.isLoading = true;
     this.methodsHttp.methodGet('user/permissions-roles')
       .subscribe({
         next: (res: any) => {
+          this.isLoading = false;
           if (res?.success) {
             const { last_version_frontend, my_permissions } = res.data;
             if (last_version_frontend?.version) {
@@ -67,8 +70,8 @@ export class SidebarFzComponent implements OnInit {
             this.getFavorites(2);
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
+          this.isLoading = false;
           SwalService.swalFire({
             position: 'center',
             title: 'Error al cargar datos',

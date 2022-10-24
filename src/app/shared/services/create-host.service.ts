@@ -1,6 +1,7 @@
 import { ComponentRef, Injectable, Injector } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+// import { take } from 'rxjs/operators';
 import { CreateHostRef } from '../class/create-host-ref';
 import { CreateHostDirective } from '../directives/create-host.directive';
 
@@ -14,10 +15,9 @@ type DataComponent = {
 export class CreateHostService {
 
   private createHostDirective: CreateHostDirective;
-  componentRefMap: Map<Symbol, ComponentRef<any>> = new Map<Symbol, ComponentRef<any>>();
+  componentRefMap: Map<Symbol, {componentRef: ComponentRef<any>, beforeClose: Subject<any>}> = new Map<Symbol, {componentRef: ComponentRef<any>, beforeClose:  Subject<any>}>();
 
   data: any = null;
-  observerComponent: Subject<any> = new Subject();
   constructor() { }
 
   setCreateHostDirective(createHostDirective: CreateHostDirective) {
@@ -26,13 +26,16 @@ export class CreateHostService {
 
   injectComponent(component: any, data: DataComponent | null = null, _multi: boolean = true, customHost: CreateHostDirective | null = null) {
     const host: CreateHostDirective = customHost ? customHost : this.createHostDirective;
-    const id = Symbol();
-    const componentRef = host.viewContainerRef
-      .createComponent<any>(component, { injector: this.generateInjector(id) });
-    this.componentRefMap.set(id, componentRef);
-
-    this.assignData(data, componentRef);
-    return this.observerComponent.pipe(take(1));
+     const {id} = this.createComponent(component, host, data);
+    // return  this.observerComponent.pipe(take(1));
+    return {
+      close: () => {
+        this.close(id);
+      },
+      beforeClose: (): Observable<any> => {
+        return this.componentRefMap.get(id)!.beforeClose.pipe(take(1));
+      }
+    }
   }
 
   assignData(data: DataComponent | null, componentRef) {
@@ -41,6 +44,16 @@ export class CreateHostService {
         componentRef.instance[key] = data[key];
       });
     }
+  }
+
+  private createComponent(component, host: CreateHostDirective, data): { id: Symbol, componentRef: ComponentRef<any> } {
+    const id = Symbol();
+    const componentRef = host.viewContainerRef
+      .createComponent<any>(component, { injector: this.generateInjector(id) });
+    componentRef.injector.get(CreateHostRef).componentRef = componentRef;
+    this.componentRefMap.set(id, {componentRef, beforeClose:  new Subject<any>()});
+    this.assignData(data, componentRef);
+    return {id, componentRef};
   }
 
   generateInjector(id): Injector {
@@ -61,7 +74,10 @@ export class CreateHostService {
   }
 
   close(id: any, data: any = null) {
-    this.componentRefMap.get(id)?.destroy();
-    this.observerComponent.next(data);
+    const {componentRef, beforeClose} = this.componentRefMap.get(id)!;
+    beforeClose.next(data);
+    console.log({data})
+    componentRef?.destroy();
+    this.componentRefMap.delete(id);
   }
 }

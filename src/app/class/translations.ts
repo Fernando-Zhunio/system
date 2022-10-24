@@ -11,6 +11,7 @@ const trans_es_default = {
     date_range: 'Rango de fechas',
     open: 'Abierto',
     undefined: 'Indefinido',
+    expired: 'Expirado',
 };
 
 const trans_es_order = {

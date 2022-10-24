@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { PromotionsIndexComponent } from "./promotions-index/promotions-index.component";
+import { PromotionsIndexComponent } from "./pages/promotions-index/promotions-index.component";
 
 const routes: Routes = [
     {
