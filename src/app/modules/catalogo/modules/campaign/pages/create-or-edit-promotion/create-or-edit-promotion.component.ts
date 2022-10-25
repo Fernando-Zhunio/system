@@ -10,15 +10,6 @@ import { SwalService } from '../../../../../../services/swal.service';
 import { SearchProductsDialogComponent } from '../../../../../../shared/search-products-dialog/search-products-dialog.component';
 import { CreateHostService } from '../../../../../../shared/services/create-host.service';
 import { Campaign } from '../../interfaces/campaign';
-
-// interface PromotionProductSend {
-//   id: number;
-//   price: number;
-//   quantity: number;
-//   name: string;
-//   img: string;
-//   code: string;
-// }
 @Component({
   selector: 'app-create-or-edit-promotion',
   templateUrl: './create-or-edit-promotion.component.html',
@@ -77,7 +68,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
     this.location.back();
   }
 
-  addProduct( {id, name, img, code}, price = null, quantity = null ): void {
+  addProduct({ id, name, img, code }, price = null, quantity = null): void {
     if (this.validateNotRepeatProduct(id)) {
       this.formArrayProductSelected.push(new FormGroup({
         id: new FormControl(id, [Validators.required]),
@@ -97,7 +88,6 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   }
 
   override getDataForSendServer(): any {
-    console.log(this.formArrayProductSelected.controls.values());
     if (this.form.valid && this.formArrayProductSelected.controls.length > 0) {
       return {
         ...this.form.value,
@@ -124,7 +114,7 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
       price: data.price_formated
     });
     data.products.forEach((item: any) => {
-      this.addProduct({id: item.id, name: item.name, img: item.image, code: item.code}, item.pivot.price, item.pivot.quantity);
+      this.addProduct({ id: item.id, name: item.name, img: item.image, code: item.code }, item.pivot.price, item.pivot.quantity);
       // return [item.id, {
       //   ...item,
       //   quantity: item.pivot.quantity
@@ -133,16 +123,16 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   }
 
   openDialogProductSearch(): void {
-    const options = {
+    this.chs.injectComponent(SearchProductsDialogComponent,
+      {
         onlyOne: true,
         url: 'catalogs/campaigns/promotions/search-products'
-    };
-    this.chs.injectComponent(SearchProductsDialogComponent, options).beforeClose().subscribe((res: any) => {
-      if (res?.data) {
-        console.log(res);
-        this.addProduct(res.data);
-      }
-    });
+      })
+      .beforeClose().subscribe((res: any) => {
+        if (res?.data) {
+          this.addProduct(res.data);
+        }
+      });
   }
 
   validateNotRepeatProduct(id: number): boolean {

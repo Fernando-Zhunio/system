@@ -8,46 +8,6 @@
       <i [ngClass]="{ 'text-muted': !isDark }" class="fa-regular fa-moon text-white icon-size"></i>
     </li>
     <li class="nav-item">
-      <!-- <button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
-        <i
-          class="fa-regular fa-bell icon-size"
-          #IconNotify
-          [matBadge]="countNotificationUnRead"
-          matBadgePosition="above after"
-          matBadgeColor="accent">
-        </i>
-        <ng-container *ngIf="isProgressDownloadReport">
-          <small class="progress-download">{{ progressDownloadReport }}%</small>
-        </ng-container>
-      </button>
-      <mat-menu class="custom-menu-notification scrollbar-fz" #menu1="matMenu" [overlapTrigger]="false">
-        <div class="menu-header main-style px-2">Notificaciones</div>
-        <ng-template matMenuContent>
-          <div
-            mat-menu-item
-            [disableRipple]="true"
-            (click)="goRouteNotification(notification.data)"
-            class="h-auto border-bottom rounded my-2"
-            *ngFor="let notification of notifications$ | async"
-            (click)="$event.stopPropagation()"
-            (keydown)="$event.stopPropagation()">
-            <div class="pl-2 content-menu">
-              <div class="d-flex align-items-center">
-                <div class="mr-1" *ngIf="notification.data.image">
-                  <img class="rounded-circle" style="width: 50px; height: 50px" [src]="notification.data.image" />
-                </div>
-                <div class="text-value-sm">
-                  {{ notification?.data?.user?.name ? notification?.data?.user?.name : "Sin Usuario" }}
-                </div>
-              </div>
-              <div class="font-weight-lighter text-muted">{{ notification.data.text }}</div>
-              <small class="text-capitalize text-muted">
-                {{ notification?.created_at | amLocale: "es" | amTimeAgo }}
-              </small>
-            </div>
-          </div>
-        </ng-template>
-      </mat-menu> -->
       <app-menu-notifications></app-menu-notifications>
     </li >
     
@@ -69,18 +29,18 @@
           <mat-icon>account_circle</mat-icon>
           <span>Mi perfil</span>
         </button>
-        <button mat-menu-item (click)="logout()">
+        <button mat-menu-item (click)="sa.logout()">
           <mat-icon>logout</mat-icon>
           <span>Cerrar sesión</span>
         </button>
       </mat-menu>
-      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+      <!-- <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
         <div class="dropdown-header text-center"><strong>Cuenta</strong></div>
         <div (click)="logout()" class="dropdown-item">
           <i class="fa fa-lock"></i>
           Cerrar sesión
         </div>
-      </div>
+      </div> -->
     </li>
     <li class="nav-item">
       <app-configuration-menu></app-configuration-menu>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MethodsHttpService } from '../../services/methods-http.service';
 
@@ -7,9 +7,13 @@ import { MethodsHttpService } from '../../services/methods-http.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
 
   constructor(private methodsHttp: MethodsHttpService) {}
+
+
+  @ViewChild("searchInput") searchInput: ElementRef;
+
 
   @Input() classes: string = '';
   @Input() title: string | null = null;
@@ -27,6 +31,13 @@ export class SearchComponent implements OnInit {
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
     this.init ? this.search() : this.isLoading = undefined;
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      console.log(this.searchInput);
+      this.searchInput.nativeElement.focus();
+    }, 500);
   }
 
   search(pageEvent: any = null): void {

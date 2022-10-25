@@ -122,10 +122,6 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  // selectAllWarehouse($event) {
-  //   const index = $event.value.findIndex((x) => x == 'all');
-  // }
-
   copyCodigo(code) {
     this.clipboard.copy(code);
     this.snack_bar.open('Codigo ' + code + ' copiado', 'OK', {
@@ -146,11 +142,6 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  openListPrices(id: number): void {
-    this.dialog.open(StockBodegasComponent, {
-      data: { id },
-    });
-  }
 
   viewWareHouse(index) {
     let warehouse = {};

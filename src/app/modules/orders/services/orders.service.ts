@@ -35,6 +35,10 @@ export class OrdersService {
     );
   }
 
+  clearOrder(): void {
+    this.$order.next(null);
+  }
+
   changeStatusShipping(id: string, status: string): Observable<IResponse<any>> {
     return this.httpClient.put<IResponse<any>>
     (`${environment.server}system-orders/orders/${this.order_id}/shippings/${id}/status`, { status })

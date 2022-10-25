@@ -15,6 +15,7 @@ import { selectNotification } from '../../redux/state/state.selectors';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { INavData } from '../../interfaces/inav-data';
 import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,8 +24,7 @@ import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
 })
 export class DefaultLayoutComponent implements OnInit {
   constructor(
-    // private sa: AuthService,
-    // private route: Router,
+    public sa: AuthService,
     private ss: StorageService,
     private methodsHttp: MethodsHttpService,
     public s_shared: SharedService,

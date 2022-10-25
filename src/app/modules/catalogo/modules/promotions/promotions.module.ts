@@ -13,6 +13,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SearchProductsDialogModule } from '../../../../shared/search-products-dialog/search-products-dialog.module';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { SearchCampaignDialogComponent } from './components/search-campaign-dialog/search-campaign-dialog.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,6 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     MatSelectModule,
   ],
-  declarations: [PromotionsIndexComponent]
+  declarations: [PromotionsIndexComponent, SearchCampaignDialogComponent]
 })
 export class PromotionsModule { }

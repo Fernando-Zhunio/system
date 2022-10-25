@@ -39,6 +39,7 @@ export class CustomInterceptor implements HttpInterceptor {
 
     return next.handle(newRequest).pipe(
       finalize(() => {
+        console.log('Finalizado');
         this.snackBar.dismiss();
       }),
       catchError((err) => {

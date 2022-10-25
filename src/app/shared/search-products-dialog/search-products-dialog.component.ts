@@ -1,25 +1,23 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { animation_conditional } from '../../animations/animate_leave_enter';
 import { CreateHostRef } from '../class/create-host-ref';
-// import { CreateHostService } from '../services/create-host.service';
 
 @Component({
-  
   selector: 'app-search-products-dialog',
   templateUrl: './search-products-dialog.component.html',
   styleUrls: ['./search-products-dialog.component.scss'],
   animations: animation_conditional
 })
-export class SearchProductsDialogComponent implements OnInit {
+export class SearchProductsDialogComponent  {
 
-  url: string;
-  onlyOne: boolean = false;
-  productsSelected: Map<number, any> = new Map<number, any>();
+  @Input() url: string;
+  @Input() onlyOne: boolean = false;
+  @Input() productsSelected: Map<number, any> = new Map<number, any>();
+  @Input() optionTemplate: TemplateRef<any>;
+  @Input() placeholder: string = "Buscador de producto";
 
   constructor(private componentRef: CreateHostRef) {}
-  ngOnInit(): void {
-    console.log(this.componentRef.getId());
-  }
+
 
   products: Map<number, any> = new Map<number, any>();
   @Output() add: EventEmitter<any> = new EventEmitter<any>();

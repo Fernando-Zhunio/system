@@ -25,7 +25,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let price of prices">
-          <td>{{ price?.full_price_formated | currency }}</td>
+          <td>{{ price?.price | currency }}</td>
           <td>{{ price.price_with_tax | currency }}</td>
           <td>{{ price.group.name }}</td>
           <td>{{ price.start_date | date: "medium" }} {{ price.end_date | date: "medium" }}</td>

@@ -28,8 +28,6 @@ export class AddProductsOrderComponent  {
   @Input() items
   @Input() isCancelled: boolean;
   @Output() changeOrder = new EventEmitter<string>();
-  // itemEditing: IItemOrder;
-  // isOpenSearchProducts = false;
   isLoading = false;
   products: Map<number, IProduct> = new Map<number, IProduct>();
   urlProducts: string = 'system-orders/products';

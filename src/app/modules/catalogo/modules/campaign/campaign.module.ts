@@ -26,6 +26,7 @@ import {MatRippleModule} from '@angular/material/core';
 import { SearchTemplateTableComponent } from '../../../../Modulos/search-template/search-template-table/search-template-table.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import { SearchProductsDialogModule } from '../../../../shared/search-products-dialog/search-products-dialog.module';
+import { CreateHostDirective } from '../../../../shared/directives/create-host.directive';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { SearchProductsDialogModule } from '../../../../shared/search-products-d
     SearchTemplateTableComponent,
     MatBadgeModule,
     SearchProductsDialogModule,
+    CreateHostDirective
   ],
   declarations: [
     DetailsPromotionComponent, 

@@ -20,7 +20,7 @@ export class MercadoLibreIndexComponent implements OnInit, OnDestroy {
   price_max: number | null = null;
   aux_page_next = 0;
   hasData: boolean = true;
-  isLoading: boolean = false;
+  isLoading: boolean = false; 
 
   filters = {
     min: null,

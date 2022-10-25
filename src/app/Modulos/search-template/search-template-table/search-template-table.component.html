@@ -14,14 +14,14 @@
 <div>
   <ng-content select="[subheader]"></ng-content>
 </div>
-<div class="container-table">
+<div class="container-table shadow px-2">
   <div *ngIf="__isLoading" class="is-loading center w-100 h-100">
     <div class="center">
       <mat-spinner [diameter]="25"></mat-spinner>
       <p class="m-0 ml-2">Cargando datos</p>
     </div>
   </div>
-  <div class="position-relative table-container shadow  ">
+  <div class="position-relative table-container  ">
     <ng-content select="[table]"></ng-content>
   </div>
 </div>
