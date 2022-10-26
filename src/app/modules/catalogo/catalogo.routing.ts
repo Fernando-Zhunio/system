@@ -40,6 +40,10 @@ const routes: Routes = [
 
     },
   },
+  {
+    path: 'imports',
+    loadChildren: () => import('./modules/imports/imports.module').then(m => m.ImportsModule),
+  },
   // {
   //   path: 'publicaciones/menu-multi-publicaciones',
   //   component: MenuMultiPublicationComponent,
