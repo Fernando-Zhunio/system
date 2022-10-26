@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilePondOptions } from 'filepond';
 import { environment } from '../../../../../../../environments/environment';
 import { Token } from '../../../../../../class/fast-data';
-import { PermissionCampaigns } from '../../../../../../class/permissions-modules';
+import { PERMISSION_PROMOTIONS } from '../../../../../../class/permissions-modules';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../../services/swal.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
@@ -62,7 +62,7 @@ export class PromotionIndexComponent extends MatTableHelper<Promotion> implement
   }
 
   campaign: Campaign;
-  permissions = PermissionCampaigns;
+  permissions = PERMISSION_PROMOTIONS;
 
   pondOptions: FilePondOptions | null = null
 

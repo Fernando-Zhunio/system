@@ -1,237 +1,186 @@
-<mat-drawer-container style="overflow: inherit; background-color: transparent" class="example-container" autosize>
-  <mat-drawer
-    #drawer
-    class="col-md-8 col-11 p-2 m-drawer"
-    style="top: 0; height: 100vh"
-    mode="over"
-    position="end"
-    fixedInViewport="true">
-    <div *ngIf="isLoadPost; else loadPost" class="position-relative">
-      <div style="position: sticky; top: 0; z-index: 10">
-        <button mat-mini-fab class="position-absolute bg-gray" style="top: 10px; right: 10px" (click)="viewPost()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-      <div class="font-2xl font-facebook text-muted m-2">
-        {{ post_current.name }}
-      </div>
-      <div class="my-2 px-2">
-        <div class="font-5xl mb-2 font-facebook">Facebook</div>
-        <swiper [config]="config" [useSwiperClass]="false">
-          <div *ngFor="let post of post_current.facebook_posts">
-            <app-facebook-post class="w-100 p-1" [post]="post"></app-facebook-post>
-          </div>
-        </swiper>
-      </div>
-
-      <div class="my-2 px-2">
-        <div class="font-5xl mb-2 font-facebook">Instagram</div>
-        <swiper [config]="config" [useSwiperClass]="false">
-          <div *ngFor="let post of post_current.instagram_posts">
-            <app-post-instagram class="w-100 p-1" [post_ig]="post"></app-post-instagram>
-          </div>
-        </swiper>
-      </div>
-    </div>
-    <ng-template #loadPost>
-      <div class="font-facebook font-2xl">Cargando post espere por favor...</div>
-    </ng-template>
-  </mat-drawer>
-
-  <mat-drawer-content style="overflow: inherit; background-color: transparent">
-    <!-- go spy -->
-    <div *ngIf="products.length > 0 && !isLoading" class="view-all-name">
-      <nav id="nav-go" [ngClass]="is_open_go ? 'go-on' : 'go-off'" class="position-absolute badge-go text-right">
-        <div class="text-nowrap" *ngFor="let product of products">
-          <a href="javascript:void(0);" (click)="goSpy(product.id)">{{ product.name }}</a>
+<app-search-template
+  [title]="'Productos'"
+  active_filters_menu="true"
+  [columns]="2"
+  (data)="loadData($event)"
+  placeholder="Buscar producto"
+  [url$]="'catalogs/products'"
+  [filter_data]="filter">
+  <ng-container data>
+    <mat-card @fade class="card border-0" *ngFor="let p of products; index as ind">
+      <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0" style="top: 68px; background: inherit">
+        <div class="font-weight-light font-2xl mb-2">
+          <span class="mr-1 text-primary">#{{ p.id }}</span>
+          {{ p.name }}
+          <button
+            *ngxPermissionsOnly="permission.product_edit"
+            [routerLink]="['/admin-products/productos/edit/' + p.id]"
+            routerLinkActive="router-link-active"
+            mat-mini-fab>
+            <i class="fa-solid fa-pen"></i>
+          </button>
         </div>
-      </nav>
-      <button class="bg-gray" (click)="openOrCloseGo()" mat-mini-fab>
-        <mat-icon>{{ icon_go }}</mat-icon>
-      </button>
-    </div>
-
-    <app-search-template
-      [title]="'Productos'"
-      active_filters_menu="true"
-      [columns]="2"
-      (data)="loadData($event)"
-      placeholder="Buscar producto"
-      [url$]="'catalogs/products'"
-      [filter_data]="filter">
-      <ng-container data>
-        <mat-card @fade class="card border-0" *ngFor="let p of products; index as ind">
-          <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0" style="top: 68px; background: inherit">
-            <div class="font-weight-light font-2xl mb-2">
-              <span class="mr-1 text-primary">#{{ p.id }}</span>
-              {{ p.name }}
-              <button
-                *ngxPermissionsOnly="permission.product_edit"
-                [routerLink]="['/admin-products/productos/edit/' + p.id]"
-                routerLinkActive="router-link-active"
-                mat-mini-fab>
-                <i class="fa-regular fa-pen-to-square"></i>
-              </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="example-sidenav-content">
+          <mat-chip-list>
+            <mat-chip>
+              <small>
+                <strong>Tipo:</strong>
+                {{ p?.prefix?.type }}
+              </small>
+            </mat-chip>
+            <mat-chip class="cursor_copy" (click)="copyCodigo(p.code)">
+              <small>
+                <strong>Codigo:</strong>
+                {{ p?.code }}
+                <i class="far fa-copy"></i>
+              </small>
+            </mat-chip>
+            <mat-chip>
+              <small>
+                <strong>Marca:</strong>
+                {{ p.brand.name }}
+              </small>
+            </mat-chip>
+            <mat-chip>
+              <small>
+                <strong>Categoría:</strong>
+                {{ p?.category?.name }}
+              </small>
+            </mat-chip>
+            <mat-chip [class]="p.available > 0 ? 'text-primary' : 'text-danger'">
+              <small>
+                <strong>Stock para ventas:</strong>
+                {{ p.available }}
+              </small>
+            </mat-chip>
+          </mat-chip-list>
+          <hr />
+          <div class="mt-2">
+            <button mat-raised-button class="mr-1" type="button" color="primary" (click)="viewWareHouse(ind)">
+              <i class="fa-solid fa-cubes-stacked"></i>
+              Stock en bodegas
+            </button>
+            <button mat-raised-button color="accent" class="my-1" (click)="openDescription(ind)">
+              Ver descripción
+            </button>
+            <button mat-raised-button class="my-1 mat-orange" (click)="openDialogHistoryPrices(p.id)">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              Ver historial de precios
+            </button>
+          </div>
+          <div>
+            <div *ngIf="p?.last_prices?.length > 0" class="col-12">
+              <div class="header">
+                <div class="font-3xl my-4">Precios</div>
+              </div>
+              <ul class="card-body rounded-fz shadow list-unstyled">
+                <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
+                  <mat-chip>{{ price.group.name }}:</mat-chip>
+                  <b>${{ price?.full_price_formated }}</b>
+                </li>
+              </ul>
             </div>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="example-sidenav-content">
-              <mat-chip-list>
-                <mat-chip>
-                  <small>
-                    <strong>Tipo:</strong>
-                    {{ p?.prefix?.type }}
-                  </small>
-                </mat-chip>
-                <mat-chip
-                  class="cursor_copy"
-                  (click)="copyCodigo(p.code)"
-                  >
-                  <small>
-                    <strong>Codigo:</strong>
-                    {{ p?.code }}
-                    <i class="far fa-copy"></i>
-                  </small>
-                </mat-chip>
-                <mat-chip>
-                  <small>
-                    <strong>Marca:</strong>
-                    {{ p.brand.name }}
-                  </small>
-                </mat-chip>
-                <mat-chip>
-                  <small>
-                    <strong>Categoría:</strong>
-                    {{ p?.category?.name }}
-                  </small>
-                </mat-chip>
-                <mat-chip  [class]="p.available > 0 ? 'text-primary' : 'text-danger'">
-                  <small>
-                    <strong>Stock para ventas:</strong>
-                    {{ p.available }}
-                  </small>
+            <div *ngIf="p.promotions?.length > 0" class="card-body">
+              <div class="font-3xl my-4">Promociones</div>
+              <mat-card *ngFor="let promotion of p.promotions" class="my-3">
+                <mat-card-header>
+                  <mat-card-title>
+                    <div class="font-2xl">{{ promotion.title }}</div>
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p *ngIf="promotion.description">{{ promotion.description }}</p>
+                  <div>
+                    <small>Detalles</small>
+                    <ul class="list">
+                      <li>
+                        Precio:
+                        <b class="text-primary">{{ promotion.price_formated | currency }}</b>
+                      </li>
+                      <li>
+                        Creado:
+                        <b>{{ promotion.created_at | date: "medium" }}</b>
+                      </li>
+                    </ul>
+                  </div>
+                  <div *ngIf="promotion.duration_type === 'date_range'">
+                    <hr />
+                    <small>Fecha de inicio y fin</small>
+                    <ul class="list">
+                      <li>
+                        Inicio:
+                        <b>{{ promotion.start_date | date: "medium" }}</b>
+                      </li>
+                      <li>
+                        Fin:
+                        <b>{{ promotion.end_date | date: "medium" }}</b>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <hr />
+                    <small>Productos</small>
+                    <div>
+                      <table class="table table-sm">
+                        <thead class="text-black-50">
+                          <tr>
+                            <th>Imagen</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let product of promotion?.products">
+                            <td>
+                              <img
+                                class="shadow rounded-lg"
+                                [src]="product.image || 'assets/img/img_default_null.jpg'"
+                                alt=""
+                                width="50"
+                                height="50" />
+                            </td>
+                            <td>
+                              <span class="text-danger">{{ product.code }}</span>
+                              {{ product.name }}
+                            </td>
+                            <td>{{ product.pivot.quantity }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              <!-- <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion"></app-promociones> -->
+            </div>
+            <div *ngIf="p.imports.length > 0" class="">
+              <div class="header">
+                <div class="font-3xl my-4">Historial de importaciones</div>
+              </div>
+              <mat-chip-list aria-label="Importaciones">
+                <mat-chip *ngFor="let imports of p.imports">
+                  {{ imports.sequence.origin.name }} #{{ imports.sequence.sequence_number }}
                 </mat-chip>
               </mat-chip-list>
-              <hr />
-              <div class="mt-2">
-                <button mat-raised-button class="mr-1" type="button" color="primary" (click)="viewWareHouse(ind)">
-                  <i class="fa-solid fa-cubes-stacked"></i> Stock en bodegas
-                </button>
-                <button
-                  (click)="viewPost(p.id)"
-                  *ngIf="p.facebook_posts_count > 0"
-                  mat-raised-button
-                  class="mr-1 my-1"
-                  color="warn"
-                  type="button">
-                  Ver posteó
-                </button>
-                <button mat-raised-button color="accent" class="my-1" (click)="openDescription(ind)">
-                  Ver descripción
-                </button>
-                <button mat-raised-button class="my-1 mat-orange" (click)="openDialogHistoryPrices(p.id)">
-                  <i class="fa-solid fa-clock-rotate-left"></i> Ver historial de precios
-                </button>
+            </div>
+          </div>
+          <ng-container *ngIf="p.vtex_skus?.length > 0">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="header">
+                <div class="font-3xl my-4">PÁGINA WEB</div>
               </div>
-              <div>
-                <div *ngIf="p?.last_prices?.length > 0" class="col-12">
-                  <div class="header">
-                    <div class="font-3xl my-4">Precios</div>
-                  </div>
-                  <ul class="card-body rounded-fz shadow list-unstyled">
-                    <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
-                      <mat-chip>{{ price.group.name }}:</mat-chip>
-                      <b>${{ price?.full_price_formated }}</b>
-                    </li>
-                  </ul>
-                </div>
-                <div *ngIf="p.promotions?.length > 0" class="card-body">
-                  <div class="font-3xl my-4">Promociones</div>
-                  <mat-card *ngFor="let promotion of p.promotions" class="my-3">
-                    <mat-card-header>
-                      <mat-card-title>
-                        <div class="font-2xl">{{ promotion.title }}</div>
-                      </mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                      <p *ngIf="promotion.description">{{promotion.description}}</p>
-                      <div>
-                        <small>Detalles</small>
-                        <ul class="list">
-                          <li>
-                            Precio: <b class="text-primary">{{ promotion.price_formated | currency }}</b>
-                          </li>
-                          <li>
-                            Creado: <b>{{ promotion.created_at | date: 'medium' }}</b>
-                          </li>
-                        </ul>
-                      </div>
-                      <div *ngIf="promotion.duration_type === 'date_range'">
-                        <hr>
-                        <small>Fecha de inicio y fin</small>
-                        <ul class="list">
-                          <li>
-                            Inicio: <b>{{ promotion.start_date | date: 'medium' }}</b>
-                          </li>
-                          <li>
-                            Fin: <b>{{ promotion.end_date | date: 'medium' }}</b>
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <hr>
-                        <small>Productos</small>
-                        <div>
-                          <table class="table table-sm">
-                            <thead class="text-black-50 ">
-                              <tr>
-                                <th>Imagen</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngFor="let product of promotion?.products">
-                                <td>
-                                  <img class="shadow rounded-lg" [src]="product.image || 'assets/img/img_default_null.jpg'" alt="" width="50" height="50" />
-                                </td>
-                                <td> <span class="text-danger">{{ product.code }}</span>  {{ product.name }}</td>
-                                <td>{{ product.pivot.quantity }}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </mat-card-content>
-                  </mat-card>
-                  <!-- <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion"></app-promociones> -->
-                </div>
-                <div *ngIf="p.imports.length > 0" class="">
-                  <div class="header">
-                    <div class="font-3xl my-4">Historial de importaciones</div>
-                  </div>
-                  <mat-chip-list aria-label="Importaciones">
-                    <mat-chip *ngFor="let imports of p.imports">
-                      {{ imports.sequence.origin.name }} #{{ imports.sequence.sequence_number }}
-                    </mat-chip>
-                  </mat-chip-list>
-                </div>
-              </div>
-              <ng-container *ngIf="p.vtex_skus?.length > 0">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <div class="header">
-                    <div class="font-3xl my-4">PÁGINA WEB</div>
-                  </div>
-                </div>
-                <div class="container">
-                  <swiper [config]="config" [useSwiperClass]="false">
-                    <mat-card style="background: inherit" *ngFor="let i of p.vtex_skus">
-                      <app-pagina-web [prestashop_product]="i"></app-pagina-web>
-                    </mat-card>
-                  </swiper>
-                </div>
-              </ng-container>
-              <!-- <div class="overflow-hidden" *ngIf="p.ml_infos.length > 0">
+            </div>
+            <div class="container">
+              <swiper [config]="config" [useSwiperClass]="false">
+                <mat-card style="background: inherit" *ngFor="let i of p.vtex_skus">
+                  <app-pagina-web [prestashop_product]="i"></app-pagina-web>
+                </mat-card>
+              </swiper>
+            </div>
+          </ng-container>
+          <!-- <div class="overflow-hidden" *ngIf="p.ml_infos.length > 0">
                 <div class="font-3xl my-4">Mercado Libre</div>
                 <div class="container mb-3">
                   <swiper [config]="config" [useSwiperClass]="false">
@@ -241,75 +190,67 @@
                   </swiper>
                 </div>
               </div> -->
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </ng-container>
-      <ng-container filterMenu>
-        <!-- <mat-menu #menu="matMenu" [overlapTrigger]="false"> -->
-        <div
-          mat-menu-item
-          [disableRipple]="true"
-          (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()">
-          <mat-form-field class="w-100">
-            <mat-label>Prefijos</mat-label>
-            <mat-select [(ngModel)]="filter.prefix_id">
-              <mat-option value="">Todos</mat-option>
-              <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
-            </mat-select>
-          </mat-form-field>
         </div>
-        <div
-          class="row m-0 p-0"
-          style="text-overflow: initial"
-          mat-menu-item
-          (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()">
-          <mat-form-field class="col-6">
-            <mat-label>Stock Min</mat-label>
-            <input matInput type="number" [(ngModel)]="filter.min" type="number" class="" />
-          </mat-form-field>
-          <mat-form-field class="col-6">
-            <mat-label>Stock Max</mat-label>
-            <input [(ngModel)]="filter.max" type="number" matInput class="" />
-          </mat-form-field>
-        </div>
-        <div
-          mat-menu-item
-          [disableRipple]="true"
-          (click)="$event.stopPropagation()"
-          (keydown)="$event.stopPropagation()"
-          class="h-100">
-          <mat-form-field class="w-100">
-            <mat-label>Todas las Bodegas</mat-label>
-            <mat-select
-              type="text"
-              #select_warehouse
-              [(ngModel)]="filter['warehouse_ids[]']"
-              multiple>
-              <mat-select-trigger>
-                <mat-chip-list>
-                  <mat-chip
-                    (removed)="removeWarehouse(warehouse_id)"
-                    *ngFor="let warehouse_id of filter['warehouse_ids[]']"
-                    [removable]="true">
-                    {{ getNameWareHouse(warehouse_id) }}
-                    <mat-icon matChipRemove>cancel</mat-icon>
-                  </mat-chip>
-                </mat-chip-list>
-              </mat-select-trigger>
-              <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
-                {{ warehouse.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <!-- </mat-menu> -->
-      </ng-container>
-    </app-search-template>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  <ng-container filterMenu>
+    <!-- <mat-menu #menu="matMenu" [overlapTrigger]="false"> -->
+    <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+      <mat-form-field class="w-100">
+        <mat-label>Prefijos</mat-label>
+        <mat-select [(ngModel)]="filter.prefix_id">
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div
+      class="row m-0 p-0"
+      style="text-overflow: initial"
+      mat-menu-item
+      (click)="$event.stopPropagation()"
+      (keydown)="$event.stopPropagation()">
+      <mat-form-field class="col-6">
+        <mat-label>Stock Min</mat-label>
+        <input matInput type="number" [(ngModel)]="filter.min" type="number" class="" />
+      </mat-form-field>
+      <mat-form-field class="col-6">
+        <mat-label>Stock Max</mat-label>
+        <input [(ngModel)]="filter.max" type="number" matInput class="" />
+      </mat-form-field>
+    </div>
+    <div
+      mat-menu-item
+      [disableRipple]="true"
+      (click)="$event.stopPropagation()"
+      (keydown)="$event.stopPropagation()"
+      class="h-100">
+      <mat-form-field class="w-100">
+        <mat-label>Todas las Bodegas</mat-label>
+        <mat-select type="text" #select_warehouse [(ngModel)]="filter['warehouse_ids[]']" multiple>
+          <mat-select-trigger>
+            <mat-chip-list>
+              <mat-chip
+                (removed)="removeWarehouse(warehouse_id)"
+                *ngFor="let warehouse_id of filter['warehouse_ids[]']"
+                [removable]="true">
+                {{ getNameWareHouse(warehouse_id) }}
+                <i class="fa-solid fa-xmark"></i>
+              </mat-chip>
+            </mat-chip-list>
+          </mat-select-trigger>
+          <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+            {{ warehouse.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- </mat-menu> -->
+  </ng-container>
+</app-search-template>
 
-    <!-- <div *ngIf="isLoading" class="card-columns">
+<!-- <div *ngIf="isLoading" class="card-columns">
       <div *ngFor="let item of [1, 2, 3]" class="my-1 card rounded-fz card-body border-0">
         <ngx-skeleton-loader count="1" [theme]="{
             'border-radius': '5px',
@@ -328,7 +269,7 @@
       </div>
     </div> -->
 
-    <!-- <div *ngIf="!isLoading" class="card-columns">
+<!-- <div *ngIf="!isLoading" class="card-columns">
 
     </div>
 
@@ -347,5 +288,3 @@
       (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
       [pageIndex]="paginator.current_page-1">
     </mat-paginator> -->
-  </mat-drawer-content>
-</mat-drawer-container>

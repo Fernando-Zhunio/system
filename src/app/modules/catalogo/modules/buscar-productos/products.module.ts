@@ -13,14 +13,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
-// import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-// import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { ClipboardModule} from '@angular/cdk/clipboard';
-// import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { MatSidenavModule } from '@angular/material/sidenav';
-// import { CarouselModule } from 'ngx-bootstrap/carousel';
+// import { MatSidenavModule } from '@angular/material/sidenav';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { MomentModule } from 'ngx-moment';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -39,12 +35,9 @@ import { MatListModule } from '@angular/material/list';
   imports: [
     CommonModule,
     ProductsRoutingModule,
-    // NgxAutocompleteModule,
-    // CarouselModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    // MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,
@@ -53,14 +46,10 @@ import { MatListModule } from '@angular/material/list';
     NgxPermissionsModule,
     MatTabsModule,
     MatSelectModule,
-    // MatPaginatorModule,
     MlModule,
     MatChipsModule,
     NgxSkeletonLoaderModule,
-    // MatSnackBarModule,
     ClipboardModule,
-    // TooltipModule.forRoot(),
-    MatSidenavModule,
     PostModule,
     SwiperModule,
     SearchTemplateModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { PermissionCampaigns } from '../../../../../../class/permissions-modules';
+import { PERMISSION_CAMPAIGNS } from '../../../../../../class/permissions-modules';
 import { IProduct } from '../../../../../../interfaces/iproducts';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
@@ -19,7 +19,7 @@ export class PromotionsIndexComponent extends MatTableHelper<any> implements OnI
   protected columnsToDisplay: string[] = [
     'id', 'created_at', 'status', 'title', 'price_formated', 'products', 'duration_type', 'description', 'campaign'];
   @ViewChild(MatTable) table: MatTable<Promotion>;
-  permissions = PermissionCampaigns;
+  permissions = PERMISSION_CAMPAIGNS;
 
   url: string = 'catalogs/promotions';
   products: Map<number, IProduct> = new Map<number, IProduct>();

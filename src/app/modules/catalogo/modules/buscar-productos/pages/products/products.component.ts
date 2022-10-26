@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
@@ -14,7 +13,6 @@ import { ProductsService } from '../../../../../../services/products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { HeaderSearchComponent } from '../../../../../../components/header-search/header-search.component';
 import { IproductWithVtex } from '../../../../../../interfaces/iproducts';
-import { IpostProduct } from '../../../../../../interfaces/ipost-product';
 import { Iwarehouse } from '../../../../../../interfaces/iwarehouse';
 import { Iprefix } from '../../../../../../interfaces/iprefix';
 import { Ipagination } from '../../../../../../interfaces/ipagination';
@@ -40,7 +38,6 @@ export class ProductsComponent implements OnInit {
 
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  @ViewChild(MatDrawer) drawer: MatDrawer;
 
   pageSizeOptions: number[] = [10, 15, 25, 100];
   pageEvent: PageEvent;
@@ -49,16 +46,12 @@ export class ProductsComponent implements OnInit {
   selected_state: string = 'all';
   aux_page_next = 0;
 
-  post_current: IpostProduct;
   suscrition_api: Subscription;
   isLoading: boolean = false;
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
   paginator: Ipagination<IproductWithVtex>;
   search: string;
-  messagePost: string = 'Cargando post espere por favor...';
-  isLoadPost: boolean = false;
-  current_go: number;
   is_open_go: boolean = false;
   icon_go: 'segment'|'close' = 'segment';
   config: SwiperOptions = {
@@ -160,60 +153,8 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  viewPost(id = null): void {
-    this.isLoadPost = false;
-    this.messagePost = 'Cargando post espere por favor...';
-
-    this.drawer.toggle().then(
-      (res) => {
-        if (res == 'open') {
-          this.methodsHttp
-            .methodGet('catalogs/products/' + id + '/social-post')
-            .subscribe((res2: { success: boolean; data: IpostProduct }) => {
-              this.post_current = res2.data;
-              this.isLoadPost = true;
-            });
-        }
-      },
-      () => {
-        this.messagePost =
-          'Ups! ocurrió un problema al cargar el post inténtalo otra vez';
-      }
-    );
-  }
-
   changePaginator(event): void {
     this.headerComponent.searchBar(event);
-  }
-
-  applyFilter() {
-    this.headerComponent.searchBar();
-  }
-
-
-  goSpy(id: any) {
-    if (this.current_go == id) {return; }
-    const element = document.getElementById(id);
-    if (element) {
-      element.classList.remove('anim-go');
-      this.current_go = id;
-      const forScroll = document.getElementsByClassName('app-body')
-      const dist = element.getBoundingClientRect().y;
-      const current_position = forScroll[0].scrollTop;
-      const viewHeight = window.screen.height;
-      const go = dist + current_position - (viewHeight / 2);
-      forScroll[0].scrollTop = go;
-      element.classList.add('anim-go');
-    }
-  }
-
-  openOrCloseGo(){
-    this.is_open_go = !this.is_open_go;
-    if (this.is_open_go) {
-      this.icon_go = 'close';
-    } else {
-      this.icon_go = 'segment';
-    }
   }
 
   openDialogHistoryPrices(id: number): void {
