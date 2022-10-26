@@ -3,8 +3,8 @@
   [ngClass]="{ 'sticky-top': isSticky }"
   style="z-index: 2; top: 55px">
   <div class="center flex-wrap overflow-auto">
-    <ng-content #defaultTitle select=".title"></ng-content>
-    <h1 *ngIf="!defaultTitle" class="m-0 font-weight-bolder font-4xl">{{ title }}</h1>
+    <!-- <ng-content #defaultTitle select=".title"></ng-content> -->
+    <h1 class="m-0 font-weight-bolder font-4xl">{{ title }}</h1>
 
     <ng-content select=".selections-back"></ng-content>
     <div class="position-relative p-3 overflow-hidden">
