@@ -1,12 +1,15 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren } from '@angular/core';
 import Echo from 'laravel-echo';
-import { EchoManager } from '../../class/echo-manager';
+import { environment } from '../../../environments/environment';
+import { EchoManager, EchoOptions } from '../../class/echo-manager';
+import { User } from '../../class/fast-data';
 import { IchatBot, IchatBubble, Ichats, ImessageChat, IparticipantChat, IuserChat } from '../../interfaces/chats/ichats';
 import { SharedService } from '../../services/shared/shared.service';
 import { StandartSearchService } from '../../services/standart-search.service';
 import { StorageService } from '../../services/storage.service';
 import { SwalService } from '../../services/swal.service';
+import { CONST_ECHO_CHAT_CHANNEL_PRIVATE } from '../../shared/objects/constants';
 import { ChatComponent } from './chat/chat.component';
 
 
@@ -19,7 +22,7 @@ interface IDeliveryMessageListen {
 @Component({
   selector: 'app-chat-template',
   templateUrl: './chat-template.component.html',
-  styleUrls: ['./chat-template.component.css'],
+  styleUrls: ['./chat-template.component.scss'],
   animations: [trigger('fade', [
     transition(
       ':leave', [
@@ -146,8 +149,13 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
 
   connectionChat(): void {
-    this.echoChat = new EchoManager(this.s_storage).chat_echo;
-    this.echoChat.private(`chat.${this.myUser.id}`)
+    const optionEcho: EchoOptions = {
+      wsHost: environment.domain_serve_chat,
+      wsPort: environment.portSocket_chat,
+      wssPort: environment.portSocket_chat,
+    }
+    this.echoChat = new EchoManager().set(optionEcho).get();
+    this.echoChat.private(this.getChannelChat())
       .listen(`.chat`, this.modificationChatListen.bind(this))
       .listen('.message', this.getMessages.bind(this))
       .listen('.typing', this.typingUserListen.bind(this))
@@ -159,8 +167,12 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       .listen('.user', this.getChatUserStatus.bind(this));
   }
 
+  getChannelChat(): string {
+    return CONST_ECHO_CHAT_CHANNEL_PRIVATE(User.getInstance().id);
+  }
+
   ngOnDestroy(): void {
-    this.echoChat.leave(`chat.${this.myUser.id}`);
+    this.echoChat.leave(this.getChannelChat());
   }
 
   markDoDeliveryAll(): void {
@@ -179,7 +191,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   messageDeliveredListen(event: IDeliveryMessageListen): void {
-    // console.log('message_delivered', event);
     if (this.chats.has(event.chat_id)) {
       this.chats.get(event.chat_id)!.last_message!.is_delivered_for_all = event.is_delivered_for_all;
     }
@@ -191,13 +202,11 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   deleteMessage(event: { chat_id: string, message_id: string }) {
-    console.log('message_deleted', event);
     if (this.chatsbubble.has(event.chat_id)) {
       const messages = this.chatsbubble.get(event.chat_id)!.messages;
       const indexMsm = messages.findIndex(msm => msm._id === event.message_id);
       if (indexMsm > -1) {
         const msm = messages[indexMsm];
-        console.log('message_deleted', msm);
         msm.text = '🚫 Este mensaje fue eliminado por el remitente';
         msm.files = [];
         msm.links = [];
@@ -267,7 +276,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
     // * si no esta abierto el panel de chat suma uno en el icono del chat
-    console.log('getMessages', event);
 
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
@@ -367,9 +375,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
           this.users.set(x.id, { connected, id, name: _name, person, data: (null as any), img: this.getPhotoParticipant(person?.photo?.permalink, _name), index: this.index, messages: [], typing: false, });
         });
         this.page++;
-      },
-      (error) => {
-        console.log(error);
       }
     );
   }
@@ -386,9 +391,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
           this.bots.set(_id, { connected: 1, id: _id, name: info.name, person: null, data: (null as any), img: info.photo, index: this.index, messages: [], typing: false, });
         });
         this.page++;
-      },
-      (error) => {
-        console.log(error);
       }
     );
   }
@@ -424,7 +426,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         }
         const res = data.data as { chats: Ichats, messages: any[] };
         const _chat = this.users.get(user_id)!;
-        // console.log({ _chat });
         _chat.data = res.chats;
         _chat.id = res.chats._id;
         _chat.messages = [];
@@ -470,7 +471,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
     if (this.chats.has(chat_id)) {
       const chat = this.chats.get(chat_id)!;
-      // console.log(chat);
       const _name = chat?.data.name || chat?.data.participants[0].info.name;
 
       const newChat: IchatBubble = {
@@ -513,9 +513,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
           this.users.set(x.id, { connected, id, name: _name, person, data: null as any, img: this.getPhotoParticipant(person?.photo?.permalink, _name), index: this.index, messages: [], typing: false });
         });
         this.page++;
-      },
-      (error) => {
-        console.log(error);
       }
     );
   }

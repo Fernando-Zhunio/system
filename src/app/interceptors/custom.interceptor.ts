@@ -13,24 +13,25 @@ import { StorageService } from '../services/storage.service';
 import { SharedService } from '../services/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Token } from '../class/fast-data';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
   constructor(
-    private s_storage: StorageService,
+    private ss: StorageService,
     private snackBar: MatSnackBar,
+    private sa: AuthService
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let headers: any = new HttpHeaders();
-    const isAuthenticated = this.s_storage.isAuthenticated();
+    const isAuthenticated = this.ss.isAuthenticated();
     if (isAuthenticated) {
       headers = this.createHeader();
     }
     if (SharedService.disabled_loader) {
       SharedService.disabled_loader = false;
     } else {
-      console.log(request.url);
       this.snackBar.open('Espere un momento...');
     }
 
@@ -41,11 +42,9 @@ export class CustomInterceptor implements HttpInterceptor {
         this.snackBar.dismiss();
       }),
       catchError((err) => {
-        console.error(err);
         this.snackBar.dismiss();
-        let message: string = '';
-        message = err?.error?.hasOwnProperty('success') ? err.error.data : 'Error de servidor';
-        if (err.status === 401 || err.status === 403) { message= 'No autenticado'; this.s_storage.logout(); }
+        if (err.status === 401 || err.status === 403) { this.sa.logout(); }
+        const message = this.getStatusMessage(err.status, err.error?.data);
         SwalService.swalToast(message, 'warning')
         return throwError(err);
       })
@@ -69,8 +68,27 @@ export class CustomInterceptor implements HttpInterceptor {
   createHeader() {
     const header = new HttpHeaders({
       accept: 'application/json',
-      Authorization: 'Bearer ' + Token.getToken,
+      Authorization: 'Bearer ' + Token.getInstance().getToken(),
     });
     return header;
+  }
+
+  getStatusMessage(status: number, message?: any) {
+    console.log(message);
+    const statusMessage = {
+      400: 'Error de validación',
+      401: 'No autenticado',
+      403: 'No autorizado',
+      404: 'Recurso no encontrado',
+      500: 'Error interno de servidor',
+      422: 'Error de validación',
+    };
+    if (status === 422 && typeof message === 'string') {
+      return message;
+    }
+    else if (statusMessage.hasOwnProperty(status)) {
+      return statusMessage[status] + ' (' + status + ')';
+    }
+    return 'Error de servidor';
   }
 }

@@ -59,7 +59,7 @@
           <button matRipple class="btn-icon-delete" *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(row.id)">
             <i class="far fa-trash-alt"></i>
           </button>
-          <button class="btn-icon-delete text-info"  [matBadge]="row.promotions_count || 0" matBadgeOverlap="false" matRipple data-toggle="tooltip" data-placement="top" title="Promociones" *ngxPermissionsOnly="permissions.index" [routerLink]="['./', row.id, 'promotions']" >
+          <button class="btn-icon-delete text-info"  [matBadge]="row.promotions_count || 0" matBadgeOverlap="false" matRipple data-toggle="tooltip" data-placement="top" title="Promociones" *ngxPermissionsOnly="permissionsPromotions.index" [routerLink]="['./', row.id, 'promotions']" >
             <i class="fa-tags fas"></i>
           </button>
         </td>

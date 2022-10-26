@@ -65,11 +65,11 @@
         class="body-template-background-chat p-2" [infiniteScrollDisabled]="notMoreOldMessage" #scrollMe infiniteScroll
         [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="0" (scrolledUp)="onScrollUp()" [scrollWindow]="false">
         <div #ngfor *ngFor="let message of chat?.messages"
-          [ngClass]="{'text-right': message.author_user_id == my_id}">
+          [ngClass]="{'text-right': message.author_user_id === my_id}">
           <ng-container *ngIf="message.type !== 'info';else templateInfo">
-            <p class="shadow message chat-font" [ngClass]="message.author_user_id == my_id ?'message-send':'message-recept'">
+            <p class="shadow message chat-font" [ngClass]="message.author_user_id === my_id ?'message-send':'message-recept'">
               <ng-container *ngIf="!message.files; else templateFile">
-                <ng-container *ngIf="chat.data.type === 'group' && message.author_user_id != my_id">
+                <ng-container *ngIf="chat.data.type === 'group' && message.author_user_id !== my_id">
                   <span class="font-xs text-muted text-truncate ">{{message?.author?.info?.name}}</span><br>
                 </ng-container>
                 <ng-container *ngIf="message.links && message.links.length > 0 ">
@@ -92,7 +92,7 @@
                     </div>
                   </div>
 
-                  <ng-container *ngIf="chat.data.type === 'group' && message.author_user_id != my_id">
+                  <ng-container *ngIf="chat.data.type === 'group' && message.author_user_id !== my_id">
                     <span class="font-xs text-muted text-truncate text-value-lg">{{message.author.info.name}}</span><br>
                   </ng-container>
                   <span class="download-file">
@@ -132,7 +132,7 @@
                  <!-- <i
                   *ngIf="message.author_user_id == my_id"
                   class="{{message.is_readed_for_all?'fas text-success':'far'}} fa-check-circle"></i> -->
-                  <i *ngIf="message.author_user_id == my_id"
+                  <i *ngIf="message.author_user_id === my_id"
                   [ngClass]="(message?.is_readed_for_all ) ? 'fas text-success': (message?.is_delivered_for_all)?'fas':'far'"
                   class="fa-check-circle"></i>
                 </small>
@@ -165,10 +165,12 @@
         <i class="fas fa-paperclip btn-attach"></i> -->
 
       <button mat-icon-button class="btn-emoji" (click)="hasFile=!hasFile">
-        <mat-icon>attach_file</mat-icon>
+        <!-- <mat-icon>attach_file</mat-icon> -->
+        <i class="fa-solid fa-paperclip text-muted"></i>
       </button>
-      <button class="m-0 btn-send-message" mat-icon-button color="primary" (click)="sendMessage()">
-        <mat-icon>send</mat-icon>
+      <button class="m-0 btn-send-message ml-1" mat-icon-button color="primary" (click)="sendMessage()">
+        <!-- <mat-icon>send</mat-icon> -->
+        <i class="fa-regular fa-paper-plane"></i>
       </button>
     </mat-card-actions>
   </mat-card>

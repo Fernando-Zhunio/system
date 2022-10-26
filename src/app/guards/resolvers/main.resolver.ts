@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { Observable, EMPTY, forkJoin } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SwalService } from '../../services/swal.service';
 import { MethodsHttpService } from '../../services/methods-http.service';
-import { StorageService } from '../../services/storage.service';
+import { AuthService } from '../../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +12,12 @@ import { StorageService } from '../../services/storage.service';
 export class MainResolver implements Resolve<any> {
   constructor(
     private methodsHttp: MethodsHttpService,
-    private storage: StorageService,
+    private sa: AuthService,
   ) { }
 
   resolve(): Observable<any> | Promise<any> {
-    return forkJoin(
-      {
-        permissionsRolesAndVersion: this.methodsHttp.methodGet('user/permissions-roles'),
-        // preferences: this.methodsHttp.methodGet('user/preferences/ajax')
-        // notifications: this.methodsHttp.methodGet('notifications/ajax'),
-      }
-    ).pipe(
+    return this.methodsHttp.methodGet('user/permissions-roles')
+    .pipe(
       catchError(() => {
         SwalService.swalFire({
           position: 'center',
@@ -39,7 +34,7 @@ export class MainResolver implements Resolve<any> {
           if (result.isConfirmed){
             window.location.reload()
           } else {
-            this.storage.logout();
+            this.sa.logout();
           }
         })
         return EMPTY;

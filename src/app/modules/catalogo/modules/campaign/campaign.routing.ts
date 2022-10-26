@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { PermissionCampaigns } from '../../../../class/permissions-modules';
+import { PERMISSION_CAMPAIGNS, PERMISSION_PROMOTIONS } from '../../../../class/permissions-modules';
 import { CampaignIndexComponent } from './pages/campaign-index/campaign-index.component';
 import { CreateOrEditCampaignComponent } from './pages/create-or-edit-campaign/create-or-edit-campaign.component';
 import { CreateOrEditPromotionComponent } from './pages/create-or-edit-promotion/create-or-edit-promotion.component';
 import { PromotionIndexComponent } from './pages/promotion-index/promotion-index.component';
 
-const permission_module = PermissionCampaigns;
+const permissions_campaigns = PERMISSION_CAMPAIGNS;
+// const permissions_PROMOTIONS = PERMISSION_PROMOTIONS;
 const routes: Routes = [
   {
     path: '',
     component: CampaignIndexComponent,
     data: {
       permissions: {
-        only: permission_module.index
+        only: permissions_campaigns.index
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -24,7 +25,7 @@ const routes: Routes = [
     component: CreateOrEditCampaignComponent,
     data: {
       permissions: {
-        only: permission_module.create
+        only: permissions_campaigns.create
       },
       isEdit: false
     },
@@ -35,7 +36,7 @@ const routes: Routes = [
     component: CreateOrEditCampaignComponent,
     data: {
       permissions: {
-        only: permission_module.edit
+        only: permissions_campaigns.edit
       },
       isEdit: true
     },
@@ -46,7 +47,7 @@ const routes: Routes = [
     component: PromotionIndexComponent,
     data: {
       permissions: {
-        only: permission_module.index
+        only: PERMISSION_PROMOTIONS.index
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -56,7 +57,7 @@ const routes: Routes = [
     component: CreateOrEditPromotionComponent,
     data: {
       permissions: {
-        only: permission_module.create
+        only: PERMISSION_PROMOTIONS.create
       },
       isEdit: false
     },
@@ -67,7 +68,7 @@ const routes: Routes = [
     component: CreateOrEditPromotionComponent,
     data: {
       permissions: {
-        only: permission_module.edit
+        only: PERMISSION_PROMOTIONS.edit
       },
       isEdit: true
     },

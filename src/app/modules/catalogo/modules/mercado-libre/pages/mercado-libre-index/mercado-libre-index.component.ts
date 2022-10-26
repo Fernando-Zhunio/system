@@ -5,14 +5,13 @@ import { EchoManager } from '../../../../../../class/echo-manager';
 import { HeaderSearchComponent } from '../../../../../../components/header-search/header-search.component';
 import { ImlInfo } from '../../../../../../interfaces/iml-info';
 import { MercadoLibreService } from '../../../../../../services/mercado-libre.service';
-import { StorageService } from '../../../../../../services/storage.service';
+import { CONST_ECHO_ML_ITEMS_CHANNEL_PRIVATE } from '../../../../../../shared/objects/constants';
 
 @Component({
   selector: 'app-mercado-libre',
   templateUrl: './mercado-libre-index.component.html',
   styleUrls: ['./mercado-libre-index.component.css'],
   animations: animation_conditional
-
 })
 export class MercadoLibreIndexComponent implements OnInit, OnDestroy {
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
@@ -21,7 +20,7 @@ export class MercadoLibreIndexComponent implements OnInit, OnDestroy {
   price_max: number | null = null;
   aux_page_next = 0;
   hasData: boolean = true;
-  isLoading: boolean = false;
+  isLoading: boolean = false; 
 
   filters = {
     min: null,
@@ -31,22 +30,24 @@ export class MercadoLibreIndexComponent implements OnInit, OnDestroy {
   echo: Echo;
   constructor(
     private s_mercado_libre: MercadoLibreService,
-    private s_storage: StorageService,
-  ) {}
+  ) { }
 
   mlInfos: ImlInfo[] = [];
 
   ngOnInit(): void {
-    this.echo = new EchoManager(this.s_storage).echo;
-    this.echo.private('catalogs.ml.items').listen('.item', this.listener.bind(this));
-
+    this.echo = new EchoManager().get();
+    this.echo.private(this.getChannelMl()).listen('.item', this.listener.bind(this));
   }
 
   ngOnDestroy(): void {
-    this.echo.leave('catalogs.ml.items');
+    this.echo.leave(this.getChannelMl());
   }
 
-  listener(e: {event: string, item: ImlInfo}): void {
+  getChannelMl(): string {
+    return CONST_ECHO_ML_ITEMS_CHANNEL_PRIVATE;
+  }
+
+  listener(e: { event: string, item: ImlInfo }): void {
 
     if (e.event == 'updated') {
       const indexPublication = this.mlInfos.findIndex((item) => item.id === e.item.id);
@@ -79,7 +80,7 @@ export class MercadoLibreIndexComponent implements OnInit, OnDestroy {
     // this.paginator = $event.data;
     // this.mlInfos = this.paginator.data;
     this.mlInfos = $event
-    ;
+      ;
   }
 
   changePaginator(event): void {

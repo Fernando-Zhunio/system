@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 // import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -8,10 +8,12 @@ import { PermissionOrdersItems } from '../../../../../../class/permissions-modul
 // import { SearchProductModalComponent } from '../../../../components/modals/search-product-modal/search-product-modal.component';
 import { IOrder } from '../../../../../../interfaces/iorder';
 import { IProduct } from '../../../../../../interfaces/iproducts';
-import { DialogProductsService } from '../../../../../../services/dialog-products.service';
+// import { DialogProductsService } from '../../../../../../services/dialog-products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { IPaginate } from '../../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../../services/swal.service';
+import { SearchProductsDialogComponent } from '../../../../../../shared/search-products-dialog/search-products-dialog.component';
+import { CreateHostService } from '../../../../../../shared/services/create-host.service';
 import { EditProductOrderComponent } from '../edit-product-order/edit-product-order.component';
 
 @Component({
@@ -19,15 +21,13 @@ import { EditProductOrderComponent } from '../edit-product-order/edit-product-or
   templateUrl: './add-products-order.component.html',
   styleUrls: ['./add-products-order.component.scss']
 })
-export class AddProductsOrderComponent implements OnInit {
+export class AddProductsOrderComponent  {
 
-  constructor(private matDialog: MatDialog, private methodsHttp: MethodsHttpService, private dialog: DialogProductsService) { }
+  constructor(private matDialog: MatDialog, private methodsHttp: MethodsHttpService, private chs: CreateHostService) { }
   @Input() order: IOrder;
   @Input() items
   @Input() isCancelled: boolean;
   @Output() changeOrder = new EventEmitter<string>();
-  // itemEditing: IItemOrder;
-  // isOpenSearchProducts = false;
   isLoading = false;
   products: Map<number, IProduct> = new Map<number, IProduct>();
   urlProducts: string = 'system-orders/products';
@@ -40,18 +40,14 @@ export class AddProductsOrderComponent implements OnInit {
 
   permissionsProducts = PermissionOrdersItems;
 
-
-  ngOnInit() {
-  }
-
   openSearchProducts(): void {
-    this.dialog.open(
-      this.urlProducts,
+    this.chs.injectComponent(
+      SearchProductsDialogComponent,
       {
-        data: {
-          isMultiple: true
-        }
-      }).subscribe(res => {
+        url: this.urlProducts,
+        onlyOne: true
+      }).beforeClose().subscribe(res => {
+        console.log(res);
         if (res?.data) {
           this.form.get('product')?.setValue(res.data);
         }

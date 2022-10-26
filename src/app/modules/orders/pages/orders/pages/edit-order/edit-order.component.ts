@@ -10,7 +10,7 @@ import { PermissionOrdersAdditionalAmounts, PermissionOrdersInvoicesMba, Permiss
 import { trans } from '../../../../../../class/translations';
 import { IItemOrder, IStatus } from '../../../../../../interfaces/iorder';
 import { TranslatefzPipe } from '../../../../../../pipes/translatefz.pipe';
-import { StandartSearchService } from '../../../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../../services/swal.service';
 import { EditDataOrderModalComponent } from '../../../../components/edit-data-order-modal/edit-data-order-modal.component';
 import { SelectClientModalComponent } from '../../../../components/select-client-modal/select-client-modal.component';
@@ -21,6 +21,7 @@ import { PdfDetailOrderComponent } from '../../../../modules/shared-order/pdf-de
 import { SelectClientAddressModalComponent } from '../../../../modules/shared-order/select-client-address-modal/select-client-address-modal.component';
 import { OrdersService } from '../../../../services/orders.service';
 import { DetailButtonSheetComponent } from '../../components/detail-button-sheet/detail-button-sheet.component';
+import { SheetButtonOnlyInputComponent } from '../../components/sheet-button-only-input/sheet-button-only-input.component';
 
 interface Record {
   icon?: string | null;
@@ -36,7 +37,7 @@ interface Record {
 })
 export class EditOrderComponent implements OnInit, OnDestroy {
 
-  constructor(private orderService: OrdersService, private bottomSheet: MatBottomSheet, private spinner: NgxSpinnerService, private standard: StandartSearchService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
+  constructor(private orderService: OrdersService, private mbs: MatBottomSheet, private spinner: NgxSpinnerService, private mhs: MethodsHttpService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   @ViewChild(StateFlowOrderComponent) stateFlow: StateFlowOrderComponent;
   id: string | null;
   order: Order;
@@ -57,6 +58,9 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   permissionsTransfers = PermissionOrdersTransfersMba;
   permissionsAnticipe = PermissionOrdersPaymentsMba;
   permissionsInvoices = PermissionOrdersInvoicesMba;
+  permissionsTransference = PermissionOrdersTransfersMba;
+
+
 
   subscriptionOrder: Subscription
 
@@ -70,7 +74,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = this.activated_router.snapshot.paramMap.get('order_id');
-    this.spinner.show();
+    // this.spinner.show();
     this.getStatuses();
     this.subscriptionOrder = this.orderService.$order.subscribe((order) => {
       if (order) {
@@ -82,39 +86,40 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     });
 
     this.orderService.init(this.id!)
-    .subscribe(data => {
-      if (data?.success) {
-        this.metaDataTransference = data.data?.order.additional_data?.transfers_status;
-        this.withTiming();
-        this.fillData();
+      .subscribe(data => {
+        if (data?.success) {
+          this.metaDataTransference = data.data?.order.additional_data?.transfers_status;
+          this.withTiming();
+          this.fillData();
+          // this.spinner.hide();
+          this.detailClient = [
+            ['Ciudad', this.order?.client?.city],
+            ['País', this.order?.client?.country],
+            ['Estado', this.order?.client?.state],
+            ['Creado', this.order?.client?.created_at],
+            ['# Documento', this.order?.client?.doc_id],
+            ['Correo', this.order?.client?.email],
+            ['Nombres', this.order?.client?.first_name],
+            ['Apellidos', this.order?.client?.last_name],
+            ['Telefono', this.order?.client?.phone],
+          ]
+        }
+      }, err => {
         this.spinner.hide();
-        this.detailClient = [
-          ['Ciudad', this.order?.client?.city],
-          ['País', this.order?.client?.country],
-          ['Estado', this.order?.client?.state],
-          ['Creado', this.order?.client?.created_at],
-          ['# Documento', this.order?.client?.doc_id],
-          ['Correo', this.order?.client?.email],
-          ['Nombres', this.order?.client?.first_name],
-          ['Apellidos', this.order?.client?.last_name],
-          ['Telefono', this.order?.client?.phone],
-        ]
-      }
-    }, err => {
-      this.spinner.hide();
-      if (err.status === 500) {
-        SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Error al cargar la orden, por favor intente de nuevo recargando la pagina', confirmButtonText: 'Recargar la pagina' }).then(res => {
-          if (res.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      }
-    });
+        if (err.status === 500) {
+          SwalService.swalFire({ icon: 'error', title: 'Error', text: 'Error al cargar la orden, por favor intente de nuevo recargando la pagina', confirmButtonText: 'Recargar la pagina' }).then(res => {
+            if (res.isConfirmed) {
+              window.location.reload();
+            }
+          });
+        }
+      });
   }
 
   ngOnDestroy(): void {
     if (this.subscriptionOrder) {
       this.subscriptionOrder.unsubscribe();
+      this.orderService.clearOrder();
     }
   }
 
@@ -133,8 +138,8 @@ export class EditOrderComponent implements OnInit, OnDestroy {
 
   openGeneratedPDF(): void {
     const _order = JSON.parse(JSON.stringify(this.order));
-    this.dialog.open(PdfDetailOrderComponent,{
-      data: {order:  _order },
+    this.dialog.open(PdfDetailOrderComponent, {
+      data: { order: _order },
       width: '90%',
       maxWidth: '90%',
       maxHeight: '80%',
@@ -158,7 +163,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   }
 
   getStatuses(): void {
-    this.standard.methodGet<IStatus[]>(`system-orders/orders/${this.id}/statuses`).subscribe(res => {
+    this.mhs.methodGet<IStatus[]>(`system-orders/orders/${this.id}/statuses`).subscribe(res => {
       if (res.success) {
         if (res.data?.length > 0) {
           this.statuses = res.data.map(item => {
@@ -237,7 +242,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
       if (res.isConfirmed) {
         this.isPublishing = true;
         const url = `system-orders/orders/${this.order.id}/publish`;
-        this.standard.methodPost(url).subscribe(res => {
+        this.mhs.methodPost(url).subscribe(res => {
           if (res?.success) {
             this.getOrder();
             if (this.order.status == 'init') {
@@ -266,7 +271,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   }
 
   openDetailClient(): void {
-    this.bottomSheet.open(DetailButtonSheetComponent, {
+    this.mbs.open(DetailButtonSheetComponent, {
       data: this.detailClient
     })
   }
@@ -274,7 +279,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   deleteOrder(): void {
     SwalService.swalFire({ icon: 'warning', title: '¿Estas seguro?', text: 'Esta acción no se puede deshacer', showCancelButton: true, confirmButtonText: 'Si, eliminar orden', cancelButtonText: 'No, cancelar' }).then(res => {
       if (res.isConfirmed) {
-        this.standard.methodPost(`system-orders/orders/${this.order.id}/cancel`).subscribe((res1: any) => {
+        this.mhs.methodPost(`system-orders/orders/${this.order.id}/cancel`).subscribe((res1: any) => {
           if (res1.success) {
             this.router.navigate(['/system-orders/orders']);
           }
@@ -290,11 +295,11 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   editDataOrder(): void {
     this.dialog.open(EditDataOrderModalComponent, {
       data: {
-      order_id: this.order.id,
-      company_id: this.order.company.id,
-      seller_code: this.order.seller_code,
-      channel_id: this.order.channel_id,
-      type: this.order.type
+        order_id: this.order.id,
+        company_id: this.order.company.id,
+        seller_code: this.order.seller_code,
+        channel_id: this.order.channel_id,
+        type: this.order.type
       },
       disableClose: true,
     }).afterClosed().subscribe(data => {
@@ -303,5 +308,64 @@ export class EditOrderComponent implements OnInit, OnDestroy {
         this.getOrder();
       }
     })
+  }
+
+  openSyncMba(type: 'anticipe' | 'invoice' | 'transference'): void {
+    const data = {
+      'anticipe': {
+        title: 'Anticipo',
+        placeholder: 'Ingrese el código del anticipo',
+        sendUrl: `system-orders/orders/${this.order?.id}/mba-payments`
+      },
+      'invoice': {
+        title: 'Factura',
+        placeholder: 'Ingrese el código de la factura',
+        sendUrl: `system-orders/orders/${this.order?.id}/invoices`
+      },
+      'transference': {
+        title: 'Transferencia',
+        placeholder: 'Ingrese el código de la transferencia',
+        sendUrl: `system-orders/orders/${this.order.id}/transfers`
+      }
+    }
+    this.mbs.open(SheetButtonOnlyInputComponent, {
+      disableClose: true,
+      data: data[type]
+    }).afterDismissed().subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.syncMba(data[type].sendUrl, res);
+        }
+      }
+    });
+  }
+
+  syncMba(url: string, doc_id): void {
+    this.mhs.methodPost(url, { doc_id }).subscribe(
+      {
+        next: (res) => {
+          if (res?.success) {
+            this.getOrder();
+          }
+        }
+      }
+    )
+  }
+
+  confirmTransaction(): void {
+    SwalService.swalFire({ icon: 'info', title: 'Precaución', text: '¿Está seguro de querer marca la transferencia?', confirmButtonText: 'Si, confirmar', cancelButtonText: 'No, cancelar', showCancelButton: true, showConfirmButton: true })
+      .then(res => {
+        if (res.isConfirmed) {
+          const url = `system-orders/orders/${this.order.id}/transfers/mark-as-send`;
+          this.mhs.methodPut(url).subscribe({
+            next: (response: any) => {
+              if (response?.success) {
+                this.getOrder();
+                SwalService.swalFire({ icon: 'success', title: 'Correcto', text: 'La transferencia se ha marcado como enviada' });
+              }
+            }
+          })
+        }
+      })
   }
 }

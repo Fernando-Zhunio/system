@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatSliderChange } from '@angular/material/slider';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { PreferencesTypes } from '../../core/enums/preferences-types';
 import { Preferences } from '../../core/interfaces/preferences';
 import { refreshPreferenceApi, setPreferenceApi } from '../../redux/actions/api/preferences-api.action';
 import { selectPreference } from '../../redux/state/state.selectors';
-// import { PreferencesService } from '../../core/services/preferences.service';
+import { StorageService } from '../../services/storage.service';
+import { SoundNotification } from '../../shared/class/sound-notification';
 
 @Component({
   selector: 'app-configuration-menu',
@@ -16,7 +18,9 @@ export class ConfigurationMenuComponent implements OnInit, OnDestroy {
 
   preferences: Preferences;
   storeSubscription: Subscription | null = null;
-  constructor(private store: Store) {
+  volume = 0;
+
+  constructor(private store: Store, private storage: StorageService, private soundNotification: SoundNotification ) {
   }
 
   ngOnDestroy(): void {
@@ -25,17 +29,25 @@ export class ConfigurationMenuComponent implements OnInit, OnDestroy {
     }
   }
 
-  typesPreferences = PreferencesTypes
+  typesPreferences = PreferencesTypes;
+
   ngOnInit() {
     this.store.dispatch(refreshPreferenceApi({}));
     this.storeSubscription = this.store.select(selectPreference).subscribe((res: Preferences) => {
       this.preferences = res;
     });
+    this.volume = this.soundNotification.getVolume() * 100;
   }
 
-  setPreference(preference: string, value: string): void {
-    console.log(preference, value);
+  setPreference(preference: string, value: string | number): void {
+    console.log({ preference, value });
     this.store.dispatch(setPreferenceApi({ preference, value }));
+  }
+
+  changeVolume(volume: MatSliderChange): void {
+    if (volume.value) {
+      this.soundNotification.setVolumen(this.storage, volume.value);
+    }
   }
 
 }

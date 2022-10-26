@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
@@ -14,7 +14,7 @@ import { HeaderSearchModule } from '../../header-search/header-search.module';
   templateUrl: './search-template-table.component.html',
   styleUrls: ['./search-template-table.component.scss']
 })
-export class SearchTemplateTableComponent implements OnInit {
+export class SearchTemplateTableComponent  {
 
   @Input() filter_data: object = {};
   @Input() placeholder: string = 'Buscador';
@@ -32,9 +32,6 @@ export class SearchTemplateTableComponent implements OnInit {
   pageSizeOptions: number[] = [10, 15, 25, 50];
   products: any[] = [];
   constructor() { }
-
-  ngOnInit() {
-  }
 
   loadData($event) {
     if (this.key_paginator) {

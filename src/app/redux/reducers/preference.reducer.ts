@@ -1,25 +1,24 @@
 import { createReducer, on } from '@ngrx/store';
-import { Preferences } from '../../core/interfaces/preferences';
+import { Preferences } from '../../class/fast-data';
+// import { PreferencesTypes } from '../../core/enums/preferences-types';
+import { Preferences as IPreferences } from '../../core/interfaces/preferences';
 import { setPreferences, setPreference } from '../actions/preference.action';
 
-export const initialState: Preferences = {
-    general_notification_email: 'off',
-    general_notification_sound: 'off',
-    general_notification_webpush: 'off',
-    general_notification_whatsapp: 'off',
-    dashboard_dates: null 
-};
+export const initialState: IPreferences = Preferences.getInstance().get();
 
 const _preferenceReducer = createReducer(
     initialState,
-    // on(RefreshPreferenceSuccess, (_state, {preferences}) => preferences),
     on(setPreference, (state, { preference, value } ) => {
-        console.log({preference, value, state})
        const newState = {...state, [preference]: value};
-       console
+        console.log({ newState });
+         Preferences.getInstance().set(newState);
        return newState;
     }),
-    on(setPreferences, (_state, { preferences } ) => preferences),
+    on(setPreferences, (_state, { preferences } ) =>  {
+        console.log({..._state, ...preferences});
+        Preferences.getInstance().set({..._state, ...preferences});
+        return {..._state, ...preferences};
+    }),
 );
 
 export function preferenceReducer(state, action) {

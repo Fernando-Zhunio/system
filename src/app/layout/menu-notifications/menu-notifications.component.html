@@ -1,0 +1,40 @@
+<button (click)="unreadNotifications()" [matMenuTriggerFor]="menu1" mat-icon-button class="position-relative">
+  <i
+    style="font-size: 20px"
+    class="fa-regular fa-bell icon-size"
+    #IconNotify
+    [matBadge]="countUnread || null"
+    matBadgePosition="above after"
+    matBadgeColor="accent"></i>
+</button>
+<mat-menu
+  (closed)="unreadNotifications()"
+  class="custom-menu-notification scrollbar-fz"
+  #menu1="matMenu"
+  [overlapTrigger]="false">
+  <div class="menu-header main-style px-2">Notificaciones</div>
+  <ng-template matMenuContent>
+    <div
+      mat-menu-item
+      [disableRipple]="true"
+      class="h-auto border-bottom rounded my-2"
+      *ngFor="let notification of notifications"
+      (click)="notificationAction(notification.id)"
+      (keydown)="$event.stopPropagation()">
+      <div class="pl-2 content-menu">
+        <div class="d-flex align-items-center">
+          <div class="mr-1" *ngIf="notification.data.image">
+            <img class="rounded-circle" style="width: 50px; height: 50px" [src]="notification.data.image" />
+          </div>
+          <div class="text-value-sm">
+            {{ notification?.data?.user?.name ? notification?.data?.user?.name : "Sin Usuario" }}
+          </div>
+        </div>
+        <div class="font-weight-lighter text-muted">{{ notification.data.text }}</div>
+        <small class="text-capitalize text-muted">
+          {{ notification?.created_at | amLocale: "es" | amTimeAgo }}
+        </small>
+      </div>
+    </div>
+  </ng-template>
+</mat-menu>

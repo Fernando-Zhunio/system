@@ -4,20 +4,20 @@
       <div class="col-md-6 p-3 align-items-center">
         <div class="d-flex h-100" style="justify-content: space-between; flex-direction: column">
           <div class="" style="top: 10px">{{ date | date }}</div>
-          <div class="font-5xl mb-3 text-truncate" style="line-height: 1">
+          <div class="font-5xl mb-3 text-truncate text-info" style="line-height: 1">
             Hola
-            <strong>{{ person.first_name }}</strong>
-            {{ person.last_name }}
+            <strong>{{ user?.person ?  user?.person?.first_name +' '+ user?.person?.last_name || '' : user.name}}</strong>
           </div>
           <div>
             <div>Bienvenido a Novisolutions</div>
-            <div class="text-capitalize">{{ city }}</div>
+            <div class="text-capitalize">{{ user?.person?.city?.name || 'Guayaquil' }}</div>
           </div>
         </div>
       </div>
-      <div class="col-md-6 position-relative p-3 d-flex align-items-center justify-content-center m-0 rounded-fz">
-        <div class="position-absolute badge badge-success font-2xl temp">
-          <i class="fas fa-thermometer-three-quarters"></i>
+      <div
+        class="col-md-6 bg-warning shadow position-relative p-3 d-flex align-items-center justify-content-center m-0 rounded-fz">
+        <div class="position-absolute badge-fz shadow-sm font-2xl temp">
+          <i class="fas fa-thermometer-three-quarters text-danger"></i>
           {{ weather_date?.main?.temp }}°
         </div>
         <div class="col-md-6">
@@ -40,6 +40,7 @@
       </div>
     </div>
   </div>
+  <hr>
   <mat-card *ngIf="newsletters && newsletters.length > 0" class="card-body bg-transparent mb-4 shadow-none">
     <div style="max-height: 400px" class="grid-newsletters">
       <div class="center" style="flex-direction: column; align-items: inherit">
@@ -60,14 +61,20 @@
       </div>
     </div>
   </mat-card>
-  <!-- <app-stores></app-stores> -->
   <div class="mt-3">
-    <div class="font-5xl p-3 font-montserrat my-4 font-weight-bold">Ultimas Notificaciones</div>
+    <div class="font-5xl p-3  my-4"> <i class="fa-regular fa-bell mr-2"></i> Ultimas notificaciones</div>
     <div>
+      <ng-container *ngIf="notifications?.length < 1">
+          <ngx-skeleton-loader
+            [theme]="{
+              height: '60px'
+            }"
+            class="grid-3"
+            count="5"
+            appearance="line"></ngx-skeleton-loader>
+      </ng-container>
       <div class="card-columns">
-        <mat-card
-          class="card rounded-fz font-montserrat border-0 shadow font-weight-bolder h-auto p-3"
-          *ngFor="let notification of notifications$ | async">
+        <mat-card class="card border-0 shadow p-3" *ngFor="let notification of notifications">
           <div class="row m-0 d-flex align-items-center">
             <div *ngIf="notification.data.image" class="col-md-4">
               <img class="w-100" [src]="notification.data.image" alt="" />
@@ -92,14 +99,10 @@
 
   <div class="row">
     <div class="col-md-9">
-      <div>
-
-      </div>
+      <div></div>
     </div>
     <div class="col-md-3">
-      <div>
-
-      </div>
+      <div></div>
     </div>
   </div>
 </div>

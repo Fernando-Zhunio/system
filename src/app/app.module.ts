@@ -22,7 +22,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
-import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -52,7 +52,7 @@ import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
 import { OrderModule } from 'ngx-order-pipe';
 import { StoreModule } from '@ngrx/store';
-import { notificationsReducer } from './redux/reducers/notifications.reducer';
+// import { notificationsReducer } from './redux/reducers/notifications.reducer';
 import { pricesReducer } from './redux/reducers/price.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { preferenceReducer } from './redux/reducers/preference.reducer';
@@ -67,14 +67,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { ConfigurationMenuComponent } from './layout/configuration-menu/configuration-menu.component';
-
-
-function getPermissionAndVersionServer(_st: StorageService) {
-  return () => {
-    console.log('getPermissionAndVersionServer');
-    return _st.init();
-  };
-}
+import { notificationsReducer } from './redux/notifications/reducers/notifications.reducer';
+import { NotificationEffectService } from './redux/notifications/effects/notification.effect.service';
+import { MatSliderModule } from '@angular/material/slider';
+import { SoundNotification } from './shared/class/sound-notification';
+import { AuthService } from './services/auth.service';
+import { MenuNotificationsComponent } from './layout/menu-notifications/menu-notifications.component';
+import { InitializerAppNovisolutions } from './core/class/initializer-app-novisolutions';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { CreateHostDirective } from './shared/directives/create-host.directive';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -111,16 +112,28 @@ registerLocaleData(localeEs, 'es');
     }),
     OrderModule,
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preferences: preferenceReducer }),
-    EffectsModule.forRoot([PreferenceEffects]),
-    StoreDevtoolsModule.instrument({}),
+    EffectsModule.forRoot([PreferenceEffects, NotificationEffectService]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: false,
+      features: {
+        pause: false,
+        lock: true,
+        persist: true,
+        dispatch: true,
+        test: true
+      }
+    }),
     LoadingBarRouterModule,
+    MatSliderModule,
+    NgxSkeletonLoaderModule,
+    CreateHostDirective
   ],
   declarations: [
     SidebarFzComponent,
     HeaderFzComponent,
     AppComponent,
     ConfigurationMenuComponent,
-    // ...APP_CONTAINERS,
     DefaultLayoutComponent,
     P404Component,
     P500Component,
@@ -131,6 +144,7 @@ registerLocaleData(localeEs, 'es');
     ChatComponent,
     UsersGroupsChatModalComponent,
     P403Component,
+    MenuNotificationsComponent,
   ],
   providers: [
     // {
@@ -158,9 +172,9 @@ registerLocaleData(localeEs, 'es');
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: getPermissionAndVersionServer,
+      useFactory: InitializerAppNovisolutions,
       multi: true,
-      deps: [StorageService]
+      deps: [StorageService, NgxPermissionsService, SoundNotification, AuthService],
     },
 
     { provide: DATE_PIPE_DEFAULT_TIMEZONE, useValue: "GMT-5" },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { StorageService } from '../../services/storage.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-ok-login',
@@ -9,12 +9,12 @@ import { StorageService } from '../../services/storage.service';
 })
 export class OkLoginComponent implements OnInit {
 
-  constructor(private s_storage:StorageService, private permissions:NgxPermissionsService) { }
+  constructor(private sa:AuthService, private permissions:NgxPermissionsService) { }
 
   ngOnInit(): void {
     this.permissions.hasPermission(["super-admin", "ml.accounts.create"]).then(res=>{
       if(!res){
-        this.s_storage.logout();
+        this.sa.logout();
       }
     });
   }

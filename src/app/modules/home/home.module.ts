@@ -38,6 +38,7 @@ import { StoresComponent } from './stores/stores.component';
 import { ModificateStoresComponent } from './stores/modificate-stores/modificate-stores.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 export function chartModule(): any {
   return import('echarts');
 }
@@ -73,6 +74,7 @@ export function chartModule(): any {
         MatButtonToggleModule,
         MarkdownModule,
         NgxPermissionsModule,
+        NgxSkeletonLoaderModule,
         NgxEchartsModule.forRoot({
             echarts: chartModule
         })

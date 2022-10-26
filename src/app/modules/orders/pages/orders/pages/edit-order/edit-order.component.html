@@ -1,183 +1,267 @@
-<div class="row mt-4">
-  <div class="col-md-9">
-    <div class="content-client">
-      <img [src]="'https://ui-avatars.com/api/?background=random&name=' + order?.client?.first_name" />
-      <div class="client-detail">
-        <div class="d-flex align-items-center">
-          <span>
-            {{ order?.client?.first_name }} {{ order?.client?.last_name }}
-            <small>(cliente)</small>
-          </span>
-          <span *ngIf="order?.status !== 'cancelled'">
-            <button mat-icon-button [matMenuTriggerFor]="menuRef">
-              <i style="font-size: 20px;" class="fa-solid fa-screwdriver-wrench"></i>
-            </button>
-            
-            <mat-menu panelClass="menu-options" #menuRef="matMenu">
-              <button mat-menu-item (click)="openGeneratedPDF()">
-                <i class="fa-solid fa-file-pdf"></i> <span class="ml-1">Generar PDF de bodegas</span>
-              </button>
-              <button mat-menu-item (click)="addClientAddress(order.shipping_address?.address_id)">
-                <i class="fa-regular fa-pen-to-square"></i> <span class="ml-1">Editar Dirección</span>
-              </button>
-              <button mat-menu-item (click)="openDialogAddress()">
-                <i class="fa-solid fa-rotate"></i> <span class="ml-1">Cambiar Dirección</span>
-              </button>
-              <!-- <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon> -->
-                <button mat-menu-item [routerLink]="['/system-orders/clients/create']">
-                  <i class="fa-solid fa-user-plus"></i> <span class="ml-1">Agregar cliente</span>
-                </button>
-                <button mat-menu-item [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">
-                  <i class="fa-solid fa-user-pen"></i> <span class="ml-1">Editar cliente</span>
-                </button>
-                <button mat-menu-item (click)="openSelectClient()">
-                  <i class="fa-solid fa-rotate"></i> <span class="ml-1">Cambiar cliente</span>
-                </button>
-                <button mat-menu-item (click)="openDetailClient()">
-                  <i class="fa-regular fa-eye"></i> <span class="ml-1">Detalles cliente</span>
-                </button>
-            </mat-menu>
-            <!-- <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon> -->
-            <!-- <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon> -->
-            <!-- <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon> -->
-            <!-- <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon> -->
-          </span>
-        </div>
-        <span>
-          <mat-icon>email</mat-icon>
-          {{ order?.client?.email }} /
-          <mat-icon>call</mat-icon>
-          {{ order?.client?.phone }}
-        </span>
+<!-- <ng-container>
+  <div>
+    <div class="d-flex">
+      <ngx-skeleton-loader
+        [theme]="{ height: '50px', width: '50px' }"
+        count="1"
+        appearance="circle"></ngx-skeleton-loader>
+      <div class="w-100">
+        <ngx-skeleton-loader
+          [theme]="{ height: '30px', width: '100%' }"
+          count="1"
+          appearance="line"></ngx-skeleton-loader>
+          <ngx-skeleton-loader
+          [theme]="{ height: '15px', width: '100%' }"
+          count="1"
+          appearance="line"></ngx-skeleton-loader>
       </div>
     </div>
+  </div>
+</ng-container> -->
+
+<div class="row mt-4">
+  <div class="col-md-9">
+    <div class="content-client w-100">
+      <ng-container *ngIf="!order; else elseHeader">
+        <div class="w-100">
+          <div class="d-flex">
+            <ngx-skeleton-loader
+              [theme]="{ height: '50px', width: '50px' }"
+              count="1"
+              appearance="circle"></ngx-skeleton-loader>
+            <div class="w-100">
+              <ngx-skeleton-loader
+                [theme]="{ height: '30px', width: '100%' }"
+                count="1"
+                appearance="line"></ngx-skeleton-loader>
+              <ngx-skeleton-loader
+                [theme]="{ height: '15px', width: '100%' }"
+                count="1"
+                appearance="line"></ngx-skeleton-loader>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #elseHeader>
+        <img [src]="'https://ui-avatars.com/api/?background=random&name=' + order?.client?.first_name" />
+        <div class="client-detail">
+          <div class="d-flex align-items-center">
+            <span>
+              {{ order?.client?.first_name }} {{ order?.client?.last_name }}
+              <small>(cliente)</small>
+            </span>
+            <span *ngIf="order?.status !== 'cancelled'">
+              <button mat-icon-button [matMenuTriggerFor]="menuRef">
+                <i style="font-size: 20px" class="fa-solid fa-screwdriver-wrench"></i>
+              </button>
+
+              <mat-menu panelClass="menu-options" #menuRef="matMenu">
+                <button mat-menu-item (click)="openGeneratedPDF()">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span class="ml-1">Generar PDF de bodegas</span>
+                </button>
+                <button mat-menu-item (click)="addClientAddress(order.shipping_address?.address_id)">
+                  <i class="fa-regular fa-pen-to-square"></i>
+                  <span class="ml-1">Editar Dirección</span>
+                </button>
+                <button mat-menu-item (click)="openDialogAddress()">
+                  <i class="fa-solid fa-rotate"></i>
+                  <span class="ml-1">Cambiar Dirección</span>
+                </button>
+                <!-- <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon> -->
+                <button mat-menu-item [routerLink]="['/system-orders/clients/create']">
+                  <i class="fa-solid fa-user-plus"></i>
+                  <span class="ml-1">Agregar cliente</span>
+                </button>
+                <button mat-menu-item [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">
+                  <i class="fa-solid fa-user-pen"></i>
+                  <span class="ml-1">Editar cliente</span>
+                </button>
+                <button mat-menu-item (click)="openSelectClient()">
+                  <i class="fa-solid fa-rotate"></i>
+                  <span class="ml-1">Cambiar cliente</span>
+                </button>
+                <button mat-menu-item (click)="openDetailClient()">
+                  <i class="fa-regular fa-eye"></i>
+                  <span class="ml-1">Detalles cliente</span>
+                </button>
+              </mat-menu>
+              <!-- <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon> -->
+              <!-- <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon> -->
+              <!-- <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon> -->
+              <!-- <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon> -->
+            </span>
+          </div>
+          <span>
+            <mat-icon>email</mat-icon>
+            {{ order?.client?.email }} /
+            <mat-icon>call</mat-icon>
+            {{ order?.client?.phone }}
+          </span>
+        </div>
+      </ng-template>
+    </div>
+
     <ng-container *ngIf="order?.external_reference_type">
       <div class="d-inline-block badge-fz badge-fz-green mt-2">
         <span>Orden autogenerada por el sistema desde:</span>
         <!-- <span>Desde: {{order?.external_reference_type}}</span> -->
-        <a target="_blank" [href]="urlVtexNovicompu + 'admin/orders/'+ order.external_reference" *ngIf="order?.external_reference_type === 'vtex'">&nbsp;{{order?.external_reference_type}} con numero # {{order.external_reference}}</a>
+        <a
+          target="_blank"
+          [href]="urlVtexNovicompu + 'admin/orders/' + order.external_reference"
+          *ngIf="order?.external_reference_type === 'vtex'">
+          &nbsp;{{ order?.external_reference_type }} con numero # {{ order.external_reference }}
+        </a>
       </div>
     </ng-container>
-    <div>
-      <div class="container-info card-body d-md-flex mb-3 py-2 scrollbar-fz">
-        <div class="px-md-3 py-md-2">
-          <small>orden:</small>
-          <mat-chip-list>
-            <mat-chip>#{{ order?.id }}</mat-chip>
-          </mat-chip-list>
-        </div>
-        <div class="px-md-3 py-md-2">
-          <small>Estado:</small>
-          <mat-chip-list>
-            <mat-chip selected color="primary">{{ order?.status | translatefz: "orders" }}</mat-chip>
-          </mat-chip-list>
-        </div>
-        <div class="px-md-3 py-md-2">
-          <small>Empresa:</small>
-          <mat-chip-list>
-            <mat-chip>{{ order?.company?.name }}</mat-chip>
-          </mat-chip-list>
-        </div>
-        <div class="px-md-3 py-md-2">
-          <small>Vendedor:</small>
-          <mat-chip-list>
-            <mat-chip>{{ order?.seller_code }}</mat-chip>
-          </mat-chip-list>
-        </div>
-        <ng-container *ngIf="order?.timing">
-          <div *ngIf="order?.timing.started_at" class="px-md-3 py-md-2">
-            <small>Iniciado:</small>
+
+    <ng-container *ngIf="!order; else elseInfo">
+      <ngx-skeleton-loader
+        [theme]="{ height: '50px', width: '100%' }"
+        count="1"
+        appearance="line"></ngx-skeleton-loader>
+      <ngx-skeleton-loader
+        [theme]="{ height: '140px', width: '100%' }"
+        count="1"
+        appearance="line"></ngx-skeleton-loader>
+    </ng-container>
+    <ng-template #elseInfo>
+      <div>
+        <div class="container-info card-body d-md-flex mb-3 py-2 scrollbar-fz">
+          <div class="px-md-3 py-md-2">
+            <small>orden:</small>
             <mat-chip-list>
-              <mat-chip>{{ order?.timing?.started_at | date: "medium" }}</mat-chip>
+              <mat-chip>#{{ order?.id }}</mat-chip>
             </mat-chip-list>
           </div>
           <div class="px-md-3 py-md-2">
-            <small>Tiempo transcurrido:</small>
+            <small>Estado:</small>
             <mat-chip-list>
-              <mat-chip>Días: {{ transcurrentTime?.days }} Horas: {{ transcurrentTime?.hours }}</mat-chip>
+              <mat-chip selected color="primary">{{ order?.status | translatefz: "orders" }}</mat-chip>
             </mat-chip-list>
           </div>
+          <div class="px-md-3 py-md-2">
+            <small>Empresa:</small>
+            <mat-chip-list>
+              <mat-chip>{{ order?.company?.name }}</mat-chip>
+            </mat-chip-list>
+          </div>
+          <div class="px-md-3 py-md-2">
+            <small>Vendedor:</small>
+            <mat-chip-list>
+              <mat-chip>{{ order?.seller_code }}</mat-chip>
+            </mat-chip-list>
+          </div>
+          <ng-container *ngIf="order?.timing">
+            <div *ngIf="order?.timing.started_at" class="px-md-3 py-md-2">
+              <small>Iniciado:</small>
+              <mat-chip-list>
+                <mat-chip>{{ order?.timing?.started_at | date: "medium" }}</mat-chip>
+              </mat-chip-list>
+            </div>
+            <div class="px-md-3 py-md-2">
+              <small>Tiempo transcurrido:</small>
+              <mat-chip-list>
+                <mat-chip>Días: {{ transcurrentTime?.days }} Horas: {{ transcurrentTime?.hours }}</mat-chip>
+              </mat-chip-list>
+            </div>
 
-          <div *ngIf="order?.timing?.ended_at" class="px-md-3 py-md-2">
-            <small>Finalizado:</small>
-            <mat-chip-list>
-              <mat-chip>{{ order?.timing?.ended_at | date: "medium" }}</mat-chip>
-            </mat-chip-list>
+            <div *ngIf="order?.timing?.ended_at" class="px-md-3 py-md-2">
+              <small>Finalizado:</small>
+              <mat-chip-list>
+                <mat-chip>{{ order?.timing?.ended_at | date: "medium" }}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </ng-container>
+          <div class="px-md-3 py-md-2">
+            <button mat-mini-fab color="accent" (click)="editDataOrder()"><mat-icon>edit</mat-icon></button>
           </div>
-        </ng-container>
-        <div class="px-md-3 py-md-2">
-          <button mat-mini-fab color="accent" (click)="editDataOrder()"><mat-icon>edit</mat-icon></button>
+        </div>
+        <div class="mb-4 shadow rounded-fz card-body">
+          <div class="font-2xl">Estados</div>
+          <app-state-flow-order [statuses]="statuses"></app-state-flow-order>
         </div>
       </div>
-      <div class="mb-4 shadow rounded-fz card-body">
-        <div class="font-2xl">Estados</div>
-        <app-state-flow-order [statuses]="statuses"></app-state-flow-order>
+    </ng-template>
+
+    <ng-container *ngIf="!order; else elseTotals">
+      <ngx-skeleton-loader
+        [theme]="{ height: '50px', width: '100px', 'margin-right': '10px'}"
+        count="6"
+        appearance="line"></ngx-skeleton-loader>
+    </ng-container>
+    <ng-template #elseTotals>
+      <div class="row content-totals">
+        <div class="col-md-2">
+          <div>Total</div>
+          <div class="font-2xl">${{ order?.total }}</div>
+        </div>
+        <div class="col-md-2">
+          <div>Total pagado</div>
+          <div class="font-2xl">$ {{ order?.total_paid }}</div>
+        </div>
+        <div class="col-md-2">
+          <div>Descuento:&nbsp;</div>
+          <div class="font-2xl">$ {{ order?.discount }}</div>
+        </div>
+        <div class="col-md-2">
+          <div>Subtotal:&nbsp;</div>
+          <div class="font-2xl">$ {{ order?.subtotal }}</div>
+        </div>
+        <div class="col-md-2">
+          <div>Impuestos:&nbsp;</div>
+          <div class="font-2xl">$ {{ order?.tax }}</div>
+        </div>
+        <div class="col-md-2">
+          <div>Costo de envío:&nbsp;</div>
+          <div class="font-2xl">$ {{ order?.shipping }}</div>
+        </div>
       </div>
-    </div>
-    <div class="row content-totals">
-      <div class="col-md-2">
-        <div>Total</div>
-        <div class="font-2xl">${{ order?.total }}</div>
-      </div>
-      <div class="col-md-2">
-        <div>Total pagado</div>
-        <div class="font-2xl">$ {{ order?.total_paid }}</div>
-      </div>
-      <div class="col-md-2">
-        <div>Descuento:&nbsp;</div>
-        <div class="font-2xl">$ {{ order?.discount }}</div>
-      </div>
-      <div class="col-md-2">
-        <div>Subtotal:&nbsp;</div>
-        <div class="font-2xl">$ {{ order?.subtotal }}</div>
-      </div>
-      <div class="col-md-2">
-        <div>Impuestos:&nbsp;</div>
-        <div class="font-2xl">$ {{ order?.tax }}</div>
-      </div>
-      <div class="col-md-2">
-        <div>Costo de envío:&nbsp;</div>
-        <div class="font-2xl">$ {{ order?.shipping }}</div>
-      </div>
-    </div>
+    </ng-template>
   </div>
   <div class="border-left col-md-3">
     <h3 class="font-2xl m-0">
       Dirección de envío
-      <!-- <span *ngIf="order?.status !== 'cancelled'">
-        <mat-icon color="accent" (click)="addClientAddress(order.shipping_address?.address_id)">edit</mat-icon>
-        <mat-icon color="primary" mat-icon-button (click)="openDialogAddress()">sync</mat-icon>
-      </span> -->
     </h3>
-    <div class="content-address">
-      <div>
-        <small>Nombres:</small>
-        <div>{{ order?.shipping_address?.first_name }} {{ order?.shipping_address?.last_name }}</div>
-      </div>
-      <div>
-        <small>Compañía:</small>
-        <div>{{ order?.shipping_address?.company }}</div>
-      </div>
-      <div>
-        <small>Vecindario:</small>
-        <div>{{ order?.shipping_address?.neighborhood }}</div>
-      </div>
-      <div>
-        <small>Provincia:</small>
-        <div>{{ order?.shipping_address?.state }}</div>
-      </div>
-      <div>
-        <small>Calles:</small>
-        <div>{{ order?.shipping_address?.street }}</div>
-      </div>
-      <div>
-        <small>Ciudad:</small>
-        <div>{{ order?.shipping_address?.city }}</div>
-      </div>
-      <div>
-        <small>Código postal:</small>
-        <div>{{ order?.shipping_address?.zip_code }}</div>
-      </div>
+    <div class="content-address h-100">
+      <ng-container *ngIf="!order; else elseAddress">
+        <ngx-skeleton-loader
+          [theme]="{ height: '10%', width: '100%'}"
+          count="7"
+          appearance="line"></ngx-skeleton-loader>
+      </ng-container>
+      <ng-template #elseAddress>
+        <div>
+          <small>Nombres:</small>
+          <div>{{ order?.shipping_address?.first_name }} {{ order?.shipping_address?.last_name }}</div>
+        </div>
+        <div>
+          <small>Compañía:</small>
+          <div>{{ order?.shipping_address?.company }}</div>
+        </div>
+        <div>
+          <small>Vecindario:</small>
+          <div>{{ order?.shipping_address?.neighborhood }}</div>
+        </div>
+        <div>
+          <small>Provincia:</small>
+          <div>{{ order?.shipping_address?.state }}</div>
+        </div>
+        <div>
+          <small>Calles:</small>
+          <div>{{ order?.shipping_address?.street }}</div>
+        </div>
+        <div>
+          <small>Ciudad:</small>
+          <div>{{ order?.shipping_address?.city }}</div>
+        </div>
+        <div>
+          <small>Código postal:</small>
+          <div>{{ order?.shipping_address?.zip_code }}</div>
+        </div>
+      </ng-template>
+      
+
     </div>
   </div>
 </div>
@@ -187,215 +271,246 @@
     <div class="d-flex justify-content-between align-items-center my-2">
       <h3 class="font-weight-bold font-2xl my-1">Gestionables</h3>
     </div>
-
-    <mat-accordion #accordion2 class="example-headers-align" multi>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Productos</mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Gestionar productos de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ items?.size || 0 }}</span>
-              <i class="fa-solid fa-cash-register"></i>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-add-products-order
-          [isCancelled]="order?.status === 'cancelled'"
-          (changeOrder)="getOrder()"
-          [items]="items"
-          [order]="order"></app-add-products-order>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsShipping.index">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Envíos</mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Gestionar envíos de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ order?.shippings?.length || 0 }}</span>
-              <i class="fa-solid fa-truck-fast"></i>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <app-shippings
-          [isCancelled]="order?.status === 'cancelled'"
-          (change)="getOrder()"
-          [client]="order?.client"
-          [shipping_address]="order?.shipping_address"
-          [order_id]="order?.id"
-          [shippings]="order?.shippings"></app-shippings>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsPayments.index">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Pagos</mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Agregar, editar o eliminar pagos de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ order?.payments?.length || 0 }}</span>
-              <i class="fa-regular fa-credit-card"></i>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-payment-order
-          [isCancelled]="order?.status === 'cancelled'"
-          (reload)="getOrder()"
-          [order_id]="order?.id"
-          [payments]="order?.payments"></app-payment-order>
-      </mat-expansion-panel>
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsTaxAndDiscounts.index">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Impuestos Retenciones y Descuentos</mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Agregar, editar o eliminar descuentos e impuestos de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ discountsAndTaxes?.size || 0 }}</span>
-              <i class="fa-solid fa-percent"></i>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-discount-tax-order
-          [isCancelled]="order?.status === 'cancelled'"
-          (reload)="getOrder()"
-          [order_id]="order?.id"
-          [discountsAndTaxes]="discountsAndTaxes"></app-discount-tax-order>
-      </mat-expansion-panel>
-    </mat-accordion>
+    <ng-container *ngIf="!order; else elseGestione">
+      <ngx-skeleton-loader
+          [theme]="{ height: '50px', width: '100%' }"
+          count="4"
+          appearance="line"></ngx-skeleton-loader>
+    </ng-container>
+    <ng-template #elseGestione>
+      
+      <mat-accordion #accordion2 class="example-headers-align" multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Productos</mat-panel-title>
+            <mat-panel-description>
+              <span class="d-md-inline-block d-none">Gestionar productos de la orden</span>
+              <span class="center">
+                <span class="badge bg-warning font-lg mr-1">{{ items?.size || 0 }}</span>
+                <i class="fa-solid fa-cash-register"></i>
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-add-products-order
+            [isCancelled]="order?.status === 'cancelled'"
+            (changeOrder)="getOrder()"
+            [items]="items"
+            [order]="order"></app-add-products-order>
+        </mat-expansion-panel>
+  
+        <mat-expansion-panel *ngxPermissionsOnly="permissionsShipping.index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Envíos</mat-panel-title>
+            <mat-panel-description>
+              <span class="d-md-inline-block d-none">Gestionar envíos de la orden</span>
+              <span class="center">
+                <span class="badge bg-warning font-lg mr-1">{{ order?.shippings?.length || 0 }}</span>
+                <i class="fa-solid fa-truck-fast"></i>
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+  
+          <app-shippings
+            [isCancelled]="order?.status === 'cancelled'"
+            (change)="getOrder()"
+            [client]="order?.client"
+            [shipping_address]="order?.shipping_address"
+            [order_id]="order?.id"
+            [shippings]="order?.shippings"></app-shippings>
+        </mat-expansion-panel>
+  
+        <mat-expansion-panel *ngxPermissionsOnly="permissionsPayments.index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Pagos</mat-panel-title>
+            <mat-panel-description>
+              <span class="d-md-inline-block d-none">Agregar, editar o eliminar pagos de la orden</span>
+              <span class="center">
+                <span class="badge bg-warning font-lg mr-1">{{ order?.payments?.length || 0 }}</span>
+                <i class="fa-regular fa-credit-card"></i>
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-payment-order
+            [isCancelled]="order?.status === 'cancelled'"
+            (reload)="getOrder()"
+            [order_id]="order?.id"
+            [payments]="order?.payments"></app-payment-order>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngxPermissionsOnly="permissionsTaxAndDiscounts.index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Impuestos Retenciones y Descuentos</mat-panel-title>
+            <mat-panel-description>
+              <span class="d-md-inline-block d-none">Agregar, editar o eliminar descuentos e impuestos de la orden</span>
+              <span class="center">
+                <span class="badge bg-warning font-lg mr-1">{{ discountsAndTaxes?.size || 0 }}</span>
+                <i class="fa-solid fa-percent"></i>
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-discount-tax-order
+            [isCancelled]="order?.status === 'cancelled'"
+            (reload)="getOrder()"
+            [order_id]="order?.id"
+            [discountsAndTaxes]="discountsAndTaxes"></app-discount-tax-order>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-template>
   </mat-card>
-
   <mat-card class="mt-3">
     <div class="d-flex justify-content-between align-items-center my-2">
       <h3 class="font-weight-bold font-2xl my-1">Sincronización MBA</h3>
     </div>
-
-    <mat-accordion #accordion class="example-headers-align" multi>
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsTransfers.index">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Transferencias</mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Agregar o eliminar transferencias de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ order?.transfers?.length || 0 }}</span>
-              <mat-icon>move_up</mat-icon>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-transference-order
-          [isCancelled]="order?.status === 'cancelled'"
-          (changeOrder)="getOrder()"
-          [metaData]="metaDataTransference"
-          [order_id]="order?.id"
-          [transfers]="order?.transfers"></app-transference-order>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsAnticipe.index">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Anticipos (pagos o cobros) MBA</mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Agregar o eliminar Pagos MBA de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ order?.mba_payments?.length || 0 }}</span>
-              <mat-icon>receipt</mat-icon>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <app-custom-template-only-input
-          [permissions]="permissionsAnticipe"
-          (changeOrder)="getOrder()"
-          path="system-orders/orders/{{ order?.id }}/mba-payments"
-          [title]="'Anticipos (pagos o cobros) MBA'"
-          placeholder="Escriba el código de pago"
-          [isCancelled]="order?.status === 'cancelled'">
-          <div class="row mt-2" items>
+    <ng-container *ngIf="!order; else elseMba">
+      <ngx-skeleton-loader
+          [theme]="{ height: '50px', width: '100%' }"
+          count="3"
+          appearance="line"></ngx-skeleton-loader>
+    </ng-container>
+    <ng-template #elseMba>
+      <mat-accordion #accordion class="example-headers-align" multi>
+        <mat-expansion-panel *ngxPermissionsOnly="permissionsTransfers.index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Transferencias</mat-panel-title>
+            <mat-panel-description>
+              <span class="d-md-inline-block d-none">Agregar o eliminar transferencias de la orden</span>
+              <span class="center">
+                <span class="badge bg-warning font-lg mr-1">{{ order?.transfers?.length || 0 }}</span>
+                <mat-icon>move_up</mat-icon>
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <!-- <app-transference-order
+              [isCancelled]="order?.status === 'cancelled'"
+              (changeOrder)="getOrder()"
+              [metaData]="metaDataTransference"
+              [order_id]="order?.id"
+              [transfers]="order?.transfers"></app-transference-order> -->
+          <small class="text-success font-sm" *ngIf="metaDataTransference === 'sended'">Marcado como enviado</small>
+          <ng-container *ngxPermissionsOnly="permissionsTransference.create">
+            <div>
+              <button
+                *ngIf="metaDataTransference !== 'sended' && order?.transfers?.length <= 0"
+                color="primary"
+                (click)="confirmTransaction()"
+                mat-raised-button>
+                Marcar como enviado
+              </button>
+              <button
+                *ngIf="order?.status !== 'cancelled'"
+                class="mt-2"
+                mat-raised-button
+                color="accent"
+                (click)="openSyncMba('transference')">
+                <i class="fa-solid fa-plus"></i>
+                Agregar manualmente
+              </button>
+            </div>
+            <div class="row m-0">
+              <div class="col-md-6 p-2" *ngFor="let transfer of order?.transfers; let index = index">
+                <app-transference-order
+                  [transfer]="transfer"
+                  [orderId]="order.id"
+                  [isCancelled]="order?.status === 'cancelled'"></app-transference-order>
+              </div>
+            </div>
+          </ng-container>
+        </mat-expansion-panel>
+  
+        <mat-expansion-panel *ngxPermissionsOnly="permissionsAnticipe.index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Anticipos (pagos o cobros) MBA</mat-panel-title>
+            <mat-panel-description>
+              <span class="d-md-inline-block d-none">Agregar o eliminar Pagos MBA de la orden</span>
+              <span class="center">
+                <span class="badge bg-warning font-lg mr-1">{{ order?.mba_payments?.length || 0 }}</span>
+                <mat-icon>receipt</mat-icon>
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+  
+          <!-- <app-custom-template-only-input
+              [permissions]="permissionsAnticipe"
+              (changeOrder)="getOrder()"
+              path="system-orders/orders/{{ order?.id }}/mba-payments"
+              [title]="'Anticipos (pagos o cobros) MBA'"
+              placeholder="Escriba el código de pago"
+              [isCancelled]="order?.status === 'cancelled'">
+              <div class="row mt-2" items>
+                <app-payment-mba-item
+                  class="col-md-4"
+                  *ngFor="let payment of order?.mba_payments"
+                  [item]="payment"
+                  [isCancelled]="order?.status === 'cancelled'"
+                  (changeOrder)="getOrder()"
+                  [order_id]="order?.id"></app-payment-mba-item>
+              </div>
+            </app-custom-template-only-input> -->
+          <div class="center justify-content-between flex-wrap">
+            <ng-container *ngxPermissionsOnly="permissionsAnticipe.create">
+              <button
+                *ngIf="order?.status !== 'cancelled'"
+                class="mt-2"
+                mat-raised-button
+                color="accent"
+                (click)="openSyncMba('anticipe')">
+                <i class="fa-solid fa-plus"></i>
+                Agregar manualmente
+              </button>
+            </ng-container>
+          </div>
+          <div class="row mt-2">
             <app-payment-mba-item
               class="col-md-4"
               *ngFor="let payment of order?.mba_payments"
               [item]="payment"
-              [isCancelled]="order?.status === 'cancelled'"
+              [isCancelled]="false"
               (changeOrder)="getOrder()"
               [order_id]="order?.id"></app-payment-mba-item>
           </div>
-        </app-custom-template-only-input>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel *ngxPermissionsOnly="permissionsInvoices.index">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Facturas</mat-panel-title>
-          <mat-panel-description>
-            <span class="d-md-inline-block d-none">Agregar o eliminar facturas de la orden</span>
-            <span class="center">
-              <span class="badge bg-warning font-lg mr-1">{{ order?.invoices?.length || 0 }}</span>
-              <mat-icon>receipt</mat-icon>
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-invoices-order
-          [isCancelled]="order?.status === 'cancelled'"
-          (changeOrder)="getOrder()"
-          [invoices]="order?.invoices"
-          [order_id]="order?.id"></app-invoices-order>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </mat-card>
-  <!-- <div class="totals rounded-fz" cdkDrag>
-    <mat-card class="center p-0 px-3">
-      <div>
-        <div class="section-order">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="font-weight-bold m-0">
-              Totales
-              <span [hidden]="!hideTotals">: ${{ order?.total }}</span>
-            </h3>
-            <div class="center" style="cursor: grab">
-              <button mat-icon-button (click)="hideTotals = !hideTotals">
-                <mat-icon>unfold_more</mat-icon>
+        </mat-expansion-panel>
+  
+        <mat-expansion-panel *ngxPermissionsOnly="permissionsInvoices.index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Facturas</mat-panel-title>
+            <mat-panel-description>
+              <span class="d-md-inline-block d-none">Agregar o eliminar facturas de la orden</span>
+              <span class="center">
+                <span class="badge bg-warning font-lg mr-1">{{ order?.invoices?.length || 0 }}</span>
+                <mat-icon>receipt</mat-icon>
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="center justify-content-between flex-wrap">
+            <ng-container *ngxPermissionsOnly="permissionsAnticipe.create">
+              <button
+                *ngIf="order?.status !== 'cancelled'"
+                class="mt-2"
+                mat-raised-button
+                color="accent"
+                (click)="openSyncMba('invoice')">
+                <i class="fa-solid fa-plus"></i>
+                Agregar manualmente
               </button>
-              <div class="example-handle" cdkDragHandle>
-                <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
-                  <path d="M0 0h24v24H0z" fill="none"></path>
-                </svg>
-              </div>
+            </ng-container>
+          </div>
+          <div class="row m-0">
+            <div class="col-md-6 p-2" *ngFor="let invoice of order?.invoices; let index = index">
+              <!-- <app-transference-order
+                 [transfer]="transfer"
+                 [orderId]="order.id"
+                 [isCancelled]="order?.status === 'cancelled'"
+                ></app-transference-order> -->
+              <app-invoices-order
+                [isCancelled]="order?.status === 'cancelled'"
+                (changeOrder)="getOrder()"
+                [invoice]="invoice"
+                [orderId]="order?.id"></app-invoices-order>
             </div>
           </div>
-          <div [hidden]="hideTotals">
-            <table>
-              <tbody class="text-uppercase">
-                <tr>
-                  <td>Subtotal:&nbsp;</td>
-                  <td>$ {{ order?.subtotal }}</td>
-                </tr>
-                <tr>
-                  <td>Descuento:&nbsp;</td>
-                  <td>$ {{ order?.discount }}</td>
-                </tr>
-                <tr>
-                  <td>Impuestos:&nbsp;</td>
-                  <td>$ {{ order?.tax }}</td>
-                </tr>
-                <tr>
-                  <td>Costo de envío:&nbsp;</td>
-                  <td>$ {{ order?.shipping }}</td>
-                </tr>
-                <tr>
-                  <td>Total:&nbsp;</td>
-                  <td>$ {{ order?.total }}</td>
-                </tr>
-                <tr>
-                  <td>Total pagado:&nbsp;</td>
-                  <td>$ {{ order?.total_paid }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </mat-card>
-  </div> -->
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-template> 
+  </mat-card>
 </div>
 
 <div class="btn-created-order">
@@ -407,14 +522,4 @@
     Cancelar orden
     <mat-icon>delete</mat-icon>
   </button>
-
-  <!-- <button
-    (click)="getOrder()"
-    data-toggle="tooltip"
-    data-placement="top"
-    title="Actualizar orden"
-    mat-icon-button
-    class="btn-refresh-order">
-    <mat-icon>refresh</mat-icon>
-  </button> -->
 </div>

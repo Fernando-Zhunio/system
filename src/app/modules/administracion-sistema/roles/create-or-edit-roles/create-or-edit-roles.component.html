@@ -24,10 +24,8 @@
           </mat-form-field>
 
           <mat-form-field class="col-md-6">
-            <mat-label>Descripcion</mat-label>
+            <mat-label>Descripción</mat-label>
             <input matInput formControlName="description">
-            <!-- <mat-error *ngIf="form_rol.controls['description'].invalid">La contraseña debe contener minusculas y al menos
-              una mayuscula, numero y simbolo</mat-error> -->
           </mat-form-field>
         </div>
       </form>
@@ -36,24 +34,19 @@
       <div class="row">
         <div class="col-md-6 border-right">
           <h2 class=" font-2xl">Permisos</h2>
-          <!-- <mat-form-field class="col-12">
-                        <mat-label>Buscar Permiso</mat-label>
-                      </mat-form-field> -->
           <div class="col-12 d-flex align-items-center justify-content-end mb-3">
             <input type="search" class="form-control" placeholder="Escriba el permiso a buscar"
               [(ngModel)]="search_permission" (keyup)="permissionsFilter()">
             <mat-icon class="position-absolute">search</mat-icon>
           </div>
           <div class="example-list">
-            <!-- <div cdkDropList [cdkDropListData]="permissions" class="example-list" (cdkDropListDropped)="drop($event)"> -->
             <div *ngFor="let item of permission_filter" class="font-weight-bolder example-box shadow-sm">
               <span>{{item.title}}. <small>({{item?.description}})</small><br>
                 <small>({{item?.name}})</small>
               </span>
-
-              <span class="badge badge-success" (click)="transferDataItem(item.id)">
-                <mat-icon class="mat-18">add</mat-icon>
-              </span>
+              <button color="primary" mat-icon-button  (click)="transferDataItem(item.id)">
+                  <i class="fa-solid fa-plus"></i>   
+              </button>
             </div>
           </div>
         </div>
@@ -61,15 +54,16 @@
           <h2 class=" font-2xl">Permisos otorgados</h2>
 
           <div class="example-list">
-            <!-- <div cdkDropList [cdkDropListData]="permission_otorgados" class="example-list " (cdkDropListDropped)="drop($event)"> -->
             <div class="example-box shadow-sm" *ngFor="let item of role?.permissions">
-              <span>{{item.title}}.<small>({{item?.description}})</small></span> <span class="badge badge-info"
-                (click)="returnItem(item.id)">
-                <mat-icon class="mat-18">reply</mat-icon>
-              </span>
+              <span>{{item.title}}.<small>({{item?.description}})</small><br>
+                <small>({{item?.name}})</small>
+              </span> 
+              <button color="warn" mat-icon-button  (click)="returnItem(item.id)">
+                  <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
           </div>
-          <button color="primary" mat-raised-button (click)="saveInServer()">Guardar</button>
+          <button color="primary" mat-button (click)="saveInServer()">Guardar <i class="fa-regular fa-floppy-disk"></i></button>
 
         </div>
       </div>

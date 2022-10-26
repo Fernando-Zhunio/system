@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionOrders } from '../../../../../../class/permissions-modules';
@@ -12,21 +12,21 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
 import { EchoManager } from '../../../../../../class/echo-manager';
-import { StorageService } from '../../../../../../services/storage.service';
 import { SharedService } from '../../../../../../services/shared/shared.service';
 import { LogOrderModalComponent } from '../../../../orders/log-order-modal/log-order-modal.component';
 import { ReuseComponent } from '../../../../../../interfaces/reuse-component';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
 import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-template/search-template-table/search-template-table.component';
+import { CONST_ECHO_ORDERS_CHANNEL_PRIVATE } from '../../../../../../shared/objects/constants';
 
 @Component({
   selector: 'app-orders-index',
   templateUrl: './orders-index.component.html',
   styleUrls: ['./orders-index.component.scss'],
 })
-export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnInit, OnDestroy, ReuseComponent {
+export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnInit, OnDestroy, AfterViewInit, ReuseComponent {
 
-  constructor(private storage: StorageService, private dialog: MatDialog, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
+  constructor(private dialog: MatDialog, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
     super();
   }
 
@@ -97,12 +97,16 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   }
 
   ngOnDestroy(): void {
-    this.echo.leave('orders-system.orders');
+    this.echo.leave(this.getChannelOrders());
   }
 
   createChannelEcho(): void {
-    this.echo = new EchoManager(this.storage).echo;
-    this.echo.private('orders-system.orders').listen('.order', this.listener.bind(this));
+    this.echo = new EchoManager().get();
+    this.echo.private(this.getChannelOrders()).listen('.order', this.listener.bind(this));
+  }
+
+  getChannelOrders(): string {
+    return CONST_ECHO_ORDERS_CHANNEL_PRIVATE;
   }
 
   listener(_e): void {

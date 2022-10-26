@@ -65,13 +65,15 @@ import { CreateOrEditAddressClientComponent } from './modules/shared-order/creat
 import { TransferenceOrderComponent } from './modules/shared-order/transference-order/transference-order.component';
 import { InvoicesOrderComponent } from './modules/shared-order/invoices-order/invoices-order.component';
 import { PaymentMbaItemComponent } from './modules/shared-order/components/payment-mba-item/payment-mba-item.component';
-import { CustomTemplateOnlyInputComponent } from './modules/shared-order/custom-template-only-input/custom-template-only-input.component';
+// import { CustomTemplateOnlyInputComponent } from './modules/shared-order/custom-template-only-input/custom-template-only-input.component';
 import { SearchWarehousesComponent } from './pages/orders/components/search-warehouses/search-warehouses.component';
 import { ToolsModule } from '../../Modulos/tools/tools.module';
 import { ViewerGalleryComponent } from '../../Modulos/viewer-gallery/viewer-gallery.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { PdfDetailOrderComponent } from './modules/shared-order/pdf-detail-order/pdf-detail-order.component';
 import { DetailsOrderComponent } from './modules/shared-order/details-order/details-order.component';
+import { SheetButtonOnlyInputComponent } from './pages/orders/components/sheet-button-only-input/sheet-button-only-input.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -106,11 +108,12 @@ import { DetailsOrderComponent } from './modules/shared-order/details-order/deta
     TransferenceOrderComponent,
     InvoicesOrderComponent,
     PaymentMbaItemComponent,
-    CustomTemplateOnlyInputComponent,
+    // CustomTemplateOnlyInputComponent,
     SearchWarehousesComponent,
     ViewerGalleryComponent,
     PdfDetailOrderComponent,
-    DetailsOrderComponent
+    DetailsOrderComponent,
+    SheetButtonOnlyInputComponent,
   ],
   imports: [
     CommonModule,
@@ -149,6 +152,7 @@ import { DetailsOrderComponent } from './modules/shared-order/details-order/deta
     SearchProductsDialogModule,
     ToolsModule,
     NgxFileDropModule,
+    NgxSkeletonLoaderModule
   ]
 })
 export class OrdersModule { }

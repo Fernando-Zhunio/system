@@ -34,8 +34,15 @@ app-root {
   }
 }
 
-.mat-table td {
-  max-width: 150px;
+//customs
+td {
+  vertical-align: middle !important;
+}
+
+
+
+.mat-table td, .mat-table th {
+  max-width: 180px;
   padding: 0 10px !important;
 }
 
@@ -230,7 +237,6 @@ button {
 .dark-theme .sidebar1 .content-sidebar {
   background-color: $dark-bg;
   color: #ffffff;
-
 }
 
 .main-style {
@@ -283,7 +289,6 @@ button {
 .body.main {
   min-height: calc(100vh - 55px);
 }
-
 
 .dark-theme .shadow-1-fz {
   box-shadow: 7px 7px 14px #353535, -7px -7px 14px #000000 !important;

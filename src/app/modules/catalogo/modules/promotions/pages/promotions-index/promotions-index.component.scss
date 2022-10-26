@@ -1,0 +1,42 @@
+.list {
+    list-style: disc;
+    padding-left: 25px;
+    color: gray;
+}
+
+.campaign {
+    padding: 5px 10px;
+}
+
+.active {
+    color: green;
+    background-color: rgba(127, 173, 127, 0.2);
+}
+
+.inactive {
+    color: red;
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+.date_range {
+    color: rgb(44, 139, 202);
+    background-color: rgba(44, 139, 202, 0.2);
+}
+
+.undefined {
+    color: rgb(104, 104, 104);
+    background-color: rgba(104, 104, 104, 0.2);
+}
+
+.table-container-promotions {
+    overflow: auto;
+    max-height: 700px;
+}
+
+.text-product-name-filter {
+    max-width: 230px;
+}
+
+::ng-deep.mat-menu-panel {
+    min-width: 300px !important;
+  }
