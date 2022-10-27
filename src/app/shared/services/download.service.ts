@@ -6,7 +6,7 @@ import { SharedService } from '../../services/shared/shared.service';
 // import { SpinnerLoaderFileTemplateComponent } from '../components/spinner-loader-file/spinner-loader-file.component';
 // import { CreateHostService } from './create-host.service';
 
-interface DownloadOptions { 
+interface DownloadOptions {
   isHash?: boolean
   fileName?: string
   showSpinner?: boolean
@@ -58,17 +58,21 @@ export class DownloadAndRedirectService {
           a.click();
           window.URL.revokeObjectURL(urlDownload);
           a.remove();
-          // options?.showSpinner &&  spinner?.close();
+        // options?.showSpinner &&  spinner?.close();
       }
-    },() => {
+    }, () => {
       // options?.showSpinner && spinner.close();
     });
   }
 
+
   getNameFile(url) {
     return new URL(url).searchParams.get('file_name') || 'file_' + Date.now();
   }
-
+  /**
+    * 
+    * @param prePath string - path de la pagina para su redireccion
+    */
   generatePathAndQueryParams(prePath): { path: string, queryParams: any } {
     console.log(prePath);
     const urlOutHash = prePath.replace('#/', '');
@@ -84,6 +88,10 @@ export class DownloadAndRedirectService {
     return { path, queryParams };
   }
 
+  /**
+      * 
+      * @param prePath string - path de la pagina para su redireccion
+      */
   redirectTo(prePath) {
     const { path, queryParams } = this.generatePathAndQueryParams(prePath);
     if (this.router.url !== path) {
