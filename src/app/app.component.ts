@@ -29,7 +29,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   setCreateHost(): void {
-    console.log(this.createHostDirective);
     this.chs.setCreateHostDirective(this.createHostDirective);
   }
 }

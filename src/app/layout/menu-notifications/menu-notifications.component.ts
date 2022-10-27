@@ -72,16 +72,17 @@ export class MenuNotificationsComponent implements OnInit, OnDestroy {
     this.sdr.download(url);
   }
 
-  notificationAction(id: number): void {
-    const notificationData = this.notifications.find((notification) => notification.id === id)?.data;
-    if(!notificationData) return;
-
-    if (notificationData.url) {
-      this.download(notificationData.url);
+  notificationAction(url: string, route: string): void {
+    // console.log({id});
+    // const notificationData = this.notifications.find((notification) => notification.id === id)?.data;
+    // if(!notificationData) return;
+    // console.log({notificationData});
+    if (url) {
+      this.download(url);
       return;
     }
-    if (notificationData?.route) {
-      this.sdr.redirectTo(notificationData.route);
+    if (route) {
+      this.sdr.redirectTo(route);
     }
   }
 

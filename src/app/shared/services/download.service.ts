@@ -69,8 +69,9 @@ export class DownloadAndRedirectService {
     return new URL(url).searchParams.get('file_name') || 'file_' + Date.now();
   }
 
-  generatePathAndQueryParams(data): { path: string, queryParams: any } {
-    const urlOutHash = data.route.replace('#/', '');
+  generatePathAndQueryParams(prePath): { path: string, queryParams: any } {
+    console.log(prePath);
+    const urlOutHash = prePath.replace('#/', '');
     const urlObject: any = new URL(urlOutHash);
     const path = urlObject.pathname;
     const queryStrings = Array.from(urlObject.searchParams.entries());
@@ -83,8 +84,8 @@ export class DownloadAndRedirectService {
     return { path, queryParams };
   }
 
-  redirectTo(data) {
-    const { path, queryParams } = this.generatePathAndQueryParams(data);
+  redirectTo(prePath) {
+    const { path, queryParams } = this.generatePathAndQueryParams(prePath);
     if (this.router.url !== path) {
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate([path], { queryParams }));
