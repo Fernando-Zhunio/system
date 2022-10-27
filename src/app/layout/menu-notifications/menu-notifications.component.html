@@ -19,7 +19,7 @@
       [disableRipple]="true"
       class="h-auto border-bottom rounded my-2"
       *ngFor="let notification of notifications"
-      (click)="notificationAction(notification.id)"
+      (click)="notificationAction(notification.data?.url, notification.data?.route)"
       (keydown)="$event.stopPropagation()">
       <div class="pl-2 content-menu">
         <div class="d-flex align-items-center">

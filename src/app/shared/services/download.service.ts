@@ -6,8 +6,8 @@ import { SharedService } from '../../services/shared/shared.service';
 // import { SpinnerLoaderFileTemplateComponent } from '../components/spinner-loader-file/spinner-loader-file.component';
 // import { CreateHostService } from './create-host.service';
 
-interface DownloadOptions { 
-  outHash?: boolean
+interface DownloadOptions {
+  isHash?: boolean
   fileName?: string
   showSpinner?: boolean
   spinnerText?: string
@@ -21,7 +21,7 @@ interface DownloadOptions {
 export class DownloadAndRedirectService {
 
   defaultOptions: DownloadOptions = {
-    outHash: false,
+    isHash: true,
     showSpinner: true,
     spinnerText: 'Descargando archivo',
     spinnerPercent: 0
@@ -32,11 +32,7 @@ export class DownloadAndRedirectService {
     if (!options) {
       options = this.defaultOptions;
     }
-    // let spinner;
-    // if (options?.showSpinner) {
-    //   spinner =  this.chs.injectComponent(SpinnerLoaderFileTemplateComponent, null, false);
-    // }
-    const path = options?.outHash ? url : this.urlServer + url;
+    const path = options?.isHash ? url : this.urlServer + url;
     SharedService.disabled_loader = true;
     return this.http.get(path, {
       responseType: 'blob',
@@ -62,19 +58,24 @@ export class DownloadAndRedirectService {
           a.click();
           window.URL.revokeObjectURL(urlDownload);
           a.remove();
-          // options?.showSpinner &&  spinner?.close();
+        // options?.showSpinner &&  spinner?.close();
       }
-    },() => {
+    }, () => {
       // options?.showSpinner && spinner.close();
     });
   }
 
+
   getNameFile(url) {
     return new URL(url).searchParams.get('file_name') || 'file_' + Date.now();
   }
-
-  generatePathAndQueryParams(data): { path: string, queryParams: any } {
-    const urlOutHash = data.route.replace('#/', '');
+  /**
+    * 
+    * @param prePath string - path de la pagina para su redireccion
+    */
+  generatePathAndQueryParams(prePath): { path: string, queryParams: any } {
+    console.log(prePath);
+    const urlOutHash = prePath.replace('#/', '');
     const urlObject: any = new URL(urlOutHash);
     const path = urlObject.pathname;
     const queryStrings = Array.from(urlObject.searchParams.entries());
@@ -87,8 +88,12 @@ export class DownloadAndRedirectService {
     return { path, queryParams };
   }
 
-  redirectTo(data) {
-    const { path, queryParams } = this.generatePathAndQueryParams(data);
+  /**
+      * 
+      * @param prePath string - path de la pagina para su redireccion
+      */
+  redirectTo(prePath) {
+    const { path, queryParams } = this.generatePathAndQueryParams(prePath);
     if (this.router.url !== path) {
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate([path], { queryParams }));
