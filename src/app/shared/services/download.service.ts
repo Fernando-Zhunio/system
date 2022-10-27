@@ -7,7 +7,7 @@ import { SharedService } from '../../services/shared/shared.service';
 // import { CreateHostService } from './create-host.service';
 
 interface DownloadOptions { 
-  outHash?: boolean
+  isHash?: boolean
   fileName?: string
   showSpinner?: boolean
   spinnerText?: string
@@ -21,7 +21,7 @@ interface DownloadOptions {
 export class DownloadAndRedirectService {
 
   defaultOptions: DownloadOptions = {
-    outHash: false,
+    isHash: true,
     showSpinner: true,
     spinnerText: 'Descargando archivo',
     spinnerPercent: 0
@@ -32,11 +32,7 @@ export class DownloadAndRedirectService {
     if (!options) {
       options = this.defaultOptions;
     }
-    // let spinner;
-    // if (options?.showSpinner) {
-    //   spinner =  this.chs.injectComponent(SpinnerLoaderFileTemplateComponent, null, false);
-    // }
-    const path = options?.outHash ? url : this.urlServer + url;
+    const path = options?.isHash ? url : this.urlServer + url;
     SharedService.disabled_loader = true;
     return this.http.get(path, {
       responseType: 'blob',

@@ -2,24 +2,24 @@ import { MatTable } from "@angular/material/table";
 import { MethodsHttpService } from "../../services/methods-http.service";
 import { SwalService } from "../../services/swal.service";
 
-export abstract class MatTableHelper<T> {
+export abstract class MatTableHelper<T = any> {
     protected abstract columnsToDisplay: string[];
     protected abstract url: string;
     protected abstract table: MatTable<T>;
     protected abstract methodsHttp: MethodsHttpService;
-    protected dataSource: any[];
+    protected dataSource: T[];
     protected isLoading: boolean = false;
     getData($event: any): void {
         console.log($event);
         this.dataSource = $event;
     }
 
-    deleteData(id: number): void {
+    deleteData(id: number, url: string | null = null): void {
         SwalService.swalConfirmation('Eliminar', '¿Está seguro de eliminar el registro?', 'warning')
             .then((result) => {
                 if (result.isConfirmed) {
                     this.isLoading = true;
-                    this.methodsHttp.methodDelete(`${this.url}/${id}`).subscribe(
+                    this.methodsHttp.methodDelete(`${ url || this.getUrl()}/${id}`).subscribe(
                         () => {
                             this.isLoading = false;
                             SwalService.swalToast('Registro eliminado', 'success');
@@ -30,8 +30,12 @@ export abstract class MatTableHelper<T> {
             });
     }
 
+    getUrl(_data: any = null): string {
+        return this.url;
+    }
+
     deleteItemInTable(id: number) {
-        this.dataSource.splice(this.dataSource.findIndex(order => order.id === id), 1);
+        this.dataSource.splice(this.dataSource.findIndex((order: any) => order.id === id), 1);
         this.table.renderRows();
     }
 
@@ -42,7 +46,7 @@ export abstract class MatTableHelper<T> {
             this.table.renderRows();
         }
     }
-    addItemInTable<T=any>(newData: T) {
+    addItemInTable(newData: T) {
         this.dataSource.unshift(newData);
         this.table.renderRows();
     }

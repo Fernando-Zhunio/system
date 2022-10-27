@@ -1,5 +1,5 @@
 <app-search-template-table
-  [url$]="url"
+  [url$]="urlSearch"
   [title]="'Promociones'"
   [placeholder]="'Buscador de promociones'"
   (data)="getData($event)"
@@ -82,15 +82,17 @@
         <ng-container matColumnDef="actions" stickyEnd>
           <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
           <td mat-cell *matCellDef="let row">
-            <button
-              *ngxPermissionsOnly="permissions.edit"
-              [routerLink]="['catalogo/campaign', row.id, 'edit']"
-              mat-icon-button
-              color="primary"
-              mat-icon-button>
-              <i class="fa-regular fa-pen-to-square"></i>
-            </button>
-            <button *ngxPermissionsOnly="permissions.destroy" (click)="deleteData(row.id)" mat-icon-button color="warn">
+            <ng-container *ngIf="row.campaign.id">
+              <button
+                *ngxPermissionsOnly="permissions.edit"
+                [routerLink]="['/catalogo/campaigns', row.campaign.id, 'promotions', row.id, 'edit']"
+                mat-icon-button
+                color="primary"
+                mat-icon-button>
+                <i class="fa-regular fa-pen-to-square"></i>
+              </button>
+            </ng-container>
+            <button *ngxPermissionsOnly="permissions.destroy" (click)="deletePromotion(row.id)" mat-icon-button color="warn">
               <i class="fa-solid fa-trash"></i>
             </button>
           </td>
@@ -98,7 +100,6 @@
 
         <tr  mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
-        <!-- <tr mat-row *matRowDef="let element; columns: ['campaign']"></tr> -->
       </table>
     </div>
   </ng-container>

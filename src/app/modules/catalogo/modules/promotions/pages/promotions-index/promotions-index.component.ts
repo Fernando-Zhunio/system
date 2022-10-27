@@ -9,23 +9,24 @@ import { SearchProductsDialogComponent } from '../../../../../../shared/search-p
 import { CreateHostService } from '../../../../../../shared/services/create-host.service';
 import { Promotion } from '../../../campaign/interfaces/promotion';
 import { SearchCampaignDialogComponent } from '../../components/search-campaign-dialog/search-campaign-dialog.component';
-import { getDurationPromotionArray, getStatusesPromotionArray } from '../../constants/promotion-const';
+import { getDurationPromotionArray, getStatusesPromotionArray, PROMOTION_STATUS_ACTIVE } from '../../constants/promotion-const';
  
 @Component({
   templateUrl: './promotions-index.component.html',
   styleUrls: ['./promotions-index.component.scss']
 })
-export class PromotionsIndexComponent extends MatTableHelper<any> implements OnInit  {
+export class PromotionsIndexComponent extends MatTableHelper<Promotion> implements OnInit  {
   protected columnsToDisplay: string[] = [
     'id', 'created_at', 'status', 'title', 'price_formated', 'products', 'duration_type', 'description', 'campaign'];
   @ViewChild(MatTable) table: MatTable<Promotion>;
   permissions = PERMISSION_CAMPAIGNS;
 
+  urlSearch: string = 'catalogs/promotions';
   url: string = 'catalogs/promotions';
   products: Map<number, IProduct> = new Map<number, IProduct>();
   campaigns: Map<number, IProduct> = new Map<number, IProduct>();
   filterData: any = {
-    status: null,
+    status: PROMOTION_STATUS_ACTIVE,
     'products[]': [],
     duration_type: null,
     'campaigns[]': []
@@ -61,13 +62,15 @@ export class PromotionsIndexComponent extends MatTableHelper<any> implements OnI
   openSearchProducts(): void {
     this.chs.injectComponent(
       SearchProductsDialogComponent,
-      { url: 'catalogs/promotions/products', productsSelected: this.products })
+      { url: 'catalogs/promotions/products', onlyOne: true })
       .beforeClose().subscribe((res: any) => {
+        console.log({res});
         const data = res?.data;
-        if (data && data.size > 0) {
-          data.forEach((value: IProduct) => {
-            this.products.set(value.id, value);
-          });
+        if (data) {
+          // data.forEach((value: IProduct) => {
+            this.products.set(data.id, data);
+          // });
+
           this.setFilterDataProducts();
         }
       });
@@ -76,14 +79,14 @@ export class PromotionsIndexComponent extends MatTableHelper<any> implements OnI
   openSearchCampaign(): void {
     this.chs.injectComponent(
       SearchCampaignDialogComponent,
-      { url: 'catalogs/campaigns', campaign: this.campaigns })
+      { url: 'catalogs/campaigns', onlyOne: true })
       .beforeClose().subscribe((res: any) => {
         console.log(res);
         const data = res?.data;
-        if (data && data.size > 0) {
-          data.forEach((value: IProduct) => {
-            this.campaigns.set(value.id, value);
-          });
+        if (data) {
+          // data.forEach((value: IProduct) => {
+            this.campaigns.set(data.id, data);
+          // });
           this.setFilterDataCampaign();
         }
       });
@@ -96,6 +99,17 @@ export class PromotionsIndexComponent extends MatTableHelper<any> implements OnI
   setFilterDataCampaign(){
     this.filterData['campaigns[]'] = Array.from(this.campaigns.keys());
   }
+
+  deletePromotion(id: number) {
+    const promotion = this.dataSource.find((item: Promotion) => item.id === id);
+    if (promotion && promotion?.campaign) {
+      const url = `catalogs/campaigns/${promotion.campaign.id}/promotions`;
+      this.deleteData(id, url);
+    }
+  }
+
+
+
 
 
 

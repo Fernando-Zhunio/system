@@ -64,6 +64,9 @@ export class PreferenceEffects {
     }
 
     convertStringToArrayOrBoolean(preferences: string): any[] | boolean {
+        if (!preferences) {
+            return false;
+        }
         return JSON.parse(preferences);
     }
 
