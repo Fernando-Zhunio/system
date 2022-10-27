@@ -5,6 +5,9 @@ import { ImportsRoutingModule } from './imports.routing';
 import { SearchTemplateTableComponent } from '../../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { CreateOrEditImportModalComponent } from './components/create-or-edit-import-modal/create-or-edit-import-modal.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -12,7 +15,10 @@ import { MatButtonModule } from '@angular/material/button';
     ImportsRoutingModule,
     SearchTemplateTableComponent,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    CreateOrEditImportModalComponent,
+    NgxPermissionsModule,
+    MatChipsModule,
   ],
   declarations: [ImportsIndexComponent]
 })

@@ -17,6 +17,8 @@ import { ModalListPricesComponent } from './tools/modal-list-prices/modal-list-p
 import { MatDialogModule } from '@angular/material/dialog';
 import { FilePondModule } from 'ngx-filepond';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { SearchTemplateTableComponent } from '../../../../Modulos/search-template/search-template-table/search-template-table.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
     declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
@@ -37,6 +39,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
         MatDialogModule,
         FilePondModule,
         NgxPermissionsModule,
+        SearchTemplateTableComponent,
+        MatTableModule,
     ]
 })
 export class PricesModule { }

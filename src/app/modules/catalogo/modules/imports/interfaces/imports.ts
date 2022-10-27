@@ -10,4 +10,14 @@ export interface Import {
     created_at: string;
     updated_at: string;
     note_plain_text: string;
+    sequence: Sequence;
+}
+
+interface Sequence {
+    id: number;
+    sequence_number: number;
+    import_origin_id: number;
+    import_id: number;
+    created_at: string;
+    updated_at: string;
 }

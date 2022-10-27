@@ -1,0 +1,1 @@
+export const PRICE_ROUTE_API_INDEX = 'catalogs/products/prices';

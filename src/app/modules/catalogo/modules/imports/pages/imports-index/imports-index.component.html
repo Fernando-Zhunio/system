@@ -4,8 +4,8 @@
   [title]="'Importaciones'"
   [url$]="url"
   >
-  <ng-container>
-    
+  <ng-container menuBar>
+        <mat-chip class="mat-orange ml-1" (click)="openDialogCreateOrEditImport()"><i class="fa-solid fa-plus"></i>&nbsp; Importación</mat-chip>
   </ng-container>
   
 
@@ -39,8 +39,8 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
         <td mat-cell *matCellDef="let row"> 
-          <button color="primary" mat-icon-button><i class="fa-solid fa-pen"></i></button>
-          <button color="warn" mat-icon-button><i class="fa-solid fa-trash"></i></button>
+          <button *ngxPermissionsOnly="permissions.edit" color="primary" mat-icon-button (click)="openDialogCreateOrEditImport(row.id)"><i class="fa-solid fa-pen"></i></button>
+          <button (click)="deleteData(row.id)" *ngxPermissionsOnly="permissions.destroy" color="warn" mat-icon-button><i class="fa-solid fa-trash"></i></button>
         </td>
       </ng-container>
 

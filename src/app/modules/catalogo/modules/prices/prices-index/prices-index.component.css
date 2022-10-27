@@ -52,3 +52,7 @@ mat-form-field {
     max-height: 200px;
     object-fit: contain;
 }
+
+td, th{
+    max-width: none !important;
+}

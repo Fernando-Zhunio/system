@@ -1,28 +1,31 @@
 import { HttpEventType } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+// import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FilePondOptions } from 'filepond';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
 import { animation_conditional } from '../../../../../animations/animate_leave_enter';
-import { Crud } from '../../../../../class/crud';
+// import { Crud } from '../../../../../class/crud';
 import { Permission_products_prices } from '../../../../../class/permissions-modules';
 // import { prices_permission_module } from '../../../../class/permissions-modules/prices-permissions';
 import { INotificationData } from '../../../../../interfaces/inotification';
 import { IPrice, IPriceGroup, IProductPrice } from '../../../../../interfaces/iprice';
 import { downloadPrice, generatingPrice, idlePrice } from '../../../../../redux/actions/price.action';
 import { EPriceState } from '../../../../../redux/reducers/price.reducer';
-import { selectPrice } from '../../../../../redux/state/state.selectors';
+// import { selectPrice } from '../../../../../redux/state/state.selectors';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { SharedService } from '../../../../../services/shared/shared.service';
 import { StorageService } from '../../../../../services/storage.service';
 import { SwalService } from '../../../../../services/swal.service';
-import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-prices.component';
+import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
+import { PRICE_ROUTE_API_INDEX } from '../routes-api/prices-routes-api';
+// import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-prices.component';
 
 @Component({
   selector: 'app-prices-index',
@@ -32,25 +35,27 @@ import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-
 
 })
 export class PricesIndexComponent
-  extends Crud<IProductPrice>
+  extends MatTableHelper<IProductPrice>
   implements OnInit, OnDestroy {
+  protected columnsToDisplay: string[] = ['image', 'name', 'price', 'available', 'code', 'created_at', 'actions'] ;
+  @ViewChild(MatTable) table: MatTable<IProductPrice>;
   constructor(
     protected methodsHttp: MethodsHttpService,    protected snackBar: MatSnackBar,
     public act_router: ActivatedRoute,
-    private dialog: MatDialog,
+    // private dialog: MatDialog,
     private storage: StorageService,
     private s_shared: SharedService,
     private store: Store,
   ) {
     super();
-    this.stateFilePrices$ = this.store.select(selectPrice);
+    // this.stateFilePrices$ = this.store.select(selectPrice);
   }
 
   @ViewChild(MatDrawer) sidenavPrice: MatDrawer;
   permissions = Permission_products_prices.prices;
   EPriceState = EPriceState;
   isLoadingFilePrices: boolean = false;
-  url: string = 'catalogs/products/prices';
+  url: string = PRICE_ROUTE_API_INDEX;
   isOpenPrice: boolean = false;
   dataPriceModify: any = {
     id: null,
@@ -97,10 +102,10 @@ export class PricesIndexComponent
       this.generateTemplateForm(res.data);
       this.pricesGroup = res.data;
     });
-    this.subscriptionStateFile = this.stateFilePrices$.subscribe((state: any) => {
-      console.log({ state });
-      this.stateFilePrices = state;
-    });
+    // this.subscriptionStateFile = this.stateFilePrices$.subscribe((state: any) => {
+    //   console.log({ state });
+    //   this.stateFilePrices = state;
+    // });
   }
 
   ngOnDestroy(): void {
@@ -143,50 +148,50 @@ export class PricesIndexComponent
     }
   }
 
-  openSidenavPriceForEdit(id: number): void {
-    this.sidenavPrice.open();
-    this.dataPriceModify.isLoading = true;
-    this.dataPriceModify.id = id;
-    this.dataPriceModify.name = this.data.get(id)?.name;
-    this.dataPriceModify.isEdit = true;
-    this.form.reset();
-    this.methodsHttp
-      .methodGet(`catalogs/products/${id}/prices/edit`)
-      .subscribe((res: any) => {
-        this.dataPriceModify.data = res;
-        this.dataPriceModify.isLoading = false;
-        this.assignData(res?.data.last_prices);
-      });
+  openSidenavPriceForEdit(_id: number): void {
+    // this.sidenavPrice.open();
+    // this.dataPriceModify.isLoading = true;
+    // this.dataPriceModify.id = id;
+    // this.dataPriceModify.name = this.data.get(id)?.name;
+    // this.dataPriceModify.isEdit = true;
+    // this.form.reset();
+    // this.methodsHttp
+    //   .methodGet(`catalogs/products/${id}/prices/edit`)
+    //   .subscribe((res: any) => {
+    //     this.dataPriceModify.data = res;
+    //     this.dataPriceModify.isLoading = false;
+    //     this.assignData(res?.data.last_prices);
+    //   });
   }
 
-  openSidenavPriceForCreate(id: number): void {
-    this.sidenavPrice.open();
-    this.dataPriceModify.isLoading = true;
-    this.dataPriceModify.id = id;
-    this.dataPriceModify.name = this.data.get(id)?.name;
-    this.dataPriceModify.isLoading = false;
-    this.dataPriceModify.isEdit = false;
-    this.form.reset();
-    this.dataPriceModify.data = this.data.get(id);
+  openSidenavPriceForCreate(_id: number): void {
+    // this.sidenavPrice.open();
+    // this.dataPriceModify.isLoading = true;
+    // this.dataPriceModify.id = id;
+    // this.dataPriceModify.name = this.data.get(id)?.name;
+    // this.dataPriceModify.isLoading = false;
+    // this.dataPriceModify.isEdit = false;
+    // this.form.reset();
+    // this.dataPriceModify.data = this.data.get(id);
   }
 
-  openDialogListPrices(key): void {
-    const dialogRef = this.dialog.open(ModalListPricesComponent, {
-      data: {
-        id: key,
-        product_name: this.data.get(key)?.name,
-      },
-    });
+  openDialogListPrices(_key): void {
+    // const dialogRef = this.dialog.open(ModalListPricesComponent, {
+    //   data: {
+    //     id: key,
+    //     product_name: this.data.get(key)?.name,
+    //   },
+    // });
 
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-      this.methodsHttp
-        .methodGet(`catalogs/products/${key}/prices/edit?type=full`)
-        .subscribe((res: any) => {
-          const data = this.data.get(key)!;
-          data.last_prices = res.data.last_prices;
-        });
-    });
+    // dialogRef.afterClosed().subscribe(() => {
+    //   console.log('The dialog was closed');
+    //   this.methodsHttp
+    //     .methodGet(`catalogs/products/${key}/prices/edit?type=full`)
+    //     .subscribe((res: any) => {
+    //       const data = this.data.get(key)!;
+    //       data.last_prices = res.data.last_prices;
+    //     });
+    // });
   }
 
   addOrRemoveTax(id: number, isTax = false): void {
@@ -205,28 +210,28 @@ export class PricesIndexComponent
   }
 
   saveInServer(): void {
-    this.isLoadingNewPrice = true;
-    this.methodsHttp
-      .methodPost(
-        `catalogs/products/${this.dataPriceModify.id}/prices`,
-        this.form.value
-      )
-      .subscribe((res: { success: boolean, data: IProductPrice }) => {
-        const data = this.data.get(this.dataPriceModify.id)!;
-        data.last_prices = res.data.last_prices;
-        this.snackBar.open('Se ha guardado el precio', 'Cerrar', {
-          duration: 3000,
-        });
-        console.log({ res, data: this.data.get(this.dataPriceModify.id) });
-        this.sidenavPrice.close();
-        this.isLoadingNewPrice = false;
-      }, error => {
-        console.log(error);
-        this.isLoadingNewPrice = false;
-        this.snackBar.open('No se ha podido guardar el precio', 'Cerrar', {
-          duration: 3000,
-        });
-      });
+    // this.isLoadingNewPrice = true;
+    // this.methodsHttp
+    //   .methodPost(
+    //     `catalogs/products/${this.dataPriceModify.id}/prices`,
+    //     this.form.value
+    //   )
+    //   .subscribe((res: { success: boolean, data: IProductPrice }) => {
+    //     const data = this.data.get(this.dataPriceModify.id)!;
+    //     data.last_prices = res.data.last_prices;
+    //     this.snackBar.open('Se ha guardado el precio', 'Cerrar', {
+    //       duration: 3000,
+    //     });
+    //     console.log({ res, data: this.data.get(this.dataPriceModify.id) });
+    //     this.sidenavPrice.close();
+    //     this.isLoadingNewPrice = false;
+    //   }, error => {
+    //     console.log(error);
+    //     this.isLoadingNewPrice = false;
+    //     this.snackBar.open('No se ha podido guardar el precio', 'Cerrar', {
+    //       duration: 3000,
+    //     });
+    //   });
   }
 
   assignData(prices: IPrice[]): void {

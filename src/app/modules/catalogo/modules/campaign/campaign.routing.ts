@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { PERMISSION_CAMPAIGNS, PERMISSION_PROMOTIONS } from '../../../../class/permissions-modules';
+import { PERMISSION_CAMPAIGNS, PERMISSIONS_PROMOTIONS } from '../../../../class/permissions-modules';
 import { CampaignIndexComponent } from './pages/campaign-index/campaign-index.component';
 import { CreateOrEditCampaignComponent } from './pages/create-or-edit-campaign/create-or-edit-campaign.component';
 import { CreateOrEditPromotionComponent } from './pages/create-or-edit-promotion/create-or-edit-promotion.component';
@@ -47,7 +47,7 @@ const routes: Routes = [
     component: PromotionIndexComponent,
     data: {
       permissions: {
-        only: PERMISSION_PROMOTIONS.index
+        only: PERMISSIONS_PROMOTIONS.index
       },
     },
     canActivate: [NgxPermissionsGuard],
@@ -57,7 +57,7 @@ const routes: Routes = [
     component: CreateOrEditPromotionComponent,
     data: {
       permissions: {
-        only: PERMISSION_PROMOTIONS.create
+        only: PERMISSIONS_PROMOTIONS.create
       },
       isEdit: false
     },
@@ -68,7 +68,7 @@ const routes: Routes = [
     component: CreateOrEditPromotionComponent,
     data: {
       permissions: {
-        only: PERMISSION_PROMOTIONS.edit
+        only: PERMISSIONS_PROMOTIONS.edit
       },
       isEdit: true
     },

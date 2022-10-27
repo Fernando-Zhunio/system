@@ -8,6 +8,7 @@ export interface IProductPrice {
     brand_id: number;
     category_id: number;
     sequence_id: number;
+    image: string,
     prefix_id: number;
     code: string;
     available: number;
