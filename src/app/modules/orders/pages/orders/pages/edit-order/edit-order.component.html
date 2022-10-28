@@ -86,10 +86,6 @@
                   <span class="ml-1">Detalles cliente</span>
                 </button>
               </mat-menu>
-              <!-- <mat-icon color="primary" [routerLink]="['/system-orders/clients/create']">add</mat-icon> -->
-              <!-- <mat-icon color="accent" [routerLink]="['/system-orders/clients', order?.client_id, 'edit']">edit</mat-icon> -->
-              <!-- <mat-icon color="primary" (click)="openSelectClient()">sync</mat-icon> -->
-              <!-- <mat-icon color="accent" (click)="openDetailClient()">visibility</mat-icon> -->
             </span>
           </div>
           <span>
@@ -389,7 +385,7 @@
           <ng-container *ngxPermissionsOnly="permissionsTransference.create">
             <div>
               <button
-                *ngIf="metaDataTransference !== 'sended' && order?.transfers?.length <= 0"
+                *ngIf="metaDataTransference !== 'sended' && order?.transfers?.length <= 0 && order?.status !== 'cancelled'"
                 color="primary"
                 (click)="confirmTransaction()"
                 mat-raised-button>
@@ -428,27 +424,9 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
   
-          <!-- <app-custom-template-only-input
-              [permissions]="permissionsAnticipe"
-              (changeOrder)="getOrder()"
-              path="system-orders/orders/{{ order?.id }}/mba-payments"
-              [title]="'Anticipos (pagos o cobros) MBA'"
-              placeholder="Escriba el código de pago"
-              [isCancelled]="order?.status === 'cancelled'">
-              <div class="row mt-2" items>
-                <app-payment-mba-item
-                  class="col-md-4"
-                  *ngFor="let payment of order?.mba_payments"
-                  [item]="payment"
-                  [isCancelled]="order?.status === 'cancelled'"
-                  (changeOrder)="getOrder()"
-                  [order_id]="order?.id"></app-payment-mba-item>
-              </div>
-            </app-custom-template-only-input> -->
           <div class="center justify-content-between flex-wrap">
             <ng-container *ngxPermissionsOnly="permissionsAnticipe.create">
               <button
-                *ngIf="order?.status !== 'cancelled'"
                 class="mt-2"
                 mat-raised-button
                 color="accent"
@@ -495,11 +473,6 @@
           </div>
           <div class="row m-0">
             <div class="col-md-6 p-2" *ngFor="let invoice of order?.invoices; let index = index">
-              <!-- <app-transference-order
-                 [transfer]="transfer"
-                 [orderId]="order.id"
-                 [isCancelled]="order?.status === 'cancelled'"
-                ></app-transference-order> -->
               <app-invoices-order
                 [isCancelled]="order?.status === 'cancelled'"
                 (changeOrder)="getOrder()"

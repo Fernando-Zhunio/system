@@ -116,6 +116,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getMessages(goBottom = false): void {
+    SharedService.disabled_loader = true;
     this.s_standard
       .show(`chats/${this.chat.data._id}/messages?page=${this.page}`)
       .subscribe((res) => {
@@ -142,6 +143,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getMessageReconnected(): void {
+    SharedService.disabled_loader = true;
     this.page = 1;
     this.s_standard
       .show(`chats/${this.chat.data._id}/messages?page=${this.page}`)
@@ -232,6 +234,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   sendMessage($event: any = null): boolean {
+    SharedService.disabled_loader = true;
     if ($event) { $event.preventDefault(); }
     const text = this.textMessage.nativeElement.value;
     if (text.trim() === '') {

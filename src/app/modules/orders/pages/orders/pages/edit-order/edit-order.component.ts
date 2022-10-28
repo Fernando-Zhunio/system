@@ -101,7 +101,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
             ['Correo', this.order?.client?.email],
             ['Nombres', this.order?.client?.first_name],
             ['Apellidos', this.order?.client?.last_name],
-            ['Telefono', this.order?.client?.phone],
+            ['Teléfono', this.order?.client?.phone],
           ]
         }
       }, err => {

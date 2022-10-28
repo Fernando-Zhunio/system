@@ -38,6 +38,7 @@ export class EchoManager {
 
     public set(options: EchoOptions) {
         this.echoOptionsDefault = {...this.echoOptionsDefault,...options};
+        this._echo = new Echo(this.echoOptionsDefault);
         return this;
     }
 

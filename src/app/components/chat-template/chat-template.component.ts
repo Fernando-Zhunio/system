@@ -68,6 +68,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
        * All dependencies have been loaded and Channels is trying to connect.
        * The connection will also enter this state when it is trying to reconnect after a connection failure.
        */
+      console.log('connecting');
       this.is_status_connect_chat = false;
     });
 
@@ -89,6 +90,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       /**
        * The connection to Channels is open and authenticated with your app.
        */
+      console.log('connected');
       this.is_status_connect_chat = true;
       if (!this.first_connect) {
         this.first_connect = true;
@@ -155,6 +157,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       wssPort: environment.portSocket_chat,
     }
     this.echoChat = new EchoManager().set(optionEcho).get();
+    console.log(this.echoChat);
     this.echoChat.private(this.getChannelChat())
       .listen(`.chat`, this.modificationChatListen.bind(this))
       .listen('.message', this.getMessages.bind(this))
@@ -276,7 +279,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
     // * si no esta abierto el panel de chat suma uno en el icono del chat
-
+    console.log({message: event});
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }
@@ -325,6 +328,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     event: string;
     user: { id: number; status: 'offline' | 'online'; _id: string, last_seen: string };
   }): void {
+    console.log({chatStatus: event})
     if (this.users.has(event.user._id)) {
       this.users.get(event.user.id)!.connected = event.user.status == 'online' ? 1 : 0;
     }
