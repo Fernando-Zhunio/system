@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PricesIndexComponent } from './prices-index/prices-index.component';
+import { PricesIndexComponent } from './pages/prices-index/prices-index.component';
 import { SearchTemplateModule } from '../../../../Modulos/search-template/search-template.module';
 import { ConvertsModule } from '../../../../Modulos/converts/converts.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,9 +19,15 @@ import { FilePondModule } from 'ngx-filepond';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { SearchTemplateTableComponent } from '../../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MatTableModule } from '@angular/material/table';
+import { CreateOrEditPricesButtonSheetComponent } from './components/create-or-edit-prices-button-sheet/create-or-edit-prices-button-sheet.component';
+import { MatListModule } from '@angular/material/list';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { SearchProductsDialogModule } from '../../../../shared/search-products-dialog/search-products-dialog.module';
+import { SearchImportDialogComponent } from './components/search-import-dialog/search-import-dialog.component';
+import { CreateOrEditImportModalComponent } from '../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
 
 @NgModule({
-    declarations: [PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
+    declarations: [SearchImportDialogComponent, CreateOrEditPricesButtonSheetComponent, PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
     imports: [
         CommonModule,
         PricesRoutingModule,
@@ -41,6 +47,10 @@ import { MatTableModule } from '@angular/material/table';
         NgxPermissionsModule,
         SearchTemplateTableComponent,
         MatTableModule,
+        MatListModule,
+        MatBottomSheetModule,
+        SearchProductsDialogModule,
+        CreateOrEditImportModalComponent
     ]
 })
 export class PricesModule { }

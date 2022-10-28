@@ -1,4 +1,4 @@
-import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 // import { DialogProductsService } from '../../services/dialog-products.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateR
   templateUrl: './search-products.component.html',
   styleUrls: ['./search-products.component.scss']
 })
-export class SearchProductsComponent implements OnInit {
+export class SearchProductsComponent  {
 
   @Input() urlSearch: string;
   @Input() onlyOne: boolean = false;
@@ -17,8 +17,7 @@ export class SearchProductsComponent implements OnInit {
   @Output() add: EventEmitter<any> = new EventEmitter<any>();
   @Output() remove: EventEmitter<any> = new EventEmitter<any>();
   @ContentChild(TemplateRef) templateRef:TemplateRef<any>;
-  ngOnInit() {
-  }
+
 
   getData(data) {
     this.products = new Map(data.data.map((item: any) => [item.id, item]));

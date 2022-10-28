@@ -1,0 +1,11 @@
+<app-search-products-dialog placeholder="Buscador de importaciones" [onlyOne]="onlyOne" [url]="url" [optionTemplate]="searchImport">
+</app-search-products-dialog>
+
+<ng-template #searchImport let-product>
+  <h3 class="m-0">
+    <span class="text-danger"># {{ product.value.code }}</span>
+    {{ product.value?.sequence?.sequence_number}}
+  </h3>
+</ng-template>
+
+

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { Permission_products_prices } from '../../../../class/permissions-modules';
 // import { prices_permission_module } from '../../../class/permissions-modules/prices-permissions';
-import { PricesIndexComponent } from './prices-index/prices-index.component';
+import { PricesIndexComponent } from './pages/prices-index/prices-index.component';
 
 const permissions_module = Permission_products_prices.prices;
 

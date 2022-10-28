@@ -1,6 +1,6 @@
-import { Roles } from "./iroles-and-permissions";
+import { PriceGroup } from "./price-group";
 
-export interface IProductPrice {
+export interface ProductPrice {
     id: number;
     name: string;
     description: string;
@@ -17,11 +17,11 @@ export interface IProductPrice {
     created_at: string;
     updated_at: string;
     deleted_at?: string;
-    last_prices?: IPrice[] ;
-    price?: IPrice;
+    last_prices?: Price[] ;
+    price?: Price;
   }
 
-  export interface IPrice {
+  export interface Price {
     id: number;
     price: number;
     price_with_tax: number;
@@ -36,15 +36,6 @@ export interface IProductPrice {
     created_at: string;
     updated_at: string;
     full_price_formated: string;
-    group?: IPriceGroup;
+    group?: PriceGroup;
   }
-  export interface IPriceGroup {
-    id: number;
-    type: string;
-    name: string;
-    active: string;
-    required: string;
-    created_at: string;
-    updated_at: string;
-    roles: Roles[];
-  }
+ 

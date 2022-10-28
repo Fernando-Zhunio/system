@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
-import { IRoles } from '../../../../interfaces/iroles-and-permissions';
+import { Roles } from '../../../../interfaces/iroles-and-permissions';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class CreateOrEditPriceGroupComponent extends CreateOrEdit<any> implement
     required: new FormControl(false, [Validators.required]),
     roles: new FormControl([], [Validators.required]),
   });
-  roles: IRoles[] = [];
+  roles: Roles[] = [];
   override key_param: string = 'price_group_id';
 
   ngOnInit(): void {

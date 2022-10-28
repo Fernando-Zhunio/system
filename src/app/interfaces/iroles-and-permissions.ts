@@ -1,6 +1,6 @@
 
 
-export interface IRoles {
+export interface Roles {
     id: number;
     name: string;
     guard_name: string;

@@ -36,7 +36,7 @@ export class CreateOrEditImportModalComponent implements OnInit {
   title: string = 'Creando Importación';
   constructor(private dialogRef: MatDialogRef<CreateOrEditImportModalComponent>,
     private mhs: MethodsHttpService,
-    @Inject(MAT_DIALOG_DATA) public externalData: { id: number, isEdit: boolean }) { }
+    @Inject(MAT_DIALOG_DATA) public externalData: { id?: number, isEdit?: boolean  }) { }
 
   form: FormGroup = new FormGroup({
     origin_id: new FormControl(null, [Validators.required]),
@@ -46,7 +46,7 @@ export class CreateOrEditImportModalComponent implements OnInit {
   origins: Origin[] = [];
   isLoading: boolean = false;
   ngOnInit() {
-    if (this.externalData.isEdit) {
+    if (this.externalData?.isEdit) {
       this.title = 'Editando Importación';
       this.editDataImport(this.externalData.id);
       this.form.get('arrival_date')!.setValidators([Validators.required]);
@@ -93,13 +93,13 @@ export class CreateOrEditImportModalComponent implements OnInit {
 
   saveInServer(): void {
     if (this.form.valid) {
-      const url = this.externalData.isEdit ? `catalogs/imports/${this.externalData.id}` : 'catalogs/imports';
+      const url = this.externalData?.isEdit ? `catalogs/imports/${this.externalData.id}` : 'catalogs/imports';
       const values = this.form.value;
       if (values.arrival_date) {
         values.arrival_date = SharedService.convertDateForLaravelOfDataPicker(values.arrival_date, 'yyyy-MM-dd');
       }
       this.isLoading = true;
-      const method = this.externalData.isEdit ? this.mhs.methodPut(url, values) : this.mhs.methodPost(url, values);
+      const method = this.externalData?.isEdit ? this.mhs.methodPut(url, values) : this.mhs.methodPost(url, values);
       method.subscribe({
         next: (response) => {
           this.dialogRef.close(response);
