@@ -1,23 +1,22 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NgxPermissionsGuard } from "ngx-permissions";
-import { PERMISSIONS_PROMOTIONS } from "../../../../class/permissions-modules";
-import { PromotionsIndexComponent } from "./pages/promotions-index/promotions-index.component";
+import { PERMISSIONS_IMPORTS } from "./class/permissions-imports";
+import { ImportsIndexComponent } from "./pages/imports-index/imports-index.component";
 
 const routes: Routes = [
     {
         path: '',
-        component: PromotionsIndexComponent,
+        component: ImportsIndexComponent,
         data: {
-            permissions: { only: PERMISSIONS_PROMOTIONS.index },
+            permissions: { only: PERMISSIONS_IMPORTS.index }
         },
         canActivate: [NgxPermissionsGuard],
     }
 ]
+
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class PromotionsRouting {
-
- }
+export class ImportsRoutingModule { }

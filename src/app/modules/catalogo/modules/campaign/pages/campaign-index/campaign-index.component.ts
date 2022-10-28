@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { PERMISSION_CAMPAIGNS, PERMISSION_PROMOTIONS } from '../../../../../../class/permissions-modules';
+import { PERMISSION_CAMPAIGNS, PERMISSIONS_PROMOTIONS } from '../../../../../../class/permissions-modules';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
 import { Campaign } from '../../interfaces/campaign';
@@ -22,7 +22,7 @@ export class CampaignIndexComponent extends MatTableHelper<Campaign> {
     super();
   }
   permissions = PERMISSION_CAMPAIGNS;
-  permissionsPromotions = PERMISSION_PROMOTIONS;
+  permissionsPromotions = PERMISSIONS_PROMOTIONS;
   override dataSource: Campaign[] = [];
 
 }

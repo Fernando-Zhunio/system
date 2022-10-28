@@ -1,4 +1,4 @@
-<div class="w-100">
+<!-- <div class="w-100">
   <mat-drawer-container style="position: inherit;overflow: initial" class="example-container bg-transparent">
     <mat-drawer #drawer class="example-sidenav col-md-4 col-11" style="top: 0;height: 100vh;" mode="over" position="end">
       <ng-container *ngxPermissionsOnly="permissions.edit">
@@ -105,4 +105,72 @@
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
-</div>
+</div> -->
+
+<app-search-template-table [title]="'Precios'" [url$]="url" (data)="getData($event)">
+  <ng-container table>
+    <table mat-table [dataSource]="dataSource" class="w-100">
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef>Imagen</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="py-2"><img class="img-product shadow-sm" [src]="element?.image || 'assets/img/img_not_available.png'" /></div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th [attr.colspan]="4" mat-header-cell *matHeaderCellDef>Precios</th>
+        <td [attr.colspan]="4" mat-cell *matCellDef="let element">
+            <div class="cell-prices">
+              <small  *ngFor="let price of element.last_prices" class="badge-fz">
+                {{ price.group.name }}:
+                <span class="text-info">${{ price.full_price_formated }}</span>
+              </small>
+             
+            </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="available">
+        <th mat-header-cell *matHeaderCellDef>Disponible</th>
+        <td mat-cell *matCellDef="let element">{{ element.available }}</td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef>Codigo</th>
+        <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+      </ng-container>
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let element">{{ element.created_at | date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element?.last_prices?.length > 0; else createBtn">
+            <div>
+              <button
+                *ngxPermissionsOnly="permissions.edit"
+                mat-mini-fab
+                (click)="openCreateOrEditPrice(element.id)"
+                color="primary">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button color="accent" (click)="openDialogListPrices(element.id)" mat-mini-fab>
+                <i class="fa-regular fa-rectangle-list"></i>
+              </button>
+            </div>
+          </ng-container>
+          <ng-template #createBtn>
+            <button mat-icon-button (click)="openCreateOrEditPrice(element.id)" color="warn">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+  </ng-container>
+</app-search-template-table>

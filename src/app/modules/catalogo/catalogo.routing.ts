@@ -37,8 +37,12 @@ const routes: Routes = [
         only: ['super-admin', permission_module.publicaciones.index],
         all: permission_module.publicaciones
       },
-
+      canActivate: [NgxPermissionsGuard],
     },
+  },
+  {
+    path: 'imports',
+    loadChildren: () => import('./modules/imports/imports.module').then(m => m.ImportsModule),
   },
   // {
   //   path: 'publicaciones/menu-multi-publicaciones',
@@ -94,7 +98,6 @@ const routes: Routes = [
       },
     },
     canActivate: [NgxPermissionsGuard],
-    // loadChildren: () => import('./buscar-productos/buscar-productos.module').then(m => m.BuscarProductosModule)
   },
   {
     path: 'products',

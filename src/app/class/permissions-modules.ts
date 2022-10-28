@@ -189,7 +189,7 @@ export const PERMISSION_CAMPAIGNS = {
     destroy: ['catalogs.campaigns.destroy', 'super-admin'],
 }
 
-export const PERMISSION_PROMOTIONS = {
+export const PERMISSIONS_PROMOTIONS = {
     index: ['catalogs.promotions.index', 'super-admin'],
     create: ['catalogs.promotions.create', 'super-admin'],
     edit: ['catalogs.promotions.edit', 'super-admin'],
