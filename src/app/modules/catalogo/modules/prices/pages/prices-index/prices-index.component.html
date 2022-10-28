@@ -108,6 +108,22 @@
 </div> -->
 
 <app-search-template-table [title]="'Precios'" [url$]="url" (data)="getData($event)">
+  <ng-container menuBar>
+    <mat-chip class="mat-btn-add ml-1" (click)="isOpenFile = true">
+      <i class="fa-solid fa-upload"></i>&nbsp; Importar precios
+    </mat-chip>
+    <mat-chip class="mat-btn-add ml-1" (click)="managerStatesPrices()">
+     <i class="fa-solid fa-download"></i>&nbsp; Descarga plantilla
+    </mat-chip>
+  </ng-container >
+  <ng-container subheader>
+    <div class="container text-center">
+      <input readonly [formControl]="formImport" type="text">
+      <file-pond  #myPond [className]="'m-0'" [options]="pondOptions">
+      </file-pond>
+    </div>
+  </ng-container>
+  
   <ng-container table>
     <table mat-table [dataSource]="dataSource" class="w-100">
       <ng-container matColumnDef="image">

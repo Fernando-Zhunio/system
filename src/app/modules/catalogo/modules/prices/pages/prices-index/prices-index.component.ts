@@ -1,6 +1,6 @@
 // import { HttpEventType } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 // import { MatDialog } from '@angular/material/dialog';
@@ -73,11 +73,9 @@ export class PricesIndexComponent
   };
   isLoadingNewPrice: boolean = false;
   pricesGroups: PriceGroup[] = [];
-
-  // stateFilePrices$: Observable<EPriceState>;
-  // stateFilePrices: { status: EPriceState, data?: INotificationData } | null = null;
-
-  form: FormGroup = new FormGroup({});
+  
+  formImport = new FormControl(null, [Validators.required])
+  
   isOpenFile: boolean = false;
   subscriptionStateFile: Subscription;
 
@@ -86,23 +84,29 @@ export class PricesIndexComponent
     labelIdle: 'Arrastre o presione aquí',
     name: 'file',
     maxParallelUploads: 5,
+    
     server: {
+
       url: `${environment.server}`,
       process: {
         url: 'catalogs/products/prices/import-file',
+
         headers: {
           Authorization: `Bearer ${this.storage.getCurrentToken()}`,
           Accept: 'application/json',
         },
         onload: (response: any) => {
           const data = JSON.parse(response);
-          console.log(data);
           SwalService.swalFire({ title: 'Procesando excel en el servidor', text: 'El excel se esta procesando en el servidor, en unos momento recibirá una notificación describiendo el estado del proceso', icon: 'success' });
           return data.id;
-        }
+        },
+
       },
-    }
+    },
+
   };
+
+
   ngOnInit(): void {
 
     this.methodsHttp.methodGet(PRICE_ROUTE_API_GROUP_PRICE).subscribe((res: any) => {
@@ -141,24 +145,24 @@ export class PricesIndexComponent
   //   });
   // }
 
-  // managerStatesPrices(): void {
-  //   switch (this.stateFilePrices?.status) {
-  //     case EPriceState.Idle:
-  //       this.store.dispatch(generatingPrice());
-  //       this.methodsHttp.methodPost(`${this.url}/export-file`).subscribe(() => {
-  //         SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
-  //       }, () => {
-  //         SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
-  //         this.store.dispatch(idlePrice());
-  //       });
-  //       break;
-  //     case EPriceState.Generated:
-  //       this.store.dispatch(downloadPrice());
-  //       console.log(this.stateFilePrices);
-  //       this.downloadExcelPrice(this.stateFilePrices.data?.url!);
-  //       break;
-  //   }
-  // }
+  managerStatesPrices(): void {
+    // switch (this.stateFilePrices?.status) {
+    //   case EPriceState.Idle:
+    //     this.store.dispatch(generatingPrice());
+    //     this.methodsHttp.methodPost(`${this.url}/export-file`).subscribe(() => {
+    //       SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
+    //     }, () => {
+    //       SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
+    //       this.store.dispatch(idlePrice());
+    //     });
+    //     break;
+    //   case EPriceState.Generated:
+    //     this.store.dispatch(downloadPrice());
+    //     console.log(this.stateFilePrices);
+    //     this.downloadExcelPrice(this.stateFilePrices.data?.url!);
+    //     break;
+    // }
+  }
 
  
 
