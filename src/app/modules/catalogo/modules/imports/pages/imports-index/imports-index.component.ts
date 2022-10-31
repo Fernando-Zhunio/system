@@ -5,6 +5,7 @@ import { MethodsHttpService } from '../../../../../../services/methods-http.serv
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
 import { PERMISSIONS_IMPORTS } from '../../class/permissions-imports';
 import { CreateOrEditImportModalComponent } from '../../components/create-or-edit-import-modal/create-or-edit-import-modal.component';
+import { ShowImportDialogComponent } from '../../components/show-import-dialog/show-import-dialog.component';
 import { Import } from '../../interfaces/imports';
 import { Origin } from '../../interfaces/origin';
 
@@ -41,6 +42,14 @@ export class ImportsIndexComponent extends MatTableHelper<Import>  {
       isEdit: importId ? true : false,
       id: importId,
     }
+  }
+
+  openDialogShowImport(importId: number) {
+    this.dialog.open(ShowImportDialogComponent, {
+      data: {
+        importId
+      }
+    });
   }
 
 }

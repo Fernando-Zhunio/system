@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CreateOrEditImportModalComponent } from './components/create-or-edit-import-modal/create-or-edit-import-modal.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatChipsModule } from '@angular/material/chips';
+import { ShowImportDialogComponent } from './components/show-import-dialog/show-import-dialog.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { MatChipsModule } from '@angular/material/chips';
     CreateOrEditImportModalComponent,
     NgxPermissionsModule,
     MatChipsModule,
+    ShowImportDialogComponent
   ],
   declarations: [ImportsIndexComponent]
 })

@@ -31,21 +31,15 @@
         <td mat-cell *matCellDef="let row"> {{row.created_at|date:'medium'}} </td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="note_plain_text">
-        <th mat-header-cell *matHeaderCellDef> NOTA PLANA </th>
-        <td mat-cell *matCellDef="let row"> {{row.note_plain_text}} </td>
-      </ng-container> -->
-
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
         <td mat-cell *matCellDef="let row"> 
-          <button *ngxPermissionsOnly="permissions.edit" color="primary" mat-icon-button (click)="openDialogCreateOrEditImport(row.id)"><i class="fa-solid fa-pen"></i></button>
+          <button class="text-info" *ngxPermissionsOnly="permissions.edit" mat-icon-button (click)="openDialogCreateOrEditImport(row.id)"><i class="fa-solid fa-pen"></i></button>
           <button (click)="deleteData(row.id)" *ngxPermissionsOnly="permissions.destroy" color="warn" mat-icon-button><i class="fa-solid fa-trash"></i></button>
+          <button (click)="openDialogShowImport(row.id)" *ngxPermissionsOnly="permissions.index" mat-icon-button><i class="fa-regular fa-eye"></i></button>
         </td>
       </ng-container>
-
       
-
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
     </table>
