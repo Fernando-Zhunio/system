@@ -27,7 +27,7 @@ export class PromotionIndexComponent extends MatTableHelper<Promotion> implement
   columnsToDisplay = ['id', 'title', 'products', 'description', 'status', 'price', 'created_at', 'actions'];
   
   constructor(
-    protected methodsHttp: MethodsHttpService,
+    protected mhs: MethodsHttpService,
     protected snackBar: MatSnackBar,
     protected act_router: ActivatedRoute,
     protected router: Router,
@@ -68,7 +68,7 @@ export class PromotionIndexComponent extends MatTableHelper<Promotion> implement
 
   ngOnInit(): void {
     const url = 'catalogs/campaigns/' + this.act_router.snapshot.params['campaign_id'];
-    this.methodsHttp.methodGet(url).subscribe((res: any) => {
+    this.mhs.methodGet(url).subscribe((res: any) => {
       if (res?.success) {
         this.campaign = res.data;
       }

@@ -26,7 +26,7 @@ import { CONST_ECHO_ORDERS_CHANNEL_PRIVATE } from '../../../../../../shared/obje
 })
 export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnInit, OnDestroy, AfterViewInit, ReuseComponent {
 
-  constructor(private dialog: MatDialog, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
+  constructor(private dialog: MatDialog, protected mhs: MethodsHttpService, protected snackBar: MatSnackBar) {
     super();
   }
 
@@ -149,7 +149,7 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   }
 
   getMyWorkspacesOrder(): void {
-    this.methodsHttp.methodGet(`system-orders/workspaces/me`)
+    this.mhs.methodGet(`system-orders/workspaces/me`)
       .subscribe(
         {
           next: (res) => {
@@ -171,7 +171,7 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   // }
 
   changeWorkspaces(event: MatSelectChange) {
-    this.methodsHttp.methodPut(`system-orders/workspaces/preference/${event.value}`)
+    this.mhs.methodPut(`system-orders/workspaces/preference/${event.value}`)
       .subscribe(
         {
           next: () => {
@@ -189,7 +189,7 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   }
 
   getDataForFilter(): void {
-    this.methodsHttp.methodGet('system-orders/orders/filter-data').subscribe(
+    this.mhs.methodGet('system-orders/orders/filter-data').subscribe(
       (response: any) => {
         this.statuses = response.data.status;
         this.types = response.data.type;

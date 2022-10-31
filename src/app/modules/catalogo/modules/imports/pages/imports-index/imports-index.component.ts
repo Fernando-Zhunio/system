@@ -20,7 +20,7 @@ export class ImportsIndexComponent extends MatTableHelper<Import>  {
 
   origin: Origin
   permissions = PERMISSIONS_IMPORTS;
-  constructor(private dialog: MatDialog, protected methodsHttp: MethodsHttpService) {
+  constructor(private dialog: MatDialog, protected mhs: MethodsHttpService) {
     super();
   }
 

@@ -75,7 +75,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     }
   };
-  isActiveWindow: boolean = false;
+  isActiveWindow: boolean = true;
 
   ngOnInit(): void {
     if (this.chat.data) {
@@ -96,20 +96,23 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dialog.closeAll();
   }
 
-  @HostListener('document:visibilitychange', ['$event'])
+  @HostListener('window:focus', ['$event'])
   windowActive($event): void {
-    console.log('windowActive', $event.target.hidden);
-      if ($event.target.hidden) {
-        console.log('Hidden');
-        this.isActiveWindow = false;
-      } else {
-        console.log('SHOWN');
-        this.isActiveWindow = true;
-        if (this.chat.id == this.current_chat_id) {
-          this.markReadMessage(this.chat.data._id);
-        }
-      }
+    console.log('windowActive', $event);
+    console.log('SHOWN');
+    this.isActiveWindow = true;
+    if (this.chat.id == this.current_chat_id) {
+      this.markReadMessage(this.chat.data._id);
+
     }
+  }
+
+  @HostListener('window:blur', ['$event'])
+  windowInactive(_$event): void {
+    console.log('windowInactive', _$event);
+    this.isActiveWindow = false;
+
+  }
 
   successFiles(_event): void {
     this.hasFile = false;

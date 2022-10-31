@@ -20,7 +20,7 @@ export class CategoriesIndexComponent extends MatTableHelper<any> implements OnI
   @ViewChild(MatTable) table: MatTable<any>;
   
 
-  constructor(protected methodsHttp: MethodsHttpService, private dialog: MatDialog) {
+  constructor(protected mhs: MethodsHttpService, private dialog: MatDialog) {
     super();
   }
 

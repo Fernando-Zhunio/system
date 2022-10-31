@@ -36,7 +36,7 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
   statuses: string[] = [];
   durations: string[] = [];
 
-  constructor(private nps: NgxPermissionsService, private chs: CreateHostService, protected methodsHttp: MethodsHttpService/* , private dialogProduct: DialogProductsService */) {
+  constructor(private nps: NgxPermissionsService, private chs: CreateHostService, protected mhs: MethodsHttpService/* , private dialogProduct: DialogProductsService */) {
     super();
   }
   ngOnInit(): void {

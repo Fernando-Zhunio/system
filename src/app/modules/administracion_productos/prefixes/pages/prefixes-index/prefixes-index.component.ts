@@ -22,7 +22,7 @@ export class PrefixesIndexComponent extends MatTableHelper<Prefix> implements On
   
   @ViewChild(MatTable) table: MatTable<Prefix>;
   
-  constructor(protected methodsHttp: MethodsHttpService, private dialog: MatDialog) {
+  constructor(protected mhs: MethodsHttpService, private dialog: MatDialog) {
     super();
   }
 

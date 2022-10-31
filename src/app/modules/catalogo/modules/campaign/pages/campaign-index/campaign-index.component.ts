@@ -17,7 +17,7 @@ export class CampaignIndexComponent extends MatTableHelper<Campaign> {
 
   url: string = 'catalogs/campaigns';
   constructor(
-    protected methodsHttp: MethodsHttpService,
+    protected mhs: MethodsHttpService,
         protected snackBar: MatSnackBar) {
     super();
   }

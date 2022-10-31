@@ -146,7 +146,6 @@ export class CreateOrEditPricesButtonSheetComponent implements OnInit {
     console.log(importation.code);
     this.form.get('import_id')?.setValue(importation.id);
     this.form.get('import_code')?.setValue(importation.code);
-
   }
 
   close(): void {

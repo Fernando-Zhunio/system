@@ -6,7 +6,7 @@ export abstract class MatTableHelper<T = any> {
     protected abstract columnsToDisplay: string[];
     protected abstract url: string;
     protected abstract table: MatTable<T>;
-    protected abstract methodsHttp: MethodsHttpService;
+    protected abstract mhs: MethodsHttpService;
     protected dataSource: T[];
     protected isLoading: boolean = false;
     getData($event: any): void {
@@ -18,7 +18,7 @@ export abstract class MatTableHelper<T = any> {
             .then((result) => {
                 if (result.isConfirmed) {
                     this.isLoading = true;
-                    this.methodsHttp.methodDelete(`${ url || this.getUrl()}/${id}`).subscribe(
+                    this.mhs.methodDelete(`${ url || this.getUrl()}/${id}`).subscribe(
                         () => {
                             this.isLoading = false;
                             SwalService.swalToast('Registro eliminado', 'success');

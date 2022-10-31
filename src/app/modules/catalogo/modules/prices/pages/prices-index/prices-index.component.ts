@@ -1,69 +1,69 @@
 // import { HttpEventType } from '@angular/common/http';
+import { transition, trigger, useAnimation } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-// import { MatDialog } from '@angular/material/dialog';
-// import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-// import { Store } from '@ngrx/store';
 import { FilePondOptions } from 'filepond';
-import {  Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
-import { animation_conditional } from '../../../../../../animations/animate_leave_enter';
-// import { Crud } from '../../../../../class/crud';
 import { Permission_products_prices } from '../../../../../../class/permissions-modules';
-// import { prices_permission_module } from '../../../../class/permissions-modules/prices-permissions';
-// import { INotificationData } from '../../../../../interfaces/inotification';
 import { IProductPrice } from '../../../../../../interfaces/iprice';
-// import { downloadPrice, generatingPrice, idlePrice } from '../../../../../redux/actions/price.action';
-// import { EPriceState } from '../../../../../redux/reducers/price.reducer';
-// import { selectPrice } from '../../../../../redux/state/state.selectors';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
-// import { SharedService } from '../../../../../services/shared/shared.service';
-import { StorageService } from '../../../../../../services/storage.service';
-import { SwalService } from '../../../../../../services/swal.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
+import { CreateHostService } from '../../../../../../shared/services/create-host.service';
+import { Import } from '../../../imports/interfaces/imports';
 import { CreateOrEditPricesButtonSheetComponent } from '../../components/create-or-edit-prices-button-sheet/create-or-edit-prices-button-sheet.component';
+import { SearchImportDialogComponent } from '../../components/search-import-dialog/search-import-dialog.component';
 import { PriceGroup } from '../../interfaces/price-group';
-import { PRICE_ROUTE_API_GROUP_PRICE, PRICE_ROUTE_API_INDEX } from '../../routes-api/prices-routes-api';
+import { PRICE_ROUTE_API_EDIT, PRICE_ROUTE_API_EXPORT, PRICE_ROUTE_API_GROUP_PRICE, PRICE_ROUTE_API_IMPORT, PRICE_ROUTE_API_INDEX } from '../../routes-api/prices-routes-api';
 import { ModalListPricesComponent } from '../../tools/modal-list-prices/modal-list-prices.component';
-// import { ModalListPricesComponent } from '../tools/modal-list-prices/modal-list-prices.component';
+import { fadeInDown } from 'ngx-animate/lib/fading';
+import { Token } from '../../../../../../class/fast-data';
+import { SwalService } from '../../../../../../services/swal.service';
+import { CreateOrEditImportModalComponent } from '../../../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
+import { NgxPermissionsService } from 'ngx-permissions';
+import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-template/search-template-table/search-template-table.component';
 
 @Component({
   selector: 'app-prices-index',
   templateUrl: './prices-index.component.html',
   styleUrls: ['./prices-index.component.scss'],
-  animations: animation_conditional
+  animations: [
+    trigger('fadeInDown', [
+      transition('show => hidden', useAnimation(fadeInDown, {
+        params: { timing: 0.5, delay: 0 }
+      }))
+    ])
+  ],
 
 })
 export class PricesIndexComponent
   extends MatTableHelper<IProductPrice>
   implements OnInit, OnDestroy {
 
-  protected columnsToDisplay: string[] = ['image', 'name', 'price', 'available', 'code', 'created_at', 'actions'] ;
+  protected columnsToDisplay: string[] = ['image', 'name', 'price', 'available', 'code', 'created_at', 'actions'];
   @ViewChild(MatTable) table: MatTable<IProductPrice>;
+  @ViewChild(SearchTemplateTableComponent) searchTemplateTable: SearchTemplateTableComponent;
   constructor(
-    protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar,
+    protected mhs: MethodsHttpService, protected snackBar: MatSnackBar,
     public act_router: ActivatedRoute,
     private dialog: MatDialog,
-    private storage: StorageService,
-    private btnSheet: MatBottomSheet
-    // private s_shared: SharedService,
-    // private store: Store,
+    private btnSheet: MatBottomSheet,
+    private chs: CreateHostService,
+    private nps: NgxPermissionsService,
   ) {
     super();
-    // this.stateFilePrices$ = this.store.select(selectPrice);
   }
 
-  // @ViewChild(MatDrawer) sidenavPrice: MatDrawer;
   permissions = Permission_products_prices.prices;
-  // EPriceState = EPriceState;
   isLoadingFilePrices: boolean = false;
   url: string = PRICE_ROUTE_API_INDEX;
   isOpenPrice: boolean = false;
+  isCanEdit: boolean = false;
   dataPriceModify: any = {
     id: null,
     name: null,
@@ -73,9 +73,13 @@ export class PricesIndexComponent
   };
   isLoadingNewPrice: boolean = false;
   pricesGroups: PriceGroup[] = [];
-  
-  formImport = new FormControl(null, [Validators.required])
-  
+  isOpenSendFile: boolean = false;
+
+  formImport: FormGroup = new FormGroup({
+    import_id: new FormControl(null, [Validators.required]),
+    import_code: new FormControl({ disabled: true, value: null })
+  })
+
   isOpenFile: boolean = false;
   subscriptionStateFile: Subscription;
 
@@ -84,23 +88,27 @@ export class PricesIndexComponent
     labelIdle: 'Arrastre o presione aquí',
     name: 'file',
     maxParallelUploads: 5,
-    
     server: {
-
       url: `${environment.server}`,
-      process: {
-        url: 'catalogs/products/prices/import-file',
+      load: (_source: any, _load: any, error: any, _progress: any, _abort: any, _headers: any) => {
+        error('Not implemented.');
+      },
 
+      process: {
+        url: PRICE_ROUTE_API_IMPORT,
         headers: {
-          Authorization: `Bearer ${this.storage.getCurrentToken()}`,
+          Authorization: `Bearer ${Token.getInstance().getToken()}`,
           Accept: 'application/json',
         },
-        onload: (response: any) => {
-          const data = JSON.parse(response);
-          SwalService.swalFire({ title: 'Procesando excel en el servidor', text: 'El excel se esta procesando en el servidor, en unos momento recibirá una notificación describiendo el estado del proceso', icon: 'success' });
-          return data.id;
+        onerror: (response: any) => {
+          console.log({ response });
+          const res = JSON.parse(response);
+          SwalService.swalToast(res?.message || 'Error al subir el archivo', 'error');
         },
-
+        ondata: (formData) => {
+          formData.append('import_id', this.formImport.get('import_id')?.value || '');
+          return formData;
+        },
       },
     },
 
@@ -108,63 +116,47 @@ export class PricesIndexComponent
 
 
   ngOnInit(): void {
-
-    this.methodsHttp.methodGet(PRICE_ROUTE_API_GROUP_PRICE).subscribe((res: any) => {
-      this.pricesGroups = res.data;
-    });
-    // this.subscriptionStateFile = this.stateFilePrices$.subscribe((state: any) => {
-    //   console.log({ state });
-    //   this.stateFilePrices = state;
-    // });
+    this.initGroupPrice();
   }
 
   initGroupPrice(): void {
-    this.methodsHttp.methodGet(PRICE_ROUTE_API_GROUP_PRICE).subscribe((res: any) => {
-      this.pricesGroups = res.data;
+    this.nps.hasPermission(this.permissions.edit).then((res: boolean) => {
+      if (res) {
+        this.isCanEdit = res;
+        this.mhs.methodGet(PRICE_ROUTE_API_GROUP_PRICE).subscribe((res: any) => {
+          this.pricesGroups = res.data;
+        });
+      }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptionStateFile) {
-      this.subscriptionStateFile.unsubscribe();
-    }
+    this.subscriptionStateFile?.unsubscribe();
   }
 
-  // generateTemplateForm(group): void {
-  //   group.forEach((element) => {
-  //     const control_input = new FormControl(null);
-  //     const control_input_with_tax = new FormControl(null);
-  //     this.form.addControl(
-  //       `price_group_${element.id}`,
-  //       control_input
-  //     );
-  //     this.form.addControl(
-  //       `tax_price_group_${element.id}`,
-  //       control_input_with_tax
-  //     );
-  //   });
-  // }
-
-  managerStatesPrices(): void {
-    // switch (this.stateFilePrices?.status) {
-    //   case EPriceState.Idle:
-    //     this.store.dispatch(generatingPrice());
-    //     this.methodsHttp.methodPost(`${this.url}/export-file`).subscribe(() => {
-    //       SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el boton de cuando diga que puede descargalo');
-    //     }, () => {
-    //       SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
-    //       this.store.dispatch(idlePrice());
-    //     });
-    //     break;
-    //   case EPriceState.Generated:
-    //     this.store.dispatch(downloadPrice());
-    //     console.log(this.stateFilePrices);
-    //     this.downloadExcelPrice(this.stateFilePrices.data?.url!);
-    //     break;
-    // }
+  openSearchImportDialog(): void {
+    this.chs.injectComponent(SearchImportDialogComponent)
+      .beforeClose().subscribe((res: { data: Import }) => {
+        if (res?.data) {
+          console.log(res.data);
+          this.setFormImport(res.data)
+        }
+      });
   }
 
- 
+  setFormImport(importation: Import): void {
+    this.formImport.get('import_id')?.setValue(importation.id);
+    this.formImport.get('import_code')?.setValue(importation.code);
+  }
+
+  downloadTemplatePrices(): void {
+    this.mhs.methodPost(PRICE_ROUTE_API_EXPORT).subscribe(() => {
+      SwalService.swalToast('El excel se esta generando en el servidor, espere un momento hasta que reciba una notificación o de click en el botón de cuando diga que puede descargarlo');
+    }, () => {
+      SwalService.swalToast('Error al generar el excel, intente de nuevo', 'error');
+    });
+  }
+
 
   openDialogListPrices(key): void {
     const product = this.dataSource.find((item) => item.id === key);
@@ -175,17 +167,27 @@ export class PricesIndexComponent
           product_name: product.name,
         },
       }).afterClosed().subscribe(() => {
-        console.log('The dialog was closed');
-        this.methodsHttp
-          .methodGet(`catalogs/products/${key}/prices/edit?type=full`)
-          .subscribe((res: any) => {
-            // const data = this.data.get(key)!;
-            product.last_prices = res.data.last_prices;
-          });
+        if (this.isCanEdit) {
+          this.mhs
+            .methodGet(PRICE_ROUTE_API_EDIT(key), {type: 'full'})
+            .subscribe((res: any) => {
+              if (res?.success) {
+                this.updateItemInTable(key, res.data)
+              }
+            });
+        }
       });
     }
-
   }
+
+  createImport(): void {
+    this.dialog.open(CreateOrEditImportModalComponent).beforeClosed().subscribe((response) => {
+      if (response?.success) {
+        this.setFormImport(response.data);
+      }
+    });
+  }
+
 
   // addOrRemoveTax(id: number, isTax = false): void {
   //   console.log(this.form.get('price_group_' + id)?.value);
@@ -247,7 +249,7 @@ export class PricesIndexComponent
 
   openCreateOrEditPrice(id: number | null): void {
     const product = this.dataSource.find(x => x.id === id);
-    console.log({product, dataSource: this.dataSource});
+    console.log({ product, dataSource: this.dataSource });
     this.btnSheet.open(CreateOrEditPricesButtonSheetComponent, {
       data: {
         product,
@@ -256,12 +258,12 @@ export class PricesIndexComponent
       disableClose: true,
     }).afterDismissed().subscribe({
       next: (res) => {
-        console.log({res});
+        console.log({ res });
         if (res?.success) {
           this.updateItemInTable(id, res.data);
         }
       }
     });
   }
-  
+
 }
