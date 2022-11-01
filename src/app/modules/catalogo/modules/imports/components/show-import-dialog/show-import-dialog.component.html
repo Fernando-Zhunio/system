@@ -1,40 +1,52 @@
 <h1 matDialogTitle>Detalles</h1>
 
 <mat-dialog-content>
-    <div *ngIf="import" class="row">
-      <div class="col-md-6">
-        <div class="font-weight-bold">
-          <h2 class="font-4xl">Importación</h2>
-          <h3 class="font-2xl">Codigo: {{import.code}}</h3>
-        </div>
-        <div>
-          <p>Fecha estimada de arribo</p>
+    <div *ngIf="import" class="row font-weight-bold">
+      <div class="col-md-6 border-right">
+        <div class="sticky-top">
+          <div class="font-weight-bold">
+            <h2 class="font-4xl font-weight-bold">Importación</h2>
+          </div>
           <div>
-            <tbody>
-              <tr>
-                <td>Fecha estimada inicial</td>
-                <td>{{import.estimated_date_first|date:'medium'}}</td>
-              </tr>
-              <tr>
-                <td>Fecha estimada final</td>
-                <td>{{import.estimated_date_last|date:'medium'}}</td>
-              </tr>
-              <tr>
-                <td>Fecha de creación</td>
-                <td>{{import.created_at|date:'medium'}}</td>
-              </tr>
-            </tbody>
+            <div>
+              <tbody class="table table-borderless">
+                <tr>
+                  <td>Código</td>
+                  <td class="text-info">{{import.code}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha estimada inicial</td>
+                  <td>{{import.estimated_date_first|date:'medium'}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha estimada final</td>
+                  <td>{{import.estimated_date_last|date:'medium'}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha de creación</td>
+                  <td>{{import.created_at|date:'medium'}}</td>
+                </tr>
+                <tr>
+                  <td>Fecha de arribo</td>
+                  <td>{{import.arrival_date|date:'medium'}}</td>
+                </tr>
+                <tr>
+                  <td>Identificador</td>
+                  <td>#{{import.id}}</td>
+                </tr>
+              </tbody>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="font-weight-bold">
-          <h2 class="font-4xl">Productos</h2>
+        <div class="font-weight-bold main-style sticky-top">
+          <h2 class="font-4xl font-weight-bold">Productos</h2>
         </div>
         <div *ngFor="let productAndPrice of products">
-          <h3 class="font-2xl d-flex align-items-center"><img class="img-product mr-2 shadow-sm" *ngIf="productAndPrice.product.image" [src]="productAndPrice.product.image" alt=""> Nombre: {{productAndPrice.product.name}}</h3>
+          <h3 style="top: 34px;" class="d-flex align-items-center font-xs sticky-top main-style"><img class="img-product mr-2 shadow-sm" *ngIf="productAndPrice.product.image" [src]="productAndPrice.product.image" alt="">{{productAndPrice.product.name}}</h3>
           <div>
-            <tbody>
+            <tbody class="table table-borderless">
               <tr>
                 <td>Codigo</td>
                 <td>{{productAndPrice.product.code}}</td>
@@ -46,13 +58,13 @@
             </tbody>
           </div>
           <div>
-            <h4>Últimos precios</h4>
+            <h4 class="font-xs ">ÚLTIMOS PRECIOS</h4>
             <div>
-              <tbody>
-                <ng-container *ngFor="let last_price of productAndPrice.product.last_prices">
+              <tbody class="table table-borderless">
+                <div class="rounded-lg mb-2 shadow" *ngFor="let last_price of productAndPrice.product.last_prices">
                   <tr>
                     <td>Estado</td>
-                    <td>{{last_price.status}}</td>
+                    <td [ngClass]="last_price.status === 'active' ? 'text-primary': 'text-danger'">{{last_price.status}}</td>
                   </tr>
                   <tr>
                     <td>Precio</td>
@@ -79,10 +91,11 @@
                       <td>{{last_price.group.name}}</td>
                     </tr>
                   </ng-container>
-                </ng-container>
+                </div>
               </tbody>
           </div>
         </div>
+        <hr>
       </div>
       </div>
     </div>

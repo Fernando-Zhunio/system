@@ -1,5 +1,4 @@
-// import { HttpEventType } from '@angular/common/http';
-import { transition, trigger, useAnimation } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -21,12 +20,13 @@ import { SearchImportDialogComponent } from '../../components/search-import-dial
 import { PriceGroup } from '../../interfaces/price-group';
 import { PRICE_ROUTE_API_EDIT, PRICE_ROUTE_API_EXPORT, PRICE_ROUTE_API_GROUP_PRICE, PRICE_ROUTE_API_IMPORT, PRICE_ROUTE_API_INDEX } from '../../routes-api/prices-routes-api';
 import { ModalListPricesComponent } from '../../tools/modal-list-prices/modal-list-prices.component';
-import { fadeInDown } from 'ngx-animate/lib/fading';
 import { Token } from '../../../../../../class/fast-data';
 import { SwalService } from '../../../../../../services/swal.service';
 import { CreateOrEditImportModalComponent } from '../../../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-template/search-template-table/search-template-table.component';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { PERMISSION_PRODUCT_INDEX } from '../../../buscar-productos/class/permissions-products';
 
 @Component({
   selector: 'app-prices-index',
@@ -34,9 +34,17 @@ import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-t
   styleUrls: ['./prices-index.component.scss'],
   animations: [
     trigger('fadeInDown', [
-      transition('show => hidden', useAnimation(fadeInDown, {
-        params: { timing: 0.5, delay: 0 }
-      }))
+      state('show', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(-100%)'
+      })),
+      transition('hidden <=> show', [
+        animate('.3s')
+      ])
     ])
   ],
 
@@ -49,7 +57,9 @@ export class PricesIndexComponent
   @ViewChild(MatTable) table: MatTable<IProductPrice>;
   @ViewChild(SearchTemplateTableComponent) searchTemplateTable: SearchTemplateTableComponent;
   constructor(
-    protected mhs: MethodsHttpService, protected snackBar: MatSnackBar,
+    private clipboard: Clipboard,
+    protected mhs: MethodsHttpService, 
+    protected snackBar: MatSnackBar,
     public act_router: ActivatedRoute,
     private dialog: MatDialog,
     private btnSheet: MatBottomSheet,
@@ -82,7 +92,7 @@ export class PricesIndexComponent
 
   isOpenFile: boolean = false;
   subscriptionStateFile: Subscription;
-
+  permissionProductIndex = PERMISSION_PRODUCT_INDEX;
   pondOptions: FilePondOptions = {
     allowMultiple: true,
     labelIdle: 'Arrastre o presione aquí',
@@ -263,6 +273,13 @@ export class PricesIndexComponent
           this.updateItemInTable(id, res.data);
         }
       }
+    });
+  }
+
+  copy(text: string): void {
+    this.clipboard.copy(text);
+    this.snackBar.open('Copiado', 'Cerrar', {
+      duration: 2000,
     });
   }
 

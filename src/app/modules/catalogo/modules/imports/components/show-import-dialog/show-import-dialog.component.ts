@@ -24,7 +24,6 @@ import { IMPORT_ROUTE_API_SHOW } from '../../routes-api/imports-routes-api';
 })
 export class ShowImportDialogComponent implements OnInit {
 
-
   import: Import;
   products: {
     product: ProductPrice,

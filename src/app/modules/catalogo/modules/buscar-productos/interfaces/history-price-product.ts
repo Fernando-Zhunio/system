@@ -1,3 +1,5 @@
+import { Import } from "../../imports/interfaces/imports";
+
 export interface HistoryPriceProduct {
     id: number;
     price: number;
@@ -13,4 +15,5 @@ export interface HistoryPriceProduct {
     created_at: string;
     updated_at: string;
     full_price_formated: string;
+    import: Import
 }

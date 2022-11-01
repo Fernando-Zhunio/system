@@ -12,6 +12,7 @@ const trans_es_default = {
     open: 'Abierto',
     undefined: 'Indefinido',
     expired: 'Expirado',
+    permanent: 'Permanente',
 };
 
 const trans_es_order = {
@@ -92,8 +93,8 @@ const trans_es_order_channels = {
 };
 
 export const _transfz:  {} = {
-    promotions: {...trans_es_promotions},
-    default: {...trans_es_default},
+    promotions: trans_es_promotions,
+    default: trans_es_default,
     orders: trans_es_order,
     order_channels: trans_es_order_channels,
     method_pay: typeMethodPayment
@@ -102,7 +103,7 @@ export const _transfz:  {} = {
 /**
  * @param value  valor
  * @param name nombre del la sección
- * @returns traduccion
+ * @returns traducción
  */
 export function trans(value, name) {
     if ( _transfz[name]) {

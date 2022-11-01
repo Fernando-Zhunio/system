@@ -8,7 +8,7 @@ import { CreateOrEditImportModalComponent } from '../../../imports/components/cr
 import { Import } from '../../../imports/interfaces/imports';
 import { Price, ProductPrice } from '../../interfaces/price';
 import { PriceGroup } from '../../interfaces/price-group';
-import { PRICE_ROUTE_API_GROUP_PRICE, PRICE_ROUTE_API_STORE } from '../../routes-api/prices-routes-api';
+import { PRICE_ROUTE_API_GROUP_PRICE, PRICE_PRODUCT_ROUTE_API_STORE_OR_SHOW } from '../../routes-api/prices-routes-api';
 import { SearchImportDialogComponent } from '../search-import-dialog/search-import-dialog.component';
 
 interface Data {
@@ -98,7 +98,7 @@ export class CreateOrEditPricesButtonSheetComponent implements OnInit {
     this.isLoading = true;
     this.mhs
       .methodPost<ProductPrice>(
-        PRICE_ROUTE_API_STORE(this.externalData.product.id),
+        PRICE_PRODUCT_ROUTE_API_STORE_OR_SHOW(this.externalData.product.id),
         this.form.value
       )
       .subscribe(

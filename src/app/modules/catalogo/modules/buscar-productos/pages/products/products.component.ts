@@ -2,7 +2,6 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
@@ -15,11 +14,11 @@ import { HeaderSearchComponent } from '../../../../../../components/header-searc
 import { IproductWithVtex } from '../../../../../../interfaces/iproducts';
 import { Iwarehouse } from '../../../../../../interfaces/iwarehouse';
 import { Iprefix } from '../../../../../../interfaces/iprefix';
-import { Ipagination } from '../../../../../../interfaces/ipagination';
-import { Permission_catalog_products } from '../../../../../../class/permissions-modules';
 import { StockBodegasComponent } from '../../../../../../components/modals/stock-bodegas/stock-bodegas.component';
 import { InfoViewComponent } from '../../../../components/info-view/info-view.component';
 import { DialogHistoryPricesProductComponent } from '../../components/dialog-history-prices-product/dialog-history-prices-product.component';
+import { PERMISSIONS_CATALOG_PRODUCTS } from '../../class/permissions-products';
+import { PRODUCT_ROUTE_API_INDEX } from '../../routes-api/products-routes-api';
 
 @Component({
   selector: 'app-products',
@@ -39,21 +38,15 @@ export class ProductsComponent implements OnInit {
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
-  pageSizeOptions: number[] = [10, 15, 25, 100];
-  pageEvent: PageEvent;
+  pathProductIndex = PRODUCT_ROUTE_API_INDEX;
 
   products: IproductWithVtex[] = [];
-  selected_state: string = 'all';
-  aux_page_next = 0;
 
-  suscrition_api: Subscription;
+  subscription_api: Subscription;
   isLoading: boolean = false;
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
-  paginator: Ipagination<IproductWithVtex>;
   search: string;
-  is_open_go: boolean = false;
-  icon_go: 'segment'|'close' = 'segment';
   config: SwiperOptions = {
     direction: 'horizontal',
     spaceBetween: 10,
@@ -82,7 +75,7 @@ export class ProductsComponent implements OnInit {
     scrollbar: false,
     pagination: false,
   };
-  permission = Permission_catalog_products;
+  permission = PERMISSIONS_CATALOG_PRODUCTS;
   filter: any = {
     min: null,
     max: null,
@@ -94,10 +87,9 @@ export class ProductsComponent implements OnInit {
     this.methodsHttp
       .methodGet('catalogs/products/get-data-filter')
       .subscribe((res) => {
-        if (res.success && res.hasOwnProperty('success') && res.success) {
+        if (res?.success) {
           this.prefixes = res.data.prefixes;
           this.warehouses = res.data.warehouses;
-        } else {
         }
       });
   }
@@ -120,19 +112,19 @@ export class ProductsComponent implements OnInit {
     this.snack_bar.open('Codigo ' + code + ' copiado', 'OK', {
       duration: 2000,
     });
-    return code;
   }
 
-  loadData($event): void {
+  getData($event): void {
     this.products = $event;
   }
 
-  openDescription(i) {
-    const name = this.products[i].name;
-    const info = this.products[i].description;
-    this.dialog.open(InfoViewComponent, {
-      data: { name, title:'Descripción', info, isHtml:false },
-    });
+  openDescription(id: number): void {
+    const product = this.products.find((x) => x.id == id);
+    if (product) {
+      this.dialog.open(InfoViewComponent, {
+        data: { name: product.name, title:'Descripción', info: product.description , isHtml:false },
+      });
+    }
   }
 
 

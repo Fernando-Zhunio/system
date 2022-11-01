@@ -4,15 +4,6 @@ export const permission_home = {
     dashboard: 'dashboard',
 };
 
-export const Permission_catalog_products = {
-    index: ['super-admin', 'catalogs.products.prices.index'],
-    show: ['super-admin', 'catalogs.products.prices.show'],
-    create: ['super-admin', 'catalogs.products.prices.create'],
-    edit: ['super-admin', 'catalogs.products.prices.edit'],
-    delete: ['super-admin', 'catalogs.products.prices.destroy'],
-    product_edit: ['super-admin', 'products-admin.products.edit']
-};
-
 export const permission_rrhh = {
     dashboard: 'rrhh-dashboard',
     works: 'rrhh-works',

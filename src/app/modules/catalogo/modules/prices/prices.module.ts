@@ -25,6 +25,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { SearchProductsDialogModule } from '../../../../shared/search-products-dialog/search-products-dialog.module';
 import { SearchImportDialogComponent } from './components/search-import-dialog/search-import-dialog.component';
 import { CreateOrEditImportModalComponent } from '../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
     declarations: [SearchImportDialogComponent, CreateOrEditPricesButtonSheetComponent, PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
@@ -50,7 +51,8 @@ import { CreateOrEditImportModalComponent } from '../imports/components/create-o
         MatListModule,
         MatBottomSheetModule,
         SearchProductsDialogModule,
-        CreateOrEditImportModalComponent
+        CreateOrEditImportModalComponent,
+        ClipboardModule
     ]
 })
 export class PricesModule { }

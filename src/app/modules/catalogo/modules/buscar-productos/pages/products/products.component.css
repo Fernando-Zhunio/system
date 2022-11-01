@@ -134,3 +134,28 @@
     padding-left: 25px;
     color: gray;
 }
+
+
+.collapse-fz:not(.show) {
+    visibility: collapse;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: all 1s;
+}
+
+.show {
+    visibility: visible;
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+    overflow: visible;
+    transition: all 1s;
+}
+
+.items-info span {
+    padding: 5px 8px;
+    border-radius: 8px;
+    color: gray
+}

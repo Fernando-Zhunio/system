@@ -1,113 +1,4 @@
-<!-- <div class="w-100">
-  <mat-drawer-container style="position: inherit;overflow: initial" class="example-container bg-transparent">
-    <mat-drawer #drawer class="example-sidenav col-md-4 col-11" style="top: 0;height: 100vh;" mode="over" position="end">
-      <ng-container *ngxPermissionsOnly="permissions.edit">
-        <button mat-mini-fab class="btn-close-modify-price" (click)="drawer.toggle()">
-          <mat-icon>close</mat-icon>
-        </button>
-        <div>
-          <h2 class=" font-2x1  text-muted pl-2">
-            {{dataPriceModify?.name}}</h2>
-        </div>
-        <div>
-          <div class="text-center" *ngIf="dataPriceModify.isLoading; else templateModifyPrice">
-            <div class="text-center">Cargando espere...</div><br>
-            <mat-spinner></mat-spinner>
-          </div>
-          <ng-template #templateModifyPrice>
-            <div class="d-flex justify-content-center">
-              <form (ngSubmit)="saveInServer()" [formGroup]="form">
-                <div class=" font-xl">Antes de impuestos</div>
-                <mat-form-field *ngFor="let group of pricesGroup">
-                  <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name"
-                    (keyup)="addOrRemoveTax(group.id)" [formControlName]="'price_group_'+group.id">
-                </mat-form-field>
-                <div class=" font-xl">Después de impuestos</div>
-                <mat-form-field *ngFor="let group of pricesGroup">
-                  <input autocomplete="off" matInput type="number" [placeholder]="'Precio '+ group.name"
-                    (keyup)="addOrRemoveTax(group.id, true)" [formControlName]="'tax_price_group_'+group.id">
-                </mat-form-field>
-                <button mat-raised-button color="primary" [disabled]="isLoadingNewPrice" type="submit">Guardar
-                  <mat-icon>save</mat-icon></button>
-              </form>
-            </div>
-          </ng-template>
-        </div>
-      </ng-container>
-    </mat-drawer>
-
-    <mat-drawer-content class="example-sidenav-content w-100">
-      <div>
-
-        <div class="attach-file" *ngIf="isOpenFile">
-          <button mat-icon-button class="btn-close-file" color="warn" (click)="isOpenFile = false">
-            <mat-icon>close</mat-icon>
-          </button>
-          <div class="container">
-            <file-pond #myPond [className]="'m-0'" [options]="pondOptions">
-            </file-pond>
-          </div>
-        </div>
-        <div>
-          <app-search-template placeholder="Buscar productos" [title]="'Precios'" [filter_data]="{}" [url$]="url" (data)="getData($event)">
-            <ng-container data>
-              <mat-card @fade class="card shadow rounded-fz border-0" *ngFor="let product of data | keyvalue">
-                <mat-card-header>
-                  <mat-card-title>{{product.value.name}}</mat-card-title>
-                  <mat-card-subtitle>{{product.value.created_at | date}}</mat-card-subtitle>
-                </mat-card-header>
-                <img matCardImage class="img-product" [src]="product.value.image || 'assets/img/img_not_available.png'">
-                <mat-card-content>
-                  <mat-chip-list>
-                    <mat-chip>Disponible: {{product.value.available}}</mat-chip>
-                    <mat-chip>Codigo: {{product.value.code}}</mat-chip>
-                  </mat-chip-list>
-                  <div class="my-2">
-                    <ng-container *ngIf="product.value?.last_prices?.length > 0;else createBtn">
-                      <div class="font-italic p-md-3 shadow rounded-fz">
-                        <div class="font-facebook border-bottom font-2xl">Precios</div>
-                        <div *ngFor="let price of product.value.last_prices" class=" my-1">
-                          {{price.group.name}}:
-                          <mat-chip>${{price.full_price_formated}}</mat-chip>
-                        </div>
-                        <button *ngxPermissionsOnly="permissions.edit" mat-mini-fab
-                          (click)="openSidenavPriceForEdit(product.key)" color="accent">
-                          <mat-icon>edit</mat-icon>
-                        </button>
-                        <button color="primary" (click)="openDialogListPrices(product.key)" mat-mini-fab>
-                          <mat-icon>format_list_bulleted</mat-icon>
-                        </button>
-                      </div>
-                    </ng-container>
-                    <ng-template #createBtn>
-                      <button mat-button (click)="openSidenavPriceForCreate(product.key)" color="warn">
-                        <mat-icon>add</mat-icon> Agregar precios
-                      </button>
-                    </ng-template>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </ng-container>
-            <ng-container menuBar>
-              <mat-chip class="mat-btn-add ml-1" (click)="isOpenFile = true">
-                <mat-icon>file_upload</mat-icon>&nbsp; Importar precios
-              </mat-chip>
-              <mat-chip class="mat-btn-add ml-1" (click)="managerStatesPrices()"
-                [disabled]="stateFilePrices?.status === EPriceState.Generating || stateFilePrices?.status === EPriceState.Downloading">
-                <mat-icon>file_download</mat-icon>&nbsp; {{stateFilePrices?.status}} <mat-spinner
-                  *ngIf="stateFilePrices?.status === EPriceState.Generating || stateFilePrices?.status === EPriceState.Downloading"
-                  diameter="30" style="display: inline-block;"></mat-spinner>
-              </mat-chip>
-            </ng-container>
-
-          </app-search-template>
-        </div>
-      </div>
-    </mat-drawer-content>
-  </mat-drawer-container>
-</div> -->
-
-<app-search-template-table [title]="'Precios'" [url$]="url" (data)="getData($event)">
+<app-search-template-table [placeholder]="'Buscador de productos'" [title]="'Precios'" [url$]="url" (data)="getData($event)">
   <ng-container menuBar *ngxPermissionsOnly="permissions.edit">
     <mat-chip class="mat-btn-add ml-1" (click)="isOpenSendFile = true">
       <i class="fa-solid fa-upload"></i>&nbsp; Importar precios
@@ -167,7 +58,12 @@
       </ng-container>
       <ng-container matColumnDef="code">
         <th mat-header-cell *matHeaderCellDef>Codigo</th>
-        <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+        <td class="cell-code" mat-cell *matCellDef="let element">
+          <mat-chip [selectable]="false" [disableRipple]="true">{{ element.code }} 
+            <button *ngxPermissionsOnly="permissionProductIndex"  class="text-primary"><i [routerLink]="['/catalogo/buscar_productos']" [queryParams]="{search: element.code}" class="fa-regular fa-eye mx-1"></i></button>
+            <button (click)="copy(element.code)"><i class="fa-regular fa-copy mx-1"></i></button>
+          </mat-chip>
+        </td>
       </ng-container>
       <ng-container matColumnDef="created_at">
         <th mat-header-cell *matHeaderCellDef>Fecha</th>
@@ -182,7 +78,7 @@
                 *ngxPermissionsOnly="permissions.edit"
                 mat-icon-button
                 (click)="openCreateOrEditPrice(element.id)"
-                color="accent">
+                class="text-info">
                 <i class="fa-solid fa-pen"></i>
               </button>
               <button (click)="openDialogListPrices(element.id)" mat-icon-button>

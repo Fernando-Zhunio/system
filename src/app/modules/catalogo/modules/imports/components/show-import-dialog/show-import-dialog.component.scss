@@ -4,3 +4,7 @@
     object-fit: contain;
     border-radius: 5px;
 }
+
+tbody.table tr td:nth-child(1) {
+    color: gray;
+}
