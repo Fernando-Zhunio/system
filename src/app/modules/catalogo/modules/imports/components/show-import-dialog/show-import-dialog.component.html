@@ -58,40 +58,41 @@
             </tbody>
           </div>
           <div>
-            <h4 class="font-xs ">ÚLTIMOS PRECIOS</h4>
+            <h4 class="font-xs">PRECIO</h4>
             <div>
               <tbody class="table table-borderless">
-                <div class="rounded-lg mb-2 shadow" *ngFor="let last_price of productAndPrice.product.last_prices">
+                <!-- <div class="rounded-lg mb-2 shadow" *ngFor="let last_price of productAndPrice.price"> -->
                   <tr>
                     <td>Estado</td>
-                    <td [ngClass]="last_price.status === 'active' ? 'text-primary': 'text-danger'">{{last_price.status}}</td>
+                    <td [ngClass]="productAndPrice?.price.status === 'active' ? 'text-primary': 'text-danger'">{{productAndPrice?.price.status| translatefz}}</td>
                   </tr>
                   <tr>
                     <td>Precio</td>
-                    <td>{{last_price.price}}</td>
+                    <td>${{productAndPrice?.price.price}}</td>
+                  </tr>
+                  <tr>
+                    <td>Precio + IVA</td>
+                    <td>${{productAndPrice?.price.full_price_formated}}</td>
                   </tr>
                   <tr>
                     <td>Tipo de duración</td>
-                    <td>{{last_price.duration_type | translatefz}}</td>
+                    <td>{{productAndPrice?.price.duration_type | translatefz}}</td>
                   </tr>
-                  <ng-container *ngIf="last_price.duration_type === 'date_range'">
+                  <tr>
+                    <td>Grupo</td>
+                    <td>{{productAndPrice?.price.group.name}}</td>
+                  </tr>
+                  <ng-container *ngIf="productAndPrice?.price.duration_type === 'date_range'">
                     <tr>
                       <td>Fecha Inicial</td>
-                      <td>{{last_price.start_date | date: 'medium'}}</td>
+                      <td>{{productAndPrice?.price.start_date | date: 'medium'}}</td>
                     </tr>
                     <tr>
                       <td>Fecha Final</td>
-                      <td>{{last_price.end_date | date: 'medium'}}</td>
-                    </tr>
-                    <tr>
-                      <td class="" colspan="2">Grupo</td>
-                    </tr>
-                    <tr>
-                      <td>Nombre</td>
-                      <td>{{last_price.group.name}}</td>
+                      <td>{{productAndPrice?.price.end_date | date: 'medium'}}</td>
                     </tr>
                   </ng-container>
-                </div>
+                <!-- </div> -->
               </tbody>
           </div>
         </div>
