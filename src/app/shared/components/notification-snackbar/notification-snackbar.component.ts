@@ -31,10 +31,9 @@ export class NotificationSnackbarComponent {
       return;
     }
 
-    let isRedirect = this.notification.data.route || null
-    if (isRedirect) {
-      this.sd.redirectTo(this.notification.data);
-      return;
+    let route = this.notification.data?.route
+    if (route) {
+      this.sd.redirectTo(route);
     }
   }
 

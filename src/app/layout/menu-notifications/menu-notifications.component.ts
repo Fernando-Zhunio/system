@@ -73,10 +73,6 @@ export class MenuNotificationsComponent implements OnInit, OnDestroy {
   }
 
   notificationAction(url: string, route: string): void {
-    // console.log({id});
-    // const notificationData = this.notifications.find((notification) => notification.id === id)?.data;
-    // if(!notificationData) return;
-    // console.log({notificationData});
     if (url) {
       this.download(url);
       return;
