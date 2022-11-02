@@ -101,7 +101,7 @@ export interface Iproduct2 {
   user_id: number;
 }
 
-export interface IproductWithVtex {
+export interface Product {
   id: number;
   name: string;
   description: string;
@@ -120,6 +120,12 @@ export interface IproductWithVtex {
   facebook_posts_count: number;
   instagram_posts_count: number;
   last_prices: any[];
+
+  last_sold_count: number;
+  max_price_sold: string;
+  min_price_sold: string;
+  last_price_sold: string;
+  
   vtex_skus: IproductVtexSku[];
   ml_infos: [
     {

@@ -29,6 +29,21 @@
       </mat-card-header>
       <mat-card-content>
         <div>
+          <div class="info-prices">
+            <span class="badge-fz">
+             <span>Ultimas unidades vendidas:</span> {{p.last_sold_count}}
+            </span>
+            <span class="badge-fz">
+              <span>Ultimo precio de venta:</span> ${{p.last_price_sold}}
+             </span>
+             <span class="badge-fz">
+              <span>Mínimo precio de vendido:</span> ${{p.min_price_sold}}
+             </span>
+             <span class="badge-fz">
+              <span>Máximo precio de vendido:</span> ${{p.max_price_sold}}
+             </span>
+          </div>
+          <hr>
           <div class="mt-2">
             <button mat-button class="mr-1" type="button" color="primary" (click)="viewWareHouse(ind)">
               <i class="fa-solid fa-cubes-stacked"></i>
@@ -73,12 +88,6 @@
                   {{ p?.category?.name }}
                 </small>
               </span>
-              <!-- <span [class]="p.available > 0 ? 'text-primary' : 'text-danger'">
-                <small>
-                  <strong>Stock para ventas:</strong>
-                  {{ p.available }}
-                </small>
-              </span> -->
             </div>
           </div>
           <div>
@@ -88,7 +97,7 @@
               </div>
               <ul class="card-body rounded-fz shadow list-unstyled">
                 <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
-                  <mat-chip>{{ price.group.name }}:</mat-chip>
+                  <span class="text-muted mr-2">{{ price.group.name }}:</span>
                   <b>${{ price?.full_price_formated }}</b>
                 </li>
               </ul>

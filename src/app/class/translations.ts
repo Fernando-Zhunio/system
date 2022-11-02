@@ -13,6 +13,7 @@ const trans_es_default = {
     undefined: 'Indefinido',
     expired: 'Expirado',
     permanent: 'Permanente',
+    discontinued: 'Descontinuado',
 };
 
 const trans_es_order = {

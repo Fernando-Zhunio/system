@@ -11,7 +11,7 @@ import { animation_conditional } from '../../../../../../animations/animate_leav
 import { ProductsService } from '../../../../../../services/products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { HeaderSearchComponent } from '../../../../../../components/header-search/header-search.component';
-import { IproductWithVtex } from '../../../../../../interfaces/iproducts';
+import { Product } from '../../../../../../interfaces/iproducts';
 import { Iwarehouse } from '../../../../../../interfaces/iwarehouse';
 import { Iprefix } from '../../../../../../interfaces/iprefix';
 import { StockBodegasComponent } from '../../../../../../components/modals/stock-bodegas/stock-bodegas.component';
@@ -23,7 +23,7 @@ import { PRODUCT_ROUTE_API_INDEX } from '../../routes-api/products-routes-api';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
+  styleUrls: ['./products.component.scss'],
   animations: animation_conditional
 })
 export class ProductsComponent implements OnInit {
@@ -40,7 +40,7 @@ export class ProductsComponent implements OnInit {
 
   pathProductIndex = PRODUCT_ROUTE_API_INDEX;
 
-  products: IproductWithVtex[] = [];
+  products: Product[] = [];
 
   subscription_api: Subscription;
   isLoading: boolean = false;
