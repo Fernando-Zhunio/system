@@ -17,7 +17,7 @@ export class CreateHostService {
   private createHostDirective: CreateHostDirective;
   componentRefMap: Map<Symbol, {componentRef: ComponentRef<any>, beforeClose: Subject<any>}> = new Map<Symbol, {componentRef: ComponentRef<any>, beforeClose:  Subject<any>}>();
 
-  data: any = null;
+  // data: any = null;
   constructor() { }
 
   setCreateHostDirective(createHostDirective: CreateHostDirective) {
@@ -25,10 +25,10 @@ export class CreateHostService {
   }
 
   injectComponent(component: any, data: DataComponent | null = null, _multi: boolean = true, customHost: CreateHostDirective | null = null) {
-    const host: CreateHostDirective = customHost ? customHost : this.createHostDirective;
-     const {id} = this.createComponent(component, host, data);
-    // return  this.observerComponent.pipe(take(1));
+    const host: CreateHostDirective = customHost ?? this.createHostDirective;
+     const {id, componentRef} = this.createComponent(component, host, data);
     return {
+      componentRef,
       close: () => {
         this.close(id);
       },

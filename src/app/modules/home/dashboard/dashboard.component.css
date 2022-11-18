@@ -24,20 +24,17 @@ h6 {
 }
 
 .font-header-number{
-    font-family:  "Montserrat", sans-serif !important;;
     font-weight: 700;
     font-size: 2rem !important;
 }
 
 .font-header-text{
-    font-family:  "Montserrat", sans-serif !important;;
     font-weight: 700;
     font-size: 1.09375rem;
     color: #73818f !important;
 }
 
 td{
-    font-family: 'Montserrat';
     font-weight: 700;
 }
 
@@ -108,7 +105,6 @@ td{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Montserrat';
     font-weight: 600;
     border-radius: 10px;
     background: #009688;
@@ -221,7 +217,6 @@ td{
     background: #dadada7d;
     border-radius: 20px;
     backdrop-filter: blur(3px);
-    font-family: 'Montserrat';
     font-size: 1.5em;
 }
 

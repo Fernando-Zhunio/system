@@ -88,3 +88,4 @@ export class Preferences {
 // }
 
 export const PATH_LOGIN = '/authentication/login';
+export const LINK_IMAGE_LETTER = 'https://ui-avatars.com/api/?background=random&name='

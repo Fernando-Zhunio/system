@@ -37,7 +37,6 @@
   height: 40px !important;
   object-fit: contain;
   border-radius: 50%;
-  /* border: solid 2px #dadada; */
 }
 
 .chat-template {
@@ -47,16 +46,10 @@
   bottom: 5px;
   z-index: 9999;
   width: 350px;
-  /* height: calc(100vh - 65px);
-  background: white;  */
-  /* transform: translateY(0%); */
 }
 
 .chat-list-info {
-  /* font-family: 'Red Hat Display' !important; */
-  /* line-height: 1.1;
-  font-weight: 500;
-  font-size: 15px; */
+
   text-transform: capitalize;
   overflow: hidden;
   display: flex;

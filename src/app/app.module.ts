@@ -76,6 +76,7 @@ import { MenuNotificationsComponent } from './layout/menu-notifications/menu-not
 import { InitializerAppNovisolutions } from './core/class/initializer-app-novisolutions';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
+import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -145,6 +146,7 @@ registerLocaleData(localeEs, 'es');
     UsersGroupsChatModalComponent,
     P403Component,
     MenuNotificationsComponent,
+    DownloadFileStatusComponent,
   ],
   providers: [
     // {

@@ -1,15 +1,18 @@
 // @import "variables";
 // @import "~@coreui/coreui/scss/coreui";
 @import "~air-datepicker/air-datepicker.css";
-
 // @import "custom";
 @import "theme";
-@import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
+// @import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
 // @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap");
 @import "~quill/dist/quill.core.css";
 @import "~quill/dist/quill.bubble.css";
 @import "~quill/dist/quill.snow.css";
+
+:root {
+  --max-height-noty: 80vh;
+}
 
 mat-card {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
@@ -24,21 +27,10 @@ app-root {
   min-height: 100vh !important;
 }
 
-.chat-font {
-  font-family: "Red Hat Display" !important;
-  p {
-    font-family: "Red Hat Display" !important;
-    font-weight: 500;
-    font-size: 14px;
-    margin: 0 !important;
-  }
-}
-
 //customs
 td {
   vertical-align: middle !important;
 }
-
 
 
 .mat-table td, .mat-table th {
@@ -46,23 +38,12 @@ td {
   padding: 0 10px !important;
 }
 
-// html {
-//   top: 0 !important;
-// }
-
-.title-line {
-  border-bottom: 2px solid rgb(0 0 0 / 87%);
-}
 
 .font-2xl,
 .font-3xl,
 .font-4xl,
 .font-5xl {
   line-height: 1 !important;
-}
-
-.z-index-fix {
-  z-index: 9999 !important;
 }
 
 .container-html img {
@@ -87,22 +68,11 @@ a {
   text-decoration: none !important;
 }
 .markdown p {
-  font-family: "Red Hat Display" !important;
   font-weight: 500;
   font-size: 14px;
   margin: 0 !important;
 }
 
-.font-montserrat *:not(.markdown) {
-  font-family: "Montserrat", sans-serif !important;
-}
-
-.font-m {
-  font-family: "Montserrat", sans-serif !important;
-}
-.font-m-all * {
-  font-family: "Montserrat", sans-serif !important;
-}
 
 .justify-end > div {
   display: block;
@@ -117,11 +87,11 @@ a img {
   height: 200px;
 }
 
-.navbar-brand-full,
-.navbar-brand,
-.navbar-brand-minimized {
-  height: auto !important;
-}
+// .navbar-brand-full,
+// .navbar-brand,
+// .navbar-brand-minimized {
+//   height: auto !important;
+// }
 
 canvas {
   outline: none;
@@ -136,7 +106,7 @@ canvas {
 }
 
 .line-1 {
-  line-height: 1;
+  line-height: 1 !important;
 }
 
 .border-dot {
@@ -146,9 +116,9 @@ canvas {
   margin: auto;
 }
 
-.mat-form-field {
-  line-height: 1.3;
-}
+// .mat-form-field {
+//   line-height: 1.3;
+// }
 
 .cdk-overlay-container {
   z-index: 1020;
@@ -158,13 +128,14 @@ canvas {
   z-index: 1020;
 }
 
-button {
-  outline: none !important;
-}
+// button {
+//   outline: none !important;
+// }
 
 .bg-default {
   background-color: paleturquoise;
 }
+
 .center {
   display: flex;
   justify-content: center;
@@ -223,10 +194,6 @@ button {
   .mat-row,
   .mat-header-row {
     display: table-row;
-  }
-  .navbar-brand {
-    width: 30px !important
-        ;
   }
 }
 
@@ -308,11 +275,6 @@ button {
 .rounded-lg-fz {
   border-radius: 40px !important;
 }
-// #endregion seccion radios
-
-.shadow-all-fz {
-  box-shadow: 1px 1px 12px #d5d5d5, 1px 1px 12px #d1d0d0 !important;
-}
 
 // #region sección scrollbar
 .scrollbar-fz::-webkit-scrollbar-track {
@@ -333,13 +295,6 @@ button {
 }
 // #endregion sección scrollbar
 
-// #region font-weight input material
-.mat-raised-button {
-  border-radius: 20px !important;
-}
-// mat-form-field, mat-chip,  .mat-button, .mat-raised-button  {
-//   font-weight: 700 !important;
-// }
 
 .swal2-modal {
   font-weight: 700 !important;
@@ -351,7 +306,7 @@ button {
   }
 }
 .custom-menu-notification {
-  max-height: 80vh !important;
+  max-height: var(--max-height-noty) !important;
   padding: 5px !important;
   border-radius: 10px !important;
   // max-height: 80vmax;
@@ -405,10 +360,10 @@ button {
   background-color: #ffc107;
 }
 
-.mat-orange {
-  color: #fff !important;
-  background-color: #e6521d !important;
-}
+// .mat-orange {
+//   color: #fff !important;
+//   background-color: #e6521d !important;
+// }
 
 .mat-btn-add {
   color: #fff !important;
@@ -495,4 +450,9 @@ button {
 .badge-fz {
   padding: 5px 8px;
   border-radius: 8px;
+}
+
+.mat-raised-button {
+  border-radius: 7.28349% / 19.0476% !important;
+  height: 42px;
 }

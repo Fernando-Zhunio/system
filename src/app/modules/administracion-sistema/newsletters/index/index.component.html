@@ -11,7 +11,7 @@
     <mat-card *ngFor="let data of newsletters | keyvalue" class="card shadow border-0 rounded-fz">
       <div class="card-body">
         <h3 class="font-2xl">{{data.value.title}}</h3>
-        <p class="font-montserrat container-html" [innerHTML]="data.value.description"></p>
+        <p class="container-html" [innerHTML]="data.value.description"></p>
         <div class="d-flex">
           <h4>{{data.value?.start_date | date}} al {{data?.value.end_date | date}}</h4>
         </div>

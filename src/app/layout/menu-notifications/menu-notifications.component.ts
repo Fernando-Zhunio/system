@@ -4,7 +4,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import Echo from 'laravel-echo';
 import { Subscription } from 'rxjs';
 import { EchoManager } from '../../class/echo-manager';
-import { User } from '../../class/fast-data';
+import { LINK_IMAGE_LETTER, User } from '../../class/fast-data';
 import { ADD_NOTIFICATIONS, NOTIFICATIONS_CREATE_POPUP, SET_NOTIFICATIONS } from '../../redux/notifications/actions/notifications.action';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { SharedService } from '../../services/shared/shared.service';
@@ -26,11 +26,13 @@ export class MenuNotificationsComponent implements OnInit, OnDestroy {
     private store: Store,
     private sdr: DownloadAndRedirectService
   ) { }
-  showSpinner = true;
+  // showSpinner = true;
   countUnread: number;
   notifications: any[] = [];
-  percentSpinner: {percent: number} = {percent: 0};
+  // percentSpinner: {percent: number} = {percent: 0};
+
   echo: Echo;
+  imageLetterLink = LINK_IMAGE_LETTER;
 
   ngOnInit() {
     this.getNotification();

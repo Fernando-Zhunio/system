@@ -10,9 +10,7 @@
     box-shadow: inset 0px 1px 3px #46444469;
 }
 
-.chat-font {
-    font-family: "Red Hat Display";
-}
+
 
 .load-file {
     position: absolute;
@@ -24,10 +22,8 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    font-size: 'Montserrat';
     color: white;
     font-weight: bold;
-    
 }
 
 .tooltip-fz {
@@ -97,7 +93,6 @@
     max-width: 80%;
     position: relative;
     word-break: break-word;
-    font-family: 'Red Hat Display';
     color: black;
 }
 
@@ -132,12 +127,6 @@
     border-radius: 15px 15px 0 15px;
     position: relative;
     word-break: break-word;
-    font-family: 'Red Hat Display';
-}
-
-.chat-font p{
-  font-family: 'Red Hat Display' !important;
-
 }
 
 .message-send::after {
@@ -170,7 +159,6 @@
     bottom: 8px;
     resize: none;
     height: 38px;
-    font-family: 'Montserrat';
     font-weight: 600;
     background: #ebebeb;
     box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
@@ -294,7 +282,6 @@
     background-color: antiquewhite;
     font-size: small;
     border-radius: 20px;
-    font-family: 'Red Hat Display';
     font-weight: bold;
     cursor: pointer;
 }
