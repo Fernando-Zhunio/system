@@ -117,7 +117,6 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
 
   ngAfterViewInit() {
     this.dpMin = new AirDatepicker(this.dpMinDateElement.nativeElement, {
-      classes: 'z-indez-1020',
       position: 'bottom right',
       locale: localeEs,
       timepicker: true,
@@ -132,7 +131,6 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
       }
     })
     this.dpMax = new AirDatepicker(this.dpMaxDateElement.nativeElement, {
-      classes: 'z-indez-1020',
       locale: localeEs,
       position: 'bottom right',
       timepicker: true,

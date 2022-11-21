@@ -1,3 +1,19 @@
 <div class="dfs">
-
+  <div class="main-style p-2 my-2 shadow position-relative" *ngFor="let item of listDownload | keyvalue">
+    <button (click)="cancelDownload(item.key)" class="btn-close-item"><i class="fa-solid fa-xmark"></i></button>
+    <h4 class="fw-bold">{{ item.value.title }} #{{ item.key + 1 }}</h4>
+    <p>{{ item.value.content }}</p>
+    <small class="text-info" *ngIf="item.value.status === 'downloading'">
+      Espere descargando: <strong>{{ item.value.percent }}%</strong>
+    </small>
+    <small class="text-success" *ngIf="item.value.status === 'completed'">Descarga completada</small>
+    <small (click)="resetDownload(item.key)" class="text-danger" *ngIf="item.value.status === 'error'">
+      Ups! ocurrió en su descarga
+      <br />
+      <span class="text-info cp">
+        Presioné aquí para volver a descargar
+        <i class="fa-solid fa-rotate-right"></i>
+      </span>
+    </small>
+  </div>
 </div>

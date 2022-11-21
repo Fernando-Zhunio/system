@@ -1,6 +1,6 @@
 import { ComponentRef, Injectable } from '@angular/core';
-import {  Subject } from 'rxjs';
-import { CreateHostRef } from '../../shared/class/create-host-ref';
+import {  BehaviorSubject } from 'rxjs';
+import { CreateHostService } from '../../shared/services/create-host.service';
 import { DownloadFileStatusComponent, ItemDownload } from '../components/download-file-status/download-file-status.component';
 
 @Injectable({
@@ -8,9 +8,9 @@ import { DownloadFileStatusComponent, ItemDownload } from '../components/downloa
 })
 export class DownloadFileStatusService {
 
-  constructor( private chRef: CreateHostRef) { }
+  constructor(private host: CreateHostService) { }
 
-  $listDownload: Subject<ItemDownload> = new Subject<ItemDownload>();
+  $listDownload: BehaviorSubject<ItemDownload | null> = new BehaviorSubject<ItemDownload | null>(null);
   componentRef: ComponentRef<DownloadFileStatusComponent>
 
   addDownload(itemDownload: ItemDownload) {
@@ -23,10 +23,5 @@ export class DownloadFileStatusService {
   createComponent(): void {
     ({componentRef: this.componentRef } = this.host.injectComponent(DownloadFileStatusComponent));
   }
-
-  close(): void {
-    this.chRef.close();
-  }
-
  
 }

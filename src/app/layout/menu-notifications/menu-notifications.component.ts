@@ -5,6 +5,8 @@ import Echo from 'laravel-echo';
 import { Subscription } from 'rxjs';
 import { EchoManager } from '../../class/echo-manager';
 import { LINK_IMAGE_LETTER, User } from '../../class/fast-data';
+import { ItemDownload } from '../../core/components/download-file-status/download-file-status.component';
+import { DownloadFileStatusService } from '../../core/services/download-file-status.service';
 import { ADD_NOTIFICATIONS, NOTIFICATIONS_CREATE_POPUP, SET_NOTIFICATIONS } from '../../redux/notifications/actions/notifications.action';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { SharedService } from '../../services/shared/shared.service';
@@ -24,11 +26,12 @@ export class MenuNotificationsComponent implements OnInit, OnDestroy {
     private methodsHttp: MethodsHttpService,
     private actions: ActionsSubject,
     private store: Store,
-    private sdr: DownloadAndRedirectService
+    private sdr: DownloadAndRedirectService,
+    private sdfs: DownloadFileStatusService
   ) { }
   // showSpinner = true;
   countUnread: number;
-  notifications: any[] = [];
+  notifications: Notification[] = [];
   // percentSpinner: {percent: number} = {percent: 0};
 
   echo: Echo;
@@ -70,16 +73,26 @@ export class MenuNotificationsComponent implements OnInit, OnDestroy {
       .subscribe(() => { });
   }
 
-  download(url: string): void {
-    this.sdr.download(url);
+  download(index): void {
+    const notification = this.notifications[index];
+    const itemDownload: ItemDownload = {
+      content: 'Descargando archivo',
+      url: notification.data.url,
+      name: 'Archivo',
+      title: notification.data.title,
+      id: index
+    }
+    this.sdfs.addDownload(itemDownload);
   }
 
-  notificationAction(url: string, route: string): void {
-    if (url) {
-      this.download(url);
+  notificationAction(index: number): void {
+    const notification = this.notifications[index];
+    if (notification.data?.url) {
+      this.download(index);
       return;
     }
-    if (route) {
+    if (notification.data?.route) {
+      const route = notification.data.route;
       this.sdr.redirectTo(route);
     }
   }

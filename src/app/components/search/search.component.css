@@ -1,14 +1,9 @@
 .input-default {
     outline: none;
-    border-radius: 10px;
     width: 100%;
-    padding: 10px 15px;
     font-weight: bold;
-    padding-right: 35px;
     font-size: 1.3em;
-    padding-left: 40px;
     border: none;
-    border-radius: 6px;
     font-weight: 400;
     height: 45px;
 }
@@ -21,8 +16,8 @@
     background: transparent;
     font-size: 18px;
     color: gray;
-    position: absolute;
-    left: 9px;
+    /* position: absolute;
+    left: 9px; */
 }
 
 .content-btns {

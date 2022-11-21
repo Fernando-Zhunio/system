@@ -1,16 +1,11 @@
 <div class="container-search-products center">
-  <button (click)="close()" color="warn" class="btn-close" mat-icon-button>
-    <i class="fa-2x fa-solid fa-circle-xmark"></i>
-  </button>
-  <div class="col-md-5 col-10 overflow-hidden h-100">
-    <app-search [init]="false" @fade (data)="getData($event)" [placeholder]="placeholder" [url]="url">
+  <div class="col-md-5 col-10 content-search main-style">
+    <app-search classes="border-bottom" [init]="false" @fade (data)="getData($event)" [placeholder]="placeholder" [url]="url">
+      <button inputBtn (click)="close()" color="warn" mat-icon-button>
+        <i class="fa-2x fa-solid fa-circle-xmark"></i>
+      </button>
       <ng-container data>
-        <div class="section-data bg-product shadow p-3 main-style">
-          <!-- <ng-container
-            [ngTemplateOutlet]="optionTemplate || defaultTemplate"
-            [ngTemplateOutletContext]="{ $implicit: products }"></ng-container> -->
-
-          <!-- <ng-template #defaultTemplate let-products> -->
+        <div class="section-data px-3 ">
             <div *ngFor="let product of products | keyvalue">
               <div class="item-product my-3">
                 <div class="d-flex align-items-center">
@@ -29,15 +24,14 @@
                     [ngTemplateOutletContext]="{ $implicit: product }"></ng-container>
                 </div>
                 <button
-                  data-test="add-product"
                   (click)="addProduct(product.key)"
                   *ngIf="!productsSelected.has(product.key); else TemplateRemove"
                   color="primary"
                   mat-icon-button>
-                  <i class="fa-solid fa-plus"></i>
+                  <i class="fa-solid fa-check"></i>
                 </button>
                 <ng-template #TemplateRemove>
-                  <button (click)="removeProduct(product.key)" color="warn" mat-icon-button>
+                  <button (click)="removeProduct(product.key)" class="text-muted" mat-icon-button>
                     <i class="fa-solid fa-xmark"></i>
                   </button>
                 </ng-template>
@@ -46,6 +40,7 @@
           <!-- </ng-template> -->
         </div>
       </ng-container>
+
     </app-search>
   </div>
 </div>

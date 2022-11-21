@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Cperson } from '../../../../class/cperson';
 import { CreateOrEdit2 } from '../../../../class/create-or-edit-2';
+import { LINK_IMAGE_LETTER } from '../../../../class/fast-data';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { SwalService } from '../../../../services/swal.service';
 
@@ -46,6 +47,7 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
   roles: any[] = [];
   emails: string[] = [];
   isSearchPerson = false;
+  urlLetter = LINK_IMAGE_LETTER
 
   ngOnInit(): void {
     this.init();

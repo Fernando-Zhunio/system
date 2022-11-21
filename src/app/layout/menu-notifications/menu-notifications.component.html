@@ -13,13 +13,13 @@
   #menu1="matMenu"
   [overlapTrigger]="false">
   <div class="cp px-2" (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
-    <h3 class="font-3xl">Notificaciones</h3>
+    <h3 class="font-3xl font-weight-bold">Notificaciones</h3>
     <div class="content-notifications scrollbar-fz">
       <ng-template matMenuContent>
         <div
           class="my-2 cp"
-          *ngFor="let notification of notifications"
-          (click)="notificationAction(notification.data?.url, notification.data?.route)"
+          *ngFor="let notification of notifications;let i = index"
+          (click)="notificationAction(i)"
           >
           <div>
             <div class="d-flex">
@@ -28,7 +28,7 @@
               </div>
               <div>
                 <div>
-                  <h3 class="m-0 line-1">{{ notification.data.title}}</h3>
+                  <h4 class="m-0 line-1 fw-bold">{{ notification.data.title}}</h4>
                   <small>{{ notification?.data?.user?.name ? notification?.data?.user?.name : "Sin Usuario"}}</small>
                 </div>
                 <div class="font-weight-lighter text-muted">{{ notification.data.text }}</div>

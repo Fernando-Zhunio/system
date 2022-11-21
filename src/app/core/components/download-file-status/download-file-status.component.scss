@@ -2,4 +2,25 @@
     position: fixed;
     top: 10px;
     left: 10px;
+    z-index: var(--z-index);
+    max-width: 300px;
+    small, p, h4 {
+        margin: 0;
+    }
+    >div {
+        border-radius: 10px;
+    }
+    .btn-close-item {
+        position: absolute;
+        color: red;
+        right: -22px;
+        top: 0;
+        border: 2px solid #dbdbdb;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
 }

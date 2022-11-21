@@ -173,7 +173,7 @@ td{
 
 .search_product {
     position: fixed;
-    z-index: 1020;
+    z-index: var(--z-index);
     overflow-y: auto;
     background-color: rgb(57 60 60 / 1.9);
     top: 0;

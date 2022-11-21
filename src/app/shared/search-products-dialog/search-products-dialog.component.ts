@@ -15,9 +15,8 @@ export class SearchProductsDialogComponent  {
   @Input() productsSelected: Map<number, any> = new Map<number, any>();
   @Input() optionTemplate: TemplateRef<any>;
   @Input() placeholder: string = "Buscador de producto";
-
+  dataForInit: boolean = false;
   constructor(private componentRef: CreateHostRef) {}
-
 
   products: Map<number, any> = new Map<number, any>();
   @Output() add: EventEmitter<any> = new EventEmitter<any>();

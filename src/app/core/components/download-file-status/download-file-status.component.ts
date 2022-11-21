@@ -1,20 +1,22 @@
 import { SharedService } from './../../../services/shared/shared.service';
 import { DownloadFileStatusService } from './../../services/download-file-status.service';
 import { Component, OnInit } from '@angular/core';
-import { CreateHostService } from '../../../shared/services/create-host.service';
 import { HttpClient, HttpEventType } from '@angular/common/http';
+import { CreateHostRef } from '../../../shared/class/create-host-ref';
+import { Subscription } from 'rxjs';
 
 export interface ItemDownload {
   id: any;
   url: string;
   name: string;
-  percent: number;
+  content: string;
   title: string
 }
 
 export interface ItemDownloadMetaData extends ItemDownload {
-  status: 'downloading' | 'completed' | 'error';
-  percent: 0;
+  status: 'downloading' | 'completed' | 'error' | 'canceled';
+  percent: number;
+  subscription?: Subscription
 }
 
 
@@ -25,24 +27,43 @@ export interface ItemDownloadMetaData extends ItemDownload {
 })
 export class DownloadFileStatusComponent implements OnInit {
 
-  listDownload: ItemDownloadMetaData[] = [];
-  constructor(private http: HttpClient, private dfs: DownloadFileStatusService, private host: CreateHostService) { }
+  listDownload: Map<number, ItemDownloadMetaData> = new Map<number, ItemDownloadMetaData>();
+  constructor(private chRef: CreateHostRef,private http: HttpClient, private dfs: DownloadFileStatusService) { }
 
   ngOnInit(): void {
-    this.dfs.$listDownload.subscribe((list: ItemDownload) => {
+    this.dfs.$listDownload.subscribe((list: ItemDownload | null) => {
+      if (!list || this.listDownload.has(list.id)) {
+        return;
+      }
       const item: ItemDownloadMetaData = {
         ...list,
         status: 'downloading',
-        percent: 0
+        percent: 0,
       }
-      this.listDownload.push(item);
-      this.download(list.url, item);
+      this.listDownload.set(item.id,item);
+      this.download(item);
     });
   }
 
-  download(url, item: ItemDownloadMetaData) {
+  resetDownload(id: number): void {
+    const item = this.listDownload.get(id);
+    if (item) {
+      item.status = 'downloading';
+      this.download(item);
+    }
+  }
+
+  cancelDownload(id: number): void {
+    const item = this.listDownload.get(id);
+    if (item) {
+      item.subscription?.unsubscribe();
+      this.listDownload.delete(id);
+    }
+  }
+
+  download(item: ItemDownloadMetaData) {
     SharedService.disabled_loader = true;
-    return this.http.get(url, {
+    item.subscription = this.http.get(item.url, {
       responseType: 'blob',
       reportProgress: true,
       observe: 'events'
@@ -53,7 +74,7 @@ export class DownloadFileStatusComponent implements OnInit {
         case HttpEventType.ResponseHeader:
           break;
         case HttpEventType.DownloadProgress:
-          // params.percent = Math.round(event.loaded / event.total * 100);
+          item.percent = Math.round(event.loaded / event.total * 100);
           break;
         case HttpEventType.Response:
           const blob = new Blob([event.body], { type: 'application/ms-Excel' });
@@ -62,17 +83,26 @@ export class DownloadFileStatusComponent implements OnInit {
           document.body.appendChild(a);
           a.setAttribute('style', 'display: none');
           a.href = urlDownload;
-          a.download = this.getNameFile(url);
+          a.download = this.getNameFile(item.url);
           a.click();
           window.URL.revokeObjectURL(urlDownload);
           a.remove();
+          item.status = 'completed';
+          setTimeout(() => {
+            this.listDownload.delete(item.id);
+          }, 2000);
         // options?.showSpinner &&  spinner?.close();
       }
     }, () => {
+      item.status = 'error';
       // options?.showSpinner && spinner.close();
     });
   }
   getNameFile(url) {
     return new URL(url).searchParams.get('file_name') || 'file_' + Date.now();
+  }
+
+  close(): void {
+    this.chRef.close();
   }
 }

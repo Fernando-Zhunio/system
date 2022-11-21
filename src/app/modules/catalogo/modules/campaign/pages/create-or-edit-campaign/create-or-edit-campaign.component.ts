@@ -50,7 +50,6 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
 
   ngAfterViewInit() {
     this.dpMin = new AirDatepicker(this.dpMinDateElement.nativeElement, {
-      classes: 'z-indez-1020',
       position: 'top right',
       locale: localeEs,
       timepicker: true,
@@ -65,7 +64,6 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
       }
     })
     this.dpMax = new AirDatepicker(this.dpMaxDateElement.nativeElement, {
-      classes: 'z-indez-1020',
       locale: localeEs,
       position: 'top right',
       timepicker: true,

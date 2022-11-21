@@ -80,7 +80,7 @@ td, th{
 
 .import-file-container {
     position: fixed;
-    z-index: 1020;
+    z-index: var(--z-index);
     background: rgb(116 113 113 / 35%);
     width: 100%;
     height: 100vh;

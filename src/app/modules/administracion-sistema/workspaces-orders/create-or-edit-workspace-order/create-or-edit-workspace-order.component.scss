@@ -7,7 +7,7 @@
 
 .search-template {
   position: fixed;
-  z-index: 1020;
+  z-index: var(--z-index);
   background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(3px);
   display: flex;

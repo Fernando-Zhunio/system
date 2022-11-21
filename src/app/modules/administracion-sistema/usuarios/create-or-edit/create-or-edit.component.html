@@ -1,7 +1,16 @@
 <div>
-  <button [routerLink]="['/administracion-sistema/personas/create']"  mat-raised-button class="btn-add-person mat-orange"><mat-icon>group_add</mat-icon> Agregar una persona</button>
+  <button
+    [routerLink]="['/administracion-sistema/personas/create']"
+    mat-raised-button
+    class="btn-add-person mat-orange">
+    <mat-icon>group_add</mat-icon>
+    Agregar una persona
+  </button>
   <h1 class="my-2 font-3xl">{{ title }}</h1>
-  <small *ngIf="status === 'create' && personCurrent?.user" class="text-danger">Cuidado esta persona ya posee un usuario si continua se cambiara de usuario a esta persona con email {{personCurrent?.user?.email}}</small>
+  <small *ngIf="status === 'create' && personCurrent?.user" class="text-danger">
+    Cuidado esta persona ya posee un usuario si continua se cambiara de usuario a esta persona con email
+    {{ personCurrent?.user?.email }}
+  </small>
   <div class="row">
     <div class="col-md-6">
       <mat-card>
@@ -38,7 +47,7 @@
       </mat-card>
     </div>
     <div class="col-md-6">
-      <mat-card class="position-relative h-100 overflow-hidden">
+      <mat-card class="search-people">
         <div>
           <div>
             <div class="d-flex justify-content-between align-items-center w-100">
@@ -49,7 +58,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="personCurrent;else templateNotPerson">
+        <div *ngIf="personCurrent; else templateNotPerson">
           <div class="d-flex">
             <img class="img-person" [src]="personCurrent?.photo?.permalink" />
             <div>
@@ -119,10 +128,35 @@
           </mat-card-content>
         </ng-template>
 
-        <div *ngIf="status === 'create'" [ngClass]="{ 'show-search-person': isSearchPerson }" class="main-style p-2 search-person-content">
-          <app-search (data)="getPeople($event)" placeholder="Buscador de personas" [url]="'admin/user/people'">
-            <div class="px-3" data style="height: calc(100% - 108px); overflow: auto">
-              <mat-card class="my-2" *ngFor="let person of people">
+        <div
+          *ngIf="status === 'create'"
+          [ngClass]="{ 'show-search-person': isSearchPerson }"
+          class="main-style p-2 search-person-content">
+          <app-search
+            styles="height: 100%"
+            classes="border-bottom"
+            (data)="getPeople($event)"
+            placeholder="Buscador de personas"
+            [url]="'admin/user/people'">
+            <div class="px-3 content-items" data>
+              <mat-list>
+                <mat-list-item *ngFor="let person of people">
+                  <img
+                    matListAvatar
+                    [src]="person?.photo?.permalink || urlLetter + person?.first_name"
+                    alt="foto de usuario" />
+                  <h3 mat-line>{{ person.first_name + " " + person.last_name }}</h3>
+                  <div mat-line>CI / Passport :{{ person.identification_number }}</div>
+                  <div mat-line>Cargo: {{ person.position?.name }}</div>
+                  <div mat-line>
+                    <button mat-button color="primary" (click)="selectedPerson(person.id)">
+                      <mat-icon>done</mat-icon>
+                      Seleccionar
+                    </button>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+              <!-- <mat-card class="my-2" *ngFor="let person of people">
                 <div>
                   <div class="d-flex">
                     <img class="img-person" [src]="person?.photo?.permalink" />
@@ -139,7 +173,7 @@
                     Seleccionar
                   </button>
                 </mat-card-actions>
-              </mat-card>
+              </mat-card> -->
             </div>
             <ng-container inputBtn>
               <button (click)="isSearchPerson = false" class="btn-default"><i class="fas fa-times"></i></button>

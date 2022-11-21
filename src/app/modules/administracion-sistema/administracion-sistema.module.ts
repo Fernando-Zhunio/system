@@ -69,6 +69,7 @@ import { CreateOrEditPositionComponent } from './companies/departments/positions
 import { CitiesIndexComponent } from './paises/cities/cities-index/cities-index.component';
 import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/index-with-mat-table.module';
 import { SearchesModule } from '../../Modulos/searches/searches.module';
+import { MatListModule } from '@angular/material/list';
 @NgModule({
     declarations: [
         CreateEmailModalComponent,
@@ -78,8 +79,6 @@ import { SearchesModule } from '../../Modulos/searches/searches.module';
         CreateOrEditRolesComponent,
         PaisesComponent,
         CreateOrEditCountryComponent,
-        // LocacionesComponent,
-        // CreateOrEditLocationComponent,
         PersonasComponent,
         PersonComponent,
         CreateOrEditPersonComponent,
@@ -144,6 +143,7 @@ import { SearchesModule } from '../../Modulos/searches/searches.module';
         IndexWithMatTableModule,
 
         SearchesModule,
+        MatListModule
         // SearchTemplateModule
     ]
 })

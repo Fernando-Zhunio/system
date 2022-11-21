@@ -77,7 +77,7 @@ button {
 
 .sidebar1 {
   position: fixed;
-  z-index: 1019;
+  z-index: var(--z-index);
   height: 100vh;
   height: calc(100vh - 55px);
   top: 55px;
@@ -97,7 +97,7 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1020;
+  z-index: var(--z-index);
   width: 100%;
 }
 

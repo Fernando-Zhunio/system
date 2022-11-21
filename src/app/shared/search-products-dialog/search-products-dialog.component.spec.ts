@@ -1,31 +1,64 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogProductsService } from '../../services/dialog-products.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from '../../../environments/environment';
+import { MOCK_PRODUCTS } from '../../core/mocks/services/products.mock';
+import { SearchesModule } from '../../Modulos/searches/searches.module';
+import { MethodsHttpService } from '../../services/methods-http.service';
+// import { DialogProductsService } from '../../services/dialog-products.service';
+import { CreateHostRef } from '../class/create-host-ref';
 import { SearchProductsDialogComponent } from './search-products-dialog.component';
 
 describe('SearchProductsDialogComponent', () => {
     let component: SearchProductsDialogComponent;
     let fixture: ComponentFixture<SearchProductsDialogComponent>;
     let compiled: any;
+    let httpMock: HttpTestingController;
+    let injector: TestBed;
     beforeEach((() => {
         TestBed.configureTestingModule({
             declarations: [SearchProductsDialogComponent],
             imports: [
                 MatIconModule,
                 MatButtonModule,
+                BrowserAnimationsModule,
+                SearchesModule,
+                HttpClientTestingModule
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            providers: [{
-                provide: DialogProductsService, useClass: class fer {
-                    close(data:any = null) {
-                        return 'der' || data.data?.get(10).id;
+            providers: [
+                // {
+                //     provide: DialogProductsService, useClass: class fer {
+                //         close(data: any = null) {
+                //             return 'der' || data.data?.get(10).id;
+                //         }
+                //     },
+                // },
+                {
+                    provide: CreateHostRef,
+                    useClass: class fer {
+                        createComponent() {
+                            return 'der';
+                        }
+                        close(data) {
+                            return data.data.onlyOne;
+                        }
+                    }
+                },
+                {
+                    provide: MethodsHttpService,
+                    useClass: class fer {
+                        get() {
+                            return ;
+                        }
                     }
                 }
-            }],
+            ],
         })
             .compileComponents();
     }));
@@ -36,6 +69,8 @@ describe('SearchProductsDialogComponent', () => {
         component.getData(MockDataProducts);
         fixture.detectChanges();
         compiled = fixture.nativeElement;
+        component.products = new Map(MockDataProducts.data.map((item: any) => [item.id, item]));
+        httpMock = injector.get(HttpTestingController);
     });
 
     it('Creacion de componente', () => {
@@ -43,20 +78,20 @@ describe('SearchProductsDialogComponent', () => {
     });
 
     it('Probando la funcion de cerrado - close', () => {
-        spyOn<any>(component['dialogService'], 'close');
+        spyOn<any>(component['componentRef'], 'close');
         component.productsSelected.set(10, MockDataProducts.data[0]);
         component.close();
-        expect(component['dialogService'].close)
-        .toHaveBeenCalledWith({data: component.productsSelected});
+        expect(component['componentRef'].close)
+            .toHaveBeenCalledWith({ data: component.productsSelected });
     });
 
     it('Probando la funcion de cerrado con onlyone - close', () => {
-        spyOn<any>(component['dialogService'], 'close');
+        spyOn<any>(component['componentRef'], 'close');
         component.productsSelected.set(10, MockDataProducts.data[0]);
         component.onlyOne = true;
-        component.close();
-        expect(component['dialogService'].close)
-        .toHaveBeenCalledWith({data: [...component.productsSelected][0][1]});
+        component.addProduct(1);
+        expect(component['componentRef'].close).toHaveBeenCalled();
+        // .toHaveBeenCalledWith({ data: [...component.productsSelected][0][1] });
     });
 
     it('probando la funcion removeProduct', () => {
@@ -74,26 +109,14 @@ describe('SearchProductsDialogComponent', () => {
         expect(component.products.size).toEqual(MockDataProducts.data.length);
     });
 
-    it('agregando seleccion de productos - AddProduct', () => {
-        spyOn(component.add, 'emit');
-        const btn = compiled.querySelector('[data-test=add-product]');
-        btn?.dispatchEvent(new Event('click'));
-        expect(component.productsSelected.size).toEqual(1);
-        expect(component.add.emit).toHaveBeenCalled();
+    it('probando la traida de datos', () => {
+        component.url = 'products';
+        component.dataForInit = true;
+        const req = httpMock.expectOne(`${environment.server}/products`);
+        expect(req.request.method).toBe("GET");
+        req.flush(MOCK_PRODUCTS);
+
     })
-
-    it('agregando seleccion de productos solo uno - AddProduct with OnlyOne', () => {
-        component.onlyOne = true;
-        spyOn(component.add, 'emit');
-        spyOn(component, 'close');
-        const btn = compiled.querySelector('[data-test=add-product]');
-        btn?.dispatchEvent(new Event('click'));
-        expect(component.productsSelected.size).toEqual(1);
-        expect(component.close).toHaveBeenCalled();
-        expect(component.add.emit).not.toHaveBeenCalled();
-    })
-
-
 
 });
 

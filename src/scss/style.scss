@@ -12,6 +12,7 @@
 
 :root {
   --max-height-noty: 80vh;
+  --z-index: 1000;
 }
 
 mat-card {
@@ -36,6 +37,10 @@ td {
 .mat-table td, .mat-table th {
   max-width: 180px;
   padding: 0 10px !important;
+}
+
+.fw-bold {
+  font-weight: bold !important;
 }
 
 
@@ -116,16 +121,20 @@ canvas {
   margin: auto;
 }
 
+.air-datepicker-global-container{
+  z-index: var(--z-index);
+}
+
 // .mat-form-field {
 //   line-height: 1.3;
 // }
 
-.cdk-overlay-container {
-  z-index: 1020;
-}
+// .cdk-overlay-container {
+//   z-index: var(--z-index);
+// }
 
-.z-indez-1020 {
-  z-index: 1020;
+.z-index {
+  z-index: var(--z-index);
 }
 
 // button {
@@ -305,6 +314,7 @@ canvas {
     font-weight: bold;
   }
 }
+
 .custom-menu-notification {
   max-height: var(--max-height-noty) !important;
   padding: 5px !important;
