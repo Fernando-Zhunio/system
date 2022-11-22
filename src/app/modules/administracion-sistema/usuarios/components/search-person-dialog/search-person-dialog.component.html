@@ -1,0 +1,14 @@
+<app-search-products-dialog placeholder="Buscador de persona" [onlyOne]="true" [optionTemplate]="optionTemplate" [url]="'admin/user/people'"></app-search-products-dialog>
+
+<ng-template let-person #optionTemplate>
+  <div class="d-flex align-items-center">
+    <span class="mr-2">
+      <img width="50" height="50" class="rounded-circle" [src]="person.value?.photo?.permalink || urlLetter + person.value?.first_name" alt="" />
+    </span>
+    <div>
+      <h3 class="m-0 text-uppercase text-primary">{{ person.value.first_name + " " + person.value.last_name }}</h3>
+      <div>CI / Passport :{{ person.value.identification_number }}</div>
+      <div>Cargo: {{ person.value.position?.name }}</div>
+    </div>
+  </div>
+</ng-template>

@@ -2,58 +2,84 @@
   <button
     [routerLink]="['/administracion-sistema/personas/create']"
     mat-raised-button
-    class="btn-add-person mat-orange">
-    <mat-icon>group_add</mat-icon>
+    color="accent"
+    class="btn-add-person">
+    <i class="fa-solid fa-person-circle-plus"></i>
     Agregar una persona
   </button>
-  <h1 class="my-2 font-3xl">{{ title }}</h1>
+  <h1 class="fw-bold mat-display-1 my-3">{{ title }}</h1>
   <small *ngIf="status === 'create' && personCurrent?.user" class="text-danger">
     Cuidado esta persona ya posee un usuario si continua se cambiara de usuario a esta persona con email
     {{ personCurrent?.user?.email }}
   </small>
-  <div class="row">
-    <div class="col-md-6">
+  <div>
+    <div>
       <mat-card>
-        <mat-card-header>
-          <mat-card-title>Formulario de usuario</mat-card-title>
-        </mat-card-header>
         <mat-card-content>
-          <form [formGroup]="form">
-            <mat-form-field class="col-12">
-              <mat-select placeholder="Correo electrónico" formControlName="email">
-                <mat-option *ngFor="let email of emails" [value]="email">
-                  {{ email }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="col-12">
-              <input matInput placeholder="Contraseña" formControlName="password" />
-            </mat-form-field>
+          <form class="row" [formGroup]="form">
+            <div class="col-md-6">
+              <mat-card-header>
+                <mat-card-title>Formulario de usuario</mat-card-title>
+              </mat-card-header>
+              <mat-form-field class="col-12">
+                <mat-select placeholder="Correo electrónico" formControlName="email">
+                  <mat-option *ngFor="let email of emails" [value]="email">
+                    {{ email }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="col-12">
+                <input matInput placeholder="Contraseña" formControlName="password" />
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-card-header>
+                <mat-card-title>Selector de Persona <button color="accent" (click)="openSearchPerson()" mat-button><i class="fa-solid fa-magnifying-glass"></i> Buscar persona</button></mat-card-title>
+              </mat-card-header>
+              <div class="d-flex p-3 rounded-fz shadow" *ngIf="personCurrent; else notPerson">
+                <div>
+                  <img width="40" height="40" class="rounded-circle mr-2" [src]="personCurrent?.photo?.permalink || urlLetter + personCurrent?.first_name" alt="">
+                </div>
+                <div>
+                  <h3 class="font-2xl font-weight-bold m-0 mb-1">{{personCurrent.first_name}}</h3>
+                  <div>CI / Passport :{{ personCurrent.identification_number }}</div>
+                  <div>Cargo: {{ personCurrent.position?.name }}</div>
+                </div>
+              </div>
+              <ng-template #notPerson>
+                <div class="text-danger">
+                  No se ha seleccionado una persona, seleccione para poder continuar
+                </div>
+              </ng-template>
+              
+            </div>
           </form>
           <div class="mat-form-padding">
             <span>Roles:</span>
             <span class="example-list-section">
-              <ul class="row">
-                <li class="col-md-6" *ngFor="let rol of roles">
-                  <mat-checkbox [(ngModel)]="rol.checked">
-                    {{ rol.name }}
-                  </mat-checkbox>
+              <ul>
+                <li [ngClass]="checked.checked ? 'badge-active': 'badge-desactive'" class="d-inline-block  rounded-pill px-3 py-2 m-1" *ngFor="let rol of roles">
+                  <span class="d-flex align-items-center">
+                    <mat-checkbox #checked [(ngModel)]="rol.checked">
+                      <span>{{ rol.name }}</span>
+                    </mat-checkbox>
+                  </span>
                 </li>
               </ul>
             </span>
           </div>
-          <button mat-raised-button color="primary" (click)="saveInServer()">Guardar</button>
+          <button mat-raised-button color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="col-md-6">
+  <!--   <div class="col-md-6">
       <mat-card class="search-people">
         <div>
           <div>
             <div class="d-flex justify-content-between align-items-center w-100">
               <span class="font-2xl">Persona selecciona</span>
-              <button *ngIf="status === 'create'" color="accent" (click)="isSearchPerson = true" mat-icon-button>
-                <mat-icon>search</mat-icon>
+              <button *ngIf="status === 'create'" color="accent" (click)="openSearchPerson()" mat-icon-button>
+                <i class="fa-solid fa-magnifying-glass"></i>
               </button>
             </div>
           </div>
@@ -132,14 +158,14 @@
           *ngIf="status === 'create'"
           [ngClass]="{ 'show-search-person': isSearchPerson }"
           class="main-style p-2 search-person-content">
-          <app-search
+         <app-search
             styles="height: 100%"
             classes="border-bottom"
             (data)="getPeople($event)"
             placeholder="Buscador de personas"
             [url]="'admin/user/people'">
             <div class="px-3 content-items" data>
-              <mat-list>
+               <mat-list>
                 <mat-list-item *ngFor="let person of people">
                   <img
                     matListAvatar
@@ -155,7 +181,7 @@
                     </button>
                   </div>
                 </mat-list-item>
-              </mat-list>
+              </mat-list> -->
               <!-- <mat-card class="my-2" *ngFor="let person of people">
                 <div>
                   <div class="d-flex">
@@ -173,14 +199,14 @@
                     Seleccionar
                   </button>
                 </mat-card-actions>
-              </mat-card> -->
+              </mat-card> 
             </div>
             <ng-container inputBtn>
-              <button (click)="isSearchPerson = false" class="btn-default"><i class="fas fa-times"></i></button>
+              <button (click)="openSearchPerson()" class="btn-default"><i class="fas fa-times"></i></button>
             </ng-container>
           </app-search>
         </div>
       </mat-card>
-    </div>
+    </div>-->
   </div>
 </div>

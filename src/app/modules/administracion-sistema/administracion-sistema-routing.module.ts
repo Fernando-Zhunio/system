@@ -1,8 +1,6 @@
 import {  NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { UsuariosComponent } from './usuarios/usuarios.component';
-import { CreateOrEditComponent } from './usuarios/create-or-edit/create-or-edit.component';
 import { RolesComponent } from './roles/roles.component';
 import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
 import { PaisesComponent } from './paises/paises.component';
@@ -26,14 +24,6 @@ import { CreateOrEditPositionComponent } from './companies/departments/positions
 import { CitiesIndexComponent } from './paises/cities/cities-index/cities-index.component';
 
 const permission_module_AD = {
-  usuarios: {
-    index: ['super-admin', 'admin.users.index'],
-    show: ['super-admin', 'admin.users.show'],
-    create: ['super-admin', 'admin.users.create'],
-    edit: ['super-admin', 'admin.users.edit'],
-    delete: ['super-admin', 'admin.users.destroy'],
-  },
-
   roles: {
     index: ['super-admin', 'admin.roles.index'],
     show: ['super-admin', 'admin.roles.show'],
@@ -121,47 +111,7 @@ const routes: Routes = [
   // usuarios
   {
     path: 'usuarios',
-    children: [
-      {
-        path: '',
-        component: UsuariosComponent,
-        data: {
-          permissions: {
-            only: permission_module_AD.usuarios.index,
-            all: permission_module_AD.usuarios,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'create',
-        component: CreateOrEditComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: permission_module_AD.usuarios.create,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'edit/:id',
-        component: CreateOrEditComponent,
-        data: {
-          isEdit: true,
-          permissions: {
-            only: permission_module_AD.usuarios.edit,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-    ],
-    data: {
-      permissions: {
-        only: permission_module_AD.usuarios.index,
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
+    loadChildren: () => import('./usuarios/users.module').then(m => m.UsersModule),
   },
   // personas
   {

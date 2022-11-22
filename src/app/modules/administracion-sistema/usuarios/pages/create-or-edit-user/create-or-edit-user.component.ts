@@ -3,12 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Cperson } from '../../../../class/cperson';
-import { CreateOrEdit2 } from '../../../../class/create-or-edit-2';
-import { LINK_IMAGE_LETTER } from '../../../../class/fast-data';
-import { MethodsHttpService } from '../../../../services/methods-http.service';
-import { SwalService } from '../../../../services/swal.service';
+// import { NgxSpinnerService } from 'ngx-spinner';
+import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
+import { LINK_IMAGE_LETTER } from '../../../../../class/fast-data';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { SwalService } from '../../../../../services/swal.service';
+import { CreateHostService } from '../../../../../shared/services/create-host.service';
+import { SearchPersonDialogComponent } from '../../components/search-person-dialog/search-person-dialog.component';
+import { Person } from '../../interfaces/user';
 
 export interface Task {
   name: string;
@@ -18,35 +20,33 @@ export interface Task {
 }
 @Component({
   selector: 'app-create-or-edit',
-  templateUrl: './create-or-edit.component.html',
-  styleUrls: ['./create-or-edit.component.scss'],
+  templateUrl: './create-or-edit-user.component.html',
+  styleUrls: ['./create-or-edit-user.component.scss'],
 })
-export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit {
+export class CreateOrEditUserComponent extends CreateOrEdit2<any> implements OnInit {
   public title: string = 'Usuario - ';
   public urlSave: any = '';
   constructor(
     public methodsHttp: MethodsHttpService,
     public act_router: ActivatedRoute,
-    private ngx_spinner: NgxSpinnerService,
+    // private ngx_spinner: NgxSpinnerService,
     public router: Router,
     public override location: Location,
+    private chs: CreateHostService
   ) {
     super();
   }
 
-  // hide: boolean = true;
-  // regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
-  search_person: string = '';
-  people: Cperson[] = [];
-  personCurrent: Cperson | null = null;
-  isloadPersons: boolean = false;
+  // search_person: string = '';
+  personCurrent: Person | null = null;
+  // isloadPersons: boolean = false;
   override form: FormGroup = new FormGroup({
     password: new FormControl(''),
     email: new FormControl(null, [Validators.required, Validators.email]),
   });
   roles: any[] = [];
   emails: string[] = [];
-  isSearchPerson = false;
+  // isSearchPerson = false;
   urlLetter = LINK_IMAGE_LETTER
 
   ngOnInit(): void {
@@ -56,16 +56,23 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
   override loaderDataForCreate(): void {
     this.methodsHttp.methodGet('admin/users/create').subscribe((response) => {
       this.assignData(response.data.roles);
-      this.ngx_spinner.hide();
+      // this.ngx_spinner.hide();
     });
   }
 
-  getPeople($event): void {
-    this.people = $event.data;
+  // getPeople($event): void {
+  //   this.people = $event.data;
+  // }
+
+  openSearchPerson(): void {
+    this.chs.injectComponent(SearchPersonDialogComponent).beforeClose().subscribe((res) => {
+      if (res) {
+        this.selectedPerson(res.data);
+      }
+    });
   }
 
-  selectedPerson(id): void {
-    const person = this.people.find((x) => x.id == id);
+  selectedPerson(person: Person): void {
     if (person) {
       const emails = person.contact_info.filter((x) => x.type == 'corp_email');
       if (emails.length > 0) {
@@ -81,7 +88,6 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
           }
         });
       }
-      this.isSearchPerson = false;
     }
   }
 
@@ -107,10 +113,9 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
       if (this.status == 'create') {
         data['person_id'] = this.personCurrent?.id;
       }
-
       return data;
     } else {
-      SwalService.swalFire({ text: 'Faltan datos', icon: 'warning' });
+      SwalService.swalFire({ text: 'Faltan datos por completar', icon: 'warning' });
       return null;
     }
   }
@@ -150,7 +155,6 @@ export class CreateOrEditComponent extends CreateOrEdit2<any> implements OnInit 
 
     }
   }
-
 
   override go() {
     // SwalService.swalFire({ title: 'Usuario creado', icon: 'success' });

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsuariosComponent } from './usuarios/usuarios.component';
 import {  AdminSystemRoutingModule } from './administracion-sistema-routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +9,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatCardModule } from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CreateOrEditComponent } from './usuarios/create-or-edit/create-or-edit.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -73,8 +71,6 @@ import { MatListModule } from '@angular/material/list';
 @NgModule({
     declarations: [
         CreateEmailModalComponent,
-        UsuariosComponent,
-        CreateOrEditComponent,
         RolesComponent,
         CreateOrEditRolesComponent,
         PaisesComponent,

@@ -145,8 +145,8 @@ export class PricesIndexComponent
   }
 
   openSearchImportDialog(): void {
-    this.chs.injectComponent(SearchImportDialogComponent)
-      .beforeClose().subscribe((res: { data: Import }) => {
+    this.chs.injectComponent<Import>(SearchImportDialogComponent)
+      .beforeClose().subscribe((res) => {
         if (res?.data) {
           console.log(res.data);
           this.setFormImport(res.data)

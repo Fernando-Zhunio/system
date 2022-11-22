@@ -124,10 +124,9 @@ export class CreateOrEditPricesButtonSheetComponent implements OnInit {
   }
 
   openSearchImportDialog(): void {
-    this.chs.injectComponent(SearchImportDialogComponent)
-    .beforeClose().subscribe((res: {data:Import}) => {
+    this.chs.injectComponent<Import>(SearchImportDialogComponent)
+    .beforeClose().subscribe((res) => {
       if (res?.data) {
-        console.log(res.data);
         this.setInputImport(res.data);
       }
     });

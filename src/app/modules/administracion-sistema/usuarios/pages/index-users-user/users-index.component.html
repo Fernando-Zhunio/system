@@ -1,11 +1,6 @@
-<div class="mt-4">
-  <!-- <h2 class="font-5xl pl-1 font-facebook list-group-item-accent-warning">Usuarios</h2>
-  <app-header-search [placeholder]="'Escriba el usuario a buscar'" (isLoading)="isLoading = $event"
-    [url]="'admin/users'" (products)="loadData($event)">
-  </app-header-search> -->
-
-  <app-search-template [title]="'Usuarios'" columns="1" placeholder="Buscar usuarios" [url$]="'admin/users'" (data)="loadData($event)">
-    <ng-container data>
+<div>
+  <app-search-template-table [title]="'Usuarios'" columns="1" placeholder="Buscar usuarios" [url$]="'admin/users'" (data)="loadData($event)">
+    <ng-container table>
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
@@ -33,7 +28,7 @@
         <!-- Weight Column -->
         <ng-container matColumnDef="roles">
           <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.roles[0]?.name}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{element.roles | join}} </mat-cell>
         </ng-container>
 
         <!-- Symbol Column -->
@@ -46,13 +41,13 @@
         <ng-container matColumnDef="acciones">
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let element;let ind = index">
-            <button *ngxPermissionsOnly="permission_edit" mat-icon-button color="primary"
+            <button *ngxPermissionsOnly="permission_edit" mat-icon-button color="accent"
               [routerLink]="['./edit',element.id]">
-              <mat-icon>edit</mat-icon>
+              <i class="fa-solid fa-pen"></i>
             </button>
             <button mat-icon-button color="warn" *ngxPermissionsOnly="permission_destroy"
               (click)="deleteItem(element.id)">
-              <mat-icon>delete</mat-icon>
+              <i class="fa-solid fa-trash"></i>
             </button>
           </mat-cell>
         </ng-container>
@@ -89,15 +84,8 @@
     </ng-container>
     <ng-container menuBar *ngxPermissionsOnly="permission_create">
       <mat-chip [routerLink]="['./create']" class="mat-btn-add ml-1">
-        <mat-icon>person_add_alt</mat-icon> Agregar usuario
+        <i class="fa-solid fa-user-plus"></i> Agregar usuario
       </mat-chip>
     </ng-container>
-  </app-search-template>
-  <!-- <mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)"
-    showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
-    [pageIndex]="paginator.current_page-1"></mat-paginator>
-  <button *ngxPermissionsOnly="permission_create" mat-fab style="position: fixed;bottom: 10px;right: 10px;"
-    [routerLink]="['./create']">
-    <mat-icon>add</mat-icon>
-  </button> -->
+  </app-search-template-table>
 </div>

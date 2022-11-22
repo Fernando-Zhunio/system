@@ -24,7 +24,7 @@ export class CreateHostService {
     this.createHostDirective = createHostDirective;
   }
 
-  injectComponent(component: any, data: DataComponent | null = null, _multi: boolean = true, customHost: CreateHostDirective | null = null) {
+  injectComponent<T = any>(component: any, data: DataComponent | null = null, _multi: boolean = true, customHost: CreateHostDirective | null = null) {
     const host: CreateHostDirective = customHost ?? this.createHostDirective;
      const {id, componentRef} = this.createComponent(component, host, data);
     return {
@@ -32,7 +32,7 @@ export class CreateHostService {
       close: () => {
         this.close(id);
       },
-      beforeClose: (): Observable<any> => {
+      beforeClose: (): Observable<{data:T} | null> => {
         return this.componentRefMap.get(id)!.beforeClose.pipe(take(1));
       }
     }

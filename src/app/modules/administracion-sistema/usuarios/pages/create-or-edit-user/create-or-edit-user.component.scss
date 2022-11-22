@@ -1,0 +1,31 @@
+ul {
+    list-style-type: none;
+    margin-top: 4px;
+}
+
+.badge-active {
+    background-color: #28a4dd27;
+    color: #28a4dd;
+}
+.badge-desactive {
+    background-color: #9c989927;
+}
+
+:host::ng-deep label {
+  margin: 0;
+}
+
+.btn-add-person {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: var(--z-index);
+}
+
+
+
+
+
+
+
+
