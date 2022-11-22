@@ -1,5 +1,5 @@
 # docker image
-image: getterminus/angular-ci-images:14-latest
+image: node:14.21-buster-slim
 
 .init_ssh: &init_ssh |
   eval $(ssh-agent -s)
