@@ -20,7 +20,7 @@ npm:
     paths:
       - node_modules/
   script:
-      - apt-get update -y
+      - apt-get update --force-yes
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
       - apt-get install git
       - npm install
@@ -84,7 +84,7 @@ staging:
     # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
     - npm i -g @angular/cli
     - ng b --configuration staging
-    - apt-get update -y
+    - apt-get update --force-yes
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
     - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
