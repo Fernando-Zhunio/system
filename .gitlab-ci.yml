@@ -21,7 +21,6 @@ npm:
       - node_modules/
   script:
       - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
-      - apt-get install git
       - npm install
   artifacts:
     expire_in: 1 month
