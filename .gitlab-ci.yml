@@ -34,13 +34,13 @@ npm:
 #   stage: test
 #   dependencies:
 #     - npm
-    before_script:
-      - apt-get update --force-yes
-      - apt-get install git -y
-      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - apt-get install ./google-chrome*.deb -y
-      - export CHROME_BIN=/usr/bin/google-chrome
-      - npm install
+    # before_script:
+    #   - apt-get update --force-yes
+    #   - apt-get install git -y
+    #   - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    #   - apt-get install ./google-chrome*.deb -y
+    #   - export CHROME_BIN=/usr/bin/google-chrome
+    #   - npm install
 #   script:
 #     - cp karma.staging.conf.js  karma.conf.js
 #     - npm i -g @angular/cli
