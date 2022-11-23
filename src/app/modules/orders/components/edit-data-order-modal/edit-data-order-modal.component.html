@@ -37,6 +37,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button color="warn" [disabled]="isLoading" matDialogClose>Cerrar</button>
-  <button mat-button color="primary" [disabled]="isLoading" (click)="onSubmit()">Guardar</button>
+  <button mat-raised-button color="warn" [disabled]="isLoading" matDialogClose>Cerrar <i class="fa-solid fa-xmark"></i></button>
+  <button mat-raised-button color="primary" [disabled]="isLoading" (click)="onSubmit()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
 </mat-dialog-actions>

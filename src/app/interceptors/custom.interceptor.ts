@@ -44,7 +44,7 @@ export class CustomInterceptor implements HttpInterceptor {
       catchError((err) => {
         this.snackBar.dismiss();
         if (err.status === 401 || err.status === 403) { this.sa.logout(); }
-        const message = this.getStatusMessage(err.status, err.error?.data);
+        const message = this.getStatusMessage(err.status, err.error?.message);
         SwalService.swalToast(message, 'warning')
         return throwError(err);
       })
@@ -74,7 +74,6 @@ export class CustomInterceptor implements HttpInterceptor {
   }
 
   getStatusMessage(status: number, message?: any) {
-    console.log(message);
     const statusMessage = {
       400: 'Error de validación',
       401: 'No autenticado',

@@ -47,7 +47,6 @@ export class EditDataOrderModalComponent implements OnInit {
   }
 
   getDataPerForm(): void {
-
     const url = `system-orders/orders/create`;
     this.methodsHttp.methodGet(url).subscribe((res: any) => {
       if (res?.success) {
@@ -68,6 +67,8 @@ export class EditDataOrderModalComponent implements OnInit {
         if (res?.success) {
           this.dialogRef.close({ success: true });
         }
+      }, () => {
+        this.isLoading = false;
       })
     }
   }

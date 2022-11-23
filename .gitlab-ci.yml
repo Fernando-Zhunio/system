@@ -74,12 +74,14 @@ production:
   cache:
     paths:
       - dist/
-  script:
-    - *init_ssh
-    - npm i -g @angular/cli
-    - ng b --configuration production
+  before_script:
     - apt-get update
     - apt-get install -y zip unzip
+  script:
+    - *init_ssh
+    # - npm i -g @angular/cli
+    # - ng b --configuration production
+    - npm run build
     - cd ./dist && zip -r ./app.zip .
     - scp ./app.zip root@104.207.144.7:/var/www/system.novicompu.com/
     - currentDate=`date '+%F %T'`

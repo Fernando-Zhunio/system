@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { PERMISSION_CAMPAIGNS } from '../../../../../../class/permissions-modules';
@@ -15,7 +15,7 @@ import { getDurationPromotionArray, getStatusesPromotionArray, PROMOTION_STATUS_
   templateUrl: './promotions-index.component.html',
   styleUrls: ['./promotions-index.component.scss']
 })
-export class PromotionsIndexComponent extends MatTableHelper<Promotion> implements OnInit  {
+export class PromotionsIndexComponent extends MatTableHelper<Promotion> implements OnInit, AfterViewInit  {
   protected columnsToDisplay: string[] = [
     'id', 'created_at', 'status', 'title', 'price_formated', 'products', 'duration_type', 'description', 'campaign'];
   @ViewChild(MatTable) table: MatTable<Promotion>;
@@ -32,7 +32,6 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
     'campaigns[]': []
   }
 
-
   statuses: string[] = [];
   durations: string[] = [];
 
@@ -40,13 +39,20 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
     super();
   }
   ngOnInit(): void {
-    this.nps.hasPermission(this.permissions.edit).then((res: boolean) => {
-      if (res) {
-        this.columnsToDisplay.push('actions');
-      }
-    })
     this.statuses = getStatusesPromotionArray();
     this.durations = getDurationPromotionArray();
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.nps.hasPermission(this.permissions.edit).then((res: boolean) => {
+      if (res) {
+        setTimeout(() => {
+          this.columnsToDisplay.push('actions');
+        }, 2000);
+      }
+    })
   }
 
   removeProduct(id: number) {

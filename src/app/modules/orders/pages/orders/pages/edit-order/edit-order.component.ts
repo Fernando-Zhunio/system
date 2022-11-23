@@ -91,7 +91,6 @@ export class EditOrderComponent implements OnInit, OnDestroy {
           this.metaDataTransference = data.data?.order.additional_data?.transfers_status;
           this.withTiming();
           this.fillData();
-          // this.spinner.hide();
           this.detailClient = [
             ['Ciudad', this.order?.client?.city],
             ['País', this.order?.client?.country],
@@ -292,7 +291,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
   }
 
-  editDataOrder(): void {
+  openEditDataOrder(): void {
     this.dialog.open(EditDataOrderModalComponent, {
       data: {
         order_id: this.order.id,
