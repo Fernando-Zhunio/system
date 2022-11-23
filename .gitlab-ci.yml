@@ -1,5 +1,5 @@
 # docker image
-image: node:14.21-buster-slim
+image: node:16.14.2-bullseye
 
 .init_ssh: &init_ssh |
   eval $(ssh-agent -s)
@@ -34,59 +34,33 @@ npm:
 #   stage: test
 #   dependencies:
 #     - npm
+    before_script:
+      - apt-get update --force-yes
+      - apt-get install git -y
+      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      - apt-get install ./google-chrome*.deb -y
+      - export CHROME_BIN=/usr/bin/google-chrome
+      - npm install
 #   script:
 #     - cp karma.staging.conf.js  karma.conf.js
 #     - npm i -g @angular/cli
 #     - npm run test -- --not-watch --browsers=ChromeHeadlessCI
-
-
-# staging_build:
-#   stage: build
-#   cache:
-#     paths:
-#       - dist/
-#   script:
-
-#     - npm
-#   artifacts:
-#     expire_in: 1 month
-#     paths:
-#       - node_modules/
-#       - dist/
-
-#   only:
-#     - master
-
-# production_build:
-#   stage: build
-#   cache:
-#     paths:
-#       - dist/
-#   script:
-
-#   dependencies:
-#     - npm
-#   artifacts:
-#     expire_in: 1 month
-#     paths:
-#       - node_modules/
-#       - dist/
-#   only:
-#     - master
 
 staging:
   stage: deploy
   cache:
     paths:
       - dist/
+  before_script:
+    - apt-get update --force-yes
+    - apt-get install -y zip unzip
+
   script:
     - *init_ssh
     # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
     # - npm i -g @angular/cli
     # - ng b --configuration staging
     - npm run "build:staging"
-    - apt-get update --force-yes
-    - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
     - scp ./app.zip root@104.207.144.7:/var/www/staging-system.novicompu.com/
     - currentDate=`date '+%F %T'`
