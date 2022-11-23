@@ -20,7 +20,8 @@
     "ng": "ng",
     "postinstall": "ngcc --properties es2015 browser module main --first-only",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build --configuration production --aot --buildOptimizer --commonChunk --vendorChunk --optimization --progress",
+    "build": "ng build --configuration production --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress",
+    "build:staging": "ng build --configuration staging --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

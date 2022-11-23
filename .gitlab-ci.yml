@@ -21,14 +21,14 @@ npm:
       - node_modules/
   script:
       - apt-get update --force-yes
-      - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
+      # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
       - apt-get install git -y
       - npm install
   artifacts:
     expire_in: 1 month
     paths:
       - node_modules/
-      - ./src/environments/environment.ts
+      # - ./src/environments/environment.ts
 
 # jasmine:
 #   stage: test
@@ -37,7 +37,7 @@ npm:
 #   script:
 #     - cp karma.staging.conf.js  karma.conf.js
 #     - npm i -g @angular/cli
-#     - npm test
+#     - npm run test -- --not-watch --browsers=ChromeHeadlessCI
 
 
 # staging_build:
@@ -82,8 +82,9 @@ staging:
   script:
     - *init_ssh
     # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
-    - npm i -g @angular/cli
-    - ng b --configuration staging
+    # - npm i -g @angular/cli
+    # - ng b --configuration staging
+    - npm run "build:staging"
     - apt-get update --force-yes
     - apt-get install -y zip unzip
     - cd ./dist && zip -r ./app.zip .
