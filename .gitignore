@@ -48,7 +48,7 @@ testem.log
 Thumbs.db
 *.zip
 # angular.json
-src/environments/environment.ts
+# src/environments/environment.ts
 # karma.conf.js
 
 _test_*.*
