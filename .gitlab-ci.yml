@@ -23,7 +23,7 @@ npm:
       - apt-get update --force-yes
       # - cp ./src/environments/environment.staging.ts  ./src/environments/environment.ts
       - apt-get install git -y
-      - npm install
+      - npm install --force
   artifacts:
     expire_in: 1 month
     paths:
