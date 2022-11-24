@@ -30,17 +30,18 @@
       <mat-card-content>
         <div>
           <div class="info-prices">
+            <small class="label-info-prices mat-card shadow-none">Hace 15 días en ventas</small>
             <span class="badge-fz">
-             <span>Ultimas unidades vendidas:</span> {{p.last_sold_count}}
+             <span>Unidades:</span> {{p.last_sold_count}}
             </span>
             <span class="badge-fz">
-              <span>Ultimo precio de venta:</span> ${{p.last_price_sold}}
+              <span>Último Precio:</span> ${{p.last_price_sold}}
              </span>
              <span class="badge-fz">
-              <span>Mínimo precio de vendido:</span> ${{p.min_price_sold}}
+              <span>Mínimo precio:</span> ${{p.min_price_sold}}
              </span>
              <span class="badge-fz">
-              <span>Máximo precio de vendido:</span> ${{p.max_price_sold}}
+              <span>Máximo precio:</span> ${{p.max_price_sold}}
              </span>
           </div>
           <hr>
@@ -148,6 +149,7 @@
                           <tr>
                             <th>Imagen</th>
                             <th>Producto</th>
+                            <th>Precio</th>
                             <th>Cantidad</th>
                           </tr>
                         </thead>
@@ -164,6 +166,9 @@
                             <td>
                               <span class="text-danger">{{ product.code }}</span>
                               {{ product.name }}
+                            </td>
+                            <td>
+                              {{product.pivot?.price | currency}}
                             </td>
                             <td>{{ product.pivot.quantity }}</td>
                           </tr>

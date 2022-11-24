@@ -33,7 +33,13 @@
       </mat-form-field>
 
       <mat-form-field class="col-md-4">
-        <input required formControlName="direccion1_remite" matInput placeholder="Dirección del remitente 1">
+        <textarea [matAutocomplete]="auto" required formControlName="direccion1_remite" matInput placeholder="Dirección del remitente 1"></textarea>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option class="item-search-warehouse" *ngFor="let warehouse of warehouses" [value]="warehouse?.location?.address">
+            <small class="font-sm">{{warehouse.location?.address || 'Sin información'}}</small>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint>Puede colocar el código o el nombre de la bodega y seleccionar una dirección</mat-hint>
       </mat-form-field>
 
       <mat-form-field class="col-md-4">
@@ -107,6 +113,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button matDialogClose [disabled]="isLoading" mat-button color="warn">Cerrar <i class="fa-solid fa-xmark"></i></button>
-    <button mat-button [disabled]="isLoading" (click)="saveInServer()" color="primary">Guardar <i class="fa-regular fa-floppy-disk"></i></button>
+    <button matDialogClose [disabled]="isLoading" mat-raised-button color="warn">Cerrar <i class="fa-solid fa-xmark"></i></button>
+    <button mat-raised-button [disabled]="isLoading" (click)="saveInServer()" color="primary">Guardar <i class="fa-regular fa-paper-plane"></i></button>
 </mat-dialog-actions>

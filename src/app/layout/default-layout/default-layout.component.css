@@ -97,7 +97,7 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: var(--z-index);
+  z-index: calc(var(--z-index) + 1);
   width: 100%;
 }
 

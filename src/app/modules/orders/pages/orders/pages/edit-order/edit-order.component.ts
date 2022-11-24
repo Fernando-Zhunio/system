@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,7 +35,7 @@ interface Record {
   templateUrl: './edit-order.component.html',
   styleUrls: ['./edit-order.component.scss']
 })
-export class EditOrderComponent implements OnInit, OnDestroy {
+export class EditOrderComponent implements OnInit, OnDestroy, AfterContentInit {
 
   constructor(private orderService: OrdersService, private mbs: MatBottomSheet, private spinner: NgxSpinnerService, private mhs: MethodsHttpService, private activated_router: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
   @ViewChild(StateFlowOrderComponent) stateFlow: StateFlowOrderComponent;
@@ -75,7 +75,6 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.id = this.activated_router.snapshot.paramMap.get('order_id');
     // this.spinner.show();
-    this.getStatuses();
     this.subscriptionOrder = this.orderService.$order.subscribe((order) => {
       if (order) {
         this.order = order;
@@ -114,6 +113,14 @@ export class EditOrderComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  ngAfterContentInit(): void {
+    //Called after ngOnInit when the component's or directive's content has been initialized.
+    //Add 'implements AfterContentInit' to the class.
+    this.getStatuses();
+  }
+
+
 
   ngOnDestroy(): void {
     if (this.subscriptionOrder) {

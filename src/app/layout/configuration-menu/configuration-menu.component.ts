@@ -7,7 +7,7 @@ import { Preferences } from '../../core/interfaces/preferences';
 import { refreshPreferenceApi, setPreferenceApi } from '../../redux/actions/api/preferences-api.action';
 import { selectPreference } from '../../redux/state/state.selectors';
 import { StorageService } from '../../services/storage.service';
-import { SoundNotification } from '../../shared/class/sound-notification';
+import { SoundNotification } from '../../shared/services/sound-notification';
 
 @Component({
   selector: 'app-configuration-menu',

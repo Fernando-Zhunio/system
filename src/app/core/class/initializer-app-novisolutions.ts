@@ -2,7 +2,7 @@ import { NgxPermissionsService } from "ngx-permissions";
 import { fillUser, Token } from "../../class/fast-data";
 import { AuthService } from "../../services/auth.service";
 import { StorageService } from "../../services/storage.service";
-import { SoundNotification } from "../../shared/class/sound-notification";
+import { SoundNotification } from "../../shared/services/sound-notification";
 
 export function InitializerAppNovisolutions(_st: StorageService, s_permissions: NgxPermissionsService, _sn: SoundNotification, _sa: AuthService) {
     return () => {

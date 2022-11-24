@@ -7,13 +7,13 @@
 export const environment = {
   production: false,
   appVersion: require('../../package.json').version,
-  // server: 'http://sistema-codificacion.test/api/',
-  // server_img: 'http://sistema-codificacion.test/',
+  server: 'http://sistema-codificacion.test/api/',
+  server_img: 'http://sistema-codificacion.test/',
 
   // server: 'https://front-api-system.novicompu.com/api/',
   // server_img: 'https://front-api-system.novicompu.com/',
-  server: 'https://staging-front-api-system.novicompu.com/api/',
-  server_img: 'https://staging-front-api-system.novicompu.com/',
+  // server: 'https://staging-front-api-system.novicompu.com/api/',
+  // server_img: 'https://staging-front-api-system.novicompu.com/',
 
   keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',
   portSocket_chat: 8443,

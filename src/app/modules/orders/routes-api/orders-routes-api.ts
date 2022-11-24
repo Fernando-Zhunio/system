@@ -1,0 +1,1 @@
+export const ORDER_WAREHOUSE_ROUTE_API = 'system-orders/orders/shippings/warehouses';

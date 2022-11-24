@@ -7,7 +7,7 @@ import { Preferences } from "../../class/fast-data";
 // import { selectPreference } from "../../redux/state/state.selectors";
 import { StorageService } from "../../services/storage.service";
 // import { Sound } from "../interfaces/sound";
-import { KeysLocalStorage } from "./keys-local-storage";
+import { KeysLocalStorage } from "../class/keys-local-storage";
 
 @Injectable({ providedIn: 'root' })
 export class SoundNotification {

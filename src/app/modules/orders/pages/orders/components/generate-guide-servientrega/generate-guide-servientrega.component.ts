@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { IServientregaGuide, IShippingOrder } from '../../../../../../interfaces/iorder';
 import { SwalService } from '../../../../../../services/swal.service';
 import { IShippingAddress } from '../../../../../../interfaces/iorder';
@@ -9,6 +9,9 @@ import { IClientOrder } from '../../../../../../interfaces/iclient-order';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import collect from 'collect.js';
 import { StorageService } from '../../../../../../services/storage.service';
+import { ORDER_WAREHOUSE_ROUTE_API } from '../../../../routes-api/orders-routes-api';
+import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
+import { SharedService } from '../../../../../../services/shared/shared.service';
 
 @Component({
   selector: 'app-generate-guide-servientrega',
@@ -47,8 +50,10 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
   formSearchCity = new FormControl(null);
   formSearchDestinoCity = new FormControl(null);
 
-  subscriptionCity: Subscription;
-  subscriptionDestinoCity: Subscription;
+  // subscriptionCity: Subscription;
+  // subscriptionDestinoCity: Subscription;
+  private readonly destroy$ = new Subject();
+
 
   isLoadingCity = false;
   intervalSearch: any;
@@ -57,6 +62,8 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
   searchCities: any[] = [];
   searchDestinoCities: any[] = [];
   isLoading = false;
+
+  warehouses: any[] = [];
 
   ngOnInit() {
     this.isLoading = true;
@@ -72,12 +79,12 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       this.fillForm();
     }
 
+    this.subscribeToSearchWarehouse();
+
     forkJoin(request).subscribe(
       {
         next: (data: any) => {
-          console.log(data)
           this.isLoading = false;
-          console.log(data);
           this.cities = data.cities.data;
           this.searchCities = this.cities;
           this.searchDestinoCities = this.cities;
@@ -88,28 +95,23 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.isLoadingCity = false; this.isLoading = false;
-          SwalService.swalToast({ icon: 'error', title: 'Error', text: 'Se produjo un error al conectarse a los servidores de Servientrega, vuelva a intentarlo' });
+          SwalService.swalToast('Se produjo un error al conectarse a los servidores de Servientrega, vuelva a intentarlo', 'Error');
           this.dialogRef.close();
         }
       }
     )
 
-    this.subscriptionCity = this.formSearchCity.valueChanges.subscribe(value => {
+    this.formSearchCity.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
       this.searchCities = this.searchCity(value);
     });
-    this.subscriptionDestinoCity = this.formSearchDestinoCity.valueChanges.subscribe(value => {
+    this.formSearchDestinoCity.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
       this.searchDestinoCities = this.searchCity(value);
     });
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptionCity) {
-      this.subscriptionCity.unsubscribe();
-    }
-
-    if (this.subscriptionDestinoCity) {
-      this.subscriptionDestinoCity.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   fillForm(): void {
@@ -138,7 +140,6 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
       ])
     });
   }
-
 
   fillFormReturn(data: IServientregaGuide): void {
     const destinatario = this.convertNamesToArray(data.destinatario);
@@ -193,22 +194,39 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
     };
   }
 
-
   searchCity(text): any[] {
     return this.cities.filter((item: any) => item.nombre.toLowerCase().includes(text.toLowerCase()));
+  }
+
+  subscribeToSearchWarehouse(): void {
+    this.form.get('direccion1_remite')?.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(text => this.searchWarehouses(text)))
+      .subscribe(
+        {
+          next: (response: any) => {
+            this.warehouses = response.data.data;
+          }
+        }
+      )
+  }
+
+  searchWarehouses(search): Observable<any> {
+    SharedService.disabled_loader = true;
+    return this.methodsHttp.methodGet(ORDER_WAREHOUSE_ROUTE_API, { search })
   }
 
   saveInServer(): void {
     if (this.form.valid) {
       this.isLoading = true;
-      console.log(this.form.value);
       let observable;
       if (!this.dataExternal.isReturn) {
         observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value)
       } else {
         observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega/return-shipping`, this.form.value)
       }
-      // this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega`, this.form.value).subscribe(res => {
       observable.subscribe(res => {
         console.log(res);
         this.isLoading = false;

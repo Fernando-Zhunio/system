@@ -70,7 +70,7 @@ import { ConfigurationMenuComponent } from './layout/configuration-menu/configur
 import { notificationsReducer } from './redux/notifications/reducers/notifications.reducer';
 import { NotificationEffectService } from './redux/notifications/effects/notification.effect.service';
 import { MatSliderModule } from '@angular/material/slider';
-import { SoundNotification } from './shared/class/sound-notification';
+import { SoundNotification } from './shared/services/sound-notification';
 import { AuthService } from './services/auth.service';
 import { MenuNotificationsComponent } from './layout/menu-notifications/menu-notifications.component';
 import { InitializerAppNovisolutions } from './core/class/initializer-app-novisolutions';

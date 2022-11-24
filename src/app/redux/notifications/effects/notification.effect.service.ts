@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Preferences } from '../../../class/fast-data';
-import { SoundNotification } from '../../../shared/class/sound-notification';
+import { SoundNotification } from '../../../shared/services/sound-notification';
 import { NotificationSnackbarComponent } from '../../../shared/components/notification-snackbar/notification-snackbar.component';
 import { ADD_NOTIFICATIONS, NOTIFICATIONS_CREATE_POPUP } from '../actions/notifications.action';
 
