@@ -80,17 +80,14 @@ export class CreateOrEditPricesButtonSheetComponent implements OnInit {
   }
 
   addOrRemoveTax(id: number, isTax = false): void {
-    console.log(this.form.get('price_group_' + id)?.value);
     const name = 'price_group_' + id;
     if (isTax) {
       const price_out_tax = this.form.get('tax_' + name)?.value / 1.12;
 
-      this.form.get(name)?.setValue(price_out_tax.toFixed(2));
+      this.form.get(name)?.setValue(price_out_tax.toFixed(3));
     } else {
       const price_with_tax = this.form.get(name)?.value * 1.12;
-      console.log(price_with_tax);
-
-      this.form.get('tax_' + name)?.setValue(price_with_tax.toFixed(2));
+      this.form.get('tax_' + name)?.setValue(price_with_tax.toFixed(3));
     }
   }
 
@@ -117,8 +114,8 @@ export class CreateOrEditPricesButtonSheetComponent implements OnInit {
   assignData(prices: Price[] | undefined): void {
     if (prices) {
       prices.forEach(element => {
-        this.form.get('price_group_' + element.price_group_id)?.setValue(element.price.toFixed(2));
-        this.form.get('tax_price_group_' + element.price_group_id)?.setValue((element.price * 1.12).toFixed(2));
+        this.form.get('price_group_' + element.price_group_id)?.setValue(element.price.toFixed(3));
+        this.form.get('tax_price_group_' + element.price_group_id)?.setValue((element.price * 1.12).toFixed(3));
       });
     }
   }

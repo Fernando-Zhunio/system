@@ -256,7 +256,7 @@ export interface Product {
     updated_at: string;
   };
   promotions: [];
-  imports: [];
+  // imports: [];
 }
 
 export interface IproductVtexSku {

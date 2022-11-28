@@ -372,7 +372,7 @@
               </button>
               <button
                 *ngIf="order?.status !== 'cancelled'"
-                class="mt-2"
+                class="mt-2 ml-2"
                 mat-raised-button
                 color="accent"
                 (click)="openSyncMba('transference')">
@@ -470,7 +470,7 @@
     Publicar
     <mat-icon>publish</mat-icon>
   </button>
-  <button *ngIf="order?.status !== 'cancelled'" color="warn" mat-raised-button (click)="deleteOrder()" class="mr-1">
+  <button *ngIf="order?.status !== 'cancelled'" color="warn" mat-raised-button (click)="deleteOrder()" class="ml-2">
     Cancelar orden
     <mat-icon>delete</mat-icon>
   </button>

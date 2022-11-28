@@ -155,7 +155,7 @@ export class ProductsComponent implements OnInit {
       this.dialog.open(DialogHistoryPricesProductComponent, {
         data: { product },
       });
-    }
+    } 
   }
 
 }
