@@ -123,24 +123,12 @@ canvas {
 }
 
 .air-datepicker-global-container{
-  z-index: var(--z-index);
+  z-index: calc(var(--z-index) + 1) !important;
 }
-
-// .mat-form-field {
-//   line-height: 1.3;
-// }
-
-// .cdk-overlay-container {
-//   z-index: var(--z-index);
-// }
 
 .z-index {
   z-index: var(--z-index);
 }
-
-// button {
-//   outline: none !important;
-// }
 
 .bg-default {
   background-color: paleturquoise;
