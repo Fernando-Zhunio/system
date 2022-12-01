@@ -74,12 +74,12 @@
             </div>
             <mat-form-field class="w-100">
               <mat-label>Latitud</mat-label>
-              <input matInput formControlName="latitude" type="number" />
+              <input (keyup.enter)="setMapLocationInputs()" matInput formControlName="latitude" type="number" />
               <mat-error *ngIf="formLocation.controls['latitude'].invalid">Latitud Requerido</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100">
               <mat-label>Longitud</mat-label>
-              <input type="number" matInput formControlName="longitude" />
+              <input (keyup.enter)="setMapLocationInputs()" type="number" matInput formControlName="longitude" />
               <mat-error *ngIf="formLocation.controls['longitude'].invalid">Longitud requerida</mat-error>
             </mat-form-field>
           </div>
@@ -233,7 +233,7 @@
 
         <div class="col-md-12">
           <button mat-raised-button [disabled]="isLoadServer" color="primary" (click)="saveInServer()">
-            Guardar localidad
+            Guardar localidad <i class="fa-regular fa-paper-plane"></i>
           </button>
         </div>
       </div>

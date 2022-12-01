@@ -1,16 +1,13 @@
 <div class="">
-  <app-search-template
-    [customLoader]="true"
-    [customTemplate]="true"
+  <app-search-template-table
     [title]="'Locaciones'"
-    [columns]="1"
     placeholder="Escriba la locación a buscar"
     [url$]="'admin/locations'"
     (data)="loadData($event)"
     [filter_data]="filters"
     [active_filters_menu]="true"
     >
-    <ng-container customTemplate>
+    <ng-container table>
       <div class="w-100">
         <div class="overflow-auto shadow">
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
@@ -135,7 +132,7 @@
         </mat-form-field>
       </div>
     </ng-container>
-  </app-search-template>
+  </app-search-template-table>
 
   <!-- <mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1"></mat-paginator> -->
 

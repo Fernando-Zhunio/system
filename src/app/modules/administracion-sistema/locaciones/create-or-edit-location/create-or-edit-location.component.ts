@@ -1,13 +1,14 @@
 import { Location as LocationInject } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../../environments/environment';
 import { CompanyAccess } from '../../../../interfaces/iml-info';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { Location } from '../../../../interfaces/Location';
 import { SwalService } from '../../../../services/swal.service';
+import { Map, Marker } from 'mapbox-gl';
 
 declare const mapboxgl: any;
 
@@ -21,7 +22,6 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     private methodHttp: MethodsHttpService,
     private act_router: ActivatedRoute,
     private ngx_spinner: NgxSpinnerService,
-    private route: Router,
     private locationInject: LocationInject
   ) {}
 
@@ -33,8 +33,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   companies: CompanyAccess[] = [];
   types: any[] = [];
   keyTypes: any[] = [];
-  map: any;
-  marker: any;
+  map: Map;
+  marker: Marker;
   title: string = 'Creando una localidad';
   isLoadServer: boolean = false;
   coordinate: { longitud: number; latitud: number } = {
@@ -210,6 +210,21 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     this.keyTypes = Object.keys(this.types);
   }
 
+  setMapLocationInputs(): void {
+    const { latitude, longitude }: any = this.formLocation.value;
+    if (latitude && longitude) {
+      try{
+        this.map.flyTo({
+          center: [longitude, latitude],
+          zoom: 15,
+        });
+        this.marker.setLngLat([longitude, latitude]);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+  }
+
   ngAfterViewInit(): void {
     this.getCurrentPosition();
   }
@@ -276,16 +291,15 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       if (this.state === 'create') {
         this.methodHttp.methodPost('admin/locations', dataSend ).subscribe(res => {
           if (res?.success) {
-            this.route.navigate(['administracion-sistema/locations']);
+            this.goBack();
           } else { this.isLoadServer = false; }
         }, () => {
-          // console.log(err);
           this.isLoadServer = false;
         });
       } else {
         this.methodHttp.methodPut('admin/locations/' + this.location.id, dataSend ).subscribe(res => {
           if (res?.success) {
-            this.route.navigate(['administracion-sistema/locations']);
+            this.goBack();
           } else { this.isLoadServer = false; }
         }, err => {
           console.log(err);
@@ -322,6 +336,4 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       return control.get('start')?.value ? ((control.get('start')?.value && control.get('end')?.value) && control.get('start')?.value > control.get('end')?.value) ? { 'invalidHours': true } : null : null;
     };
   }
-
-
 }

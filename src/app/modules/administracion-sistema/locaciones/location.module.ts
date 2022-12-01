@@ -12,10 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { CreateOrEditLocationComponent } from './create-or-edit-location/create-or-edit-location.component';
-import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
+import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 
 @NgModule({
   imports: [
@@ -30,7 +30,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatSelectModule,
     MatTableModule,
-    SearchTemplateModule,
+    // SearchTemplateModule,
+    SearchTemplateTableComponent,
     NgxPermissionsModule,
     MatChipsModule,
     MatMenuModule,
