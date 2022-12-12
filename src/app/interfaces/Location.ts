@@ -19,7 +19,9 @@ export interface Location {
         name: string;
     };
     schedules: any,
-    phone: string
+    phone: string,
+    postal_code: string,
+    reference: string
 }
 
 export interface Schedules {

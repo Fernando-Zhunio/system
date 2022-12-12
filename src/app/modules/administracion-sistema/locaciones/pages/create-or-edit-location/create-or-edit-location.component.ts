@@ -3,12 +3,13 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { environment } from '../../../../../environments/environment';
-import { CompanyAccess } from '../../../../interfaces/iml-info';
-import { MethodsHttpService } from '../../../../services/methods-http.service';
-import { Location } from '../../../../interfaces/Location';
-import { SwalService } from '../../../../services/swal.service';
+import { environment } from '../../../../../../environments/environment';
+import { CompanyAccess } from '../../../../../interfaces/iml-info';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { Location } from '../../../../../interfaces/Location';
+import { SwalService } from '../../../../../services/swal.service';
 import { Map, Marker } from 'mapbox-gl';
+import { CODE_POSTAL_ROUTE_API } from '../../routes-api/location-routes-api';
 
 declare const mapboxgl: any;
 
@@ -54,6 +55,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     status: new FormControl(null, [Validators.required]),
     latitude: new FormControl(""),
     longitude: new FormControl(""),
+    reference: new FormControl(""),
+    postal_code: new FormControl("", [Validators.required]),
   });
 
   formSchedules = new FormGroup({
@@ -119,7 +122,9 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
                 longitude,
                 mba_code,
                 phone,
-                schedules
+                schedules,
+                reference,
+                postal_code
               }: any = this.location;
               this.formLocation.patchValue({
                 name,
@@ -132,6 +137,8 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
                 longitude,
                 phone,
                 mba_code,
+                reference,
+                postal_code
               });
 
               if (schedules) {
@@ -335,5 +342,36 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     return (control: AbstractControl): ValidationErrors | null => {
       return control.get('start')?.value ? ((control.get('start')?.value && control.get('end')?.value) && control.get('start')?.value > control.get('end')?.value) ? { 'invalidHours': true } : null : null;
     };
+  }
+
+  isLoadingPostalCode = false;
+  getCodePostal(): void {
+    const { latitude, longitude }: any = this.formLocation.value;
+    if (!latitude || !longitude) {
+      SwalService.swalFire({title: '¡Atención!', text: 'Debe ingresar una latitud y longitud valida', icon: 'warning'});
+      return;
+    }
+    this.isLoadingPostalCode = true;
+    this.formLocation.get('postal_code')?.setValue('Espere un momento...');
+    const url = CODE_POSTAL_ROUTE_API(environment.MAPS_API_KEY, latitude, longitude);
+    fetch(url).then(res => res.json()).then(res => {
+      console.log({res});
+      if(res?.results?.length > 0) {
+        const resultPostCode = res.results.find((item: any) => item.types.includes('postal_code'));
+        if (resultPostCode) {
+          const { long_name: postal_code }: any = resultPostCode.address_components.find((item: any) => item.types.includes('postal_code'));
+          this.formLocation.get('postal_code')?.setValue(postal_code);
+        }
+      }
+      this.isLoadingPostalCode = false;
+      if (this.formLocation.get('postal_code')?.value == 'Espere un momento...') {
+        SwalService.swalFire({title: '¡Atención!', text: 'No se pudo obtener el código postal', icon: 'warning'});
+        this.formLocation.get('postal_code')?.setValue('');
+      }
+    }).catch(err => {
+      console.log(err);
+      this.isLoadingPostalCode = false;
+      SwalService.swalFire({title: '¡Atención!', text: 'No se pudo obtener el código postal', icon: 'warning'});
+    });
   }
 }

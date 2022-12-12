@@ -1,8 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { PermissionAdminLocations } from '../../../class/permissions-modules';
-import { CreateOrEditLocationComponent } from './create-or-edit-location/create-or-edit-location.component';
-import { LocacionesComponent } from './locaciones.component';
+import { CreateOrEditLocationComponent } from './pages/create-or-edit-location/create-or-edit-location.component';
+import { IndexLocationsPage } from './pages/index-locations/index-locations.page';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: LocacionesComponent,
+        component: IndexLocationsPage,
         data: {
           permissions: {
             only: PermissionAdminLocations.location.index,

@@ -27,7 +27,7 @@ export const environment = {
   password_staging: 'BV1tz4Qao5SvjC0IK7gPftgPlDZ7Wg6psXGWTlytnxjzPtwRESj9EUkPagCI8E02Po0fPgYIQe5KL7st',
   ERROR_403_REDIRECT_URL: 'system-error/403',
 
-  STORE_VTEX_NOVICOMPU: 'https://novicompu.myvtex.com/'
-
+  STORE_VTEX_NOVICOMPU: 'https://novicompu.myvtex.com/',
+  MAPS_API_KEY:"AIzaSyAmdLo4nixDwLNq1F8T4F5WEr1AwfvT9Tk"
 };
 

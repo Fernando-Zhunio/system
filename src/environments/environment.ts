@@ -34,5 +34,6 @@ export const environment = {
   ERROR_403_REDIRECT_URL: 'system-error/403',
 
   STORE_VTEX_NOVICOMPU: 'https://novicompu.myvtex.com/',
+  MAPS_API_KEY:"AIzaSyAmdLo4nixDwLNq1F8T4F5WEr1AwfvT9Tk"
 };
 

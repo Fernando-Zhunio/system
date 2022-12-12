@@ -1,22 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 // import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { Location } from '../../../class/location';
-import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
-import { Icity } from '../../../interfaces/icity';
-import { ICompany } from '../../../interfaces/icompanies';
-import { MethodsHttpService } from '../../../services/methods-http.service';
+import { Location } from '../../../../../class/location';
+import { HeaderSearchComponent } from '../../../../../components/header-search/header-search.component';
+import { Icity } from '../../../../../interfaces/icity';
+import { ICompany } from '../../../../../interfaces/icompanies';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 // import { SwalService } from '../../../services/swal.service';
-import { MatTableHelper } from '../../../shared/class/mat-table-helper';
+import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 
 declare let Swal: any;
 
 @Component({
-  selector: 'app-locaciones',
-  templateUrl: './locaciones.component.html',
-  styleUrls: ['./locaciones.component.css']
+  selector: 'app-index-locations-page',
+  templateUrl: './index-locations.page.html',
+  styleUrls: ['./index-locations.page.css']
 })
-export class LocacionesComponent extends MatTableHelper<Location> implements OnInit {
+export class IndexLocationsPage extends MatTableHelper<Location> implements OnInit {
   // protected columnsToDisplay: string[];
   protected url: string ='admin/locations';
   @ViewChild(MatTable) table: MatTable<any>;
@@ -29,7 +29,9 @@ export class LocacionesComponent extends MatTableHelper<Location> implements OnI
     'type',
     'status',
     'mba_code',
+    'postal_code',
     'address',
+    'reference',
     'latitude',
     'longitude',
     'city',

@@ -36,7 +36,7 @@
       <mat-menu class="menu-style" #menu="matMenu" [overlapTrigger]="false">
         <ng-content select="[filterMenu]"></ng-content>
         <div mat-menu-item [disableRipple]="true">
-          <button color="warning" mat-raised-button (click)="searchBarReset()">Aplicar filtros</button>
+          <button color="primary" mat-raised-button (click)="searchBarReset()">Aplicar filtros <i class="fa-regular fa-paper-plane"></i></button>
         </div>
       </mat-menu>
     </ng-container>
