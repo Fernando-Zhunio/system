@@ -18,13 +18,13 @@ export interface Location {
         id: number;
         name: string;
     };
-    schedules: any,
+    schedules: Schedules,
     phone: string,
     postal_code: string,
     reference: string
 }
 
-export interface Schedules {
+export type Schedules  = {
     [key: string]: {
         status: boolean,
         start: string,

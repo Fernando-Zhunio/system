@@ -1,0 +1,34 @@
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-md-6">
+      <h1 matDialogTitle>#{{ location.mba_code }} {{ location.name }}</h1>
+      <h3 class="font-weight-bold mb-1">Horarios</h3>
+      <div>
+        <div *ngFor="let schedule of location.schedules | keyvalue">
+          <span *ngIf="schedule.value.status; else templateClose">
+            {{ DAYS[schedule.key] }} de {{ schedule.value?.start }} a {{ schedule.value?.end }}
+          </span>
+          <ng-template #templateClose>
+            <span class="text-muted">{{ schedule.key }} - cerrado</span>
+          </ng-template>
+        </div>
+      </div>
+      <h3 class="font-weight-bold mb-1">Codigo Postal</h3>
+      <div>{{ location.postal_code }}</div>
+    </div>
+    <div class="col-md-6 pb-3">
+      <div
+        *ngIf="location.longitude && location.latitude"
+        class="w-100 h-100 shadow rounded-fz pb-3"
+        #mapElement
+        id="map"></div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button color="warn" mat-button matDialogClose>
+    Cerrar
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+</mat-dialog-actions>

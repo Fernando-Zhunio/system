@@ -13,6 +13,8 @@ Ejemplo:
       locations.routing.ts
       routes-api
           locations.routes-api.ts
+      permissions
+          locations.permissions.ts
       pages
           index-locations.page.ts
           create-locations.page.ts

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 // import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { Location } from '../../../../../class/location';
@@ -6,10 +7,9 @@ import { HeaderSearchComponent } from '../../../../../components/header-search/h
 import { Icity } from '../../../../../interfaces/icity';
 import { ICompany } from '../../../../../interfaces/icompanies';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
-// import { SwalService } from '../../../services/swal.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
-
-declare let Swal: any;
+import { DetailLocationDialogComponent } from '../../components/detail-location-dialog/detail-location-dialog.component';
+import { PERMISSIONS_LOCATIONS } from '../../permissions/locations.permissions';
 
 @Component({
   selector: 'app-index-locations-page',
@@ -17,12 +17,10 @@ declare let Swal: any;
   styleUrls: ['./index-locations.page.css']
 })
 export class IndexLocationsPage extends MatTableHelper<Location> implements OnInit {
-  // protected columnsToDisplay: string[];
   protected url: string ='admin/locations';
   @ViewChild(MatTable) table: MatTable<any>;
-  // protected mhs: MethodsHttpService;
 
-  constructor(protected mhs: MethodsHttpService) { super() }
+  constructor(protected mhs: MethodsHttpService, private dialog: MatDialog) { super() }
   columnsToDisplay: string[] = [
     'id',
     'name',
@@ -39,12 +37,8 @@ export class IndexLocationsPage extends MatTableHelper<Location> implements OnIn
     'acciones',
   ];
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  ELEMENT_DATA: Location[] = [];
-  permission_create: any[] = ['super-admin', 'admin.users.create'];
-  permission_edit: any[] = ['super-admin', 'admin.users.edit'];
-  permission_destroy: any[] = ['super-admin', 'admin.users.destroy'];
-  // override dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
-  // isLoading: boolean;
+  // ELEMENT_DATA: Location[] = [];
+  permissions = PERMISSIONS_LOCATIONS;
   cities: Icity[] = [];
   types: any [] = [];
   companies: ICompany[] = [];
@@ -73,44 +67,18 @@ export class IndexLocationsPage extends MatTableHelper<Location> implements OnIn
 
   users: Location[];
 
+  openDetailLocation(id: number): void {
 
-  // refreshDataTable(data) {
-  //   let row: Location[] = data.data as Location[];
-  //   this.ELEMENT_DATA = row;
-  //   this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
-  // }
-
-  // deleteItem(id): void {
-  //   SwalService.swalConfirmation('Eliminar', 'Esta seguro de eliminar esta locación', 'warning').then((result) => {
-  //     if (result.isConfirmed) {
-  //       this.snack_bar.open('Eliminando locación espere ...');
-  //       this.methodsHttp.methodDelete('admin/locations/' + id).subscribe(res => {
-  //         if (res.hasOwnProperty('success') && res.success) {
-  //           this.snack_bar.open('Localidad Eliminada con éxito', 'OK', { duration: 2000 });
-  //           this.removeItemTable(id);
-  //         } else {
-  //           this.snack_bar.open('No se a podido eliminar ', 'Error', { duration: 2000 });
-  //         }
-  //       }, err => {
-  //         console.log(err);
-  //         this.snack_bar.open('No se a podido eliminar ', 'Error', { duration: 2000 });
-  //       });
-  //     } else if (
-  //       result.dismiss === Swal.DismissReason.cancel
-  //     ) {
-  //     }
-  //   });
-  // }
-
-  // removeItemTable(id): void {
-  //   const index = this.ELEMENT_DATA.findIndex(x => x.id == id);
-  //   this.ELEMENT_DATA.splice(index, 1);
-  //   this.dataSource = new MatTableDataSource<Location>(this.ELEMENT_DATA);
-  // }
-
-  // loadData($event): void {
-  //   this.refreshDataTable($event);
-  // }
+    const location = this.dataSource.find((location) => location.id === id);
+    console.log({location})
+    if (!location) return;
+    this.dialog.open(DetailLocationDialogComponent, {
+      data: location,
+      panelClass: 'col-md-7',
+      
+    
+    })
+  }
 
   changePaginator(event): void {
     this.headerComponent.searchBar(event);

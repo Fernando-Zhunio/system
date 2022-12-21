@@ -16,6 +16,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DetailLocationDialogComponent } from './components/detail-location-dialog/detail-location-dialog.component';
 
 @NgModule({
   imports: [
@@ -36,10 +38,12 @@ import { SearchTemplateTableComponent } from '../../../Modulos/search-template/s
     MatChipsModule,
     MatMenuModule,
     FormsModule,
+    MatDialogModule
   ],
   declarations: [
     IndexLocationsPage,
-    CreateOrEditLocationComponent
+    CreateOrEditLocationComponent,
+    DetailLocationDialogComponent,
   ]
 })
 export class LocationModule { }

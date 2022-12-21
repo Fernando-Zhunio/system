@@ -67,7 +67,15 @@
               <td mat-cell *matCellDef="let element; let ind = index">
                 <div class="d-flex">
                   <button
-                    *ngxPermissionsOnly="permission_edit"
+                    *ngxPermissionsOnly="permissions.index"
+                    mat-icon-button
+                    color="accent"
+                    (click)="openDetailLocation(element.id)"
+                   >
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                  <button
+                    *ngxPermissionsOnly="permissions.edit"
                     mat-icon-button
                     color="primary"
                     [routerLink]="['./edit', element.id]">
@@ -76,7 +84,7 @@
                   <button
                     mat-icon-button
                     color="warn"
-                    *ngxPermissionsOnly="permission_destroy"
+                    *ngxPermissionsOnly="permissions.delete"
                     (click)="deleteData(element.id)">
                     <!-- <mat-icon>delete</mat-icon> -->
                     <i class="fa-solid fa-trash"></i>
@@ -90,7 +98,7 @@
         </div>
       </div>
     </ng-container>
-    <ng-container *ngxPermissionsOnly="permission_create" menuBar>
+    <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
       <mat-chip class="ml-1 mat-btn-add" [routerLink]="['./create']">
         <!-- <mat-icon>add_location_alt</mat-icon> -->
         <i class="fa-solid fa-plus"></i>
