@@ -10,12 +10,10 @@ const _preferenceReducer = createReducer(
     initialState,
     on(setPreference, (state, { preference, value } ) => {
        const newState = {...state, [preference]: value};
-        console.log({ newState });
          Preferences.getInstance().set(newState);
        return newState;
     }),
     on(setPreferences, (_state, { preferences } ) =>  {
-        console.log({..._state, ...preferences});
         Preferences.getInstance().set({..._state, ...preferences});
         return {..._state, ...preferences};
     }),

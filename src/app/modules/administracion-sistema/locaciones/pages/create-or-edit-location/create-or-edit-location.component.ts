@@ -1,5 +1,5 @@
 import { Location as LocationInject } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,8 +8,9 @@ import { CompanyAccess } from '../../../../../interfaces/iml-info';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { Location } from '../../../../../interfaces/Location';
 import { SwalService } from '../../../../../services/swal.service';
-import { Map, Marker } from 'mapbox-gl';
 import { CODE_POSTAL_ROUTE_API } from '../../routes-api/location-routes-api';
+import { GoogleMapFzService } from '../../../../../shared/modules/google-map/services/google-map-fz.service';
+
 
 declare const mapboxgl: any;
 
@@ -19,29 +20,23 @@ declare const mapboxgl: any;
   styleUrls: ['./create-or-edit-location.component.css'],
 })
 export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
+  @ViewChild("mapElement") mapElement: ElementRef;
   constructor(
-    private methodHttp: MethodsHttpService,
-    private act_router: ActivatedRoute,
-    private ngx_spinner: NgxSpinnerService,
-    private locationInject: LocationInject
-  ) {}
+    private methodsHttp: MethodsHttpService,
+    private activatedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private locationInject: LocationInject,
+    private googleMapService: GoogleMapFzService,
+  ) { }
 
-  @ViewChild('mapElement') mapElement: ElementRef;
   state: 'create' | 'edit' = 'create';
-
   cities: any;
   keyCities: any[] = [];
   companies: CompanyAccess[] = [];
   types: any[] = [];
   keyTypes: any[] = [];
-  map: Map;
-  marker: Marker;
   title: string = 'Creando una localidad';
   isLoadServer: boolean = false;
-  coordinate: { longitud: number; latitud: number } = {
-    longitud: 0,
-    latitud: 0,
-  };
   isEnabledMap: boolean = false;
   location: Location;
   formLocation = new FormGroup({
@@ -97,194 +92,157 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       end: new FormControl(null, [Validators.required]),
     }, [this.validateHours()]),
   })
+  coordinates: { lat: number, lng: number } = { lat: 0, lng: 0 };
 
   ngOnInit(): void {
-    this.ngx_spinner.show();
-    this.act_router.data.subscribe((res) => {
-      this.state = res['isEdit'] ? 'edit' : 'create';
-      if (res['isEdit']) {
-        this.title = 'Editando Localidad';
-        const id = Number.parseInt(this.act_router.snapshot.paramMap.get('id')!);
-        const url = 'admin/locations/' + id + '/edit';
-        this.methodHttp.methodGet(url).subscribe(
-          (response) => {
-            if (response?.success) {
-              this.setDataSelects(response.data);
-              this.location = response.data.location;
-              const {
-                name,
-                address,
-                type,
-                city_id: city,
-                company_id: company,
-                status,
-                latitude,
-                longitude,
-                mba_code,
-                phone,
-                schedules,
-                reference,
-                postal_code
-              }: any = this.location;
-              this.formLocation.patchValue({
-                name,
-                address,
-                type,
-                city: city!.toString(),
-                company,
-                status,
-                latitude,
-                longitude,
-                phone,
-                mba_code,
-                reference,
-                postal_code
-              });
-
-              if (schedules) {
-                this.formSchedules.patchValue(schedules);
-              }
-
-              if (this.location.latitude && this.location.longitude) {
-                this.coordinate.latitud = Number.parseFloat(
-                  this.location.latitude
-                );
-                this.coordinate.longitud = Number.parseFloat(
-                  this.location.longitude
-                );
-                this.createMap(
-                  this.coordinate.longitud,
-                  this.coordinate.latitud
-                );
-                this.isEnabledMap = true;
-              } else {
-                this.getCurrentPosition();
-              }
+    this.spinner.show();
+    this.state = this.getIsEditState() ? 'edit' : 'create';;
+    if (this.state === 'edit') {
+      this.title = 'Editando Localidad';
+      const id = this.activatedRoute.snapshot.paramMap?.get('id');
+      const url = 'admin/locations/' + id + '/edit';
+      this.methodsHttp.methodGet(url).subscribe(
+        (res) => {
+          if (res?.success) {
+            this.fillEditData(res.data);
+            this.location = res.data.location;
+            const { latitude, longitude } = this.location;
+            if (latitude && longitude) {
+              this.initMap({ lat: Number.parseFloat(latitude), lng: Number.parseFloat(longitude) });
+              this.isEnabledMap = true;
+            } else {
+              this.initMap();
             }
-            this.ngx_spinner.hide();
-          },
-          () => {
-            this.ngx_spinner.hide();
           }
-        );
-      } else {
-        this.methodHttp.methodGet('admin/locations/create').subscribe(
-          (response) => {
-            if (response?.success) {
-              console.log(response.data, response);
-              this.setDataSelects(response.data);
-            }
-            this.ngx_spinner.hide();
-          },
-          () => {
-            this.ngx_spinner.hide();
+          this.spinner.hide();
+        },
+        () => {
+          this.spinner.hide();
+        }
+      );
+    } else {
+      this.methodsHttp.methodGet('admin/locations/create').subscribe(
+        (response) => {
+          if (response?.success) {
+            this.fillInputsData(response.data);
           }
-        );
-      }
-    });
-  }
-
-  autofillSchedules(value:any) {
-    this.formSchedules.get('monday')?.setValue(value);
-    this.formSchedules.get('tuesday')?.setValue(value);
-    this.formSchedules.get('wednesday')?.setValue(value);
-    this.formSchedules.get('thursday')?.setValue(value);
-    this.formSchedules.get('friday')?.setValue(value);
-    this.formSchedules.get('saturday')?.setValue(value);
-    this.formSchedules.get('sunday')?.setValue(value);
-  }
-
-  getCurrentPosition() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const coord = {
-          lat: position.coords.latitude,
-          lon: position.coords.longitude,
-        };
-        this.createMap(coord.lon, coord.lat);
-        this.coordinate.latitud = coord.lat;
-        this.coordinate.longitud = coord.lon;
-      });
+          this.spinner.hide();
+        },
+        () => {
+          this.spinner.hide();
+        }
+      );
     }
   }
 
-  setDataSelects(data): void {
-    this.companies = data.companies;
-    this.cities = data.cities;
-    console.log(this.cities, data);
+  ngAfterViewInit(): void {
+    if (this.state === 'create') {
+      this.initMap()
+    }
+  }
+
+  getIsEditState(): boolean {
+    return this.activatedRoute.snapshot.data['isEdit'];
+  }
+
+  async initMap(coordinates: { lat: number, lng: number } | null = null) {
+    await this.googleMapService.generateMap(
+      this.mapElement.nativeElement, {
+      center: coordinates || this.getCurrentCoordinates(),
+      zoom: 8,
+    });
+    this.googleMapService.addMarker({
+      position: coordinates || this.getCurrentCoordinates(),
+      draggable: true,
+      title: "This marker is draggable.",
+    }).addListener('dragend', (event) => {
+      const position = event.latLng;
+      this.formLocation.patchValue({
+        latitude: position.lat().toString(),
+        longitude: position.lng().toString()
+      })
+    });
+  }
+
+  fillEditData(data: any) {
+    const { location } = data;
+    const {
+      name,
+      address,
+      type,
+      city_id: city,
+      company_id: company,
+      status,
+      latitude,
+      longitude,
+      mba_code,
+      phone,
+      reference,
+      postal_code
+    } = location;
+    this.formLocation.patchValue({
+      name,
+      address,
+      type,
+      city: city!.toString(),
+      company,
+      status,
+      latitude,
+      longitude,
+      phone,
+      mba_code,
+      reference,
+      postal_code
+    });
+    if (location.schedules) {
+      this.formSchedules.patchValue(location.schedules);
+    }
+    this.fillInputsData(data);
+  }
+
+  fillInputsData(d: any) {
+    this.companies = d.companies;
+    this.cities = d.cities;
     this.keyCities = Object.keys(this.cities);
-    this.types = data.types;
+    this.types = d.types;
     this.keyTypes = Object.keys(this.types);
   }
 
-  setMapLocationInputs(): void {
+  fillFormSchedules(value) {
+    Object.keys(this.formSchedules.value).forEach((key) => {
+      this.formSchedules.get(key)?.patchValue({
+        status: true,
+        start: value.start,
+        end: value.end,
+      });
+    });
+  }
+
+  getCurrentCoordinates(): { lat: number, lng: number } {
+    const coordinates = { lat: -1.3272563450142145, lng: -78.45758381196407 };
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        coordinates.lat = position.coords.latitude;
+        coordinates.lng = position.coords.longitude;
+      });
+    }
+    return coordinates;
+  }
+
+  goLocationMarker(): void {
     const { latitude, longitude }: any = this.formLocation.value;
     if (latitude && longitude) {
-      try{
-        this.map.flyTo({
-          center: [longitude, latitude],
-          zoom: 15,
-        });
-        this.marker.setLngLat([longitude, latitude]);
-      } catch(err) {
+      try {
+        this.resetMap([Number.parseFloat(latitude), Number.parseFloat(longitude)], 15);
+        this.googleMapService.getMarker().setPosition({ lat: Number.parseFloat(latitude), lng: Number.parseFloat(longitude) });
+      } catch (err) {
         console.log(err);
       }
     }
   }
 
-  ngAfterViewInit(): void {
-    this.getCurrentPosition();
-  }
-
-  createMap(lon = 0, lat = 0): void {
-    mapboxgl.accessToken = environment.mapbox_key;
-    this.map = new mapboxgl.Map({
-      container: this.mapElement.nativeElement,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lon, lat],
-      zoom: 9,
-    });
-
-    this.map.resize();
-    this.map.addControl(new mapboxgl.NavigationControl());
-    this.marker = new mapboxgl.Marker({
-      draggable: true,
-    })
-      .setLngLat([lon, lat])
-      .addTo(this.map);
-    const drag = () => {
-      var lngLat = this.marker.getLngLat();
-      this.coordinate.latitud = lngLat.lat;
-      this.coordinate.longitud = lngLat.lng;
-      this.formLocation.get('latitude')?.setValue(String(this.coordinate.latitud));
-      this.formLocation.get('longitude')?.setValue(String(this.coordinate.longitud));
-    };
-    this.marker.on('dragend', drag);
-  }
-
   goBack() {
     this.locationInject.back();
-  }
-
-  enableAndDisableMap(event): void {
-    if (!event.checked) {
-      this.map.boxZoom.disable();
-      this.map.scrollZoom.disable();
-      this.map.dragPan.disable();
-      this.map.dragRotate.disable();
-      this.map.keyboard.disable();
-      this.map.doubleClickZoom.disable();
-      this.map.touchZoomRotate.disable();
-
-    } else {
-      this.map.boxZoom.enable();
-      this.map.scrollZoom.enable();
-      this.map.dragPan.enable();
-      this.map.dragRotate.enable();
-      this.map.keyboard.enable();
-      this.map.doubleClickZoom.enable();
-      this.map.touchZoomRotate.enable();
-    }
   }
 
   saveInServer(): void {
@@ -296,7 +254,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
         dataSend['schedules'] = this.formSchedules.value;
       }
       if (this.state === 'create') {
-        this.methodHttp.methodPost('admin/locations', dataSend ).subscribe(res => {
+        this.methodsHttp.methodPost('admin/locations', dataSend).subscribe(res => {
           if (res?.success) {
             this.goBack();
           } else { this.isLoadServer = false; }
@@ -304,7 +262,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
           this.isLoadServer = false;
         });
       } else {
-        this.methodHttp.methodPut('admin/locations/' + this.location.id, dataSend ).subscribe(res => {
+        this.methodsHttp.methodPut('admin/locations/' + this.location.id, dataSend).subscribe(res => {
           if (res?.success) {
             this.goBack();
           } else { this.isLoadServer = false; }
@@ -319,16 +277,15 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   }
 
   validateFormSchedule(): boolean {
-    const valReturn =  this.formLocation.get('type')?.value == 'store' ? this.formSchedules.valid : true;
+    const valReturn = this.formLocation.get('type')?.value == 'store' ? this.formSchedules.valid : true;
     if (!valReturn) {
       this.formSchedules.markAsTouched();
-      SwalService.swalFire({title: '¡Atención!', text: 'Debe ingresar un horario valido, donde la hora de apertura sea menor a la hora de cierre', icon: 'warning'});
+      SwalService.swalFire({ title: '¡Atención!', text: 'Debe ingresar un horario valido, donde la hora de apertura sea menor a la hora de cierre', icon: 'warning' });
     }
     return valReturn;
   }
 
   addLocationValidationRequired(): void {
-    console.log('addLocationValidationRequired');
     this.formLocation.get('latitude')?.addValidators([Validators.required]);
     this.formLocation.get('longitude')?.addValidators([Validators.required]);
   }
@@ -348,15 +305,14 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   getCodePostal(): void {
     const { latitude, longitude }: any = this.formLocation.value;
     if (!latitude || !longitude) {
-      SwalService.swalFire({title: '¡Atención!', text: 'Debe ingresar una latitud y longitud valida', icon: 'warning'});
+      SwalService.swalFire({ title: '¡Atención!', text: 'Debe ingresar una latitud y longitud valida', icon: 'warning' });
       return;
     }
     this.isLoadingPostalCode = true;
     this.formLocation.get('postal_code')?.setValue('Espere un momento...');
     const url = CODE_POSTAL_ROUTE_API(environment.MAPS_API_KEY, latitude, longitude);
     fetch(url).then(res => res.json()).then(res => {
-      console.log({res});
-      if(res?.results?.length > 0) {
+      if (res?.results?.length > 0) {
         const resultPostCode = res.results.find((item: any) => item.types.includes('postal_code'));
         if (resultPostCode) {
           const { long_name: postal_code }: any = resultPostCode.address_components.find((item: any) => item.types.includes('postal_code'));
@@ -365,13 +321,18 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       }
       this.isLoadingPostalCode = false;
       if (this.formLocation.get('postal_code')?.value == 'Espere un momento...') {
-        SwalService.swalFire({title: '¡Atención!', text: 'No se pudo obtener el código postal', icon: 'warning'});
+        SwalService.swalFire({ title: '¡Atención!', text: 'No se pudo obtener el código postal', icon: 'warning' });
         this.formLocation.get('postal_code')?.setValue('');
       }
     }).catch(err => {
       console.log(err);
       this.isLoadingPostalCode = false;
-      SwalService.swalFire({title: '¡Atención!', text: 'No se pudo obtener el código postal', icon: 'warning'});
+      SwalService.swalFire({ title: '¡Atención!', text: 'No se pudo obtener el código postal', icon: 'warning' });
     });
+  }
+
+  resetMap(coordinates: [number, number] = [4.7110, -74.0721], zoom: number = 5): void {
+    this.googleMapService.getMap().setCenter({ lat: coordinates[0], lng: coordinates[1] });
+    this.googleMapService.getMap().setZoom(zoom);
   }
 }

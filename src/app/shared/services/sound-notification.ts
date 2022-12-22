@@ -26,7 +26,6 @@ export class SoundNotification {
 
     initVolume(_st: StorageService) {
         let volume = _st.getItemLocalStorage(KeysLocalStorage.VOLUME);
-        console.log({ volume });
         if (!volume) {
             _st.setItemLocalStorage(KeysLocalStorage.VOLUME, '100');
             volume = '100';

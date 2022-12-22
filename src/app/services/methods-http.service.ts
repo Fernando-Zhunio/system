@@ -34,6 +34,10 @@ export class MethodsHttpService {
     return this.http.get<IResponse<T>>(this.end_point + url, { params });
   }
 
+  public methodGetJsonp<T = any>(url, callbackParam: string = 'callback'): Observable<IResponse<T>> {
+    return this.http.jsonp<IResponse<T>>(url,  callbackParam );
+  }
+
   public methodGetPaginate<T = any>(url, params: any = null): Observable<IResponse<IPaginate<T>>> {
     return this.http.get<IResponse<IPaginate<T>>>(this.end_point + url, { params });
   }

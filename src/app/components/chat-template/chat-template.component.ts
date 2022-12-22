@@ -90,7 +90,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       /**
        * The connection to Channels is open and authenticated with your app.
        */
-      console.log('connected');
       this.is_status_connect_chat = true;
       if (!this.first_connect) {
         this.first_connect = true;
@@ -157,7 +156,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       wssPort: environment.portSocket_chat,
     }
     this.echoChat = new EchoManager().set(optionEcho).get();
-    console.log(this.echoChat);
     this.echoChat.private(this.getChannelChat())
       .listen(`.chat`, this.modificationChatListen.bind(this))
       .listen('.message', this.getMessages.bind(this))

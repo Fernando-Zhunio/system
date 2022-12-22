@@ -17,7 +17,7 @@
             </mat-form-field>
             <mat-form-field class="w-100">
               <mat-label>Dirección</mat-label>
-              <textarea type="address" matInput formControlName="address" required ></textarea>
+              <textarea type="address" matInput formControlName="address" required></textarea>
               <mat-error *ngIf="formLocation.controls['address'].invalid">Dirección requerida</mat-error>
             </mat-form-field>
 
@@ -70,7 +70,7 @@
               </mat-form-field>
               <mat-form-field class="col-md-6">
                 <mat-label>Seleccione un tipo</mat-label>
-                <mat-select  formControlName="type" required>
+                <mat-select formControlName="type" required>
                   <mat-option *ngFor="let keyType of keyTypes" [value]="keyType">
                     {{ types[keyType] }}
                   </mat-option>
@@ -81,7 +81,7 @@
             <div class="row w-100">
               <mat-form-field class="col-md-6">
                 <mat-label>Código mba</mat-label>
-                <input matInput formControlName="mba_code"/>
+                <input matInput formControlName="mba_code" />
               </mat-form-field>
               <mat-form-field class="col-md-6">
                 <mat-label>Seleccione un estado</mat-label>
@@ -93,17 +93,27 @@
               </mat-form-field>
             </div>
             <div class="row w-100">
-              <mat-form-field class="col-md-6">
+              <mat-form-field class="col-md-5">
                 <mat-label>Latitud</mat-label>
-                <input (keyup.enter)="setMapLocationInputs()" matInput formControlName="latitude" />
+                <input matInput formControlName="latitude" />
                 <mat-error *ngIf="formLocation.controls['latitude'].invalid">Latitud Requerido</mat-error>
               </mat-form-field>
-              <mat-form-field class="col-md-6">
+              <mat-form-field class="col-md-5">
                 <mat-label>Longitud</mat-label>
-                <input (keyup.enter)="setMapLocationInputs()" matInput formControlName="longitude" />
+                <input matInput formControlName="longitude" />
                 <mat-error *ngIf="formLocation.controls['longitude'].invalid">Longitud requerida</mat-error>
               </mat-form-field>
-
+              <div class="col-md-2">
+                <button color="accent" mat-raised-button (click)="goLocationMarker()">
+                  <i class="fa-solid fa-location-crosshairs"></i>
+                </button>
+              </div>
+              <div class="col-12 mb-2">
+                <button color="accent" mat-raised-button (click)="resetMap()">
+                  Restablecer Mapa
+                  <i class="fa-solid fa-rotate ml-2"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -123,119 +133,117 @@
                 <tr [formGroup]="formSchedules.get('monday')">
                   <td>Lunes</td>
                   <td>
-                    <mat-slide-toggle formControlName="status" color="primary"  #monday >
-                      {{ monday.checked ? 'Abierto' : 'Cerrado' }}
+                    <mat-slide-toggle formControlName="status" color="primary" #monday>
+                      {{ monday.checked ? "Abierto" : "Cerrado" }}
                     </mat-slide-toggle>
                   </td>
                   <ng-container *ngIf="monday.checked">
                     <td>
-                        <input placeholder="Hora de apertura" matInput formControlName="start" type="time" />
+                      <input placeholder="Hora de apertura" matInput formControlName="start" type="time" />
                     </td>
                     <td class="position-relative">
-                        <div class="suffix-fill">
-                          <input matInput formControlName="end" type="time" />
-                          <button
-                            mat-icon-button
-                            (click)="autofillSchedules(formSchedules.get('monday')?.value)">
-                            <mat-icon>published_with_changes</mat-icon>
-                          </button>
-                        </div>
+                      <div class="suffix-fill">
+                        <input matInput formControlName="end" type="time" />
+                        <button mat-icon-button (click)="fillFormSchedules(formSchedules.get('monday')?.value)">
+                          <mat-icon>published_with_changes</mat-icon>
+                        </button>
+                      </div>
                     </td>
                   </ng-container>
                 </tr>
                 <tr [formGroup]="formSchedules.get('tuesday')">
                   <td>Martes</td>
                   <td>
-                    <mat-slide-toggle formControlName="status" color="primary"  #tuesday >
-                      {{ tuesday.checked ? 'Abierto' : 'Cerrado' }}
+                    <mat-slide-toggle formControlName="status" color="primary" #tuesday>
+                      {{ tuesday.checked ? "Abierto" : "Cerrado" }}
                     </mat-slide-toggle>
                   </td>
                   <ng-container *ngIf="tuesday.checked">
                     <td>
-                        <input matInput formControlName="start" type="time" />
+                      <input matInput formControlName="start" type="time" />
                     </td>
                     <td>
-                        <input matInput formControlName="end" type="time" />
+                      <input matInput formControlName="end" type="time" />
                     </td>
                   </ng-container>
                 </tr>
                 <tr [formGroup]="formSchedules.get('wednesday')">
                   <td>Miércoles</td>
                   <td>
-                    <mat-slide-toggle formControlName="status" color="primary"  #wednesday>
-                      {{ wednesday.checked ? 'Abierto' : 'Cerrado' }}
+                    <mat-slide-toggle formControlName="status" color="primary" #wednesday>
+                      {{ wednesday.checked ? "Abierto" : "Cerrado" }}
                     </mat-slide-toggle>
                   </td>
                   <ng-container *ngIf="wednesday.checked">
                     <td>
-                        <input matInput formControlName="start" type="time" />
+                      <input matInput formControlName="start" type="time" />
                     </td>
                     <td>
-                        <input matInput formControlName="end" type="time" />
+                      <input matInput formControlName="end" type="time" />
                     </td>
                   </ng-container>
                 </tr>
                 <tr [formGroup]="formSchedules.get('thursday')">
                   <td>Jueves</td>
                   <td>
-                    <mat-slide-toggle formControlName="status" color="primary"  #thursday >
-                      {{ thursday.checked ? 'Abierto' : 'Cerrado' }}
+                    <mat-slide-toggle formControlName="status" color="primary" #thursday>
+                      {{ thursday.checked ? "Abierto" : "Cerrado" }}
                     </mat-slide-toggle>
                   </td>
                   <ng-container *ngIf="thursday.checked">
                     <td>
-                        <input matInput formControlName="start" type="time" />
+                      <input matInput formControlName="start" type="time" />
                     </td>
                     <td>
-                        <input matInput formControlName="end" type="time" />
+                      <input matInput formControlName="end" type="time" />
                     </td>
                   </ng-container>
                 </tr>
                 <tr [formGroup]="formSchedules.get('friday')">
                   <td>Viernes</td>
                   <td>
-                    <mat-slide-toggle formControlName="status" color="primary"  #friday >
-                      {{ friday.checked ? 'Abierto' : 'Cerrado' }}
+                    <mat-slide-toggle formControlName="status" color="primary" #friday>
+                      {{ friday.checked ? "Abierto" : "Cerrado" }}
                     </mat-slide-toggle>
                   </td>
                   <ng-container *ngIf="friday.checked">
                     <td>
-                        <input matInput formControlName="start" type="time" />
+                      <input matInput formControlName="start" type="time" />
                     </td>
                     <td>
-                        <input matInput formControlName="end" type="time" />
+                      <input matInput formControlName="end" type="time" />
                     </td>
                   </ng-container>
                 </tr>
                 <tr [formGroup]="formSchedules.get('saturday')">
                   <td>Sábado</td>
                   <td>
-                    <mat-slide-toggle formControlName="status" color="primary"  #saturday >
-                      {{ saturday.checked ? 'Abierto' : 'Cerrado' }}
+                    <mat-slide-toggle formControlName="status" color="primary" #saturday>
+                      {{ saturday.checked ? "Abierto" : "Cerrado" }}
                     </mat-slide-toggle>
                   </td>
                   <ng-container *ngIf="saturday.checked">
                     <td>
-                        <input matInput formControlName="start" type="time" />
+                      <input matInput formControlName="start" type="time" />
                     </td>
                     <td>
-                        <input matInput formControlName="end" type="time" />
+                      <input matInput formControlName="end" type="time" />
                     </td>
                   </ng-container>
                 </tr>
                 <tr [formGroup]="formSchedules.get('sunday')">
                   <td>Domingo</td>
                   <td>
-                    <mat-slide-toggle formControlName="status" color="primary"  #sunday >
-                      {{ sunday.checked ? 'Abierto' : 'Cerrado' }}
+                    <mat-slide-toggle formControlName="status" color="primary" #sunday>
+                      {{ sunday.checked ? "Abierto" : "Cerrado" }}
                     </mat-slide-toggle>
                   </td>
                   <ng-container *ngIf="sunday.checked">
                     <td>
-                        <input matInput formControlName="start" type="time" />
+                      <input matInput formControlName="start" type="time" />
                     </td>
                     <td>
-                        <input matInput formControlName="end" type="time" />
+                      <input matInput formControlName="end" type="time" />
                     </td>
                   </ng-container>
                 </tr>
@@ -246,17 +254,16 @@
         <div class="col-md-6">
           <div class="position-relative w-100 container p-0 shadow-lg rounded-fz overflow-hidden mb-3">
             <div #mapElement id="map"></div>
-            <div class="coordinate px-md-5 px-1">
-              Longitud : {{ coordinate?.longitud }}
-              <br />
-              Latitud : {{ coordinate?.latitud }}
-            </div>
+            <!-- <div *ngIf="apiLoaded | async">
+              <google-map [options]="options"></google-map>
+            </div> -->
           </div>
         </div>
 
         <div class="col-md-12">
           <button mat-raised-button [disabled]="isLoadServer" color="primary" (click)="saveInServer()">
-            Guardar localidad <i class="fa-regular fa-paper-plane"></i>
+            Guardar localidad
+            <i class="fa-regular fa-paper-plane"></i>
           </button>
         </div>
       </div>

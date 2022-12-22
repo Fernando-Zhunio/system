@@ -18,7 +18,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DetailLocationDialogComponent } from './components/detail-location-dialog/detail-location-dialog.component';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +37,7 @@ import { DetailLocationDialogComponent } from './components/detail-location-dial
     MatChipsModule,
     MatMenuModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   declarations: [
     IndexLocationsPage,
