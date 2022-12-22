@@ -12,7 +12,6 @@ import { CODE_POSTAL_ROUTE_API } from '../../routes-api/location-routes-api';
 import { GoogleMapFzService } from '../../../../../shared/modules/google-map/services/google-map-fz.service';
 
 
-declare const mapboxgl: any;
 
 @Component({
   selector: 'app-create-or-edit-location',

@@ -11,7 +11,7 @@ import { GoogleMapFzService } from '../../../../../shared/modules/google-map/ser
 export class DetailLocationDialogComponent implements AfterViewInit, OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public location: Location, private googleMapService: GoogleMapFzService,) { }
-  
+   
   DAYS = [
      {day: "Lunes", key: "monday"},
      {day: "Martes", key: "tuesday"},
