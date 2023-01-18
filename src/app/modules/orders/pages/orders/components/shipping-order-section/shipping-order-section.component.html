@@ -45,10 +45,16 @@
         <div matSuffix>cm</div>
       </mat-form-field>
       <mat-form-field>
-        <input matInput type="number" placeholder="Largo" formControlName="length" />
+        <input matInput type="number"  placeholder="Largo" formControlName="length" />
         <div matSuffix>cm</div>
       </mat-form-field>
-      <!-- <div *ngIf="warehouse_select"><mat-chip>Bodega seleccionada:  {{warehouse_select.name + ' - ' + warehouse_select.city + ' - ' + warehouse_select.code }}</mat-chip></div> -->
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          placeholder="Numero de Guía"
+          formControlName="tracking_number" />
+      </mat-form-field>
     </div>
   </div>
 </mat-dialog-content>

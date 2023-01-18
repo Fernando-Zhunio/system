@@ -17,35 +17,6 @@ export class StorageService {
 
   constructor( public s_permissionsService: NgxPermissionsService) {}
 
-  // init(): boolean {
-  //   try {
-  //     const sessionOrFalse: Session | null = this.getCurrentSessionLocalStorage();
-  //     if (sessionOrFalse) {
-  //       this.currentSession = sessionOrFalse as Session;
-  //       Token.setToken = this.getCurrentToken() as string;
-  //       UserFast.setUser = this.getCurrentUser() as User;
-  //       this.permissions = this.getPermissions();
-  //       if (this.permissions) {
-  //         this.s_permissionsService.loadPermissions(this.permissions);
-  //       }
-  //       return true;
-  //     } else {
-  //       const isAuthPath = window.location.href.includes('authentication');
-  //       console.log(window.location.href);
-  //       if (!isAuthPath) {
-  //         this.router.navigate([PATH_LOGIN]);
-  //       }
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     const isAuthPath = window.location.href.includes('authentication');
-  //     if (!isAuthPath) {
-  //       this.router.navigate([PATH_LOGIN]);
-  //     }
-  //     return false;
-  //   }
-  // }
-
   setCurrentSession(session: Session): void {
     this.currentSession = session;
     localStorage.setItem('session', this.encryptedAes(JSON.stringify(session)));

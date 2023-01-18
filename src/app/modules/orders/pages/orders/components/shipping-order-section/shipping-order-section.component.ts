@@ -41,6 +41,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
     height: new FormControl(0),
     width: new FormControl(0),
     length: new FormControl(0),
+    tracking_number: new FormControl({ value: null, disabled: true}),
     origin_warehouse_id: new FormControl(null, [Validators.required]),
   });
   isLoading = false;
@@ -63,7 +64,6 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
       observe = this.standard.methodGet(routes_api_shipping.create);
     }
     observe.subscribe(res => {
-      console.log(res);
       if (res?.success) {
         const data = res.data;
         this.types = data.types;
@@ -80,19 +80,13 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
       tap(() => this.searching = true),
       debounceTime(200),
     ).subscribe(value => {
-      console.log(value);
       this.buscarInterval(value);
     });
 
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    // if (this.subscriptionSearch) {
-    //   this.subscriptionSearch.unsubscribe();
-    // }
+      this.subscription?.unsubscribe();
   }
 
   fillData(data): void {
@@ -111,8 +105,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
   }
 
   selectionType(event: MatSelectChange | any): void {
-    console.log(event);
-    if (event.value == 'pickup') {
+    if (event.value === 'pickup') {
       this.form.get('weight')?.disable();
       this.form.get('height')?.disable();
       this.form.get('width')?.disable();
@@ -128,6 +121,12 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
       this.form.get('height')?.enable();
       this.form.get('width')?.enable();
       this.form.get('length')?.enable();
+    }
+
+    if(event.value === 'servientrega') {
+      this.form.get('tracking_number')?.enable();
+    } else {
+      this.form.get('tracking_number')?.disable();
     }
   }
 
