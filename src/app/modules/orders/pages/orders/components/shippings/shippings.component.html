@@ -62,8 +62,8 @@
                 <td class="center justify-content-start">
                   <span class="text-info">{{
                     shipping?.origin_warehouse?.code
-                  }} </span
-                  >{{ shipping?.origin_warehouse?.name }}
+                  }} - &nbsp;</span
+                  > {{ shipping?.origin_warehouse?.name }}
                 </td>
               </tr>
               <tr>
@@ -100,7 +100,6 @@
               <ng-container
                 *ngIf="
                   shipping.status !== 'delivered' &&
-                  !shipping.tracking_number &&
                   shipping.status !== 'cancelled'
                 "
               >
@@ -116,7 +115,6 @@
                   <button
                     mat-icon-button
                     color="warn"
-                    *ngIf="!shipping.tracking_number"
                     (click)="deleteShipping(shipping.id)"
                   >
                     <i class="fa-solid fa-trash"></i>

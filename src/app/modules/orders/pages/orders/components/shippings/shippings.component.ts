@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
@@ -20,7 +20,7 @@ import { ModalAddProductsShippingComponent } from '../modal-add-products-shippin
   templateUrl: './shippings.component.html',
   styleUrls: ['./shippings.component.scss']
 })
-export class ShippingsComponent implements OnInit {
+export class ShippingsComponent {
 
   constructor(private btnSheet: MatBottomSheet, private dialog: MatDialog, private methodsHttp: MethodsHttpService, protected _sanitizer: DomSanitizer) { }
   @Input() shippings: ShippingOrder[] = [];
@@ -33,9 +33,6 @@ export class ShippingsComponent implements OnInit {
   encoded_pdf: any;
 
   permissionsShipping = PermissionOrdersShippings;
-
-  ngOnInit() {
-  }
 
   openDialogShipping(id: number | null = null): void {
     this.dialog.open(ShippingOrderSectionComponent, {
