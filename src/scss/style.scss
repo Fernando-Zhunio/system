@@ -14,6 +14,9 @@
 :root {
   --max-height-noty: 80vh;
   --z-index: 999;
+  --btn-create: #38817A;
+  --btn-edit: #1D60E2;
+  --btn-delete: #E74C3C;
 }
 
 mat-card {
@@ -345,9 +348,56 @@ canvas {
   background-color: #6bcb77 !important;
 }
 
-// .mat-success[disabled] {
-//   background-color: rgba(0, 0, 0, 0.12) !important;
-// }
+.btn-icon {
+    background-color: #c9c1c147;
+    border: none;
+    padding: 5px;
+    margin: 2px;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.c-edit {
+  color: var(--btn-edit);
+}
+
+.c-create {
+  color: var(--btn-create);
+}
+
+.c-delete {
+  color: var(--btn-delete);
+}
+
+.btn-icon:hover {
+    background-color: #c9c1c1;
+    border: none;
+    padding: 5px;
+    margin: 2px;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.mat-create {
+  background-color: var(--btn-create) !important;
+  color: white;
+  :not(.mdc-evolution-chip--disabled) 
+  .mdc-evolution-chip__text-label {
+    color: rgb(255, 255, 255) !important;
+  }
+}
+
+
+
+.mat-edit {
+  background-color: var(--btn-edit) !important;
+}
+
+
 .mat-info {
   color: #fff;
   background-color: #4d96ff;
@@ -429,7 +479,7 @@ canvas {
 }
 
 .btn-icon-edit {
-  color: #4d96ff !important;
+  color: var(--btn-edit) !important;
   background-color: transparent;
   border: none;
   padding: 5px;

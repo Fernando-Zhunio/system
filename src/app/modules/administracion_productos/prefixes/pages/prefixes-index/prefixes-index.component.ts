@@ -1,7 +1,7 @@
 
 
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { Permission_prefixes } from '../../../../../class/permissions-modules';
@@ -15,7 +15,7 @@ import { CreateOrEditPrefixComponent } from '../create-or-edit-prefix/create-or-
   templateUrl: './prefixes-index.component.html',
   styleUrls: ['./prefixes-index.component.css']
 })
-export class PrefixesIndexComponent extends MatTableHelper<Prefix> implements OnInit {
+export class PrefixesIndexComponent extends MatTableHelper<Prefix> {
 
   protected columnsToDisplay: string[] = ['id', 'type', 'prefix', 'products_count', 'actions'];
   protected url: string = 'products-admin/prefixes';
@@ -27,8 +27,6 @@ export class PrefixesIndexComponent extends MatTableHelper<Prefix> implements On
   }
 
   permissions = Permission_prefixes.prefixes;
-  ngOnInit(): void {
-  }
 
   createOrEdit(isEdit = true, id =null ): void {
     this.dialog.open(CreateOrEditPrefixComponent, {

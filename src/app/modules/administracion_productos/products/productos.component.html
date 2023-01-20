@@ -5,7 +5,7 @@
             <div>
                  Tabla de Productos
             </div>
-            <button color="primary" mat-raised-button type="button" *ngxPermissionsOnly="permission_create" (click)="goCreate()" class="btn btn-pill btn-warning">Crear Producto</button>
+            <button color="create" mat-raised-button type="button" *ngxPermissionsOnly="permission_create" (click)="goCreate()" class="btn btn-pill btn-warning">Crear Producto</button>
         </div>
         <div class="card-body" [formGroup]="formProducts">
             <table class="table table-responsive table-striped">
@@ -40,8 +40,8 @@
                         <td>{{item.category?.name}}</td>
                         <td>{{item.sequence?.sequence_number}}</td>
                         <td>{{item.brand?.name}}</td>
-                        <td class="d-flex"><span [routerLink]="['edit',item.id]" *ngxPermissionsOnly="permission_edit" routerLinkActive="router-link-active" class="mr-1 btn btn-sm btn-spotify" role="button"><i class="far fa-edit"></i></span><span (click)="destroyProduct(item.id)"
-                                *ngxPermissionsOnly="permission_destroy" class="btn btn-html5 btn-sm"><i class="far fa-trash-alt"></i></span></td>
+                        <td class="d-flex"><span [routerLink]="['edit',item.id]" *ngxPermissionsOnly="permission_edit" routerLinkActive="router-link-active" class="mr-1 btn-icon c-edit"><i class="far fa-edit"></i></span><span (click)="destroyProduct(item.id)"
+                                *ngxPermissionsOnly="permission_destroy" class="btn-icon c-delete"><i class="far fa-trash-alt"></i></span></td>
                     </tr>
                 </tbody>
             </table>

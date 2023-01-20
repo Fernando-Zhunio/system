@@ -4,9 +4,9 @@
  title="Marcas"
 >
   <ng-container menuBar>
-    <mat-chip-list>
-      <mat-chip color="orange" (click)="createOrEdit(false)" class="ml-2"><i class="fas fa-plus mr-1"></i> Marca</mat-chip>
-    </mat-chip-list>
+    <mat-chip-set>
+      <mat-chip color="create" (click)="createOrEdit(false)" class="ml-3"><i class="fas fa-plus mr-1"></i> Marca</mat-chip>
+    </mat-chip-set>
   </ng-container> 
    
   <ng-container table>
@@ -35,14 +35,14 @@
               *ngxPermissionsOnly="permissions.edit"
               (click)="createOrEdit(true, row.id)"
               routerLinkActive="router-link-active"
-              class="btn-icon-edit"
+              class="btn-icon c-edit"
               role="button">
               <i class="far fa-edit"></i>
             </button>
             <button
               *ngxPermissionsOnly="permissions.destroy"
               (click)="deleteData(row.id)"
-              class="btn-icon-delete">
+              class="btn-icon c-delete">
               <i class="far fa-trash-alt"></i>
             </button>
           </span>

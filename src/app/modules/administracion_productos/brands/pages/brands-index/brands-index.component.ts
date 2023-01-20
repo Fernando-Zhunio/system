@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { Permission_brands } from '../../../../../class/permissions-modules';
@@ -11,7 +11,7 @@ import { CreateOrEditBrandComponent } from '../create-or-edit-brand/create-or-ed
   templateUrl: './brands-index.component.html',
   styleUrls: ['./brands-index.component.css'],
 })
-export class BrandsIndexComponent extends MatTableHelper<any> implements OnInit {
+export class BrandsIndexComponent extends MatTableHelper<any> {
 
   protected columnsToDisplay: string[] = ['id', 'name', 'code', 'products_count', 'actions'];
   protected url: string = 'products-admin/brands';
@@ -23,8 +23,6 @@ export class BrandsIndexComponent extends MatTableHelper<any> implements OnInit 
   }
 
   permissions = Permission_brands.brands;
-  ngOnInit(): void {
-  }
 
   createOrEdit(isEdit = true, id =null ): void {
     this.dialog.open(CreateOrEditBrandComponent, {

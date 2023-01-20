@@ -1,9 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
-// import { bootstrapApplication } from '@angular/platform-browser';
 import { Permission_categories } from '../../../../../class/permissions-modules';
-// import { SearchTemplateTableComponent } from '../../../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { CategoriesCreateOrEditComponent } from '../categories-create-or-edit/categories-create-or-edit.component';
@@ -13,7 +11,7 @@ import { CategoriesCreateOrEditComponent } from '../categories-create-or-edit/ca
   templateUrl: './categories-index.component.html',
   styleUrls: ['./categories-index.component.css']
 })
-export class CategoriesIndexComponent extends MatTableHelper<any> implements OnInit {
+export class CategoriesIndexComponent extends MatTableHelper<any> {
   protected columnsToDisplay: string[] = ['id', 'name', 'code', 'products_count', 'actions'];
   protected url: string = 'products-admin/categories';
   
@@ -25,8 +23,6 @@ export class CategoriesIndexComponent extends MatTableHelper<any> implements OnI
   }
 
   permissions = Permission_categories.categories;
-  ngOnInit(): void {
-  }
 
   createOrEdit(isEdit = true, id =null ): void {
     this.dialog.open(CategoriesCreateOrEditComponent, {
