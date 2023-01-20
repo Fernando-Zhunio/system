@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 // import { MatRadioChange } from '@angular/material/radio';
 import { MatSort } from '@angular/material/sort';
-import { Chart } from 'chart.js';
 import * as moment from 'moment';
 import { IcompareGraph, Idates } from '../../../../../interfaces/idashboard';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
@@ -99,7 +98,6 @@ export class SellChartComponent implements OnInit {
 
     this.getQueryChart()
       .subscribe((res) => {
-        console.log(res.data);
         const data = res.data as { dates: Idates, previous_period_stats: IcompareGraph[], selected_period_stats: IcompareGraph[] };
         this.updateOptions = {
           series: [{

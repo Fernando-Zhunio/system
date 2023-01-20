@@ -6,7 +6,7 @@ import { PageEvent } from '@angular/material/paginator';
 export abstract class CTemplateSearch<T> {
   paginator: Ipagination<T>;
   isLoading: boolean;
-  headerComponent: HeaderSearchComponent;
+  abstract headerComponent: HeaderSearchComponent;
   
   pageSizeOptions: number[] = [10, 15, 25, 50];
   products: T[] = [];

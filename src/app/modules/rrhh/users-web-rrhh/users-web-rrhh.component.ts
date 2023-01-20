@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CTemplateSearch } from '../../../class/ctemplate-search';
 import { Iuser } from '../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -12,12 +12,12 @@ import { HeaderSearchComponent } from '../../../components/header-search/header-
   animations: animation_conditional
 
 })
-export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> implements OnInit {
+export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> {
 
   constructor() {
     super();
   }
-  @ViewChild(HeaderSearchComponent)  override headerComponent: HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
 
   isOpenCv: boolean = false;
@@ -30,8 +30,6 @@ export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> implements OnI
     identification_number: new FormControl(''),
     profession: new FormControl('')
   });
-  ngOnInit(): void {
-  }
 
   getDataPaginate(event: Iuser[]): void {
     this.products = event;
@@ -44,8 +42,4 @@ export class UsersWebRrhhComponent extends CTemplateSearch<Iuser> implements OnI
       this.cv = cv;
     }
   }
-
-
-
-
 }

@@ -32,7 +32,6 @@ export class EditProductOrderComponent implements OnInit {
   }
 
   fillData(): void {
-    console.log(this.data.item);
     this.form.patchValue({
       quantity: this.data.item.quantity,
       price: this.data.item.price,

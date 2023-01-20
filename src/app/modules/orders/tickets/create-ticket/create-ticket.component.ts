@@ -37,7 +37,6 @@ export class CreateTicketComponent implements OnInit {
   }
 
   getOrderId(): void {
-    console.log(SharedService.getQueryParametersUrl('order_id', this.activatedRoute));
     const queryParamOrder_id = SharedService.getQueryParametersUrl('order_id', this.activatedRoute);
     if (queryParamOrder_id) {
       this.form.get('order_id')?.setValue(queryParamOrder_id);
@@ -45,7 +44,6 @@ export class CreateTicketComponent implements OnInit {
   }
 
   getDataOrder(data): void {
-    console.log(data);
     this.orders = data.data;
   }
 
@@ -76,14 +74,12 @@ export class CreateTicketComponent implements OnInit {
       if (this.form.get('file')?.value) {
         formData.append('file', this.form.get('file')?.value);
       }
-      this.methodsHttp.methodPost('system-orders/tickets', formData).subscribe(res => {
-        console.log(res);
+      this.methodsHttp.methodPost('system-orders/tickets', formData).subscribe(() => {
         this.isLoading = false;
         this.router.navigate(['/system-orders/tickets']);
       }, () => {this.isLoading = false; }
       );
     } else {
-      console.log('Formulario invalido');
       this.form.markAllAsTouched();
     }
   }

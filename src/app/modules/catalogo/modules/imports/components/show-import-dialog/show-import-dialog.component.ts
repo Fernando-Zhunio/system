@@ -47,7 +47,6 @@ export class ShowImportDialogComponent implements OnInit {
         if (response.success) {
           this.import = response.data?.import;
           this.products = response.data?.products;
-          console.log(this.products);
         }
         this.isLoading = false;
       });

@@ -128,7 +128,6 @@ export class DynamicDataSource {
   toggleNode(node: DynamicFlatNode, expand: boolean) {
     const children = this._database.getChildren(node.id);
     const index = this.data.indexOf(node);
-    console.log({ node, expand, data: this.data[index].expandable });
     if (!children || index < 0) { // If no children, or cannot find the node, no op
       return;
     }
@@ -145,7 +144,6 @@ export class DynamicDataSource {
     node.isLoading = true;
     this.s_standard.store(`${this.url}/${node.id}`, null).subscribe(
       (data) => {
-        console.log(data);
 
         // this.dataChange.next(this.data);
         // children.children.map((element: ICategoriesChildren) => new DynamicFlatNode(element.id, element.name, node.level + 1, true));
@@ -169,7 +167,6 @@ export class DynamicDataSource {
         }
         this.dataChange.next(this.data);
         node.isLoading = false;
-        console.log(data);
       }
     );
 

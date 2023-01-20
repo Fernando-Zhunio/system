@@ -1,6 +1,5 @@
 import { HttpParams } from '@angular/common/http';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { Chart } from 'chart.js';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 import { EKeyDashboard } from '../enums/EkeyDashboard.enum';
@@ -11,7 +10,7 @@ import { SwalService } from '../services/swal.service';
 export abstract class ManagerChartTop<T> {
   chart: Chart;
   abstract s_standard: StandartSearchService;
-  dates: any;
+  abstract dates: any;
   isLoading = false;
   updateOptions: any;
   spinner: NgxSpinnerService;

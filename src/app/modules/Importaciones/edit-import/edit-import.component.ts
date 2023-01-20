@@ -69,7 +69,7 @@ export class EditImportComponent implements OnInit {
             this.providers = res.data;
           }
         }, err => {
-          console.log(err);
+          console.error(err);
           snack.dismiss();
         })
         break;
@@ -82,7 +82,7 @@ export class EditImportComponent implements OnInit {
             this.snack_bar.open('Contacto creado con éxito', 'OK', { duration: 2000 })
           }
         }, err => {
-          console.log(err);
+          console.error(err);
           snack.dismiss();
         })
         break;
@@ -95,7 +95,7 @@ export class EditImportComponent implements OnInit {
             this.snack_bar.open('Proveedor editado con éxito', 'OK', { duration: 2000 })
           }
         }, err => {
-          console.log(err);
+          console.error(err);
           snack.dismiss();
         })
         break;
@@ -108,7 +108,7 @@ export class EditImportComponent implements OnInit {
             this.snack_bar.open('Proveedor eliminado con éxito', 'OK', { duration: 2000 })
           }
         }, err => {
-          console.log(err);
+          console.error(err);
           snack.dismiss();
         })
         break;
@@ -121,7 +121,7 @@ export class EditImportComponent implements OnInit {
             this.snack_bar.open('Contacto editado con éxito', 'OK', { duration: 2000 })
           }
         }, err => {
-          console.log(err);
+          console.error(err);
           snack.dismiss();
         })
         break;
@@ -134,7 +134,7 @@ export class EditImportComponent implements OnInit {
             this.snack_bar.open('Contacto eliminado con éxito', 'OK', { duration: 2000 })
           }
         }, err => {
-          console.log(err);
+          console.error(err);
           snack.dismiss();
         })
         break
@@ -192,8 +192,7 @@ export class EditImportComponent implements OnInit {
       this.s_standart.updatePut('purchase-department/imports/' + this.import?.id + '/publish', this.form_publish.value).subscribe(() => {
         this.spinner.hide();
       }, err => {
-        // this.spinner.hide();
-        console.log(err);
+        console.error(err);
         this.spinner.hide();
       });
     }

@@ -57,7 +57,6 @@
 
 //         ];
 //         const result = SharedService.groupBy(array, 'group');
-//         console.log(result);
 
 //         const isObject = result instanceof Object;
 

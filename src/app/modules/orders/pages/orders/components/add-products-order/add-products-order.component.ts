@@ -47,7 +47,6 @@ export class AddProductsOrderComponent  {
         url: this.urlProducts,
         onlyOne: true
       }).beforeClose().subscribe(res => {
-        console.log(res);
         if (res?.data) {
           this.form.get('product')?.setValue(res.data);
         }

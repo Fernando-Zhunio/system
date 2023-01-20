@@ -62,7 +62,7 @@ export class ProductosComponent implements OnInit {
         }
         return params;
       } catch (error) {
-        console.log(error);
+        console.error(error);
 
         return null;
       }

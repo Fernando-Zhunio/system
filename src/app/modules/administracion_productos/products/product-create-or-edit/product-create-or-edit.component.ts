@@ -86,7 +86,7 @@ export class ProductCreateOrEditComponent implements OnInit {
               this.isSend = ! this.isSend;
             },
             error => {
-              console.log({error});
+              console.error({error});
           this.isSend = ! this.isSend;
 
             }
@@ -102,7 +102,7 @@ export class ProductCreateOrEditComponent implements OnInit {
               this.isSend = ! this.isSend;
             },
             error => {
-              console.log({error});
+              console.error({error});
           this.isSend = ! this.isSend;
 
             }

@@ -49,7 +49,6 @@ export abstract class CreateOrEditModal {
     }
 
     initData(response) {
-        console.log(response);
         this.form.patchValue(response.data);
     }
 

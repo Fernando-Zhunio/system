@@ -244,7 +244,7 @@ export class CreateOrEditPersonComponent implements OnInit {
             },
             (err) => {
               this.isloadContact = false;
-              console.log(err);
+              console.error(err);
             }
           );
       }
@@ -271,7 +271,7 @@ export class CreateOrEditPersonComponent implements OnInit {
             },
             (err) => {
               this.isloadContact = false;
-              console.log(err);
+              console.error(err);
             }
           );
       }

@@ -1,6 +1,6 @@
 
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -30,7 +30,7 @@ interface IformatSpecification {
   templateUrl: './form-product.component.html',
   styleUrls: ['./form-product.component.css'],
 })
-export class FormProductComponent implements OnInit {
+export class FormProductComponent {
   constructor(
     private s_spinner: NgxSpinnerService,
     private s_standart: StandartSearchService,
@@ -87,7 +87,6 @@ export class FormProductComponent implements OnInit {
   }>();
   hasChild = (_: number, node: any) =>
     !!node.children && node.children.length > 0
-  ngOnInit(): void {}
 
   stateInitUpdate(): void {
     const {
@@ -326,11 +325,9 @@ export class FormProductComponent implements OnInit {
               } else { control = new FormControl(value); }
               this.formSpecification.addControl(element.FieldId, control);
             });
-            console.log(this.formSpecification.value);
             this.vtexSpecificationProduct = res.data.specification_products;
           }
           this.isLoadSpecifications = false;
-          console.log(this.isLoadSpecifications);
         },
         () => {
           this.isLoadSpecifications = false;

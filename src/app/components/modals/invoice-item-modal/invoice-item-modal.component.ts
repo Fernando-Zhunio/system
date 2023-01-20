@@ -2,7 +2,6 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgxGalleryAction, NgxGalleryAnimation,  NgxGalleryOptions} from 'ngx-gallery-9';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxGalleryImage } from '../../../class/NgxGalleryImage';
 import {
@@ -47,44 +46,11 @@ export class InvoiceItemModalComponent implements OnInit {
   products: any[] = [];
   title: string = 'Nuevo item en la factura';
   product_relationship: any;
-  galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[] = [];
   state_edit_init = '';
-  galleryAction = <NgxGalleryAction>{
-    icon: 'fas fa-trash text-danger',
-    onClick: (_event: Event, index: number) => {
-      alert(this.galleryImages[index].medium);
-      const id = this.galleryImages[index].id;
-      const url = 'purchase-department/imports/imagen/' + id;
-      this.s_standart.destory(url).subscribe((res) => {
-        this.removeImageGallery(res.data.id);
-      });
-    },
-  };
   imgInvoice: string = 'assets/img/img_default_null.jpg';
   ngOnInit(): void {
-    this.galleryOptions = [
-      {
-        width: '100%',
-        height: '100%',
-        thumbnailsColumns: 4,
-        imageAnimation: NgxGalleryAnimation.Slide,
-        actions: [this.galleryAction],
-      },
-      {
-        breakpoint: 800,
-        width: '100%',
-        height: '100%',
-        imagePercent: 80,
-        thumbnailsPercent: 20,
-        thumbnailsMargin: 20,
-        thumbnailMargin: 20,
-      },
-      {
-        breakpoint: 400,
-        preview: false,
-      },
-    ];
+    
 
     if (this.data.state === 'edit') { this.title = 'Editando item de la factura'};
     if (this.data.hasOwnProperty('formData')) {
@@ -262,7 +228,7 @@ export class InvoiceItemModalComponent implements OnInit {
         (error) => {
           snack1.dismiss();
           // this.loader = false;
-          console.log(error);
+          console.error(error);
           this.isLoadItem = false;
 
           // alert('Imagen supera el tamaño permitido');
@@ -311,8 +277,6 @@ export class InvoiceItemModalComponent implements OnInit {
 
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.spinner.hide();
   }
 }

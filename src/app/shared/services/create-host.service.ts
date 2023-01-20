@@ -76,7 +76,6 @@ export class CreateHostService {
   close(id: any, data: any = null) {
     const {componentRef, beforeClose} = this.componentRefMap.get(id)!;
     beforeClose.next(data);
-    console.log({data})
     componentRef?.destroy();
     this.componentRefMap.delete(id);
   }

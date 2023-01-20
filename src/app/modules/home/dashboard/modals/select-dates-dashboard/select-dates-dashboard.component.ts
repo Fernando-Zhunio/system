@@ -4,7 +4,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import AirDatepicker, { AirDatepickerOptions } from 'air-datepicker';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
-// import { loadPreference } from '../../../../../redux/actions/preference.action';
 import { SharedService } from '../../../../../services/shared/shared.service';
 import { SwalService } from './../../../../../services/swal.service';
 

@@ -70,7 +70,6 @@ export class IndexLocationsPage extends MatTableHelper<Location> implements OnIn
   openDetailLocation(id: number): void {
 
     const location = this.dataSource.find((location) => location.id === id);
-    console.log({location})
     if (!location) return;
     this.dialog.open(DetailLocationDialogComponent, {
       data: location,

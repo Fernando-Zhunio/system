@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -63,8 +63,8 @@ interface IfacebookSet {
 })
 export class FacebookAdsSetComponent
   extends CtableAndPaginator<IfacebookSet>
-  implements OnInit {
-  @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;
+ {
+  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   override displayedColumns: string[] = [
     // "add",
     'state',
@@ -93,8 +93,6 @@ export class FacebookAdsSetComponent
   ) {
     super();
   }
-
-  ngOnInit(): void {}
 
   applyFilter() {
     if (this.min > this.max) {const aux = this.min; this.min = this.max; this.max = aux; }

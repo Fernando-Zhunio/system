@@ -44,7 +44,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
         this.isLoading = false;
       },
       (error: any) => {
-        console.log(error);
+        console.error(error);
         this.isLoading = false;
       }
     );
@@ -85,7 +85,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
           this.isLoading = false;
         },
         (error: any) => {
-          console.log(error);
+          console.error(error);
           this.isLoading = false;
         }
       );
@@ -107,7 +107,7 @@ export class FilesPaymentsOrderComponent implements OnInit {
               this.isLoading = false;
             },
             (error: any) => {
-              console.log(error);
+              console.error(error);
               this.isLoading = false;
             }
           );
@@ -119,7 +119,6 @@ export class FilesPaymentsOrderComponent implements OnInit {
   public files1: NgxFileDropEntry[] = [];
 
   public dropped(files: NgxFileDropEntry[]) {
-    console.log(files);
     const droppedFile = files[0];
     // for (const droppedFile of files) {
 
@@ -129,7 +128,6 @@ export class FilesPaymentsOrderComponent implements OnInit {
         fileEntry.file((file: File) => {
           this.onFileSelected({target:{files:[file]}},);
           // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
 
           /**
           // You could upload it like this:
@@ -148,11 +146,11 @@ export class FilesPaymentsOrderComponent implements OnInit {
           **/
 
         });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
-      }
+      } 
+      // else {
+      //   // It was a directory (empty directories are added, otherwise only files)
+      //   const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+      // }
     // }
   }
   urlVisor: string | null = null;

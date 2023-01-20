@@ -57,7 +57,7 @@ export class CreateOrEditDiscountOrTaxOrderComponent implements OnInit {
     observer.subscribe(res => {
       this.fillData(res.data);
     this.isLoading = false;
-    }, err => { console.log(err); this.isLoading = false; });
+    }, err => { console.error(err); this.isLoading = false; });
   }
 
   fillData(data: any): void {

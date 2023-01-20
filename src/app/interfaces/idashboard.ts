@@ -1,4 +1,4 @@
-import { ChartDataset, ChartOptions } from 'chart.js';
+import {  ChartOptions } from 'chart.js';
 
 export interface IheaderDashboard {
     sales_total: IsalesHeader;
@@ -99,7 +99,7 @@ export interface Ichart {
     isLegend: boolean;
     colors?: [{ backgroundColor: string[] }];
     plugins?: any;
-    dataSet: ChartDataset[] | number[];
+    dataSet:  number[];
     option?: ChartOptions;
 }
 

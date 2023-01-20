@@ -68,22 +68,11 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
        * All dependencies have been loaded and Channels is trying to connect.
        * The connection will also enter this state when it is trying to reconnect after a connection failure.
        */
-      console.log('connecting');
       this.is_status_connect_chat = false;
     });
 
     this.echoChat.connector.pusher.connection.bind('state_change', () => {
-      // if (states.current === 'failed') {
-      //   this.connectionChat();
-      //   console.log('failed...');
-      // }
-      // if (states.current != 'connected') {
-      //   this.is_status_connect_chat = false;
-      //   // this.echoChat.connector.pusher.connect();
-      //   // console.log('failed...');
-      // } else {
-      //   this.is_status_connect_chat = true;
-      // }
+
     });
 
     this.echoChat.connector.pusher.connection.bind('connected', () => {
@@ -93,15 +82,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       this.is_status_connect_chat = true;
       if (!this.first_connect) {
         this.first_connect = true;
-      } else {
-        // this.onSelectChats(null);
-        // if (this.chatsComponent.length > 0) {
-        //   console.log(this.chatsComponent.length > 0);
-        //   this.chatsComponent.forEach(chat => {
-        //     chat.getMessageReconnected();
-        //   });
-        // }
-
       }
 
     });
@@ -277,7 +257,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   getMessages(event: { chat: Ichats; message: ImessageChat }): void {
     // * si no esta abierto el panel de chat suma uno en el icono del chat
-    console.log({message: event});
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }
@@ -326,7 +305,6 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     event: string;
     user: { id: number; status: 'offline' | 'online'; _id: string, last_seen: string };
   }): void {
-    console.log({chatStatus: event})
     if (this.users.has(event.user._id)) {
       this.users.get(event.user.id)!.connected = event.user.status == 'online' ? 1 : 0;
     }

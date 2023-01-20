@@ -1,35 +1,22 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-// import {  LinearScale, LineController, LineElement, PointElement, registerables, Title } from 'chart.js';
-// import Chart from 'chart.js/auto';
-// import AirDatepicker from 'air-datepicker';
-// import localeEs from 'air-datepicker/locale/es';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { IheaderDashboard, IsalesHeader, ISeller, IsellForCity, IstatisticableLocation, ItopDashboard } from '../../../interfaces/idashboard';
-// import * as moment from 'moment';
 import { PageEvent } from '@angular/material/paginator';
 import { SellChartComponent } from './chart/sell-chart/sell-chart.component';
 import { ProductChartComponent } from './chart/product-chart/product-chart.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { IndexComponent } from '../versus/index/index.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectDatesDashboardComponent } from './modals/select-dates-dashboard/select-dates-dashboard.component';
 import { HttpParams } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { LocalesChartComponent } from './chart/locales-chart/locales-chart.component';
 import { CategoryChartComponent } from './chart/category-chart/category-chart.component';
-// import { Store } from '@ngrx/store';
-// import { selectPreference } from '../../../redux/state/state.selectors';
-// import { IDatesDashboard } from '../../../interfaces/idates-dashboard';
 import { EKeyDashboard } from '../../../enums/EkeyDashboard.enum';
-// import { PreferencesService } from '../../../core/services/preferences.service';
 import { selectPreference } from '../../../redux/state/state.selectors';
 import { Store } from '@ngrx/store';
 import { PreferenceDashboard, Preferences } from '../../../core/interfaces/preferences';
-// moment.locale('es');
-// Chart.register(...registerables);
-// Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
+
 interface IsellCity {
   // id: number;
   name: string;
@@ -50,7 +37,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     public s_standard: StandartSearchService,
-    private bottomSheet: MatBottomSheet,
     private dialogDates: MatDialog,
     // private preferencesServices: PreferencesService
   ) {
@@ -102,7 +88,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.unSubscriptedStorePreference =  this.store.select(selectPreference)
     .subscribe((preferences: Preferences) => {
-      console.log({preferences});
       if (preferences.dashboard_dates) {
         this.dateRange = preferences.dashboard_dates!;
       }
@@ -136,7 +121,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (response) => {
         this.assignHeaderDate(response.data);
         this.isLoadingHeader = false;
-      }, err => { console.log(err); this.isLoadingHeader = false; });
+      }, err => { console.error(err); this.isLoadingHeader = false; });
   }
 
   assignHeaderDate(data: IheaderDashboard): void {
@@ -144,10 +129,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.value_middle = data.sales_average;
     this.invoice_total = data.sales_count;
     this.products_sold_count = data.products_sold_count;
-  }
-
-  openSelectVersus(): void {
-    this.bottomSheet.open(IndexComponent);
   }
 
   openDialogDates(): void {

@@ -17,7 +17,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ClipboardModule} from '@angular/cdk/clipboard';
 // import { MatSidenavModule } from '@angular/material/sidenav';
-import { SwiperModule } from 'ngx-swiper-wrapper';
+// import { SwiperModule } from 'ngx-swiper-wrapper';
 import { MomentModule } from 'ngx-moment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductsComponent } from './pages/products/products.component';
@@ -51,7 +51,7 @@ import { MatListModule } from '@angular/material/list';
     NgxSkeletonLoaderModule,
     ClipboardModule,
     PostModule,
-    SwiperModule,
+    // SwiperModule,
     SearchTemplateModule,
     MomentModule,
     MatDialogModule,

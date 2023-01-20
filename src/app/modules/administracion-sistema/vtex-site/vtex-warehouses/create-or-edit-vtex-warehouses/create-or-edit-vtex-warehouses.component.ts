@@ -77,7 +77,7 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
               ]);
             }
           }, err => {
-            console.log(err);
+            console.error(err);
             this.isload = false;
           });
       } else {
@@ -92,7 +92,7 @@ export class CreateOrEditVtexWarehousesComponent implements OnInit {
               ]);
             }
           }, err => {
-            console.log(err);
+            console.error(err);
             this.isload = false;
           });
       }

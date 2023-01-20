@@ -25,7 +25,6 @@ export function empty(mixedVar) {
 let base64Image: string | null = null
 export function downloadImage(imageUrl) {
   getBase64ImageFromURL(imageUrl).subscribe(base64data => {
-  console.log(base64data);
   base64Image = "data:image/jpg;base64," + base64data;
   // save image to disk
   var link = document.createElement("a");

@@ -42,7 +42,6 @@ export abstract class MatTableHelper<T = any> {
         const index = this.dataSource.findIndex(order => order[key] === id);
         if (index !== -1) {
             this.dataSource[index] = {...this.dataSource[index],...newData};
-            console.log(this.dataSource[index]);
             this.table.renderRows();
         }
     }

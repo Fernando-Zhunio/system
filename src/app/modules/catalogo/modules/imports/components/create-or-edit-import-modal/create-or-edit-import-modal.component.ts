@@ -66,7 +66,6 @@ export class CreateOrEditImportModalComponent implements OnInit {
           const importation: Import = response.data.import;
           this.fillForm(importation);
           this.origins = response.data.origins;
-          console.log(this.origins);
           this.isLoading = false;
         }
       });

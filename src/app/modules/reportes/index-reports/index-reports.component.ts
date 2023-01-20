@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { PermissionReportsOrders } from '../../../class/permissions-modules';
@@ -11,7 +11,7 @@ import { SwalService } from '../../../services/swal.service';
   templateUrl: './index-reports.component.html',
   styleUrls: ['./index-reports.component.scss']
 })
-export class IndexReportsComponent implements OnInit {
+export class IndexReportsComponent  {
 
   constructor(private methodsHttp: MethodsHttpService,private snackBar: MatSnackBar) { }
 
@@ -32,16 +32,11 @@ export class IndexReportsComponent implements OnInit {
     'actions'
   ]
 
-  ngOnInit(): void {
-  }
-
   getData(event): void {
-    console.log(event);
     this.dataSource = event;
   }
 
   hasLoading(event): void {
-    console.log(event);
     this.isLoading = event;
   }
 

@@ -21,7 +21,6 @@ export class SearchProductsComponent  {
 
   getData(data) {
     this.products = new Map(data.data.map((item: any) => [item.id, item]));
-    // console.log(this.products);
   }
 
   addProduct(key) {

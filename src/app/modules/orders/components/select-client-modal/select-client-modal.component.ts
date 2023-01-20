@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { IClientOrder } from '../../../../interfaces/iorder';
@@ -9,18 +9,14 @@ import { SwalService } from '../../../../services/swal.service';
   templateUrl: './select-client-modal.component.html',
   styleUrls: ['./select-client-modal.component.scss']
 })
-export class SelectClientModalComponent implements OnInit {
+export class SelectClientModalComponent  {
 
   constructor(private dialogRef: MatDialogRef<SelectClientModalComponent>) { }
   url = 'system-orders/clients';
   clients: IClientOrder[] = [];
   isLoading = false;
 
-  ngOnInit() {
-  }
-
   getData(data) {
-    console.log(data);
     if (data?.data) {
       this.clients = data.data;
     }
@@ -28,7 +24,6 @@ export class SelectClientModalComponent implements OnInit {
 
   selectedClient(event: MatSelectionListChange): void {
     const id = event.options[0].value;
-    console.log(event, id);
     const indexClient = this.clients.findIndex(client => client.id === id);
     if (indexClient > -1) {
       this.dialogRef.close(this.clients[indexClient]);

@@ -241,14 +241,12 @@ export class YetiLook {
     this.uncoverEyes();
   }
   coverEyes() {
-    console.log(Quad)
 
     TweenMax.to(this.armL, .45, { x: -93, y: 2, rotation: 0, ease: Quad.easeOut });
     TweenMax.to(this.armR, .45, { x: -93, y: 2, rotation: 0, ease: Quad.easeOut, delay: .1 });
   }
 
   uncoverEyes() {
-    console.log(Quad)
     TweenMax.to(this.armL, 1.35, { y: 220, ease: Quad.easeOut });
     TweenMax.to(this.armL, 1.35, { rotation: 105, ease: Quad.easeOut, delay: .1 });
     TweenMax.to(this.armR, 1.35, { y: 220, ease: Quad.easeOut });

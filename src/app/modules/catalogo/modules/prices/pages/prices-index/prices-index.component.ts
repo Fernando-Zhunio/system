@@ -111,7 +111,7 @@ export class PricesIndexComponent
           Accept: 'application/json',
         },
         onerror: (response: any) => {
-          console.log({ response });
+          console.error({ response });
           const res = JSON.parse(response);
           SwalService.swalToast(res?.message || 'Error al subir el archivo', 'error');
         },
@@ -148,7 +148,6 @@ export class PricesIndexComponent
     this.chs.injectComponent<Import>(SearchImportDialogComponent)
       .beforeClose().subscribe((res) => {
         if (res?.data) {
-          console.log(res.data);
           this.setFormImport(res.data)
         }
       });
@@ -205,7 +204,6 @@ export class PricesIndexComponent
 
   openCreateOrEditPrice(id: number | null): void {
     const product = this.dataSource.find(x => x.id === id);
-    console.log({ product, dataSource: this.dataSource });
     this.btnSheet.open(CreateOrEditPricesButtonSheetComponent, {
       data: {
         product,
@@ -214,7 +212,6 @@ export class PricesIndexComponent
       disableClose: true,
     }).afterDismissed().subscribe({
       next: (res) => {
-        console.log({ res });
         if (res?.success) {
           this.updateItemInTable(id, res.data);
         }

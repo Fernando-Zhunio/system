@@ -38,7 +38,7 @@ export class MlComponent {
         this.isLoadMenu = false;
       }
     }, err => {
-      console.log(err);
+      console.error(err);
       this.isLoadMenu = false;
     });
   }
@@ -61,7 +61,7 @@ export class MlComponent {
                   this.snack_bar.open('Ups! Ocurrió un error', 'Error', {duration: 2000});
                 }
               }, err => {
-                console.log(err);
+                console.error(err);
                 snack.dismiss();
                 this.snack_bar.open('Ups! Ocurrió un error', 'Error', {duration: 2000});
               });
@@ -86,7 +86,7 @@ export class MlComponent {
                   this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration: 2000});
                 }
               }, err => {
-                console.log(err);
+                console.error(err);
                 snack.dismiss();
                 this.snack_bar.open('Ups! Ocurrio un error', 'Error', {duration: 2000});
               });

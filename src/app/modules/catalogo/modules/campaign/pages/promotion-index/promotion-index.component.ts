@@ -52,7 +52,6 @@ export class PromotionIndexComponent extends MatTableHelper<Promotion> implement
           },
           onload: (response: any) => {
             const data = JSON.parse(response);
-            console.log(data);
             SwalService.swalFire({ title: 'Procesando excel en el servidor', text: 'El excel se esta procesando en el servidor, en unos momento recibirá una notificación describiendo el estado del proceso', icon: 'success' });
             return data.id;
           }

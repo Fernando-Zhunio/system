@@ -41,7 +41,6 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
   }
 
   callbackImg(e): void {
-    // console.log(e);
     this.img.base64 = e.srcElement.result;
   }
 
@@ -68,7 +67,6 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
   }
 
   override setData(data: any): void {
-    console.log({data});
       if (this.status === 'edit') {
         this.form.get('name')?.setValue(data.info.name);
         this.img.base64 = data.info.photo || 'assets/img/img_not_available.png';
@@ -91,7 +89,7 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
             this.isLoading = false;
             this.go();
         }, error => {
-            console.log(error);
+            console.error(error);
             this.isLoading = false;
         });
         return;

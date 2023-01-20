@@ -31,7 +31,6 @@ export class TransactionsPaymentComponent implements OnInit {
     const url = `system-orders/orders/${this.data.order_id}/payments/${this.data.payment_id}/transactions`;
     this.isLoading = true;
     this.standard.methodGet<ITransactionPaymentOrder[]>(url).subscribe(res => {
-      console.log(res);
       this.transactions = res.data;
       this.isLoading = false;
     }, () => {
@@ -48,7 +47,7 @@ export class TransactionsPaymentComponent implements OnInit {
       this.methodPayDetail = MethodTypeCode[mp];
     } catch(e){
       this.methodPayDetail = "";
-      console.log(e);
+      console.error(e);
     }
     this.hiddenDetails = false;
   }

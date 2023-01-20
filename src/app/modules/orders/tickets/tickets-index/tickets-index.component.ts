@@ -47,7 +47,6 @@ export class TicketsIndexComponent implements OnInit {
   }
 
   getData(event): void {
-    console.log(event);
     this.tickets = event;
   }
 

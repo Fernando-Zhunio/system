@@ -104,7 +104,6 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
     }
 
     override getDataForSendServer(): any {
-      console.log(this.form.value);
       if(this.form.valid) {
         return this.form.value;
       } else {

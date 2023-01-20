@@ -46,6 +46,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     id: new FormControl(null),
     // state:new FormControl('create'),
   });
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() close: EventEmitter<object> = new EventEmitter();
   @Output() new_action: EventEmitter<{
     action: EProviderActions;
@@ -158,7 +159,6 @@ export class InvoiceCreateOrEditComponent implements OnInit {
     this.state = 'edit';
   }
 
-  // action_provider:'create_provider'|'create_contact'
   openActionProvider() {
     const id = this.formInvoice.controls['provider_id'].value;
     const indexProvider = this.providers.findIndex((x) => x.id === id);
@@ -316,7 +316,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
         },
         (err) => {
           this.isLoadInvoice = false;
-          console.log(err);
+          console.error(err);
           snack1.dismiss();
           this.snack.open('Error intentalo de nuevo', 'Error', {
             duration: 2500,
@@ -382,7 +382,7 @@ export class InvoiceCreateOrEditComponent implements OnInit {
         },
         (err) => {
           this.isLoadInvoice = false;
-          console.log(err);
+          console.error(err);
           snack1.dismiss();
           this.snack.open('Error intentalo de nuevo', 'Error', {
             duration: 2500,

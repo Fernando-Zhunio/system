@@ -40,7 +40,6 @@ export class CreateOrEditPriceComponent
 
   override setData(data?: any): void {
     this.data = data;
-    console.log(this.data);
   }
 
   override getDataForSendServer() {

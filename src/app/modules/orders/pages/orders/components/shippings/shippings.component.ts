@@ -97,7 +97,6 @@ export class ShippingsComponent {
       this.dialog.open(GenerateGuideServientregaComponent, {
         data: { client: this.client, shipping_address: this.shipping_address, shipping: this.shippings[indexShipping], order_id: this.order_id },
       }).beforeClosed().subscribe(res => {
-        console.log({ res });
         if (res?.success) {
           this.change.emit('generate guide');
         }
@@ -173,13 +172,11 @@ export class ShippingsComponent {
   }
 
   openDialogProductsShipping(id: number, status): void {
-    console.log({ id, status });
     this.dialog.open(ModalAddProductsShippingComponent, {
       data: { shipping_id: id, order_id: this.order_id, isModify: !this.isCancelled && status === 'pending' },
       disableClose: true,
       maxHeight: '80vh',
     }).beforeClosed().subscribe(res => {
-      console.log({ res });
       if (res?.success) {
         this.change.emit('create or update');
       }

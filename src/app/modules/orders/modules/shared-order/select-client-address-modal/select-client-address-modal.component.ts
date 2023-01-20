@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { IClientOrder, IShippingAddress } from '../../../../../interfaces/iorder';
@@ -10,19 +10,14 @@ import { SwalService } from '../../../../../services/swal.service';
   templateUrl: './select-client-address-modal.component.html',
   styleUrls: ['./select-client-address-modal.component.scss']
 })
-export class SelectClientAddressModalComponent implements OnInit {
+export class SelectClientAddressModalComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public dataExternal: {order_id: number, client: IClientOrder}, private dialogRef: MatDialogRef<SelectClientAddressModalComponent>, private standard: StandartSearchService) { }
   isLoading = false;
   addresses: IShippingAddress[] = [];
   url = `system-orders/clients/${this.dataExternal.client.id}/addresses`;
 
-
-  ngOnInit() {
-  }
-
   getData(data) {
-    console.log(data);
     if (data?.data) {
       this.addresses = data.data;
     }
@@ -31,7 +26,6 @@ export class SelectClientAddressModalComponent implements OnInit {
 
   selectedAddress(event: MatSelectionListChange): void {
     const id = event.options[0].value;
-    console.log(event, id);
     const indexAddress = this.addresses.findIndex(address => address.id === id);
     if (indexAddress > -1) {
       this.isLoading = true;

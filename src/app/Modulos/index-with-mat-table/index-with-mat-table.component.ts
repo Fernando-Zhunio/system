@@ -1,8 +1,8 @@
+/* eslint-disable @angular-eslint/no-output-on-prefix */
 import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -18,11 +18,12 @@ import { StandartSearchService } from '../../services/standart-search.service';
   templateUrl: './index-with-mat-table.component.html',
   styleUrls: ['./index-with-mat-table.component.css'],
 })
-export class IndexWithMatTableComponent implements OnInit {
+export class IndexWithMatTableComponent  {
   constructor(
     private s_standard: StandartSearchService,
     private snack_bar: MatSnackBar // private dialog: MatDialog
   ) { }
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onClickEdit: EventEmitter<number> = new EventEmitter<any>();
   @Output() onClickDestroy: EventEmitter<number> = new EventEmitter<any>();
   @Output() onClickCreate: EventEmitter<number> = new EventEmitter<any>();
@@ -51,10 +52,8 @@ export class IndexWithMatTableComponent implements OnInit {
   dataLastRevert: any[] = [];
   isCreating: boolean = false;
 
-  ngOnInit(): void { }
 
   loadData($event): void {
-    console.log($event.data);
     this.paginator = $event.data;
     this.refreshDataTable(this.paginator.data);
   }
@@ -188,22 +187,12 @@ export class IndexWithMatTableComponent implements OnInit {
   }
 
   removeItemTable(id): void {
-    console.log(id);
     const index = this.ELEMENT_DATA.findIndex((x) => x['id'] == id);
     this.ELEMENT_DATA.splice(index, 1);
     // this.dataSource.data.splice(this.ELEMENT_DATA.indexOf(element),1);
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
   }
 
-  // updateItemTable(id, data: IPermission): void {
-  //   const _data: IPermission = this.dataSource.data.find(x => x['id'] == id);
-  //   if (data) {
-  //     this.itemRows.forEach((element) => {
-  //       _data[element.key] = data[element.key];
-  //     });
-  //     console.log(_data, data);
-  //   }
-  // }
 
   index(obj, i) { return obj ? obj[i] : null }
 

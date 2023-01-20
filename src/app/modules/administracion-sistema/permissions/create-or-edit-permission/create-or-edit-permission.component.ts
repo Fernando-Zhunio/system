@@ -23,10 +23,9 @@ export class CreateOrEditPermissionComponent {
         (response: any) => {
           this.form.patchValue(response.data.permission);
           this.groupsPermissions = response.data.groupsPermissions;
-          console.log(response);
           this.isLoading = false;
         }, err => {
-          console.log(err);
+          console.error(err);
         }
       );
     } else {
@@ -34,11 +33,10 @@ export class CreateOrEditPermissionComponent {
       this.s_standard.index(url).subscribe(
         (response: any) => {
           this.groupsPermissions = response.data;
-          console.log(response);
           this.isLoading = false;
 
         }, err => {
-          console.log(err);
+          console.error(err);
         }
       );
     }
@@ -92,7 +90,6 @@ export class CreateOrEditPermissionComponent {
             const url = `admin/permissions/${this.data.id}`;
             this.s_standard.updatePut(url, this.form.value).subscribe(
               (response: any) => {
-                console.log(response);
                 this.sheet.dismiss(response.data);
               }
             );

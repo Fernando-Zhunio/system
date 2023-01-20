@@ -74,7 +74,6 @@ export class DownloadAndRedirectService {
     * @param prePath string - path de la pagina para su redireccion
     */
   generatePathAndQueryParams(prePath): { path: string, queryParams: any } {
-    console.log(prePath);
     const urlOutHash = prePath.replace('#/', '');
     const urlObject: any = new URL(urlOutHash);
     const path = urlObject.pathname;

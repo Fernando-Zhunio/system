@@ -73,7 +73,6 @@ describe('AddInfoPersonModalComponent', () => {
 
     it('Send Data - createFormData', () => {
         const dataForm = fillForm();
-        console.log(dataForm);
         component.form_person.patchValue(dataForm);
         let formData = {}
         component.createFormData().forEach((value, key) => {

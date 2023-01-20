@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
@@ -16,7 +16,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   styleUrls: ['./index.component.scss'],
   animations: animationShowHidden
 })
-export class IndexComponent extends Crud<Irequest> implements OnInit {
+export class IndexComponent extends Crud<Irequest> {
 
 
   constructor(protected methodsHttp: MethodsHttpService,
@@ -62,8 +62,6 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
     isWishlist : false,
     work_id: null,
   }
-  ngOnInit(): void {
-  }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.columnsToDisplay, event.previousIndex, event.currentIndex);
@@ -95,7 +93,7 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   }
 
   getWorks($event): void {
-    console.log($event);
+    console.error($event);
     this.works = $event.data;
   }
 
@@ -125,7 +123,6 @@ export class IndexComponent extends Crud<Irequest> implements OnInit {
   }
 
   override getData($event: IResponse<IPaginate<any>>): void {
-    console.log($event);
     this.dataSource = $event.data.data;
     if ($event.data.data.length > 0) {
       this.currentUserDetail = $event.data.data[0];

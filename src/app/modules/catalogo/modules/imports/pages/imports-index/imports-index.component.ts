@@ -31,7 +31,6 @@ export class ImportsIndexComponent extends MatTableHelper<Import>  {
       data
     }).beforeClosed().subscribe((response) => {
       if (response?.success) {
-        console.log(response);
        importId ? this.updateItemInTable(importId, response.data) : this.addItemInTable(response.data);
       }
     });

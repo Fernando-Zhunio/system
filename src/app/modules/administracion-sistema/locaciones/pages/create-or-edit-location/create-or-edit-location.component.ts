@@ -235,7 +235,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
         this.resetMap([Number.parseFloat(latitude), Number.parseFloat(longitude)], 15);
         this.googleMapService.getMarker().setPosition({ lat: Number.parseFloat(latitude), lng: Number.parseFloat(longitude) });
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   }
@@ -266,7 +266,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
             this.goBack();
           } else { this.isLoadServer = false; }
         }, err => {
-          console.log(err);
+          console.error(err);
           this.isLoadServer = false;
         });
       }
@@ -324,7 +324,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
         this.formLocation.get('postal_code')?.setValue('');
       }
     }).catch(err => {
-      console.log(err);
+      console.error(err);
       this.isLoadingPostalCode = false;
       SwalService.swalFire({ title: '¡Atención!', text: 'No se pudo obtener el código postal', icon: 'warning' });
     });

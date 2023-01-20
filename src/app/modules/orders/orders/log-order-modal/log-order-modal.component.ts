@@ -18,7 +18,6 @@ export class LogOrderModalComponent implements OnInit {
     const url = `system-orders/orders/${this.dataExternal.order_id}/activity-log`;
     this.methodsHttp.methodGet(url).subscribe({
       next: (res) => {
-        console.log(res)
         this.dataLog = res.data;
         this.isLoading = false;
       },

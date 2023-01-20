@@ -20,9 +20,7 @@ export class ProfileComponent implements OnInit {
     this.s_standard.index(`user/people/${user.id}/profile`).subscribe(
       (response) => {
         this.user = response.data;
-        console.log(response);
       }
     );
   }
-
 }

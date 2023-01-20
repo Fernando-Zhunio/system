@@ -55,7 +55,7 @@ export class CitemsAndPaginator<T> {
             }
           },
           (err) => {
-            console.log(err);
+            console.error(err);
             this.snack_bar.open('No se a podido eliminar ', 'Error', {
               duration: 2000,
             });

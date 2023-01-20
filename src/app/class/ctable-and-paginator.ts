@@ -7,7 +7,7 @@ import { SwalService } from '../services/swal.service';
 
 declare let Swal: any;
 
-export class CtableAndPaginator<T> {
+export abstract class CtableAndPaginator<T> {
   ELEMENT_DATA: T[] = [];
   dataSource = new MatTableDataSource<T>(this.ELEMENT_DATA);
   paginator: Ipagination<T>;
@@ -16,7 +16,7 @@ export class CtableAndPaginator<T> {
   snack_bar: MatSnackBar;
   s_standart: StandartSearchService;
 
-  headerComponent: HeaderSearchComponent;
+  abstract headerComponent: HeaderSearchComponent;
   urlDelete: string;
   wordMain: string;
   ngx_spinner: any;
@@ -62,7 +62,7 @@ export class CtableAndPaginator<T> {
             }
           },
           (err) => {
-            console.log(err);
+            console.error(err);
             this.snack_bar.open('No se a podido eliminar ', 'Error', {
               duration: 2000,
             });

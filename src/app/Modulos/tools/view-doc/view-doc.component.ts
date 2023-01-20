@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './view-doc.component.html',
   styleUrls: ['./view-doc.component.scss']
 })
-export class ViewDocComponent implements OnInit {
+export class ViewDocComponent  {
 
   constructor(protected _sanitizer: DomSanitizer) { }
   @Input() isOpenCv = false;
@@ -14,10 +14,6 @@ export class ViewDocComponent implements OnInit {
   @Input() file: any;
   @Input() typeFile = 'application/pdf';
   encoded_pdf: any;
-
-
-  ngOnInit() {
-  }
 
   openFile(isUrl: boolean = this.isUrl): void {
     this.encoded_pdf = null;
@@ -30,7 +26,6 @@ export class ViewDocComponent implements OnInit {
     } else {
       this.encoded_pdf = this._sanitizer.bypassSecurityTrustResourceUrl(this.file);
     }
-    // console.log(this.encoded_pdf);
   }
 
 }

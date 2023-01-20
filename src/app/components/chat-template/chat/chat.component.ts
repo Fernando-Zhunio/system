@@ -97,19 +97,15 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('window:focus', ['$event'])
-  windowActive($event): void {
-    console.log('windowActive', $event);
-    console.log('SHOWN');
+  windowActive(): void {
     this.isActiveWindow = true;
     if (this.chat.id == this.current_chat_id) {
       this.markReadMessage(this.chat.data._id);
-
     }
   }
 
   @HostListener('window:blur', ['$event'])
   windowInactive(_$event): void {
-    console.log('windowInactive', _$event);
     this.isActiveWindow = false;
 
   }

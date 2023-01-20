@@ -24,10 +24,8 @@ export class VtexSitesComponent implements OnInit {
   loadSitesVtex(): void {
     this.isload = true;
     this.s_standart.index('admin/vtex').subscribe((res) => {
-      // console.log(res);
       if (res && res.hasOwnProperty('success') && res.success) {
         this.vtexSites = res.data;
-        // console.log(this.vtexSites);
       }
       this.isload = false;
     });
@@ -38,7 +36,6 @@ export class VtexSitesComponent implements OnInit {
   }
 
   deleteVtexSite(id): void {
-    // console.log(id);
     SwalService.swalConfirmation(
       'Eliminar',
       '¿Está seguro de eliminar este sitio?',
@@ -49,7 +46,6 @@ export class VtexSitesComponent implements OnInit {
           this.s_standart
             .destory('admin/vtex/' + id)
             .subscribe((res) => {
-              // console.log(res);
               if (res && res.hasOwnProperty('success') && res.success) {
                 const indexSite = this.vtexSites.findIndex(x => x.id === id);
                 if (indexSite > -1) {

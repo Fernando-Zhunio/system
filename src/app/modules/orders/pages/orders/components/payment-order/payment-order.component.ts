@@ -96,7 +96,6 @@ export class PaymentOrderComponent {
             select.source.value = payment?.status;
           });
         } else {
-          console.log(select);
           select.source.value = payment?.status;
         }
       }).catch(() => {

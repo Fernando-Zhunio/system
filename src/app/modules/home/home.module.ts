@@ -26,7 +26,6 @@ import { SellChartComponent } from './dashboard/chart/sell-chart/sell-chart.comp
 import { MatRadioModule } from '@angular/material/radio';
 import { ProductChartComponent } from './dashboard/chart/product-chart/product-chart.component';
 import { CategoryChartComponent } from './dashboard/chart/category-chart/category-chart.component';
-import { IndexComponent } from './versus/index/index.component';
 import { SelectDatesDashboardComponent } from './dashboard/modals/select-dates-dashboard/select-dates-dashboard.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -34,8 +33,6 @@ import { LocalesChartComponent } from './dashboard/chart/locales-chart/locales-c
 import { MarkdownModule } from '../../Modulos/Markdown/markdown/markdown.module';
 import { ProfileComponent } from './profile/profile.component';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { StoresComponent } from './stores/stores.component';
-import { ModificateStoresComponent } from './stores/modificate-stores/modificate-stores.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -43,7 +40,7 @@ export function chartModule(): any {
   return import('echarts');
 }
 @NgModule({
-    declarations: [ModificateStoresComponent, StoresComponent, IndexComponent, InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
+    declarations: [InicioComponent, DashboardComponent, SellChartComponent, ProductChartComponent, CategoryChartComponent, SelectDatesDashboardComponent, LocalesChartComponent, ProfileComponent],
     imports: [
         CommonModule,
         HomeRoutingModule,

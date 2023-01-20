@@ -63,7 +63,7 @@ export class ShowPublicationComponent implements OnInit, OnDestroy {
         this.isLoadPublication = false;
       },
       (err) => {
-        console.log(err);
+        console.error(err);
         this.isLoadPublication = false;
       }
     );

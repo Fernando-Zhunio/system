@@ -110,7 +110,7 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(null);
     this.destroy$.complete();
   }
 
@@ -228,11 +228,10 @@ export class GenerateGuideServientregaComponent implements OnInit, OnDestroy {
         observable = this.methodsHttp.methodPost(`system-orders/orders/${this.dataExternal.order_id}/shippings/${this.dataExternal.shipping.id}/servientrega/return-shipping`, this.form.value)
       }
       observable.subscribe(res => {
-        console.log(res);
         this.isLoading = false;
         this.dialogRef.close(res);
       }, err => {
-        console.log(err);
+        console.error(err);
         this.isLoading = false;
       }
       );

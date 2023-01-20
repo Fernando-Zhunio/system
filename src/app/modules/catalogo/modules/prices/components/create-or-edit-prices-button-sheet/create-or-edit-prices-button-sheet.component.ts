@@ -132,14 +132,12 @@ export class CreateOrEditPricesButtonSheetComponent implements OnInit {
   openCreateImportDialog(): void {
     this.dialog.open(CreateOrEditImportModalComponent).beforeClosed().subscribe((response) => {
       if (response?.success) {
-        // console.log({import: response});
         this.setInputImport(response.data);
       }
     });
   }
 
   setInputImport(importation: Import): void {
-    console.log(importation.code);
     this.form.get('import_id')?.setValue(importation.id);
     this.form.get('import_code')?.setValue(importation.code);
   }

@@ -13,17 +13,18 @@ import { ADD_NOTIFICATIONS, NOTIFICATIONS_CREATE_POPUP } from '../actions/notifi
 })
 export class NotificationEffectService {
 
-  constructor(private actions$: Actions, private snackbar: MatSnackBar, private sn: SoundNotification) { }
-  createNotification$ = createEffect(() => this.actions$.pipe(
-    ofType(NOTIFICATIONS_CREATE_POPUP),
-    switchMap((action: any, state) => {
-      console.log({ action, state });
-      this.sn.play();
-      Preferences.getInstance().get().enable_notifications_popup &&
-      this.generateNotificationPopup(action.notification);
-      return of(ADD_NOTIFICATIONS({ notification: action.notification }))
-    })
-  ));
+  constructor(private actions$: Actions, private snackbar: MatSnackBar, private sn: SoundNotification) {
+    createEffect(() => this.actions$.pipe(
+      ofType(NOTIFICATIONS_CREATE_POPUP),
+      switchMap((action: any) => {
+        this.sn.play();
+        Preferences.getInstance().get().enable_notifications_popup &&
+          this.generateNotificationPopup(action.notification);
+        return of(ADD_NOTIFICATIONS({ notification: action.notification }))
+      })
+    ));
+
+  }
 
   generateNotificationPopup(notification: any) {
     this.snackbar.openFromComponent(NotificationSnackbarComponent, {

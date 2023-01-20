@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Cperson } from '../../../../../class/cperson';
@@ -9,16 +9,14 @@ import { StandartSearchService } from './../../../../../services/standart-search
   templateUrl: './modal-assign-user.component.html',
   styleUrls: ['./modal-assign-user.component.css']
 })
-export class ModalAssignUserComponent implements OnInit {
+export class ModalAssignUserComponent {
 
   constructor(private router: Router, private dialogRef: MatDialogRef<ModalAssignUserComponent>, @Inject(MAT_DIALOG_DATA) public data, private s_standart: StandartSearchService) { }
   isloadPersons: boolean = false;
   persons: Cperson[] = [];
   person: Cperson;
   search_person: string;
-  ngOnInit(): void {
-    // console.log(this.data);
-  }
+
 
   searchPerson(): void {
     this.isloadPersons = true;
@@ -35,7 +33,6 @@ export class ModalAssignUserComponent implements OnInit {
 
   captureUser(id): void {
     const person = this.persons.find((x) => x.id === id);
-    // console.log(person);
     if (person) {
       this.person = person;
     }
@@ -48,7 +45,6 @@ export class ModalAssignUserComponent implements OnInit {
   }
 
   assignPerson(): void {
-    // console.log(this.person);
     this.dialogRef.close(this.person);
   }
 

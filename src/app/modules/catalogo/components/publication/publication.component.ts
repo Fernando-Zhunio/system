@@ -29,7 +29,6 @@ export class PublicationComponent {
   public config: SwiperOptions = {
     direction: 'horizontal',
     spaceBetween: 10,
-    draggable: true,
     breakpoints: {
       320: {
         slidesPerView: 1,
@@ -100,7 +99,7 @@ export class PublicationComponent {
               this.snack_bar.open('Error al eliminar', 'Error', {duration: 2000});
             }
           }, err => {
-            console.log(err);
+            console.error(err);
             this.snack_bar.open('Error al eliminar', 'Error', {duration: 2000});
             this.isLoader = false;
             snack.dismiss();

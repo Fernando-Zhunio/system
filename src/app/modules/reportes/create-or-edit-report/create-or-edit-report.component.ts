@@ -83,7 +83,6 @@ export class CreateOrEditReportComponent extends CreateOrEdit2<any> implements O
     } else {
       this.form.markAllAsTouched()
     }
-    console.log(this.form);
   }
 
   override go(_data = null) {

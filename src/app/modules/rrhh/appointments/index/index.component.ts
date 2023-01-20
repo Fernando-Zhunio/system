@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { animation_conditional } from '../../../../animations/animate_leave_enter';
@@ -20,7 +20,6 @@ import { ModalZoomComponent } from '../tools/modal-zoom/modal-zoom.component';
 })
 export class IndexComponent
   extends CTemplateSearch<Iappointment>
-  implements OnInit
 {
   constructor(
     private s_shared: SharedService,
@@ -36,9 +35,7 @@ export class IndexComponent
   status: 'normal' | 'send_email' = 'normal';
   statusAppointment: string = 'available';
   userSelectedToEmailCv: Iuser[] = [];
-  @ViewChild(HeaderSearchComponent)  override headerComponent: HeaderSearchComponent;
-
-  ngOnInit(): void {}
+  @ViewChild(HeaderSearchComponent)   headerComponent: HeaderSearchComponent;
 
   deleteAppointment(id: number) {
     const appointment = this.products.find((x) => x.id === id);

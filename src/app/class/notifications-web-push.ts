@@ -35,11 +35,10 @@ export class NotificationsWebPush {
     navigator.serviceWorker
       .register('/assets/sw.js')
       .then(() => {
-        console.log('serviceWorker installed!');
         this.activateWebpushNotifications(true);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -74,14 +73,12 @@ export class NotificationsWebPush {
           userVisibleOnly: true,
           applicationServerKey: this.urlBase64ToUint8Array(this.PUBLIC_KEY),
         };
-        console.log('subscribeOptions', subscribeOptions);
         return registration.pushManager.subscribe(subscribeOptions);
       })
       .then((pushSubscription) => {
         this.storePushSubscription(pushSubscription);
       }).catch((err) => {
-        console.log('Error al suscribirse', err);
-        console.log(err);
+        console.error('Error al suscribirse', err);
       });
   }
 

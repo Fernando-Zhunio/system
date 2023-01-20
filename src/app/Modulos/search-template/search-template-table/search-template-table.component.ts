@@ -46,7 +46,6 @@ export class SearchTemplateTableComponent  {
   }
 
   hasIsLoading(event): void {
-    console.log(event);
     this.__isLoading = event;
     this.isLoading.emit(this.__isLoading);
   }

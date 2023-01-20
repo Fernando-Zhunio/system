@@ -1,5 +1,5 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crud } from '../../../../class/crud';
 import { IChatbot } from '../../../../interfaces/ichatbot';
@@ -11,7 +11,7 @@ import { MethodsHttpService } from '../../../../services/methods-http.service';
   templateUrl: './chat-bots-index.component.html',
   styleUrls: ['./chat-bots-index.component.css']
 })
-export class ChatBotsIndexComponent extends Crud<IChatbot> implements OnInit {
+export class ChatBotsIndexComponent extends Crud<IChatbot> {
 
     constructor(protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar,  private clipboard: Clipboard) {
       super();
@@ -19,11 +19,7 @@ export class ChatBotsIndexComponent extends Crud<IChatbot> implements OnInit {
 
   url: string = 'admin/chatbot';
 
-  ngOnInit(): void {
-  }
-
   override getData(event): void {
-    console.log(event);
     this.data = new Map<any, IChatbot>(event.map( (item: IChatbot) => [item._id, item]));
   }
 

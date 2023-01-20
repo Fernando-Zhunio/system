@@ -1,16 +1,13 @@
 <mat-card>
-
-  <h3 class="text-monospace font-4xl font-weight-bolder">Ventas por categorías</h3>
-
-  <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-transparent" name="key"
-    aria-label="Font Style">
-    <mat-button-toggle color="accent" value="category-sales">Por ventas en dolares</mat-button-toggle>
-    <mat-button-toggle color="accent" value="category-sales-count">Por numero de ventas</mat-button-toggle>
-  </mat-button-toggle-group>
-  <div style="height: 400px;" class="d-flex align-items-center position-relative">
-    <!-- <canvas id="chart-categories"></canvas> -->
-    <div echarts [options]="options" [loading]="isLoading" [merge]="updateOptions"  theme="macarons" class="demo-chart w-100"></div>
-    <!-- <div echarts [options]="options" [loading]="isLoading" [merge]="updateOptions"  theme="macarons" class="demo-chart w-100"></div> -->
-
-  </div>
+  <mat-card-content>
+    <h3 class="font-4xl font-weight-bolder">Ventas por categorías</h3>
+    <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-transparent" name="key"
+      aria-label="Font Style">
+      <mat-button-toggle color="accent" value="category-sales">Por ventas en dolares</mat-button-toggle>
+      <mat-button-toggle color="accent" value="category-sales-count">Por numero de ventas</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div style="height: 400px;" class="d-flex align-items-center position-relative">
+      <div echarts [options]="options" [loading]="isLoading" [merge]="updateOptions"  theme="macarons" class="demo-chart w-100"></div>
+    </div>
+  </mat-card-content>
 </mat-card>

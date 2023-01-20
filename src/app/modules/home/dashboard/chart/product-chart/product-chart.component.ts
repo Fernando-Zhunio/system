@@ -12,46 +12,6 @@ import { EKeyDashboard } from '../../../../../enums/EkeyDashboard.enum';
   styleUrls: ['./product-chart.component.css']
 })
 export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct> implements OnInit {
-  // options: EChartsOption = {
-  //   tooltip: {
-  //     trigger: 'axis',
-  //     axisPointer: {
-  //       type: 'cross',
-  //       label: {
-  //         backgroundColor: '#6a7985'
-  //       }
-  //     }
-  //   },
-  //   legend: {
-  //     data: ['Actual', 'Anterior']
-  //   },
-  //   grid: {
-  //     left: '3%',
-  //     right: '4%',
-  //     bottom: '3%',
-  //     containLabel: true
-  //   },
-  //   xAxis: [
-  //     {
-  //       type: 'category',
-  //       boundaryGap: false,
-  //       data: ['Actual', 'Anterior']
-  //     }
-  //   ],
-  //   yAxis: [
-  //     {
-  //       type: 'value'
-  //     }
-  //   ],
-  //   series: [
-  //     {
-  //       name: 'Actual',
-  //       type: 'bar',
-  //       // stack: 'counts',
-  //       data: [1,1]
-  //     }
-  //   ]
-  // };
 
   override options: any = {
     dataset: {
@@ -88,7 +48,7 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
     super();
     this.spinner = spinner;
   }
-  @Input() override dates: { first_date: any[], last_date: any[] };
+  @Input() dates: { first_date: any[], last_date: any[] };
   key: EKeyDashboard = EKeyDashboard.product_sales;
   // keyCurrent: EkeyDashboard = EkeyDashboard.product_sales;
   idSpinner = 'loading-chart-product';
@@ -109,8 +69,7 @@ export class ProductChartComponent extends ManagerChartTop<IstatisticableProduct
         seriesLayoutBy: 'column',
         type: 'bar',
         itemStyle: {
-          color: (param) => {
-            console.log({ param });
+          color: () => {
             return this.randomColor();
           }
         },

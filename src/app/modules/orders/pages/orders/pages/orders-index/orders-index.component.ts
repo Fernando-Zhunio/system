@@ -180,7 +180,6 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   }
 
   changeSort(event: any): void {
-    console.log(event);
     this.filters.orderBy = event.direction;
     this.filters.orderByColumn = event.active;
     this.searchTemplateTable.searchNow();
@@ -204,7 +203,6 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   }
 
   openDetailOrder(id: number) {
-    console.log(id);
     this.dialog.open(DetailsOrderComponent, {
       data: { order_id: id },
     });
@@ -229,7 +227,6 @@ export class OrdersIndexComponent extends MatTableHelper<IOrder> implements OnIn
   // }
 
   addWarehouse(warehouse): void {
-    // console.log(warehouse);
     this.warehousesSelected.set(warehouse.id, warehouse);
     this.filters['warehouse[]'].push(warehouse.id);
 

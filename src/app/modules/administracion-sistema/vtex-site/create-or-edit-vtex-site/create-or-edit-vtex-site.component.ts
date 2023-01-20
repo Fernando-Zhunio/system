@@ -67,7 +67,7 @@ export class CreateOrEditVtexSiteComponent implements OnInit {
           }
           this.isload = false;
         }, err => {
-          console.log(err);
+          console.error(err);
           this.isload = false;
         });
       } else {
@@ -77,7 +77,7 @@ export class CreateOrEditVtexSiteComponent implements OnInit {
           }
           this.isload = false;
         }, err => {
-          console.log(err);
+          console.error(err);
           this.isload = false;
         });
       }

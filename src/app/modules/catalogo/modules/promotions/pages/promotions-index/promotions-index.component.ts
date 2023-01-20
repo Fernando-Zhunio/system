@@ -70,7 +70,6 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
       SearchProductsDialogComponent,
       { url: 'catalogs/promotions/products', onlyOne: true })
       .beforeClose().subscribe((res: any) => {
-        console.log({res});
         const data = res?.data;
         if (data) {
           // data.forEach((value: IProduct) => {
@@ -87,7 +86,6 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
       SearchCampaignDialogComponent,
       { url: 'catalogs/campaigns', onlyOne: true })
       .beforeClose().subscribe((res: any) => {
-        console.log(res);
         const data = res?.data;
         if (data) {
           // data.forEach((value: IProduct) => {

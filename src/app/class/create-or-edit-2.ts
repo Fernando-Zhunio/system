@@ -54,7 +54,6 @@ export abstract class CreateOrEdit2<T> {
     edit() {
         this.isLoading = true;
         const url = this.generateUrl();
-        console.log(url);
         this.methodsHttp.methodGet(`${url}/${this.getId()}/edit${this.params ? this.params : ''}`).subscribe(data => {
             this.setData(data?.data);
             this.isLoading = false;
@@ -71,7 +70,6 @@ export abstract class CreateOrEdit2<T> {
     }
 
     getId(key: string = this.key_param): any {
-        console.log('fer');
         return this.act_router.snapshot.params[key];
     }
 
@@ -108,7 +106,7 @@ export abstract class CreateOrEdit2<T> {
                 this.isLoading = false;
                 this.go(data?.data);
             }, error => {
-                console.log(error);
+                console.error(error);
                 this.isLoading = false;
             });
             return;

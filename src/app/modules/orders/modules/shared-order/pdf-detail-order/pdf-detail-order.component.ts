@@ -39,7 +39,6 @@ export class PdfDetailOrderComponent implements OnInit {
   }
 
   getData($event): void {
-    console.log($event);
     this.warehouses = new Map($event.data.map(warehouse => [warehouse.id, warehouse]));
   }
 
@@ -56,7 +55,6 @@ export class PdfDetailOrderComponent implements OnInit {
   }
 
   pass(quantity, id): void {
-    console.log(quantity, id);
     const item = this.itemsOrder.get(id);
     if (item && quantity <= item.quantity) {
       if (!this.currentItemPdf) {
@@ -270,7 +268,6 @@ export class PdfDetailOrderComponent implements OnInit {
       warehouses.push(warehouse);
     })
     dataReturn.push({ ol: warehouses });
-    console.log(dataReturn);
     return dataReturn;
   }
 
@@ -284,7 +281,6 @@ export class PdfDetailOrderComponent implements OnInit {
       const ctx = canvas.getContext("2d")!;
       ctx.drawImage(img, 0, 0);
       const dataURL = canvas.toDataURL("image/png");
-      console.log(dataURL)
       return dataURL;
     }
     // img.src = url

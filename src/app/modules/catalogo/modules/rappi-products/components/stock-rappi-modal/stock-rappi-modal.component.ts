@@ -23,11 +23,11 @@ export class StockRappiModalComponent implements OnInit {
     this.methodsHttp.methodGet(`rappi-service/products/${this.product.id}/stocks`).subscribe(
       {
         next: (res: any) => {
-          console.log({ res });
           this.items = res.data;
           this.isLoading = false;
         },
-        error: () => {
+        error: (err) => {
+          console.error(err);
           this.isLoading = false;
         }
       }

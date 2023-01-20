@@ -35,7 +35,6 @@ export class DialogHistoryPricesProductComponent implements OnInit, OnDestroy {
   this.subscription =  this.mhs.methodGet<{prices: HistoryPriceProduct[], promotions: Promotion[]}>(`catalogs/products/${this.data.product.id}/history-prices`).subscribe((res) => {
       if (res?.success) {
         this.prices = res.data.prices?.length > 0 ? groupBy(res.data.prices, 'price_group_id') : null;
-        console.log(this.prices);
         this.promotions = res.data.promotions;
         this.isLoading = false;
       }

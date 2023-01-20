@@ -41,7 +41,6 @@ export class IndexRappiProductsComponent extends Crud<any> {
         },
         onload: (response: any) => {
           const data = JSON.parse(response);
-          console.log(data);
           SwalService.swalFire({ title: 'Procesando excel en el servidor', text: 'El excel se esta procesando en el servidor, en unos momento recibirá una notificación describiendo el estado del proceso', icon: 'success' });
           return data.id;
         }
@@ -49,11 +48,9 @@ export class IndexRappiProductsComponent extends Crud<any> {
     }
   };
   isOpenFileImport = false;
-  override data: Map<any, RappiProduct>;
   permissions = PermissionRappiProducts;
 
   changeAvailable(id: number, event: MatSlideToggleChange) {
-    console.log(id, event);
     event.source.disabled = true;
     SwalService.swalFire(
       {
@@ -89,7 +86,6 @@ export class IndexRappiProductsComponent extends Crud<any> {
   }
 
   override getData($event: any): void {
-    console.log($event);
     this.dataSource = $event;
   }
 

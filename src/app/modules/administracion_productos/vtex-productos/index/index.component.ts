@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
 import { Ipagination } from '../../../../interfaces/ipagination';
@@ -15,7 +15,7 @@ import { ModalPricesComponent } from './../templates/modal-prices/modal-prices.c
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent {
 
   constructor(private modal: MatDialog, private s_serviceStandart: StandartSearchService) { }
 
@@ -64,8 +64,6 @@ export class IndexComponent implements OnInit {
     // navigation: true,
     pagination: false,
   };
-  ngOnInit(): void {
-  }
 
   loadData($event): void {
     this.paginator = $event.data;

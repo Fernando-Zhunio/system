@@ -1,19 +1,20 @@
 <mat-card>
-    <h3 class="text-monospace  font-4xl font-weight-bolder">Ventas</h3>
-    <div class="d-flex justify-content-between">
-            <mat-button-toggle-group [(ngModel)]="period" (change)="updateChart($event,'period')" class="rounded-fz border-light" name="period" aria-label="Font Style">
-                <mat-button-toggle color="accent" value="day">Dias</mat-button-toggle>
-                <mat-button-toggle color="accent" value="week">Semanas</mat-button-toggle>
-                <mat-button-toggle color="accent" value="month">Meses</mat-button-toggle>
-            </mat-button-toggle-group>
-
-            <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-light" name="key" aria-label="Font Style">
-                <mat-button-toggle color="accent" value="sales">Por ventas en dolares</mat-button-toggle>
-                <mat-button-toggle color="accent" value="sales-count">Por numero de ventas</mat-button-toggle>
-            </mat-button-toggle-group>
-    </div>
-    <div style="height: 400px;" class="d-flex w-100 align-items-center position-relative">
-        <!-- <canvas id="chart-sells"></canvas> -->
-        <div echarts [options]="options" [loading]="isLoading" [merge]="updateOptions"  theme="macarons" class="demo-chart w-100"></div>
-    </div>
+    <mat-card-content>
+        <h3 class="font-4xl font-weight-bolder">Ventas</h3>
+        <div class="d-flex justify-content-between">
+                <mat-button-toggle-group [(ngModel)]="period" (change)="updateChart($event,'period')" class="rounded-fz border-light" name="period" aria-label="Font Style">
+                    <mat-button-toggle color="accent" value="day">Dias</mat-button-toggle>
+                    <mat-button-toggle color="accent" value="week">Semanas</mat-button-toggle>
+                    <mat-button-toggle color="accent" value="month">Meses</mat-button-toggle>
+                </mat-button-toggle-group>
+    
+                <mat-button-toggle-group [(ngModel)]="key" (change)="updateChart($event)" class="rounded-fz border-light" name="key" aria-label="Font Style">
+                    <mat-button-toggle color="accent" value="sales">Por ventas en dolares</mat-button-toggle>
+                    <mat-button-toggle color="accent" value="sales-count">Por numero de ventas</mat-button-toggle>
+                </mat-button-toggle-group>
+        </div>
+        <div style="height: 400px;" class="d-flex w-100 align-items-center position-relative">
+            <div echarts [options]="options" [loading]="isLoading" [merge]="updateOptions"  theme="macarons" class="demo-chart w-100"></div>
+        </div>
+    </mat-card-content>
 </mat-card>

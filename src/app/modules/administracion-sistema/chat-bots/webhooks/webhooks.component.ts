@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Crud } from '../../../../class/crud';
@@ -10,7 +10,7 @@ import { MethodsHttpService } from '../../../../services/methods-http.service';
   templateUrl: './webhooks.component.html',
   styleUrls: ['./webhooks.component.css']
 })
-export class WebhooksComponent extends Crud<IChatWebhook> implements OnInit {
+export class WebhooksComponent extends Crud<IChatWebhook> {
   url: string;
 
   constructor(protected activated_route: ActivatedRoute, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar)  {
@@ -21,8 +21,6 @@ export class WebhooksComponent extends Crud<IChatWebhook> implements OnInit {
 
   title: string = 'Webhooks';
 
-  ngOnInit(): void {
-  }
 
   getParam(key): string {
     return this.activated_route.snapshot.paramMap.get(key)!;
@@ -33,7 +31,6 @@ export class WebhooksComponent extends Crud<IChatWebhook> implements OnInit {
   }
 
   override getData(data) {
-    console.log(data);
     this.data = new Map<any, IChatWebhook>(data.map((item: IChatWebhook) => [item._id, item]));
   }
 }

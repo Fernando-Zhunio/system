@@ -35,7 +35,6 @@ export class VtexWarehousesComponent
 
   id = this.activated_route.snapshot.paramMap.get('id');
   urlData: string = 'admin/vtex/' + this.id + '/warehouses';
-  override urlDelete: string;
   override wordMain: string = 'esta bodega';
 
   @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;

@@ -19,7 +19,6 @@ export class GoogleMapFzService {
   async setGoogle(): Promise<google> {
     const loader = new Loader(environment.MAPS_API_KEY, {});
     this.google = await loader.load();
-    console.log('this.google', this.google);
     return this.google;
   }
 
@@ -28,7 +27,6 @@ export class GoogleMapFzService {
   }
 
   async generateMap(element: HTMLElement, options: google.maps.MapOptions) {
-    console.log('A UN GENERANDO', this.google);
     const google = await this.getGoogle();
     this.map =  new google.maps.Map(element, options);
     return this.map;

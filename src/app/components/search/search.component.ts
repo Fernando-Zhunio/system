@@ -35,7 +35,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      console.log(this.searchInput);
       this.searchInput.nativeElement.focus();
     }, 500);
   }
@@ -54,12 +53,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.paginator.length = response.data.total;
         this.paginator.pageIndex = response.data.current_page - 1;
         this.paginator.pageSize = response.data.per_page;
-        console.log(this.paginator)
         this.data.emit(response.data);
       },
       (error) => {
         this.isLoading = false;
-        console.log(error);
+        console.error(error);
       }
     );
   }

@@ -44,8 +44,11 @@ export class ResponseTicketComponent implements OnInit {
   }
 
   markAsRead(): void {
-    this.methodsHttp.methodPut(`system-orders/tickets/${this.ticket_id}/messages/mark-as-read`).subscribe(res => {
-      console.log(res);
+    this.methodsHttp.methodPut(`system-orders/tickets/${this.ticket_id}/messages/mark-as-read`)
+    .subscribe((res: any) => {
+      if (res.success) {
+        console.log('marcado como leido');
+      }
     });
   }
 
@@ -72,7 +75,6 @@ export class ResponseTicketComponent implements OnInit {
   onFileChange(event) {
     SharedService.getBase64(event, (e) => {
       this.fileUrl.file = event.target.files[0];
-      // this.fileUrl.type = this.fileUrl.file.type;
       this.fileUrl.url = e.srcElement.result;
     });
   }
@@ -92,18 +94,15 @@ export class ResponseTicketComponent implements OnInit {
         formData.append('file', this.fileUrl.file);
       }
       this.methodsHttp.methodPost(`system-orders/tickets/${this.ticket_id}/messages`, formData).subscribe(res => {
-        console.log(res);
         this.isLoading = false;
         this.chatComponent.addMessage(res.data);
         if (this.ticket) {
           this.ticket.status = 'open';
         }
         this.form.reset();
-        // this.router.navigate(['/system-orders/tickets']);
       }, () => {this.isLoading = false; }
       );
     } else {
-      console.log('Formulario invalido');
       this.form.markAllAsTouched();
     }
   }

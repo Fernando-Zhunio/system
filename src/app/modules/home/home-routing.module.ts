@@ -16,20 +16,12 @@ const routes: Routes = [
     component: ProfileComponent,
   },
   {
-    path: 'stores/vtex',
-    component: StoresComponent,
-  },
-  {
     path: 'dashboard',
     children: [
       {
         path: '',
         component: DashboardComponent,
       },
-      {
-        path: 'versus',
-        loadChildren: () => import('./versus/versus.module').then(m => m.VersusModule),
-      }
     ],
     data: {
       isEdit: true,

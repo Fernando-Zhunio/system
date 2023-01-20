@@ -86,7 +86,7 @@ export abstract class CreateOrEdit<T> {
                 this.isLoading = false;
                 this.go(data?.data);
             }, error => {
-                console.log(error);
+                console.error(error);
                 this.isLoading = false;
             });
             return;

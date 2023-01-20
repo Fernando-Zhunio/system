@@ -51,7 +51,6 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
 
 
   getData($event): void {
-    console.log($event);
     this.permissions = $event.data;
   }
 

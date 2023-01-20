@@ -88,7 +88,6 @@ export class CreateGroupChatComponent extends CreateOrEdit<Ichats> implements On
     // this.fileImg = null;
   }
   callbackImg(e): void {
-    // console.log(e);
     this.img.base64 = e.srcElement.result;
   }
 

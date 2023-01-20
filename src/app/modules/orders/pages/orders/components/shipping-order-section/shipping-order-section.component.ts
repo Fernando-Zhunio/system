@@ -132,7 +132,6 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
 
   searchWarehouses(text) {
     this.standard.methodGet(routes_api_shipping.search_warehouses(text)).subscribe(res => {
-      console.log(res);
       this.warehouses = res.data.data;
       this.searching = false;
     }, () => { this.searching = false; });
@@ -159,11 +158,10 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
         observable = this.standard.methodPut(routes_api_shipping.update(this.dataExterna.order_id, this.dataExterna.shipping_id), dataSend);
       }
       observable.subscribe(res => {
-        console.log(res);
         this.dialogRef.close(res);
       }, err => {
         this.isLoading = false;
-        console.log(err);
+        console.error(err);
       });
     } else {
       this.form.markAllAsTouched();

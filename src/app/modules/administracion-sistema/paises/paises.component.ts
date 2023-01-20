@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ declare let Swal: any;
   templateUrl: './paises.component.html',
   styleUrls: ['./paises.component.css']
 })
-export class PaisesComponent implements OnInit {
+export class PaisesComponent {
 
   constructor(private s_standart: StandartSearchService, private snack_bar: MatSnackBar, private dialog: MatDialog) { }
   displayedColumns: string[] = [
@@ -35,9 +35,6 @@ export class PaisesComponent implements OnInit {
   isload: boolean;
   users: Country[];
 
-  ngOnInit(): void {
-  }
-
   refreshDataTable(data) {
     const row: Country[] = data as Country[];
     this.ELEMENT_DATA = row;
@@ -56,7 +53,7 @@ export class PaisesComponent implements OnInit {
             this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000});
           }
         }, err => {
-          console.log(err);
+          console.error(err);
           this.snack_bar.open('No se a podido eliminar ', 'Error', {duration: 2000});
         });
       } else if (

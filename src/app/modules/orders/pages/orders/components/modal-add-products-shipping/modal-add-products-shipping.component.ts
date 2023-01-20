@@ -92,7 +92,6 @@ export class ModalAddProductsShippingComponent implements OnInit {
     const typedNumber = parseInt(e.key);
     // eslint-disable-next-line radix
     const currentVal = parseInt(e.target.value) || '';
-    console.log(currentVal);
     // eslint-disable-next-line radix
     const newVal = parseInt(typedNumber.toString() + currentVal.toString());
 

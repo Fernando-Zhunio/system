@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { CreateOrEditAddressClientComponent } from '../../modules/shared-order/c
   templateUrl: './client-addresses-index.component.html',
   styleUrls: ['./client-addresses-index.component.scss']
 })
-export class ClientAddressesIndexComponent extends Crud<any> implements OnInit {
+export class ClientAddressesIndexComponent extends Crud<any> {
 
   constructor(private activated_router: ActivatedRoute,  protected methodsHttp: MethodsHttpService,
     protected snackBar: MatSnackBar, private dialog: MatDialog) {
@@ -24,8 +24,6 @@ export class ClientAddressesIndexComponent extends Crud<any> implements OnInit {
   url: string;
 
   permissions = PermissionOrdersClients;
-
-  ngOnInit() {}
 
   openDialogCreateOrEdit(address_id: any = null): void {
     this.dialog.open(CreateOrEditAddressClientComponent, {
@@ -39,7 +37,6 @@ export class ClientAddressesIndexComponent extends Crud<any> implements OnInit {
       if (res?.success) {
         this.data.set(res.data.id, res.data);
       }
-      console.log(res);
     });
   }
 

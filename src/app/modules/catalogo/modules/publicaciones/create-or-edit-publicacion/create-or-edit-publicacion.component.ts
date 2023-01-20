@@ -145,7 +145,6 @@ export class CreateOrEditPublicacionComponent implements OnInit, OnDestroy {
           name: res.data.name,
           children: null
         };
-        console.log(res.data);
         this.selectedCategories(categories);
       }
     });
@@ -350,7 +349,7 @@ export class CreateOrEditPublicacionComponent implements OnInit, OnDestroy {
             }
           },
           (err) => {
-            console.log(err);
+            console.error(err);
             this.formPublication.markAllAsTouched();
             this.spinner_ngx.hide();
           }

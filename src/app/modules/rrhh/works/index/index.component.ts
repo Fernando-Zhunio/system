@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CTemplateSearch } from './../../../../class/ctemplate-search';
 import { Iwork } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
 import { SwalService } from '../../../../services/swal.service';
@@ -13,14 +13,12 @@ import { HeaderSearchComponent } from '../../../../components/header-search/head
   animations: animation_conditional
 
 })
-export class IndexComponent extends CTemplateSearch<Iwork> implements OnInit {
+export class IndexComponent extends CTemplateSearch<Iwork>  {
   constructor(private s_serviceStandart: StandartSearchService) {
     super();
   }
-  @ViewChild(HeaderSearchComponent) override headerComponent: HeaderSearchComponent;
+  @ViewChild(HeaderSearchComponent)  headerComponent!: HeaderSearchComponent;
   url: string = 'rrhh/works';
-
-  ngOnInit(): void { }
 
   deleteWork(id: number) {
     const work = this.products.find((x) => x.id === id);

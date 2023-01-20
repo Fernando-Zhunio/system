@@ -97,7 +97,6 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
   hasChild = (_: number, node: any) => node.expandable;
 
   changeValueSelectDepartment($event: MatRadioChange) {
-    console.log($event);
     this.department_selected = $event.value;
   }
 

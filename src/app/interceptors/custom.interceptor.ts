@@ -74,7 +74,7 @@ export class CustomInterceptor implements HttpInterceptor {
   }
 
   getStatusMessage(status: number, message?: any) {
-    console.log({status, message})
+    console.error({status, message})
     const statusMessage = {
       400: 'Error de validación',
       401: 'No autenticado',

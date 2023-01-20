@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IShippingOrder } from '../../../interfaces/iorder';
@@ -10,18 +10,15 @@ import { SelectedViewServientregaPdfComponent } from '../pages/orders/components
   templateUrl: './servientrega.component.html',
   styleUrls: ['./servientrega.component.scss']
 })
-export class ServientregaComponent implements OnInit {
+export class ServientregaComponent {
 
   constructor(private btnSheet: MatBottomSheet, private standard: StandartSearchService, protected _sanitizer: DomSanitizer) { }
   url = 'system-orders/orders/shippings';
   isOpenCv = false;
   encoded_pdf: any;
   shippings: IShippingOrder[] = [];
-  ngOnInit() {
-  }
 
   getData($event): void {
-    console.log($event);
     this.shippings = $event;
   }
 

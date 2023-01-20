@@ -32,8 +32,7 @@ export class ChatTicketComponent implements OnInit {
   }
 
   markAsRead(): void {
-    this.methodsHttp.methodPut(`system-orders/tickets/${this.ticket_id}/messages/mark-as-read`).subscribe(res => {
-      console.log(res);
+    this.methodsHttp.methodPut(`system-orders/tickets/${this.ticket_id}/messages/mark-as-read`).subscribe(() => {
     });
   }
 

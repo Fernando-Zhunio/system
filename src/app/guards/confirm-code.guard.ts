@@ -20,8 +20,8 @@ export class ConfirmCodeGuard implements Resolve<Iresponse> {
         }
         return res;
       }),
-      catchError((res) => {
-        console.log(res);
+      catchError((error) => {
+        console.error(error);
         this.router.navigate([PATH_LOGIN]);
         return EMPTY;
       })

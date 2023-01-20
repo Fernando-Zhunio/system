@@ -50,9 +50,7 @@ export class AddItemTemplateComponent {
   // }
 
   // getDataProducts(event: IPaginate<IProduct>): void {
-  //   console.log(event);
   //   this.products = new Map<number, IProduct>(event.data.map(x => [x.id, x]));
-  //   console.log(this.products);
   // }
 
   // selectedProduct(event: MatSelectionListChange): void {
@@ -70,7 +68,6 @@ export class AddItemTemplateComponent {
   // }
 
   // openDialogCreateOrEditDiscountOrTax(id: any = null): void {
-  //   console.log(id);
   //   this.dialog.open(CreateOrEditDiscountOrTaxOrderComponent, {
   //     width: '500px',
   //     data: { id, order: this.order },

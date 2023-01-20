@@ -21,7 +21,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormSkusComponent } from './templates/form-skus/form-skus.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { FormProductComponent } from './templates/form-product/form-product.component';
@@ -65,7 +64,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
         MatDatepickerModule,
         MatNativeDateModule,
         MatCheckboxModule,
-        SwiperModule,
         MatStepperModule,
         MatTabsModule,
         MatRadioModule,

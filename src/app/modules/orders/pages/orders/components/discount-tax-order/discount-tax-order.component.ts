@@ -23,7 +23,6 @@ export class DiscountTaxOrderComponent {
   constructor(private dialog: MatDialog, private standard: StandartSearchService) { }
 
   openDialogCreateOrEditDiscountOrTax(id: number | null = null): void {
-    console.log(id);
     this.dialog.open(CreateOrEditDiscountOrTaxOrderComponent, {
       width: '500px',
       data: { id, order_id: this.order_id },

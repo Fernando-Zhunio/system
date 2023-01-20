@@ -61,7 +61,6 @@ export class StockBodegasComponent implements OnInit, OnDestroy {
   viewWareHouseUpdate() {
     
     this.subscription = this.methodsHttp.methodPut(`catalogs/products/${this.data.data.product.id}/sync-stock`, this.data.warehouse).subscribe((res) => {
-      console.log(res);
       this.data.data = res;
       this.init();
     });

@@ -46,7 +46,6 @@ export class SoundNotification {
     }
 
     play() {
-        console.log(Preferences.getInstance().get())
         Preferences.getInstance().get().general_notification_sound === 'on' &&
             this.sound().play();
     }

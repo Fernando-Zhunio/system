@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,7 +14,7 @@ import { GroupsPermissionsIndexComponent } from '../groups-permissions/groups-pe
   templateUrl: './permission-index.component.html',
   styleUrls: ['./permission-index.component.css']
 })
-export class PermissionIndexComponent extends IndexWithMatTable<IPermission> implements OnInit {
+export class PermissionIndexComponent extends IndexWithMatTable<IPermission> {
   displayedColumns: string[];
   permissions: { create: string[]; edit: string[]; destroy: string[]; };
   itemRows: { key: string; title: string,  isEditable: boolean  }[];
@@ -37,15 +37,10 @@ export class PermissionIndexComponent extends IndexWithMatTable<IPermission> imp
     ];
    }
 
-  ngOnInit(): void {
-  }
-
   openCreateOrEdit(id, isEdit = false) {
-    console.log(id);
     this.btnSheet.open(CreateOrEditPermissionComponent, {
       data: {id, isEdit}
     }).afterDismissed().subscribe(res => {
-      console.log(res);
       if (res) {
         // this.table.updateItemTable(res.id, res);
         // this.table.changePaginator();

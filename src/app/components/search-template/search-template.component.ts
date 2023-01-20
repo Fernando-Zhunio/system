@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Ipagination } from '../../interfaces/ipagination';
 import { HeaderSearchComponent } from '../header-search/header-search.component';
@@ -12,7 +12,7 @@ import { HeaderSearchComponent } from '../header-search/header-search.component'
   templateUrl: './search-template.component.html',
   styleUrls: ['./search-template.component.css']
 })
-export class SearchTemplateComponent implements OnInit {
+export class SearchTemplateComponent {
 
   constructor() {}
   @Input() filter_data: object = {};
@@ -34,8 +34,6 @@ export class SearchTemplateComponent implements OnInit {
   isLoading: boolean;
   pageSizeOptions: number[] = [10, 15, 25, 50];
   products: any[] = [];
-  ngOnInit(): void {
-  }
 
   loadData($event) {
     if (this.key_paginator) {
@@ -50,13 +48,11 @@ export class SearchTemplateComponent implements OnInit {
   }
 
   hasIsLoading(event): void {
-    console.log(event);
     this.isLoading = event;
     this._isLoading.emit(this.isLoading);
   }
 
   isLoadingNow(event): void {
-    console.log(event);
     this.isLoading = event;
     this._isLoading.emit(this.isLoading);
   }

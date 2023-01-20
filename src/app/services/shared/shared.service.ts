@@ -80,7 +80,6 @@ export class SharedService {
    * @param event
    * @param callbackAssignBase64
    * @example callbackAssignBase64 =  callbackImg(e): void {
-      console.log(e);
       this.imgBase64 = e.srcElement.result;
     }
    * @return
@@ -89,12 +88,9 @@ export class SharedService {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = callbackAssignBase64; /*  {
-     return  reader.result;
-      console.log(reader.result);
-    }; */
+    reader.onload = callbackAssignBase64;
     reader.onerror = function (error) {
-      console.log('Error: ', error);
+      console.error(error);
     };
   }
 
@@ -104,7 +100,7 @@ export class SharedService {
       const element = document.getElementsByClassName('app-body')[0];
       element.scrollTop = element.scrollHeight - element.clientHeight;
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 

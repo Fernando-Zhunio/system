@@ -25,7 +25,7 @@ export class NewPasswordGuard implements Resolve<Iresponse> {
         return res;
       }),
       catchError((err) => {
-          console.log(err);
+          console.error(err);
           this.route.navigate([PATH_LOGIN]);
           return EMPTY;
         })

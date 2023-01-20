@@ -24,11 +24,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { PublicationComponent } from './components/publication/publication.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { SortablejsModule } from 'ngx-sortablejs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ShowPublicationComponent } from './modules/publicaciones/show-publication/show-publication.component';
 import { HeaderSearchModule } from '../../Modulos/header-search/header-search.module';
-import { SwiperModule } from 'ngx-swiper-wrapper';
 import { RepublicarCuentasModalComponent } from '../../components/modals/republicar-cuentas-modal/republicar-cuentas-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
@@ -79,10 +77,8 @@ import { SearchProductModalComponent } from '../../components/modals/search-prod
     MatChipsModule,
     NgxSpinnerModule,
     HeaderSearchModule,
-    SwiperModule,
     MatDialogModule,
     ConvertsModule,
-    SortablejsModule.forRoot({ animation: 150 }),
     TemplateSearchModule,
     MatTreeModule,
     ToolsModule,

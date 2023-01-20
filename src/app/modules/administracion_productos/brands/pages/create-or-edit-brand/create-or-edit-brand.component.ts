@@ -63,7 +63,6 @@ export class CreateOrEditBrandComponent extends CreateOrEdit2<any> implements On
   //           this.isSend = !this.isSend;
   //         },
   //         (error) => {
-  //           console.log({ error });
   //           this.isSend = !this.isSend;
   //         }
   //       );
@@ -77,7 +76,6 @@ export class CreateOrEditBrandComponent extends CreateOrEdit2<any> implements On
   //           this.isSend = !this.isSend;
   //         },
   //         (error) => {
-  //           console.log({ error });
   //           this.isSend = !this.isSend;
   //         }
   //       );
@@ -121,9 +119,6 @@ export class CreateOrEditBrandComponent extends CreateOrEdit2<any> implements On
       name: data?.brand.name,
       sort_name: data?.brand.sort_name,
     });
-  }
-
-  ngOnDestroy(): void {
   }
 
   override go(data?: null): void {

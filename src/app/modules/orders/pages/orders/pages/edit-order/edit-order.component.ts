@@ -310,7 +310,6 @@ export class EditOrderComponent implements OnInit, OnDestroy, AfterContentInit {
       disableClose: true,
     }).afterClosed().subscribe(data => {
       if (data?.success) {
-        console.log(data);
         this.getOrder();
       }
     })

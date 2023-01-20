@@ -49,7 +49,6 @@ export class CreateOrEditAddressClientComponent implements OnInit {
   edit(): void {
     this.isLoading = true;
     this.s_standard.methodGet<IClientAddressOrder>('system-orders/clients/' + this.data.client_id + '/addresses/' + this.data.address_id + '/edit').subscribe(res => {
-      console.log(res);
       this.fillForm(res.data);
       this.isLoading = false;
     });
@@ -70,7 +69,6 @@ export class CreateOrEditAddressClientComponent implements OnInit {
       observable = this.s_standard.methodPost(url, this.form.value);
     }
     observable.subscribe(res => {
-      console.log(res);
       this.dialogRef.close(res);
     }, () => {
       this.isLoading = false;

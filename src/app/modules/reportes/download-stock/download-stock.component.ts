@@ -49,7 +49,6 @@ export class DownloadStockComponent implements OnInit {
   assignedDataOnInit(user_warehouses: any[]): void {
 
     user_warehouses.map((id: any) => {
-      // console.log(id);
       this.addWarehousesSelects(id);
     });
   }
@@ -83,7 +82,6 @@ export class DownloadStockComponent implements OnInit {
     if (sendData['warehouses_ids'].length > 0) {
       this.isLoad = true;
       const url = 'reports/general-stock';
-      // console.log(this.warehousesSelects);
       this.s_standart.store(url, {...sendData}).subscribe( res => {
         if (res && typeof res === 'object' && res.hasOwnProperty('success') && res.success) {
           this.isLoad = false;
@@ -91,7 +89,7 @@ export class DownloadStockComponent implements OnInit {
         }
         this.isLoad = false;
       }, err => {
-        console.log(err);
+        console.error(err);
         this.isLoad = false;
       });
     }
