@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { IProducts } from '../../../interfaces/iproducts';
-import { ProductsService } from '../../../services/products.service';
-import { StandartSearchService } from '../../../services/standart-search.service';
+import { MethodsHttpService } from './../../../services/methods-http.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+// import { FormControl, FormGroup, Validators } from '@angular/forms';
+// import { ActivatedRoute, Router } from '@angular/router';
+// import { IProducts } from '../../../interfaces/iproducts';
+import { RequestPaginate } from '../../../services/methods-http.service';
+import { Product } from './interfaces/product';
+import { PageEvent } from '@angular/material/paginator';
+import { NgxSearchBarComponent, NgxSearchBarFilter } from 'ngx-search-bar-fz';
+import { MatTableHelper } from '../../../shared/class/mat-table-helper';
+import { MatTable } from '@angular/material/table';
 
 declare let Swal: any;
 @Component({
@@ -11,13 +16,16 @@ declare let Swal: any;
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css'],
 })
-export class ProductosComponent implements OnInit {
+export class ProductosComponent extends MatTableHelper<any> implements OnInit {
+  protected columnsToDisplay: string[] = ['code', 'code_alt', 'description', 'prefix', 'category', 'sequence', 'brand', 'actions'];
+  protected url: string;
+  protected table: MatTable<any>;
+  protected mhs: MethodsHttpService;
   constructor(
-    private s_products: ProductsService,
-    private s_standart: StandartSearchService,
-    private router: Router,
-    private activeRoute: ActivatedRoute
-  ) { }
+    private methods_http: MethodsHttpService,
+  ) {
+    super();
+   }
 
   permission_create: any[] = ['super-admin', 'products-admin.products.create'];
   permission_edit: any[] = ['super-admin', 'products-admin.products.edit'];
@@ -25,92 +33,134 @@ export class ProductosComponent implements OnInit {
     'super-admin',
     'products-admin.products.destroy',
   ];
-  products: IProducts;
-  pageCurrent: number = 1;
-  perPage: number = 10;
+  @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent
+  products: Product[] = [];
+  // pageCurrent: number = 1;
+  // perPage: number = 10;
   totalItem: number = 0;
+  paginator: PageEvent = {
+    pageIndex: 0,
+    length: 0,
+    pageSize: 0
+  }
 
-  formProducts: FormGroup = new FormGroup({
-    id: new FormControl('', [Validators.required]),
-    code: new FormControl('', [Validators.required]),
-    code_alt: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
-    prefix: new FormControl('', [Validators.required]),
-    category: new FormControl('', [Validators.required]),
-    sequence: new FormControl('', [Validators.required]),
-    brand: new FormControl('', [Validators.required]),
-  });
+  filters: NgxSearchBarFilter = {
+    id: {
+      friendlyName: '#',
+      value: null
+    },
+    code: {
+      friendlyName: "Código",
+      value: null,
+    },
+    code_alt: {
+      friendlyName: "C Alt.",
+      value: null
+    },
+    description: {
+      friendlyName: "Descripción",
+      value: null
+    },
+    prefix: {
+      friendlyName: "Prefijo",
+      value: null
+    },
+    category: {
+      friendlyName: "Categoría",
+      value: null
+    },
+    sequence: {
+      friendlyName: "Secuencia",
+      value: null
+    },
+    brand: {
+      friendlyName: "Marca",
+      value: null
+    }
+  }
+
+  // formProducts: FormGroup = new FormGroup({
+  //   id: new FormControl('', [Validators.required]),
+  //   code: new FormControl('', [Validators.required]),
+  //   code_alt: new FormControl('', [Validators.required]),
+  //   name: new FormControl('', [Validators.required]),
+  //   description: new FormControl('', [Validators.required]),
+  //   prefix: new FormControl('', [Validators.required]),
+  //   category: new FormControl('', [Validators.required]),
+  //   sequence: new FormControl('', [Validators.required]),
+  //   brand: new FormControl('', [Validators.required]),
+  // });
   ngOnInit(): void {
-    const pageInitial =
-      Number.parseInt(this.activeRoute.snapshot.queryParamMap.get('page')!) || 1;
-    const params = this.getQueryParams();
-    params ? this.nextPage(pageInitial, params) : this.nextPage(pageInitial);
+    // const pageInitial =
+    //   Number.parseInt(this.activeRoute.snapshot.queryParamMap.get('page')!) || 1;
+    // const params = this.getQueryParams();
+    // params ? this.nextPage(pageInitial, params) : this.nextPage(pageInitial);
+    console.log('products')
   }
 
-  getQueryParams() {
-    let params = {};
-    params = JSON.parse(JSON.stringify(this.activeRoute.snapshot.queryParamMap['params']));
-    if (params.hasOwnProperty('page')) {
-      delete params['page'];
-    }
-    if (params != '{}') {
-      try {
-        const keysParams = Object.keys(params)
-        for (let i = 0; i < keysParams.length; i++) {
-          this.formProducts.controls[keysParams[i]].setValue(params[keysParams[i]]);
-        }
-        return params;
-      } catch (error) {
-        console.error(error);
+  // getQueryParams() {
+  //   let params = {};
+  //   params = JSON.parse(JSON.stringify(this.activeRoute.snapshot.queryParamMap['params']));
+  //   if (params.hasOwnProperty('page')) {
+  //     delete params['page'];
+  //   }
+  //   if (params != '{}') {
+  //     try {
+  //       const keysParams = Object.keys(params)
+  //       for (let i = 0; i < keysParams.length; i++) {
+  //         this.formProducts.controls[keysParams[i]].setValue(params[keysParams[i]]);
+  //       }
+  //       return params;
+  //     } catch (error) {
+  //       console.error(error);
 
-        return null;
-      }
-    }
-    return null;
-  }
+  //       return null;
+  //     }
+  //   }
+  //   return null;
+  // }
 
-  nextPage(pageNumber = 1, params: any = null): void {
-    const dataValid = params ? params : this.findValidControls();
-    this.s_standart.search2('products-admin/products', { ...dataValid, page: pageNumber }).subscribe((res: any) => {
-      if (res && res.hasOwnProperty('success') && res.success) {
-        this.products = res.data;
-        this.totalItem = this.products.total;
-        this.perPage = this.products.per_page;
-        this.pageCurrent = this.products.current_page;
-        this.gotoTop();
-        const queryParams: Params = { page: this.pageCurrent, ...dataValid };
-        this.router.navigate([], {
-          relativeTo: this.activeRoute,
-          queryParams: queryParams,
-          replaceUrl: true,
-        });
-      }
-    });
-  }
+  // nextPage(pageNumber = 1, params: any = null): void {
+  //   const dataValid = params ? params : this.findValidControls();
+  //   this.methods_http.methodGet('products-admin/products', { ...dataValid, page: pageNumber }).subscribe((res: any) => {
+  //     if (res && res.hasOwnProperty('success') && res.success) {
+  //       this.products = res.data;
+  //       this.totalItem = this.products.total;
+  //       this.perPage = this.products.per_page;
+  //       this.pageCurrent = this.products.current_page;
+  //       this.gotoTop();
+  //       const queryParams: Params = { page: this.pageCurrent, ...dataValid };
+  //       this.router.navigate([], {
+  //         relativeTo: this.activeRoute,
+  //         queryParams: queryParams,
+  //         replaceUrl: true,
+  //       });
+  //     }
+  //   });
+  // }
 
-  gotoTop() {
-    const main = document.getElementsByClassName('app-body');
-    main[0].scrollTop = 0;
-  }
+  // gotoTop() {
+  //   const main = document.getElementsByClassName('app-body');
+  //   main[0].scrollTop = 0;
+  // }
 
-  public findValidControls() {
-    const valid = [];
-    const controls = this.formProducts.controls;
-    for (const name in controls) {
-      if (controls[name].valid) {
-        valid[name] = controls[name].value;
-      }
-    }
-    return valid;
-  }
+  // findValidControls() {
+  //   const valid = [];
+  //   const controls = this.formProducts.controls;
+  //   for (const name in controls) {
+  //     if (controls[name].valid) {
+  //       valid[name] = controls[name].value;
+  //     }
+  //   }
+  //   return valid;
+  // }
 
-  goCreate():void {
-    this.router.navigate(['/admin-products/productos/create']);
-  }
+  // goCreate(): void {
+  //   this.router.navigate(['/admin-products/productos/create']);
+  // }
 
   destroyProduct(id): void {
-    const index = this.products.data.findIndex((x) => x.id === id);
+    const productIndex = this.products.findIndex((x) => x.id === id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mr-1',
@@ -122,7 +172,7 @@ export class ProductosComponent implements OnInit {
     swalWithBootstrapButtons
       .fire({
         title: 'Seguro que quieres eliminar esta Categoría ?',
-        text: this.products.data[index].name,
+        text: this.products[productIndex]!.name,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Si, eliminar!',
@@ -131,8 +181,8 @@ export class ProductosComponent implements OnInit {
       .then((result) => {
 
         if (result.isConfirmed) {
-          this.s_products.destroy(id).subscribe(() => {
-            if (index != -1) { this.products.data.splice(index, 1); }
+          this.methods_http.methodDelete(id).subscribe(() => {
+            if (productIndex != -1) { this.products.splice(productIndex, 1); }
             swalWithBootstrapButtons.fire(
               'Eliminado!',
               'Eliminado con éxito.',
@@ -149,5 +199,20 @@ export class ProductosComponent implements OnInit {
           );
         }
       });
+  }
+
+  override getData(event: RequestPaginate<Product>) {
+    // this.products = event.data.data
+    this.dataSource = event.data.data;
+    this.paginator.length = event.data.total
+  }
+
+  changePaginator(event: PageEvent): void {
+    this.paginator = event
+    const params = {
+      pageSize: this.paginator.pageSize,
+      page: this.paginator.pageIndex + 1
+    }
+    this.searchBar.search(params)
   }
 }

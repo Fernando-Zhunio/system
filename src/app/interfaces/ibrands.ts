@@ -1,4 +1,4 @@
-export interface Ibrands {
+export interface Brand {
   actions?: { items: Iactions[] };
   created_at: string;
   deleted_at: string;

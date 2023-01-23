@@ -6,7 +6,7 @@ import { ProductosRoutingModule } from './productos-routing.module ';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ProductCreateOrEditComponent } from './product-create-or-edit/product-create-or-edit.component'; // <-- import the module
 // import { ProductosMainComponent } from './productos-main.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // material angular
 // import { MatInputModule} from '@angular/material';
@@ -17,6 +17,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatCardModule } from '@angular/material/card';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatChipsModule } from '@angular/material/chips';
+import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -27,6 +32,7 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     ProductosRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     MatFormFieldModule,
@@ -36,8 +42,13 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     NgxPermissionsModule,
     MatCardModule,
+    NgxSearchBarModule,
+    MatPaginatorModule,
+    MatChipsModule,
+    NgxSearchBarPaginatorComponent,
+    MatTableModule
   ],
   exports: [ MatFormFieldModule, MatInputModule ]
 
 })
-export class ProductoModule { }
+export class ProductModule { }

@@ -12,7 +12,7 @@ const routes: Routes = [
       },
       {
         path: 'productos',
-        loadChildren: () => import('./products/producto.module').then(m => m.ProductoModule),
+        loadChildren: () => import('./products/product.module').then(m => m.ProductModule),
       },
       {
         path: 'prefijos',

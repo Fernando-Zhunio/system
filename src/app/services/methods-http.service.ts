@@ -21,6 +21,8 @@ export interface IResponse<T = any> {
   success: boolean;
   data: T;
 }
+
+export interface RequestPaginate<T = any>  extends IResponse<IPaginate<T>>{}
 @Injectable({
   providedIn: 'root'
 })

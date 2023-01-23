@@ -3,3 +3,8 @@
     margin-bottom: 1rem;
     color: inherit;
 }
+
+.filter-menu {
+    justify-content: space-between;
+    align-items: center;
+}

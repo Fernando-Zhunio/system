@@ -77,6 +77,7 @@ import { InitializerAppNovisolutions } from './core/class/initializer-app-noviso
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
 import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
+import { DATA_FOR_SEARCH_BAR } from 'ngx-search-bar-fz';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -154,7 +155,7 @@ registerLocaleData(localeEs, 'es');
     //   provide: ErrorHandler,
     //   useClass: GlobalErrorHandler,
     // },
-    {
+    { 
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
       // useClass: PathLocationStrategy,
@@ -198,6 +199,12 @@ registerLocaleData(localeEs, 'es');
     //     deps: [Sentry.TraceService],
     //     multi: true,
     //   },
+    {
+      provide: DATA_FOR_SEARCH_BAR,
+      useValue: {
+        BASE_URL: environment.server
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })

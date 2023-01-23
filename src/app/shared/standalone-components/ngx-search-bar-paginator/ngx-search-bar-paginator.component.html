@@ -1,0 +1,31 @@
+<div>
+  <ngx-search-bar
+    [filters]="filters"
+    [placeholder]="placeholder"
+    [path]="path"
+    [withFilter]="withFilter"
+    [title]="title"
+    [isChangeUrl]="isChangeUrl"
+    [withFilter]="withFilter"
+    [nameInputSearch]="nameInputSearch"
+    (data)="getData($event)"
+    [withParamsClean]="withParamsClean"
+    [customBtnApplyFilter]="customBtnApplyFilter"
+    (isLoading)="getIsLoading($event)"
+    [withParamsClean]="true"
+    >
+    <ng-content filterMenu select="[filterMenu]"></ng-content>
+    <ng-content buttons select="[buttons]"></ng-content>
+  </ngx-search-bar>
+
+  <div class="position-relative table-container">
+    <ng-content></ng-content>
+  </div>
+
+  <mat-paginator
+    *ngIf="paginator.length > 0"
+    [length]="paginator.length"
+    [pageSize]="paginator.pageSize"
+    [pageSizeOptions]="pageSizeOption"
+    (page)="changePaginator($event)"></mat-paginator>
+</div>

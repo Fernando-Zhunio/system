@@ -1,4 +1,4 @@
-import { Ibrands } from "./ibrands";
+import { Brand } from "./ibrands";
 import { Icategory } from "./icategory";
 import { ImlInfo } from "./iml-info";
 import { Iimportation } from "./Imports/invoice-item";
@@ -42,33 +42,33 @@ export interface IProduct {
 }
 
 
-export interface Iproduct3{
-available: number;
-brand: {id: number, name: string, sort_name: string};
-brand_id: number;
-category: {id: number, name: string, sort_name: string};
-category_id: number;
-code: string;
-code_alt: string;
-created_at: string;
-deleted_at: null;
-description: string;
-id: number;
-last_prices: [];
-name: string;
-prefix: {id: number, type: string, prefix: string};
-prefix_id: number;
-sequence: {id: number, sequence_number: number, category_id: number};
-sequence_id: number;
-updated_at: string;
-user_id: number;
+export interface Iproduct3 {
+  available: number;
+  brand: { id: number, name: string, sort_name: string };
+  brand_id: number;
+  category: { id: number, name: string, sort_name: string };
+  category_id: number;
+  code: string;
+  code_alt: string;
+  created_at: string;
+  deleted_at: null;
+  description: string;
+  id: number;
+  last_prices: [];
+  name: string;
+  prefix?: { id: number, type: string, prefix: string };
+  prefix_id: number;
+  sequence?: { id: number, sequence_number: number, category_id: number };
+  sequence_id: number;
+  updated_at: string;
+  user_id: number;
 }
 
 
 
 export interface Iproduct2 {
   available: number;
-  brand: Ibrands;
+  brand: Brand;
   brand_id: number;
   category: Icategory;
   category_id: number;
@@ -125,105 +125,105 @@ export interface Product {
   max_price_sold: string;
   min_price_sold: string;
   last_price_sold: string;
-  
+
   vtex_skus: IproductVtexSku[];
-  ml_infos: [
-    {
-      id: number;
-      product_id: number;
-      resource_id: string;
-      name: string;
-      listing_type_id: string;
-      description: string;
-      reference: string;
-      image: string;
-      link: string;
-      price: number;
-      tax: number;
-      status: string;
-      sub_status: string;
-      start_time: string;
-      historical_start_time: string;
-      stop_time: string;
-      end_time: string;
-      expiration_time: string;
-      relist_forever: string;
-      parent_item_id: string;
-      ml_account_id: 2;
-      created_at: string;
-      updated_at: string;
-      manual_edition: number;
-      menu: {
-        type: string;
-        availablesItems: {
-          id: string;
-          type: string;
-          icon: string;
-          label: string;
-        }[];
-        item: number;
-      };
-      pivot: {
-        product_id: number;
-        product_ml_info_id: number;
-      };
-      account: {
-        id: number;
-        user_id: number;
-        user_name: string;
-        city_id: number;
-        status: string;
-        created_at: string;
-        updated_at: string;
-        city: {
-          id: number;
-          name: string;
-          code: string;
-          country_id: number;
-          created_at: string;
-          updated_at: string;
-          deleted_at: string;
-        };
-        companies_access: {
-          id: number;
-          name: string;
-          country_id: number;
-          created_at: string;
-          updated_at: string;
-          deleted_at: string;
-          pivot: {
-            accessible_id: number;
-            company_id: number;
-            accessible_type: string;
-          };
-        }[];
-      };
-      stock: {
-        id: number;
-        product_ml_info_id: number;
-        initial_quantity: number;
-        available_quantity: number;
-        sold_quantity: number;
-        created_at: string;
-        updated_at: string;
-      };
-      companies_access: [
-        {
-          id: number;
-          name: string;
-          country_id: number;
-          created_at: string;
-          updated_at: string;
-          deleted_at: string;
-          pivot: {
-            accessible_id: number;
-            company_id: number;
-            accessible_type: string;
-          };
-        }
-      ];
-    }
-  ];
+  // ml_infos: [
+  //   {
+  //     id: number;
+  //     product_id: number;
+  //     resource_id: string;
+  //     name: string;
+  //     listing_type_id: string;
+  //     description: string;
+  //     reference: string;
+  //     image: string;
+  //     link: string;
+  //     price: number;
+  //     tax: number;
+  //     status: string;
+  //     sub_status: string;
+  //     start_time: string;
+  //     historical_start_time: string;
+  //     stop_time: string;
+  //     end_time: string;
+  //     expiration_time: string;
+  //     relist_forever: string;
+  //     parent_item_id: string;
+  //     ml_account_id: 2;
+  //     created_at: string;
+  //     updated_at: string;
+  //     manual_edition: number;
+  //     menu: {
+  //       type: string;
+  //       availablesItems: {
+  //         id: string;
+  //         type: string;
+  //         icon: string;
+  //         label: string;
+  //       }[];
+  //       item: number;
+  //     };
+  //     pivot: {
+  //       product_id: number;
+  //       product_ml_info_id: number;
+  //     };
+  //     account: {
+  //       id: number;
+  //       user_id: number;
+  //       user_name: string;
+  //       city_id: number;
+  //       status: string;
+  //       created_at: string;
+  //       updated_at: string;
+  //       city: {
+  //         id: number;
+  //         name: string;
+  //         code: string;
+  //         country_id: number;
+  //         created_at: string;
+  //         updated_at: string;
+  //         deleted_at: string;
+  //       };
+  //       companies_access: {
+  //         id: number;
+  //         name: string;
+  //         country_id: number;
+  //         created_at: string;
+  //         updated_at: string;
+  //         deleted_at: string;
+  //         pivot: {
+  //           accessible_id: number;
+  //           company_id: number;
+  //           accessible_type: string;
+  //         };
+  //       }[];
+  //     };
+  //     stock: {
+  //       id: number;
+  //       product_ml_info_id: number;
+  //       initial_quantity: number;
+  //       available_quantity: number;
+  //       sold_quantity: number;
+  //       created_at: string;
+  //       updated_at: string;
+  //     };
+  //     companies_access: [
+  //       {
+  //         id: number;
+  //         name: string;
+  //         country_id: number;
+  //         created_at: string;
+  //         updated_at: string;
+  //         deleted_at: string;
+  //         pivot: {
+  //           accessible_id: number;
+  //           company_id: number;
+  //           accessible_type: string;
+  //         };
+  //       }
+  //     ];
+  //   }
+  // ];
   prefix: {
     id: number;
     type: string;
@@ -244,9 +244,6 @@ export interface Product {
     id: number;
     name: string;
     sort_name: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
   };
   sequence: {
     id: number;
@@ -258,6 +255,7 @@ export interface Product {
   promotions: [];
   // imports: [];
 }
+
 
 export interface IproductVtexSku {
   id: number;
@@ -298,7 +296,7 @@ export interface IproductVtex {
   created_at: string;
   updated_at: string;
   link: string;
-  skus?:IproductVtexSku[];
+  skus?: IproductVtexSku[];
   site: {
     id: number;
     vtex_api_id: number;
