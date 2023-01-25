@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from 'ngx-search-bar-fz';
+import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from '../../../../../projects/ngx-search-bar/src/public-api';
 import { ResponsePaginateApi } from '../../interfaces/response-api';
 
 @Component({
@@ -36,6 +36,8 @@ export class NgxSearchBarPaginatorComponent {
   @Output() data = new EventEmitter<any[]>();
   @Output() isLoading = new EventEmitter<boolean>();
   @Output() filtersChange = new EventEmitter<any>();
+  isEmptyData: boolean = false;
+  isLoadingData: boolean = false;
 
   paginator: PageEvent = {
     pageIndex: 0,
@@ -45,6 +47,7 @@ export class NgxSearchBarPaginatorComponent {
 
   getData(event: ResponsePaginateApi<any>) {
     this.data.emit(event.data.data);
+    this.isEmptyData = event.data.data.length === 0;
     this.paginator.length = event.data.total;
     this.paginator.pageSize = event.data.per_page;
   }
@@ -53,6 +56,7 @@ export class NgxSearchBarPaginatorComponent {
     if (event) {
       window.scrollTo(0, 0);
     }
+    this.isLoadingData = event;
     this.isLoading.emit(event);
   }
 

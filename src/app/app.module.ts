@@ -52,7 +52,6 @@ import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
 import { OrderModule } from 'ngx-order-pipe';
 import { StoreModule } from '@ngrx/store';
-// import { notificationsReducer } from './redux/reducers/notifications.reducer';
 import { pricesReducer } from './redux/reducers/price.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { preferenceReducer } from './redux/reducers/preference.reducer';
@@ -77,7 +76,7 @@ import { InitializerAppNovisolutions } from './core/class/initializer-app-noviso
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
 import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
-import { DATA_FOR_SEARCH_BAR } from 'ngx-search-bar-fz';
+import { DATA_FOR_SEARCH_BAR } from '../../projects/ngx-search-bar/src/public-api';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({

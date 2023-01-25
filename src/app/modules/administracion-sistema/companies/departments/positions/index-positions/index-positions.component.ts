@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Crud } from '../../../../../../class/crud';
@@ -7,11 +7,11 @@ import { IPosition } from '../../../../../../interfaces/iposition';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 
 @Component({
-  selector: 'app-positions-index',
-  templateUrl: './positions-index.component.html',
-  styleUrls: ['./positions-index.component.css']
+  selector: 'app-index-positions',
+  templateUrl: './index-positions.component.html',
+  styleUrls: ['./index-positions.component.css']
 })
-export class PositionsIndexComponent extends Crud<IPosition> implements OnInit {
+export class IndexPositionsComponent extends Crud<IPosition> {
   url: string;
 
   constructor(protected methodsHttp: MethodsHttpService, public router: Router, protected snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
@@ -21,8 +21,7 @@ export class PositionsIndexComponent extends Crud<IPosition> implements OnInit {
 
   department!: IDepartment;
 
-  ngOnInit(): void {
-  }
+
 
   getParams(key: string = 'id'): any {
     return this.activatedRoute.snapshot.params[key];

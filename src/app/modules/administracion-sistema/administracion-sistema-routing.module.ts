@@ -15,12 +15,10 @@ import { VtexSitesComponent } from './vtex-site/vtex-sites.component';
 import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
 import { IndexComponent } from './newsletters/index/index.component';
 import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-newsletter/create-or-edit-newsletter.component';
-import { IndexComponent as IndexCompanies } from './companies/index/index.component';
-import { CreateOrEditCompanyComponent } from './companies/create-or-edit-company/create-or-edit-company.component';
-import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
-import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
-import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
-import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
+// import { DepartmentIndexComponent } from './companies/departments/index-departments/index-departments.component';
+// import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
+// import { PositionsIndexComponent } from './companies/departments/positions/index-positions/index-positions.component';
+// import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
 import { CitiesIndexComponent } from './paises/cities/cities-index/cities-index.component';
 
 const permission_module_AD = {
@@ -522,87 +520,88 @@ const routes: Routes = [
   // companies
   {
     path: 'companies',
-    children: [
-      {
-        path: '',
-        component: IndexCompanies,
-        data: {
-          permissions: {
-            // only: permission_module_AD.companies.index,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'create',
-        component: CreateOrEditCompanyComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: permission_module_AD.companies.create,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: ':id/edit',
-        component: CreateOrEditCompanyComponent,
-        data: {
-          isEdit: true,
-          permissions: {
-            only: permission_module_AD.companies.edit,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: ':company_id/departments',
-        children: [
-          {
-            path: '',
-            component: DepartmentIndexComponent,
-          },
-          {
-            path: 'create',
-            component: CreateOrEditDepartmentComponent,
-          },
-          {
-            path: ':department_id/edit',
-            component: CreateOrEditDepartmentComponent,
-            data: {
-              isEdit: true,
-              permissions: {
-              },
-            },
-          },
-          {
-            path: ':department_id/positions',
-            children: [
-              {
-                path: '',
-                component: PositionsIndexComponent,
-              },
-              {
-                path: 'create',
-                component: CreateOrEditPositionComponent,
-                data: {
-                  isEdit: false,
-                  permissions: {},
-                },
-              },
-              {
-                path: ':position_id/edit',
-                component: CreateOrEditPositionComponent,
-                data: {
-                  isEdit: true,
-                  permissions: {},
-                },
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    loadChildren: () => import('./companies/companies.module').then(m => m.CompaniesModule),
+    // children: [
+    //   {
+    //     path: '',
+    //     component: IndexCompanies,
+    //     data: {
+    //       permissions: {
+    //         // only: permission_module_AD.companies.index,
+    //       },
+    //     },
+    //     canActivate: [NgxPermissionsGuard],
+    //   },
+    //   {
+    //     path: 'create',
+    //     component: CreateOrEditCompanyComponent,
+    //     data: {
+    //       isEdit: false,
+    //       permissions: {
+    //         only: permission_module_AD.companies.create,
+    //       },
+    //     },
+    //     canActivate: [NgxPermissionsGuard],
+    //   },
+    //   {
+    //     path: ':id/edit',
+    //     component: CreateOrEditCompanyComponent,
+    //     data: {
+    //       isEdit: true,
+    //       permissions: {
+    //         only: permission_module_AD.companies.edit,
+    //       },
+    //     },
+    //     canActivate: [NgxPermissionsGuard],
+    //   },
+    //   {
+    //     path: ':company_id/departments',
+    //     children: [
+    //       {
+    //         path: '',
+    //         component: DepartmentIndexComponent,
+    //       },
+    //       {
+    //         path: 'create',
+    //         component: CreateOrEditDepartmentComponent,
+    //       },
+    //       {
+    //         path: ':department_id/edit',
+    //         component: CreateOrEditDepartmentComponent,
+    //         data: {
+    //           isEdit: true,
+    //           permissions: {
+    //           },
+    //         },
+    //       },
+    //       {
+    //         path: ':department_id/positions',
+    //         children: [
+    //           {
+    //             path: '',
+    //             component: PositionsIndexComponent,
+    //           },
+    //           {
+    //             path: 'create',
+    //             component: CreateOrEditPositionComponent,
+    //             data: {
+    //               isEdit: false,
+    //               permissions: {},
+    //             },
+    //           },
+    //           {
+    //             path: ':position_id/edit',
+    //             component: CreateOrEditPositionComponent,
+    //             data: {
+    //               isEdit: true,
+    //               permissions: {},
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    // ],
     // data: {
     //   permissions: {
     //     only: permission_module_AD.location.index,

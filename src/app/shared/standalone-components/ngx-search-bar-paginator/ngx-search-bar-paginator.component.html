@@ -19,7 +19,13 @@
   </ngx-search-bar>
 
   <div class="position-relative table-container">
-    <ng-content></ng-content>
+    <div [hidden]="isEmptyData">
+      <ng-content></ng-content>
+    </div>
+    <div class="text-center mt-5" *ngIf="isEmptyData && !isLoadingData">
+      <div><img class="col-md-5 col-8" src="assets/vectores/search.svg" alt="search not found"></div>
+      <div class="font-4xl font-weight-bold text-muted">No se encontraron resultados</div>
+    </div>
   </div>
 
   <mat-paginator

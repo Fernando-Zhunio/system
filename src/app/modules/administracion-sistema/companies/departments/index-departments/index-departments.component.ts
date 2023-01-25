@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Crud } from '../../../../../class/crud';
@@ -8,10 +8,10 @@ import { MethodsHttpService } from '../../../../../services/methods-http.service
 
 @Component({
   selector: 'app-department-index',
-  templateUrl: './department-index.component.html',
-  styleUrls: ['./department-index.component.css']
+  templateUrl: './index-departments.component.html',
+  styleUrls: ['./index-departments.component.css']
 })
-export class DepartmentIndexComponent extends Crud<IDepartment> implements OnInit {
+export class IndexDepartmentsComponent extends Crud<IDepartment> {
   url: string;
 
   constructor(protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar, private act_router: ActivatedRoute) {
@@ -20,8 +20,7 @@ export class DepartmentIndexComponent extends Crud<IDepartment> implements OnIni
   }
 
   company!: Icompany ;
-  ngOnInit(): void {
-  }
+
 
   getParam(key: string = 'company_id'): any {
     return this.act_router.snapshot.params[key];

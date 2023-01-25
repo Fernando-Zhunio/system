@@ -21,8 +21,6 @@ import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PaisesComponent } from './paises/paises.component';
 import { CreateOrEditCountryComponent } from './paises/create-or-edit-country/create-or-edit-country.component';
-// import { LocacionesComponent } from './locaciones/locaciones.component';
-// import { CreateOrEditLocationComponent } from './locaciones/create-or-edit-location/create-or-edit-location.component';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
 import { PersonasComponent } from './personas/personas.component';
 import { PersonComponent } from '../../components/person/person.component';
@@ -52,18 +50,17 @@ import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-s
 import { VtexSiteComponent } from './vtex-site/tools/vtex-site/vtex-site.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { IndexComponent } from './newsletters/index/index.component';
-import { IndexComponent as IndexCompaniesComponent } from './companies/index/index.component';
+// import { IndexCompaniesComponent } from './companies/pages/index-companies/index-companies.component';
 
 import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-newsletter/create-or-edit-newsletter.component';
-import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
 import { QuillModule } from 'ngx-quill';
-import { CreateOrEditCompanyComponent } from './companies/create-or-edit-company/create-or-edit-company.component';
-import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
-import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
+// import { CreateOrEditCompanyComponent } from './companies/pages/create-or-edit-company/create-or-edit-company.component';
+// import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
+// import { CreateOrEditDepartmentComponent } from './companies/departments/create-or-edit-department/create-or-edit-department.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { MatRadioModule } from '@angular/material/radio';
-import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
-import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
+// import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
+// import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
 import { CitiesIndexComponent } from './paises/cities/cities-index/cities-index.component';
 import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/index-with-mat-table.module';
 import { SearchesModule } from '../../Modulos/searches/searches.module';
@@ -92,13 +89,13 @@ import { MatListModule } from '@angular/material/list';
         CreateOrEditVtexSiteComponent,
         VtexSiteComponent,
         IndexComponent,
-        IndexCompaniesComponent,
+        // IndexCompaniesComponent,
         CreateOrEditNewsletterComponent,
-        CreateOrEditCompanyComponent,
-        DepartmentIndexComponent,
-        CreateOrEditDepartmentComponent,
-        PositionsIndexComponent,
-        CreateOrEditPositionComponent,
+        // CreateOrEditCompanyComponent,
+        // DepartmentIndexComponent,
+        // CreateOrEditDepartmentComponent,
+        // PositionsIndexComponent,
+        // CreateOrEditPositionComponent,
         CitiesIndexComponent,
     ],
     imports: [
@@ -132,7 +129,7 @@ import { MatListModule } from '@angular/material/list';
         MatBadgeModule,
         NgxSpinnerModule,
         NgxSkeletonLoaderModule,
-        SearchTemplateModule,
+        // SearchTemplateModule,
         MatTreeModule,
         MatRadioModule,
         QuillModule.forRoot(),
@@ -140,7 +137,6 @@ import { MatListModule } from '@angular/material/list';
 
         SearchesModule,
         MatListModule
-        // SearchTemplateModule
     ]
 })
 export class AdministracionSistemaModule { }
