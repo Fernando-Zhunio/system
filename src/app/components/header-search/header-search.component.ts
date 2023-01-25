@@ -14,7 +14,6 @@ import { Subscription } from 'rxjs';
 import { empty } from '../../class/tools';
 import { MethodsHttpService } from '../../services/methods-http.service';
 import { SwalService } from '../../services/swal.service';
-
 @Component({
   selector: 'app-header-search',
   templateUrl: './header-search.component.html',

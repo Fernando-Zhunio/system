@@ -9,10 +9,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { CategoriesIndexComponent } from './pages/categories-index/categories-index.component';
-import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
+import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -27,9 +28,10 @@ import { MatChipsModule } from '@angular/material/chips';
     MatIconModule,
     NgxPermissionsModule,
     MatTableModule,
-    SearchTemplateTableComponent,
     MatDialogModule,
     MatChipsModule,
+    NgxSearchBarPaginatorComponent,
+    MatCardModule
   ]
 })
 export class CategoriasModule { }

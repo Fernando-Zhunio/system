@@ -8,7 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PromocionesComponent } from '../../components/promociones/promociones.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PaginaWebComponent } from '../../components/pagina-web/pagina-web.component';
+// import { PaginaWebComponent } from '../../modules/catalogo/modules/buscar-productos/components/pagina-web/pagina-web.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { ModalRealistComponent } from '../../modules/catalogo/components/ml/tools/modal-realist/modal-realist.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,7 +23,7 @@ import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-    declarations: [MlComponent, PromocionesComponent, PaginaWebComponent, ModalRealistComponent],
+    declarations: [MlComponent, PromocionesComponent, ModalRealistComponent],
     imports: [
         MomentModule,
         MatCardModule,
@@ -45,7 +45,7 @@ import { RouterModule } from '@angular/router';
     exports: [
         MlComponent,
         PromocionesComponent,
-        PaginaWebComponent,
+        // PaginaWebComponent,
         ModalRealistComponent
     ]
 })

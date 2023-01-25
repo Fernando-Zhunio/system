@@ -10,6 +10,8 @@ import { SwalService } from '../../../../services/swal.service';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { ModalPricesComponent } from './../templates/modal-prices/modal-prices.component';
 
+
+// TODO rehacer todo
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',

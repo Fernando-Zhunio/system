@@ -8,20 +8,18 @@
                 <div class=" col-12 position-relative">
                     <div class="img-bot position-relative m-auto">
                         <label for="photo" class="position-absolute">
-                                <mat-icon class="btn-edit">edit</mat-icon>
+                            <i class="fa-solid fa-pen"></i>
                         </label>
                         <button mat-icon-button type="button" class="btn-remove" (click)="removeImg()" *ngIf="img.file"><mat-icon color="warn">delete</mat-icon></button>
                         <input class="d-none" (change)="getBase64($event)"  type="file" name="photo" id="photo">
                         <img class="w-100" [src]="img.base64" alt="imagen chatbot">
                     </div>
                 </div>
-
                 <div class=" col-12 center">
                 <mat-form-field class="w-100">
                     <input matInput placeholder="Escribe el nombre al chatbot" formControlName="name">
                 </mat-form-field>
                 </div>
-                
                 <button color="primary" (click)="saveInServer()" mat-raised-button>Guardar <mat-icon>save</mat-icon></button>
             </form>
         </mat-card-content>

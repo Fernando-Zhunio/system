@@ -1,0 +1,104 @@
+<ngx-search-bar-paginator title="Chat bots" [path]="url" (data)="getData($event)">
+  <ng-container buttons>
+    <mat-chip-set>
+      <mat-chip color="create" [routerLink]="['/administracion-sistema/chatbot/create']">
+        <i class="fa-solid fa-plus"></i>
+        &nbsp;Agregar Chatbot
+      </mat-chip>
+    </mat-chip-set>
+  </ng-container>
+  <div>
+    <mat-card>
+        <mat-card-content>
+            <table mat-table #table [dataSource]="dataSource">
+              <ng-container matColumnDef="img">
+                <th mat-header-cell *matHeaderCellDef>Img</th>
+                <td mat-cell *matCellDef="let row">
+                    <img width="40" height="40" [src]="row.info?.photo" alt="img">
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="api_token">
+                <th mat-header-cell *matHeaderCellDef>Api token</th>
+                <td mat-cell *matCellDef="let row">{{ row.api_token }}</td>
+              </ng-container>
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let row">{{ row.info.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+              </ng-container>
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let row">
+                    <div class="d-flex">
+                        <button class="btn-icon c-edit" [routerLink]="['/administracion-sistema/chatbot/',row.id,'edit']">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="btn-icon c-delete" (click)="deleteData(row.id)"  >
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                        <button class="btn-icon text-info" [routerLink]="['./',row.id,'webhooks']" [queryParams]="{name: row.info.name}">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                    </div>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+  </div>
+</ngx-search-bar-paginator>
+
+<!-- <div>
+    <div>
+        <app-search-template title="Chatbots" [url$]="url" (data)="getData($event)">
+            <ng-container menuBar>
+                <mat-chip-list class="ml-1">
+                    <mat-chip class="mat-btn-add" [routerLink]="['./create']">
+                        <mat-icon>smart_toy</mat-icon>&nbsp;Agregar Chatbot
+                    </mat-chip>
+                </mat-chip-list>
+            </ng-container>
+            <ng-container data>
+                <mat-card *ngFor="let chatbot of data | keyvalue" class="card rounded-fz border-0 shadow">
+                    <mat-card-header>
+                        <mat-card-title>{{chatbot.value?.info?.name}}</mat-card-title>
+                        <mat-card-subtitle>{{chatbot.value?.status}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img matCardImage [src]="chatbot.value?.info?.photo || 'assets/img/img_not_available.png'">
+                    <mat-card-content>
+                        <mat-chip-list>
+                            <mat-chip>Id chat: {{chatbot.value?._id}}</mat-chip>
+                            <mat-chip>Tipo: {{chatbot.value?.type}}</mat-chip>
+                        </mat-chip-list>
+                        <div class="mt-2 p-3 rounded-fz shadow bg-dark cursor-pointer pulso" (click)="copyToken(chatbot.value?.api_token)">Token: <span>{{chatbot.value?.api_token}}&nbsp;<i class="far fa-copy"></i></span> </div>
+                    </mat-card-content>
+                    <mat-card-actions align="start">
+                        <button mat-mini-fab [routerLink]="['/administracion-sistema/chatbot/',chatbot.key,'edit']" routerLinkActive="router-link-active"  >
+                            <mat-icon >edit</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="deleteData(chatbot.key)"  color="warn">
+                            <mat-icon >delete</mat-icon>
+                        </button>
+                        <button mat-mini-fab [routerLink]="['./',chatbot.key,'webhooks']" [queryParams]="{name: chatbot.value.info.name}"  color="primary">
+                            <mat-icon>webhook</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </ng-container>
+
+        </app-search-template>
+    </div>
+</div> -->

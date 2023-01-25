@@ -1,0 +1,115 @@
+<ngx-search-bar-paginator
+    [isChangeUrl]="true"
+    [(filters)]="filters"
+    [nameInputSearch]="'name'"
+    placeholder="Buscar productos"
+    [withFilter]="true"
+    title="Productos"
+    (data)="getData($event)"
+    path="products-admin/products">
+    <ng-container filterMenu>
+      <div class="filter-menu">
+        <mat-form-field>
+          <mat-label>ID</mat-label>
+          <input matInput placeholder="#" [(ngModel)]="filters['id'].value" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Código</mat-label>
+          <input matInput placeholder="Codigo" [(ngModel)]="filters['code'].value" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Código alt</mat-label>
+          <input matInput placeholder="Codigo Alterno" [(ngModel)]="filters['code_alt'].value" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Descripción</mat-label>
+          <input matInput placeholder="Descripción" [(ngModel)]="filters['description'].value" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Tipo</mat-label>
+          <input matInput placeholder="Tipo" [(ngModel)]="filters['prefix'].value" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Categoría</mat-label>
+          <input matInput placeholder="Categoría" [(ngModel)]="filters['category'].value" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Secuencia</mat-label>
+          <input matInput placeholder="Secuencia" [(ngModel)]="filters['sequence'].value" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Marca</mat-label>
+          <input matInput placeholder="Marca" [(ngModel)]="filters['brand'].value" />
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <ng-container buttons>
+      <mat-chip-set>
+        <mat-chip
+          color="create"
+          *ngxPermissionsOnly="permission_create"
+          [routerLink]="['/admin-products/productos/create']">
+          <i class="fa-solid fa-plus"></i>
+          Producto
+        </mat-chip>
+      </mat-chip-set>
+    </ng-container>
+    <mat-card>
+      <mat-card-content>
+        <table mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> Código </th>
+            <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+          </ng-container>
+          <ng-container matColumnDef="code_alt">
+            <th mat-header-cell *matHeaderCellDef> Código Alt </th>
+            <td mat-cell *matCellDef="let row"> {{row.code_alt}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+            <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="prefix">
+            <th mat-header-cell *matHeaderCellDef> Prefijo </th>
+            <td mat-cell *matCellDef="let row"> {{row.prefix.type}} </td>
+          </ng-container>
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef> Categoria </th>
+            <td mat-cell *matCellDef="let row"> {{row.category.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sequence">
+            <th mat-header-cell *matHeaderCellDef> Secuencia </th>
+            <td mat-cell *matCellDef="let row"> {{row.sequence.sequence_number}} </td>
+          </ng-container>
+          <ng-container matColumnDef="brand">
+            <th mat-header-cell *matHeaderCellDef> Marca </th>
+            <td mat-cell *matCellDef="let row"> {{row.brand.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let row">
+              <div class="d-flex">
+                <span
+                [routerLink]="['edit', row.id]"
+                *ngxPermissionsOnly="permission_edit"
+                routerLinkActive="router-link-active"
+                class="mr-1 btn-icon c-edit">
+                <i class="far fa-edit"></i>
+                            </span>
+                            <span
+                (click)="destroyProduct(row.id)"
+                *ngxPermissionsOnly="permission_destroy"
+                class="btn-icon c-delete">
+                <i class="far fa-trash-alt"></i>
+                            </span>
+              </div>
+           </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </ngx-search-bar-paginator>

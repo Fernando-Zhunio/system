@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductosComponent } from './productos.component';
-import { ProductosRoutingModule } from './productos-routing.module ';
+import { ProductsIndexComponent } from './pages/products-index/products-index.component';
+import { ProductosRoutingModule } from './productos.routing';
 
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ProductCreateOrEditComponent } from './product-create-or-edit/product-create-or-edit.component'; // <-- import the module
-// import { ProductosMainComponent } from './productos-main.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // material angular
-// import { MatInputModule} from '@angular/material';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,7 +24,7 @@ import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
-    ProductosComponent,
+    ProductsIndexComponent,
     ProductCreateOrEditComponent
   ],
   imports: [

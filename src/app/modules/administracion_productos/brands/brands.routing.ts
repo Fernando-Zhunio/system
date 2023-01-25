@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-// import { CategoriasMainComponent } from './categorias-main.component';
-// import { Component } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { BrandsIndexComponent } from './pages/brands-index/brands-index.component';
 import { CreateOrEditBrandComponent } from './pages/create-or-edit-brand/create-or-edit-brand.component';

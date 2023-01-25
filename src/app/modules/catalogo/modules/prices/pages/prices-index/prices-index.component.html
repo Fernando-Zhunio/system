@@ -59,7 +59,7 @@
       <ng-container matColumnDef="code">
         <th mat-header-cell *matHeaderCellDef>Codigo</th>
         <td class="cell-code" mat-cell *matCellDef="let element">
-          <mat-chip [selectable]="false" [disableRipple]="true">{{ element.code }} 
+          <mat-chip [disableRipple]="true">{{ element.code }} 
             <button *ngxPermissionsOnly="permissionProductIndex"  class="text-primary"><i [routerLink]="['/catalogo/buscar_productos']" [queryParams]="{search: element.code}" class="fa-regular fa-eye mx-1"></i></button>
             <button (click)="copy(element.code)"><i class="fa-regular fa-copy mx-1"></i></button>
           </mat-chip>

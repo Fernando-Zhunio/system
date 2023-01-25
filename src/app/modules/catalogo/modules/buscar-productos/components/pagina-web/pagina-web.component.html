@@ -1,0 +1,30 @@
+<div>
+  <table class="table table-responsive">
+    <thead>
+      <tr>
+        <th scope="col"># Vtex</th>
+        <th scope="col">Imagen</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Creado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          {{ sku.vtex_product_id }}
+        </td>
+        <td>
+          <a [href]="sku.vtex_product?.link" target="_blank">
+            <img class="img-product" [src]="sku.images[0].ImageUrl || 'assets/not.png'" alt="" />
+          </a>
+        </td>
+        <td>
+          {{ sku.name }}
+        </td>
+        <td>
+          {{ sku.created_at | amLocale : "es" | amTimeAgo }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

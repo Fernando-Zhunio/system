@@ -15,11 +15,11 @@ const routes: Routes = [
         data: {
           name: 'index-product-vtex',
           isEdit: false,
-          permissions: {
-            only: ['super-admin', 'product-admin.vtex.product-vtex.index'],
-          },
+          // permissions: {
+          //   only: ['super-admin', 'product-admin.vtex.product-vtex.index'],
+          // },
         },
-        canActivate: [NgxPermissionsGuard],
+        // canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'create-product-vtex',

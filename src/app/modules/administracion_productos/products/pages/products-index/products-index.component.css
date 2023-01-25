@@ -7,4 +7,8 @@
 .filter-menu {
     justify-content: space-between;
     align-items: center;
+    padding: 0 10px;
+}
+.filter-menu mat-form-field {
+    width: 100%;
 }

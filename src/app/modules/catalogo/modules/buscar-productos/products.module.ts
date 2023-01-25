@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsRoutingModule } from './products.routing';
-// import { NgxAutocompleteModule } from 'ngx-angular-autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-// import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,8 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ClipboardModule} from '@angular/cdk/clipboard';
-// import { MatSidenavModule } from '@angular/material/sidenav';
 // import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SwiperModule } from 'swiper/angular';
 import { MomentModule } from 'ngx-moment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductsComponent } from './pages/products/products.component';
@@ -29,9 +27,12 @@ import { MlModule } from '../../../../Modulos/ml/ml.module';
 import { PostModule } from '../../../../Modulos/post.module';
 import { TranslatefzModule } from '../../../../Modulos/translatefz/translatefz.module';
 import { MatListModule } from '@angular/material/list';
+import { NgxSearchBarPaginatorComponent } from '../../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+import { NgOptimizedImage } from '@angular/common'
+import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
 
 @NgModule({
-  declarations: [ProductsComponent, StockBodegasComponent, DialogHistoryPricesProductComponent],
+  declarations: [PaginaWebComponent, ProductsComponent, StockBodegasComponent, DialogHistoryPricesProductComponent],
   imports: [
     CommonModule,
     ProductsRoutingModule,
@@ -57,7 +58,10 @@ import { MatListModule } from '@angular/material/list';
     MatDialogModule,
     MatProgressBarModule,
     TranslatefzModule,
-    MatListModule
+    MatListModule,
+    NgxSearchBarPaginatorComponent,
+    SwiperModule,
+    NgOptimizedImage
     ],
     
 })

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from 'ngx-search-bar-fz';
+import { ResponsePaginateApi } from '../../interfaces/response-api';
 
 @Component({
   standalone: true,
@@ -15,7 +16,7 @@ import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from 'n
   templateUrl: './ngx-search-bar-paginator.component.html',
   styleUrls: ['./ngx-search-bar-paginator.component.scss']
 })
-export class NgxSearchBarPaginatorComponent  {
+export class NgxSearchBarPaginatorComponent {
 
   @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent
 
@@ -31,7 +32,7 @@ export class NgxSearchBarPaginatorComponent  {
   @Input() withParamsClean: boolean = false;
   @Input() pageSizeOption: number[] = [10, 15, 25, 50];
   @Input() customBtnApplyFilter: any = { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' };
-  
+
   @Output() data = new EventEmitter<any[]>();
   @Output() isLoading = new EventEmitter<boolean>();
   @Output() filtersChange = new EventEmitter<any>();
@@ -42,16 +43,16 @@ export class NgxSearchBarPaginatorComponent  {
     pageSize: 0
   }
 
-  // ngOnInit() {
-  // }
-
-  getData(event) {
-    this.data.emit(event);
+  getData(event: ResponsePaginateApi<any>) {
+    this.data.emit(event.data.data);
     this.paginator.length = event.data.total;
-    this.paginator.pageSize = event.data.pageSize;
+    this.paginator.pageSize = event.data.per_page;
   }
 
   getIsLoading(event) {
+    if (event) {
+      window.scrollTo(0, 0);
+    }
     this.isLoading.emit(event);
   }
 

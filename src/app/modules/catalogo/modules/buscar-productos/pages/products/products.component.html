@@ -1,16 +1,19 @@
-<app-search-template
-  [title]="'Productos'"
-  active_filters_menu="true"
-  [columns]="2"
+<ngx-search-bar-paginator
+  title="Productos"
+  [withFilter]="true"
   (data)="getData($event)"
   placeholder="Buscar producto"
-  [url$]="pathProductIndex"
-  [filter_data]="filter">
-  <ng-container data>
-    <mat-card @fade class="card border-0" *ngFor="let p of products; index as ind">
+  [path]="pathProductIndex"
+  [(filters)]="filter"
+  [isChangeUrl]="true"
+>
+
+<ng-container>
+  <div class="px-3 card-columns">
+    <mat-card @fade class="card mb-2 card border-0 overflow-hidden" *ngFor="let p of products; index as ind">
       <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0" style="top: 68px; background: inherit">
         <div class="font-weight-light font-2xl mb-2">
-          <mat-chip (click)="copyCodigo(p.code)">
+          <mat-chip color="primary" selected (click)="copyCodigo(p.code)">
             <small>
               {{ p?.code }}
               <i class="far fa-copy"></i>
@@ -55,7 +58,7 @@
               Ver historial de precios
             </button>
             <button (click)="toggle.classList.toggle('show')" mat-button class="my-1">
-              <i class="fa-solid fa-arrows-up-down"></i> Ver más 
+              <i class="fa-solid fa-arrows-up-down"></i> Ver más
             </button>
           </div>
           <div #toggle class="collapse-fz">
@@ -178,92 +181,80 @@
                   </div>
                 </mat-card-content>
               </mat-card>
-              <!-- <app-promociones *ngFor="let promotion of p.promotions" [promotion]="promotion"></app-promociones> -->
             </div>
-            <!-- <div *ngIf="p.imports.length > 0" class="">
-              <div class="header">
-                <div class="font-3xl my-4">Historial de importaciones</div>
-              </div>
-              <mat-chip-list aria-label="Importaciones">
-                <mat-chip *ngFor="let imports of p.imports">
-                  {{ imports.sequence.origin.name }} #{{ imports.sequence.sequence_number }}
-                </mat-chip>
-              </mat-chip-list>
-            </div> -->
           </div>
           <ng-container *ngIf="p.vtex_skus?.length > 0">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="co-12">
               <div class="header">
                 <div class="font-3xl my-4">PÁGINA WEB</div>
               </div>
             </div>
-            <div class="container">
-              <swiper [config]="config" [useSwiperClass]="false">
-                <mat-card style="background: inherit" *ngFor="let i of p.vtex_skus">
-                  <app-pagina-web [prestashop_product]="i"></app-pagina-web>
-                </mat-card>
-              </swiper>
+            <div>
+              <mat-card style="background: inherit" *ngFor="let sku of p.vtex_skus">
+               <mat-card-content>
+                 <app-pagina-web [sku]="sku"></app-pagina-web>
+               </mat-card-content>
+              </mat-card>
             </div>
           </ng-container>
         </div>
       </mat-card-content>
     </mat-card>
-  </ng-container>
-  <ng-container filterMenu>
-    <!-- <mat-menu #menu="matMenu" [overlapTrigger]="false"> -->
-    <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-      <mat-form-field class="w-100">
-        <mat-label>Prefijos</mat-label>
-        <mat-select [(ngModel)]="filter.prefix_id">
-          <mat-option value="">Todos</mat-option>
-          <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div
-      class="row m-0 p-0"
-      style="text-overflow: initial"
-      mat-menu-item
-      (click)="$event.stopPropagation()"
-      (keydown)="$event.stopPropagation()">
+  </div>
+</ng-container>
+<ng-container filterMenu>
+  <div class="px-2">
+    <mat-form-field class="w-100">
+      <mat-label>Prefijos</mat-label>
+      <mat-select [(ngModel)]="filter['prefix_id'].value">
+        <mat-option value="">Todos</mat-option>
+        <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="row">
       <mat-form-field class="col-6">
         <mat-label>Stock Min</mat-label>
-        <input matInput type="number" [(ngModel)]="filter.min" type="number" class="" />
+        <input matInput type="number" [(ngModel)]="filter['min'].value" type="number" class="" />
       </mat-form-field>
       <mat-form-field class="col-6">
         <mat-label>Stock Max</mat-label>
-        <input [(ngModel)]="filter.max" type="number" matInput class="" />
+        <input [(ngModel)]="filter['max'].value" type="number" matInput class="" />
       </mat-form-field>
     </div>
-    <div
-      mat-menu-item
-      [disableRipple]="true"
-      (click)="$event.stopPropagation()"
-      (keydown)="$event.stopPropagation()"
-      class="h-100">
-      <mat-form-field class="w-100">
-        <mat-label>Todas las Bodegas</mat-label>
-        <mat-select type="text" #select_warehouse [(ngModel)]="filter['warehouse_ids[]']" multiple>
-          <mat-select-trigger>
-            <mat-chip-list>
-              <mat-chip
-                (removed)="removeWarehouse(warehouse_id)"
-                *ngFor="let warehouse_id of filter['warehouse_ids[]']"
-                [removable]="true">
-                {{ getNameWareHouse(warehouse_id) }}
-                <i class="fa-solid fa-xmark"></i>
-              </mat-chip>
-            </mat-chip-list>
-          </mat-select-trigger>
-          <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
-            {{ warehouse.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <!-- </mat-menu> -->
-  </ng-container>
-</app-search-template>
+    <mat-form-field class="w-100">
+      <mat-label>Todas las Bodegas</mat-label>
+      <mat-select type="text" #select_warehouse [(ngModel)]="filter['warehouse_ids[]'].value" multiple>
+        <mat-select-trigger>
+          <mat-chip-set>
+            <mat-chip
+              (removed)="removeWarehouse(warehouse_id)"
+              *ngFor="let warehouse_id of filter['warehouse_ids[]'].value"
+              [removable]="true">
+              {{ getNameWareHouse(warehouse_id) }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+        </mat-select-trigger>
+        <mat-option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
+          {{ warehouse.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</ng-container>
+</ngx-search-bar-paginator>
+
+<!-- <app-search-template
+  [title]="'Productos'"
+  active_filters_menu="true"
+  [columns]="2"
+  (data)="getData($event)"
+  placeholder="Buscar producto"
+  [url$]="pathProductIndex"
+  [filter_data]="filter">
+</app-search-template> -->
 
 <!-- <div *ngIf="isLoading" class="card-columns">
       <div *ngFor="let item of [1, 2, 3]" class="my-1 card rounded-fz card-body border-0">

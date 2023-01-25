@@ -1,22 +1,22 @@
-import { MethodsHttpService } from './../../../services/methods-http.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 // import { FormControl, FormGroup, Validators } from '@angular/forms';
 // import { ActivatedRoute, Router } from '@angular/router';
 // import { IProducts } from '../../../interfaces/iproducts';
-import { RequestPaginate } from '../../../services/methods-http.service';
-import { Product } from './interfaces/product';
-import { PageEvent } from '@angular/material/paginator';
+// import { RequestPaginate } from '../../../../../services/methods-http.service';
+import { Product } from '../../interfaces/product';
+// import { PageEvent } from '@angular/material/paginator';
 import { NgxSearchBarComponent, NgxSearchBarFilter } from 'ngx-search-bar-fz';
-import { MatTableHelper } from '../../../shared/class/mat-table-helper';
+import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { MatTable } from '@angular/material/table';
 
 declare let Swal: any;
 @Component({
   selector: 'app-productos',
-  templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css'],
+  templateUrl: './products-index.component.html',
+  styleUrls: ['./products-index.component.css'],
 })
-export class ProductosComponent extends MatTableHelper<any> implements OnInit {
+export class ProductsIndexComponent extends MatTableHelper<any> implements OnInit {
   protected columnsToDisplay: string[] = ['code', 'code_alt', 'description', 'prefix', 'category', 'sequence', 'brand', 'actions'];
   protected url: string;
   protected table: MatTable<any>;
@@ -38,11 +38,11 @@ export class ProductosComponent extends MatTableHelper<any> implements OnInit {
   // pageCurrent: number = 1;
   // perPage: number = 10;
   totalItem: number = 0;
-  paginator: PageEvent = {
-    pageIndex: 0,
-    length: 0,
-    pageSize: 0
-  }
+  // paginator: PageEvent = {
+  //   pageIndex: 0,
+  //   length: 0,
+  //   pageSize: 0
+  // }
 
   filters: NgxSearchBarFilter = {
     id: {
@@ -201,18 +201,17 @@ export class ProductosComponent extends MatTableHelper<any> implements OnInit {
       });
   }
 
-  override getData(event: RequestPaginate<Product>) {
-    // this.products = event.data.data
-    this.dataSource = event.data.data;
-    this.paginator.length = event.data.total
-  }
+  // override getData(event: RequestPaginate<Product>) {
+  //   this.dataSource = event.data.data;
+  //   this.paginator.length = event.data.total
+  // }
 
-  changePaginator(event: PageEvent): void {
-    this.paginator = event
-    const params = {
-      pageSize: this.paginator.pageSize,
-      page: this.paginator.pageIndex + 1
-    }
-    this.searchBar.search(params)
-  }
+  // changePaginator(event: PageEvent): void {
+  //   this.paginator = event
+  //   const params = {
+  //     pageSize: this.paginator.pageSize,
+  //     page: this.paginator.pageIndex + 1
+  //   }
+  //   this.searchBar.search(params)
+  // }
 }

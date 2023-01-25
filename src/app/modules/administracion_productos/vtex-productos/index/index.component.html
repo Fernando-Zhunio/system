@@ -1,10 +1,10 @@
 <app-header-search [filter_data]="{min:min,max:max,'warehouse_ids[]':warehouse_ids,prefix_id:prefix_id}"
   [placeholder]="'Buscador de vtex'" (isLoading)="isLoading = $event" [url]="url" (products)="loadData($event)">
-  <mat-chip-list class="ml-1">
+  <mat-chip-set class="ml-1">
     <mat-chip [routerLink]="['./create-product-vtex']" class="text-truncate">
       <mat-icon class="text-black-50" type="search">add</mat-icon>
     </mat-chip>
-  </mat-chip-list>
+  </mat-chip-set>
 </app-header-search>
 
 <div *ngIf="isLoading" class="mt-4 card-columns">
@@ -51,7 +51,7 @@
         <span class="font-facebook font-2xl">Skus</span>
       </div>
       <div>
-        <swiper [config]="config" [useSwiperClass]="false">
+        <!-- <swiper [config]="config" [useSwiperClass]="false">
           <div class="shadow rounded-fz position-relative card-body" *ngFor="let sku of p.skus">
             <span class="vtex-reference pill-fz">{{sku.reference_code}}</span>
             <img class="w-100 img-product rounded-fz position-relative"
@@ -65,7 +65,7 @@
               </button>
             </span>
           </div>
-        </swiper>
+        </swiper> -->
       </div>
     </mat-card>
   </div>
@@ -81,8 +81,9 @@
     </div>
   </div>
 </ng-container>
-<!-- <mat-paginator *ngIf="mlInfos.length > 0" class="float-right" #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changedPaginator($event)"> -->
 <mat-paginator [hidden]="isLoading" *ngIf="products.length > 0" [pageSizeOptions]="[10, 20, 30]"
   (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
   [pageIndex]="paginator.current_page-1">
 </mat-paginator>
+
+fernando

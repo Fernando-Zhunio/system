@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { compare } from 'compare-versions';
 import { take } from 'rxjs/operators';
@@ -21,7 +21,7 @@ import { SwalService } from '../../services/swal.service';
   templateUrl: './sidebar-fz.component.html',
   styleUrls: ['./sidebar-fz.component.scss']
 })
-export class SidebarFzComponent implements OnInit {
+export class SidebarFzComponent implements OnInit, OnDestroy {
 
   navItems: INavData[] = [];
   @Output() isMinimizeSidebar: EventEmitter<boolean> = new EventEmitter();
@@ -49,7 +49,15 @@ export class SidebarFzComponent implements OnInit {
     if (width < 600) {
       this.hiddenMenu = true;
     }
+    console.log('this.user', this.user);
     this.getSidebar();
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    console.log('this.user destroy', this.user);
+    
   }
 
   getSidebar(): void {
@@ -93,8 +101,6 @@ export class SidebarFzComponent implements OnInit {
         }
       });
   }
-
-  
 
   getFavorites(_take = 1) {
     this.store.select(selectPreference).pipe(take(_take)).subscribe((preference: IPreferences) => {

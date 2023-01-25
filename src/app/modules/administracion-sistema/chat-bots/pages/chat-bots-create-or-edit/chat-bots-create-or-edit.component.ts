@@ -2,23 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CreateOrEdit } from '../../../../class/create-or-edit';
-import { IChatbot } from '../../../../interfaces/ichatbot';
-import { SharedService } from '../../../../services/shared/shared.service';
-import { StandartSearchService } from '../../../../services/standart-search.service';
-import { SwalService } from './../../../../services/swal.service';
+// import { CreateOrEdit } from '../../../../../class/create-or-edit';
+import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
+import { IChatbot } from '../../../../../interfaces/ichatbot';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { SharedService } from '../../../../../services/shared/shared.service';
+// import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { SwalService } from '../../../../../services/swal.service';
 
 @Component({
   selector: 'app-chat-bots-create-or-edit',
   templateUrl: './chat-bots-create-or-edit.component.html',
   styleUrls: ['./chat-bots-create-or-edit.component.css']
 })
-export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implements OnInit {
-  public urlSave: any;
+export class ChatBotsCreateOrEditComponent extends CreateOrEdit2<IChatbot> implements OnInit {
+  // protected act_router: ActivatedRoute;
+  // protected methodsHttp: MethodsHttpService;
+  public urlSave: string = 'admin/chatbot';
 
-  constructor(activated_route: ActivatedRoute, standardService: StandartSearchService, router: Router) {
-    super(activated_route, standardService, router);
-    this.urlSave = 'admin/chatbot';
+  constructor(protected act_router: ActivatedRoute, protected methodsHttp: MethodsHttpService, protected router: Router) {
+    super();
   }
 
   public title: string = 'Chatbot';
@@ -81,9 +84,9 @@ export class ChatBotsCreateOrEditComponent extends CreateOrEdit<IChatbot> implem
         let observable: Observable<any>;
         if (this.status === 'edit') {
             url += `/${this.getId()}`;
-            observable = this.standard_service.methodPost(url, data_send);
+            observable = this.methodsHttp.methodPost(url, data_send);
         } else {
-            observable = this.standard_service.methodPost(url, data_send);
+            observable = this.methodsHttp.methodPost(url, data_send);
         }
         observable.subscribe(() => {
             this.isLoading = false;

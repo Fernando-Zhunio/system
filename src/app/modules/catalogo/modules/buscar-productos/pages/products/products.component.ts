@@ -19,6 +19,7 @@ import { InfoViewComponent } from '../../../../components/info-view/info-view.co
 import { DialogHistoryPricesProductComponent } from '../../components/dialog-history-prices-product/dialog-history-prices-product.component';
 import { PERMISSIONS_CATALOG_PRODUCTS } from '../../class/permissions-products';
 import { PRODUCT_ROUTE_API_INDEX } from '../../routes-api/products-routes-api';
+import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
 
 @Component({
   selector: 'app-products',
@@ -76,11 +77,24 @@ export class ProductsComponent implements OnInit {
     pagination: false,
   };
   permission = PERMISSIONS_CATALOG_PRODUCTS;
-  filter: any = {
-    min: null,
-    max: null,
-    'warehouse_ids[]': null,
-    prefix_id: null,
+  filter: NgxSearchBarFilter = {
+    min: {
+      friendlyName: 'Precio mínimo',
+      value: null,
+    },
+    max: {
+      friendlyName: 'Precio máximo',
+      value: null,
+    },
+    prefix_id: {
+      friendlyName: 'Prefijo',
+      value: null,
+    },
+    'warehouse_ids[]': {
+      friendlyName: 'Bodegas',
+      value: [],
+    },
+    // prefix_id: null,
   }
 
   ngOnInit(): void {
@@ -100,9 +114,10 @@ export class ProductsComponent implements OnInit {
   }
 
   removeWarehouse(id) {
-    const index = this.filter['warehouse_ids[]']?.findIndex((x) => x == id);
+    const warehouse = this.filter['warehouse_ids[]'].value as any[];
+    const index = warehouse.findIndex((x) => x == id);
     if (index != -1) {
-      this.filter['warehouse_ids[]'].splice(index, 1);
+      warehouse.splice(index, 1);
       this.select_warehouse.writeValue(this.filter["warehouse_ids[]"]);
     }
   }

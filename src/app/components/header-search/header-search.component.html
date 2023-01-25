@@ -20,19 +20,19 @@
     </div>
   </div>
   <div class="d-flex align-items-center" style="top: 0px; right: 22px; height: 100%">
-    <mat-chip-list>
+    <mat-chip-set>
       <mat-chip (click)="paste()" class="text-truncate">
         <i class="fa-regular fa-paste"></i>
       </mat-chip>
-    </mat-chip-list>
+    </mat-chip-set>
     <ng-content></ng-content>
     <ng-container *ngIf="active_filters_menu">
-      <mat-chip-list class="ml-1">
+      <mat-chip-set class="ml-1">
         <mat-chip [matBadge]="countFilter || null" [matMenuTriggerFor]="menu" class="text-truncate">
           <i class="fa-solid fa-filter mr-1"></i>
           filtros
         </mat-chip>
-      </mat-chip-list>
+      </mat-chip-set>
       <mat-menu class="menu-style" #menu="matMenu" [overlapTrigger]="false">
         <ng-content select="[filterMenu]"></ng-content>
         <div mat-menu-item [disableRipple]="true">

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarcasRoutingModule } from './brands.routing';
-// import { NgxPaginationModule } from 'ngx-pagination';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,10 +10,10 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatCardModule } from '@angular/material/card';
 import { BrandsIndexComponent } from './pages/brands-index/brands-index.component';
 import { CreateOrEditBrandComponent } from './pages/create-or-edit-brand/create-or-edit-brand.component';
-import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 
 @NgModule({
   declarations: [BrandsIndexComponent, CreateOrEditBrandComponent],
@@ -29,10 +28,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     NgxPermissionsModule,
     MatCardModule,
-    SearchTemplateTableComponent,
     MatChipsModule,
     MatTableModule,
     MatDialogModule,
+    NgxSearchBarPaginatorComponent
   ]
 })
 export class BrandsModule { }

@@ -1,124 +1,127 @@
-<h3 matDialogTitle class="text-muted"> Historial de precios</h3>
-<h2 class="font-3xl font-weight-bold">
-  <span class="text-muted">{{ data?.product?.code }}</span>
-  {{ data?.product?.name }}
-</h2>
+<h3 mat-dialog-title class="text-muted"> Historial de precios</h3>
 <mat-dialog-content>
+  <h2 class="font-3xl font-weight-bold">
+    <span class="text-muted">{{ data?.product?.code }}</span>
+    {{ data?.product?.name }}
+  </h2>
   <div *ngIf="isLoading; else TemplateTable">
     <mat-progress-bar mode="buffer"></mat-progress-bar>
   </div>
   <ng-template #TemplateTable>
-    <h2 class="font-weight-bold">Precios:</h2>
-    <div *ngFor="let priceGroup of prices | keyvalue">
-      <h2 class="main-style font-2x1 sticky-top text-primary pl-3">{{priceGroup?.value?.[0]?.group?.name}}</h2>
-      <table class="table  table-borderless">
-        <thead class="text-muted">
-          <tr>
-            <th>Precio</th>
-            <th>Precio + IVA</th>
-            <th>Duración</th>
-            <th>Importación</th>
-            <th>Estado</th>
-            <th>Creado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let price of priceGroup.value">
-            <td>{{ price?.price | currency }}</td>
-            <td>{{ price.price_with_tax | currency }}</td>
-            <td>{{ price.duration_type }}{{ price.start_date | date: "medium" }} {{ price.end_date | date: "medium" }}</td>
-            <td>
-              <div *ngIf="price?.import">
-                <span *ngIf="!isCanLookImport; else TemplateLookImport">{{ price?.import?.code }}</span>
-                <ng-template #TemplateLookImport>
-                  <mat-chip (click)="openDialogShowImport(price.import.id)">
-                    {{ price?.import?.code }}
-                    <i class="fa-regular fa-eye text-info ml-2"></i>
-                  </mat-chip>
-                </ng-template>
+  <mat-card >
+    <mat-card-content>
+        <h2 class="font-weight-bold">Precios:</h2>
+        <div *ngFor="let priceGroup of prices | keyvalue">
+          <h2 class="main-style font-2x1 sticky-top text-primary pl-3">{{priceGroup?.value?.[0]?.group?.name}}</h2>
+          <table class="table">
+            <thead class="text-muted">
+              <tr>
+                <th>Precio</th>
+                <th>Precio + IVA</th>
+                <th>Duración</th>
+                <th>Importación</th>
+                <th>Estado</th>
+                <th>Creado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let price of priceGroup.value">
+                <td>{{ price?.price | currency }}</td>
+                <td>{{ price.price_with_tax | currency }}</td>
+                <td>{{ price.duration_type }}{{ price.start_date | date: "medium" }} {{ price.end_date | date: "medium" }}</td>
+                <td>
+                  <div *ngIf="price?.import">
+                    <span *ngIf="!isCanLookImport; else TemplateLookImport">{{ price?.import?.code }}</span>
+                    <ng-template #TemplateLookImport>
+                      <mat-chip (click)="openDialogShowImport(price.import.id)">
+                        {{ price?.import?.code }}
+                        <i class="fa-regular fa-eye text-info ml-2"></i>
+                      </mat-chip>
+                    </ng-template>
+                  </div>
+                </td>
+                <td>
+                  <span [class]="price.status" class="badge-fz">
+                    {{ price.status === "active" ? "Activo" : "Descontinuado" }}
+                  </span>
+                </td>
+                <td>{{ price.created_at | date: "medium" }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <span class="text-center text-danger d-block p-2" *ngIf="!prices">No hay datos</span>
+        </div>
+        <hr />
+        <h2 class="font-weight-bold">Promociones:</h2>
+        <div class="card-columns">
+          <div class="card border-0 shadow promotion" *ngFor="let promotion of promotions">
+            <div class="card-body">
+              <div>
+                <small>Creado:</small>
+                <div>{{ promotion.created_at | date: "medium" }}</div>
               </div>
-            </td>
-            <td>
-              <span [class]="price.status" class="badge-fz">
-                {{ price.status === "active" ? "Activo" : "Descontinuado" }}
-              </span>
-            </td>
-            <td>{{ price.created_at | date: "medium" }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <span class="text-center text-danger d-block p-2" *ngIf="!prices">No hay datos</span>
-    </div>
-    <hr />
-    <h2 class="font-weight-bold">Promociones:</h2>
-    <div class="card-columns">
-      <div class="card border-0 shadow promotion" *ngFor="let promotion of promotions">
-        <div class="card-body">
-          <div>
-            <small>Creado:</small>
-            <div>{{ promotion.created_at | date: "medium" }}</div>
-          </div>
-          <div>
-            <small>Titulo:</small>
-            <div>{{ promotion.title }}</div>
-          </div>
-          <div>
-            <small>Estado:</small>
-            <div>{{ promotion.status | translatefz }}</div>
-          </div>
-          <div>
-            <small>Nota:</small>
-            <div>{{ promotion.note }}</div>
-          </div>
-          <div>
-            <small>Tipo de Duración:</small>
-            <div>{{ promotion.duration_type | translatefz }}</div>
-          </div>
-          <div *ngIf="promotion.duration_type === 'date_range'">
-            <small>Duración:</small>
-            <div>{{ promotion.start_date | date: "medium" }} {{ promotion.end_date | date: "medium" }}</div>
-          </div>
-          <div>
-            <small>Precio:</small>
-            <div>{{ promotion.price_formated | currency }}</div>
-          </div>
-          <div>
-            <small>Productos:</small>
-            <!-- <span>{{ promotion.products.length }}</span> -->
-            <div>
-              <mat-list dense>
-                <mat-list-item *ngFor="let product of promotion.products">
-                  <img matListAvatar width="50" [src]="product.image || 'assets/img/img_default_null.jpg'" />
-                  <div mat-line>
-                    <span class="text-primary mr-1">{{ product.code }}</span>
-                    {{ product.name }}
-                  </div>
-                  <div mat-line>
-                    Cantidad:
-                    <span class="text-primary">{{ product.pivot.quantity }}</span>
-                  </div>
-                  <div mat-line>
-                    Precio:
-                    <span class="text-primary">{{ product.pivot.price | currency }}</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
+              <div>
+                <small>Titulo:</small>
+                <div>{{ promotion.title }}</div>
+              </div>
+              <div>
+                <small>Estado:</small>
+                <div>{{ promotion.status | translatefz }}</div>
+              </div>
+              <div>
+                <small>Nota:</small>
+                <div>{{ promotion.note }}</div>
+              </div>
+              <div>
+                <small>Tipo de Duración:</small>
+                <div>{{ promotion.duration_type | translatefz }}</div>
+              </div>
+              <div *ngIf="promotion.duration_type === 'date_range'">
+                <small>Duración:</small>
+                <div>{{ promotion.start_date | date: "medium" }} {{ promotion.end_date | date: "medium" }}</div>
+              </div>
+              <div>
+                <small>Precio:</small>
+                <div>{{ promotion.price_formated | currency }}</div>
+              </div>
+              <div>
+                <small>Productos:</small>
+                <!-- <span>{{ promotion.products.length }}</span> -->
+                <div>
+                  <mat-list dense>
+                    <mat-list-item *ngFor="let product of promotion.products">
+                      <img matListAvatar width="50" [src]="product.image || 'assets/img/img_default_null.jpg'" />
+                      <div mat-line>
+                        <span class="text-primary mr-1">{{ product.code }}</span>
+                        {{ product.name }}
+                      </div>
+                      <div mat-line>
+                        Cantidad:
+                        <span class="text-primary">{{ product.pivot.quantity }}</span>
+                      </div>
+                      <div mat-line>
+                        Precio:
+                        <span class="text-primary">{{ product.pivot.price | currency }}</span>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div>
-      <span class="text-center text-danger d-block p-2" *ngIf="promotions.length === 0">No hay datos</span>
-    </div>
+        <div>
+          <span class="text-center text-danger d-block p-2" *ngIf="promotions.length === 0">No hay datos</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </ng-template>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button color="warn" matDialogClose>
+  <button mat-button color="accent" matDialogClose>
     Cerrar
-    <i class="fa-solid fa-xmark"></i>
   </button>
 </mat-dialog-actions>

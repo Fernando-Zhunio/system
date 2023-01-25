@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { ChatBotsCreateOrEditComponent } from './chat-bots-create-or-edit/chat-bots-create-or-edit.component';
-import { ChatBotsIndexComponent } from './chat-bots-index/chat-bots-index.component';
+import { ChatBotsCreateOrEditComponent } from './pages/chat-bots-create-or-edit/chat-bots-create-or-edit.component';
+import { ChatBotsIndexComponent } from './pages/chat-bots-index/chat-bots-index.component';
 import { CreateOrEditChatbotWebhookComponent } from './webhooks/create-or-edit-chatbot-webhook/create-or-edit-chatbot-webhook.component';
 import { WebhooksComponent } from './webhooks/webhooks.component';
 

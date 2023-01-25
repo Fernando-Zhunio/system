@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ProductCreateOrEditComponent } from './product-create-or-edit/product-create-or-edit.component';
-import { ProductosComponent } from './productos.component';
+import { ProductsIndexComponent } from './pages/products-index/products-index.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ProductosComponent,
+        component: ProductsIndexComponent,
         data: { name: 'productos'}
       },
       {
