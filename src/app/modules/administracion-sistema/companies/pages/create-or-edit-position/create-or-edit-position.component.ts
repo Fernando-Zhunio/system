@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateOrEdit } from '../../../../../../class/create-or-edit';
-import { IDepartment } from '../../../../../../interfaces/idepartment';
-import { StandartSearchService } from '../../../../../../services/standart-search.service';
-import { IPosition } from './../../../../../../interfaces/iposition';
+import { CreateOrEdit } from '../../../../../class/create-or-edit';
+import { IDepartment } from '../../../../../interfaces/idepartment';
+import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { IPosition } from '../../../../../interfaces/iposition';
 
 @Component({
   selector: 'app-create-or-edit-position',

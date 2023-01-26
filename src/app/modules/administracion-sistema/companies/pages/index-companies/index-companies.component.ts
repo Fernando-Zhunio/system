@@ -26,12 +26,22 @@ export class IndexCompaniesComponent extends MatTableHelper<any> {
     }
     if (id) {
       data['id'] = id;
-      data['info'] = this.dataSource.find((item: any) => item.id === id);
+      data['info'] = { ...this.dataSource.find((item: any) => item.id === id) };
     }
     console.log(data);
-    
+
     this.dialog.open(CreateOrEditCompanyComponent, {
       data
-    })
+    }).beforeClosed().subscribe((res) => {
+      if (!res) {
+        return
+      }
+      if (id) {
+        this.updateItemInTable(id, res.sendData);
+      } else {
+        this.addItemInTable(res.sendData);
+      }
+    }
+    );
   }
 }

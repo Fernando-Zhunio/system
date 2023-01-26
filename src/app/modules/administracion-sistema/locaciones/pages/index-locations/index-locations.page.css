@@ -7,3 +7,7 @@
     color: #dc3545;
     background-color: #dc354521;
 }
+
+.mat-column-address {
+    min-width: 250px;
+}

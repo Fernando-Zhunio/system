@@ -3,8 +3,9 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { MethodsHttpService } from "../../services/methods-http.service";
 import { StatusCreateOrEdit } from "../enums/status-create-or-edit";
 import { CreateOrEditDialogData } from "../interfaces/create-or-edit-dialog-data";
+import { ResponseApi } from "../interfaces/response-api";
 
-export abstract class CreateOrEditDialog {
+export abstract class CreateOrEditDialog<T= any, R= any> {
     
     public status: StatusCreateOrEdit = StatusCreateOrEdit.Create;
 
@@ -12,7 +13,7 @@ export abstract class CreateOrEditDialog {
     protected abstract path: string;
     protected abstract methodHttp: MethodsHttpService;
     protected abstract form: FormGroup;
-    protected abstract dialogRef: MatDialogRef<any>
+    protected abstract dialogRef: MatDialogRef<T, {response: ResponseApi<R>, sendData: R}>
     protected abstract createOrEditData: CreateOrEditDialogData
     isLoading: boolean = false;
     constructor() { }
@@ -33,12 +34,18 @@ export abstract class CreateOrEditDialog {
 
     public loadCreate(path: string): void {
         this.isLoading = true;
-        this.methodHttp.methodGet(path).subscribe(data => {
-            this.setData(data.data);
-            this.isLoading = false;
-        }, () => {
-            this.isLoading = false;
-        });
+        this.methodHttp.methodGet(path)
+        .subscribe(
+            {
+                next: (data: any) => {
+                    this.setData(data.data);
+                    this.isLoading = false;
+                },
+                error: () => {
+                    this.isLoading = false;
+                }
+            }
+        );
     }
 
     setData(data: any): void {
@@ -64,15 +71,16 @@ export abstract class CreateOrEditDialog {
         }
         this.isLoading = true;
         if (this.status === StatusCreateOrEdit.Create) {
-            this.methodHttp.methodPost(this.path, this.getData()).subscribe(data => {
-                this.dialogRef.close(data);
+            this.methodHttp.methodPost(this.path, this.getData())
+            .subscribe(data => {
+                this.dialogRef.close({response:data, sendData: this.getData()});
                 this.isLoading = false;
             }, () => {
                 this.isLoading = false;
             });
         } else {
             this.methodHttp.methodPut(`${this.path}/${this.createOrEditData.id}`, this.getData()).subscribe(data => {
-                this.dialogRef.close(data);
+                this.dialogRef.close({response:data, sendData: this.getData()});
                 this.isLoading = false;
             }, () => {
                 this.isLoading = false;

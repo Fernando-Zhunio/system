@@ -13,6 +13,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { IndexDepartmentsComponent } from './pages/index-departments/index-departments.component';
+import { CreateOrEditDepartmentComponent } from './pages/create-or-edit-department/create-or-edit-department.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatRadioModule } from '@angular/material/radio';
+import { IndexPositionsComponent } from './pages/index-positions/index-positions.component';
+import { CreateOrEditPositionComponent } from './pages/create-or-edit-position/create-or-edit-position.component';
 
 @NgModule({
   imports: [
@@ -27,11 +33,17 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTreeModule,
+    MatRadioModule
   ],
   declarations: [
     IndexCompaniesComponent,
     CreateOrEditCompanyComponent,
+    IndexDepartmentsComponent,
+    CreateOrEditDepartmentComponent,
+    IndexPositionsComponent,
+    CreateOrEditPositionComponent
   ]
 })
 export class CompaniesModule { }

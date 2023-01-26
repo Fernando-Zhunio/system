@@ -1,26 +1,31 @@
-<div class="">
-  <app-search-template-table
-    [title]="'Locaciones'"
-    placeholder="Escriba la locación a buscar"
-    [url$]="url"
-    (data)="getData($event)"
-    [filter_data]="filters"
-    [active_filters_menu]="true"
-    >
-    <ng-container table>
-      <div class="w-100">
-        <div class="overflow-auto shadow">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+  <ngx-search-bar-paginator
+  title="Locaciones"
+  placeholder="Escriba la locación a buscar"
+  [path]="url"
+  (data)="getData($event)"
+  [(filters)]="filters"
+  [withFilter]="true"
+  [isChangeUrl]="true"
+  >
+  <ng-container *ngxPermissionsOnly="permissions.create" buttons>
+    <mat-chip color="create" [routerLink]="['./create']">
+      <i class="fa-solid fa-plus"></i>
+      &nbsp;Agregar locación
+    </mat-chip>
+  </ng-container>
+  <ng-container>
+    <div class="w-100">
+      <mat-card>
+        <mat-card-content>
+          <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>#</th>
               <td mat-cell *matCellDef="let element">{{ element.id }}</td>
             </ng-container>
-            <!-- Position Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef>Nombre</th>
               <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
             </ng-container>
-            <!-- Position Column -->
             <ng-container matColumnDef="type">
               <th mat-header-cell *matHeaderCellDef>Tipo</th>
               <td mat-cell *matCellDef="let element">{{ element.type }}</td>
@@ -37,7 +42,6 @@
               <th mat-header-cell *matHeaderCellDef>C. mba</th>
               <td mat-cell *matCellDef="let element">{{ element.mba_code }}</td>
             </ng-container> 
-            <!-- Name Column -->
             <ng-container matColumnDef="address">
               <th mat-header-cell *matHeaderCellDef>Dirección</th>
               <td mat-cell *matCellDef="let element">{{ element.address }}</td>
@@ -67,40 +71,85 @@
               <td mat-cell *matCellDef="let element; let ind = index">
                 <div class="d-flex">
                   <button
-                    *ngxPermissionsOnly="permissions.index"
-                    mat-icon-button
-                    color="accent"
-                    (click)="openDetailLocation(element.id)"
-                   >
-                    <i class="fa-regular fa-eye"></i>
-                  </button>
-                  <button
                     *ngxPermissionsOnly="permissions.edit"
-                    mat-icon-button
-                    color="primary"
+                    class="btn-icon c-edit"
                     [routerLink]="['./edit', element.id]">
                     <i class="fa-solid fa-pen"></i>
                   </button>
-                  <button
-                    mat-icon-button
-                    color="warn"
+                  <button 
+                    class="btn-icon c-delete"
                     *ngxPermissionsOnly="permissions.delete"
                     (click)="deleteData(element.id)">
-                    <!-- <mat-icon>delete</mat-icon> -->
                     <i class="fa-solid fa-trash"></i>
                   </button>
+                  <button
+                  *ngxPermissionsOnly="permissions.index"
+                  class="btn-icon text-info"
+                  (click)="openDetailLocation(element.id)"
+                 >
+                  <i class="fa-regular fa-eye"></i>
+                </button>
                 </div>
               </td>
             </ng-container>
             <tr mat-header-row style="top: 67px" *matHeaderRowDef="columnsToDisplay"></tr>
             <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
           </table>
-        </div>
-      </div>
-    </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-container filterMenu>
+    <div class="p-2">
+      <mat-form-field class="w-100">
+        <mat-label>Ciudades</mat-label>
+        <mat-select [(ngModel)]="filters['city_id'].value">
+          <mat-option value="">Todos las ciudades</mat-option>
+          <mat-option *ngFor="let city of cities" [value]="city.id">
+            {{ city.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Compañía</mat-label>
+        <mat-select [(ngModel)]="filters['company_id'].value">
+          <mat-option value="">Todos las compañía</mat-option>
+          <mat-option *ngFor="let company of companies" [value]="company.id">
+            {{ company.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Estado</mat-label>
+        <mat-select [(ngModel)]="filters['status'].value">
+          <mat-option value="">Todos los estados</mat-option>
+          <mat-option value="active">Activos</mat-option>
+          <mat-option value="inactive">Inactivos</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Tipo</mat-label>
+        <mat-select [(ngModel)]="filters['type'].value">
+          <mat-option value="">Todos los tipos</mat-option>
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </ng-container>
+  </ngx-search-bar-paginator>
+
+  <!-- <app-search-template-table
+    [title]="'Locaciones'"
+    placeholder="Escriba la locación a buscar"
+    [url$]="url"
+    (data)="getData($event)"
+    [filter_data]="filters"
+    [active_filters_menu]="true"
+    >
     <ng-container *ngxPermissionsOnly="permissions.create" menuBar>
       <mat-chip class="ml-1 mat-btn-add" [routerLink]="['./create']">
-        <!-- <mat-icon>add_location_alt</mat-icon> -->
         <i class="fa-solid fa-plus"></i>
         &nbsp;Agregar locación
       </mat-chip>
@@ -150,13 +199,5 @@
         </mat-form-field>
       </div>
     </ng-container>
-  </app-search-template-table>
+  </app-search-template-table> -->
 
-  <!-- <mat-paginator *ngIf="ELEMENT_DATA.length" [pageSizeOptions]="[10, 20, 30]" (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total" [pageIndex]="paginator.current_page-1"></mat-paginator> -->
-
-  <!-- <button *ngxPermissionsOnly="permission_create" mat-fab style="position: fixed;bottom: 10px;right: 10px;"
-    [routerLink]="['./create']">
-    <mat-icon>add</mat-icon>
-  </button> -->
-</div>
-<div></div>

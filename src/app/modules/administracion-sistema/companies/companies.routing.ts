@@ -4,10 +4,10 @@ import { NgModule } from '@angular/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { COMPANIES_PERMISSIONS } from './permissions/companies.permissions'
 import { CreateOrEditCompanyComponent } from './pages/create-or-edit-company/create-or-edit-company.component';
-import { IndexDepartmentsComponent } from './departments/index-departments/index-departments.component';
-import { CreateOrEditDepartmentComponent } from './departments/create-or-edit-department/create-or-edit-department.component';
-import { CreateOrEditPositionComponent } from './departments/positions/create-or-edit-position/create-or-edit-position.component';
-import { IndexPositionsComponent } from './departments/positions/index-positions/index-positions.component';
+import { IndexDepartmentsComponent } from './pages/index-departments/index-departments.component';
+import { CreateOrEditDepartmentComponent } from './pages/create-or-edit-department/create-or-edit-department.component';
+import { CreateOrEditPositionComponent } from './pages/create-or-edit-position/create-or-edit-position.component';
+import { IndexPositionsComponent } from './pages/index-positions/index-positions.component';
 const routes: Routes = [
     {
         path: '',

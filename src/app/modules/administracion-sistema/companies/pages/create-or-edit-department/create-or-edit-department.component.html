@@ -4,11 +4,12 @@
     <h4 class="text-muted">Compañía: {{company?.name}}</h4>
 </div>
 <mat-card class="rounded-fz shadow">
+  <mat-card-content>
     <form [formGroup]="form">
         <mat-form-field class="w-100">
             <input matInput placeholder="Nombre de departamento" formControlName="name">
         </mat-form-field>
-        <h3>Jerarquia</h3>
+        <h3>Jerarquía</h3>
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
               <button mat-icon-button disabled></button>
@@ -18,13 +19,15 @@
             </mat-tree-node>
             <mat-tree-node isExpanded="true" class="align-items-baseline" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
               <button mat-icon-button matTreeNodeToggle>
-                <mat-icon class="mat-icon-rtl-mirror">
+                <!-- <mat-icon class="mat-icon-rtl-mirror">
                   {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                </mat-icon>
+                </mat-icon> -->
+                <i class="fa-solid fa-chevron-{{treeControl.isExpanded(node) ? 'down' : 'right'}}"></i>
               </button>
               <mat-radio-button [value]="node.id" [checked]="node.selected" (change)="changeValueSelectDepartment($event)" class="center" >{{node.name}}</mat-radio-button>
             </mat-tree-node>
           </mat-tree>
-          <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <mat-icon>save</mat-icon></button>
+          <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
     </form>
+  </mat-card-content>
 </mat-card>

@@ -8,7 +8,7 @@ import { Icompany } from '../../../../../interfaces/idashboard';
 import { IDepartment } from '../../../../../interfaces/idepartment';
 import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
-import { CreateOrEdit } from './../../../../../class/create-or-edit';
+import { CreateOrEdit } from '../../../../../class/create-or-edit';
 
 
 export interface ITreeDepartment {

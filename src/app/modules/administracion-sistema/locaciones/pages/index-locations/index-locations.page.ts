@@ -1,3 +1,4 @@
+import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 // import { MatSnackBar } from '@angular/material/snack-bar';
@@ -42,11 +43,29 @@ export class IndexLocationsPage extends MatTableHelper<Location> implements OnIn
   cities: Icity[] = [];
   types: any [] = [];
   companies: ICompany[] = [];
-  filters = {
-    city_id: null,
-    company_id: null,
-    status: null,
-    type: null
+  filters: NgxSearchBarFilter = {
+    city_id: {
+      value: 0,
+      friendlyName: 'Ciudad',
+      // castValue:  //() => this.cities.find((city) => city.id === this.filters['city_id'].value)?.name || null,
+    },
+    company_id: {
+      value: 0,
+      friendlyName: 'Empresa',
+      castValue: () => { 
+        console.log('aqui')
+       return this.companies.find((company) => company.id === this.filters['company_id'].value)?.name || 'nos'},
+    },
+    status: {
+      value: null,
+      friendlyName: 'Estado',
+      castValue: 'fernando'
+      
+    },
+    type: {
+      value: null,
+      friendlyName: 'Tipo',
+    }
   }
 
   ngOnInit(): void {

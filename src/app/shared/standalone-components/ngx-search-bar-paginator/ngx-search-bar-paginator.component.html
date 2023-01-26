@@ -1,6 +1,6 @@
 <div>
   <ngx-search-bar
-    [filters]="filters"
+    [(filters)]="filters"
     [placeholder]="placeholder"
     [path]="path"
     [withFilter]="withFilter"
@@ -13,9 +13,14 @@
     [customBtnApplyFilter]="customBtnApplyFilter"
     (loading)="getIsLoading($event)"
     [withParamsClean]="true"
+    (filtersChange)="filtersChangeMethod($event)"
     >
     <ng-content filterMenu select="[filterMenu]"></ng-content>
     <ng-content buttons select="[buttons]"></ng-content>
+    <ng-template #filtersButtons>
+      
+    </ng-template>
+    
   </ngx-search-bar>
 
   <div class="position-relative table-container">

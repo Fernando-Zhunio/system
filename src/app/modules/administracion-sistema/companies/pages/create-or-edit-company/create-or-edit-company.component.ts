@@ -5,18 +5,19 @@ import { CreateOrEditDialog } from '../../../../../shared/class/create-or-edit-d
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { CreateOrEditDialogData } from '../../../../../shared/interfaces/create-or-edit-dialog-data';
 import { StatusCreateOrEdit } from '../../../../../shared/enums/status-create-or-edit';
+import { ResponseApi } from '../../../../../shared/interfaces/response-api';
 
 @Component({
   selector: 'app-create-or-edit-company',
   templateUrl: './create-or-edit-company.component.html',
   styleUrls: ['./create-or-edit-company.component.css']
 })
-export class CreateOrEditCompanyComponent extends CreateOrEditDialog implements OnInit {
+export class CreateOrEditCompanyComponent extends CreateOrEditDialog<CreateOrEditCompanyComponent> implements OnInit {
   public path: string = 'admin/companies';
   constructor(
     @Inject(MAT_DIALOG_DATA) protected createOrEditData: CreateOrEditDialogData,
     protected methodHttp: MethodsHttpService,
-    protected dialogRef: MatDialogRef<CreateOrEditCompanyComponent>
+    protected dialogRef: MatDialogRef<CreateOrEditCompanyComponent, {response: ResponseApi<any>, sendData: any}>
     ) {
     super();
   }

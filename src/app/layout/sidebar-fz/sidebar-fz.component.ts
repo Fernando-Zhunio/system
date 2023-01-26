@@ -49,7 +49,6 @@ export class SidebarFzComponent implements OnInit, OnDestroy {
     if (width < 600) {
       this.hiddenMenu = true;
     }
-    console.log('this.user', this.user);
     this.getSidebar();
   }
 

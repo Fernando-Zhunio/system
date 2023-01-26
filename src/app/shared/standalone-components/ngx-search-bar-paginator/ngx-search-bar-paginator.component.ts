@@ -32,8 +32,9 @@ export class NgxSearchBarPaginatorComponent {
   @Input() withParamsClean: boolean = false;
   @Input() pageSizeOption: number[] = [10, 15, 25, 50];
   @Input() customBtnApplyFilter: any = { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' };
+  @Input() isCustomPaginator: boolean = false;
 
-  @Output() data = new EventEmitter<any[]>();
+  @Output() data = new EventEmitter<any[] | any>();
   @Output() isLoading = new EventEmitter<boolean>();
   @Output() filtersChange = new EventEmitter<any>();
   isEmptyData: boolean = false;
@@ -45,11 +46,25 @@ export class NgxSearchBarPaginatorComponent {
     pageSize: 0
   }
 
+  filtersChangeMethod(event): void {
+    this.filtersChange.emit(event);
+  }
+
   getData(event: ResponsePaginateApi<any>) {
+    if (this.isCustomPaginator) {
+      this.data.emit(event);
+      return;
+    }
     this.data.emit(event.data.data);
-    this.isEmptyData = event.data.data.length === 0;
     this.paginator.length = event.data.total;
+    this.isEmptyData = event.data.total === 0;
     this.paginator.pageSize = event.data.per_page;
+  }
+
+  setDataPaginator({ length, pageSize }: { length: number, pageSize: number }) {
+    this.paginator.length = length;
+    this.paginator.pageSize = pageSize;
+    this.isEmptyData = length === 0;
   }
 
   getIsLoading(event) {

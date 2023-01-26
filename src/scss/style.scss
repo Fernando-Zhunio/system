@@ -38,6 +38,12 @@ td {
   vertical-align: middle !important;
 }
 
+// cambio de color las letras de la tabla en el header
+.mdc-data-table__header-cell{
+  font-weight: 600 !important;
+  color: gray
+}
+
 
 .mat-table td, .mat-table th {
   max-width: 180px;

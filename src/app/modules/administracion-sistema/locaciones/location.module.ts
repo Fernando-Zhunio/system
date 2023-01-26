@@ -15,9 +15,10 @@ import { CreateOrEditLocationComponent } from './pages/create-or-edit-location/c
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
-import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
+// import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DetailLocationDialogComponent } from './components/detail-location-dialog/detail-location-dialog.component';
+import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,13 +32,13 @@ import { DetailLocationDialogComponent } from './components/detail-location-dial
     MatIconModule,
     MatSelectModule,
     MatTableModule,
-    // SearchTemplateModule,
-    SearchTemplateTableComponent,
+    // SearchTemplateTableComponent,
     NgxPermissionsModule,
     MatChipsModule,
     MatMenuModule,
     FormsModule,
     MatDialogModule,
+    NgxSearchBarPaginatorComponent,
   ],
   declarations: [
     IndexLocationsPage,
