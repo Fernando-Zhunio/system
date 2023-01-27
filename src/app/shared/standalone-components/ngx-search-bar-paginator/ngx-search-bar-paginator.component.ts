@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from '../../../../../projects/ngx-search-bar/src/public-api';
 import { ResponsePaginateApi } from '../../interfaces/response-api';
@@ -33,13 +34,13 @@ export class NgxSearchBarPaginatorComponent {
   @Input() pageSizeOption: number[] = [10, 15, 25, 50];
   @Input() customBtnApplyFilter: any = { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' };
   @Input() isCustomPaginator: boolean = false;
+  @Input() formFilter: FormGroup;
 
   @Output() data = new EventEmitter<any[] | any>();
   @Output() isLoading = new EventEmitter<boolean>();
   @Output() filtersChange = new EventEmitter<any>();
   isEmptyData: boolean = false;
   isLoadingData: boolean = false;
-
   paginator: PageEvent = {
     pageIndex: 0,
     length: 0,
@@ -57,6 +58,7 @@ export class NgxSearchBarPaginatorComponent {
     }
     this.data.emit(event.data.data);
     this.paginator.length = event.data.total;
+    this.paginator.pageIndex = event.data.current_page - 1;
     this.isEmptyData = event.data.total === 0;
     this.paginator.pageSize = event.data.per_page;
   }

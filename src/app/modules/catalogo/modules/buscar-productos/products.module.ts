@@ -14,7 +14,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ClipboardModule} from '@angular/cdk/clipboard';
-// import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SwiperModule } from 'swiper/angular';
 import { MomentModule } from 'ngx-moment';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -30,6 +29,7 @@ import { MatListModule } from '@angular/material/list';
 import { NgxSearchBarPaginatorComponent } from '../../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { NgOptimizedImage } from '@angular/common'
 import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
+import { NgxSearchBarModule } from '../../../../../../projects/ngx-search-bar/src/public-api';
 
 @NgModule({
   declarations: [PaginaWebComponent, ProductsComponent, StockBodegasComponent, DialogHistoryPricesProductComponent],
@@ -61,7 +61,8 @@ import { PaginaWebComponent } from './components/pagina-web/pagina-web.component
     MatListModule,
     NgxSearchBarPaginatorComponent,
     SwiperModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgxSearchBarModule
     ],
     
 })

@@ -7,7 +7,7 @@
 /out-tsc
 /dist*
 /comparation_data.json
-projects
+# projects
 # dependencies
 /node_modules
 package-lock.json

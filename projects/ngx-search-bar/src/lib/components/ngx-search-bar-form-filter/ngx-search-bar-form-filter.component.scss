@@ -1,0 +1,22 @@
+ 
+    .ngx-search-bar-btn-filter {
+        border: none;
+        background-color: transparent;
+        outline: none;
+        height: 40px;
+        width: 40px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 10px;
+        box-shadow: 1px 1px 6px #80808061;
+        background-color: #ececec;
+        margin-left: 5px;
+        svg {
+          height: 20px;
+          width: 20px;
+          // fill: #5c5b5b;
+        }
+      }

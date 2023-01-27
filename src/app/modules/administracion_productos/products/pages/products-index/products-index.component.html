@@ -1,48 +1,51 @@
 <ngx-search-bar-paginator
     [isChangeUrl]="true"
-    [(filters)]="filters"
+    [formFilter]="formFilter"
     [nameInputSearch]="'name'"
     placeholder="Buscar productos"
     [withFilter]="true"
     title="Productos"
     (data)="getData($event)"
     path="products-admin/products">
+
     <ng-container filterMenu>
-      <div class="filter-menu">
-        <mat-form-field>
+      <div [formGroup]="formFilter" class="filter-menu row m-0 p-0">
+        <div class="font-4xl font-weight-bold col-12">Filtros</div>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>ID</mat-label>
-          <input matInput placeholder="#" [(ngModel)]="filters['id'].value" />
+          <input matInput placeholder="#" formControlName="id" />
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>Código</mat-label>
-          <input matInput placeholder="Codigo" [(ngModel)]="filters['code'].value" />
+          <input matInput placeholder="Codigo" formControlName="code" />
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>Código alt</mat-label>
-          <input matInput placeholder="Codigo Alterno" [(ngModel)]="filters['code_alt'].value" />
+          <input matInput placeholder="Codigo Alterno" formControlName="code_alt" />
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>Descripción</mat-label>
-          <input matInput placeholder="Descripción" [(ngModel)]="filters['description'].value" />
+          <input matInput placeholder="Descripción" formControlName="description" />
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>Tipo</mat-label>
-          <input matInput placeholder="Tipo" [(ngModel)]="filters['prefix'].value" />
+          <input matInput placeholder="Tipo" formControlName="prefix" />
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>Categoría</mat-label>
-          <input matInput placeholder="Categoría" [(ngModel)]="filters['category'].value" />
+          <input matInput placeholder="Categoría" formControlName="category" />
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>Secuencia</mat-label>
-          <input matInput placeholder="Secuencia" [(ngModel)]="filters['sequence'].value" />
+          <input matInput placeholder="Secuencia" formControlName="sequence" />
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="col-md-6 px-1">
           <mat-label>Marca</mat-label>
-          <input matInput placeholder="Marca" [(ngModel)]="filters['brand'].value" />
+          <input matInput placeholder="Marca" formControlName="brand" />
         </mat-form-field>
       </div>
     </ng-container>
+
     <ng-container buttons>
       <mat-chip-set>
         <mat-chip
@@ -54,6 +57,7 @@
         </mat-chip>
       </mat-chip-set>
     </ng-container>
+
     <mat-card>
       <mat-card-content>
         <table mat-table #table [dataSource]="dataSource">
@@ -66,25 +70,29 @@
             <td mat-cell *matCellDef="let row"> {{row.code_alt}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+          </ng-container>
           <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef> Descripción </th>
             <td mat-cell *matCellDef="let row"> {{row.description}} </td>
           </ng-container>
           <ng-container matColumnDef="prefix">
             <th mat-header-cell *matHeaderCellDef> Prefijo </th>
-            <td mat-cell *matCellDef="let row"> {{row.prefix.type}} </td>
+            <td mat-cell *matCellDef="let row"> {{row?.prefix?.type}} </td>
           </ng-container>
           <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef> Categoria </th>
-            <td mat-cell *matCellDef="let row"> {{row.category.name}} </td>
+            <th mat-header-cell *matHeaderCellDef> Categoría </th>
+            <td mat-cell *matCellDef="let row"> {{row?.category?.name}} </td>
           </ng-container>
           <ng-container matColumnDef="sequence">
             <th mat-header-cell *matHeaderCellDef> Secuencia </th>
-            <td mat-cell *matCellDef="let row"> {{row.sequence.sequence_number}} </td>
+            <td mat-cell *matCellDef="let row"> {{row?.sequence?.sequence_number}} </td>
           </ng-container>
           <ng-container matColumnDef="brand">
             <th mat-header-cell *matHeaderCellDef> Marca </th>
-            <td mat-cell *matCellDef="let row"> {{row.brand.name}} </td>
+            <td mat-cell *matCellDef="let row"> {{row?.brand?.name}} </td>
           </ng-container>
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
@@ -98,7 +106,7 @@
                 <i class="far fa-edit"></i>
                             </span>
                             <span
-                (click)="destroyProduct(row.id)"
+                (click)="deleteData(row.id)"
                 *ngxPermissionsOnly="permission_destroy"
                 class="btn-icon c-delete">
                 <i class="far fa-trash-alt"></i>

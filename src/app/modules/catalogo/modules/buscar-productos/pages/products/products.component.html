@@ -4,30 +4,31 @@
   (data)="getData($event)"
   placeholder="Buscar producto"
   [path]="pathProductIndex"
-  [(filters)]="filter"
   [isChangeUrl]="true"
+  [formFilter]="form"
 >
 
 <ng-container>
   <div class="px-3 card-columns">
     <mat-card @fade class="card mb-2 card border-0 overflow-hidden" *ngFor="let p of products; index as ind">
       <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0" style="top: 68px; background: inherit">
-        <div class="font-weight-light font-2xl mb-2">
+        <div class="font-weight-light font-2xl mb-2 d-flex">
           <mat-chip color="primary" selected (click)="copyCodigo(p.code)">
             <small>
               {{ p?.code }}
               <i class="far fa-copy"></i>
             </small>
           </mat-chip>
-          {{ p.name }}
-          <button
-            color="orange"
-            *ngxPermissionsOnly="permission.product_edit"
-            [routerLink]="['/admin-products/productos/edit/' + p.id]"
-            routerLinkActive="router-link-active"
-            mat-icon-button>
-            <i class="fa-solid fa-pen"></i>
-          </button>
+          <span class="align-items-center d-flex">
+            {{ p.name }}
+            <button
+              class="btn-icon c-edit"
+              *ngxPermissionsOnly="permission.product_edit"
+              [routerLink]="['/admin-products/productos/edit/' + p.id]"
+              >
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </span>
         </div>
       </mat-card-header>
       <mat-card-content>
@@ -203,27 +204,27 @@
   </div>
 </ng-container>
 <ng-container filterMenu>
-  <div class="px-2">
+  <div [formGroup]="form" class="px-2">
     <mat-form-field class="w-100">
       <mat-label>Prefijos</mat-label>
-      <mat-select [(ngModel)]="filter['prefix_id'].value">
-        <mat-option value="">Todos</mat-option>
+      <mat-select formControlName="prefix_id">
+        <mat-option>Todos</mat-option>
         <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
       </mat-select>
     </mat-form-field>
     <div class="row">
       <mat-form-field class="col-6">
         <mat-label>Stock Min</mat-label>
-        <input matInput type="number" [(ngModel)]="filter['min'].value" type="number" class="" />
+        <input matInput type="number" formControlName="min" type="number" class="" />
       </mat-form-field>
       <mat-form-field class="col-6">
         <mat-label>Stock Max</mat-label>
-        <input [(ngModel)]="filter['max'].value" type="number" matInput class="" />
+        <input formControlName="max" matInput />
       </mat-form-field>
     </div>
     <mat-form-field class="w-100">
       <mat-label>Todas las Bodegas</mat-label>
-      <mat-select type="text" #select_warehouse [(ngModel)]="filter['warehouse_ids[]'].value" multiple>
+      <mat-select type="text" #select_warehouse formControlName="warehouse_ids[]" multiple>
         <mat-select-trigger>
           <mat-chip-set>
             <mat-chip
@@ -245,52 +246,3 @@
   </div>
 </ng-container>
 </ngx-search-bar-paginator>
-
-<!-- <app-search-template
-  [title]="'Productos'"
-  active_filters_menu="true"
-  [columns]="2"
-  (data)="getData($event)"
-  placeholder="Buscar producto"
-  [url$]="pathProductIndex"
-  [filter_data]="filter">
-</app-search-template> -->
-
-<!-- <div *ngIf="isLoading" class="card-columns">
-      <div *ngFor="let item of [1, 2, 3]" class="my-1 card rounded-fz card-body border-0">
-        <ngx-skeleton-loader count="1" [theme]="{
-            'border-radius': '5px',
-            height: '50px'
-          }"></ngx-skeleton-loader>
-        <ngx-skeleton-loader count="1" [theme]="{
-            'border-radius': '5px',
-            height: '30px'
-          }"></ngx-skeleton-loader>
-        <ngx-skeleton-loader count="3" [theme]="{
-            'border-radius': '5px',
-            height: '40px',
-            width: '150px',
-            'margin-right': '5px'
-          }"></ngx-skeleton-loader>
-      </div>
-    </div> -->
-
-<!-- <div *ngIf="!isLoading" class="card-columns">
-
-    </div>
-
-    <ng-container *ngIf="!isLoading && products.length < 1">
-      <div class="row">
-        <div class="col-md-6">
-          <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%" />
-        </div>
-        <div style="line-height: 1" class="col-md-6 font-facebook font-2xl d-flex align-items-center">
-          Ups! Sin resultados en tu búsqueda
-        </div>
-      </div>
-    </ng-container>
-
-    <mat-paginator *ngIf="products.length > 0" [hidden]="isLoading" [pageSizeOptions]="[10, 20, 30]"
-      (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
-      [pageIndex]="paginator.current_page-1">
-    </mat-paginator> -->

@@ -1,26 +1,18 @@
 <div>
   <ngx-search-bar
-    [(filters)]="filters"
     [placeholder]="placeholder"
     [path]="path"
-    [withFilter]="withFilter"
     [title]="title"
     [isChangeUrl]="isChangeUrl"
-    [withFilter]="withFilter"
     [nameInputSearch]="nameInputSearch"
     (data)="getData($event)"
-    [withParamsClean]="withParamsClean"
-    [customBtnApplyFilter]="customBtnApplyFilter"
     (loading)="getIsLoading($event)"
-    [withParamsClean]="true"
-    (filtersChange)="filtersChangeMethod($event)"
-    >
-    <ng-content filterMenu select="[filterMenu]"></ng-content>
+    (filtersChange)="filtersChangeMethod($event)">
+    <ngx-search-bar-form-filter *ngIf="withFilter" [withParamsClean]="true" [filters]="formFilter">
+      <ng-content select="[filterMenu]"></ng-content>
+    </ngx-search-bar-form-filter>
     <ng-content buttons select="[buttons]"></ng-content>
-    <ng-template #filtersButtons>
-      
-    </ng-template>
-    
+    <ng-template #filtersButtons></ng-template>
   </ngx-search-bar>
 
   <div class="position-relative table-container">
@@ -28,7 +20,7 @@
       <ng-content></ng-content>
     </div>
     <div class="text-center mt-5" *ngIf="isEmptyData && !isLoadingData">
-      <div><img class="col-md-5 col-8" src="assets/vectores/search.svg" alt="search not found"></div>
+      <div><img class="col-md-5 col-8" src="assets/vectores/search.svg" alt="search not found" /></div>
       <div class="font-4xl font-weight-bold text-muted">No se encontraron resultados</div>
     </div>
   </div>
@@ -38,5 +30,6 @@
     [length]="paginator.length"
     [pageSize]="paginator.pageSize"
     [pageSizeOptions]="pageSizeOption"
+    [pageIndex]="paginator.pageIndex"
     (page)="changePaginator($event)"></mat-paginator>
 </div>

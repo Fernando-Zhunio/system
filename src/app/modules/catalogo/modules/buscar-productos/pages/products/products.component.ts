@@ -20,6 +20,7 @@ import { DialogHistoryPricesProductComponent } from '../../components/dialog-his
 import { PERMISSIONS_CATALOG_PRODUCTS } from '../../class/permissions-products';
 import { PRODUCT_ROUTE_API_INDEX } from '../../routes-api/products-routes-api';
 import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
@@ -77,6 +78,12 @@ export class ProductsComponent implements OnInit {
     pagination: false,
   };
   permission = PERMISSIONS_CATALOG_PRODUCTS;
+  form: FormGroup = new FormGroup({
+    min: new FormControl(null),
+    max: new FormControl(null),
+    prefix_id: new FormControl(null),
+    'warehouse_ids[]': new FormControl([]),
+  });
   filter: NgxSearchBarFilter = {
     min: {
       friendlyName: 'Precio mínimo',
