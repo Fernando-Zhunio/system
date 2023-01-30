@@ -1,0 +1,132 @@
+<div>
+  <ngx-search-bar-paginator
+    title="Países"
+    placeholder="Buscar país"
+    [path]="url"
+    (data)="getData($event)">
+    <ng-container>
+      <mat-card class="overflow-auto">
+        <mat-card-content>
+          <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef>País</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element?.name }}</mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="created_at">
+              <mat-header-cell *matHeaderCellDef>Creado</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.created_at| date: 'medium' }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="acciones">
+              <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+              <mat-cell *matCellDef="let element; let ind = index">
+                <button
+                  *ngxPermissionsOnly="permissions.edit"
+                  class="btn-icon c-edit"
+                  (click)="openDialog(element.id)">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button
+                  class="btn-icon c-delete"
+                  *ngxPermissionsOnly="permissions.delete"
+                  (click)="deleteData(element.id)">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+                <mat-chip
+                  [routerLink]="['./', element.id, 'ciudades']"
+                  routerLinkActive="router-link-active"
+                  color="accent">
+                  Ver ciudades
+                </mat-chip>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row style="top: 67px" *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+          </mat-table>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+    <ng-container *ngxPermissionsOnly="permissions.create" buttons>
+      <mat-chip color="create" (click)="openDialog()" class="mat-btn-add ml-1">
+        <i class="fa-solid fa-plus"></i>
+        &nbsp; País
+      </mat-chip>
+    </ng-container>
+  </ngx-search-bar-paginator>
+
+  <!-- <app-search-template
+    title="Países"
+    [columns]="1"
+    placeholder="Buscar país"
+    [url$]="'admin/countries'"
+    (data)="loadData($event)">
+    <ng-container data>
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Pais</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element?.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="code">
+          <mat-header-cell *matHeaderCellDef>Codigo</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="created_at">
+          <mat-header-cell *matHeaderCellDef>Creado</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.created_at }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element; let ind = index">
+            <button
+              *ngxPermissionsOnly="permission_edit"
+              mat-icon-button
+              color="primary"
+              (click)="createCountry(true, element.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              *ngxPermissionsOnly="permission_destroy"
+              (click)="deleteItem(element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <mat-chip
+              [selected]="true"
+              [routerLink]="['./', element.id, 'ciudades']"
+              routerLinkActive="router-link-active"
+              color="accent">
+              Ver cuidades
+            </mat-chip>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row style="top: 67px" *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </ng-container>
+    <ng-container *ngxPermissionsOnly="permission_create" menuBar>
+      <mat-chip (click)="createCountry()" class="mat-btn-add ml-1">
+        <mat-icon>add</mat-icon>
+        &nbsp; Agregar país
+      </mat-chip>
+    </ng-container>
+  </app-search-template> -->
+</div>

@@ -34,7 +34,6 @@
               <mat-form-field class="col-md-6">
                 <mat-label>Teléfono</mat-label>
                 <input matInput formControlName="phone" type="text" />
-                <!-- <mat-error *ngIf="formLocation.controls['phone'].invalid">Teléfono Requerido</mat-error> -->
               </mat-form-field>
             </div>
 
@@ -42,12 +41,13 @@
               <mat-form-field class="col-md-6">
                 <mat-label>Código postal</mat-label>
                 <input [disabled]="isLoadingPostalCode" required matInput formControlName="postal_code" type="text" />
-                <div matSuffix>
+                <div class="d-flex" matSuffix>
                   <button mat-icon-button (click)="getCodePostal()">
-                    <i class="fa-solid fa-magnifying-glass-location"></i>
+                    <mat-icon>search</mat-icon>
                   </button>
                   <a href="https://www.codigopostal.gob.ec/#" target="_blank" mat-icon-button>
-                    <i class="fa-solid fa-up-right-from-square"></i>
+                    <!-- <i class="fa-solid fa-up-right-from-square"></i> -->
+                    <mat-icon>link</mat-icon>
                   </a>
                 </div>
                 <mat-error *ngIf="formLocation.controls['postal_code'].invalid">Código postal requerida</mat-error>

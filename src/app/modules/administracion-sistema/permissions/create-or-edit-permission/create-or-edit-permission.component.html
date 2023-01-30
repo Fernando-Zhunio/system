@@ -1,18 +1,18 @@
 <div>
-  <h2 class="font-weight-bold font-3xl">Formulario de permisos - {{data.isEdit ? "EDITANDO": "CREANDO"}}</h2>
-  <mat-button-toggle-group value="crud" (change)="changeForm($event)" *ngIf="!data.isEdit">
+  <h2 class="font-weight-bold font-3xl">Formulario de permisos - {{data.id ? "EDITANDO": "CREANDO"}}</h2>
+  <mat-button-toggle-group value="crud" (change)="changeForm($event)" *ngIf="!data.id">
     <mat-button-toggle value="crud">Crud</mat-button-toggle>
     <mat-button-toggle selected value="normal">Normal</mat-button-toggle>
   </mat-button-toggle-group>
 
-  <div [ngSwitch]="currentForm">
-    <div *ngSwitchCase="'crud'">
-      <div [formGroup]="formCrud" class="row m-0">
-        <mat-form-field class="col-md-6 col-12">
-          <input formControlName="name" matInput placeholder="Nombre">
-          <mat-hint>Ejemplo: product-admin.vtex.product-vtex.</mat-hint>
+  <div>
+    <div>
+      <div [formGroup]="form" class="row m-0">
+        <mat-form-field *ngFor="let input of inputsForm" class="col-md-6 col-12">
+          <input [formControlName]="input" matInput [placeholder]="input">
+          <!-- <mat-hint>Ejemplo: product-admin.vtex.product-vtex.</mat-hint> -->
         </mat-form-field>
-        <mat-form-field class="col-md-6 col-12">
+        <!-- <mat-form-field class="col-md-6 col-12">
           <input formControlName="singular_name" matInput placeholder="Nombre singular">
           <mat-hint>Ejemplo: Precio [Precio de producto]</mat-hint>
         </mat-form-field>
@@ -26,7 +26,7 @@
         <mat-form-field class="col-md-6 col-12">
           <input formControlName="article" matInput placeholder="Articulo">
           <mat-hint>Ejemplo: un, una</mat-hint>
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field class="col-md-6 col-12">
           <mat-select formControlName="group_permission_id" placeholder="Seleccione un grupo">
             <mat-option *ngFor="let item of groupsPermissions" [value]="item.id">
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div *ngSwitchDefault>
+    <!-- <div *ngSwitchDefault>
       <div [formGroup]="form" class="row m-0">
         <mat-form-field class="col-md-6 col-12">
           <input formControlName="name" matInput placeholder="Nombre">
@@ -66,6 +66,6 @@
           <button mat-raised-button (click)="close()" color="warn" class="ml-1">Cerrar</button>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

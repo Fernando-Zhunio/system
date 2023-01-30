@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {  AdminSystemRoutingModule } from './administracion-sistema-routing.module';
+import {  AdminSystemRoutingModule } from './administracion-sistema.routing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -19,8 +19,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RolesComponent } from './roles/roles.component';
 import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { PaisesComponent } from './paises/paises.component';
-import { CreateOrEditCountryComponent } from './paises/create-or-edit-country/create-or-edit-country.component';
+// import { PaisesComponent } from './paises/paises.component';
+// import { CreateOrEditCountryComponent } from './paises/pages/create-or-edit-country/create-or-edit-country.component';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
 import { PersonasComponent } from './personas/personas.component';
 import { PersonComponent } from '../../components/person/person.component';
@@ -32,8 +32,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateEmailModalComponent } from '../../components/modals/create-email-modal/create-email-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';
-import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/mercado-libre-create-or-edit/mercado-libre-create-or-edit.component';
+// import { MercadoLibreAdminComponent } from './mercado-libre-admin/mercado-libre-admin.component';
+// import { MercadoLibreCreateOrEditComponent } from './mercado-libre-admin/pages/mercado-libre-create-or-edit/create-or-edit-mercado-libre-admin.component';
 import { FacebookAdsManagerComponent } from './facebook-ads-manager/facebook-ads-manager.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
@@ -49,10 +49,10 @@ import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses
 import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
 import { VtexSiteComponent } from './vtex-site/tools/vtex-site/vtex-site.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { IndexComponent } from './newsletters/index/index.component';
+// import { IndexComponent } from './newsletters/pages/index-newsletters/index-newsletters.component';
 // import { IndexCompaniesComponent } from './companies/pages/index-companies/index-companies.component';
 
-import { CreateOrEditNewsletterComponent } from './newsletters/create-or-edit-newsletter/create-or-edit-newsletter.component';
+// import { CreateOrEditNewsletterComponent } from './newsletters/pages/create-or-edit-newsletter/create-or-edit-newsletter.component';
 import { QuillModule } from 'ngx-quill';
 // import { CreateOrEditCompanyComponent } from './companies/pages/create-or-edit-company/create-or-edit-company.component';
 // import { DepartmentIndexComponent } from './companies/departments/department-index/department-index.component';
@@ -61,7 +61,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import { MatRadioModule } from '@angular/material/radio';
 // import { PositionsIndexComponent } from './companies/departments/positions/positions-index/positions-index.component';
 // import { CreateOrEditPositionComponent } from './companies/departments/positions/create-or-edit-position/create-or-edit-position.component';
-import { CitiesIndexComponent } from './paises/cities/cities-index/cities-index.component';
+// import { CitiesIndexComponent } from './paises/pages/cities-index/index-cities.component';
 import { IndexWithMatTableModule } from '../../Modulos/index-with-mat-table/index-with-mat-table.module';
 import { SearchesModule } from '../../Modulos/searches/searches.module';
 import { MatListModule } from '@angular/material/list';
@@ -70,13 +70,13 @@ import { MatListModule } from '@angular/material/list';
         CreateEmailModalComponent,
         RolesComponent,
         CreateOrEditRolesComponent,
-        PaisesComponent,
-        CreateOrEditCountryComponent,
+        // PaisesComponent,
+        // CreateOrEditCountryComponent,
         PersonasComponent,
         PersonComponent,
         CreateOrEditPersonComponent,
-        MercadoLibreAdminComponent,
-        MercadoLibreCreateOrEditComponent,
+        // MercadoLibreAdminComponent,
+        // MercadoLibreCreateOrEditComponent,
         FacebookAdsManagerComponent,
         FacebookAdsModalComponent,
         FacebookAdsCampaignComponent,
@@ -88,15 +88,15 @@ import { MatListModule } from '@angular/material/list';
         VtexSitesComponent,
         CreateOrEditVtexSiteComponent,
         VtexSiteComponent,
-        IndexComponent,
+        // IndexComponent,
         // IndexCompaniesComponent,
-        CreateOrEditNewsletterComponent,
+        // CreateOrEditNewsletterComponent,
         // CreateOrEditCompanyComponent,
         // DepartmentIndexComponent,
         // CreateOrEditDepartmentComponent,
         // PositionsIndexComponent,
         // CreateOrEditPositionComponent,
-        CitiesIndexComponent,
+        // CitiesIndexComponent,
     ],
     imports: [
         CommonModule,

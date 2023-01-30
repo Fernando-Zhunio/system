@@ -21,18 +21,19 @@ export abstract class CreateOrEditDialog<T= any, R= any> {
     public init(loadCreate: boolean = false): void {
         this.status = this.createOrEditData.status;
         const path = this.generatePathGet();
+        console.log(path);
         this.title = this.status === StatusCreateOrEdit.Create ? `Crear ${this.title}` : `Editar ${this.title}`;
         if (this.status === StatusCreateOrEdit.Edit || loadCreate) {
-            this.loadCreate(path);
+            this.loadData(path);
             return;
         }
     }
 
     public generatePathGet(): string {
-        return StatusCreateOrEdit.Create ? `${this.path}/create`  : `${this.path}/${this.createOrEditData.id}/edit`;
+        return this.status == StatusCreateOrEdit.Create ? `${this.path}/create`  : `${this.path}/${this.createOrEditData.id}/edit`;
     }
 
-    public loadCreate(path: string): void {
+    public loadData(path: string): void {
         this.isLoading = true;
         this.methodHttp.methodGet(path)
         .subscribe(

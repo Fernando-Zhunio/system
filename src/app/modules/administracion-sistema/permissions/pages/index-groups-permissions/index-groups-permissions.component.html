@@ -1,0 +1,16 @@
+<!-- <div>
+    <div mat-dialog-content>
+        <app-index-with-mat-table  (onClickCreate)="creating()" (onClickDestroy)="deleteItem($event)" [url]="url" [isEditable]="true"
+            [displayedColumns]="displayedColumns" [itemRows]="itemRows">
+        </app-index-with-mat-table>
+    </div>
+    <div mat-dialog-actions>
+        <button color="warn" mat-raised-button mat-dialog-close cdkFocusInitial>Cerrar</button>
+    </div>
+</div> -->
+
+<div>
+    <ngx-search-bar-paginator title="Grupo de permisos" [path]="url">
+
+    </ngx-search-bar-paginator>
+</div>

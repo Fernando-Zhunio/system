@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PermissionIndexComponent } from './permission-index/permission-index.component';
+import { IndexPermissionsComponent } from './pages/index-permissions/index-permissions.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 const permissionModule = {
@@ -14,7 +14,7 @@ const permissionModule = {
 const routes = [
   {
     path: '',
-    component: PermissionIndexComponent,
+    component: IndexPermissionsComponent,
       data: {
         permissions: {
           only: permissionModule.index,

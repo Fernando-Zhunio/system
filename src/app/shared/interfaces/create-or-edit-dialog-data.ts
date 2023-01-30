@@ -4,5 +4,10 @@ export type CreateOrEditDialogData = {
     status: StatusCreateOrEdit;
     info?: any;
     id?: number;
+    multiId?: MultiId;
+}
+
+type MultiId = {
+    [key: string]: number;
 }
 

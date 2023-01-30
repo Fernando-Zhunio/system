@@ -85,7 +85,7 @@ button {
 
 @media screen and (min-width: 600px) {
   .body {
-    margin-left: 200px;
+    margin-left: var(--width-sidebar);
   }
 }
 

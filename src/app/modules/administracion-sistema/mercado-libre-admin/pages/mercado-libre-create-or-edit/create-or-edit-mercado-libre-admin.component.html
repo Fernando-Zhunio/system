@@ -1,0 +1,72 @@
+<div class="mt-4">
+  <h2 class="font-4xl pl-1 d-flex align-items-center">
+    <button class="btn-icon" (click)="goBack()">
+      <i class="fa-solid fa-chevron-left fa-2xs"></i>
+    </button>
+    <span>&nbsp;{{title}}</span>
+  </h2>
+  <div>
+    <div class="card border-0">
+      <mat-card class="card-body">
+        <form [formGroup]="form_ml" class="row m-0">
+          <mat-form-field class="col-md-6">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="status" required>
+              <mat-option *ngFor="let status of statuses | keyvalue" [value]="status.key">{{status.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form_ml.controls['status'].invalid">Estado Requerido
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-md-6">
+            <mat-label>Nombre de cuenta</mat-label>
+            <input matInput formControlName="user_name" type="text" required>
+            <mat-error *ngIf="form_ml.controls['user_name'].invalid">Nombre Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>ID Usuario ML</mat-label>
+            <input matInput formControlName="user_id" type="text" required>
+            <mat-error *ngIf="form_ml.controls['user_id'].invalid">ID Requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-md-6">
+            <mat-label>Codigo del servidor</mat-label>
+            <input matInput formControlName="server_code" type="text" required>
+            <mat-error *ngIf="form_ml.controls['server_code'].invalid">Codigo Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Token de Acceso</mat-label>
+            <input matInput formControlName="access_token" type="text" required>
+            <mat-error *ngIf="form_ml.controls['access_token'].invalid">Token de accesso Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Token de refresco</mat-label>
+            <input matInput formControlName="refresh_token" type="text" required>
+            <mat-error *ngIf="form_ml.controls['refresh_token'].invalid">Token de refresco Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Ciudad</mat-label>
+            <mat-select formControlName="city_id" required>
+              <mat-option *ngFor="let city of cities | keyvalue" [value]="city.key">{{city.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form_ml.controls['city_id'].invalid">Ciudad Requerido
+            </mat-error>
+          </mat-form-field>
+          <div class="col-md-6">
+            <button mat-raised-button class="bg-warning" type="button" [disabled]="isLoad"
+              (click)="openDialog()">Obtener acceso a mercado libre</button>
+          </div>
+          <div class="mt-3">
+            <button color="primary" mat-raised-button [disabled]="isLoad || form_ml.invalid" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+          </div>
+        </form>
+
+      </mat-card>
+    </div>
+  </div>
+
+</div>

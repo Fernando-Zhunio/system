@@ -1,0 +1,72 @@
+<ngx-search-bar-paginator
+  [path]="url"
+  title="Novedades"
+  placeholder="Buscar novedades"
+  (data)="getData($event)"
+>
+
+<ng-container buttons>
+  <mat-chip-set class="ml-1">
+    <mat-chip color="create" [routerLink]="['./create']">
+      <i class="fa-solid fa-plus"></i>&nbsp; Agregar novedades
+    </mat-chip>
+  </mat-chip-set>
+</ng-container>
+
+<ng-container>
+  <div class="row">
+    <div class="col-md-4 col-12 my-2" *ngFor="let data of newsletters | keyvalue">
+      <mat-card>
+        <mat-card-content>
+          <h3 class="font-2xl">{{data.value.title}}</h3>
+          <p class="container-html" [innerHTML]="data.value.description"></p>
+          <div class="d-flex">
+            <h4>{{data.value?.start_date | date}} al {{data?.value.end_date | date}}</h4>
+          </div>
+          <div class="d-flex">
+            <button class="btn-icon c-edit" [routerLink]="['./edit/'+data.value.id]">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="btn-icon c-delete" (click)="deleteData(data.value.id)">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</ng-container>
+</ngx-search-bar-paginator>
+
+
+
+<!-- <app-search-template title="Novedades" placeholder="Buscar novedades" [url$]="url" (data)="getData($event)">
+  <ng-container menuBar>
+    <mat-chip-list class="ml-1">
+      <mat-chip class="mat-btn-add" [routerLink]="['./create']">
+        <mat-icon>new_releases</mat-icon>&nbsp; Agregar novedades
+      </mat-chip>
+    </mat-chip-list>
+  </ng-container>
+
+  <ng-container data>
+    <mat-card *ngFor="let data of newsletters | keyvalue" class="card shadow border-0 rounded-fz">
+      <div class="card-body">
+        <h3 class="font-2xl">{{data.value.title}}</h3>
+        <p class="container-html" [innerHTML]="data.value.description"></p>
+        <div class="d-flex">
+          <h4>{{data.value?.start_date | date}} al {{data?.value.end_date | date}}</h4>
+        </div>
+        <div class="d-flex">
+          <button mat-icon-button color="accent" [routerLink]="['./edit/'+data.value.id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteData(data.value.id)" color="warn" class="ml-1">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </ng-container>
+
+</app-search-template> -->

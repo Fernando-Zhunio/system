@@ -1,7 +1,6 @@
-import { Location as LocationInject } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from '../../../../../../environments/environment';
 import { CompanyAccess } from '../../../../../interfaces/iml-info';
@@ -10,8 +9,7 @@ import { Location } from '../../../../../interfaces/Location';
 import { SwalService } from '../../../../../services/swal.service';
 import { CODE_POSTAL_ROUTE_API } from '../../routes-api/location-routes-api';
 import { GoogleMapFzService } from '../../../../../shared/modules/google-map/services/google-map-fz.service';
-
-
+import { LOCATION_INDEX } from '../../routes/routes';
 
 @Component({
   selector: 'app-create-or-edit-location',
@@ -24,7 +22,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
     private methodsHttp: MethodsHttpService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private locationInject: LocationInject,
+    private router: Router,
     private googleMapService: GoogleMapFzService,
   ) { }
 
@@ -241,7 +239,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
   }
 
   goBack() {
-    this.locationInject.back();
+    this.router.navigate([LOCATION_INDEX]);
   }
 
   saveInServer(): void {

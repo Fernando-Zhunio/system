@@ -3,7 +3,7 @@
   placeholder="Escriba la locación a buscar"
   [path]="url"
   (data)="getData($event)"
-  [(filters)]="filters"
+  [formFilter]="formFilters"
   [withFilter]="true"
   [isChangeUrl]="true"
   >
@@ -15,7 +15,7 @@
   </ng-container>
   <ng-container>
     <div class="w-100">
-      <mat-card>
+      <mat-card class="overflow-auto">
         <mat-card-content>
           <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="id">
@@ -100,10 +100,10 @@
     </div>
   </ng-container>
   <ng-container filterMenu>
-    <div class="p-2">
+    <div class="p-2" [formGroup]="formFilters">
       <mat-form-field class="w-100">
         <mat-label>Ciudades</mat-label>
-        <mat-select [(ngModel)]="filters['city_id'].value">
+        <mat-select formControlName="city_id">
           <mat-option value="">Todos las ciudades</mat-option>
           <mat-option *ngFor="let city of cities" [value]="city.id">
             {{ city.name }}
@@ -112,7 +112,7 @@
       </mat-form-field>
       <mat-form-field class="w-100">
         <mat-label>Compañía</mat-label>
-        <mat-select [(ngModel)]="filters['company_id'].value">
+        <mat-select formControlName="company_id">
           <mat-option value="">Todos las compañía</mat-option>
           <mat-option *ngFor="let company of companies" [value]="company.id">
             {{ company.name }}
@@ -121,7 +121,7 @@
       </mat-form-field>
       <mat-form-field class="w-100">
         <mat-label>Estado</mat-label>
-        <mat-select [(ngModel)]="filters['status'].value">
+        <mat-select formControlName="status">
           <mat-option value="">Todos los estados</mat-option>
           <mat-option value="active">Activos</mat-option>
           <mat-option value="inactive">Inactivos</mat-option>
@@ -129,7 +129,7 @@
       </mat-form-field>
       <mat-form-field class="w-100">
         <mat-label>Tipo</mat-label>
-        <mat-select [(ngModel)]="filters['type'].value">
+        <mat-select formControlName="type">
           <mat-option value="">Todos los tipos</mat-option>
           <mat-option *ngFor="let type of types" [value]="type">
             {{ type }}

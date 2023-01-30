@@ -1,4 +1,4 @@
-import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
+// import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 // import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,11 +6,12 @@ import { MatTable } from '@angular/material/table';
 import { Location } from '../../../../../class/location';
 import { HeaderSearchComponent } from '../../../../../components/header-search/header-search.component';
 import { Icity } from '../../../../../interfaces/icity';
-import { ICompany } from '../../../../../interfaces/icompanies';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { DetailLocationDialogComponent } from '../../components/detail-location-dialog/detail-location-dialog.component';
 import { PERMISSIONS_LOCATIONS } from '../../permissions/locations.permissions';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Company } from '../../../companies/interfaces/company';
 
 @Component({
   selector: 'app-index-locations-page',
@@ -38,35 +39,40 @@ export class IndexLocationsPage extends MatTableHelper<Location> implements OnIn
     'acciones',
   ];
   @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
-  // ELEMENT_DATA: Location[] = [];
   permissions = PERMISSIONS_LOCATIONS;
   cities: Icity[] = [];
   types: any [] = [];
-  companies: ICompany[] = [];
-  filters: NgxSearchBarFilter = {
-    city_id: {
-      value: 0,
-      friendlyName: 'Ciudad',
-      // castValue:  //() => this.cities.find((city) => city.id === this.filters['city_id'].value)?.name || null,
-    },
-    company_id: {
-      value: 0,
-      friendlyName: 'Empresa',
-      castValue: () => { 
-        console.log('aqui')
-       return this.companies.find((company) => company.id === this.filters['company_id'].value)?.name || 'nos'},
-    },
-    status: {
-      value: null,
-      friendlyName: 'Estado',
-      castValue: 'fernando'
+  companies: Company[] = [];
+  formFilters: FormGroup = new FormGroup({
+    city_id: new FormControl(null),
+    company_id: new FormControl(null),
+    status: new FormControl(null),
+    type: new FormControl(null),
+  });
+
+  // filters: NgxSearchBarFilter = {
+  //   city_id: {
+  //     value: 0,
+  //     friendlyName: 'Ciudad',
+  //   },
+  //   company_id: {
+  //     value: 0,
+  //     friendlyName: 'Empresa',
+  //     castValue: () => { 
+  //       console.log('aqui')
+  //      return this.companies.find((company) => company.id === this.filters['company_id'].value)?.name || 'nos'},
+  //   },
+  //   status: {
+  //     value: null,
+  //     friendlyName: 'Estado',
+  //     castValue: 'fernando'
       
-    },
-    type: {
-      value: null,
-      friendlyName: 'Tipo',
-    }
-  }
+  //   },
+  //   type: {
+  //     value: null,
+  //     friendlyName: 'Tipo',
+  //   }
+  // }
 
   ngOnInit(): void {
     this.getDataFilters();

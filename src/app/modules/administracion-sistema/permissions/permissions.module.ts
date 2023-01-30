@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PermissionsRoutingModule } from './permissions.routing';
-import { PermissionIndexComponent } from './permission-index/permission-index.component';
-import { IndexWithMatTableModule } from '../../../Modulos/index-with-mat-table/index-with-mat-table.module';
+import { IndexPermissionsComponent } from './pages/index-permissions/index-permissions.component';
+// import { IndexWithMatTableModule } from '../../../Modulos/index-with-mat-table/index-with-mat-table.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CreateOrEditPermissionComponent } from './create-or-edit-permission/create-or-edit-permission.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
@@ -13,22 +13,26 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { GroupsPermissionsIndexComponent } from './groups-permissions/groups-permissions-index/groups-permissions-index.component';
+import { IndexGroupsPermissionsComponent } from './pages/index-groups-permissions/index-groups-permissions.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
     declarations: [
-        PermissionIndexComponent,
+        IndexPermissionsComponent,
         CreateOrEditPermissionComponent,
-        GroupsPermissionsIndexComponent
+        IndexGroupsPermissionsComponent
     ],
     imports: [
         PermissionsRoutingModule,
         CommonModule,
-        IndexWithMatTableModule,
+        NgxSearchBarPaginatorComponent,
+        // IndexWithMatTableModule,
         MatDialogModule,
         MatBottomSheetModule,
         MatListModule,
@@ -40,6 +44,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
         MatInputModule,
         MatChipsModule,
         MatCheckboxModule,
+        MatCardModule,
+        MatTableModule,
         MatButtonToggleModule,
     ]
 })

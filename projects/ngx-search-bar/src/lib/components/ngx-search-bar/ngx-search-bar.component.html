@@ -19,7 +19,7 @@
               ></path>
             </svg>
         </button>
-        <input [placeholder]="placeholder" autofocus class="input-search" type="text" [formControl]="formSearch" />
+        <input [(ngModel)]="searchText" (keyup)="search($event)" [placeholder]="placeholder" autofocus class="input-search" type="text"  />
         <mat-spinner *ngIf="isLoading" class="spinner" [diameter]="20"></mat-spinner>
       </div>
       <div class="bar-buttons">

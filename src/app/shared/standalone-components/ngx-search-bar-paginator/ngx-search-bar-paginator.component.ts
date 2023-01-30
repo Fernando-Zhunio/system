@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { NgxSearchBarService } from '../../../../../projects/ngx-search-bar/src/lib/ngx-search-bar.service';
 import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from '../../../../../projects/ngx-search-bar/src/public-api';
 import { ResponsePaginateApi } from '../../interfaces/response-api';
 
@@ -17,7 +18,7 @@ import { ResponsePaginateApi } from '../../interfaces/response-api';
   templateUrl: './ngx-search-bar-paginator.component.html',
   styleUrls: ['./ngx-search-bar-paginator.component.scss']
 })
-export class NgxSearchBarPaginatorComponent {
+export class NgxSearchBarPaginatorComponent implements OnInit {
 
   @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent
 
@@ -47,6 +48,21 @@ export class NgxSearchBarPaginatorComponent {
     pageSize: 0
   }
 
+  ngOnInit(): void {
+    this.initParamsPaginator();
+  }
+
+  initParamsPaginator() {
+    const params= NgxSearchBarService.currentQueryParams
+    if (!params) return;
+    if (params['page']) {
+      this.paginator.pageIndex = params['page'] - 1;
+    }
+    if (params['pageSize']) {
+      this.paginator.pageSize = params['pageSize'];
+    }
+  }
+
   filtersChangeMethod(event): void {
     this.filtersChange.emit(event);
   }
@@ -58,7 +74,7 @@ export class NgxSearchBarPaginatorComponent {
     }
     this.data.emit(event.data.data);
     this.paginator.length = event.data.total;
-    this.paginator.pageIndex = event.data.current_page - 1;
+    // this.paginator.pageIndex = event.data.current_page - 1;
     this.isEmptyData = event.data.total === 0;
     this.paginator.pageSize = event.data.per_page;
   }
