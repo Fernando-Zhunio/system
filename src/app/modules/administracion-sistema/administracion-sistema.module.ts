@@ -22,9 +22,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 // import { PaisesComponent } from './paises/paises.component';
 // import { CreateOrEditCountryComponent } from './paises/pages/create-or-edit-country/create-or-edit-country.component';
 import { ConvertsModule } from '../../Modulos/converts/converts.module';
-import { PersonasComponent } from './personas/personas.component';
+// import { PersonasComponent } from './personas/personas.component';
 import { PersonComponent } from '../../components/person/person.component';
-import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/create-or-edit-person.component';
+// import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/create-or-edit-person.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -72,9 +72,9 @@ import { MatListModule } from '@angular/material/list';
         CreateOrEditRolesComponent,
         // PaisesComponent,
         // CreateOrEditCountryComponent,
-        PersonasComponent,
+        // PersonasComponent,
         PersonComponent,
-        CreateOrEditPersonComponent,
+        // CreateOrEditPersonComponent,
         // MercadoLibreAdminComponent,
         // MercadoLibreCreateOrEditComponent,
         FacebookAdsManagerComponent,

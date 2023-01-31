@@ -9,7 +9,7 @@ import { MethodsHttpService } from '../../../../../services/methods-http.service
 // import { IPermission } from '../../../../../interfaces/ipermission';
 // import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
-import { CreateOrEditPermissionComponent } from '../../create-or-edit-permission/create-or-edit-permission.component';
+import { CreateOrEditPermissionComponent } from '../../components/create-or-edit-permission/create-or-edit-permission.component';
 import { IndexGroupsPermissionsComponent } from '../index-groups-permissions/index-groups-permissions.component';
 import { PERMISSIONS_PERMISSIONS } from '../../permissions/permissions.permissions';
 

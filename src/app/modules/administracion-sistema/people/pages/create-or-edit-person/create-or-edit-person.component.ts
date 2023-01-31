@@ -3,9 +3,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
-import { Cperson } from '../../../../class/cperson';
-import { StandartSearchService } from '../../../../services/standart-search.service';
-import { SwalService } from '../../../../services/swal.service';
+import { Cperson } from '../../../../../class/cperson';
+import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { SwalService } from '../../../../../services/swal.service';
 
 @Component({
   selector: 'app-create-or-edit-person',
@@ -30,7 +30,7 @@ export class CreateOrEditPersonComponent implements OnInit {
   positions: any = {};
   locations: any = {};
   sexes: any = {};
-  id_types: any = {};
+  idTypes: any = {};
   types: any = {};
   person: Cperson = new Cperson();
   isloadperson: boolean = false;
@@ -56,10 +56,7 @@ export class CreateOrEditPersonComponent implements OnInit {
     location_id: new FormControl(null, [Validators.required]),
   });
 
-  form_data_person: FormGroup = new FormGroup({
-    type: new FormControl(null, Validators.required),
-    value: new FormControl(null, Validators.required),
-  });
+  
 
   ngOnInit(): void {
     this.maxDateBirthDay.setFullYear(this.maxDate.getFullYear() - 18);
@@ -137,7 +134,7 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.positions = data.positions;
     this.locations = data.locations;
     this.sexes = data.sexes;
-    this.id_types = data.id_types;
+    this.idTypes = data.id_types;
     if (this.state == 'edit') {
       const {
         first_name,
@@ -224,59 +221,59 @@ export class CreateOrEditPersonComponent implements OnInit {
     }
   }
 
-  saveInServerInfo(): void {
-    if (this.stateInfoAndContact == 'create') {
-      if (this.form_data_person.valid) {
-        this.isloadContact = true;
-        this.s_standart
-          .store('admin/people/' + this.person.id + '/contact-info', {
-            ...this.form_data_person.value,
-          })
-          .subscribe(
-            (res: any) => {
-              if(res?.success){
-                this.infoAndContact.push(res.data);
-                this.asCreateInfo();
-              }
-              else
-              SwalService.swalToast('Ups! Sucedio un error intentalo luego');
-              this.isloadContact = false;
-            },
-            (err) => {
-              this.isloadContact = false;
-              console.error(err);
-            }
-          );
-      }
-    } else if (this.stateInfoAndContact == 'edit') {
-      if (this.form_data_person.valid) {
-        this.isloadContact = true;
-        this.s_standart
-          .updatePut(
-            'admin/people/' +
-              this.person.id +
-              '/contact-info/' +
-              this.itemCurrentForEdit.id,
-            { ...this.form_data_person.value }
-          )
-          .subscribe(
-            (res) => {
-              this.isloadContact = false;
-              const index = this.infoAndContact.findIndex(
-                (x) => x.id == res.data.id
-              );
-              this.infoAndContact[index] = res.data;
+  // saveInServerInfo(): void {
+  //   if (this.stateInfoAndContact == 'create') {
+  //     if (this.form_data_person.valid) {
+  //       this.isloadContact = true;
+  //       this.s_standart
+  //         .store('admin/people/' + this.person.id + '/contact-info', {
+  //           ...this.form_data_person.value,
+  //         })
+  //         .subscribe(
+  //           (res: any) => {
+  //             if(res?.success){
+  //               this.infoAndContact.push(res.data);
+  //               this.asCreateInfo();
+  //             }
+  //             else
+  //             SwalService.swalToast('Ups! Sucedio un error intentalo luego');
+  //             this.isloadContact = false;
+  //           },
+  //           (err) => {
+  //             this.isloadContact = false;
+  //             console.error(err);
+  //           }
+  //         );
+  //     }
+  //   } else if (this.stateInfoAndContact == 'edit') {
+  //     if (this.form_data_person.valid) {
+  //       this.isloadContact = true;
+  //       this.s_standart
+  //         .updatePut(
+  //           'admin/people/' +
+  //             this.person.id +
+  //             '/contact-info/' +
+  //             this.itemCurrentForEdit.id,
+  //           { ...this.form_data_person.value }
+  //         )
+  //         .subscribe(
+  //           (res) => {
+  //             this.isloadContact = false;
+  //             const index = this.infoAndContact.findIndex(
+  //               (x) => x.id == res.data.id
+  //             );
+  //             this.infoAndContact[index] = res.data;
 
-              this.asCreateInfo();
-            },
-            (err) => {
-              this.isloadContact = false;
-              console.error(err);
-            }
-          );
-      }
-    }
-  }
+  //             this.asCreateInfo();
+  //           },
+  //           (err) => {
+  //             this.isloadContact = false;
+  //             console.error(err);
+  //           }
+  //         );
+  //     }
+  //   }
+  // }
 
   getBase64FromFile(img, callback):void {
     let fileReader = new FileReader();
@@ -298,14 +295,14 @@ export class CreateOrEditPersonComponent implements OnInit {
     this.location.back();
   }
 
-  editItemCurrent(id): void {
-    // if(this.itemCurrentForEdit.id != id){
-    this.itemCurrentForEdit = this.infoAndContact.find((x) => x.id == id);
-    const { type, value } = this.itemCurrentForEdit;
-    this.form_data_person.setValue({ type, value });
-    this.stateInfoAndContact = 'edit';
-    // }
-  }
+  // editItemCurrent(id): void {
+  //   // if(this.itemCurrentForEdit.id != id){
+  //   this.itemCurrentForEdit = this.infoAndContact.find((x) => x.id == id);
+  //   const { type, value } = this.itemCurrentForEdit;
+  //   this.form_data_person.setValue({ type, value });
+  //   this.stateInfoAndContact = 'edit';
+  //   // }
+  // }
 
   deleteItem(id): void {
     SwalService.swalConfirmation(
@@ -330,10 +327,10 @@ export class CreateOrEditPersonComponent implements OnInit {
     });
   }
 
-  asCreateInfo() {
-    this.stateInfoAndContact = 'create';
-    this.form_data_person.reset();
-  }
+  // asCreateInfo() {
+  //   this.stateInfoAndContact = 'create';
+  //   this.form_data_person.reset();
+  // }
 
   clearPhoto(): void {
     this.photoUserInput.nativeElement.value = '';

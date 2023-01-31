@@ -1,46 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { IndexWithMatTable } from '../../../../../class/index-with-mat-table';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
+import { StatusCreateOrEdit } from '../../../../../shared/enums/status-create-or-edit';
+import { CreateOrEditDialogData } from '../../../../../shared/interfaces/create-or-edit-dialog-data';
+import { CreateOrEditGroupPermissionComponent } from '../../components/create-or-edit-group-permission/create-or-edit-group-permission.component';
+import { PERMISSIONS_PERMISSIONS } from '../../permissions/permissions.permissions';
 
 @Component({
   selector: 'app-groups-permissions-index',
   templateUrl: './index-groups-permissions.component.html',
   styleUrls: ['./index-groups-permissions.component.css']
 })
-export class IndexGroupsPermissionsComponent extends IndexWithMatTable<any> implements OnInit {
-  displayedColumns: string[];
-  permissions: { create: string[]; edit: string[]; destroy: string[]; };
-  itemRows: { key: string; title: string; isEditable: boolean; }[];
+export class IndexGroupsPermissionsComponent extends MatTableHelper {
+  protected columnsToDisplay: string[] = ['id', 'name', 'slug', 'position', 'actions'];
+  @ViewChild(MatTable) protected table: MatTable<any>;
+  permissions = PERMISSIONS_PERMISSIONS;
   url: string = 'admin/groups-permissions';
 
-  constructor(protected _standard: StandartSearchService, protected _snack: MatSnackBar, public override router: Router) {
-    // const standart = _standard;
-    super(_standard, _snack, router);
-    this.displayedColumns = ['id', 'name', 'slug', 'position', 'actions'];
-    this.permissions = {
-      create: ['super-admin', 'admin.permissions.create'],
-      edit: ['super-admin', 'admin.permissions.edit'],
-      destroy: ['super-admin', 'admin.permissions.destroy'],
-    };
-    this.itemRows = [
-      { key: 'id', title: 'Id', isEditable: false },
-      { key: 'name', title: 'Nombre', isEditable: true },
-      { key: 'slug', title: 'Slug', isEditable: true },
-      { key: 'position', title: 'Posición', isEditable: true },
-      { key: 'acciones', title: 'Acciones', isEditable: false },
-    ];
-   }
-
-  ngOnInit(): void {
-    // this._standard;
-    this._snack;
+  constructor(protected mhs: MethodsHttpService, private dialog: MatDialog) {
+    super();
   }
 
-  creating(): void {
-    const scrollModal = document.getElementsByClassName('mat-dialog-content')[0];
-    scrollModal.scrollTop = scrollModal.scrollHeight;
+  openDialog(id: number | null = null) {
+    const data: CreateOrEditDialogData = {
+      status: id ? StatusCreateOrEdit.Edit : StatusCreateOrEdit.Create
+    }
+    console.log(data)
+    if (id) {
+      data.id = id;
+      data.info = this.dataSource.find(item => item.id === id);
+    }
+    this.dialog.open(CreateOrEditGroupPermissionComponent, {
+      data
+    }).afterClosed().subscribe(res => {
+      if (!res) {
+      return;
+      }
+      if(id) {
+        console.log(res);
+        this.updateItemInTable(id,res.response.data);
+      } else {
+        this.addItemInTable(res.response.data);
+      }
+    });
   }
+
 
 }

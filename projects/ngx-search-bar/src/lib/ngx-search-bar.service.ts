@@ -32,7 +32,7 @@ export class NgxSearchBarService {
     try {
       const segmentUrl = window.location.href.split('?');
       if (segmentUrl.length === 1) return null;
-      const params = Object.fromEntries(new URLSearchParams(segmentUrl[1]) as any);
+      const params = Object?.fromEntries(new URLSearchParams(segmentUrl[1]) as any);
       if (!params || !params.hasOwnProperty(this.nameQueryParams)) return null;
       NgxSearchBarService.currentQueryParams = JSON.parse(params[this.nameQueryParams]);
     }

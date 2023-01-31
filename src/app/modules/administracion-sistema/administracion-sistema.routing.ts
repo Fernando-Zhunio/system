@@ -4,8 +4,6 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { RolesComponent } from './roles/roles.component';
 import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
 // import { PaisesComponent } from './paises/paises.component';
-import { PersonasComponent } from './personas/personas.component';
-import { CreateOrEditPersonComponent } from './personas/create-or-edit-person/create-or-edit-person.component';
 import { VtexWarehousesComponent } from './vtex-site/vtex-warehouses/vtex-warehouses.component';
 import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
 import { VtexSitesComponent } from './vtex-site/vtex-sites.component';
@@ -47,13 +45,13 @@ const permission_module_AD = {
   //   delete: ['super-admin', 'admin.locations.destroy'],
   // },
 
-  personas: {
-    index: ['super-admin', 'admin.people.index'],
-    show: ['super-admin', 'admin.people.show'],
-    create: ['super-admin', 'admin.people.create'],
-    edit: ['super-admin', 'admin.people.edit'],
-    delete: ['super-admin', 'admin.people.destroy'],
-  },
+  // personas: {
+  //   index: ['super-admin', 'admin.people.index'],
+  //   show: ['super-admin', 'admin.people.show'],
+  //   create: ['super-admin', 'admin.people.create'],
+  //   edit: ['super-admin', 'admin.people.edit'],
+  //   delete: ['super-admin', 'admin.people.destroy'],
+  // },
 
   // mercado_libre: {
   //   index: ['super-admin', 'ml.accounts.index'],
@@ -106,49 +104,49 @@ const routes: Routes = [
   },
   // personas
   {
-    path: 'personas',
+    path: 'people',
+    loadChildren: () => import('./people/people.module').then(m => m.PeopleModule),
     // component: ADPersonasMainComponents,
-    children: [
-      {
-        path: '',
-        component: PersonasComponent,
-        data: {
-          permissions: {
-            only: permission_module_AD.personas.index,
-            all: permission_module_AD.personas,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'create',
-        component: CreateOrEditPersonComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: permission_module_AD.personas.create,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'edit/:id',
-        component: CreateOrEditPersonComponent,
-        data: {
-          isEdit: true,
-          permissions: {
-            only: permission_module_AD.personas.edit,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-    ],
-    data: {
-      permissions: {
-        only: permission_module_AD.personas.index,
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
+    // children: [
+    //   {
+    //     path: '',
+    //     component: IndexPeopleComponent,
+    //     data: {
+    //       permissions: {
+    //         only: PERMISSION_PEOPLE.,
+    //       },
+    //     },
+    //     canActivate: [NgxPermissionsGuard],
+    //   },
+    //   {
+    //     path: 'create',
+    //     component: CreateOrEditPersonComponent,
+    //     data: {
+    //       isEdit: false,
+    //       permissions: {
+    //         only: permission_module_AD.personas.create,
+    //       },
+    //     },
+    //     canActivate: [NgxPermissionsGuard],
+    //   },
+    //   {
+    //     path: 'edit/:id',
+    //     component: CreateOrEditPersonComponent,
+    //     data: {
+    //       isEdit: true,
+    //       permissions: {
+    //         only: permission_module_AD.personas.edit,
+    //       },
+    //     },
+    //     canActivate: [NgxPermissionsGuard],
+    //   },
+    // ],
+    // data: {
+    //   permissions: {
+    //     only: permission_module_AD.personas.index,
+    //   },
+    // },
+    // canActivate: [NgxPermissionsGuard],
   },
   // roles
   {

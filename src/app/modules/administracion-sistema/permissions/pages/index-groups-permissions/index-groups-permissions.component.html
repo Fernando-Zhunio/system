@@ -10,7 +10,58 @@
 </div> -->
 
 <div>
-    <ngx-search-bar-paginator title="Grupo de permisos" [path]="url">
+    <ngx-search-bar-paginator (data)="getData($event)" title="Grupos de permisos" [path]="url">
+        <ng-container buttons>
+            <mat-chip-set class="ml-1">
+              <mat-chip color="create" (click)="openDialog()">
+                <i class="fa-solid fa-plus"></i>
+                &nbsp; Grupo de permiso
+              </mat-chip>
+            </mat-chip-set>
+          </ng-container>
+        <ng-container>
+            <mat-card>
+                <mat-card-content>
+                    <table mat-table #table [dataSource]="dataSource">
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> # </th>
+                            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                        </ng-container>
 
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="slug">
+                            <th mat-header-cell *matHeaderCellDef> Slug </th>
+                            <td mat-cell *matCellDef="let row"> {{row.slug}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> Posición </th>
+                            <td mat-cell *matCellDef="let row"> {{row.position}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <td mat-cell *matCellDef="let row"> 
+                             <div class="d-flex">
+                                <button (click)="openDialog(row.id)" class="btn-icon c-edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button (click)="deleteData(row.id)" class="btn-icon c-delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                             </div>    
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                        <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+                    </table>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
     </ngx-search-bar-paginator>
 </div>

@@ -74,7 +74,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
     }
     this.data.emit(event.data.data);
     this.paginator.length = event.data.total;
-    // this.paginator.pageIndex = event.data.current_page - 1;
+    this.paginator.pageIndex = event.data.current_page - 1;
     this.isEmptyData = event.data.total === 0;
     this.paginator.pageSize = event.data.per_page;
   }

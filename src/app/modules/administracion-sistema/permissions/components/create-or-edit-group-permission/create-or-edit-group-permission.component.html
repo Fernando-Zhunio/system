@@ -1,0 +1,23 @@
+<h1 matDialogTitle>{{title}}</h1>
+
+<mat-dialog-content>
+  <div [formGroup]="form">
+    <mat-form-field class="w-100">
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Escriba el nombre" formControlName="name" >
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Slug</mat-label>
+      <input matInput placeholder="Escriba el slug" formControlName="slug" >
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Posición</mat-label>
+      <input matInput placeholder="Escriba la posición" formControlName="position" >
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button color="warn" mat-button matDialogClose>Cerrar</button>
+    <button color="primary" [disabled]="isLoading" (click)="saveInServer()" mat-button>Guardar <i class="fa-regular fa-paper-plane"></i></button>
+</mat-dialog-actions>

@@ -2,8 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { MethodsHttpService } from '../../../../services/methods-http.service';
-import { Permission } from '../interfaces-and-types/permission'
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { Permission } from '../../interfaces-and-types/permission'
 @Component({
   selector: 'app-create-or-edit-permission',
   templateUrl: './create-or-edit-permission.component.html',
@@ -77,20 +77,18 @@ export class CreateOrEditPermissionComponent {
   convertForm(toCrud: boolean = true): void {
     const arrCrud = ['singular_name', 'plural_name', 'article'];
     const arr = ['title', 'description'];
-
     let auxArr = toCrud ? arr : arrCrud;
     for (let index = 0; index < auxArr.length; index++) {
-      this.form.removeControl(arr[index]);
+      if (this.form.get(auxArr[index]))
+      this.form.removeControl(auxArr[index]);
     }
 
     auxArr = toCrud ? arrCrud : arr;
     for (let index = 0; index < auxArr.length; index++) {
-      this.form.addControl(arrCrud[index], new FormControl(null, [Validators.required]));
+      this.form.addControl(auxArr[index], new FormControl(null, [Validators.required]));
     }
-
-    this.inputsForm = Object.keys(this.form.controls).filter(key => key !== 'group_permission_id');
+    this.inputsForm = Object.keys(this.form.value).filter(key => key !== 'group_permission_id');
   }
-
 
   saveInServer() {
     if (this.form.valid) {
@@ -136,6 +134,7 @@ export class CreateOrEditPermissionComponent {
 
   changeForm(event: MatButtonToggleChange) {
     this.currentForm = event.value;
+    this.convertForm(event.value === 'crud');
   }
 
 }

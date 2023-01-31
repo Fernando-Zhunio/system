@@ -4,7 +4,7 @@ import { PermissionsRoutingModule } from './permissions.routing';
 import { IndexPermissionsComponent } from './pages/index-permissions/index-permissions.component';
 // import { IndexWithMatTableModule } from '../../../Modulos/index-with-mat-table/index-with-mat-table.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CreateOrEditPermissionComponent } from './create-or-edit-permission/create-or-edit-permission.component';
+import { CreateOrEditPermissionComponent } from './components/create-or-edit-permission/create-or-edit-permission.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -20,12 +20,14 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { CreateOrEditGroupPermissionComponent } from './components/create-or-edit-group-permission/create-or-edit-group-permission.component';
 
 
 @NgModule({
     declarations: [
         IndexPermissionsComponent,
         CreateOrEditPermissionComponent,
+        CreateOrEditGroupPermissionComponent,
         IndexGroupsPermissionsComponent
     ],
     imports: [

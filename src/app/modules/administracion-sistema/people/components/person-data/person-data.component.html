@@ -1,0 +1,71 @@
+<h1 matDialogTitle class="m-0">
+ Contactos de {{ person?.first_name }} {{ person?.last_name }}
+</h1>
+
+<mat-dialog-content>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="saveInServer()">
+      <div class="col-12">
+        <mat-chip-set *ngIf="status === 'edit'">
+          <mat-chip color="accent" [removable]="true" (removed)="changeStatus()">
+            Se esta Editando #{{ contact?.id }}
+            <!-- <mat-icon>cancel</mat-icon> -->
+            <span matChipRemove>
+              <i class="fa-solid fa-xmark"></i>
+            </span>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <mat-form-field class="col-md-6">
+        <mat-label>Seleccione un Tipo de dato</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option *ngFor="let type of types | keyvalue" [value]="type.key">
+            {{ type.value }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls['type'].invalid">Tipo Requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-12">
+        <mat-label>Información</mat-label>
+        <textarea matInput formControlName="value" type="text" required></textarea>
+        <mat-error *ngIf="form.controls['value'].invalid">Valor Requerido</mat-error>
+      </mat-form-field>
+
+      <div class="my-3">
+        <button color="primary" mat-raised-button [disabled]="isLoading" type="submit">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+      </div>
+    </form>
+    <mat-card>
+      <table style="background: inherit; color: inherit" class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Tipo</th>
+            <th>Info</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contactInfo of contactInfos">
+            <td>{{ contactInfo.id }}</td>
+            <td>{{ contactInfo.type }}</td>
+            <td>{{ contactInfo.value }}</td>
+            <td>
+              <button class="btn-icon c-edit" (click)="changeStatus(contactInfo.id)">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="btn-icon c-delete" (click)="deleteItem(contactInfo.id)">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button color="warn" mat-button matDialogClose>Cerrar</button>
+  <!-- <button color="primary" mat-button>Guardar</button> -->
+</mat-dialog-actions>
