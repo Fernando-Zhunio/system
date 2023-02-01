@@ -1,0 +1,91 @@
+<ngx-search-bar-paginator
+  path="admin/prices/groups"
+  title="Grupos de precios"
+  placeholder="Buscar grupo de precios"
+  (data)="getData($event)">
+  <ng-container buttons>
+    <mat-chip color="create" [routerLink]="['create']" class="ml-1"><i class="fa-solid fa-plus"></i> Grupo de precio</mat-chip>
+  </ng-container>
+  <ng-container>
+    <mat-card class="overflow-auto">
+      <mat-card-content>
+        <table mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Tipo</th>
+            <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef>Es Activo</th>
+            <td mat-cell *matCellDef="let row">{{ row.active ? "SI" : "NO" }}</td>
+          </ng-container>
+          <ng-container matColumnDef="required">
+            <th mat-header-cell *matHeaderCellDef>Es Requerido</th>
+            <td mat-cell *matCellDef="let row">{{ row.required ? "SI" : "NO" }}</td>
+          </ng-container>
+          <ng-container matColumnDef="roles">
+            <th mat-header-cell *matHeaderCellDef>Roles</th>
+            <td mat-cell *matCellDef="let row">
+              <mat-chip-set>
+                <mat-chip *ngFor="let rol of row?.roles">{{ rol.title }}</mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let row">
+              <div class="d-flex">
+                <button class="btn-icon c-edit" [routerLink]="['./', row.id, 'edit']">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-icon c-delete" (click)="deleteData(row.id)">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</ngx-search-bar-paginator>
+<!-- <app-search-template [url$]="url" (data)="getData($event)">
+  <ng-container data>
+    <mat-card class="rounded-fz border-0 card shadow" *ngFor="let priceGroup of data | keyvalue">
+      <mat-card-header>
+        <mat-card-title>{{ priceGroup.value?.name }}</mat-card-title>
+        <mat-card-subtitle>{{ priceGroup.value.created_at | date }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-chip-set>
+          <mat-chip selected>Tipo: {{ priceGroup.value?.type }}</mat-chip>
+          <mat-chip *ngIf="priceGroup.value?.active" selected>Activo</mat-chip>
+          <mat-chip *ngIf="priceGroup.value?.required" selected>Requerido</mat-chip>
+        </mat-chip-set>
+        <h2 class="font-facebook m-0">Roles</h2>
+        <mat-chip-set>
+          <mat-chip *ngFor="let rol of priceGroup.value?.roles">{{ rol.title }}</mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+      <mat-card-actions align="start">
+        <button mat-mini-fab [routerLink]="['./', priceGroup.key, 'edit']"><mat-icon>edit</mat-icon></button>
+        <button mat-mini-fab color="warn" (click)="deleteData(priceGroup.key)"><mat-icon>delete</mat-icon></button>
+      </mat-card-actions>
+    </mat-card>
+  </ng-container>
+  <ng-container menuBar>
+    <mat-chip [routerLink]="['./create']" class="ml-1"><mat-icon>add</mat-icon></mat-chip>
+  </ng-container>
+</app-search-template> -->

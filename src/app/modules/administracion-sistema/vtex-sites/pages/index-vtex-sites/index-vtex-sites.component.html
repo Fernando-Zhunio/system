@@ -1,0 +1,54 @@
+<div>
+  <div><h2 class=" font-5xl my-3">SITIOS VTEX</h2></div>
+
+
+  <div class="card-columns">
+    <ng-container *ngIf="!isLoading">
+      <mat-card class="card rounded-fz border-0 shadow-sm" *ngFor="let vtexSite of vtexSites">
+        <div class="card-body lead position-relative">
+          <span class="btn-edit">
+            <button [routerLink]="[vtexSite.id, 'edit']" mat-mini-fab color="primary"><i class="fa-solid fa-pen"></i></button>
+            <button (click)="deleteVtexSite(vtexSite.id)" mat-mini-fab color="warn"><i class="fa-regular fa-trash-can"></i></button>
+          </span>
+          <div class="border-bottom mb-2">
+            <span>Nombre amigable:</span><br>
+           <span  class="font-italic text-muted">{{vtexSite.friendly_name}}</span>
+          </div>
+          <div class="border-bottom mb-2">
+            <span>Nombre de cuenta:</span><br>
+            <span class="font-italic text-muted">{{vtexSite.name}}</span>
+          </div>
+          <div class="border-bottom mb-2">
+            <span>Url:</span><br>
+            <span class="font-italic text-muted">{{vtexSite.url}}</span>
+          </div>
+          <div class="border-bottom mb-2">
+            <span>App Key:</span><br>
+            <span class="font-italic text-muted">{{vtexSite.app_key}}</span>
+          </div>
+          <div class="mb-2">
+            <span>App Token:</span><br>
+            <span class="font-italic text-muted">{{vtexSite.app_token}}</span>
+          </div>
+          <mat-chip-set>
+            <mat-chip [routerLink]="['/administracion-sistema/vtex-sites',vtexSite.id,'vtex-warehouses']" color="primary">Ver bodegas &nbsp;<i class="fa-regular fa-eye"></i></mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card>
+    </ng-container>
+  </div>
+
+  <ng-container *ngIf="!isLoading && vtexSites.length < 1">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%" />
+      </div>
+      <div style="line-height: 1" class="col-md-6  font-2xl d-flex align-items-center">
+        Ups! Sin resultados en tu búsqueda
+      </div>
+    </div>
+  </ng-container>
+  <button class="btn-add" mat-fab (click)="goCreateVtexSites()"><i class="fa-solid fa-plus"></i></button>
+</div>
+
+

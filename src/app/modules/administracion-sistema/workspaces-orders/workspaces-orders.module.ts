@@ -1,12 +1,14 @@
+import { MatTableModule } from '@angular/material/table';
+import { NgxSearchBarPaginatorComponent } from './../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IndexWorkspacesOrdersComponent } from './index-workspaces-orders/index-workspaces-orders.component';
-import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
+import { IndexWorkspacesOrdersComponent } from './pages/index-workspaces-orders/index-workspaces-orders.component';
+// import { SearchTemplateModule } from '../../../Modulos/search-template/search-template.module';
 import { WorkspacesOrdersRoutingRoutes } from './workspaces-orders.routing.routing';
-import { CreateOrEditWorkspaceOrderComponent } from './create-or-edit-workspace-order/create-or-edit-workspace-order.component';
+import { CreateOrEditWorkspaceOrderComponent } from './pages/create-or-edit-workspace-order/create-or-edit-workspace-order.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
+// import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,15 +19,17 @@ import { SearchesModule } from '../../../Modulos/searches/searches.module';
   imports: [
     CommonModule,
     WorkspacesOrdersRoutingRoutes,
-    SearchTemplateModule,
+    // SearchTemplateModule,
     ReactiveFormsModule,
     SearchesModule,
     MatButtonModule,
     MatChipsModule,
-    MatIconModule,
+    // MatIconModule,
     MatFormFieldModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    NgxSearchBarPaginatorComponent,
+    MatTableModule,
   ],
   declarations: [
     IndexWorkspacesOrdersComponent,

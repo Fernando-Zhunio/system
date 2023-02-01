@@ -51,7 +51,6 @@ export class IndexPeopleComponent extends MatTableHelper {
   }
 
   zoom(event): void {
-    console.log(event);
     zoomImage(event.target)
   }
 

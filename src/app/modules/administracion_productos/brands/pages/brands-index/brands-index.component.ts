@@ -4,6 +4,8 @@ import { MatTable } from '@angular/material/table';
 import { Permission_brands } from '../../../../../class/permissions-modules';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
+import { StatusCreateOrEdit } from '../../../../../shared/enums/status-create-or-edit';
+import { CreateOrEditDialogData } from '../../../../../shared/interfaces/create-or-edit-dialog-data';
 import { CreateOrEditBrandComponent } from '../create-or-edit-brand/create-or-edit-brand.component';
 
 @Component({
@@ -24,18 +26,24 @@ export class BrandsIndexComponent extends MatTableHelper<any> {
 
   permissions = Permission_brands.brands;
 
-  createOrEdit(isEdit = true, id =null ): void {
+  createOrEdit(id =null ): void {
+    const data: CreateOrEditDialogData = {
+      status: id ? StatusCreateOrEdit.Edit : StatusCreateOrEdit.Create,
+    }
+    if (id) {
+      data.id = id;
+      data.info = this.dataSource.find((item) => item.id === id);
+    }
     this.dialog.open(CreateOrEditBrandComponent, {
-      data: {id, isEdit},
+      data,
       disableClose: true,
     }).beforeClosed().subscribe((data) => {
-      if (data) {
-        if(isEdit) {
-        this.updateItemInTable(data.id, data);
+      if (!data) {return }
+        if(id) {
+        this.updateItemInTable(id, data.sendData);
         } else {
-          this.addItemInTable(data);
+          this.addItemInTable(data.response.data);
         }
-      }
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { IndexWithMatTable } from '../../../../class/index-with-mat-table';
@@ -9,7 +9,7 @@ import { StandartSearchService } from '../../../../services/standart-search.serv
   templateUrl: './version-index.component.html',
   styleUrls: ['./version-index.component.css']
 })
-export class VersionIndexComponent extends IndexWithMatTable<any> implements OnInit {
+export class VersionIndexComponent extends IndexWithMatTable<any> {
   displayedColumns: string[] = ['id', 'version', 'description', 'actions'];
   permissions: { create: string[]; edit: string[]; destroy: string[]; };
   itemRows: { key: string; title: string; isEditable: boolean; }[] = [
@@ -25,7 +25,5 @@ export class VersionIndexComponent extends IndexWithMatTable<any> implements OnI
     super( s_standard, snackbar, router );
   }
 
-  ngOnInit(): void {
-  }
 
 }

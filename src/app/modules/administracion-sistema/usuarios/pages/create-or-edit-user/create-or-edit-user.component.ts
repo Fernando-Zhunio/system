@@ -84,7 +84,7 @@ export class CreateOrEditUserComponent extends CreateOrEdit2<any> implements OnI
         SwalService.swalFire({title: 'Error', text: 'El usuario no tiene correo electrónico corporativo', icon: 'error', cancelButtonText: 'Cerrar', confirmButtonText: 'Ir a pagina de la persona '+ person.first_name, showCancelButton: true,   showConfirmButton: true})
         .then(res => {
           if(res.isConfirmed) {
-            this.router.navigate(['administracion-sistema/personas/edit/'+person.id]);
+            this.router.navigate(['administracion-sistema/people/'+person.id + '/edit']);
           }
         });
       }
@@ -134,7 +134,7 @@ export class CreateOrEditUserComponent extends CreateOrEdit2<any> implements OnI
         SwalService.swalFire({title: 'Error', text: 'El usuario no tiene una persona asignada por favor cree una persona con este correo '+ res.user.email +' y luego asigne esta persona a este usuario', icon: 'error', cancelButtonText: 'Cerrar', confirmButtonText: 'Ir a crear persona ', showCancelButton: true,   showConfirmButton: true})
         .then(res => {
           if(res.isConfirmed) {
-            this.router.navigate(['administracion-sistema/personas/create']);
+            this.router.navigate(['administracion-sistema/people/create']);
           }
         });
       } else {

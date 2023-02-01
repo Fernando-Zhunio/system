@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IproductVtexSku } from '../../../../../../interfaces/iproducts';
+import { zoomImage } from '../../../../../../shared/class/tools';
 import { InfoViewComponent } from '../../../../components/info-view/info-view.component';
 // import { SharedService } from '../../../../../../services/shared/shared.service';
 
@@ -13,17 +14,19 @@ export class PaginaWebComponent {
 
   constructor(private dialog: MatDialog) { }
 
-  @Input() sku: IproductVtexSku;
+  @Input() skus: IproductVtexSku[] = [];
 
-  openDescription(): void{
+  openDescription(id: number): void{
+    const sku = this.skus.find(sku => sku.id === id);
+    if (!sku) return;
+
     this.dialog.open(InfoViewComponent, {
-      data: {name: this.sku.name, title: 'Descripcion', info: this.sku.vtex_product?.description, isHtml: false},
+      data: {name: sku.name, title: 'Descripción', info: sku.vtex_product?.description, isHtml: false},
     });
   }
 
-  // rediredImgBag(img): string {
-  //   const imagen = img ? img[0]?.ImageUrl : null;
-  //   return SharedService.rediredImageNull(imagen);
-  // }
-
+  zoom(event): void {
+    console.log(event.target);
+    zoomImage(event.target)
+  }
 }

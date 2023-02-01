@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NgxPermissionsGuard } from "ngx-permissions";
-import { PERMISSIONS_ADMIN_USERS } from "./class/permissions-users";
+import { PERMISSIONS_ADMIN_USERS } from "./permissions/users.permissions";
 import { CreateOrEditUserComponent } from "./pages/create-or-edit-user/create-or-edit-user.component";
 import { UsersIndexComponent } from "./pages/index-users-user/users-index.component";
 

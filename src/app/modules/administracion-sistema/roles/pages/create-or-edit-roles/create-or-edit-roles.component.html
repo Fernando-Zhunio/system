@@ -1,0 +1,72 @@
+<div class="mt-2">
+  <div class="d-flex align-items-center">
+    <button mat-icon-button (click)="goBack()" class="mb-2">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <span class="font-4xl">
+      &nbsp;{{title}}
+    </span>
+  </div>
+  <mat-card class="rounded-fz">
+    <mat-card-content>
+      <div class="row">
+        <div class="col-md-6">
+          <form [formGroup]="form_rol">
+            <div class="row">
+              <mat-form-field class="col-md-12">
+                <mat-label>Nombres</mat-label>
+                <input matInput formControlName="title" type="text" required>
+                <mat-error *ngIf="form_rol.controls['title'].invalid">Nombre Requerido</mat-error>
+              </mat-form-field>
+    
+              <mat-form-field class="col-md-6">
+                <mat-label>Slug</mat-label>
+                <input type="text" matInput formControlName="name" required>
+                <mat-error *ngIf="form_rol.controls['name'].invalid">Slug Requerido</mat-error>
+              </mat-form-field>
+    
+              <mat-form-field class="col-md-6">
+                <mat-label>Descripción</mat-label>
+                <input matInput formControlName="description">
+              </mat-form-field>
+            </div>
+          </form>
+          <div style="z-index: 10;" class="sticky-top">
+            <h2 class="font-3xl font-weight-bold">Permisos otorgados</h2>
+            <div class="example-list">
+              <div class="example-box" *ngFor="let item of role?.permissions">
+                <span>{{item.title}}.<small>({{item?.description}})</small><br>
+                  <small>({{item?.name}})</small>
+                </span> 
+                <button color="warn" mat-icon-button  (click)="returnItem(item.id)">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+            <button color="primary" mat-raised-button color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+          </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="font-3xl font-weight-bold">Todos los permisos</h2>
+            <div class="col-12 d-flex align-items-center justify-content-end mb-3">
+              <div class="content-search">
+                <input type="search"  placeholder="Escriba el permiso a buscar"
+                   (keyup)="permissionsFilter($event)">
+                  <button><i class="fa-solid fa-magnifying-glass"></i></button>
+              </div>
+            </div>
+            <div class="example-list">
+              <div *ngFor="let item of permissionFilter" class="example-box">
+                <span>{{item.title}}. <small>({{item?.description}})</small><br>
+                  <small>({{item?.name}})</small>
+                </span>
+                <button color="primary" mat-icon-button  (click)="transferDataItem(item.id)">
+                    <i class="fa-solid fa-plus text-success"></i>   
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

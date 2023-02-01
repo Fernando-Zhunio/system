@@ -1,0 +1,63 @@
+<ngx-search-bar-paginator
+  title="Bodegas de VTEX"
+  placeholder="Buscar Bodegas Vtex"
+  [path]="url"
+  (data)="getData($event)">
+  <ng-container buttons *ngxPermissionsOnly="permissions.create">
+    <mat-chip color="create" [routerLink]="['create']">
+      <i class="fa-solid fa-plus"></i>
+      &nbsp; Bodega
+    </mat-chip>
+  </ng-container>
+  <mat-card>
+    <mat-card-content>
+      <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="vtex_api_id">
+          <mat-header-cell *matHeaderCellDef>ID Vtex</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.vtex_api_id }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="warehouse_internal">
+          <mat-header-cell *matHeaderCellDef>Bodega interna</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.internal_warehouse.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="updated_at">
+          <mat-header-cell *matHeaderCellDef>Fecha de edición</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.updated_at }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element; let ind = index">
+            <button
+              *ngxPermissionsOnly="permissions.edit"
+              class="btn-icon c-edit"
+              [routerLink]="[element.id, 'edit']">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button
+              class="btn-icon c-delete"
+              *ngxPermissionsOnly="permissions.delete"
+              (click)="deleteData(element.id)">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row style="top: 67px" *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+</ngx-search-bar-paginator>

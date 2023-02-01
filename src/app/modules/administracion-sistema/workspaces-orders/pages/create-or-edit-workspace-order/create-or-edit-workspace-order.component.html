@@ -1,0 +1,112 @@
+<div>
+  <div class="d-flex align-items-center my-3">
+   <button mat-mini-fab (click)="goBack()"><i class="fa-solid fa-chevron-left"></i></button><h1 class="m-0 ml-2">{{ title }}</h1>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="saveInServer()">
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-6 border-right">
+            <mat-form-field class="w-100">
+              <input formControlName="name" matInput placeholder="Nombre" />
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <textarea formControlName="description" matInput placeholder="Descripción"></textarea>
+            </mat-form-field>
+            <div>
+              <button type="submit" [disabled]="isLoading" color="primary" mat-raised-button>Guardar <i class="fa-regular fa-paper-plane"></i></button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex justify-content-between align-items-center">
+              <h2 class="m-0">Usuarios seleccionados</h2>
+              <button class="my-1" type="button" color="primary" (click)="isActiveSearchPeople = true" mat-raised-button>Buscar usuarios</button>
+            </div>
+            <div>
+              <div class="grid-people">
+                <div class="item-person p-2" *ngFor="let user of usersAssigned | keyvalue">
+                  <div class="list-person px-2 py-1">
+                    <span class="mr-1">
+                      <img
+                        class="img-person"
+                        [src]="
+                          user.value?.person?.photo?.permalink ||
+                          'https://ui-avatars.com/api/?background=random&name=' + user?.value?.first_name
+                        "
+                        alt="usuario" />
+                    </span>
+                    <div>
+                      <div>{{ user.value?.name || user?.value?.person?.first_name +" "+user?.value?.person?.last_name}}</div>
+                      <div *ngIf="user?.value?.email" class="d-flex align-items-center text-muted"><i class="fa-regular fa-envelope"></i>{{ user.value?.email }}</div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    (click)="selectedPerson(user.key)"
+                    *ngIf="!usersAssigned.has(user.key); else templateQuitBtn"
+                    color="primary"
+                    mat-button>
+                    seleccionar
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                  <ng-template #templateQuitBtn>
+                    <button type="button" (click)="unselectedPerson(user.key)" color="warn" mat-button>
+                      Quitar
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </form>
+  <div [hidden]="!isActiveSearchPeople" class="search-template p-md-3">
+    <button (click)="isActiveSearchPeople = false" class="btn-close" mat-mini-fab color="warn">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="modal-search col-md-6 col-10">
+      <app-search [styles]="'overflow: auto; height: 100%;padding: 10px'" placeholder="Buscador de personas" (data)="getData($event)" [url]="urlUserSearch">
+        <ng-container data>
+          <div class="grid-people main-style">
+            <div class="item-person p-2" *ngFor="let user of users | keyvalue">
+              <div class="list-person px-2 py-1">
+                <span class="mr-1">
+                  <img
+                    class="img-person"
+                    [src]="
+                      user.value?.person?.photo?.permalink ||
+                      'https://ui-avatars.com/api/?background=random&name=' + user?.value?.person?.first_name
+                    "
+                    alt="usuario" />
+                </span>
+                <div>
+                  <div>{{ user?.value?.person?.first_name }} {{ user?.value?.person?.last_name }}</div>
+                  <div *ngIf="user?.value?.email" class="d-flex align-items-center text-muted"><i class="fa-regular fa-envelope"></i> {{ user?.value?.email }}</div>
+                </div>
+              </div>
+              <button
+                (click)="selectedPerson(user.key)"
+                *ngIf="!usersAssigned.has(user.key); else templateQuitBtn"
+                color="primary"
+                mat-button>
+                seleccionar
+                <i class="fa-solid fa-check"></i>
+              </button>
+              <ng-template #templateQuitBtn>
+                <button (click)="unselectedPerson(user.key)" color="warn" mat-button>
+                  Quitar
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </app-search>
+    </div>
+  </div>
+</div>

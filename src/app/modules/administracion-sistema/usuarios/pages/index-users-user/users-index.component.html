@@ -1,4 +1,69 @@
-<div>
+<ngx-search-bar-paginator
+title="Usuarios" 
+ placeholder="Buscar usuarios" 
+ path="admin/users" 
+ (data)="getData($event)"
+>
+<ng-container>
+  <mat-card>      
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>Correo</mat-header-cell>
+            <mat-cell style="word-break: break-word;" *matCellDef="let element"> {{element.email}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="roles">
+            <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+             <mat-chip-set>
+              <mat-chip [disableRipple]="true" *ngFor="let rol of element?.roles">{{rol.name}}</mat-chip>
+             </mat-chip-set>  
+            </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="last_activity">
+            <mat-header-cell *matHeaderCellDef> Ultima actividad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.last_activity | amLocale:'es' | amTimeAgo}}
+            </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let element;let ind = index">
+              <button *ngxPermissionsOnly="permissions.edit" class="btn-icon c-edit"
+                [routerLink]="['./edit',element.id]">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="btn-icon c-delete" *ngxPermissionsOnly="permissions.delete"
+                (click)="deleteData(element.id)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+      
+          <mat-header-row style="top:67px" *matHeaderRowDef="columnsToDisplay;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+        </mat-table>
+      </mat-card-content>
+  </mat-card>
+</ng-container>
+<ng-container buttons *ngxPermissionsOnly="permissions.create">
+  <mat-chip [routerLink]="['create']" color="create">
+    <i class="fa-solid fa-user-plus"></i> Usuario
+  </mat-chip>
+</ng-container>
+</ngx-search-bar-paginator>
+<!-- <div>
   <app-search-template-table [title]="'Usuarios'" columns="1" placeholder="Buscar usuarios" [url$]="'admin/users'" (data)="loadData($event)">
     <ng-container table>
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -6,32 +71,21 @@
           <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
         </ng-container>
-        <!-- Position Column -->
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
         </ng-container>
 
-        <!-- Position Column -->
         <ng-container matColumnDef="email">
           <mat-header-cell *matHeaderCellDef>Correo</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
         </ng-container>
 
-        <!-- Name Column -->
-        <!-- <ng-container matColumnDef="companies">
-          <mat-header-cell *matHeaderCellDef> Empresa </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.companies[0]?.name}}
-          </mat-cell>
-        </ng-container> -->
-
-        <!-- Weight Column -->
         <ng-container matColumnDef="roles">
           <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.roles | join}} </mat-cell>
         </ng-container>
 
-        <!-- Symbol Column -->
         <ng-container matColumnDef="last_activity">
           <mat-header-cell *matHeaderCellDef> Ultima actividad </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.last_activity | amLocale:'es' | amTimeAgo}}
@@ -41,51 +95,25 @@
         <ng-container matColumnDef="acciones">
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let element;let ind = index">
-            <button *ngxPermissionsOnly="permission_edit" mat-icon-button color="accent"
+            <button *ngxPermissionsOnly="permission_edit" class="btn-icon c-edit"
               [routerLink]="['./edit',element.id]">
               <i class="fa-solid fa-pen"></i>
             </button>
-            <button mat-icon-button color="warn" *ngxPermissionsOnly="permission_destroy"
+            <button class="btn-icon c-delete" *ngxPermissionsOnly="permission_destroy"
               (click)="deleteItem(element.id)">
               <i class="fa-solid fa-trash"></i>
             </button>
           </mat-cell>
         </ng-container>
 
-
-
-        <!-- <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef>
-            <button mat-icon-button color="accent" (click)="addRowTableItem()">
-              <mat-icon>post_add</mat-icon>
-            </button>
-
-            <button mat-icon-button color="accent">
-              <mat-icon>backup</mat-icon>
-              <label class="m-0 h-100 w-100 position-absolute" for="file-excel" style="    top: 0;
-                    right: 0;">
-              </label>
-              <input [disabled]="isLoadFile" type="file" (change)="addFile($event)" class="d-none" id="file-excel"
-                accept=".xlsx">
-            </button>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element;let ind = index">
-            <button mat-icon-button (click)="editItem(ind)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteItem(ind)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-cell>
-        </ng-container> -->
         <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
     </ng-container>
     <ng-container menuBar *ngxPermissionsOnly="permission_create">
-      <mat-chip [routerLink]="['./create']" class="mat-btn-add ml-1">
-        <i class="fa-solid fa-user-plus"></i> Agregar usuario
+      <mat-chip [routerLink]="['create']" color="create">
+        <i class="fa-solid fa-user-plus"></i> Usuario
       </mat-chip>
     </ng-container>
   </app-search-template-table>
-</div>
+</div> -->

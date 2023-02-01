@@ -1,6 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
-import { CreateOrEditWorkspaceOrderComponent } from './create-or-edit-workspace-order/create-or-edit-workspace-order.component';
-import { IndexWorkspacesOrdersComponent } from './index-workspaces-orders/index-workspaces-orders.component';
+import { CreateOrEditWorkspaceOrderComponent } from './pages/create-or-edit-workspace-order/create-or-edit-workspace-order.component';
+import { IndexWorkspacesOrdersComponent } from './pages/index-workspaces-orders/index-workspaces-orders.component';
 
 const routes: Routes = [
   {

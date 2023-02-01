@@ -191,9 +191,9 @@
               </div>
             </div>
             <div>
-              <mat-card style="background: inherit" *ngFor="let sku of p.vtex_skus">
+              <mat-card style="background: inherit">
                <mat-card-content>
-                 <app-pagina-web [sku]="sku"></app-pagina-web>
+                 <app-pagina-web [skus]="p.vtex_skus"></app-pagina-web>
                </mat-card-content>
               </mat-card>
             </div>

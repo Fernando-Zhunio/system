@@ -3,7 +3,10 @@
 } */
 
 .mat-column-email {
-    flex: 2;
+    flex: 1.5;
+}
+.mat-column-roles {
+    flex: 3;
 }
 
 .mat-column-id {

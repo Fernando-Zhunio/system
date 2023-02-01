@@ -1,0 +1,116 @@
+<ngx-search-bar-paginator (data)="getData($event)" [path]="url" placeholder="Buscar roles" title="Roles">
+  <ng-container>
+    <mat-card class="overflow-auto">
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef>Titulo</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Descripción </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element?.description }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="permissions_count">
+            <mat-header-cell *matHeaderCellDef># Permisos</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.permissions_count }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let element; let ind = index">
+              <button
+                *ngxPermissionsOnly="permissions.edit"
+                class="btn-icon c-edit"
+                [routerLink]="[element.id, 'edit']">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button
+                class="btn-icon c-delete"
+                *ngxPermissionsOnly="permissions.delete"
+                (click)="deleteData(element.id)">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row style="top: 67px" *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  <ng-container buttons *ngxPermissionsOnly="permissions.create">
+    <mat-chip-set>
+      <mat-chip color="create" [routerLink]="['create']">
+        <i class="fa-solid fa-plus"></i>
+        &nbsp; Rol
+      </mat-chip>
+    </mat-chip-set>
+  </ng-container>
+</ngx-search-bar-paginator>
+
+<!-- <div>
+    <app-search-template title="Roles" columns="1" placeholder="Buscar roles" [url$]="'admin/roles'" (data)="loadData($event)">
+      <ng-container data>
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef>Correo</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef> Empresa </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element?.description}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="permissions_count">
+                <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.permissions_count}} </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="acciones">
+                <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+                <mat-cell *matCellDef="let element;let ind = index">
+                    <button *ngxPermissionsOnly="permissions.edit" mat-icon-button color="primary" [routerLink]="['./edit',element.id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+                    <button mat-icon-button color="warn" *ngxPermissionsOnly="permissions.delete" (click)="deleteItem(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+                </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row style="top:67px" *matHeaderRowDef="displayedColumns;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </ng-container>
+      <ng-container menuBar *ngxPermissionsOnly="permissions.create">
+        <mat-chip class="mat-btn-add ml-1" [routerLink]="['./create']"><mat-icon>add</mat-icon>&nbsp;Agregar rol</mat-chip>
+      </ng-container>
+    </app-search-template>
+</div> -->

@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -186,13 +185,7 @@ export class StandartSearchService {
 
 
   //#region  convert date
-  public formatDate(date): any {
-    return formatDate(
-      new Date(date),
-      'yyyy/MM/dd',
-      'en'
-    );
-  }
+
   //#endregion
 
 

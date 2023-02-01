@@ -1,0 +1,47 @@
+<div>
+  <div>
+    <h2 class=" font-5xl my-3">
+      {{title}}
+    </h2>
+  </div>
+  <mat-card class="card-body  mt-3">
+    <form [formGroup]="form" class="row m-0">
+      <mat-form-field class="col-md-6 col-12">
+        <mat-label>Nombre</mat-label>
+        <input matInput  placeholder="Ingresa el Nombre" formControlName="name">
+        <mat-error *ngIf="form.get('name')?.invalid "></mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6 col-12">
+        <mat-label>Vtex Api ID</mat-label>
+        <input matInput  placeholder="Ingresa el Vtex ID" formControlName="vtex_api_id">
+        <mat-error *ngIf="form.get('vtex_api_id')?.invalid ">Este campo es requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-12">
+        <mat-label>Nombre Amigable</mat-label>
+        <input matInput  placeholder="Ingresa un nombre amigable" formControlName="friendly_name">
+        <mat-error *ngIf="form.get('friendly_name')?.invalid ">Este campo es requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-12">
+        <mat-label>Url</mat-label>
+        <input matInput  placeholder="Ingresa la url" formControlName="url">
+        <mat-error *ngIf="form.get('url')?.invalid ">Este campo es requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-12">
+        <mat-label>App KEY</mat-label>
+        <input matInput  placeholder="Ingresa la App KEY" formControlName="app_key">
+        <mat-error *ngIf="form.get('app_key')?.invalid ">Este campo es requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-12">
+        <mat-label>App TOKEN</mat-label>
+        <input matInput  placeholder="Ingresa la App TOKEN" formControlName="app_token">
+        <mat-error *ngIf="form.get('app_token')?.invalid ">Este campo es requerido</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+    </form>
+  </mat-card>
+</div>

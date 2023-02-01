@@ -52,7 +52,6 @@ import { NgxSearchBarModule } from '../../../../../../projects/ngx-search-bar/sr
     NgxSkeletonLoaderModule,
     ClipboardModule,
     PostModule,
-    // SwiperModule,
     SearchTemplateModule,
     MomentModule,
     MatDialogModule,

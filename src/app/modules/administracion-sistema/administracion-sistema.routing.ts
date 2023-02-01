@@ -1,34 +1,23 @@
 import {  NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NgxPermissionsGuard } from 'ngx-permissions';
-import { RolesComponent } from './roles/roles.component';
-import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
-// import { PaisesComponent } from './paises/paises.component';
-import { VtexWarehousesComponent } from './vtex-site/vtex-warehouses/vtex-warehouses.component';
-import { CreateOrEditVtexWarehousesComponent } from './vtex-site/vtex-warehouses/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
-import { VtexSitesComponent } from './vtex-site/vtex-sites.component';
-import { CreateOrEditVtexSiteComponent } from './vtex-site/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
-// import { IndexComponent } from './newsletters/pages/index-newsletters/index-newsletters.component';
-// import { CreateOrEditNewsletterComponent } from './newsletters/pages/create-or-edit-newsletter/create-or-edit-newsletter.component';
-// import { CitiesIndexComponent } from './paises/pages/cities-index/index-cities.component';
+// import { NgxPermissionsGuard } from 'ngx-permissions';
+// // import { RolesComponent } from './roles/roles.component';
+// // import { CreateOrEditRolesComponent } from './roles/create-or-edit-roles/create-or-edit-roles.component';
+// import { VtexWarehousesComponent } from './vtex-site/vtex-warehouses/vtex-warehouses.component';
+// import { CreateOrEditVtexWarehousesComponent } from './vtex-site/pages/create-or-edit-vtex-warehouses/create-or-edit-vtex-warehouses.component';
+// // import { VtexSitesComponent } from './vtex-site/vtex-sites.component';
+// import { CreateOrEditVtexSiteComponent } from './vtex-site/pages/create-or-edit-vtex-site/create-or-edit-vtex-site.component';
 
-const permission_module_AD = {
-  roles: {
-    index: ['super-admin', 'admin.roles.index'],
-    show: ['super-admin', 'admin.roles.show'],
-    create: ['super-admin', 'admin.roles.create'],
-    edit: ['super-admin', 'admin.roles.edit'],
-    delete: ['super-admin', 'admin.roles.destroy'],
-  },
-
-  // paises: {
-  //   index: ['super-admin', 'admin.countries.index'],
-  //   show: ['super-admin', 'admin.countries.show'],
-  //   create: ['super-admin', 'admin.countries.create'],
-  //   edit: ['super-admin', 'admin.countries.edit'],
-  //   delete: ['super-admin', 'admin.countries.destroy'],
+// const permission_module_AD = {
+  // roles: {
+  //   index: ['super-admin', 'admin.roles.index'],
+  //   show: ['super-admin', 'admin.roles.show'],
+  //   create: ['super-admin', 'admin.roles.create'],
+  //   edit: ['super-admin', 'admin.roles.edit'],
+  //   delete: ['super-admin', 'admin.roles.destroy'],
   // },
 
+ 
   // cities: {
   //   index: ['super-admin', 'admin.countries.cities.index'],
   //   show: ['super-admin', 'admin.countries.cities.show'],
@@ -61,39 +50,39 @@ const permission_module_AD = {
   //   delete: ['super-admin', 'ml.accounts.destroy'],
   // },
 
-  facebook_ads_manager: {
-    index: ['super-admin', 'admin.facebook-ads.ads.index'],
-    show: ['super-admin', 'admin.facebook-ads.ads.show'],
-    create: ['super-admin', 'admin.facebook-ads.ads.create'],
-    edit: ['super-admin', 'admin.facebook-ads.ads.edit'],
-    delete: ['super-admin', 'admin.facebook-ads.ads.destroy'],
-  },
+  // facebook_ads_manager: {
+  //   index: ['super-admin', 'admin.facebook-ads.ads.index'],
+  //   show: ['super-admin', 'admin.facebook-ads.ads.show'],
+  //   create: ['super-admin', 'admin.facebook-ads.ads.create'],
+  //   edit: ['super-admin', 'admin.facebook-ads.ads.edit'],
+  //   delete: ['super-admin', 'admin.facebook-ads.ads.destroy'],
+  // },
 
-  vtex_warehouses: {
-    index: ['super-admin', 'admin.vtex.warehouses.index'],
-    show: ['super-admin', 'admin.vtex.warehouses.show'],
-    create: ['super-admin', 'admin.vtex.warehouses.create'],
-    edit: ['super-admin', 'admin.vtex.warehouses.edit'],
-    delete: ['super-admin', 'admin.vtex.warehouses.destroy'],
-  },
-  vtex_sites: {
-    index: ['super-admin', 'admin.vtex.sites.index'],
-    show: ['super-admin', 'admin.vtex.sites.show'],
-    create: ['super-admin', 'admin.vtex.sites.create'],
-    edit: ['super-admin', 'admin.vtex.sites.edit'],
-    delete: ['super-admin', 'admin.vtex.sites.destroy'],
-  },
-  companies: {
-    index: ['super-admin', 'admin.companies.index'],
-    show: ['super-admin', 'admin.companies.show'],
-    create: ['super-admin', 'admin.companies.create'],
-    edit: ['super-admin', 'admin.companies.edit'],
-    delete: ['super-admin', 'admin.companies.destroy'],
-  },
-  permission: {
-    index: ['super-admin', 'admin.permission.index'],
-  }
-};
+  // vtex_warehouses: {
+  //   index: ['super-admin', 'admin.vtex.warehouses.index'],
+  //   show: ['super-admin', 'admin.vtex.warehouses.show'],
+  //   create: ['super-admin', 'admin.vtex.warehouses.create'],
+  //   edit: ['super-admin', 'admin.vtex.warehouses.edit'],
+  //   delete: ['super-admin', 'admin.vtex.warehouses.destroy'],
+  // },
+  // vtex_sites: {
+  //   index: ['super-admin', 'admin.vtex.sites.index'],
+  //   show: ['super-admin', 'admin.vtex.sites.show'],
+  //   create: ['super-admin', 'admin.vtex.sites.create'],
+  //   edit: ['super-admin', 'admin.vtex.sites.edit'],
+  //   delete: ['super-admin', 'admin.vtex.sites.destroy'],
+  // },
+  // companies: {
+  //   index: ['super-admin', 'admin.companies.index'],
+  //   show: ['super-admin', 'admin.companies.show'],
+  //   create: ['super-admin', 'admin.companies.create'],
+  //   edit: ['super-admin', 'admin.companies.edit'],
+  //   delete: ['super-admin', 'admin.companies.destroy'],
+  // },
+  // permission: {
+  //   index: ['super-admin', 'admin.permission.index'],
+  // }
+// };
 
 
 const routes: Routes = [
@@ -106,166 +95,16 @@ const routes: Routes = [
   {
     path: 'people',
     loadChildren: () => import('./people/people.module').then(m => m.PeopleModule),
-    // component: ADPersonasMainComponents,
-    // children: [
-    //   {
-    //     path: '',
-    //     component: IndexPeopleComponent,
-    //     data: {
-    //       permissions: {
-    //         only: PERMISSION_PEOPLE.,
-    //       },
-    //     },
-    //     canActivate: [NgxPermissionsGuard],
-    //   },
-    //   {
-    //     path: 'create',
-    //     component: CreateOrEditPersonComponent,
-    //     data: {
-    //       isEdit: false,
-    //       permissions: {
-    //         only: permission_module_AD.personas.create,
-    //       },
-    //     },
-    //     canActivate: [NgxPermissionsGuard],
-    //   },
-    //   {
-    //     path: 'edit/:id',
-    //     component: CreateOrEditPersonComponent,
-    //     data: {
-    //       isEdit: true,
-    //       permissions: {
-    //         only: permission_module_AD.personas.edit,
-    //       },
-    //     },
-    //     canActivate: [NgxPermissionsGuard],
-    //   },
-    // ],
-    // data: {
-    //   permissions: {
-    //     only: permission_module_AD.personas.index,
-    //   },
-    // },
-    // canActivate: [NgxPermissionsGuard],
   },
-  // roles
   {
     path: 'roles',
-    // component: ADRolesMainComponents,
-    children: [
-      {
-        path: '',
-        component: RolesComponent,
-        data: {
-          permissions: {
-            all: permission_module_AD.roles,
-            only: permission_module_AD.roles.index,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'create',
-        component: CreateOrEditRolesComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: permission_module_AD.roles.create,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'edit/:id',
-        component: CreateOrEditRolesComponent,
-        data: {
-          isEdit: true,
-          permissions: {
-            only: permission_module_AD.roles.edit,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-    ],
-    data: {
-      permissions: {
-        only: permission_module_AD.roles.index,
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
+    loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule),
   },
-
   // paises
   {
     path: 'paises',
     loadChildren: () => import('./countries/countries.module').then(m => m.CountriesModule),
-    // children: [
-    //   {
-    //     path: '',
-    //     component: PaisesComponent,
-    //     data: {
-    //       permissions: {
-    //         only: permission_module_AD.paises.index,
-    //       },
-    //     },
-    //     canActivate: [NgxPermissionsGuard],
-    //   },
-    //   {
-    //     path: ':country_id/ciudades',
-    //     children: [
-    //       {
-    //         path: '',
-    //         component: CitiesIndexComponent,
-    //         data: {
-    //           permissions: {
-    //             only: permission_module_AD.cities.index,
-    //           },
-    //         },
-    //         canActivate: [NgxPermissionsGuard],
-    //       },
-    //       {
-    //         path: 'create',
-    //         component: CitiesIndexComponent,
-    //         data: {
-    //           permissions: {
-    //             only: permission_module_AD.cities.index,
-    //           },
-    //         },
-    //         canActivate: [NgxPermissionsGuard],
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     path: 'create',
-    //     component: CreateOrEditRolesComponent,
-    //     data: {
-    //       isEdit: false,
-    //       permissions: {
-    //         only: permission_module_AD.paises.create,
-    //       },
-    //     },
-    //     canActivate: [NgxPermissionsGuard],
-    //   },
-    //   {
-    //     path: 'edit/:id',
-    //     component: CreateOrEditRolesComponent,
-    //     data: {
-    //       isEdit: true,
-    //       permissions: {
-    //         only: permission_module_AD.paises.edit,
-    //       },
-    //     },
-    //     canActivate: [NgxPermissionsGuard],
-    //   },
-    // ],
-    // data: {
-    //   permissions: {
-    //     only: permission_module_AD.paises.index,
-    //   },
-    // },
-    // canActivate: [NgxPermissionsGuard],
   },
-
   // locaciones
   {
     path: 'locations',
@@ -278,97 +117,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./workspaces-orders/workspaces-orders.module').then((m) => m.WorkspacesOrdersModule),
   },
-  // {
-  //   path: 'locaciones',
-  //   // component: ADLocationsMainComponents,
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: LocacionesComponent,
-  //       data: {
-  //         permissions: {
-  //           only: permission_module_AD.location.index,
-  //         },
-  //       },
-  //       canActivate: [NgxPermissionsGuard],
-  //     },
-  //     {
-  //       path: 'create',
-  //       component: CreateOrEditLocationComponent,
-  //       data: {
-  //         isEdit: false,
-  //         permissions: {
-  //           only: permission_module_AD.location.create,
-  //         },
-  //       },
-  //       canActivate: [NgxPermissionsGuard],
-  //     },
-  //     {
-  //       path: 'edit/:id',
-  //       component: CreateOrEditLocationComponent,
-  //       data: {
-  //         isEdit: true,
-  //         permissions: {
-  //           only: permission_module_AD.location.edit,
-  //         },
-  //       },
-  //       canActivate: [NgxPermissionsGuard],
-  //     },
-  //   ],
-  //   data: {
-  //     permissions: {
-  //       only: permission_module_AD.location.index,
-  //     },
-  //   },
-  //   canActivate: [NgxPermissionsGuard],
-  // },
-
-  // mercado libre admin
-  // {
-  //   path: 'mercado-libre/cuentas',
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: MercadoLibreAdminComponent,
-  //       data: {
-  //         permissions: {
-  //           all: permission_module_AD.mercado_libre,
-  //           only: permission_module_AD.mercado_libre.index,
-  //         },
-  //       },
-  //       canActivate: [NgxPermissionsGuard],
-  //     },
-  //     {
-  //       path: 'create',
-  //       component: MercadoLibreCreateOrEditComponent,
-  //       data: {
-  //         isEdit: false,
-  //         permissions: {
-  //           only: permission_module_AD.mercado_libre.create,
-  //         },
-  //       },
-  //       canActivate: [NgxPermissionsGuard],
-  //     },
-
-  //     {
-  //       path: 'edit/:id',
-  //       component: MercadoLibreCreateOrEditComponent,
-  //       data: {
-  //         isEdit: true,
-  //         permissions: {
-  //           only: permission_module_AD.mercado_libre.edit,
-  //         },
-  //       },
-  //       canActivate: [NgxPermissionsGuard],
-  //     },
-  //   ],
-  //   data: {
-  //     permissions: {
-  //       only: permission_module_AD.mercado_libre.index,
-  //     },
-  //   },
-  //   canActivate: [NgxPermissionsGuard],
-  // },
+  
   // mercado libre admin
   {
     path: 'mercado-libre/accounts',
@@ -425,93 +174,7 @@ const routes: Routes = [
   // Vtex Sites
   {
     path: 'vtex-sites',
-    children: [
-      {
-        path: '',
-        component: VtexSitesComponent,
-        data: {
-          permissions: {
-            all: permission_module_AD.vtex_sites,
-            only: permission_module_AD.vtex_sites.index,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'create',
-        component: CreateOrEditVtexSiteComponent,
-        data: {
-          isEdit: false,
-          permissions: {
-            only: permission_module_AD.vtex_sites.create,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-
-      {
-        path: 'edit/:id',
-        component: CreateOrEditVtexSiteComponent,
-        data: {
-          isEdit: true,
-          permissions: {
-            only: permission_module_AD.vtex_sites.edit,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-      // Vtex Warehouse
-      {
-        path: ':id/vtex-warehouses',
-        children: [
-          {
-            path: '',
-            component: VtexWarehousesComponent,
-            data: {
-              permissions: {
-                all: permission_module_AD.vtex_warehouses,
-                only: permission_module_AD.vtex_warehouses.index,
-              },
-            },
-            canActivate: [NgxPermissionsGuard],
-          },
-          {
-            path: 'create',
-            component: CreateOrEditVtexWarehousesComponent,
-            data: {
-              isEdit: false,
-              permissions: {
-                only: permission_module_AD.vtex_warehouses.create,
-              },
-            },
-            canActivate: [NgxPermissionsGuard],
-          },
-          {
-            path: 'edit/:id',
-            component: CreateOrEditVtexWarehousesComponent,
-            data: {
-              isEdit: true,
-              permissions: {
-                only: permission_module_AD.vtex_warehouses.edit,
-              },
-            },
-            canActivate: [NgxPermissionsGuard],
-          },
-        ],
-        data: {
-          permissions: {
-            only: permission_module_AD.vtex_warehouses.index,
-          },
-        },
-        canActivate: [NgxPermissionsGuard],
-      },
-    ],
-    data: {
-      permissions: {
-        only: permission_module_AD.vtex_sites.index,
-      },
-    },
-    canActivate: [NgxPermissionsGuard],
+    loadChildren: () => import('./vtex-sites/vtex-sites.module').then(m => m.VtexSitesModule),
   },
   // companies
   {

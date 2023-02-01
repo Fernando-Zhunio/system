@@ -1,3 +1,4 @@
+import { NgxSearchBarPaginatorComponent } from './../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users.routing';
@@ -18,15 +19,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { SearchPersonDialogComponent } from './components/search-person-dialog/search-person-dialog.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatChipsModule } from '@angular/material/chips';
-import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
-import { JoinPipe } from '../../../shared/pipes/join.pipe';
+// import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
+// import { JoinPipe } from '../../../shared/pipes/join.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     UsersRoutingModule,
-    // SearchesModule,
-    // SearchTemplateModule,
     MatTableModule,
     MomentModule,
     MatCardModule,
@@ -40,8 +39,9 @@ import { JoinPipe } from '../../../shared/pipes/join.pipe';
     MatButtonModule,
     NgxPermissionsModule,
     MatChipsModule,
-    SearchTemplateTableComponent,
-    JoinPipe
+    // SearchTemplateTableComponent,
+    // JoinPipe,
+    NgxSearchBarPaginatorComponent,
   ],
   declarations: [UsersIndexComponent, CreateOrEditUserComponent, SearchPersonDialogComponent]
 })

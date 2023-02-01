@@ -17,7 +17,6 @@ export abstract class CreateOrEdit2<T> {
     public key_param = 'id';
     protected location: Location;
     public abstract title: string;
-    protected isDialog: boolean = false;
     protected isEdit: boolean = false;
     public abstract urlSave;
     protected abstract act_router: ActivatedRoute;
@@ -27,14 +26,10 @@ export abstract class CreateOrEdit2<T> {
     }
 
     init(loadCreate: boolean = true) {
-        if(this.isDialog){
+        this.act_router.data.subscribe(data => {
+            this.isEdit = data['isEdit'];
             this.loaderDataInit(this.isEdit, loadCreate);
-        } else{
-            this.act_router.data.subscribe(data => {
-                this.isEdit = data['isEdit'];
-                this.loaderDataInit(this.isEdit, loadCreate);
-            });
-        }
+        });
     }
 
     loaderDataInit(isEdit: boolean, loadCreate: boolean): void {
@@ -91,25 +86,26 @@ export abstract class CreateOrEdit2<T> {
     }
 
     saveInServer() {
-        const data_send = this.getDataForSendServer();
-        if (data_send) {
+        const dataSend = this.getDataForSendServer();
+        if (dataSend) {
             this.isLoading = true;
             let url = this.generateUrl();
             let observable: Observable<any>;
             if (this.status === 'edit') {
                 url += `/${this.getId()}`;
-                observable = this.methodsHttp.methodPut(url, data_send);
+                observable = this.methodsHttp.methodPut(url, dataSend);
             } else {
-                observable = this.methodsHttp.methodPost(url, data_send);
+                observable = this.methodsHttp.methodPost(url, dataSend);
             }
-            observable.subscribe(data => {
-                this.isLoading = false;
-                this.go(data?.data);
-            }, error => {
-                console.error(error);
-                this.isLoading = false;
+            observable.subscribe({
+                next: (data) => {
+                    this.isLoading = false;
+                    this.go(data?.data);
+                }, error: (err) => {
+                    console.error(err);
+                    this.isLoading = false;
+                }
             });
-            return;
         }
     }
 

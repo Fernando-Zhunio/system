@@ -4,6 +4,8 @@ import { MatTable } from '@angular/material/table';
 import { Permission_categories } from '../../../../../class/permissions-modules';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
+import { StatusCreateOrEdit } from '../../../../../shared/enums/status-create-or-edit';
+import { CreateOrEditDialogData } from '../../../../../shared/interfaces/create-or-edit-dialog-data';
 import { CategoriesCreateOrEditComponent } from '../categories-create-or-edit/categories-create-or-edit.component';
 
 @Component({
@@ -14,9 +16,9 @@ import { CategoriesCreateOrEditComponent } from '../categories-create-or-edit/ca
 export class CategoriesIndexComponent extends MatTableHelper<any> {
   protected columnsToDisplay: string[] = ['id', 'name', 'code', 'products_count', 'actions'];
   protected url: string = 'products-admin/categories';
-  
+
   @ViewChild(MatTable) table: MatTable<any>;
-  
+
 
   constructor(protected mhs: MethodsHttpService, private dialog: MatDialog) {
     super();
@@ -24,60 +26,27 @@ export class CategoriesIndexComponent extends MatTableHelper<any> {
 
   permissions = Permission_categories.categories;
 
-  createOrEdit(isEdit = true, id =null ): void {
+  createOrEdit(id: number | null = null): void {
+    const data: CreateOrEditDialogData = {
+      status: id ? StatusCreateOrEdit.Edit : StatusCreateOrEdit.Create,
+    }
+    if (id) {
+      data.id = id;
+      data.info = this.dataSource.find((item) => item.id === id);
+    }
+
     this.dialog.open(CategoriesCreateOrEditComponent, {
-      data: {id, isEdit},
+      data,
       disableClose: true,
     }).beforeClosed().subscribe((data) => {
-      if (data) {
-        if(isEdit) {
-        this.updateItemInTable(data.id, data);
-        } else {
-          this.addItemInTable(data);
-        }
+      if (!data) {
+        return;
+      }
+      if (id) {
+        this.updateItemInTable(id, data.sendData);
+      } else {
+        this.addItemInTable(data.response.data);
       }
     });
   }
-
-  // destroyCategory(id): void {
-  //   const index = this.categories.findIndex((x) => x.id === id);
-  //   const swalWithBootstrapButtons = Swal.mixin({
-  //     customClass: {
-  //       confirmButton: 'btn btn-success mr-1',
-  //       cancelButton: 'btn btn-danger',
-  //     },
-  //     buttonsStyling: false,
-  //   });
-
-  //   swalWithBootstrapButtons
-  //     .fire({
-  //       title: 'Seguro que quieres eliminar esta Categoria ?',
-  //       text: this.categories[index].name,
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonText: 'Si, eliminar!',
-  //       cancelButtonText: 'No, cancelar!',
-  //       // reverseButtons: true
-  //     })
-  //     .then((result) => {
-  //       if (result.isConfirmed) {
-  //         this.methodsHttp.methodDelete('products-admin/categories/'+id).subscribe(() => {
-  //           if (index != -1) { this.categories.splice(index, 1); }
-  //           swalWithBootstrapButtons.fire(
-  //             'Eliminado!',
-  //             'Eliminado con éxito.',
-  //             'success'
-  //           );
-  //         });
-  //       } else if (
-  //         result.dismiss === Swal.DismissReason.cancel
-  //       ) {
-  //         swalWithBootstrapButtons.fire(
-  //           'Cancelled',
-  //           'Tu acción a sido cancelada :)',
-  //           'error'
-  //         );
-  //       }
-  //     });
-  // }
 }

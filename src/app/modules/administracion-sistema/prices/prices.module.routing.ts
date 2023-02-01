@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { CreateOrEditPriceGroupComponent } from './create-or-edit-price-group/create-or-edit-price-group.component';
-import { PricesGroupIndexComponent } from './prices-group-index/prices-group-index.component';
+import { CreateOrEditPriceGroupComponent } from './pages/create-or-edit-price-group/create-or-edit-price-group.component';
+import { IndexPricesGroupComponent } from './pages/index-prices-group/index-prices-group.component';
 
 
 const permisos = {
@@ -21,7 +21,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: PricesGroupIndexComponent,
+        component: IndexPricesGroupComponent,
         data: {
           permissions: {
             only: permisos.prices_group.index,

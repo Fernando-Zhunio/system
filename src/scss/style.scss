@@ -16,11 +16,11 @@
 .img-zoom {
   position: fixed;
   z-index: 1000;
-  width: 100vw !important;
+  width: 100% !important;
   top: 0;
   right: 0;
   padding: 20px;
-  height: 100vh !important;
+  height: 100% !important;
   background: #f0f8ff57;
   object-fit: contain !important;
   transition-property: top;
@@ -43,10 +43,11 @@ mat-card {
 }
 
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .app,

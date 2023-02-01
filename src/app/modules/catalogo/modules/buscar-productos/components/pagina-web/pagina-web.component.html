@@ -9,17 +9,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let sku of skus">
         <td>
           {{ sku.vtex_product_id }}
         </td>
         <td>
-          <a [href]="sku.vtex_product?.link" target="_blank">
-            <img class="img-product" [src]="sku.images[0].ImageUrl || 'assets/not.png'" alt="" />
-          </a>
+          <div style="width: 50px; height: 50px;">
+            <img (click)="zoom($event)" width="50" height="50" class="img-product" [ngSrc]="sku.images[0].ImageUrl || 'assets/not.png'" alt="" />
+          </div>
         </td>
         <td>
-          {{ sku.name }}
+          <a [href]="sku.vtex_product?.link" target="_blank">
+            {{ sku.name }}
+          </a>
         </td>
         <td>
           {{ sku.created_at | amLocale : "es" | amTimeAgo }}

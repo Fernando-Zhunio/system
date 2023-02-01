@@ -5,15 +5,15 @@ import { StatusCreateOrEdit } from "../enums/status-create-or-edit";
 import { CreateOrEditDialogData } from "../interfaces/create-or-edit-dialog-data";
 import { ResponseApi } from "../interfaces/response-api";
 
-export abstract class CreateOrEditDialog<T= any, R= any> {
-    
+export abstract class CreateOrEditDialog<T = any, R = any> {
+
     public status: StatusCreateOrEdit = StatusCreateOrEdit.Create;
 
     protected abstract title: string;
     protected abstract path: string;
     protected abstract methodHttp: MethodsHttpService;
     protected abstract form: FormGroup;
-    protected abstract dialogRef: MatDialogRef<T, {response: ResponseApi<R>, sendData: R}>
+    protected abstract dialogRef: MatDialogRef<T, { response: ResponseApi<R>, sendData: R }>
     protected abstract createOrEditData: CreateOrEditDialogData
     isLoading: boolean = false;
     constructor() { }
@@ -30,23 +30,23 @@ export abstract class CreateOrEditDialog<T= any, R= any> {
     }
 
     public generatePathGet(): string {
-        return this.status == StatusCreateOrEdit.Create ? `${this.path}/create`  : `${this.path}/${this.createOrEditData.id}/edit`;
+        return this.status == StatusCreateOrEdit.Create ? `${this.path}/create` : `${this.path}/${this.createOrEditData.id}/edit`;
     }
 
     public loadData(path: string): void {
         this.isLoading = true;
         this.methodHttp.methodGet(path)
-        .subscribe(
-            {
-                next: (data: any) => {
-                    this.setData(data.data);
-                    this.isLoading = false;
-                },
-                error: () => {
-                    this.isLoading = false;
+            .subscribe(
+                {
+                    next: (data: any) => {
+                        this.setData(data.data);
+                        this.isLoading = false;
+                    },
+                    error: () => {
+                        this.isLoading = false;
+                    }
                 }
-            }
-        );
+            );
     }
 
     setData(data: any): void {
@@ -66,22 +66,25 @@ export abstract class CreateOrEditDialog<T= any, R= any> {
     }
 
     saveInServer(): void {
-        if(!this.isFormValid()) {
+        if (!this.isFormValid()) {
             this.form.markAllAsTouched();
             return;
         }
         this.isLoading = true;
         if (this.status === StatusCreateOrEdit.Create) {
             this.methodHttp.methodPost(this.path, this.getData())
-            .subscribe(data => {
-                this.dialogRef.close({response:data, sendData: this.getData()});
-                this.isLoading = false;
-            }, () => {
-                this.isLoading = false;
-            });
+                .subscribe(
+                    {
+                        next: data => {
+                            this.dialogRef.close({ response: data, sendData: this.getData() });
+                            this.isLoading = false;
+                        }, error: () => {
+                            this.isLoading = false;
+                        }
+                    });
         } else {
             this.methodHttp.methodPut(`${this.path}/${this.createOrEditData.id}`, this.getData()).subscribe(data => {
-                this.dialogRef.close({response:data, sendData: this.getData()});
+                this.dialogRef.close({ response: data, sendData: this.getData() });
                 this.isLoading = false;
             }, () => {
                 this.isLoading = false;

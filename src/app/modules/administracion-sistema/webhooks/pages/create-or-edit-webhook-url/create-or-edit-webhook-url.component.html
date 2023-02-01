@@ -1,0 +1,22 @@
+<h2 class="font-4xl font-facebook list-group-item-accent-warning pl-2 mt-2 center justify-content-start"><button mat-mini-fab (click)="goBack()" class="mr-2"><mat-icon>arrow_back</mat-icon></button> {{title}}</h2>
+
+<mat-card class="shadow border-0 rounded-fz">
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="saveInServer()" class="row">
+            <div class="col-md-6 col-12 order-md-1 order-2 border-right">
+                <mat-form-field class="w-100">
+                    <input matInput placeholder="Url webhook" formControlName="url">
+                </mat-form-field>
+                <button mat-raised-button type="submit" color="primary" [disabled]="isLoading">Guardar <mat-icon>save</mat-icon></button>
+            </div>
+            <div class="col-md-6 col-12 order-md-2 order-1">
+                <h3 class="font-3xl font-facebook my-0">Tipos de suscripciones</h3>
+                <mat-selection-list formControlName="suscriptions" class="w-100">
+                    <mat-list-option [value]="type.value" *ngFor="let type of types">
+                        {{type.name}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

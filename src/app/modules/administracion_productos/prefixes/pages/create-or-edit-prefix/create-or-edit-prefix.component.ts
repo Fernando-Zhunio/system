@@ -3,31 +3,26 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
+// import { ActivatedRoute, Router } from '@angular/router';
+// import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
-import { Prefix } from '../../interfaces/prefix';
+import { CreateOrEditDialog } from '../../../../../shared/class/create-or-edit-dialog';
+import { CreateOrEditDialogData } from '../../../../../shared/interfaces/create-or-edit-dialog-data';
 
 @Component({
   selector: 'app-create-or-edit-prefix',
   templateUrl: './create-or-edit-prefix.component.html',
   styleUrls: ['./create-or-edit-prefix.component.css'],
 })
-export class CreateOrEditPrefixComponent extends CreateOrEdit2<any> implements OnInit {
-
+export class CreateOrEditPrefixComponent extends CreateOrEditDialog implements OnInit {
+  protected path: string = 'products-admin/prefixes';
   public title: string = 'Marca ';
-  public urlSave: any = 'products-admin/prefixes';
-  override isEdit: boolean = false;
-  override isDialog: boolean = true;
   constructor(
-    protected router: Router,
-    protected methodsHttp: MethodsHttpService,
-    protected act_router: ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public info: {id: string, isEdit},
-    private dialogRef: MatDialogRef<CreateOrEditPrefixComponent>
+    protected methodHttp: MethodsHttpService,
+    @Inject(MAT_DIALOG_DATA) protected createOrEditData: CreateOrEditDialogData,
+    protected dialogRef: MatDialogRef<CreateOrEditPrefixComponent>
   ) {
     super();
-    this.isEdit = info.isEdit;
   }
 
   override form: FormGroup = new FormGroup({
@@ -36,21 +31,18 @@ export class CreateOrEditPrefixComponent extends CreateOrEdit2<any> implements O
   });
 
   ngOnInit(): void {
-    this.init(false);
+    this.init();
   }
 
-  override getId(): any {
-    return this.info.id;
+  override loadData(_path: string): void {
+    this.setData(this.createOrEditData.info);
   }
 
-  override setData(data?:{prefix: Prefix}): void {
-    this.form.patchValue({
-      type: data?.prefix.type,
-      prefix: data?.prefix.prefix,
-    });
-  }
+  // override setData(data?:{prefix: Prefix}): void {
+  //   this.form.patchValue({
+  //     type: data?.prefix.type,
+  //     prefix: data?.prefix.prefix,
+  //   });
+  // }
 
-  override go(data?: null): void {
-    this.dialogRef.close(data);
-  }
 }
