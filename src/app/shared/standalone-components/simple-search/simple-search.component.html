@@ -1,3 +1,75 @@
-<p>
-  simple-search works!
-</p>
+<div class="container-search-products center">
+  <div  class="col-md-{{dialogData.columns || 5}} col-10 content-search main-style">
+    <ngx-search-bar
+      [isBarExpand]="true"
+      @fade
+      (data)="getData($event)"
+      [placeholder]="dialogData.placeholder || 'Buscador'"
+      [path]="dialogData.path">
+      <button buttons (click)="closeClean()" color="warn" mat-icon-button>
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+      <button *ngIf="dialogData?.isMultiSelection && itemsSelected.size > 0" buttons (click)="close()" class="text-success" mat-icon-button>
+        <i class="fa-solid fa-check"></i>
+      </button>
+
+    </ngx-search-bar>
+    <div class="row">
+      <div [ngClass]="{ 'col-md-6': dialogData?.isMultiSelection }" class="section-data col-12 px-3">
+        <div *ngFor="let product of items | keyvalue">
+          <div class="item-product my-3">
+            <div class="d-flex align-items-center">
+              <ng-template #defaultTemplate let-products>
+                <img
+                  class="img-product mr-2"
+                  [src]="product.value.image || 'assets/img/img_not_available.png'"
+                  alt="product image" />
+                <h3 class="m-0">
+                  <span class="text-danger"># {{ product.value.code }}</span>
+                  {{ product.value.name }}
+                </h3>
+              </ng-template>
+              <ng-container
+                [ngTemplateOutlet]="optionTemplate || defaultTemplate"
+                [ngTemplateOutletContext]="{ $implicit: product }"></ng-container>
+            </div>
+            <button
+              (click)="addItem(product.key)"
+              *ngIf="!itemsSelected.has(product.key);"
+              color="primary"
+              mat-icon-button>
+              <i class="fa-solid fa-check"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="dialogData?.isMultiSelection" class="col-md-6  border-left">
+        <h3 class="font-2xl font-weight-bold m-0 ng-tns-c329-19 text-muted">Seleccionados</h3>
+        <div class="section-data">
+          <div *ngFor="let product of itemsSelected | keyvalue">
+            <div class="item-product my-3">
+              <div class="d-flex align-items-center">
+                <ng-template #defaultTemplate let-products>
+                  <img
+                    class="img-product mr-2"
+                    [src]="product.value.image || 'assets/img/img_not_available.png'"
+                    alt="product image" />
+                  <h3 class="m-0">
+                    <span class="text-danger"># {{ product.value.code }}</span>
+                    {{ product.value.name }}
+                  </h3>
+                </ng-template>
+                <ng-container
+                  [ngTemplateOutlet]="optionTemplate || defaultTemplate"
+                  [ngTemplateOutletContext]="{ $implicit: product }"></ng-container>
+              </div>
+              <button (click)="removeItem(product.key)" color="warn" mat-icon-button>
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

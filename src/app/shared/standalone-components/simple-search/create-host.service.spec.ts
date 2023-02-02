@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { CreateHostService } from './create-host.service';
+import { SimpleSearchSelectorService } from './simple-search-selector.service';
 
 describe('Service: CreateHost', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CreateHostService]
+      providers: [SimpleSearchSelectorService]
     });
   });
 
-  it('should ...', inject([CreateHostService], (service: CreateHostService) => {
+  it('should ...', inject([SimpleSearchSelectorService], (service: SimpleSearchSelectorService) => {
     expect(service).toBeTruthy();
   }));
 });

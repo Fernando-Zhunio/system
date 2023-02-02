@@ -16,10 +16,10 @@ import { Promotion } from '../../interfaces/promotion';
 
 @Component({
   selector: 'app-promotion-index',
-  templateUrl: './promotion-index.component.html',
-  styleUrls: ['./promotion-index.component.scss']
+  templateUrl: './index-promotions.component.html',
+  styleUrls: ['./index-promotions.component.scss']
 })
-export class PromotionIndexComponent extends MatTableHelper<Promotion> implements OnInit {
+export class IndexPromotionsComponent extends MatTableHelper<Promotion> implements OnInit {
   @ViewChild(MatTable) table: MatTable<Promotion>;
   url: string;
   campaignId: string;

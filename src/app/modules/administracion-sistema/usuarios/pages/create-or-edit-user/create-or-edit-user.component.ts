@@ -8,7 +8,7 @@ import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
 import { LINK_IMAGE_LETTER } from '../../../../../class/fast-data';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../services/swal.service';
-import { CreateHostService } from '../../../../../shared/services/create-host.service';
+import { SimpleSearchSelectorService } from '../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { SearchPersonDialogComponent } from '../../components/search-person-dialog/search-person-dialog.component';
 import { Person } from '../../interfaces/user';
 
@@ -32,7 +32,7 @@ export class CreateOrEditUserComponent extends CreateOrEdit2<any> implements OnI
     // private ngx_spinner: NgxSpinnerService,
     public router: Router,
     public override location: Location,
-    private chs: CreateHostService
+    private chs: SimpleSearchSelectorService
   ) {
     super();
   }
@@ -65,7 +65,7 @@ export class CreateOrEditUserComponent extends CreateOrEdit2<any> implements OnI
   // }
 
   openSearchPerson(): void {
-    this.chs.injectComponent(SearchPersonDialogComponent).beforeClose().subscribe((res) => {
+    this.chs.openDialog(SearchPersonDialogComponent).beforeClose().subscribe((res) => {
       if (res) {
         this.selectedPerson(res.data);
       }

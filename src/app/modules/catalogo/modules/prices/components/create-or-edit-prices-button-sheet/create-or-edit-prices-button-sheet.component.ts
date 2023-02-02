@@ -1,15 +1,16 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { TemplateRef } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
-import { CreateHostService } from '../../../../../../shared/services/create-host.service';
+import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { CreateOrEditImportModalComponent } from '../../../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
 import { Import } from '../../../imports/interfaces/imports';
 import { Price, ProductPrice } from '../../interfaces/price';
 import { PriceGroup } from '../../interfaces/price-group';
 import { PRICE_ROUTE_API_GROUP_PRICE, PRICE_PRODUCT_ROUTE_API_STORE_OR_SHOW } from '../../routes-api/prices-routes-api';
-import { SearchImportDialogComponent } from '../search-import-dialog/search-import-dialog.component';
+// import { SearchImportDialogComponent } from '../search-import-dialog/search-import-dialog.component';
 
 interface Data {
   pricesGroups: PriceGroup[];
@@ -23,13 +24,14 @@ interface Data {
 })
 export class CreateOrEditPricesButtonSheetComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private chs: CreateHostService, private btnSheetRef: MatBottomSheetRef<CreateOrEditPricesButtonSheetComponent>, private mhs: MethodsHttpService, @Inject(MAT_BOTTOM_SHEET_DATA) public externalData: Data) { }
+  constructor(private dialog: MatDialog, private chs: SimpleSearchSelectorService, private btnSheetRef: MatBottomSheetRef<CreateOrEditPricesButtonSheetComponent>, private mhs: MethodsHttpService, @Inject(MAT_BOTTOM_SHEET_DATA) public externalData: Data) { }
 
   title: string = 'Agregando precios';
   form: FormGroup = new FormGroup({
     import_id: new FormControl(null, [Validators.required]),
     import_code: new FormControl({value: '', disabled: true}),
   });
+ @ViewChild('searchImportTemplate') searchImportTemplate: TemplateRef<any>;
   pricesGroups: PriceGroup[] = [];
   isLoading: boolean = false;
   ngOnInit() {
@@ -121,7 +123,11 @@ export class CreateOrEditPricesButtonSheetComponent implements OnInit {
   }
 
   openSearchImportDialog(): void {
-    this.chs.injectComponent<Import>(SearchImportDialogComponent)
+    this.chs.openDialogSelector({
+      path: 'catalogs/imports',
+      isMultiSelection: false,
+      itemTemplateRef: this.searchImportTemplate,
+    })
     .beforeClose().subscribe((res) => {
       if (res?.data) {
         this.setInputImport(res.data);

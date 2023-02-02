@@ -3,8 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CountdownConfig } from 'ngx-countdown';
 import { Session } from '../../../../clases/session';
-// import { User } from '../../../clases/user';
-// import { Iuser } from '../../../interfaces/inotification';
 import { StandartSearchService } from '../../../../services/standart-search.service';
 import { StorageService } from '../../../../services/storage.service';
 import { SwalService } from '../../../../services/swal.service';
@@ -69,10 +67,10 @@ export class TwoFAComponent implements OnInit {
   }
 
   fillInputs(code: string): void {
-    let i = 0 ;
+    let i = 0;
     code.split('').forEach((char) => {
       const input = this.inputs.get(i);
-      if(input) {
+      if (input) {
         input.nativeElement.value = char;
       }
       i++;
@@ -82,7 +80,7 @@ export class TwoFAComponent implements OnInit {
       if (input) {
         input.nativeElement.focus();
       }
-    },2000)
+    }, 2000)
   }
 
   initializeInputs(): void {
@@ -101,13 +99,13 @@ export class TwoFAComponent implements OnInit {
 
   inputKeyDown(event, target, index): void {
     if (event.key === 'Backspace') {
-     if (target.value === '') {
-      if (index != 0) {
-        this.inputs.get(index - 1)?.nativeElement.focus();
-      } else {
-        target.value = '';
+      if (target.value === '') {
+        if (index != 0) {
+          this.inputs.get(index - 1)?.nativeElement.focus();
+        } else {
+          target.value = '';
+        }
       }
-     }
     } else if (event.key === "ArrowLeft" && index !== 0) {
       this.inputs.get(index - 1)?.nativeElement.focus();
     } else if (event.key === "ArrowRight" && index !== this.inputs.length - 1) {
@@ -129,38 +127,41 @@ export class TwoFAComponent implements OnInit {
     if (code.length === 6) {
       this.isLoading = true;
       this.s_standart
-        .methodPost('auth/email-two-factor/' + this.token, {code})
-        .subscribe((res) => {
-          if (res?.success) {
-            this.spinner.show('spinner-tf');
-            const session: Session = new Session();
-            session.token = res.data.access_token;
-            session.expires_at = res.data.expires_at;
-            session.token_type = res.data.token_type;
-            const {
-              id,
-              name,
-              email,
-              person
-            } = res.data.user;
-            session.user = {
-              id,
-              name,
-              email,
-              person
-            };
-            this.s_storage.setCurrentSession(session);
-            this.router.navigate(['/home/inicio']);
-          } else {
-            SwalService.swalToast(
-              'Error  verifique su contraseña o email',
-              'warning'
-            );
+        .methodPost('auth/email-two-factor/' + this.token, { code })
+        .subscribe({
+          next: (res) => {
+            if (res?.success) {
+              this.spinner.show('spinner-tf');
+              const session: Session = new Session();
+              session.token = res.data.access_token;
+              session.expires_at = res.data.expires_at;
+              session.token_type = res.data.token_type;
+              const {
+                id,
+                name,
+                email,
+                person
+              } = res.data.user;
+              session.user = {
+                id,
+                name,
+                email,
+                person
+              };
+              this.s_storage.setCurrentSession(session);
+              this.router.navigate(['/home/inicio']);
+            } else {
+              SwalService.swalToast(
+                'Error  verifique su contraseña o email',
+                'warning'
+              );
+            }
+            this.isLoading = false;
+          }, error: () => {
+            this.isLoading = false;
           }
-          this.isLoading = false;
-        }, () => {
-          this.isLoading = false;
-        });
+        }
+        );
     } else {
       SwalService.swalToast('Código incorrecto', 'warning');
     }

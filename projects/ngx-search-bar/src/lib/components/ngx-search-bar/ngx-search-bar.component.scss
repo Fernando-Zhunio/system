@@ -1,45 +1,49 @@
-.ngx-search-bar {
+.nsb {
   padding: 10px;
-  .title {
+  .nsb-title {
     padding: 0;
     margin: 0;
     padding-right: 10px;
   }
-  .bar {
-    .bar-container {
+  .nsb-bar {
+    .nsb-bar-container {
       display: flex;
       width: 100%;
       flex-wrap: wrap;
       align-items: center;
-      .bar-buttons {
+      .nsb-bar-buttons {
         display: flex;
         justify-content: flex-end;
         flex: auto;
         align-items: center;
-        .btn-filter {
-          border: none;
-          background-color: transparent;
-          outline: none;
-          height: 40px;
-          width: 40px;
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        padding-left: 10px;
+        // .btn-filter {
+        //   border: none;
+        //   background-color: transparent;
+        //   outline: none;
+        //   height: 40px;
+        //   width: 40px;
+        //   cursor: pointer;
+        //   display: flex;
+        //   justify-content: center;
+        //   align-items: center;
 
-          border-radius: 10px;
-          box-shadow: 1px 1px 6px #80808061;
-          background-color: #ececec;
-          margin-left: 5px;
-          svg {
-            height: 20px;
-            width: 20px;
-            // fill: #5c5b5b;
-          }
-        }
+        //   border-radius: 10px;
+        //   box-shadow: 1px 1px 6px #80808061;
+        //   background-color: #ececec;
+        //   margin-left: 5px;
+        //   svg {
+        //     height: 20px;
+        //     width: 20px;
+        //     // fill: #5c5b5b;
+        //   }
+        // }
       }
     }
-    .content-input-search {
+    .nsb-full-width {
+      flex-grow: 999;
+    }
+    .nsb-content-input-search {
       background-color: #ececec;
       border-radius: 8px;
       min-width: 300px;
@@ -47,7 +51,7 @@
       padding-right: 30px;
       position: relative;
       align-items: center;
-      .btn-search {
+      .nsb-btn-search {
         border: none;
         background-color: transparent;
         outline: none;
@@ -63,7 +67,7 @@
           fill: #5c5b5b;
         }
       }
-      .input-search {
+      .nsb-input-search {
         // height: 30px;
         border: none;
         padding: 5px 10px;
@@ -75,49 +79,49 @@
         outline: none;
         font-size: 15px;
       }
-      .spinner {
+      .nsb-spinner {
         width: 20px;
         height: 20px;
         position: absolute;
         right: 10px;
       }
-      .spinner::ng-deep circle {
+      .nsb-spinner::ng-deep circle {
         stroke: #a8a8a8;
       }
     }
   }
-  .params-container {
-    margin-top: 10px;
-    display: flex;
-    .values {
-      color: gray;
-    }
-  }
+  // .params-container {
+  //   margin-top: 10px;
+  //   display: flex;
+  //   .values {
+  //     color: gray;
+  //   }
+  // }
 
   @media (max-width: 768px) {
-    .title {
+    .nsb-title {
       width: 100%;
       text-align: center;
       padding-right: 0;
     }
-    .bar {
-      .content-input-search {
+    .nsb-bar {
+      .nsb-content-input-search {
         min-width: auto;
       }
     }
   }
-  .params-container {
-    width: 100%;
-    .mat-chip-list {
-      width: 100%;
-      ::ng-deep .mat-chip-list-wrapper {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        .mat-chip {
-          flex: 0 0 auto;
-        }
-      }
-    }
-  }
+  // .params-container {
+  //   width: 100%;
+  //   .mat-chip-list {
+  //     width: 100%;
+  //     ::ng-deep .mat-chip-list-wrapper {
+  //       display: flex;
+  //       flex-wrap: nowrap;
+  //       overflow-x: auto;
+  //       .mat-chip {
+  //         flex: 0 0 auto;
+  //       }
+  //     }
+  //   }
+  // }
 }

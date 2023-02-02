@@ -1,9 +1,9 @@
-<div class="ngx-search-bar">
-  <div class="bar">
-    <div class="bar-container">
-      <h1 class="title">{{ title }}</h1>
-      <div class="content-input-search">
-        <button class="btn-search" (click)="search()">
+<div class="nsb">
+  <div class="nsb-bar">
+    <div class="nsb-bar-container">
+      <h1 *ngIf="title" class="nsb-title">{{ title }}</h1>
+      <div [ngClass]="{'nsb-full-width': isBarExpand}" class="nsb-content-input-search">
+        <button class="nsb-btn-search" (click)="search()">
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -19,28 +19,13 @@
               ></path>
             </svg>
         </button>
-        <input [(ngModel)]="searchText" (keyup)="search($event)" [placeholder]="placeholder" autofocus class="input-search" type="text"  />
-        <mat-spinner *ngIf="isLoading" class="spinner" [diameter]="20"></mat-spinner>
+        <input [(ngModel)]="searchText" (keyup)="search($event)" [placeholder]="placeholder" autofocus class="nsb-input-search" type="text"  />
+        <mat-spinner *ngIf="isLoading" class="nsb-spinner" [diameter]="20"></mat-spinner>
       </div>
-      <div class="bar-buttons">
+      <div class="nsb-bar-buttons">
         <ng-content select="[buttons]"></ng-content>
         <ng-content select="ngx-search-bar-form-filter"></ng-content>
       </div>
     </div>
   </div>
-  <!-- <div *ngIf="withFilter" class="params-container">
-    <mat-chip-set class="d-flex">
-      <mat-chip
-        *ngFor="let queryParam of buttonsFilters | keyvalue"
-      >
-        {{ queryParam.value.friendlyName
-        }}<ng-container *ngIf="queryParam.value.value">
-          <span class="values">: {{ queryParam.value.value }}</span>
-        </ng-container>
-        <mat-icon matChipRemove (click)="removeQueryParam(queryParam.key)"
-          >cancel</mat-icon
-        >
-      </mat-chip>
-    </mat-chip-set>
-  </div> -->
 </div>

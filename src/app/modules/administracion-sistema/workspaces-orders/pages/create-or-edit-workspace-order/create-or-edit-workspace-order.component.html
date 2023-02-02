@@ -1,6 +1,6 @@
 <div>
   <div class="d-flex align-items-center my-3">
-   <button mat-mini-fab (click)="goBack()"><i class="fa-solid fa-chevron-left"></i></button><h1 class="m-0 ml-2">{{ title }}</h1>
+   <button mat-icon-button (click)="goBack()"><i class="fa-solid fa-chevron-left"></i></button><h1 class="m-0 ml-2">{{ title }}</h1>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="saveInServer()">
@@ -20,28 +20,28 @@
           </div>
           <div class="col-md-6">
             <div class="d-flex justify-content-between align-items-center">
-              <h2 class="m-0">Usuarios seleccionados</h2>
-              <button class="my-1" type="button" color="primary" (click)="isActiveSearchPeople = true" mat-raised-button>Buscar usuarios</button>
+              <h2 class="m-0 font-weight-bold">Usuarios seleccionados</h2>
+              <button class="my-1" type="button" color="accent" (click)="openSearchUser()" mat-raised-button>Buscar usuarios <i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
             <div>
               <div class="grid-people">
-                <div class="item-person p-2" *ngFor="let user of usersAssigned | keyvalue">
+                <div class="item-person p-2" *ngFor="let user of users">
                   <div class="list-person px-2 py-1">
                     <span class="mr-1">
                       <img
                         class="img-person"
                         [src]="
-                          user.value?.person?.photo?.permalink ||
-                          'https://ui-avatars.com/api/?background=random&name=' + user?.value?.first_name
+                          user?.person?.photo?.permalink ||
+                          'https://ui-avatars.com/api/?background=random&name=' + user?.person?.first_name
                         "
                         alt="usuario" />
                     </span>
                     <div>
-                      <div>{{ user.value?.name || user?.value?.person?.first_name +" "+user?.value?.person?.last_name}}</div>
-                      <div *ngIf="user?.value?.email" class="d-flex align-items-center text-muted"><i class="fa-regular fa-envelope"></i>{{ user.value?.email }}</div>
+                      <div>{{ user?.name || user?.person?.first_name +" "+user?.person?.last_name}}</div>
+                      <div *ngIf="user?.email" class="d-flex align-items-center text-muted"><i class="fa-regular fa-envelope"></i>&nbsp; {{ user?.email }}</div>
                     </div>
                   </div>
-                  <button
+                  <!-- <button
                     type="button"
                     (click)="selectedPerson(user.key)"
                     *ngIf="!usersAssigned.has(user.key); else templateQuitBtn"
@@ -49,13 +49,13 @@
                     mat-button>
                     seleccionar
                     <i class="fa-solid fa-check"></i>
-                  </button>
-                  <ng-template #templateQuitBtn>
-                    <button type="button" (click)="unselectedPerson(user.key)" color="warn" mat-button>
+                  </button> -->
+                  <!-- <ng-template #templateQuitBtn> -->
+                    <button type="button" (click)="removeUser(user.id)" color="warn" mat-button>
                       Quitar
                       <i class="fa-solid fa-xmark"></i>
                     </button>
-                  </ng-template>
+                  <!-- </ng-template> -->
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@
       </mat-card-content>
     </mat-card>
   </form>
-  <div [hidden]="!isActiveSearchPeople" class="search-template p-md-3">
+  <!-- <div [hidden]="!isActiveSearchPeople" class="search-template p-md-3">
     <button (click)="isActiveSearchPeople = false" class="btn-close" mat-mini-fab color="warn">
       <i class="fa-solid fa-xmark"></i>
     </button>
@@ -108,5 +108,23 @@
         </ng-container>
       </app-search>
     </div>
-  </div>
+  </div> -->
 </div>
+
+<ng-template #itemSearchTemplate let-user>
+  <div class="list-person px-2 py-1">
+    <span class="mr-1">
+      <img
+        class="img-person"
+        [src]="
+          user.value?.person?.photo?.permalink ||
+          'https://ui-avatars.com/api/?background=random&name=' + user?.value?.person?.first_name
+        "
+        alt="usuario" />
+    </span>
+    <div>
+      <div>{{ user?.value?.person?.first_name }} {{ user?.value?.person?.last_name }}</div>
+      <div *ngIf="user?.value?.email" class="d-flex align-items-center text-muted"><i class="fa-regular fa-envelope"></i>&nbsp; {{ user?.value?.email }}</div>
+    </div>
+  </div>
+</ng-template>

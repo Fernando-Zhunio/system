@@ -1,7 +1,7 @@
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector } from '@angular/core';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { SearchProductsDialogComponent } from '../shared/search-products-dialog/search-products-dialog.component';
+import { SimpleSearchComponent } from '../shared/standalone-components/simple-search/simple-search.component';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class DialogProductsService {
     private injector: Injector) { }
 
   open( url, options: { data: { isMultiple: boolean, productsSelected?: Map<number, any> }} | null = null) {
-    const componentFactory: any = this.componentFactoryResolver.resolveComponentFactory(SearchProductsDialogComponent);
+    const componentFactory: any = this.componentFactoryResolver.resolveComponentFactory(SimpleSearchComponent);
     const componentRef = componentFactory.create(this.injector);
     componentRef.instance.url = url;
     if (options && options.data) {

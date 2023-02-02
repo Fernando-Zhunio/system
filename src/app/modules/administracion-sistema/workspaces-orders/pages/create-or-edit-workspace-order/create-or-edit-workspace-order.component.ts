@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit2 } from '../../../../../class/create-or-edit-2';
-import { IuserSystem } from '../../../../../interfaces/iuser-system';
+// import { IuserSystem } from '../../../../../interfaces/iuser-system';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { User } from '../../../../../shared/interfaces/user';
+import { SimpleSearchSelectorService } from '../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 
 @Component({
   selector: 'app-create-or-edit-workspace-order',
@@ -15,19 +17,19 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
 
   public title: string = 'Workspace Orden - ';
   public urlSave = 'system-orders/workspaces';
-  urlUserSearch = 'system-orders/workspaces/user-search';
+  @ViewChild('itemSearchTemplate') itemSearchTemplate: TemplateRef<any>;
+  // urlUserSearch = 'system-orders/workspaces/user-search';
   override form = new FormGroup({
     name: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required),
   });
-  usersAssigned = new Map<number, IuserSystem>();
-  users = new Map<number, IuserSystem>();
-  isActiveSearchPeople = false;
+  users: User[] = [];
   constructor(
     public act_router: ActivatedRoute,
     public methodsHttp: MethodsHttpService,
     public router: Router,
-    public override location: Location
+    public override location: Location,
+    private simpleSearchSelectionService: SimpleSearchSelectorService
     ) {
     super();
   }
@@ -36,21 +38,24 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
     this.init(false);
   }
 
-  getData(event: any): void {
-    this.users = new Map(event.data.map(item => [item?.id, item]));
-  }
-
-  selectedPerson(key): void {
-    this.usersAssigned.set(key, this.users.get(key)!);
-  }
-
-  unselectedPerson(key): void {
-    this.usersAssigned.delete(key);
+  openSearchUser(): void {
+    this.simpleSearchSelectionService.openDialogSelector({
+      placeholder: 'Buscar usuario',
+      path: 'system-orders/workspaces/user-search',
+      itemTemplateRef: this.itemSearchTemplate,
+      isMultiSelection: true,
+      columns: 7,
+      currentItemSelect: this.users,
+    }).beforeClose().subscribe(res => {
+      if (res) {
+        this.users = res.data;
+      }
+    })
   }
 
   override getDataForSendServer(): any {
     if (this.form.valid) {
-      const idsUsers = Array.from(this.usersAssigned.keys())
+      const idsUsers = this.users.map(user => user.id);
       this.form.markAsPending();
       return {
         ...this.form.value,
@@ -72,7 +77,12 @@ export class CreateOrEditWorkspaceOrderComponent extends CreateOrEdit2<any> impl
       name: response.info.name,
       description: response.info.description,
     });
-    this.usersAssigned = new Map(response.users.map(item => [item.id, item]));
+    this.users = response.users;
+  }
+
+  removeUser(id: number): void {
+    const userIndex = this.users.findIndex(user => user.id !== id);
+    this.users.splice(userIndex, 1);
   }
 
 }

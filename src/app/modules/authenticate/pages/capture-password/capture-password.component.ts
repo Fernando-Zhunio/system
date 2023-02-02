@@ -23,7 +23,6 @@ export class CapturePasswordComponent implements OnInit  {
     password_confirmation: new FormControl('', [Validators.required]),
     token: new FormControl('', [Validators.required])
   });
-  // token: string;
   ngOnInit(): void {
     this.formPassword.get('token')?.setValue(this.ar.snapshot.queryParams['token']);
   }
@@ -46,6 +45,4 @@ export class CapturePasswordComponent implements OnInit  {
       });
     }
   }
-
-
 }

@@ -5,12 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
-import { SwiperOptions } from 'swiper';
+// import { SwiperOptions } from 'swiper';
 import { MatSelect } from '@angular/material/select';
 import { animation_conditional } from '../../../../../../animations/animate_leave_enter';
 import { ProductsService } from '../../../../../../services/products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
-import { HeaderSearchComponent } from '../../../../../../components/header-search/header-search.component';
+// import { HeaderSearchComponent } from '../../../../../../components/header-search/header-search.component';
 import { Product } from '../../../../../../interfaces/iproducts';
 import { Iwarehouse } from '../../../../../../interfaces/iwarehouse';
 import { Iprefix } from '../../../../../../interfaces/iprefix';
@@ -38,7 +38,7 @@ export class ProductsComponent implements OnInit {
   ) {}
 
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
-  @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
+  // @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
 
   pathProductIndex = PRODUCT_ROUTE_API_INDEX;
 
@@ -49,34 +49,34 @@ export class ProductsComponent implements OnInit {
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
   search: string;
-  config: SwiperOptions = {
-    direction: 'horizontal',
-    spaceBetween: 10,
-    breakpoints: {
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 5,
-      },
-      480: {
-        slidesPerView: 1,
-        spaceBetween: 5,
-      },
-      601: {
-        slidesPerView: 1,
-        spaceBetween: 10,
-      },
-      950: {
-        slidesPerView: 2,
-        spaceBetween: 10,
-      },
-      1200: {
-        slidesPerView: 2,
-        spaceBetween: 10,
-      },
-    },
-    scrollbar: false,
-    pagination: false,
-  };
+  // config: SwiperOptions = {
+  //   direction: 'horizontal',
+  //   spaceBetween: 10,
+  //   breakpoints: {
+  //     320: {
+  //       slidesPerView: 1,
+  //       spaceBetween: 5,
+  //     },
+  //     480: {
+  //       slidesPerView: 1,
+  //       spaceBetween: 5,
+  //     },
+  //     601: {
+  //       slidesPerView: 1,
+  //       spaceBetween: 10,
+  //     },
+  //     950: {
+  //       slidesPerView: 2,
+  //       spaceBetween: 10,
+  //     },
+  //     1200: {
+  //       slidesPerView: 2,
+  //       spaceBetween: 10,
+  //     },
+  //   },
+  //   scrollbar: false,
+  //   pagination: false,
+  // };
   permission = PERMISSIONS_CATALOG_PRODUCTS;
   form: FormGroup = new FormGroup({
     min: new FormControl(null),
@@ -167,9 +167,9 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  changePaginator(event): void {
-    this.headerComponent.searchBar(event);
-  }
+  // changePaginator(event): void {
+  //   this.headerComponent.searchBar(event);
+  // }
 
   openDialogHistoryPrices(id: number): void {
     const product = this.products.find((x) => x.id == id);

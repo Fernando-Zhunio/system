@@ -1,23 +1,23 @@
-/* tslint:disable:no-unused-variable */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SimpleSearchComponent } from './simple-search.component';
+import { IndexCampaignsComponent } from './index-campaigns.component';
 
-describe('SimpleSearchComponent', () => {
-  let component: SimpleSearchComponent;
-  let fixture: ComponentFixture<SimpleSearchComponent>;
+describe('CampaignIndexComponent', () => {
+  let component: IndexCampaignsComponent;
+  let fixture: ComponentFixture<IndexCampaignsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SimpleSearchComponent ]
+      declarations: [ IndexCampaignsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SimpleSearchComponent);
+    fixture = TestBed.createComponent(IndexCampaignsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,7 +2,7 @@ import { SharedService } from './../../../services/shared/shared.service';
 import { DownloadFileStatusService } from './../../services/download-file-status.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
-import { CreateHostRef } from '../../../shared/class/create-host-ref';
+import { SimpleSearchDialogRef } from '../../../shared/standalone-components/simple-search/simple-search-dialog-ref';
 import { Subscription } from 'rxjs';
 
 export interface ItemDownload {
@@ -28,7 +28,7 @@ export interface ItemDownloadMetaData extends ItemDownload {
 export class DownloadFileStatusComponent implements OnInit {
 
   listDownload: Map<number, ItemDownloadMetaData> = new Map<number, ItemDownloadMetaData>();
-  constructor(private chRef: CreateHostRef,private http: HttpClient, private dfs: DownloadFileStatusService) { }
+  constructor(private chRef: SimpleSearchDialogRef,private http: HttpClient, private dfs: DownloadFileStatusService) { }
 
   ngOnInit(): void {
     this.dfs.$listDownload.subscribe((list: ItemDownload | null) => {

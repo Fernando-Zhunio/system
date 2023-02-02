@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PricesIndexComponent } from './pages/prices-index/prices-index.component';
-import { SearchTemplateModule } from '../../../../Modulos/search-template/search-template.module';
+// import { SearchTemplateModule } from '../../../../Modulos/search-template/search-template.module';
 import { ConvertsModule } from '../../../../Modulos/converts/converts.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PricesRoutingModule } from './prices-routing.module';
@@ -22,17 +22,16 @@ import { MatTableModule } from '@angular/material/table';
 import { CreateOrEditPricesButtonSheetComponent } from './components/create-or-edit-prices-button-sheet/create-or-edit-prices-button-sheet.component';
 import { MatListModule } from '@angular/material/list';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { SearchProductsDialogModule } from '../../../../shared/search-products-dialog/search-products-dialog.module';
-import { SearchImportDialogComponent } from './components/search-import-dialog/search-import-dialog.component';
 import { CreateOrEditImportModalComponent } from '../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { SimpleSearchComponent } from '../../../../shared/standalone-components/simple-search/simple-search.component';
 
 @NgModule({
-    declarations: [SearchImportDialogComponent, CreateOrEditPricesButtonSheetComponent, PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
+    declarations: [CreateOrEditPricesButtonSheetComponent, PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
     imports: [
         CommonModule,
         PricesRoutingModule,
-        SearchTemplateModule,
+        // SearchTemplateModule,
         ConvertsModule,
         FormsModule,
         ReactiveFormsModule,
@@ -50,9 +49,9 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
         MatTableModule,
         MatListModule,
         MatBottomSheetModule,
-        SearchProductsDialogModule,
         CreateOrEditImportModalComponent,
-        ClipboardModule
+        ClipboardModule,
+        SimpleSearchComponent
     ]
 })
 export class PricesModule { }

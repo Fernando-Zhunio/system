@@ -69,3 +69,10 @@
     </div>
   </form>
 </div>
+
+<ng-template #searchImportTemplate let-product>
+  <h3 class="m-0">
+    <span class="text-danger"># {{ product.value.code }}</span>
+    {{ product.value?.sequence?.sequence_number}}
+  </h3>
+</ng-template>

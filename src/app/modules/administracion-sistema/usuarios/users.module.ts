@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SearchProductsDialogModule } from '../../../shared/search-products-dialog/search-products-dialog.module';
+import { SearchProductsDialogModule } from '../../../shared/standalone-components/simple-search/simple-search.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { SearchPersonDialogComponent } from './components/search-person-dialog/search-person-dialog.component';

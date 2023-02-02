@@ -7,8 +7,8 @@ import { CreateOrEdit2 } from '../../../../../../class/create-or-edit-2';
 // import { DialogProductsService } from '../../../../../../services/dialog-products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../../services/swal.service';
-import { SearchProductsDialogComponent } from '../../../../../../shared/search-products-dialog/search-products-dialog.component';
-import { CreateHostService } from '../../../../../../shared/services/create-host.service';
+import { SimpleSearchComponent } from '../../../../../../shared/standalone-components/simple-search/simple-search.component';
+import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { Campaign } from '../../interfaces/campaign';
 @Component({
   selector: 'app-create-or-edit-promotion',
@@ -24,28 +24,20 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
   @ViewChild('inputQuantity') inputQuantity: ElementRef;
   dpMax: any;
   dpMin: any;
-  // urlSearch: string;
-  // hiddenSearchProducts: boolean = true;
-  // productsSelected: Map<number, PromotionProductSend> = new Map<number, PromotionProductSend>();
   override form: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl(''),
     status: new FormControl('', [Validators.required]),
-    // price: new FormControl(1, [Validators.required]),
   });
-  // currentKey: number
-  // hiddenAddQuantity: boolean = true;
-  // formControlQuantity: FormControl = new FormControl(1, [Validators.min(1)]);
   campaign: Campaign;
   formArrayProductSelected: FormArray = new FormArray<FormGroup>([]);
-  // onlyQuantity: boolean = false;
 
   constructor(
     protected act_router: ActivatedRoute,
     protected methodsHttp: MethodsHttpService,
     protected router: Router,
     protected override location: Location,
-    private chs: CreateHostService
+    private chs: SimpleSearchSelectorService
   ) {
     super();
   }
@@ -81,10 +73,8 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
     }
   }
 
-
   deleteProduct(index: number): void {
     this.formArrayProductSelected.removeAt(index);
-    // this.productsSelected.delete(key);
   }
 
   override getDataForSendServer(): any {
@@ -115,18 +105,15 @@ export class CreateOrEditPromotionComponent extends CreateOrEdit2<any> implement
     });
     data.products.forEach((item: any) => {
       this.addProduct({ id: item.id, name: item.name, img: item.image, code: item.code }, item.pivot.price, item.pivot.quantity);
-      // return [item.id, {
-      //   ...item,
-      //   quantity: item.pivot.quantity
-      // }]
     });
   }
 
   openDialogProductSearch(): void {
-    this.chs.injectComponent(SearchProductsDialogComponent,
+    this.chs.openDialog(SimpleSearchComponent,
       {
-        onlyOne: true,
-        url: 'catalogs/campaigns/promotions/search-products'
+        placeholder: 'Escribe el nombre del producto o código',
+        isMultiSelection: false,
+        path: 'catalogs/campaigns/promotions/search-products'
       })
       .beforeClose().subscribe((res: any) => {
         if (res?.data) {

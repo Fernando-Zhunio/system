@@ -18,12 +18,13 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
 
   //#region Variables
   @Input() placeholder: string = 'Search here';
-  @Input() title: string = 'Search';
+  @Input() title: string | null = null;
   @Input() path: string = 'posts';
   @Input() isChangeUrl: boolean = false;
   @Input() autoInit: boolean = true;
   @Input() nameInputSearch: string = 'search';
-
+  @Input() isBarExpand: boolean = false;
+  
   @Output() data = new EventEmitter<any>();
   @Output() loading = new EventEmitter<boolean>();
 
@@ -98,6 +99,9 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
   searchObservable(params: { [key: string]: number } = {}) {
     this.isLoading = true;
     this.loading.emit(this.isLoading);
+    // if (this.isNotParams) {
+    //   return this.searchBarService.search(this.path, {});
+    // }
     this.currentParams = this.getParamsSend(params);
     return this.searchBarService.search(this.path, this.currentParams);
   }

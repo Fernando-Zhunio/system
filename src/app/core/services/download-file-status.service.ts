@@ -1,6 +1,6 @@
 import { ComponentRef, Injectable } from '@angular/core';
 import {  BehaviorSubject } from 'rxjs';
-import { CreateHostService } from '../../shared/services/create-host.service';
+import { SimpleSearchSelectorService } from '../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { DownloadFileStatusComponent, ItemDownload } from '../components/download-file-status/download-file-status.component';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { DownloadFileStatusComponent, ItemDownload } from '../components/downloa
 })
 export class DownloadFileStatusService {
 
-  constructor(private host: CreateHostService) { }
+  constructor(private host: SimpleSearchSelectorService) { }
 
   $listDownload: BehaviorSubject<ItemDownload | null> = new BehaviorSubject<ItemDownload | null>(null);
   componentRef: ComponentRef<DownloadFileStatusComponent>
@@ -21,7 +21,7 @@ export class DownloadFileStatusService {
   }
   
   createComponent(): void {
-    ({componentRef: this.componentRef } = this.host.injectComponent(DownloadFileStatusComponent));
+    ({componentRef: this.componentRef } = this.host.openDialog(DownloadFileStatusComponent));
   }
  
 }

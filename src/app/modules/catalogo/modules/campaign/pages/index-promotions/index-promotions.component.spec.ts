@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PromotionIndexComponent } from './promotion-index.component';
+import { IndexPromotionsComponent } from './index-promotions.component';
 
 describe('PromotionIndexComponent', () => {
-  let component: PromotionIndexComponent;
-  let fixture: ComponentFixture<PromotionIndexComponent>;
+  let component: IndexPromotionsComponent;
+  let fixture: ComponentFixture<IndexPromotionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PromotionIndexComponent ]
+      declarations: [ IndexPromotionsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PromotionIndexComponent);
+    fixture = TestBed.createComponent(IndexPromotionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

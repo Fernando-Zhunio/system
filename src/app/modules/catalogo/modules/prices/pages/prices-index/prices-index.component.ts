@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,10 +13,10 @@ import { Permission_products_prices } from '../../../../../../class/permissions-
 import { IProductPrice } from '../../../../../../interfaces/iprice';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
-import { CreateHostService } from '../../../../../../shared/services/create-host.service';
+import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { Import } from '../../../imports/interfaces/imports';
 import { CreateOrEditPricesButtonSheetComponent } from '../../components/create-or-edit-prices-button-sheet/create-or-edit-prices-button-sheet.component';
-import { SearchImportDialogComponent } from '../../components/search-import-dialog/search-import-dialog.component';
+// import { SearchImportDialogComponent } from '../../components/search-import-dialog/search-import-dialog.component';
 import { PriceGroup } from '../../interfaces/price-group';
 import { PRICE_ROUTE_API_EDIT, PRICE_ROUTE_API_EXPORT, PRICE_ROUTE_API_GROUP_PRICE, PRICE_ROUTE_API_IMPORT, PRICE_ROUTE_API_INDEX } from '../../routes-api/prices-routes-api';
 import { ModalListPricesComponent } from '../../tools/modal-list-prices/modal-list-prices.component';
@@ -24,7 +24,7 @@ import { Token } from '../../../../../../class/fast-data';
 import { SwalService } from '../../../../../../services/swal.service';
 import { CreateOrEditImportModalComponent } from '../../../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-template/search-template-table/search-template-table.component';
+// import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { PERMISSION_PRODUCT_INDEX } from '../../../buscar-productos/class/permissions-products';
 
@@ -55,7 +55,8 @@ export class PricesIndexComponent
 
   protected columnsToDisplay: string[] = ['image', 'name', 'price', 'available', 'code', 'created_at', 'actions'];
   @ViewChild(MatTable) table: MatTable<IProductPrice>;
-  @ViewChild(SearchTemplateTableComponent) searchTemplateTable: SearchTemplateTableComponent;
+  @ViewChild('searchImportTemplate') searchImportTemplate: TemplateRef<any>;
+
   constructor(
     private clipboard: Clipboard,
     protected mhs: MethodsHttpService, 
@@ -63,7 +64,7 @@ export class PricesIndexComponent
     public act_router: ActivatedRoute,
     private dialog: MatDialog,
     private btnSheet: MatBottomSheet,
-    private chs: CreateHostService,
+    private chs: SimpleSearchSelectorService,
     private nps: NgxPermissionsService,
   ) {
     super();
@@ -145,7 +146,11 @@ export class PricesIndexComponent
   }
 
   openSearchImportDialog(): void {
-    this.chs.injectComponent<Import>(SearchImportDialogComponent)
+    this.chs.openDialogSelector({
+      path: 'catalogs/imports',
+      isMultiSelection: false,
+      itemTemplateRef: this.searchImportTemplate,
+    })
       .beforeClose().subscribe((res) => {
         if (res?.data) {
           this.setFormImport(res.data)

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchesModule } from '../../Modulos/searches/searches.module';
+import { SearchesModule } from '../../../Modulos/searches/searches.module';
 import { MatButtonModule } from '@angular/material/button';
-import { SearchProductsDialogComponent } from './search-products-dialog.component';
+// import { SearchProductsDialogComponent } from './simple-search.component';
 
 @NgModule({
   imports: [
@@ -10,7 +10,7 @@ import { SearchProductsDialogComponent } from './search-products-dialog.componen
     SearchesModule,
     MatButtonModule,
   ],
-  exports: [SearchProductsDialogComponent],
-  declarations: [SearchProductsDialogComponent]
+  // exports: [SearchProductsDialogComponent],
+  // declarations: [SearchProductsDialogComponent]
 })
 export class SearchProductsDialogModule { }

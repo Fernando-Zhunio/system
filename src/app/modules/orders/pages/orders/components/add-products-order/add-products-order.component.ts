@@ -1,19 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-// import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-// import { MatSelectionListChange } from '@angular/material/list';
-// import { Observable } from 'rxjs';
 import { PermissionOrdersItems } from '../../../../../../class/permissions-modules';
-// import { SearchProductModalComponent } from '../../../../components/modals/search-product-modal/search-product-modal.component';
 import { IOrder } from '../../../../../../interfaces/iorder';
 import { IProduct } from '../../../../../../interfaces/iproducts';
-// import { DialogProductsService } from '../../../../../../services/dialog-products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { IPaginate } from '../../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../../services/swal.service';
-import { SearchProductsDialogComponent } from '../../../../../../shared/search-products-dialog/search-products-dialog.component';
-import { CreateHostService } from '../../../../../../shared/services/create-host.service';
+import { SimpleSearchComponent } from '../../../../../../shared/standalone-components/simple-search/simple-search.component';
+import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { EditProductOrderComponent } from '../edit-product-order/edit-product-order.component';
 
 @Component({
@@ -23,7 +18,7 @@ import { EditProductOrderComponent } from '../edit-product-order/edit-product-or
 })
 export class AddProductsOrderComponent  {
 
-  constructor(private matDialog: MatDialog, private methodsHttp: MethodsHttpService, private chs: CreateHostService) { }
+  constructor(private matDialog: MatDialog, private methodsHttp: MethodsHttpService, private chs: SimpleSearchSelectorService) { }
   @Input() order: IOrder;
   @Input() items
   @Input() isCancelled: boolean;
@@ -41,11 +36,11 @@ export class AddProductsOrderComponent  {
   permissionsProducts = PermissionOrdersItems;
 
   openSearchProducts(): void {
-    this.chs.injectComponent(
-      SearchProductsDialogComponent,
+    this.chs.openDialog(
+      SimpleSearchComponent,
       {
-        url: this.urlProducts,
-        onlyOne: true
+        path: this.urlProducts,
+        isMultiSelection: true
       }).beforeClose().subscribe(res => {
         if (res?.data) {
           this.form.get('product')?.setValue(res.data);

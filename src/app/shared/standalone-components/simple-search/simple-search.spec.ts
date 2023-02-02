@@ -6,23 +6,23 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { environment } from '../../../environments/environment';
-import { MOCK_PRODUCTS } from '../../core/mocks/services/products.mock';
-import { SearchesModule } from '../../Modulos/searches/searches.module';
-import { MethodsHttpService } from '../../services/methods-http.service';
+import { environment } from '../../../../environments/environment';
+import { MOCK_PRODUCTS } from '../../../core/mocks/services/products.mock';
+import { SearchesModule } from '../../../Modulos/searches/searches.module';
+import { MethodsHttpService } from '../../../services/methods-http.service';
 // import { DialogProductsService } from '../../services/dialog-products.service';
-import { CreateHostRef } from '../class/create-host-ref';
-import { SearchProductsDialogComponent } from './search-products-dialog.component';
+import { SimpleSearchDialogRef } from './simple-search-dialog-ref';
+import { SimpleSearchComponent } from './simple-search.component';
 
 describe('SearchProductsDialogComponent', () => {
-    let component: SearchProductsDialogComponent;
-    let fixture: ComponentFixture<SearchProductsDialogComponent>;
+    let component: SimpleSearchComponent;
+    let fixture: ComponentFixture<SimpleSearchComponent>;
     let compiled: any;
     let httpMock: HttpTestingController;
     let injector: TestBed;
     beforeEach((() => {
         TestBed.configureTestingModule({
-            declarations: [SearchProductsDialogComponent],
+            declarations: [SimpleSearchComponent],
             imports: [
                 MatIconModule,
                 MatButtonModule,
@@ -40,7 +40,7 @@ describe('SearchProductsDialogComponent', () => {
                 //     },
                 // },
                 {
-                    provide: CreateHostRef,
+                    provide: SimpleSearchDialogRef,
                     useClass: class fer {
                         createComponent() {
                             return 'der';
@@ -64,12 +64,12 @@ describe('SearchProductsDialogComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SearchProductsDialogComponent);
+        fixture = TestBed.createComponent(SimpleSearchComponent);
         component = fixture.componentInstance;
         component.getData(MockDataProducts);
         fixture.detectChanges();
         compiled = fixture.nativeElement;
-        component.products = new Map(MockDataProducts.data.map((item: any) => [item.id, item]));
+        component.items = new Map(MockDataProducts.data.map((item: any) => [item.id, item]));
         httpMock = injector.get(HttpTestingController);
     });
 
@@ -79,17 +79,17 @@ describe('SearchProductsDialogComponent', () => {
 
     it('Probando la funcion de cerrado - close', () => {
         spyOn<any>(component['componentRef'], 'close');
-        component.productsSelected.set(10, MockDataProducts.data[0]);
-        component.close();
+        component.itemsSelected.set(10, MockDataProducts.data[0]);
+        component.closeWithData();
         expect(component['componentRef'].close)
-            .toHaveBeenCalledWith({ data: component.productsSelected });
+            .toHaveBeenCalledWith({ data: component.itemsSelected });
     });
 
     it('Probando la funcion de cerrado con onlyone - close', () => {
         spyOn<any>(component['componentRef'], 'close');
-        component.productsSelected.set(10, MockDataProducts.data[0]);
+        component.itemsSelected.set(10, MockDataProducts.data[0]);
         component.onlyOne = true;
-        component.addProduct(1);
+        component.addItem(1);
         expect(component['componentRef'].close).toHaveBeenCalled();
         // .toHaveBeenCalledWith({ data: [...component.productsSelected][0][1] });
     });
@@ -97,16 +97,16 @@ describe('SearchProductsDialogComponent', () => {
     it('probando la funcion removeProduct', () => {
         const id1 = MockDataProducts.data[0].id;
         const id2 = MockDataProducts.data[1].id;
-        component.addProduct(id1);
-        component.addProduct(id2);
-        expect(component.productsSelected.size).toEqual(2);
+        component.addItem(id1);
+        component.addItem(id2);
+        expect(component.itemsSelected.size).toEqual(2);
         component.removeProduct(1);
-        expect(component.productsSelected.size).toEqual(1);
-        expect(component.productsSelected.has(id2)).toBeTruthy();
+        expect(component.itemsSelected.size).toEqual(1);
+        expect(component.itemsSelected.has(id2)).toBeTruthy();
     });
 
     it('probando la funcion getData', () => {
-        expect(component.products.size).toEqual(MockDataProducts.data.length);
+        expect(component.items.size).toEqual(MockDataProducts.data.length);
     });
 
     it('probando la traida de datos', () => {

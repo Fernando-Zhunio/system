@@ -43,7 +43,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EditDataOrderModalComponent } from './components/edit-data-order-modal/edit-data-order-modal.component';
 import { SearchTemplateTableComponent } from '../../Modulos/search-template/search-template-table/search-template-table.component';
 import { EditProductOrderComponent } from './pages/orders/components/edit-product-order/edit-product-order.component';
-import { SearchProductsDialogModule } from '../../shared/search-products-dialog/search-products-dialog.module';
+import { SearchProductsDialogModule } from '../../shared/standalone-components/simple-search/simple-search.module';
 import { ShippingsComponent } from './pages/orders/components/shippings/shippings.component';
 import { EditOrderComponent } from './pages/orders/pages/edit-order/edit-order.component';
 import { DetailButtonSheetComponent } from './pages/orders/components/detail-button-sheet/detail-button-sheet.component';

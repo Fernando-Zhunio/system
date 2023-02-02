@@ -5,8 +5,8 @@ import { PERMISSION_CAMPAIGNS } from '../../../../../../class/permissions-module
 import { IProduct } from '../../../../../../interfaces/iproducts';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
-import { SearchProductsDialogComponent } from '../../../../../../shared/search-products-dialog/search-products-dialog.component';
-import { CreateHostService } from '../../../../../../shared/services/create-host.service';
+import { SimpleSearchComponent } from '../../../../../../shared/standalone-components/simple-search/simple-search.component';
+import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { Promotion } from '../../../campaign/interfaces/promotion';
 import { SearchCampaignDialogComponent } from '../../components/search-campaign-dialog/search-campaign-dialog.component';
 import { getDurationPromotionArray, getStatusesPromotionArray, PROMOTION_STATUS_ACTIVE } from '../../constants/promotion-const';
@@ -35,7 +35,7 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
   statuses: string[] = [];
   durations: string[] = [];
 
-  constructor(private nps: NgxPermissionsService, private chs: CreateHostService, protected mhs: MethodsHttpService/* , private dialogProduct: DialogProductsService */) {
+  constructor(private nps: NgxPermissionsService, private chs: SimpleSearchSelectorService, protected mhs: MethodsHttpService/* , private dialogProduct: DialogProductsService */) {
     super();
   }
   ngOnInit(): void {
@@ -66,9 +66,9 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
   }
 
   openSearchProducts(): void {
-    this.chs.injectComponent(
-      SearchProductsDialogComponent,
-      { url: 'catalogs/promotions/products', onlyOne: true })
+    this.chs.openDialog(
+      SimpleSearchComponent,
+      { path: 'catalogs/promotions/products', isMultiSelection: true })
       .beforeClose().subscribe((res: any) => {
         const data = res?.data;
         if (data) {
@@ -82,9 +82,9 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
   }
 
   openSearchCampaign(): void {
-    this.chs.injectComponent(
+    this.chs.openDialog(
       SearchCampaignDialogComponent,
-      { url: 'catalogs/campaigns', onlyOne: true })
+      { path: 'catalogs/campaigns', isMultiSelection: true })
       .beforeClose().subscribe((res: any) => {
         const data = res?.data;
         if (data) {
