@@ -1,27 +1,33 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+// import { ActivatedRoute, Router } from '@angular/router';
 import AirDatepicker from 'air-datepicker';
-import { CreateOrEdit2 } from '../../../../../../class/create-or-edit-2';
+// import { CreateOrEdit2 } from '../../../../../../class/create-or-edit-2';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
-import { Campaign } from '../../interfaces/campaign';
+// import { Campaign } from '../../interfaces/campaign';
 import localeEs from 'air-datepicker/locale/es';
 import * as moment from 'moment';
-import { Location } from '@angular/common';
+// import { Location } from '@angular/common';
+import { CreateOrEditDialog } from '../../../../../../shared/class/create-or-edit-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+import { CreateOrEditDialogData } from '../../../../../../shared/interfaces/create-or-edit-dialog-data';
+import { ResponseApi } from '../../../../../../shared/interfaces/response-api';
 
 @Component({
   selector: 'app-create-or-edit-campaign',
   templateUrl: './create-or-edit-campaign.component.html',
   styleUrls: ['./create-or-edit-campaign.component.scss']
 })
-export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> implements OnInit, AfterViewInit {
-  public title: string = 'Campaña ';
-  public urlSave: string = 'catalogs/campaigns';
+export class CreateOrEditCampaignComponent extends CreateOrEditDialog implements OnInit, AfterViewInit {
+  protected path = 'catalogs/campaigns';
+  // protected methodHttp: MethodsHttpService;
+  public title = 'Campaña';
+  // public url: string = 'catalogs/campaigns';
   airDate1: AirDatepicker | null = null;
   airDate2: AirDatepicker | null = null;
 
-
-  override form: FormGroup = new FormGroup({
+  override form = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl(''),
     duration_type: new FormControl('', [Validators.required]),
@@ -29,20 +35,20 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
     start_date: new FormControl({value:'', disabled: true}, [this.validatorRequiredIf(()=> this.form.get('duration_type')?.value == 'date_range', Validators.required)]),
     end_date: new FormControl({value:'', disabled: true}, [this.validatorRequiredIf(()=> this.form.get('duration_type')?.value == 'date_range', Validators.required)]),
   });
- 
-  constructor(
-    protected act_router: ActivatedRoute,
-    protected methodsHttp: MethodsHttpService,
-    protected router: Router,
-    protected override location: Location
-  ) { 
-    super();
-  }
 
   @ViewChild('dateMin', { static: false }) dpMinDateElement: ElementRef;
   @ViewChild('dateMax', { static: false }) dpMaxDateElement: ElementRef;
   dpMax: any;
   dpMin: any;
+  
+  constructor(
+    protected dialogRef: MatDialogRef<CreateOrEditCampaignComponent, { response: ResponseApi<any>; sendData: any; }>,
+    protected methodHttp: MethodsHttpService,
+    @Inject(MAT_DIALOG_DATA) protected createOrEditData: CreateOrEditDialogData,
+  ) { 
+    super();
+  }
+
 
   ngOnInit() {
     this.init(false);
@@ -103,18 +109,18 @@ export class CreateOrEditCampaignComponent extends CreateOrEdit2<Campaign> imple
     this.selectionChange({value:data?.duration_type})
     }
 
-    override getDataForSendServer(): any {
-      if(this.form.valid) {
-        return this.form.value;
-      } else {
-        this.form.markAllAsTouched();
-        return null;
-      }
-    }
+    // override getDataForSendServer(): any {
+    //   if(this.form.valid) {
+    //     return this.form.value;
+    //   } else {
+    //     this.form.markAllAsTouched();
+    //     return null;
+    //   }
+    // }
 
-    override go(): void {
-      this.router.navigate(['/catalogo/campaigns']);
-    }
+    // override go(): void {
+    //   this.router.navigate(['/catalogo/campaigns']);
+    // }
 
     selectionChange(event) {
       if (event.value == 'date_range') {

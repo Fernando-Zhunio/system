@@ -36,6 +36,8 @@ export class SimpleSearchSelectorService {
     return this.openDialog(SimpleSearchComponent, data, customHost);
   }
 
+
+
   openDialog(component: any, data: SimpleSearchSelectorDialogData | {data: any} | null = null, customHost: CreateHostDirective | null = null) {
     const host: CreateHostDirective = customHost ?? this.createHostDirective;
     const { id, componentRef } = this.createComponent(component, host, data);

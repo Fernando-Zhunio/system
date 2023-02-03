@@ -1,3 +1,178 @@
+<ngx-search-bar-paginator
+  [path]="url"
+  title="Promociones"
+  placeholder="Buscador de promociones"
+  (data)="getData($event)"
+  [withFilter]="true"
+  [formFilter]="formFilter">
+  <ng-container filterMenu>
+    <div [formGroup]="formFilter">
+      <!-- <mat-form-field class="w-100">
+        <mat-label>Productos</mat-label>
+        <mat-chip-set #chipList aria-label="products selection">
+          <mat-chip *ngFor="let product of products" (removed)="removeProduct(product.key)">
+            <span class="text-truncate text-product-name-filter">
+              <span class="text-info">{{ product.value.code }}</span>
+              {{ product.value.name }}
+            </span>
+            <button matChipRemove>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </mat-chip>
+          <input readonly (click)="openSearchProducts()" placeholder="Productos" [matChipInputFor]="chipList" />
+        </mat-chip-set>
+      </mat-form-field> -->
+      <mat-form-field class="w-100">
+        <mat-label>Campañas</mat-label>
+        <mat-chip-grid #chipGrid>
+          <mat-chip-row *ngFor="let campaign of campaigns" (removed)="removeCampaign(campaign.id)">
+            {{ campaign.title }}
+            <button matChipRemove>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </mat-chip-row>
+        </mat-chip-grid>
+        <input
+          readonly
+          (click)="openSearchCampaign()"
+          placeholder="Campañas"
+          [matChipInputFor]="chipGrid" />
+        <!-- <mat-chip-set #chipList aria-label="Campañas selección">
+          <mat-chip *ngFor="let campaign of campaigns" (removed)="removeCampaign(campaign.key)">
+            <span class="text-truncate text-product-name-filter">
+              <span class="text-info">{{ campaign.value.code }}</span>
+              {{ campaign.value.title }}
+            </span>
+            <button matChipRemove>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </mat-chip>
+          <input readonly (click)="openSearchCampaign()" placeholder="Campañas" [matChipInputFor]="chipList" />
+        </mat-chip-set> -->
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-select formControlName="status" placeholder="Estado">
+          <mat-option>
+            <i class="fa-solid fa-eraser"></i>
+            Limpiar filtro
+          </mat-option>
+          <mat-option *ngFor="let status of statuses" [value]="status">{{ status | translatefz }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-select formControlName="duration_type" placeholder="Tipo de duración">
+          <mat-option>
+            <i class="fa-solid fa-eraser"></i>
+            Limpiar filtro
+          </mat-option>
+          <mat-option *ngFor="let duration of durations" [value]="duration">{{ duration | translatefz }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </ng-container>
+  <mat-card class="overflow-auto">
+    <mat-card-content>
+      <table mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="created_at">
+          <th mat-header-cell *matHeaderCellDef>CREADO</th>
+          <td mat-cell *matCellDef="let row">{{ row.created_at | date : "medium" }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>ESTADO</th>
+          <td mat-cell *matCellDef="let row">
+            <span [class]="row.status" class="badge-fz">{{ row.status | translatefz }}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>TITULO</th>
+          <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+        </ng-container>
+        <ng-container matColumnDef="price_formated">
+          <th mat-header-cell *matHeaderCellDef>PRECIO</th>
+          <td mat-cell *matCellDef="let row">{{ row.price_formated | currency }}</td>
+        </ng-container>
+        <ng-container matColumnDef="products">
+          <th mat-header-cell *matHeaderCellDef>PRODUCTOS</th>
+          <td mat-cell style="max-width: 300px" *matCellDef="let row">
+            <mat-list dense>
+              <mat-list-item *ngFor="let product of row.products">
+                <img matListItemAvatar width="50" [src]="product.image || 'assets/img/img_default_null.jpg'" />
+                <div mat-line>
+                  <span class="text-primary mr-1">{{ product.code }}</span>
+                  {{ product.name }}
+                </div>
+                <div mat-line>
+                  Cantidad:
+                  <span class="text-primary">{{ product.pivot.quantity }}</span>
+                </div>
+                <div mat-line>
+                  Precio:
+                  <span class="text-primary">{{ product.pivot.price }}</span>
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="duration_type">
+          <th mat-header-cell *matHeaderCellDef>TIPO DURACIÓN</th>
+          <td mat-cell *matCellDef="let row">
+            <div [class]="row.duration_type" class="badge-fz text-center">
+              <i [hidden]="row.duration_type === 'undefined'" class="fas fa-calendar-alt"></i>
+              {{ row.duration_type | translatefz }}
+              <div *ngIf="row.duration_type === 'date_range'">
+                <small class="d-block">
+                  <span>Inicio:</span>
+                  {{ row.start_date | date : "medium" }}
+                </small>
+                <small>
+                  <span>Final:</span>
+                  {{ row.end_date | date : "medium" }}
+                </small>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>DESCRIPCIÓN</th>
+          <td mat-cell *matCellDef="let row">{{ row.note }}</td>
+        </ng-container>
+        <ng-container matColumnDef="campaign">
+          <th mat-header-cell *matHeaderCellDef>CAMPAÑA</th>
+          <td mat-cell *matCellDef="let row">{{ row?.campaign?.title }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="d-flex">
+              <ng-container *ngIf="row.campaign.id">
+                <button
+                  *ngxPermissionsOnly="permissions.edit"
+                  [routerLink]="['/catalogo/campaigns', row.campaign.id, 'promotions', row.id, 'edit']"
+                  class="btn-icon c-edit">
+                  <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+              </ng-container>
+              <button
+                *ngxPermissionsOnly="permissions.destroy"
+                (click)="deletePromotion(row.id)"
+                class="btn-icon c-delete">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</ngx-search-bar-paginator>
+<!-- 
 <app-search-template-table
   [url$]="urlSearch"
   [title]="'Promociones'"
@@ -155,4 +330,7 @@
       </mat-form-field>
     </div>
   </ng-container>
-</app-search-template-table>
+</app-search-template-table> -->
+<ng-template #campaignTemplate let-product>
+  {{product.value.title}}
+</ng-template>

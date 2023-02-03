@@ -19,7 +19,7 @@ import { CreateOrEditPricesButtonSheetComponent } from '../../components/create-
 // import { SearchImportDialogComponent } from '../../components/search-import-dialog/search-import-dialog.component';
 import { PriceGroup } from '../../interfaces/price-group';
 import { PRICE_ROUTE_API_EDIT, PRICE_ROUTE_API_EXPORT, PRICE_ROUTE_API_GROUP_PRICE, PRICE_ROUTE_API_IMPORT, PRICE_ROUTE_API_INDEX } from '../../routes-api/prices-routes-api';
-import { ModalListPricesComponent } from '../../tools/modal-list-prices/modal-list-prices.component';
+import { ModalListPricesComponent } from '../../components/modal-list-prices/modal-list-prices.component';
 import { Token } from '../../../../../../class/fast-data';
 import { SwalService } from '../../../../../../services/swal.service';
 import { CreateOrEditImportModalComponent } from '../../../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
@@ -27,6 +27,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 // import { SearchTemplateTableComponent } from '../../../../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { PERMISSION_PRODUCT_INDEX } from '../../../buscar-productos/class/permissions-products';
+import { zoomImage } from '../../../../../../shared/class/tools';
 
 @Component({
   selector: 'app-prices-index',
@@ -104,7 +105,6 @@ export class PricesIndexComponent
       load: (_source: any, _load: any, error: any, _progress: any, _abort: any, _headers: any) => {
         error('Not implemented.');
       },
-
       process: {
         url: PRICE_ROUTE_API_IMPORT,
         headers: {
@@ -203,9 +203,9 @@ export class PricesIndexComponent
   }
 
 
-  getParams(key: string): any {
-    return this.act_router.snapshot.params[key];
-  }
+  // getParams(key: string): any {
+  //   return this.act_router.snapshot.params[key];
+  // }
 
   openCreateOrEditPrice(id: number | null): void {
     const product = this.dataSource.find(x => x.id === id);
@@ -229,6 +229,11 @@ export class PricesIndexComponent
     this.snackBar.open('Copiado', 'Cerrar', {
       duration: 2000,
     });
+  }
+
+  zoom(event): void {
+    const target = event.target;
+    zoomImage(target)
   }
 
 }

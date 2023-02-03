@@ -1,4 +1,4 @@
-import { Iaccount, CompanyAccess, ImlInfo } from "./iml-info";
+import { Iaccount, CompanyAccess, MercadoLibre } from "./iml-info";
 
 
 export interface Publication {
@@ -12,7 +12,7 @@ export interface Publication {
   id: number;
   listing_type: string;
   ml_accounts: Iaccount[];
-  ml_infos: ImlInfo[];
+  ml_infos: MercadoLibre[];
   name: string;
   images?: Iimages[];
   price: number;

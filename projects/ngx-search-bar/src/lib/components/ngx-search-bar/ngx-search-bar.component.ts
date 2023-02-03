@@ -1,4 +1,5 @@
 import { Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { debounceTime, Subject, switchMap, takeUntil } from 'rxjs';
 import { NgxSearchBarService } from '../../ngx-search-bar.service';
 import { NgxSearchBarFormFilterComponent } from '../ngx-search-bar-form-filter/ngx-search-bar-form-filter.component';
@@ -11,8 +12,7 @@ import { NgxSearchBarFormFilterComponent } from '../ngx-search-bar-form-filter/n
 export class NgxSearchBarComponent implements OnInit, OnDestroy {
   constructor(
     private searchBarService: NgxSearchBarService,
-  ) {
-  }
+  ) {}
 
   @ContentChild(NgxSearchBarFormFilterComponent) ngxFormFilter: NgxSearchBarFormFilterComponent;
 
@@ -29,7 +29,7 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
   @Output() loading = new EventEmitter<boolean>();
 
   isLoading: boolean = false;
-  filters: { [key: string]: any } = {};
+  @Input() filters: FormGroup | null = null;
   destroy$: Subject<boolean> = new Subject<boolean>();
   searchText: string = '';
   subject: Subject<{ [key: string]: any }> = new Subject();
@@ -51,12 +51,15 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
     if (params.hasOwnProperty(this.nameInputSearch)) {
       this.searchText = params[this.nameInputSearch];
     }
+    if(!this.filters) return;
 
     try {
-      Object.keys(params).forEach(key => {
-        if (key === this.nameInputSearch) return;
-        this.filters[key] = params[key];
-      });
+        this.filters?.patchValue(params);
+      // Object.keys(params).forEach(key => {
+      //   if (key === this.nameInputSearch ) return;
+      //   // this.filters[key] = params[key];
+      //   this.filters?.patchValue({[key]: params[key]});
+      // });
     } catch (error) {
 
     }
@@ -99,9 +102,6 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
   searchObservable(params: { [key: string]: number } = {}) {
     this.isLoading = true;
     this.loading.emit(this.isLoading);
-    // if (this.isNotParams) {
-    //   return this.searchBarService.search(this.path, {});
-    // }
     this.currentParams = this.getParamsSend(params);
     return this.searchBarService.search(this.path, this.currentParams);
   }

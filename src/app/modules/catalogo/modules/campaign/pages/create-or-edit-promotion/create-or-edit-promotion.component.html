@@ -1,67 +1,44 @@
 <div style="height: calc(100vh - 55px)">
   <div class="my-3 position-absolute">
-    <button (click)="goBack()" mat-mini-fab><mat-icon>arrow_back</mat-icon></button>
+    <button (click)="goBack()" mat-icon-button><i class="fa-solid fa-chevron-left"></i></button>
   </div>
   <div class="row h-100 center">
     <div class="col-md-6 center">
       <div class="col-9">
         <h1 class="font-4xl font-weight-bold text-center">{{ title }}</h1>
         <mat-card class="w-100">
-          <div>
-            <form [formGroup]="form">
-              <div>
-                <mat-form-field class="w-100">
-                  <input matInput placeholder="Titulo" formControlName="title" />
-                </mat-form-field>
-              </div>
-              <!-- <div>
-                <mat-form-field class="w-100">
-                  <input type="number" matInput placeholder="Precio" formControlName="price" />
-                  <span matPrefix>$</span>
-                </mat-form-field>
-              </div> -->
-              <div>
-                <mat-form-field class="w-100">
-                  <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
-                </mat-form-field>
-              </div>
-              <div>
-                <mat-form-field class="w-100">
-                  <mat-select #selectType placeholder="Estado" formControlName="status">
-                    <mat-option select value="active">Activo</mat-option>
-                    <mat-option value="inactive">Inactivo</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-              <!-- <div>
-                <mat-form-field class="w-100">
-                  <mat-select #selectType placeholder="Tipo de duración" formControlName="duration_type">
-                    <mat-option value="undefined">Indefinido</mat-option>
-                    <mat-option value="date_range">Rango de Fechas</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div> -->
-              <!-- <div [hidden]="selectType.value != 'date_range'">
+          <mat-card-content>
+            <div>
+              <form [formGroup]="form">
                 <div>
                   <mat-form-field class="w-100">
-                    <input readonly #dateMin matInput placeholder="Fecha Inicio" formControlName="start_date" />
+                    <mat-label>Titulo</mat-label>
+                    <input matInput placeholder="Titulo" formControlName="title" />
                   </mat-form-field>
                 </div>
                 <div>
                   <mat-form-field class="w-100">
-                    <input readonly #dateMax matInput placeholder="Fecha Fin" formControlName="end_date" />
+                    <mat-label>Descripción</mat-label>
+                    <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
                   </mat-form-field>
                 </div>
-              </div> -->
-              <div>
-                <button color="primary" [disabled]="isLoading" (click)="saveInServer()" mat-button>
-                  Guardar
-                  <i class="fa-regular fa-floppy-disk"></i>
-                </button>
-              </div>
-            </form>
-          </div>
+                <div>
+                  <mat-form-field class="w-100">
+                    <mat-label>Estado</mat-label>
+                    <mat-select #selectType placeholder="Estado" formControlName="status">
+                      <mat-option select value="active">Activo</mat-option>
+                      <mat-option value="inactive">Inactivo</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div>
+                  <button color="primary" [disabled]="isLoading" (click)="saveInServer()" mat-raised-button>
+                    Guardar <i class="fa-regular fa-paper-plane"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </mat-card-content>
         </mat-card>
       </div>
     </div>
@@ -93,7 +70,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <button (click)="deleteProduct(i)" color="warn" mat-icon-button><i class="fa-solid fa-trash"></i></button>
+                <button (click)="deleteProduct(i)" color="warn" mat-icon-button><i class="fa-regular fa-trash-can"></i></button>
               </div>
             </div>
             <div class="mb-2 px-3 py-2">
@@ -105,7 +82,7 @@
           </div>
         </div>
       </ng-template>
-      <button (click)="openDialogProductSearch()" mat-raised-button color="primary">
+      <button (click)="openDialogProductSearch()" mat-raised-button color="accent">
         Buscar productos
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>

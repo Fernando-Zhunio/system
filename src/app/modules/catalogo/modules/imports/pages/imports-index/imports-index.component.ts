@@ -28,7 +28,9 @@ export class ImportsIndexComponent extends MatTableHelper<Import>  {
   openDialogCreateOrEditImport(importId?: number | null) {
     const data = this.dataForDialog(importId);
     this.dialog.open(CreateOrEditImportModalComponent, {
-      data
+      data,
+      maxWidth: '500px',
+      disableClose: true,
     }).beforeClosed().subscribe((response) => {
       if (response?.success) {
        importId ? this.updateItemInTable(importId, response.data) : this.addItemInTable(response.data);

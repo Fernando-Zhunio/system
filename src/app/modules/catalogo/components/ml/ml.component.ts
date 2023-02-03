@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ImlInfo, ImlMenu } from '../../../../interfaces/iml-info';
+import { MercadoLibre, ImlMenu } from '../../../../interfaces/iml-info';
 import { STATE_ML_INFO } from '../../../../Objects/ObjectMatchs';
 import { MercadoLibreService } from '../../../../services/mercado-libre.service';
 import { InfoViewComponent } from '../info-view/info-view.component';
@@ -18,7 +18,7 @@ export class MlComponent {
   constructor(private s_mercado_libre: MercadoLibreService, public dialog: MatDialog, private snack_bar: MatSnackBar) { }
 
   ml_state = STATE_ML_INFO;
-  @Input() ml: ImlInfo;
+  @Input() ml: MercadoLibre;
   @Input() withName: boolean = false;
   ml_menu: ImlMenu | null = null;
   isLoadMenu: boolean = false;

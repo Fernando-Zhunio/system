@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImlInfo } from '../../../../../../interfaces/iml-info';
+import { MercadoLibre } from '../../../../../../interfaces/iml-info';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { SwalService } from '../../../../../../services/swal.service';
 import { CreateEmailModalComponent } from '../../../../../../components/modals/create-email-modal/create-email-modal.component';
@@ -12,7 +12,7 @@ import { CreateEmailModalComponent } from '../../../../../../components/modals/c
 })
 export class ModalRealistComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public ml: ImlInfo, private dialogRef: MatDialogRef<CreateEmailModalComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public ml: MercadoLibre, private dialogRef: MatDialogRef<CreateEmailModalComponent>) { }
 
   form: FormGroup = new FormGroup({
     price: new FormControl(this.ml.price, [Validators.required]),

@@ -1,4 +1,4 @@
-export interface ImlInfo {
+export interface MercadoLibre {
   account: Iaccount;
   companies_access: CompanyAccess[];
   created_at: string;

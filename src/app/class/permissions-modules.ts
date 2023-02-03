@@ -173,16 +173,16 @@ export const PermissionRappiProducts = {
     edit: ['catalogs.rappi.products.edit', 'super-admin'],
 }
 
-export const PERMISSION_CAMPAIGNS = {
-    index: ['catalogs.campaigns.index', 'super-admin'],
-    create: ['catalogs.campaigns.create', 'super-admin'],
-    edit: ['catalogs.campaigns.edit', 'super-admin'],
-    destroy: ['catalogs.campaigns.destroy', 'super-admin'],
-}
+// export const PERMISSION_CAMPAIGNS = {
+//     index: ['catalogs.campaigns.index', 'super-admin'],
+//     create: ['catalogs.campaigns.create', 'super-admin'],
+//     edit: ['catalogs.campaigns.edit', 'super-admin'],
+//     destroy: ['catalogs.campaigns.destroy', 'super-admin'],
+// }
 
-export const PERMISSIONS_PROMOTIONS = {
-    index: ['catalogs.promotions.index', 'super-admin'],
-    create: ['catalogs.promotions.create', 'super-admin'],
-    edit: ['catalogs.promotions.edit', 'super-admin'],
-    destroy: ['catalogs.promotions.destroy', 'super-admin'],
-}
+// export const PERMISSIONS_PROMOTIONS = {
+//     index: ['catalogs.promotions.index', 'super-admin'],
+//     create: ['catalogs.promotions.create', 'super-admin'],
+//     edit: ['catalogs.promotions.edit', 'super-admin'],
+//     destroy: ['catalogs.promotions.destroy', 'super-admin'],
+// }

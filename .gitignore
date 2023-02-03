@@ -14,7 +14,7 @@ package-lock.json
 
 # IDEs and editors
 /.idea
-.project
+# .project
 .classpath
 .c9/
 *.launch

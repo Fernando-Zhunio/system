@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { CreateOrEditCampaignComponent } from './pages/create-or-edit-campaign/create-or-edit-campaign.component';
+import { CreateOrEditCampaignComponent } from './components/create-or-edit-campaign/create-or-edit-campaign.component';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslatefzModule } from '../../../../Modulos/translatefz/translatefz.module';
 import { IndexPromotionsComponent } from './pages/index-promotions/index-promotions.component';
@@ -29,6 +29,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 // import { SearchProductsDialogModule } from '../../../../shared/standalone-components/simple-search/simple-search.module';
 import { CreateHostDirective } from '../../../../shared/directives/create-host.directive';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatBadgeModule,
     NgxSearchBarPaginatorComponent,
     MatTooltipModule,
+    MatDialogModule,
     // SearchProductsDialogModule,
     CreateHostDirective
   ],

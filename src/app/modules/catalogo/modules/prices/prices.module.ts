@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { PricesIndexComponent } from './pages/prices-index/prices-index.component';
 // import { SearchTemplateModule } from '../../../../Modulos/search-template/search-template.module';
 import { ConvertsModule } from '../../../../Modulos/converts/converts.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PricesRoutingModule } from './prices-routing.module';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+// import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
-import { CreateOrEditPriceComponent } from './create-or-edit-price/create-or-edit-price.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
+// import { CreateOrEditPriceComponent } from './create-or-edit-price/create-or-edit-price.component';
+// import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ModalListPricesComponent } from './tools/modal-list-prices/modal-list-prices.component';
+import { ModalListPricesComponent } from './components/modal-list-prices/modal-list-prices.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FilePondModule } from 'ngx-filepond';
 import { NgxPermissionsModule } from 'ngx-permissions';
@@ -25,9 +25,10 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { CreateOrEditImportModalComponent } from '../imports/components/create-or-edit-import-modal/create-or-edit-import-modal.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { SimpleSearchComponent } from '../../../../shared/standalone-components/simple-search/simple-search.component';
+import { NgxSearchBarPaginatorComponent } from '../../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 
 @NgModule({
-    declarations: [CreateOrEditPricesButtonSheetComponent, PricesIndexComponent, CreateOrEditPriceComponent, ModalListPricesComponent],
+    declarations: [CreateOrEditPricesButtonSheetComponent, PricesIndexComponent, ModalListPricesComponent],
     imports: [
         CommonModule,
         PricesRoutingModule,
@@ -36,11 +37,11 @@ import { SimpleSearchComponent } from '../../../../shared/standalone-components/
         FormsModule,
         ReactiveFormsModule,
         MatCardModule,
-        MatIconModule,
+        // MatIconModule,
         MatButtonModule,
         MatInputModule,
         MatChipsModule,
-        MatSidenavModule,
+        // MatSidenavModule,
         MatProgressSpinnerModule,
         MatDialogModule,
         FilePondModule,
@@ -51,7 +52,10 @@ import { SimpleSearchComponent } from '../../../../shared/standalone-components/
         MatBottomSheetModule,
         CreateOrEditImportModalComponent,
         ClipboardModule,
-        SimpleSearchComponent
+        SimpleSearchComponent,
+        NgxSearchBarPaginatorComponent,
+        NgOptimizedImage,
+        MatDialogModule,
     ]
 })
 export class PricesModule { }

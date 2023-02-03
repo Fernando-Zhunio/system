@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MercadoLibreIndexComponent } from './pages/mercado-libre-index/mercado-libre-index.component';
+import { IndexMercadoLibreComponent } from './pages/index-mercado-libre/index-mercado-libre.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MercadoLibreIndexComponent,
+    component: IndexMercadoLibreComponent,
     data: { name: 'mercado_libre' },
   }
 ];

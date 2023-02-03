@@ -1,6 +1,6 @@
 import { Brand } from "./ibrands";
 import { Icategory } from "./icategory";
-import { ImlInfo } from "./iml-info";
+import { MercadoLibre } from "./iml-info";
 import { Iimportation } from "./Imports/invoice-item";
 import { Iprefix } from "./iprefix";
 import { IprestashopProduct } from "./iprestashop-product";
@@ -82,7 +82,7 @@ export interface Iproduct2 {
   imports: Iimportation[];
   instagram_posts_count: number;
   last_prices: [];
-  ml_infos: ImlInfo[];
+  ml_infos: MercadoLibre[];
   name: string;
   old_code: string;
   prefix: Iprefix;

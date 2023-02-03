@@ -108,6 +108,20 @@
 </mat-card>
 </ngx-search-bar-paginator>
 
+
+<div class="upload-file-promotions center" *ngIf="isOpenFile">
+  <div class="col-md-6">
+    <div class="attach-file mb-4 position-relative">
+      <div class="container">
+        <file-pond #myPond className="m-0 shadow" [options]="pondOptions"></file-pond>
+      </div>
+      <button mat-icon-button style="top: 0
+      ;" class="btn-close" color="warn" (click)="isOpenFile = false">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+</div>
 <!-- <app-search-template-table>
   <ng-container menuBar>
     <mat-chip-list *ngxPermissionsOnly="permissions.create">

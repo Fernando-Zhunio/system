@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { ImlInfo } from '../../../interfaces/iml-info';
+import { MercadoLibre } from '../../../interfaces/iml-info';
 import { StandartSearchService } from '../../../services/standart-search.service';
 import { SwalService } from '../../../services/swal.service';
 
@@ -20,7 +20,7 @@ export class RepublicarCuentasModalComponent implements OnInit, OnDestroy {
     quantity: new FormControl(null, [Validators.required]),
     listing_type_id: new FormControl(null, [Validators.required]),
   });
-  ml_info: ImlInfo;
+  ml_info: MercadoLibre;
   isLoad: boolean = false;
   isFirst: boolean = true;
   companies_access: any[] = [];

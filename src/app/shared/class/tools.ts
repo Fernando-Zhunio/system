@@ -11,7 +11,6 @@ export function zoomImage(img: HTMLImageElement, selector: any = null, className
   img.classList.add(className)
   if (!selector) selector = document as Document;
   const callbackInScroll = (): void => {
-    console.log('scroll');
     img.classList.remove(className)
     selector.removeEventListener('scroll', callbackInScroll, true)
   }

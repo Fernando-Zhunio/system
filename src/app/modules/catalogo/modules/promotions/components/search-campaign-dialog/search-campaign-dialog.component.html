@@ -1,11 +1,3 @@
-<app-search-products-dialog
-  [url]="url"
-  [productsSelected]="campaign"
-  [onlyOne]="onlyOne"
-  [optionTemplate]="campaignTemplate"
-  [placeholder]="'Buscador de campaña'"
->
 <ng-template #campaignTemplate let-product>
     {{product.value.title}}
 </ng-template>
-</app-search-products-dialog>

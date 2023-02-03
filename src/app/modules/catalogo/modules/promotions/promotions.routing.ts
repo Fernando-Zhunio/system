@@ -1,9 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NgxPermissionsGuard } from "ngx-permissions";
-import { PERMISSIONS_PROMOTIONS } from "../../../../class/permissions-modules";
+// import { PERMISSIONS_PROMOTIONS } from "../../../../class/permissions-modules";
 import { PromotionsIndexComponent } from "./pages/promotions-index/promotions-index.component";
-
+import { PERMISSIONS_PROMOTIONS } from "./permissions/promotions.permissions";
+ 
 const routes: Routes = [
     {
         path: '',
