@@ -1,10 +1,10 @@
-import { Campaign } from './../../../campaign/interfaces/campaign';
+import { Product } from '../../../../../administracion_productos/products/interfaces/product';
+import { Campaign } from '../../../campaign/interfaces/campaign';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { NgxPermissionsService } from 'ngx-permissions';
-// import { PERMISSION_CAMPAIGNS } from '../../../../../../class/permissions-modules';
-import { IProduct } from '../../../../../../interfaces/iproducts';
+// import { IProduct } from '../../../../../../interfaces/iproducts';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
 import { SimpleSearchComponent } from '../../../../../../shared/standalone-components/simple-search/simple-search.component';
@@ -15,31 +15,24 @@ import { getDurationPromotionArray, getStatusesPromotionArray, PROMOTION_STATUS_
 import { PERMISSIONS_PROMOTIONS } from '../../permissions/promotions.permissions';
 
 @Component({
-  templateUrl: './promotions-index.component.html',
-  styleUrls: ['./promotions-index.component.scss']
+  templateUrl: './index-promotions.component.html',
+  styleUrls: ['./index-promotions.component.scss']
 })
-export class PromotionsIndexComponent extends MatTableHelper<Promotion> implements OnInit {
+export class IndexPromotionsComponent extends MatTableHelper<Promotion> implements OnInit {
   protected columnsToDisplay: string[] = [
     'id', 'created_at', 'status', 'title', 'price_formated', 'products', 'duration_type', 'description', 'campaign'];
   @ViewChild(MatTable) table: MatTable<Promotion>;
   @ViewChild('campaignTemplate') campaignTemplate: TemplateRef<any>;
   permissions = PERMISSIONS_PROMOTIONS;
 
-  // urlSearch: string = 'catalogs/promotions';
   url: string = 'catalogs/promotions';
-  products = [];
+  products: Product[] = [];
   campaigns: Campaign[] = [];
-  // filterData: any = {
-  //   status: PROMOTION_STATUS_ACTIVE,
-  //   'products[]': [],
-  //   duration_type: null,
-  //   'campaigns[]': []
-  // }
 
   formFilter = new FormGroup({
     status: new FormControl(PROMOTION_STATUS_ACTIVE),
     duration_type: new FormControl(null),
-    'products[]': new FormControl([]),
+    'products[]': new FormControl<any[]>([]),
     'campaigns[]': new FormControl<any>([])
   })
 
@@ -65,26 +58,32 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
     this.columnsToDisplay.push('actions');
   }
 
-  removeProduct(id: number) {
-    const productIndex = this.products.findIndex((product: IProduct) => product.id === id);
+  removeProduct(product: Product) {
+    const productIndex = this.products.findIndex((_product: Product) => _product.id === product.id);
     this.products.splice(productIndex, 1);
+    this.formFilter.patchValue({ 'products[]': this.products });
   }
 
   removeCampaign(id: number) {
     const campaignIndex = this.campaigns.findIndex((campaign) => campaign.id === id);
     this.campaigns.splice(campaignIndex, 1);
-    this.formFilter.patchValue({ 'campaigns[]': this.campaigns.map(e => e.id) });
+    this.formFilter.patchValue({ 'campaigns[]': this.campaigns });
   }
 
   openSearchProducts(): void {
     this.chs.openDialog(
       SimpleSearchComponent,
-      { path: 'catalogs/promotions/products', isMultiSelection: true })
+      { 
+      path: 'catalogs/promotions/products', 
+      isMultiSelection: true,
+      currentItemSelect: this.products,
+    })
       .beforeClose().subscribe((res: any) => {
         if (!res) {
           return;
         }
         this.products = res.data;
+        this.formFilter.patchValue({ 'products[]': this.products });
       });
   }
 
@@ -92,29 +91,18 @@ export class PromotionsIndexComponent extends MatTableHelper<Promotion> implemen
     this.chs.openDialogSelector({
         path: 'catalogs/campaigns',
         isMultiSelection: true,
-        itemTemplateRef: this.campaignTemplate
+        itemTemplateRef: this.campaignTemplate,
+        currentItemSelect: this.campaigns,
       })
       .beforeClose().subscribe((res: any) => {
-        // const data = res?.data;
         if (!res) {
           return;
-          // this.campaigns.set(data.id, data);
-          // this.setFilterDataCampaign();
         }
 
         this.campaigns = res?.data;
-        this.formFilter.patchValue({ 'campaigns[]': this.campaigns.map(e => e.id) });
-
+        this.formFilter.patchValue({ 'campaigns[]': this.campaigns });
       });
   }
-
-  // setFilterDataProducts() {
-  //   this.filterData['products[]'] = Array.from(this.products.keys());
-  // }
-
-  // setFilterDataCampaign() {
-  //   this.filterData['campaigns[]'] = Array.from(this.campaigns.keys());
-  // }
 
   deletePromotion(id: number) {
     const promotion = this.dataSource.find((item: Promotion) => item.id === id);

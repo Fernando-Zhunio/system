@@ -7,15 +7,15 @@ export const TYPES_CONTACTS = {
 };
 
 export const STATES_PUBLICATION = {
-  published: {value:"Publicado",css:{color:'white',background:'#86FF00'}},
-  unpublished: {value:"No publicado",css:{color:'white',background:'#808080'}},
+  published: {value:"Publicado",css:{color:'#4caf50',background:'#4caf5024'}},
+  unpublished: {value:"No publicado",css:{color:'#726d6d',background:'#726d6d24'}},
   incomplete: {value:"Incompleto",css:{color:'white',background:'#023D4C'}},
-  queue: {value:"En cola",css:{color:'black',background:'#AAD6FF'}},
+  queue: {value:"En cola",css:{color:'#3f51b5',background:'#3f51b524'}},
   processing: {value:"Procesando",css:{color:'white',background:'#0086FF'}},
   updating: {value:"Actualizando",css:{color:'white',background:'#0059AA'}},
   partially_processed: {value:"Parcialmente procesado",css:{color:'white',background:'#2C5500'}},
   deleting_unselected_items: {value:"Borrando item",css:{color:'white',background:'#FF2000'}},
-  error: {value:"Con error",css:{color:'black',background:'#E1E11E'}},
+  error: {value:"Con error",css:{color:'#e91e63',background:'#e91e6324'}},
 }
 
 export const STATE_ML_INFO ={

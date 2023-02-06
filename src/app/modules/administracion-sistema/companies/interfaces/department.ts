@@ -1,4 +1,4 @@
-import { Timestamp } from "../../../../shared/interfaces/Timestamp";
+import { Timestamp } from "../../../../shared/interfaces/timestamp";
 
 export interface Department extends Timestamp {
     id: number;

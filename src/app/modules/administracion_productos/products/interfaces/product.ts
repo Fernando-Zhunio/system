@@ -1,4 +1,6 @@
-import { Timestamp } from "../../../../shared/interfaces/Timestamp";
+// import { Timestamp } from "../../../../shared/interfaces/Timestamp";
+
+import { Timestamp } from "../../../../shared/interfaces/timestamp";
 
 export interface Product extends Timestamp {
     id: number;

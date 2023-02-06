@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Echo from 'laravel-echo';
-import { EchoManager } from '../../../../../class/echo-manager';
-import { Iresponse } from '../../../../../interfaces/Imports/invoice-item';
-import { IpermissionStandart } from '../../../../../interfaces/ipermission-standart';
-import { Publication } from '../../../../../interfaces/ipublication';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
-import { CONST_ECHO_PUBLICATIONS_CHANNEL_PRIVATE } from '../../../../../shared/objects/constants';
+import { EchoManager } from '../../../../../../class/echo-manager';
+import { Iresponse } from '../../../../../../interfaces/Imports/invoice-item';
+import { IpermissionStandart } from '../../../../../../interfaces/ipermission-standart';
+import { Publication } from '../../../../../../interfaces/ipublication';
+import { StandartSearchService } from '../../../../../../services/standart-search.service';
+import { CONST_ECHO_PUBLICATIONS_CHANNEL_PRIVATE } from '../../../../../../shared/objects/constants';
 
 @Component({
   selector: 'app-show-publication',

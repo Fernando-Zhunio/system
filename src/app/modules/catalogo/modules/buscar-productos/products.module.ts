@@ -29,7 +29,7 @@ import { MatListModule } from '@angular/material/list';
 import { NgxSearchBarPaginatorComponent } from '../../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { NgOptimizedImage } from '@angular/common'
 import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
-import { NgxSearchBarModule } from '../../../../../../projects/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from '../../../../../../project/ngx-search-bar/src/public-api';
 
 @NgModule({
   declarations: [PaginaWebComponent, ProductsComponent, StockBodegasComponent, DialogHistoryPricesProductComponent],

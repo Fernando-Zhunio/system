@@ -13,21 +13,21 @@ import {
 } from 'ngx-file-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, Subscription } from 'rxjs';
-import { environment } from '../../../../../../environments/environment';
-import { Iaccount } from '../../../../../interfaces/iml-info';
-import { Iresponse } from '../../../../../interfaces/Imports/invoice-item';
-import { Publication } from '../../../../../interfaces/ipublication';
-import { ICategoriesParent } from '../../../../../Modulos/tools/list-tree-dynamic/list-tree-dynamic.component';
-import { CatalogoService } from '../../../../../services/catalogo.service';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
-import { SwalService } from '../../../../../services/swal.service';
+import { environment } from '../../../../../../../environments/environment';
+import { Iaccount } from '../../../../../../interfaces/iml-info';
+import { Iresponse } from '../../../../../../interfaces/Imports/invoice-item';
+import { Publication } from '../../../../../../interfaces/ipublication';
+import { ICategoriesParent } from '../../../../../../Modulos/tools/list-tree-dynamic/list-tree-dynamic.component';
+import { CatalogoService } from '../../../../../../services/catalogo.service';
+import { StandartSearchService } from '../../../../../../services/standart-search.service';
+import { SwalService } from '../../../../../../services/swal.service';
 
 @Component({
-  selector: 'app-create-or-edit-publicacion',
-  templateUrl: './create-or-edit-publicacion.component.html',
-  styleUrls: ['./create-or-edit-publicacion.component.css'],
+  selector: 'app-create-or-edit-publication',
+  templateUrl: './create-or-edit-publication.component.html',
+  styleUrls: ['./create-or-edit-publication.component.css'],
 })
-export class CreateOrEditPublicacionComponent implements OnInit, OnDestroy {
+export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
   @ViewChild('formMain', { static: false }) formMain: ElementRef;
   empresas = new FormControl();
   publication: Publication;

@@ -1,0 +1,14 @@
+<div class="input-array">
+  <div class="ia-btn-search"><i class="fa-solid fa-magnifying-glass"></i> {{label}} </div>
+  <div class="ia-content-item" *ngIf="templateRef">
+    <div class="ia-item" *ngFor="let arr of arraySelect">
+      <span>
+        <ng-container
+        [ngTemplateOutlet]="templateRef"
+        [ngTemplateOutletContext]="{ $implicit: arr }"
+        ></ng-container>
+      </span>
+      <button (click)="deleteItem(arr, $event)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>

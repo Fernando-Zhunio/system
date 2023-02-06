@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { NgxSearchBarService } from '../../../../../projects/ngx-search-bar/src/lib/ngx-search-bar.service';
-import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from '../../../../../projects/ngx-search-bar/src/public-api';
+import { NgxSearchBarService } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 import { ResponsePaginateApi } from '../../interfaces/response-api';
 
 @Component({

@@ -76,7 +76,7 @@ import { InitializerAppNovisolutions } from './core/class/initializer-app-noviso
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
 import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
-import { DATA_FOR_SEARCH_BAR } from '../../projects/ngx-search-bar/src/public-api';
+import { DATA_FOR_SEARCH_BAR } from '../../project/ngx-search-bar/src/public-api';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({

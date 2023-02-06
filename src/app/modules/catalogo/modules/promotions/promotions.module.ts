@@ -2,7 +2,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSearchBarPaginatorComponent } from './../../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PromotionsIndexComponent } from './pages/promotions-index/promotions-index.component';
+import { IndexPromotionsComponent } from './pages/index-promotions/index-promotions.component';
 // import { SearchTemplateTableComponent } from '../../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { PromotionsRouting } from './promotions.routing';
 import { MatTableModule } from '@angular/material/table';
@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { SearchCampaignDialogComponent } from './components/search-campaign-dialog/search-campaign-dialog.component';
 import { MatCardModule } from '@angular/material/card';
+import { InputArrayComponent } from '../../../../shared/standalone-components/input-array/input-array.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSelectModule,
     MatCardModule,
     NgxSearchBarPaginatorComponent,
+    InputArrayComponent
   ],
-  declarations: [PromotionsIndexComponent, SearchCampaignDialogComponent]
+  declarations: [IndexPromotionsComponent, SearchCampaignDialogComponent]
 })
 export class PromotionsModule { }

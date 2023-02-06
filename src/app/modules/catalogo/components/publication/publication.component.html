@@ -17,11 +17,6 @@
             </div>
           </div>
           <div *ngIf="publication.errors">
-            <!-- <div class="my-2 alert-danger lead font-sm" *ngFor="let error of publication.errors">
-              Codigo:{{ error.code }}
-              <br />
-              Mensaje: {{ error.message }}
-            </div> -->
             <div
               *ngFor="let error of publication.errors"
               class="alert my-2 shadow-sm border-0 font-sm alert-danger alert-dismissible fade show"
@@ -41,9 +36,9 @@
       <div class="mt-0">
         <ng-container *ngIf="publication.ml_accounts.length > 0">
           Cuentas:
-          <mat-chip-list class="badge font-sm mr-1">
+          <mat-chip-set class="badge font-sm mr-1">
             <mat-chip *ngFor="let account of publication.ml_accounts">{{ account.user_name }}</mat-chip>
-          </mat-chip-list>
+          </mat-chip-set>
         </ng-container>
         <div class="actions">
           <button mat-raised-button color="accent" *ngIf="publication.description" (click)="openDescription()">
@@ -55,12 +50,10 @@
             color="primary"
             mat-raised-button>
             Opciones
-            <mat-icon>settings_suggest</mat-icon>
           </button>
 
           <mat-menu #menuOptions="matMenu">
             <button mat-menu-item [routerLink]="['/catalogo/publicaciones/show', publication.id]" [disabled]="isLoader">
-              <mat-icon>visibility</mat-icon>
               <span>Ver</span>
             </button>
             <button
@@ -69,7 +62,7 @@
               [disabled]="isLoader"
               color="primary"
               *ngxPermissionsOnly="permission_page.edit">
-              <mat-icon>create</mat-icon>
+              <!-- <mat-icon>create</mat-icon> -->
               <span>Editar</span>
             </button>
             <button
@@ -78,7 +71,7 @@
               color="warn"
               *ngxPermissionsOnly="permission_page.delete"
               (click)="deletePublication(publication.id)">
-              <mat-icon>delete</mat-icon>
+              <!-- <mat-icon>delete</mat-icon> -->
               <span>Eliminar</span>
             </button>
           </mat-menu>
@@ -93,7 +86,7 @@
                 <div *ngIf="publication.menu">
                   <div>
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                      <mat-icon>more_vert</mat-icon>
+                      <!-- <mat-icon>more_vert</mat-icon> -->
                     </button>
                     <mat-menu #menu="matMenu">
                       <div class="px-2 my-2 font-3xl">{{ publication.menu.type }}</div>
@@ -101,7 +94,7 @@
                         (click)="executeMenu(itemMenu.type, publication.id)"
                         *ngFor="let itemMenu of publication.menu.availablesItems; index as i"
                         mat-menu-item>
-                        <mat-icon>{{ itemMenu.icon }}</mat-icon>
+                        <!-- <mat-icon>{{ itemMenu.icon }}</mat-icon> -->
                         <span>{{ itemMenu.label }}</span>
                       </button>
                     </mat-menu>
@@ -109,11 +102,11 @@
                 </div>
               </div>
               <div>
-                <swiper [config]="config" [useSwiperClass]="false">
+                <!-- <swiper [config]="config" [useSwiperClass]="false">
                   <mat-card style="background: inherit" *ngFor="let ml of publication.ml_infos">
                     <app-ml [ml]="ml"></app-ml>
                   </mat-card>
-                </swiper>
+                </swiper> -->
               </div>
             </div>
           </div>

@@ -1,0 +1,42 @@
+.input-array {
+  margin: 10px 0;
+  border-bottom: 1px solid gray;
+  background: whitesmoke;
+  padding: 12px;
+  .ia-content-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+  }
+  .ia-btn-search {
+    padding: 5px 0;
+    color: gray;
+    font-size: small;
+    font-weight: 100;
+  }
+  .ia-item {
+    font-size: smaller;
+    margin: 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e4e4e4;
+    border-radius: 16px;
+    padding: 3px 5px;
+    box-shadow: 1px 1px 5px #dadada;
+    max-width: 100%;
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 0 4px;
+    }
+    button {
+      border-radius: 50%;
+      border: none;
+      background: #dadada;
+      color: #e91e63;
+    }
+  }
+}

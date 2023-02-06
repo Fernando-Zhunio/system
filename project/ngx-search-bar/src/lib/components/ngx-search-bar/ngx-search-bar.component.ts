@@ -1,18 +1,20 @@
-import { Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterContentInit, Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, Subject, switchMap, takeUntil } from 'rxjs';
 import { NgxSearchBarService } from '../../ngx-search-bar.service';
+import { empty } from '../../utils/empty';
 import { NgxSearchBarFormFilterComponent } from '../ngx-search-bar-form-filter/ngx-search-bar-form-filter.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'ngx-search-bar',
   templateUrl: './ngx-search-bar.component.html',
   styleUrls: ['./ngx-search-bar.component.scss'],
 })
-export class NgxSearchBarComponent implements OnInit, OnDestroy {
+export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestroy {
   constructor(
     private searchBarService: NgxSearchBarService,
-  ) {}
+  ) { }
 
   @ContentChild(NgxSearchBarFormFilterComponent) ngxFormFilter: NgxSearchBarFormFilterComponent;
 
@@ -24,12 +26,12 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
   @Input() autoInit: boolean = true;
   @Input() nameInputSearch: string = 'search';
   @Input() isBarExpand: boolean = false;
-  
+
   @Output() data = new EventEmitter<any>();
   @Output() loading = new EventEmitter<boolean>();
 
   isLoading: boolean = false;
-  @Input() filters: FormGroup | null = null;
+  formFilters: FormGroup | null = null;
   destroy$: Subject<boolean> = new Subject<boolean>();
   searchText: string = '';
   subject: Subject<{ [key: string]: any }> = new Subject();
@@ -39,34 +41,42 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.initWithModifyUrl();
+    // this.initWithModifyUrl();
     this.subscribeForSearch();
+  }
+  
+  ngAfterContentInit(): void {
+    //Called after ngOnInit when the component's or directive's content has been initialized.
+    //Add 'implements AfterContentInit' to the class.
+    this.initWithModifyUrl();
     this.autoInit ? this.search() : this.getParamsSend();
   }
 
   initWithModifyUrl(): void {
-    if (!this.isChangeUrl) return;
-    const params = this.searchBarService.getQueryParams();
-    if (!params) return;
-    if (params.hasOwnProperty(this.nameInputSearch)) {
-      this.searchText = params[this.nameInputSearch];
+    if (!this.ngxFormFilter) return;
+
+    let params = {};
+    if (this.isChangeUrl) {
+      params = this.searchBarService.getQueryParams() || {};
+      if (!params) return;
+      if (params.hasOwnProperty(this.nameInputSearch)) {
+        this.searchText = params[this.nameInputSearch];
+      }
     }
-    if(!this.filters) return;
 
     try {
-        this.filters?.patchValue(params);
-      // Object.keys(params).forEach(key => {
-      //   if (key === this.nameInputSearch ) return;
-      //   // this.filters[key] = params[key];
-      //   this.filters?.patchValue({[key]: params[key]});
-      // });
+      this.formFilters = new FormGroup({});
+      const plusParams = {...this.ngxFormFilter.getFormFilters().value, ...params,}
+      Object.keys(plusParams).forEach(key => {
+        if (key === this.nameInputSearch || empty(plusParams[key])) return;
+        this.formFilters?.addControl(key, new FormControl(plusParams[key]));
+      });
+      setTimeout(() => {
+        this.ngxFormFilter.setFormFiltersValue(this.formFilters!.value);
+      }, 0);
     } catch (error) {
-
+      console.error('error', error);
     }
-
-    setTimeout(() => {
-      this.ngxFormFilter.filters.patchValue(params);
-    }, 0);
   }
 
   subscribeForSearch(): void {
@@ -79,7 +89,6 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
         {
           next: (res) => {
             this.isLoading = false;
-            console.log('res', res);
             this.loading.emit(this.isLoading);
             if (this.isChangeUrl) {
               this.searchBarService.setQueryParams(this.currentParams);
@@ -113,7 +122,7 @@ export class NgxSearchBarComponent implements OnInit, OnDestroy {
   getParamsSend(params: { [key: string]: any } = {}): { [key: string]: any } {
     return {
       [this.nameInputSearch]: this.searchText,
-      ...this.filters,
+      ...this.formFilters?.value,
       ...params,
     };
   }
