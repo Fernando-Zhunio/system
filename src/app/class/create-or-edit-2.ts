@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { MethodsHttpService } from '../services/methods-http.service';
 import { SwalService } from '../services/swal.service';
 
-export abstract class CreateOrEdit2<T> {
+export abstract class CreateOrEdit2<T = any> {
     public status: 'create' | 'edit' = 'create';
     public data: T | null = null;
     public urlEdit = null;

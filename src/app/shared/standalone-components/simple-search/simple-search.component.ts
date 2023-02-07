@@ -22,12 +22,11 @@ import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/pu
 })
 export class SimpleSearchComponent {
 
-  // @Input() path: string;
-  // @Input() isMultiSelection: boolean = false;
-   itemsSelected: Map<number, any> = new Map<number, any>();
-   optionTemplate: TemplateRef<any>;
-   key: string = 'id';
-  // @Input() placeholder: string = "Buscador de producto";
+  itemsSelected: Map<number, any> = new Map<number, any>();
+  optionTemplate: TemplateRef<any>;
+  key: string = 'id';
+  items: Map<number, any> = new Map<number, any>();
+
   constructor(
     private componentRef: SimpleSearchDialogRef,
     @Optional() public dialogData: SimpleSearchSelectorDialogData
@@ -41,10 +40,7 @@ export class SimpleSearchComponent {
     if (dialogData?.key) {
       this.key = dialogData.key;
     }
-
   }
-
-  items: Map<number, any> = new Map<number, any>();
 
   getData(data: ResponsePaginateApi<any>) {
     this.items = new Map(data.data.data.map((item: any) => [item[this.key], item]));

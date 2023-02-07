@@ -44,7 +44,7 @@ export class IndexMercadoLibreComponent extends MatTableHelper implements OnInit
     max: new FormControl(null),
     state: new FormControl(null)
   })
-  isLoadingMenu: boolean;
+  isLoadingMenu = false;
   mlMenu: any;
   constructor(
     protected mhs: MethodsHttpService,

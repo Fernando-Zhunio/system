@@ -28,6 +28,10 @@
   transition-timing-function: ease;
 }
 
+.table {
+  color: inherit !important;
+}
+
 :root {
   --max-height-noty: 80vh;
   --z-index: 999;

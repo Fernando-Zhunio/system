@@ -1,0 +1,23 @@
+<h1 matDialogTitle class="font-weight-bold font-3xl">{{title}}</h1>
+
+<mat-dialog-content>
+  <div [formGroup]="form">
+    <mat-form-field class="w-100" *ngFor="let value of info">
+      <textarea
+        *ngIf="value?.type === 'textarea'; else templateInput"
+        matInput
+        [placeholder]="value.placeholder || value.label"
+        [formControlName]="value.name"
+        >{{value.label}}</textarea>
+      <ng-template #templateInput>
+        <mat-label>{{value.label}}</mat-label>
+        <input [placeholder]="value.placeholder || value.label" matInput [formControlName]="value.name" />
+      </ng-template>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button color="warn" [disabled]="isLoading" matDialogClose>Cerrar <i class="fa-regular fa-circle-xmark"></i></button>
+  <button mat-raised-button (click)="saveInServer()" color="primary" [disabled]="isLoading">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+</mat-dialog-actions>

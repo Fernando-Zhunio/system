@@ -1,5 +1,6 @@
+import { SimpleInputDialogComponent } from './../../../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog.component';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 // import { MatDialog } from '@angular/material/dialog';
 // import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,9 +13,12 @@ import { EchoManager } from '../../../../../../class/echo-manager';
 import { STATES_PUBLICATION } from '../../../../../../Objects/ObjectMatchs';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../../shared/class/mat-table-helper';
+import { zoomImage } from '../../../../../../shared/class/tools';
 import { CONST_ECHO_PUBLICATIONS_CHANNEL_PRIVATE } from '../../../../../../shared/objects/constants';
 import { InfoViewComponent } from '../../../../components/info-view/info-view.component';
 import { PERMISSIONS_PUBLICATIONS } from '../../permissions/publications.permissions';
+import { SimpleInputDialogData } from '../../../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog-data';
+import { Router } from '@angular/router';
 // import { animation_conditional } from '../../../../animations/animate_leave_enter';
 // import { EchoManager } from '../../../../class/echo-manager';
 // import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
@@ -39,7 +43,7 @@ export class IndexPublicationsComponent extends MatTableHelper implements OnInit
   formFilters = new FormGroup({
     state: new FormControl(''),
   })
-  statuses  = STATES_PUBLICATION;
+  statuses = STATES_PUBLICATION;
   @ViewChild(MatTable) protected table: MatTable<any>;
   // @ViewChild(HeaderSearchComponent) headerComponent: HeaderSearchComponent;
   // isLoader: boolean = false;
@@ -55,6 +59,8 @@ export class IndexPublicationsComponent extends MatTableHelper implements OnInit
   // aux_page_next: number;
   // subscription_api: Subscription;
   permissions = PERMISSIONS_PUBLICATIONS
+  mlMenu: any
+  isLoadingMenu = false;
   // permission_page: IpermissionStandart;
   constructor(
     // private actived_router: ActivatedRoute,
@@ -62,26 +68,26 @@ export class IndexPublicationsComponent extends MatTableHelper implements OnInit
     public dialog: MatDialog,
     // private s_catalogo: CatalogoService,
     // private s_mercado_libre: MercadoLibreService,
-    // private router: Router,
+    private router: Router,
 
     protected mhs: MethodsHttpService,
   ) {
     super();
   }
-    //#region FILTER DATA
-    // min: string;
-    // max: string;
-    // state_binding: string;
-    //#endregion
+  //#region FILTER DATA
+  // min: string;
+  // max: string;
+  // state_binding: string;
+  //#endregion
 
-    // paginator: Ipagination<Publication>;
-    states: {name: string, slug: string}[] = [{name: 'Publicado', slug: 'published'}, {name: 'Despublicado', slug: 'unpublished'}, {name: 'Incompleto', slug: 'incomplete'}, {name: 'En cola', slug: 'queue'}, {name: 'Procesando', slug: 'processing'}, {name: 'Actualizando', slug: 'updating'}, {name: 'Parciales procesados', slug: 'partially_processed'}, {name: 'Eliminados', slug: 'deleting_unselected_item'}, {name: 'Con errores', slug: 'error'}, ]
+  // paginator: Ipagination<Publication>;
+  states: { name: string, slug: string }[] = [{ name: 'Publicado', slug: 'published' }, { name: 'Despublicado', slug: 'unpublished' }, { name: 'Incompleto', slug: 'incomplete' }, { name: 'En cola', slug: 'queue' }, { name: 'Procesando', slug: 'processing' }, { name: 'Actualizando', slug: 'updating' }, { name: 'Parciales procesados', slug: 'partially_processed' }, { name: 'Eliminados', slug: 'deleting_unselected_item' }, { name: 'Con errores', slug: 'error' },]
 
-    //#region  filter
-    // filter_state: string | null = null;
-    echo: Echo;
+  //#region  filter
+  // filter_state: string | null = null;
+  echo: Echo;
 
-    //#endregion
+  //#endregion
   ngOnInit(): void {
     this.echo = new EchoManager().get();
     this.echo.private(this.getChannelPublications()).listen('.publication', this.listener.bind(this));
@@ -163,6 +169,29 @@ export class IndexPublicationsComponent extends MatTableHelper implements OnInit
     });
   }
 
+  openMlMenu(id: number): void {
+    if (this.mlMenu) { return; }
+    this.isLoadingMenu = true;
+    this.mhs.methodGet('catalogs/ml-products/' + id + '/menu').subscribe(
+      {
+        next: res => {
+          if (res?.success) {
+            this.mlMenu = res.data;
+            this.isLoadingMenu = false;
+          }
+        }, error: err => {
+          console.error(err);
+          this.isLoadingMenu = false;
+        }
+      }
+    );
+  }
+
+  zoom(event): void {
+    const target = event.target;
+    zoomImage(target);
+  }
+
   // loadData($event): void {
   //   this.products = $event;
   // }
@@ -173,5 +202,43 @@ export class IndexPublicationsComponent extends MatTableHelper implements OnInit
   //     this.products.splice(index, 1);
   //   }
   // }
+  createPublication(): void {
+    const data: SimpleInputDialogData = {
+      title: 'Crear publicación',
+      url: 'catalogs/publications',
+      method: 'post',
+      structs: [
+        {
+          name: 'name',
+          formControl: new FormControl('', [Validators.required]),
+          label: 'Nombre',
+        },
+        {
+          name: 'description',
+          formControl: new FormControl(''),
+          label: 'Descripción',
+          type: 'textarea',
+        }
+
+      ]
+    };
+    this.dialog.open(SimpleInputDialogComponent, {
+      maxWidth: '400px',
+      data,
+      closeOnNavigation: true,
+    }).beforeClosed().subscribe((res) => {
+      console.log(res);
+      if (!res) {
+        return;
+      }
+
+      if (res.response.success && res.response.data?.id) {
+        this.router.navigate([`catalogo/publications/${res.response.data.id}`, 'edit']);
+      }
+
+    });
+  }
+
+ 
 
 }

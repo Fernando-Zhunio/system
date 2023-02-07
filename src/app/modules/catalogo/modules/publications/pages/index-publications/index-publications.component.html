@@ -4,9 +4,10 @@
   [formFilter]="formFilters"
   placeholder="Buscar publicación"
   [path]="url"
+  isChangeUrl="true"
   (data)="getData($event)">
   <ng-container buttons>
-    <mat-chip color="create" *ngxPermissionsOnly="permissions.create" [routerLink]="['/catalogo/publicaciones/create']">
+    <mat-chip color="create" *ngxPermissionsOnly="permissions.create" (click)="createPublication()">
       <i class="fa-solid fa-plus"></i>
       Publicación
     </mat-chip>
@@ -16,7 +17,7 @@
       <mat-form-field class="w-100">
         <mat-label>Estado</mat-label>
         <mat-select type="text" formControlName="state">
-          <mat-option value="">Ninguna selección</mat-option>
+          <mat-option>Ninguna selección</mat-option>
           <mat-option *ngFor="let state of states" [value]="state.slug">
             {{ state.name }}
           </mat-option>
@@ -25,14 +26,56 @@
     </div>
   </ng-container>
 
-  <div>
-    <mat-card class="mb-3" *ngFor="let publication of dataSource">
+  <div class="card-columns">
+    <mat-card class="mb-3 card" *ngFor="let publication of dataSource">
       <mat-card-header>
         <mat-card-title>
           <span class="text-danger">
             {{ publication.id }}
           </span>
           {{ publication.name }}
+          <span class="actions">
+            <button
+              [matMenuTriggerFor]="menuOptions"
+              aria-label="Example icon-button with a menu"
+              color="primary"
+              mat-icon-button>
+              <i class="fa-solid fa-gear"></i>
+            </button>
+  
+            <mat-menu #menuOptions="matMenu">
+              <button mat-menu-item [routerLink]="[publication.id, 'show']">
+                <i class="fa-regular fa-eye"></i>
+                <span>Ver</span>
+              </button>
+              <button
+                mat-menu-item
+                [routerLink]="[publication.id, 'edit']"
+                color="primary"
+                *ngxPermissionsOnly="permissions.edit">
+                <i class="fa-solid fa-pen"></i>
+                <span>Editar</span>
+              </button>
+  
+              <button
+                (click)="openDescription(publication.id)"
+                *ngIf="publication.description"
+                mat-menu-item
+                color="primary">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Ver descripción</span>
+              </button>
+  
+              <button
+                mat-menu-item
+                color="warn"
+                *ngxPermissionsOnly="permissions.delete"
+                (click)="deleteData(publication.id)">
+                <i class="fa-regular fa-trash-can"></i>
+                <span>Eliminar</span>
+              </button>
+            </mat-menu>
+          </span>
         </mat-card-title>
         <mat-card-subtitle>
           <small [ngStyle]="statuses[publication.status]?.css" class="badge-fz {{ publication.status }} d-inline-block">
@@ -62,56 +105,8 @@
             </mat-chip-set>
           </ng-container>
         </div>
-        <div class="actions">
-          <!-- <button mat-raised-button color="accent" *ngIf="publication.description" (click)="openDescription()">
-            Ver descripción
-          </button> -->
-          <button
-            [matMenuTriggerFor]="menuOptions"
-            aria-label="Example icon-button with a menu"
-            color="primary"
-            mat-raised-button>
-            Opciones
-            <i class="fa-solid fa-gear"></i>
-          </button>
-
-          <mat-menu #menuOptions="matMenu">
-            <button mat-menu-item [routerLink]="['/catalogo/publicaciones/show', publication.id]">
-              <i class="fa-regular fa-eye"></i>
-              <span>Ver</span>
-            </button>
-            <button
-              mat-menu-item
-              [routerLink]="['/catalogo/publicaciones/edit', publication.id]"
-              color="primary"
-              *ngxPermissionsOnly="permissions.edit">
-              <i class="fa-solid fa-pen"></i>
-              <span>Editar</span>
-            </button>
-
-            <button
-              (click)="openDescription(publication.id)"
-              *ngIf="publication.description"
-              mat-menu-item
-              [routerLink]="['/catalogo/publicaciones/edit', publication.id]"
-              color="primary">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>Ver descripción</span>
-            </button>
-
-            <button
-              mat-menu-item
-              color="warn"
-              *ngxPermissionsOnly="permissions.delete"
-              (click)="deleteData(publication.id)">
-              <!-- <mat-icon>delete</mat-icon> -->
-              <i class="fa-regular fa-trash-can"></i>
-              <span>Eliminar</span>
-            </button>
-          </mat-menu>
-        </div>
         <div *ngIf="publication.ml_infos.length > 0">
-          <h3>
+          <h3 class="font-3xl font-weight-bold">
             Publicaciones
             <span *ngIf="publication.menu">
               <span>
@@ -122,7 +117,7 @@
                 <mat-menu #menu="matMenu">
                   <div class="px-2 my-2 font-3xl">{{ publication.menu.type }}</div>
                   <button
-                    (click)="executeMenu(itemMenu.type, publication.id)"
+                    (click)="executeMenu(publication.id, itemMenu.type)"
                     *ngFor="let itemMenu of publication.menu.availablesItems; index as i"
                     mat-menu-item>
                     <!-- <mat-icon>{{ itemMenu.icon }}</mat-icon> -->
@@ -132,21 +127,59 @@
               </span>
             </span>
           </h3>
-          <div>
+          <div class="overflow-auto">
             <table class="table">
               <thead>
-                <tr>
-                  <th>Plataforma</th>
+                <tr class="text-muted">
+                  <th>#</th>
+                  <th>Imagen</th>
+                  <th>Cuentas</th>
+                  <th>Nombre</th>
+                  <th>Precio</th>
                   <th>Estado</th>
-                  <th>Fecha de publicación</th>
-                  <th>Fecha de actualización</th>
-                  <th>Fecha de finalización</th>
+                  <th>Stock Disponible</th>
+                  <th>Tipo</th>
+                  <th>Inicio</th>
+                  <th>Stop</th>
+                  <th>Expiración</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of publication.ml_infos">
-                  <td></td>
+                <tr *ngFor="let ml of publication.ml_infos">
+                  <td>{{ml.id}}</td>
+                  <td>
+                    {{ml?.account?.city?.name}}:
+                    <span>{{ml.account.user_name}}</span>
+                  </td>
+                  <td>
+                    <img (click)="zoom($event)" class="avatar" width="40" height="40" [ngSrc]="ml.image || 'assets/not.png'" alt="img">
+                  </td>
+                  <td>{{ml.name}}</td>
+                  <td>{{ml.price | currency}}</td>
+                  <td>{{ml.status}}</td>
+                  <td>{{ml.stock?.available_quantity}}</td>
+                  <td>{{ml.listing_type_id}}</td>
+                  <td>{{ml.start_time | date: 'medium'}}</td>
+                  <td>{{ml.stop_time | date: 'medium'}}</td>
+                  <td>{{ml.expiration_time | date: 'medium'}}</td>
+                  <td>
+                    <span>
+                      <button (click)="openMlMenu(ml.id)" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <span *ngIf="isLoadingMenu"  class="px-2 font-weight-bold text-center d-flex align-items-center"><mat-spinner [diameter]="30"></mat-spinner></span>
+                        <ng-container *ngIf="mlMenu;">
+                          <div class="px-2 font-weight-bold text-center">{{mlMenu.type}}</div>
+                        <button (click)="executeMenu(ml.id, itemMenu.type)"
+                          *ngFor="let itemMenu of mlMenu.availablesItems;index as i " mat-menu-item>
+                          <span>{{itemMenu.label}}</span>
+                        </button>
+                        </ng-container>
+                      </mat-menu>
+                    </span>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -156,31 +189,3 @@
     </mat-card>
   </div>
 </ngx-search-bar-paginator>
-<!-- <div>
-  <app-search-template [title]="'Publicaciones'" [active_filters_menu]="true" [filter_data]="{state:filter_state}" [columns]="2" placeholder="Buscar publicación " [url$]="'catalogs/publications'" (data)="loadData($event)">
-    <ng-container  data>
-      <ng-container *ngFor="let p of products">
-        <div class="card border-0">
-          <app-publication  [permission_page]="permission_page"  [publication]="p" (delete)="destroyPublication($event)"></app-publication>
-        </div>
-      </ng-container>
-  </ng-container>
-  <ng-container filterMenu>
-    <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" class="h-100">
-      <mat-form-field class="w-100">
-          <mat-label>Estado</mat-label>
-          <mat-select type="text" #select_warehouse [(ngModel)]="filter_state">
-              <mat-option value="">Todos</mat-option>
-              <mat-option *ngFor="let state of states" [value]="state.slug">
-                  {{ state.name }}</mat-option>
-          </mat-select>
-      </mat-form-field>
-  </div>
-  </ng-container>
-  <ng-container menuBar>
-    <mat-chip class="ml-1 bg-stack-overflow text-white" *ngxPermissionsOnly="permission_page.create"  (click)="goNewPublication()">
-      <mat-icon>post_add</mat-icon> Nueva publicación
-  </mat-chip>
-  </ng-container>
-  </app-search-template>
-</div> -->

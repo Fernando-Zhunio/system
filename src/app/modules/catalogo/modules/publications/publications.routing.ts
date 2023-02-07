@@ -4,7 +4,7 @@ import { NgxPermissionsGuard } from "ngx-permissions";
 import { IndexPublicationsComponent } from "./pages/index-publications/index-publications.component";
 import { PERMISSIONS_PUBLICATIONS } from "./permissions/publications.permissions";
 import { ShowPublicationComponent } from "./pages/show-publication/show-publication.component";
-import { CreateOrEditPublicationComponent } from "./pages/create-or-edit-publicacion/create-or-edit-publication.component";
+import { EditPublicationComponent } from "./pages/create-or-edit-publication/create-or-edit-publication.component";
 
 const routes: Routes = [
 
@@ -20,7 +20,7 @@ const routes: Routes = [
     },
     {
         path: ':id/edit',
-        component: CreateOrEditPublicationComponent,
+        component: EditPublicationComponent,
         data: {
           isEdit: true,
           permissions: {
@@ -31,7 +31,7 @@ const routes: Routes = [
       },
       {
         path: 'create',
-        component: CreateOrEditPublicationComponent,
+        component: EditPublicationComponent,
         data: {
           isEdit: false,
           permissions: {

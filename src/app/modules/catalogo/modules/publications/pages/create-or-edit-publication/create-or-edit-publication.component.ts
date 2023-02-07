@@ -1,10 +1,13 @@
+// import { SimpleSearchSelectorService } from './../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { HttpParams } from '@angular/common/http';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+// import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import collect from 'collect.js';
 import {
@@ -12,47 +15,60 @@ import {
   NgxFileDropEntry,
 } from 'ngx-file-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
+// import { CreateOrEdit2 } from '../../../../../../class/create-or-edit-2';
 import { Iaccount } from '../../../../../../interfaces/iml-info';
 import { Iresponse } from '../../../../../../interfaces/Imports/invoice-item';
 import { Publication } from '../../../../../../interfaces/ipublication';
 import { ICategoriesParent } from '../../../../../../Modulos/tools/list-tree-dynamic/list-tree-dynamic.component';
 import { CatalogoService } from '../../../../../../services/catalogo.service';
-import { StandartSearchService } from '../../../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../../../services/methods-http.service';
+// import { StandartSearchService } from '../../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../../services/swal.service';
+import { SimpleInputDialogData } from '../../../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog-data';
+import { SimpleInputDialogComponent } from '../../../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog.component';
 
 @Component({
   selector: 'app-create-or-edit-publication',
   templateUrl: './create-or-edit-publication.component.html',
   styleUrls: ['./create-or-edit-publication.component.css'],
 })
-export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
-  @ViewChild('formMain', { static: false }) formMain: ElementRef;
+export class EditPublicationComponent implements OnInit, OnDestroy {
+  public urlSave: any;
+  // protected methodsHttp: MethodsHttpService;
+
+  // @ViewChild('formMain', { static: false }) formMain: ElementRef;
+  @ViewChild('templateMlCategories', { static: false }) mlCategoriesTemplateRef: TemplateRef<any>;
   empresas = new FormControl();
   publication: Publication;
   listing_types = [];
   ml_accounts: Iaccount[] = [];
   arrayImagen = [];
-  id: number | null = 1;
-  formName: FormGroup = new FormGroup({
-    name: new FormControl(null, Validators.required),
-  });
+  // formName: FormGroup = new FormGroup({
+  //   name: new FormControl(null, Validators.required),
+  //   description: new FormControl(null),
+  // });
 
   optionsTitle: any[] = [];
   public files: NgxFileDropEntry[] = [];
   constructor(
-    private s_standart: StandartSearchService,
-    private act_router: ActivatedRoute,
+    // private s_standart: StandartSearchService,
+    protected methodsHttp: MethodsHttpService,
+    protected route: ActivatedRoute,
     private s_catalogo: CatalogoService,
     private spinner_ngx: NgxSpinnerService,
-    private router: Router
-  ) { }
+    protected router: Router,
+    private dialog: MatDialog,
+    // private simpleDialog: SimpleSearchSelectorService
+  ) {
+  }
 
   url_server: string = environment.server_img;
-  formPublication: FormGroup = new FormGroup({
+  form: FormGroup = new FormGroup({
     title: new FormControl(null, Validators.required),
     category: new FormControl(null, Validators.required),
+    category_name: new FormControl({ value: null, disabled: true }),
     description: new FormControl(null, [
       Validators.required,
       Validators.minLength(20),
@@ -65,83 +81,92 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
   });
   src1: any;
   attributes = [];
-  alturaAttribute = '400px';
+  // alturaAttribute = '400px';
   isLoadCategory: boolean = false;
-  title: string;
+  // title: string;
   state: 'create' | 'edit' = 'create';
   options: any;
   isLoadPosition: boolean = false;
   isLoadPublication: boolean = false;
-  isEditNamePublication: boolean = true;
+  // isEditNamePublication: boolean = true;
   suscription_predictor: Subscription;
   suscription_attribute: Subscription;
   categories: any[] = [];
   isOpenCategoriesTree: boolean = false;
   isLoading: boolean = false;
 
+
+
+
+
   ngOnInit(): void {
-    this.s_catalogo.create_publications().subscribe((res) => {
-      this.ml_accounts = res.ml_accounts;
-      this.listing_types = res.listing_types;
+    this.methodsHttp.methodGet(`catalogs/publications/create`).subscribe((res) => {
+      this.ml_accounts = res['ml_accounts'];
+      this.listing_types = res['listing_types'];
       this.options = {
         onUpdate: (_event: any) => {
           this.movePositionArrayImages();
         },
       };
     });
-    this.act_router.data.subscribe((res) => {
-      if (res['isEdit']) {
-        this.state = 'edit';
-        this.spinner_ngx.show();
-        this.isEditNamePublication = false;
-        this.title = 'Editando Publication #' + this.id;
-        this.id = Number.parseInt(this.act_router.snapshot.paramMap.get('id')!);
-        this.s_standart
-          .show('catalogs/publications/' + this.id + '/edit')
-          .subscribe((response) => {
-            if (
-              response &&
-              response.hasOwnProperty('success') &&
-              response.success
-            ) {
-              if (response?.data?.publication?.images && response?.data?.publication?.images.length > 0) {
-                const collection = collect(response.data.publication.images);
-                const sorted = collection.sortBy('position');
-                response.data.publication.images = sorted.all();
-              }
-              this.publication = response.data.publication as Publication;
-              this.setDataFormPublication();
-              this.spinner_ngx.hide();
-            }
-          });
-      } else {
-        this.title = 'Creando Publicación';
-        this.id = null;
-      }
-    });
+    this.spinner_ngx.show();
+    const id = this.route.snapshot.paramMap.get('id');
+    this.methodsHttp
+      .methodGet('catalogs/publications/' + id + '/edit')
+      .subscribe((response) => {
+        if (response?.success) {
+          if (response?.data?.publication?.images && response?.data?.publication?.images.length > 0) {
+            const collection = collect(response.data.publication.images);
+            const sorted = collection.sortBy('position');
+            response.data.publication.images = sorted.all();
+          }
+          this.publication = response.data.publication as Publication;
+          this.setDataFormPublication();
+          this.spinner_ngx.hide();
+        }
+      });
+  }
+
+  getFile(file: any) {
+    console.log(file);
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      this.src1 = fileReader.result;
+    };
   }
 
   setDataFormPublication() {
-    this.formName.setValue({ name: this.publication.name });
-    const idsAccounts = this.getIdMlAccounts(this.publication.ml_accounts);
-    this.formPublication.get('title')?.setValue(this.publication.name);
-    this.formPublication.get('category')?.setValue(this.publication.category);
-    this.formPublication
-      .get('description')?.setValue(this.publication.description);
-    this.formPublication.get('qty')?.setValue(this.publication.quantity);
-    this.formPublication.get('price')?.setValue(this.publication.price);
-    this.formPublication.get('type')?.setValue(this.publication.listing_type);
-    this.formPublication.get('mlaccounts')?.setValue(idsAccounts);
-    if (this.publication.category) {
+    const { name, description, ml_accounts, category, quantity, price, listing_type } = this.publication;
+    // this.formName.patchValue({ name, description });
+    const idsAccounts = this.getIdMlAccounts(ml_accounts);
+    this.form.patchValue({
+      name,
+      description,
+      category,
+      qty: quantity,
+      price,
+      type: listing_type,
+      mlaccounts: idsAccounts
+    })
+    // this.formPublication.get('title')?.setValue(name);
+    // this.formPublication.get('category')?.setValue(category);
+    // this.formPublication
+    //   .get('description')?.setValue(description);
+    // this.formPublication.get('qty')?.setValue(quantity);
+    // this.formPublication.get('price')?.setValue(price);
+    // this.formPublication.get('type')?.setValue(listing_type);
+    // this.formPublication.get('mlaccounts')?.setValue(idsAccounts);
+    if (category) {
       this.setCategoriesForEdit(this.publication.category);
     }
   }
 
   setCategoriesForEdit(category_id: string): void {
-    this.s_standart.store(`catalogs/publications/ml/categories/${category_id}?type=full`, {}).subscribe((res) => {
+    this.methodsHttp.methodPost(`catalogs/publications/ml/categories/${category_id}?type=full`, {}).subscribe((res) => {
       if (res?.success) {
         const categories: ICategoriesParent = {
-          id: this.formPublication.get('category')?.value,
+          id: this.form.get('category')?.value,
           name: res.data.name,
           children: null
         };
@@ -152,11 +177,10 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
   movePositionArrayImages(): void {
     let form_params: HttpParams = new HttpParams();
     this.isLoadPosition = true;
-    this.s_standart
-      .updatePut(
+    this.methodsHttp
+      .methodPut(
         'catalogs/publications/' + this.publication.id + '/images',
         form_params,
-        false
       )
       .subscribe(
         () => {
@@ -188,10 +212,12 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
           if (file.type == 'image/jpeg' || file.type == 'image/png') {
-            this.s_standart
-              .uploadImg(
+            const form = new FormData();
+            form.append('image', file);
+            this.methodsHttp
+              .methodPost(
                 'catalogs/publications/' + this.publication.id + '/upload',
-                file
+                form
               )
               .subscribe((res: Iresponse) => {
                 if (res.success) {
@@ -211,12 +237,11 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
     }
   }
 
-
   public removeImage(id) {
     const index_img = this.publication.images?.findIndex((x) => x.id == id)!;
     if (index_img != -1) {
-      this.s_standart
-        .destory(
+      this.methodsHttp
+        .methodDelete(
           'catalogs/publications/' + this.publication.id + '/images/' + id
         )
         .subscribe((res: Iresponse) => {
@@ -227,48 +252,53 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
     }
   }
 
-  createPublicationName(): void {
-    if (this.formName.valid) {
-      this.isLoading = true;
-      let observable: Observable<any>
-      const isCreate = this.state == 'create';
-      if (isCreate) {
-        observable = this.s_standart
-          .methodPost('catalogs/publications', this.formName.value)
-      } else {
-        observable = this.s_standart
-          .methodPut(
-            'catalogs/publications/' + this.publication.id,
-            this.formName.value
-          )
-      }
-      observable.subscribe({
-        next: (res) => {
-          if (res?.success) {
-            this.isEditNamePublication = false;
-            this.publication = res.data;
-            if (!isCreate) {
-              this.setDataFormPublication();
-            }
-            this.isLoading = false;
-          }
-        }, error: () => {
-          this.isLoading = false;
-        }
-      })
-    }
-  }
+  // createPublicationName(): void {
+  //   if (this.formName.invalid) {
+  //     this.formName.markAllAsTouched();
+  //     return;
+  //   }
+  //   this.isLoading = true;
+  //   // let observable: Observable<any>
+  //   // const isCreate = this.state == 'create';
+  //   // if (this.status == 'create') {
+  //   //   observable = this.methodsHttp
+  //   //     .methodPost('catalogs/publications', this.formName.value)
+  //   // } else {
+  //   //   observable = this.methodsHttp
+  //   //     .methodPut(
+  //   //       'catalogs/publications/' + this.publication.id,
+  //   //       this.formName.value
+  //   //     )
+  //   // }
+  //   this.methodsHttp
+  //     .methodPut(
+  //       `catalogs/publications/${this.publication.id}`,
+  //       this.formName.value
+  //     ).subscribe({
+  //       next: (res) => {
+  //         if (res?.success) {
+  //           this.publication = res.data;
+  //           if (this.status !== 'create') {
+  //             this.setDataFormPublication();
+  //           }
+  //           this.isLoading = false;
+  //         }
+  //       }, error: () => {
+  //         this.isLoading = false;
+  //       }
+  //     })
+  // }
 
   getNameMlAccount(id) {
     return this.ml_accounts.find((x) => x.id == id)?.user_name;
   }
 
   removeItemMlAccount(id) {
-    const accounts = this.formPublication.get('mlaccounts')?.value;
+    const accounts = this.form.get('mlaccounts')?.value;
     const index = accounts.findIndex((x) => x == id);
     if (index != -1) {
       accounts.splice(index, 1);
-      this.formPublication.get('mlaccounts')?.setValue(accounts);
+      this.form.get('mlaccounts')?.setValue(accounts);
     }
   }
 
@@ -321,23 +351,23 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
       SwalService.swalToast('Se necesita por lo menos una imagen', 'warning');
       return;
     }
-    if (this.formPublication.valid) {
+    if (this.form.valid) {
       this.spinner_ngx.show();
 
       const data: any = {
         name: this.publication.name,
-        category: this.formPublication.get('category')?.value,
-        description: this.formPublication.get('description')?.value,
-        quantity: this.formPublication.get('qty')?.value,
-        price: this.formPublication.get('price')?.value,
-        listing_type: this.formPublication.get('type')?.value,
-        mlaccounts: this.formPublication.get('mlaccounts')?.value,
+        category: this.form.get('category')?.value,
+        description: this.form.get('description')?.value,
+        quantity: this.form.get('qty')?.value,
+        price: this.form.get('price')?.value,
+        listing_type: this.form.get('type')?.value,
+        mlaccounts: this.form.get('mlaccounts')?.value,
       }
 
-      const attributes = this.formPublication.get('attribute')?.value;
+      const attributes = this.form.get('attribute')?.value;
       const data_request = { ...data, ...attributes };
-      this.s_standart
-        .store('catalogs/publications/' + this.publication.id, data_request)
+      this.methodsHttp
+        .methodPost('catalogs/publications/' + this.publication.id, data_request)
         .subscribe(
           (res: { success: boolean; data: Publication }) => {
             if (res.success) {
@@ -350,7 +380,7 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
           },
           (err) => {
             console.error(err);
-            this.formPublication.markAllAsTouched();
+            this.form.markAllAsTouched();
             this.spinner_ngx.hide();
           }
         );
@@ -359,13 +389,13 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
     }
   }
 
-  editName(): void {
-    this.isEditNamePublication = true;
-  }
+  // editName(): void {
+  //   this.isEditNamePublication = true;
+  // }
 
   getAttributes(id, isEdit = false) {
-    this.alturaAttribute = this.formMain.nativeElement.offsetHeight + 'px';
-    this.formPublication.controls['attribute'] = new FormGroup({});
+    // this.alturaAttribute = this.formMain.nativeElement.offsetHeight + 'px';
+    this.form.controls['attribute'] = new FormGroup({});
     this.attributes.length = 0;
     if (this.suscription_attribute) { this.suscription_attribute.unsubscribe(); }
     this.suscription_attribute = this.s_catalogo
@@ -373,14 +403,14 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         if (res && res.hasOwnProperty('success') && res.success) {
           const attribute_copy = res.data;
-          this.formPublication.controls['attribute'] = new FormGroup({});
+          this.form.controls['attribute'] = new FormGroup({});
           const count_attribute = attribute_copy.length;
           for (let i = 0; i < count_attribute; i++) {
             if (attribute_copy[i].hasOwnProperty('values')) {
               if (attribute_copy[i].tags.catalog_required) {
                 const control_select = new FormControl(null);
                 const control_input = new FormControl(null);
-                const newFormGroup: FormGroup = this.formPublication.controls[
+                const newFormGroup: FormGroup = this.form.controls[
                   'attribute'
                 ] as FormGroup;
                 newFormGroup.addControl(
@@ -395,7 +425,7 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
                 const control_select = new FormControl();
                 const control_input = new FormControl();
                 // let  newFormGroup = new FormGroup({})
-                const newFormGroup = this.formPublication.controls[
+                const newFormGroup = this.form.controls[
                   'attribute'
                 ] as FormGroup;
                 newFormGroup.addControl(
@@ -411,7 +441,7 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
               if (attribute_copy[i].tags.catalog_required) {
                 const control_input = new FormControl(null);
                 // let  newFormGroup = new FormGroup({})
-                const newFormGroup = this.formPublication.controls[
+                const newFormGroup = this.form.controls[
                   'attribute'
                 ] as FormGroup;
                 // newFormGroup.addControl('name',new FormControl(attribute_copy[i].name));
@@ -423,7 +453,7 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
               } else {
                 const control_input = new FormControl(null);
                 // let  newFormGroup = new FormGroup({})
-                const newFormGroup = this.formPublication.controls[
+                const newFormGroup = this.form.controls[
                   'attribute'
                 ] as FormGroup;
 
@@ -447,7 +477,7 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
       this.publication.aditional_data &&
       this.publication.aditional_data?.attributes
     ) {
-      const form_attribute: FormGroup = this.formPublication.controls[
+      const form_attribute: FormGroup = this.form.controls[
         'attribute'
       ] as FormGroup;
       this.publication.aditional_data.attributes.forEach((attribute) => {
@@ -478,7 +508,7 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
         domain_name: null,
       }
     ];
-    this.formPublication.get('category')?.setValue(categories.id);
+    this.form.get('category')?.setValue(categories.id);
 
     this.getAttributes(categories.id, true);
   }
@@ -486,5 +516,84 @@ export class CreateOrEditPublicationComponent implements OnInit, OnDestroy {
 
   openOrCloseCategoriesTree(): void {
     this.isOpenCategoriesTree = !this.isOpenCategoriesTree;
+  }
+
+  editNamePublication(): void {
+    const data: SimpleInputDialogData = {
+      title: 'Editando publicación',
+      url: `catalogs/publications/${this.publication.id}`,
+      method: 'put',
+      structs: [
+        {
+          name: 'name',
+          formControl: new FormControl(this.publication.name, [Validators.required]),
+          label: 'Nombre',
+        },
+        {
+          name: 'description',
+          formControl: new FormControl(this.publication.description),
+          label: 'Descripción',
+          type: 'textarea',
+        }
+
+      ]
+    };
+    this.dialog.open(SimpleInputDialogComponent, {
+      maxWidth: '400px',
+      data,
+      closeOnNavigation: true,
+    }).beforeClosed().subscribe((res) => {
+      console.log({ res });
+      if (!res) {
+        return;
+      }
+
+      if (res.response.success && res.response.data?.id) {
+        this.publication.name = res.response.data.name;
+        this.publication.description = res.response.data.description;
+        // this.isEditNamePublication = false;
+      }
+
+    });
+  }
+
+  // openSearchCategories(): void {
+  //   this.simpleDialog.openDialogSelector({
+  //     path: 'catalogs/publications/category-predictor',
+  //     loadInit: false,
+  //     placeholder: 'Buscar categoría de mercado libre',
+  //     itemTemplateRef: this.mlCategoriesTemplateRef,
+  //   })
+  // }
+
+  selectOption(option: string, event): void {
+    event.stopPropagation();
+    this.form.get('category')?.setValue(option)
+    const optionFull = this.optionsTitle.find((item) => item.category_id === option);
+    this.form.get('category_name')?.setValue(`${optionFull?.category_name} (${optionFull?.domain_name})`)
+  }
+
+  displayFn(_option: any) {
+    return this.form.get('title')?.value
+  }
+
+  onDrop(event) {
+    event.preventDefault();
+    console.log(event, 'onDrop')
+  }
+  isDrag = false;
+
+  onDragOver(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.isDrag = true
+    console.log(event, 'onDragOver')
+  }
+
+  onDragLeave(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.isDrag = false
+    console.log(event, 'onDragLeave')
   }
 }
