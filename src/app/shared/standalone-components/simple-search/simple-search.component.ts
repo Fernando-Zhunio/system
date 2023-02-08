@@ -25,6 +25,7 @@ export class SimpleSearchComponent {
   itemsSelected: Map<number, any> = new Map<number, any>();
   optionTemplate: TemplateRef<any>;
   key: string = 'id';
+  loadInit = true;
   items: Map<number, any> = new Map<number, any>();
 
   constructor(
@@ -40,10 +41,13 @@ export class SimpleSearchComponent {
     if (dialogData?.key) {
       this.key = dialogData.key;
     }
+
+    this.loadInit = dialogData?.loadInit ?? true;
   }
 
   getData(data: ResponsePaginateApi<any>) {
     this.items = new Map(data.data.data.map((item: any) => [item[this.key], item]));
+    console.log(this.items);
   }
 
   addItem(key) {

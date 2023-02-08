@@ -1,0 +1,14 @@
+<div class="item-image-upload" *ngFor="let image of images;trackBy: trackByFn" class="position-relative">
+  <div *ngIf="image?.status !== 'loading'; templateLoading" class="buttons-container">
+    <button (click)="removeImage(image.id)" class="text-danger"><i class="fa-regular fa-trash-can"></i></button>
+    <button *ngIf="image?.status === 'error'" class="text-info"><i class="fa-solid fa-rotate-right"></i></button>
+  </div>
+  <ng-template #templateLoading>
+    <div class="loading">
+      cargando...
+    </div>
+  </ng-template>
+
+  <img [src]="image.url" alt="img">
+  <div *ngIf="image?.message">{{image.message}}</div>
+</div>

@@ -8,7 +8,7 @@ import { SwalService } from '../../../../../services/swal.service';
   selector: 'app-vtex-sites',
   templateUrl: './index-vtex-sites.component.html',
   styleUrls: ['./index-vtex-sites.component.css'],
-})
+}) 
 export class IndexVtexSitesComponent implements OnInit {
   constructor(
     private methodsHttp: MethodsHttpService,

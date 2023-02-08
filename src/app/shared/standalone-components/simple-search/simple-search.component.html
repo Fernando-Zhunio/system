@@ -5,7 +5,9 @@
       @fade
       (data)="getData($event)"
       [placeholder]="dialogData.placeholder || 'Buscador'"
-      [path]="dialogData.path">
+      [path]="dialogData.path"
+      [autoInit]="loadInit"
+      >
       <button buttons (click)="closeClean()" color="warn" mat-icon-button>
         <i class="fa-solid fa-circle-xmark"></i>
       </button>

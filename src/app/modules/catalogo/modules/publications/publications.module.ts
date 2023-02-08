@@ -22,6 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { CreatePublicationComponent } from './components/create-publication/create-publication.component';
 import { SimpleInputDialogComponent } from '../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog.component';
+import { ImgUploadComponent } from './components/img-upload/img-upload.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { SimpleInputDialogComponent } from '../../../../shared/standalone-compon
         EditPublicationComponent,
         // PublicationComponent,
         ShowPublicationComponent,
-        CreatePublicationComponent
+        CreatePublicationComponent,
+        ImgUploadComponent,
     ],
     imports: [
         CommonModule,

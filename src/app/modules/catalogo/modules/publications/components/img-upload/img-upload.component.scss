@@ -1,0 +1,34 @@
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.buttons-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    z-index: 1;
+    position: relative;
+  }
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.item-image-upload {
+    width: 100%;
+    aspect-ratio: 1/1.3;
+    
+}

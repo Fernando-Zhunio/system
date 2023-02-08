@@ -1,4 +1,4 @@
-export interface ResponseApi<T> {
+export interface ResponseApi<T = any> {
     success: boolean;
     data: T
 }
