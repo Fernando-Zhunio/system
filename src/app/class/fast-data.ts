@@ -5,7 +5,7 @@ import { User as IUser } from "../shared/interfaces/user";
 
 export class Token {
     private static instance: Token;
-    private token: string | null = null ;
+    private static token: string | null = null ;
     // private static token: string;
     private constructor() {}
 
@@ -16,11 +16,11 @@ export class Token {
         return this.instance;
     }
 
-    getToken(): string | null {
+    static getToken(): string | null {
         return this.token;
     }
 
-    setToken(token: string) {
+    static setToken(token: string) {
         this.token = token;
     }
 }

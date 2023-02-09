@@ -68,7 +68,7 @@ export class CustomInterceptor implements HttpInterceptor {
   createHeader() {
     const header = new HttpHeaders({
       accept: 'application/json',
-      Authorization: 'Bearer ' + Token.getInstance().getToken(),
+      Authorization: 'Bearer ' + Token.getToken(),
     });
     return header;
   }

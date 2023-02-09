@@ -15,9 +15,10 @@
     <!-- This is the tree node template for expandable nodes -->
     <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
         <button *ngIf="node.expandable" mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
-            <mat-icon class="mat-icon-rtl-mirror">
-                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
+            <!-- <mat-icon class="mat-icon-rtl-mirror"> -->
+                <i class="fa-solid fa-angle-{{treeControl.isExpanded(node) ? 'down' : 'right'}}"></i>
+                
+            <!-- </mat-icon> -->
         </button>
 
             <mat-chip (click)="selectedItem(node)">{{node.name}}</mat-chip>

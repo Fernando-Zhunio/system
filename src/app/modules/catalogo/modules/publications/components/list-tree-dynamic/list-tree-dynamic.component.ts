@@ -1,9 +1,9 @@
+import { MethodsHttpService } from './../../../../../../services/methods-http.service';
 import { Component, OnInit, Injectable, Output, EventEmitter, Input } from '@angular/core';
 import { CollectionViewer, SelectionChange } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StandartSearchService } from '../../../services/standart-search.service';
 
 /** Flat node with expandable and level information */
 export class DynamicFlatNode {
@@ -17,7 +17,7 @@ export class DynamicFlatNode {
 })
 export class ListTreeDynamicComponent implements OnInit {
 
-  constructor(public s_standard: StandartSearchService, private database: DynamicDatabase) { }
+  constructor(public methodsHttp: MethodsHttpService, private database: DynamicDatabase) { }
 
   @Input() url: string = 'catalogs/publications/ml/categories';
   treeControl: FlatTreeControl<DynamicFlatNode>;
@@ -35,10 +35,9 @@ export class ListTreeDynamicComponent implements OnInit {
   ngOnInit(): void {
 
     this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);
-    this.dataSource = new DynamicDataSource(this.treeControl, this.database, this.s_standard, this.url);
+    this.dataSource = new DynamicDataSource(this.treeControl, this.database, this.methodsHttp, this.url);
 
-    // this.dataSource.data = this.database.initialData(this.s_standard, this.url);
-    this.s_standard.store(this.url, null).subscribe(
+    this.methodsHttp.methodPost(this.url, null).subscribe(
       (data) => {
         this.dataSource.data = data.data.map((element: ICategoriesParent) => new DynamicFlatNode(element.id, element.name, 0, true));
         this.database.setDataMap(data.data);
@@ -97,7 +96,7 @@ export class DynamicDataSource {
   }
 
   constructor(private _treeControl: FlatTreeControl<DynamicFlatNode>,
-    private _database: DynamicDatabase, private s_standard: StandartSearchService, private url: String) { }
+    private _database: DynamicDatabase, private methodsHttp: MethodsHttpService, private url: String) { }
 
   connect(collectionViewer: CollectionViewer): Observable<DynamicFlatNode[]> {
     this._treeControl.expansionModel.changed.subscribe(change => {
@@ -142,7 +141,7 @@ export class DynamicDataSource {
     }
 
     node.isLoading = true;
-    this.s_standard.store(`${this.url}/${node.id}`, null).subscribe(
+    this.methodsHttp.methodPost(`${this.url}/${node.id}`, null).subscribe(
       (data) => {
 
         // this.dataChange.next(this.data);

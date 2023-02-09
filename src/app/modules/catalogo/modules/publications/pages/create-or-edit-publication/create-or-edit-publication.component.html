@@ -3,9 +3,9 @@
     <h3 class="font-4xl font-weight-bold mt-3 m-0">Publicación # {{ publication?.id }}</h3>
     <h2 *ngIf="publication" class="font-2xl">
       {{ publication.name }}
-      <button (click)="editNamePublication()" mat-mini-fab color="primary">
+      <!-- <button (click)="editNamePublication()" mat-mini-fab color="primary">
         <i class="fa-solid fa-pen"></i>
-      </button>
+      </button> -->
     </h2>
   </div>
   <mat-card
@@ -42,8 +42,8 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field class="col-12">
-              <mat-label>Titulo</mat-label>
-              <input type="text" matInput formControlName="title" required />
+              <mat-label>Nombre</mat-label>
+              <input type="text" matInput formControlName="name" required />
             </mat-form-field>
             <mat-form-field class="col-12">
               <mat-label>Categoría</mat-label>
@@ -62,7 +62,7 @@
             </mat-form-field>
             <mat-form-field class="col-md-4">
               <mat-label>Cantidad</mat-label>
-              <input type="number" formControlName="qty" matInput required />
+              <input type="number" formControlName="quantity" matInput required />
             </mat-form-field>
             <mat-form-field class="col-md-4">
               <mat-label>Precio</mat-label>
@@ -70,15 +70,13 @@
             </mat-form-field>
             <mat-form-field class="col-md-4">
               <mat-label>Selecciones un tipo</mat-label>
-              <mat-select formControlName="type">
+              <mat-select formControlName="listing_type">
                 <mat-option *ngFor="let key of keysListingTypes()" [value]="key">
                   {{ listingTypes[key] }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="col-12">
-              <!-- <div class="row">
-                  <div class="w-100 p-3 mb-3"> -->
               <div class="mb-2">
                 Imágenes
                 <label for="img-file">
@@ -96,8 +94,6 @@
                   [pathPost]="pathPost"
                   [images]="images"></app-img-upload>
               </div>
-              <!-- </div>
-                </div> -->
             </div>
           </div>
         </div>
@@ -131,7 +127,7 @@
         </div>
       </div>
       <div class="mt-3">
-        <button (click)="publicationNow()" type="button" mat-raised-button color="primary">
+        <button (click)="saveInServer()" type="button" mat-raised-button color="primary">
           Guardar
           <i class="fa-regular fa-paper-plane"></i>
         </button>
@@ -140,18 +136,17 @@
   </mat-card>
 
   <div
-    class="shadow vh-100 panel-categories pt-3"
+    class="shadow vh-100 panel-categories"
     [ngClass]="isOpenCategoriesTree ? 'open-categories' : 'close-categories'">
     <h2
       class="list-group-item-accent-warning sticky-top pl-2 bg-white font-weight-bold py-1 justify-content-between center">
       Categorías Ml
       <button mat-icon-button (click)="openOrCloseCategoriesTree()"><i class="fa-solid fa-xmark"></i></button>
     </h2>
-    <!-- <app-list-tree-dynamic (selectedNode)="selectedCategories($event)"></app-list-tree-dynamic> -->
+    <app-list-tree-dynamic (selectedNode)="selectedCategories($event)"></app-list-tree-dynamic>
   </div>
-  <!-- </ng-template> -->
 </div>
-
+ 
 <ng-template #templateMlCategories let-item>
   {{ item.value?.category_name }}
   <br />

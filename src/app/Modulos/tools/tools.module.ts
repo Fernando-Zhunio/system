@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListTreeDynamicComponent } from './list-tree-dynamic/list-tree-dynamic.component';
+// import { ListTreeDynamicComponent } from './list-tree-dynamic/list-tree-dynamic.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -13,7 +13,7 @@ import { SearchNullComponent } from './search-null/search-null.component';
 
 
 @NgModule({
-  declarations: [ListTreeDynamicComponent, ViewDocComponent, ViewCornerComponent, SearchNullComponent],
+  declarations: [ ViewDocComponent, ViewCornerComponent, SearchNullComponent],
   imports: [
     CommonModule,
     MatTreeModule,
@@ -22,6 +22,6 @@ import { SearchNullComponent } from './search-null/search-null.component';
     MatButtonModule,
     MatChipsModule,
   ],
-  exports: [ListTreeDynamicComponent, ViewDocComponent, ViewCornerComponent, SearchNullComponent]
+  exports: [ViewDocComponent, ViewCornerComponent, SearchNullComponent]
 })
 export class ToolsModule { }

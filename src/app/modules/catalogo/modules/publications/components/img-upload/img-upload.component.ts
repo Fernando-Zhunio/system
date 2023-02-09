@@ -1,5 +1,5 @@
 import { MethodsHttpService } from './../../../../../../services/methods-http.service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ResponseApi } from '../../../../../../shared/interfaces/response-api';
 import { SwalService } from '../../../../../../services/swal.service';
 
@@ -11,29 +11,14 @@ interface ImgUploadData { status: StatusImg, url: string, id: any, message?: str
   templateUrl: './img-upload.component.html',
   styleUrls: ['./img-upload.component.scss']
 })
-export class ImgUploadComponent implements OnInit {
+export class ImgUploadComponent {
 
   constructor(private mh: MethodsHttpService) { }
-  // @Input() initImages: {id: string, url: string}[] = [];
   @Input() images: ImgUploadData[] = [];
   @Input() pathPost: string;
   @Input() pathDelete: string;
   @Output() upload = new EventEmitter<File>();
   @Output() add = new EventEmitter<ResponseApi>();
-
-  ngOnInit() {
-    if (this.images.length < 1) {
-      return;
-    }
-
-    // this.images = this.initImages?.map((img) => {
-    //   return {
-    //     status: 'success',
-    //     url: img.url,
-    //     id: img.id
-    //   }
-    // }) || [];
-  }
 
   convertFileToUrl(file: any): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -66,8 +51,6 @@ export class ImgUploadComponent implements OnInit {
               const img = this.images.find((img) => img.id === id)!;
               img.status = 'success';
               img.id = res.data.id;
-              // this.publication.images?.push(res.data);
-              // this.add.emit(res);
             }
           }, error: () => {
             const img = this.images.find((img) => img.id === id)!;
@@ -75,6 +58,10 @@ export class ImgUploadComponent implements OnInit {
           }
         }
       );
+  }
+
+  public getImages(): ImgUploadData[] {
+    return this.images.filter((img) => img.status === 'success');
   }
 
   async addImage(dataSend: File, id?: any, name = 'image'): Promise<void> {

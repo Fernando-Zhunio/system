@@ -25,3 +25,16 @@ export function convertFormatDate(date, format='yyyy/MM/dd', lang = 'en'): any {
     lang
   );
 }
+
+export function convertFileToUrl(file: any): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}

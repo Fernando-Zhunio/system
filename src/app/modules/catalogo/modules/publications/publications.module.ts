@@ -23,6 +23,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CreatePublicationComponent } from './components/create-publication/create-publication.component';
 import { SimpleInputDialogComponent } from '../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog.component';
 import { ImgUploadComponent } from './components/img-upload/img-upload.component';
+import { ListTreeDynamicComponent } from './components/list-tree-dynamic/list-tree-dynamic.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -32,6 +35,7 @@ import { ImgUploadComponent } from './components/img-upload/img-upload.component
         ShowPublicationComponent,
         CreatePublicationComponent,
         ImgUploadComponent,
+        ListTreeDynamicComponent,
     ],
     imports: [
         CommonModule,
@@ -53,6 +57,8 @@ import { ImgUploadComponent } from './components/img-upload/img-upload.component
         MatRadioModule,
         MatDialogModule,
         MatAutocompleteModule,
+        MatTreeModule,
+        MatProgressBarModule
     ],
 })
 export class PublicationsModule {}

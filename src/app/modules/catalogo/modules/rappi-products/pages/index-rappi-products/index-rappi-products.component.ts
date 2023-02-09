@@ -3,14 +3,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FilePondOptions } from 'filepond';
-import { environment } from '../../../../../../environments/environment';
-import { Crud } from '../../../../../class/crud';
-import { PermissionRappiProducts } from '../../../../../class/permissions-modules';
-import { MethodsHttpService } from '../../../../../services/methods-http.service';
-import { StorageService } from '../../../../../services/storage.service';
-import { SwalService } from '../../../../../services/swal.service';
-import { StockRappiModalComponent } from '../components/stock-rappi-modal/stock-rappi-modal.component';
-import { RappiProduct } from '../interfaces/rappi-product';
+import { environment } from '../../../../../../../environments/environment';
+import { Crud } from '../../../../../../class/crud';
+import { Token } from '../../../../../../class/fast-data';
+import { PermissionRappiProducts } from '../../../../../../class/permissions-modules';
+import { MethodsHttpService } from '../../../../../../services/methods-http.service';
+// import { StorageService } from '../../../../../../services/storage.service';
+import { SwalService } from '../../../../../../services/swal.service';
+import { StockRappiModalComponent } from '../../components/stock-rappi-modal/stock-rappi-modal.component';
+import { RappiProduct } from '../../interfaces/rappi-product';
 
 @Component({
   selector: 'app-index-rappi-products',
@@ -19,8 +20,9 @@ import { RappiProduct } from '../interfaces/rappi-product';
 })
 export class IndexRappiProductsComponent extends Crud<any> {
 
-  constructor(private dialog: MatDialog,  private storage: StorageService, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
+  constructor(private dialog: MatDialog, protected methodsHttp: MethodsHttpService, protected snackBar: MatSnackBar) {
     super();
+    console.log(Token.getToken());
   }
 
   columnsToDisplay = ['sku', 'name', 'ean', 'trademark', 'price', 'discount_price', 'created_at', 'stock', 'is_available', 'actions'];
@@ -36,7 +38,7 @@ export class IndexRappiProductsComponent extends Crud<any> {
       process: {
         url: 'rappi-service/products/import',
         headers: {
-          Authorization: `Bearer ${this.storage.getCurrentToken()}`,
+          Authorization: `Bearer ${Token.getToken()}`,
           Accept: 'application/json',
         },
         onload: (response: any) => {

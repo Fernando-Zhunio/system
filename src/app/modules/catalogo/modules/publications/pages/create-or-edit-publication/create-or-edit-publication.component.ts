@@ -1,22 +1,14 @@
 import { SimpleSearchSelectorService } from './../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
-// import { environment } from '../../../../../../../environments/environment';
 import { Iaccount } from '../../../../../../interfaces/iml-info';
 import { Publication } from '../../../../../../interfaces/ipublication';
-import { ICategoriesParent } from '../../../../../../Modulos/tools/list-tree-dynamic/list-tree-dynamic.component';
+import { ICategoriesParent } from '../../components/list-tree-dynamic/list-tree-dynamic.component';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { SwalService } from '../../../../../../services/swal.service';
-import { SimpleInputDialogData } from '../../../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog-data';
-import { SimpleInputDialogComponent } from '../../../../../../shared/standalone-components/simple-input-dialog/simple-input-dialog.component';
 import { ImgUploadComponent } from '../../components/img-upload/img-upload.component';
 
 @Component({
@@ -34,28 +26,25 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
   images: { id: any, url: string }[] = [];
   pathPost: string = '';
   pathDelete: string = '';
-
-  // optionsTitle: any[] = [];
   constructor(
     protected methodsHttp: MethodsHttpService,
     protected route: ActivatedRoute,
-    private spinner_ngx: NgxSpinnerService,
+    private ngxSpinner: NgxSpinnerService,
     protected router: Router,
-    private dialog: MatDialog,
     private simpleDialog: SimpleSearchSelectorService,
   ) { }
 
   form: FormGroup = new FormGroup({
-    title: new FormControl(null, Validators.required),
+    name: new FormControl(null, Validators.required),
     category: new FormControl(null, Validators.required),
     category_name: new FormControl(),
     description: new FormControl(null, [
       Validators.required,
       Validators.minLength(20),
     ]),
-    qty: new FormControl(null, Validators.required),
+    quantity: new FormControl(null, Validators.required),
     price: new FormControl(null, Validators.required),
-    type: new FormControl(null, Validators.required),
+    listing_type: new FormControl(null, Validators.required),
     attribute: new FormGroup({}, [Validators.required]),
     mlaccounts: new FormControl(null, [Validators.required]),
   });
@@ -64,9 +53,11 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
   subscriptionPredictor: Subscription;
   subscriptionAttribute: Subscription;
   isOpenCategoriesTree: boolean = false;
+  isDrag = false;
+  counterDrag = 0;
 
   ngOnInit(): void {
-    this.spinner_ngx.show();
+    this.ngxSpinner.show();
     const id = this.route.snapshot.paramMap.get('id');
     this.setPaths(id);
     this.methodsHttp
@@ -81,16 +72,19 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
         this.images = this.publication?.images?.map((img) => {
           return { id: img.id, url: img.permalink };
         }) || [];
-        console.log(this.images);
         this.setDataFormPublication();
-        this.spinner_ngx.hide();
+        this.ngxSpinner.hide();
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionPredictor?.unsubscribe();
+    this.subscriptionAttribute?.unsubscribe();
   }
 
   setPaths(id): void {
     this.pathPost = `catalogs/publications/${id}/upload`;
     this.pathDelete = `catalogs/publications/${id}/images`;
-
   }
 
   addImage(event: any): void {
@@ -99,15 +93,14 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
 
   setDataFormPublication() {
     const { name, description, ml_accounts, category, quantity, price, listing_type } = this.publication;
-    const idsAccounts = this.getIdMlAccounts(ml_accounts);
     this.form.patchValue({
       name,
       description,
       category,
-      qty: quantity,
+      quantity,
       price,
-      type: listing_type,
-      mlaccounts: idsAccounts
+      listing_type,
+      mlaccounts: ml_accounts?.map(x => x.id) || []
     })
     if (category) {
       this.setCategoriesForEdit(category);
@@ -127,7 +120,6 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
     });
   }
 
-
   // movePositionArrayImages(): void {
   //   let form_params: HttpParams = new HttpParams();
   //   this.isLoadPosition = true;
@@ -146,70 +138,9 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
   //     );
   // }
 
-  getIdMlAccounts(mlaccounts: Iaccount[]) {
-    const mlSize = mlaccounts.length;
-    const ids: any = [];
-    for (let i = 0; i < mlSize; i++) {
-      ids.push(mlaccounts[i].id);
-    }
-    return ids;
-  }
-
   keysListingTypes(): Array<string> {
     return Object.keys(this.listingTypes);
   }
-
-  // public removeImage(id) {
-  //   const index_img = this.publication.images?.findIndex((x) => x.id == id)!;
-  //   if (index_img != -1) {
-  //     this.methodsHttp
-  //       .methodDelete(
-  //         'catalogs/publications/' + this.publication.id + '/images/' + id
-  //       )
-  //       .subscribe((res: Iresponse) => {
-  //         if (res.success) {
-  //           this.publication.images?.splice(index_img, 1);
-  //         }
-  //       });
-  //   }
-  // }
-
-  // createPublicationName(): void {
-  //   if (this.formName.invalid) {
-  //     this.formName.markAllAsTouched();
-  //     return;
-  //   }
-  //   this.isLoading = true;
-  //   // let observable: Observable<any>
-  //   // const isCreate = this.state == 'create';
-  //   // if (this.status == 'create') {
-  //   //   observable = this.methodsHttp
-  //   //     .methodPost('catalogs/publications', this.formName.value)
-  //   // } else {
-  //   //   observable = this.methodsHttp
-  //   //     .methodPut(
-  //   //       'catalogs/publications/' + this.publication.id,
-  //   //       this.formName.value
-  //   //     )
-  //   // }
-  //   this.methodsHttp
-  //     .methodPut(
-  //       `catalogs/publications/${this.publication.id}`,
-  //       this.formName.value
-  //     ).subscribe({
-  //       next: (res) => {
-  //         if (res?.success) {
-  //           this.publication = res.data;
-  //           if (this.status !== 'create') {
-  //             this.setDataFormPublication();
-  //           }
-  //           this.isLoading = false;
-  //         }
-  //       }, error: () => {
-  //         this.isLoading = false;
-  //       }
-  //     })
-  // }
 
   getNameMlAccount(id) {
     return this.mlAccounts.find((x) => x.id == id)?.user_name;
@@ -224,47 +155,8 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
     }
   }
 
-  // predictorMl(event) {
-  //   const title = event.target.value;
-  //   if (this.subscriptionPredictor) {
-  //     this.subscriptionPredictor.unsubscribe();
-  //   }
-  //   this.subscriptionPredictor = this.methodsHttp
-  //     .methodPost('catalogs/publications/category-predictor', { title })
-  //     .subscribe(
-  //       (res: any) => {
-  //         this.optionsTitle = res;
-  //         const exist_cat = this.optionsTitle.findIndex(
-  //           (x) => x.category_id == this.publication.category
-  //         );
-  //         if (exist_cat != -1) {
-  //           this.getAttributes(this.publication.category);
-  //         }
-  //       }
-  //     );
-  // }
-
-  ngOnDestroy(): void {
-    if (this.subscriptionPredictor) { this.subscriptionPredictor.unsubscribe(); }
-    if (this.subscriptionAttribute) { this.subscriptionAttribute.unsubscribe(); }
-  }
-
-  // alternativePredictor(event) {
-  //   const title = event.target.value;
-  //   // this.isLoadCategory = true;
-  //   this.methodsHttp.methodGet(`http://api.mercadolibre.com/sites/MEC/domain_discovery/search?q=${title}`).subscribe(
-  //     (res: any) => {
-  //       this.optionsTitle = res;
-  //       // this.isLoadCategory = false;
-  //     },
-  //     // () => {
-  //     //   this.isLoadCategory = false;
-  //     // }
-  //   );
-  // }
-
-  publicationNow() {
-    if (this.publication?.images?.length && this.publication?.images?.length < 1) {
+  saveInServer() {
+    if (this.imgUpload.getImages().length == 0) {
       SwalService.swalToast('Se necesita por lo menos una imagen', 'warning');
       return;
     }
@@ -273,26 +165,17 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return;
     }
-    this.spinner_ngx.show();
-    const data: any = {
-      name: this.publication.name,
-      category: this.form.get('category')?.value,
-      description: this.form.get('description')?.value,
-      quantity: this.form.get('qty')?.value,
-      price: this.form.get('price')?.value,
-      listing_type: this.form.get('type')?.value,
-      mlaccounts: this.form.get('mlaccounts')?.value,
-    }
+    this.ngxSpinner.show();
+    const { name, category, description, quantity, price, listing_type, mlaccounts } = this.form.value;
 
-    const attributes = this.form.get('attribute')?.value;
-    const data_request = { ...data, ...attributes };
+    const dataRequest = { name, category, description, quantity, price, listing_type, mlaccounts, ...this.form.get('attribute')?.value };
     this.methodsHttp
-      .methodPost<Publication>('catalogs/publications/' + this.publication.id, data_request)
+      .methodPost<Publication>('catalogs/publications/' + this.publication.id, dataRequest)
       .subscribe(
         {
           next: (res) => {
             if (res?.success) {
-              this.spinner_ngx.hide();
+              this.ngxSpinner.hide();
               this.router.navigate([
                 '/catalogo/publications'
               ]);
@@ -300,7 +183,7 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
           }, error: (err) => {
             console.error(err);
             this.form.markAllAsTouched();
-            this.spinner_ngx.hide();
+            this.ngxSpinner.hide();
           }
         }
       );
@@ -401,55 +284,15 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
     }
   }
 
-  openSideBarCategories(): void {
-  }
-
-  selectedCategories(categories: ICategoriesParent): void {
-    this.form.get('category')?.setValue(categories.id);
-    this.getAttributes(categories.id);
+  selectedCategories(category: ICategoriesParent): void {
+    console.log(category);
+    this.form.get('category')?.setValue(category.id);
+    this.form.get('category_name')?.setValue(category.name);
+    this.getAttributes(category.id);
   }
 
   openOrCloseCategoriesTree(): void {
     this.isOpenCategoriesTree = !this.isOpenCategoriesTree;
-  }
-
-  editNamePublication(): void {
-    const data: SimpleInputDialogData = {
-      title: 'Editando publicación',
-      url: `catalogs/publications/${this.publication.id}`,
-      method: 'put',
-      structs: [
-        {
-          name: 'name',
-          formControl: new FormControl(this.publication.name, [Validators.required]),
-          label: 'Nombre',
-        },
-        {
-          name: 'description',
-          formControl: new FormControl(this.publication.description),
-          label: 'Descripción',
-          type: 'textarea',
-        }
-
-      ]
-    };
-    this.dialog.open(SimpleInputDialogComponent, {
-      maxWidth: '400px',
-      data,
-      closeOnNavigation: true,
-    }).beforeClosed().subscribe((res) => {
-      console.log({ res });
-      if (!res) {
-        return;
-      }
-
-      if (res.response.success && res.response.data?.id) {
-        this.publication.name = res.response.data.name;
-        this.publication.description = res.response.data.description;
-        // this.isEditNamePublication = false;
-      }
-
-    });
   }
 
   openSearchCategories(): void {
@@ -471,13 +314,6 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
     });
   }
 
-  displayFn(_option: any) {
-    return this.form.get('title')?.value
-  }
-
-  isDrag = false;
-  counterDrag = 0
-
   onDrop(event: (Event & { dataTransfer: DataTransfer })) {
     event.preventDefault();
     this.isDrag = false;
@@ -485,6 +321,9 @@ export class EditPublicationComponent implements OnInit, OnDestroy {
     if (!event?.dataTransfer?.files[0]?.type?.includes('image')) {
       return;
     }
+    const file = event?.dataTransfer?.files[0];
+    this.imgUpload.addImage(file);
+
   }
 
   onDragOver(event) {

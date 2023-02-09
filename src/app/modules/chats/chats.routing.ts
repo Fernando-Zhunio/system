@@ -1,19 +1,13 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateGroupChatComponent } from './create-group-chat/create-group-chat.component';
+import { CreateGroupChatComponent } from './pages/create-group-chat/create-group-chat.component';
 
-@Component({
-  selector: 'app-as-users',
-  template: '<router-outlet></router-outlet>',
-})
-export class ChatMainComponents {}
 
 
 const routes: Routes = [
   // usuarios
   {
-    path: 'grupal',
-    component: ChatMainComponents,
+    path: 'groups',
     children: [
       {
         path: 'create',

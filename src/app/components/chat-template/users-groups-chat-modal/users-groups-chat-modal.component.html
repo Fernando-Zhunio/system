@@ -30,5 +30,5 @@
 </div>
 <div mat-dialog-actions>
     <button color="warn" mat-button mat-dialog-close cdkFocusInitial>Cerrar</button>
-    <button [routerLink]="['chats/grupal',data.id_chat,'edit']" *ngIf="data.is_admin" color="primary" mat-button mat-dialog-close cdkFocusInitial>Editar Grupo</button>
+    <button [routerLink]="['chats/groups',data.id_chat,'edit']" *ngIf="data.is_admin" color="primary" mat-button mat-dialog-close cdkFocusInitial>Editar Grupo</button>
 </div>

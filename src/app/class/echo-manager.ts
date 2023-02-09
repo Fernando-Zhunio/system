@@ -25,7 +25,7 @@ export class EchoManager {
         forceTLS: false,
         auth: {
             headers: {
-                Authorization: 'Bearer ' + Token.getInstance().getToken(),
+                Authorization: 'Bearer ' + Token.getToken(),
             },
         },
   }

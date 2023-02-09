@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PermissionRappiProducts } from '../../../../class/permissions-modules';
-import { IndexRappiProductsComponent } from './index-rappi-products/index-rappi-products.component';
+import { IndexRappiProductsComponent } from './pages/index-rappi-products/index-rappi-products.component';
 
 const permissionsModule = PermissionRappiProducts
 

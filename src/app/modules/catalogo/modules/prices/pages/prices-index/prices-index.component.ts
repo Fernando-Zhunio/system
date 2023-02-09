@@ -108,7 +108,7 @@ export class PricesIndexComponent
       process: {
         url: PRICE_ROUTE_API_IMPORT,
         headers: {
-          Authorization: `Bearer ${Token.getInstance().getToken()}`,
+          Authorization: `Bearer ${Token.getToken()}`,
           Accept: 'application/json',
         },
         onerror: (response: any) => {

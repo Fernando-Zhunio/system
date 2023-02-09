@@ -1,10 +1,36 @@
 <div>
   <div>
-    <h2 class="font-facebook font-3xl my-2">{{title}}</h2>
+    <h1 class="font-facebook font-3xl my-2">{{title}}</h1>
   </div>
-  <mat-horizontal-stepper linear #stepper class="rounded-fz">
-    <mat-step [editable]="true">
-      <div class="row">
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <h2>Datos del grupo</h2>
+        <div>
+          <span class="container-photo-group">
+            <img [src]="base64OrUrl || 'assets/img/user_group.png'" alt="">
+            <span>
+              <label for="edit-chat-group">
+                <button class="btn-icon c-edit"><i class="fa-solid fa-pen"></i></button>
+              </label>
+              <input type="file" hidden id="edit-chat-group" (change)="uploadPhoto($event)" accept="image/*">
+            </span>
+          </span>
+          <span [formGroup]="form">
+            <input type="text" placeholder="Nombre del grupo" formControlName="name">
+          </span>
+        </div>
+      </div>
+      <div>
+        <h2>Participantes</h2>
+        <div>
+          
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+      <!-- <div class="row">
         <ng-template matStepLabel>Seleccionador de usuarios</ng-template>
         <div class="col-md-6">
           <div class="search-container">
@@ -65,10 +91,9 @@
             </div>
           </mat-card>
         </div>
-      </div>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Datos del Grupo</ng-template>
+      </div> -->
+
+      <!-- <ng-template matStepLabel>Datos del Grupo</ng-template>
       <div class="container text-center">
         <div>
           <div *ngIf="img?.base64" class="position-relative">
@@ -96,7 +121,5 @@
           <mat-icon>arrow_back</mat-icon> Atras
         </button>
         <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveInServer()">Guardar</button>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+      </div> -->
 </div>

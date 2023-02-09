@@ -48,7 +48,7 @@ export class IndexPromotionsComponent extends MatTableHelper<Promotion> implemen
         process: {
           url,
           headers: {
-            Authorization: `Bearer ${Token.getInstance().getToken()}`,
+            Authorization: `Bearer ${Token.getToken()}`,
             Accept: 'application/json',
           },
           onload: (response: any) => {

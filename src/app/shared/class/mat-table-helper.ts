@@ -35,19 +35,19 @@ export abstract class MatTableHelper<T = any> {
 
     deleteItemInTable(id: number) {
         this.dataSource.splice(this.dataSource.findIndex((order: any) => order.id === id), 1);
-        this.table.renderRows();
+        this.table && this.table.renderRows();
     }
 
     updateItemInTable(id: any, newData, key = 'id') {
         const index = this.dataSource.findIndex(order => order[key] === id);
         if (index !== -1) {
             this.dataSource[index] = {...this.dataSource[index],...newData};
-            this.table.renderRows();
+            this.table && this.table.renderRows();
         }
     }
     addItemInTable(newData: T) {
         this.dataSource.unshift(newData);
-        this.table.renderRows();
+        this.table && this.table.renderRows();
     }
 }
 
