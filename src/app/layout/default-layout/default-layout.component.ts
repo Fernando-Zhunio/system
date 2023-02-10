@@ -16,6 +16,12 @@ import { MethodsHttpService } from '../../services/methods-http.service';
 import { INavData } from '../../interfaces/inav-data';
 import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
 import { AuthService } from '../../services/auth.service';
+  /** start-dev */
+
+import { environment } from '../../../environments/environment';
+import { environment as environmentProd } from '../../../environments/environment.prod';
+
+/** end-dev */
 
 @Component({
   selector: 'app-dashboard',
@@ -32,8 +38,6 @@ export class DefaultLayoutComponent implements OnInit {
     public overlayContainer: OverlayContainer,
     public sw_push: SwPush,
     private store: Store,
-    // private activatedRoute: ActivatedRoute,
-    // private preferencesServices: PreferencesService,
   ) {
     this.notifications$ = this.store.select(selectNotification);
   }
@@ -61,11 +65,11 @@ export class DefaultLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUnreadCountMessages();
-    this.hasDarkTheme(); //not loaded in resolver
-    this.notificationWeb = new NotificationsWebPush(this.methodsHttp); //not loaded in resolver
-    this.notificationWeb.canInitSw(); //not loaded in resolver
-    this.user = this.ss.getCurrentUser(); //not loaded in resolver
-    if (!this.user.person) { this.addPersonModal(this.user); } //not loaded in resolver
+    this.hasDarkTheme(); 
+    this.notificationWeb = new NotificationsWebPush(this.methodsHttp);
+    this.notificationWeb.canInitSw(); 
+    this.user = this.ss.getCurrentUser(); 
+    if (!this.user.person) { this.addPersonModal(this.user); } 
   }
 
   openOrCloseMenu(): void {
@@ -132,4 +136,20 @@ export class DefaultLayoutComponent implements OnInit {
     localStorage.setItem('isDark', JSON.stringify(this.isDark));
   }
 
+
+  /** start-dev */
+  readonly envDev = {...environment};
+  readonly envProd = {...environmentProd};
+
+  changeEnvironment(): {
+
+  }
+  /** end-dev */
+
 }
+
+
+/** start-dev */
+type EnvironmentTypes = 'production' | 'development' | 'staging';
+
+/** end-dev */

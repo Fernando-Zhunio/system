@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import { SharedService } from '../../../../services/shared/shared.service';
 import { SwalService } from '../../../../services/swal.service';
-// import { StandartSearchService } from '../../../../services/standart-search.service';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { CreateOrEdit } from '../../../../class/create-or-edit';
-import { Ichats } from '../../../../interfaces/chats/ichats';
-import { IuserSystem } from '../../../../interfaces/iuser-system';
 import { CreateOrEdit2 } from '../../../../class/create-or-edit-2';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { convertFileToUrl } from '../../../../shared/class/tools';
@@ -15,12 +10,9 @@ import { User } from '../../../../shared/interfaces/user';
 @Component({
   selector: 'app-create-group-chat',
   templateUrl: './create-group-chat.component.html',
-  styleUrls: ['./create-group-chat.component.css'],
+  styleUrls: ['./create-group-chat.component.scss'],
 })
 export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
-  // protected act_router: ActivatedRoute;
-  // protected router: Router;
-  // ;
 
   constructor(protected act_router: ActivatedRoute, protected methodsHttp: MethodsHttpService, protected router: Router) {
     // super(active_router, s_standard, router);
@@ -30,8 +22,6 @@ export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
   override form = new FormGroup({
     name: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
     img: new FormControl<File | null>(null),
-    // 'participants': new FormControl<User[]>([], [Validators.required, Validators.minLength(2)]),
-    // 'admins': new FormControl<number[]>([]),
   });
 
   users: Map<any, User> = new Map();
@@ -64,7 +54,7 @@ export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
       this.form.get('img')!.setValue(null);
       return;
     }
-
+ 
     this.base64OrUrl = convertFileToUrl(value).then((res) => {
       this.base64OrUrl = res;
     });

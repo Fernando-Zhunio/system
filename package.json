@@ -2,6 +2,7 @@
   "name": "novisolutions",
   "version": "1.0.0",
   "description": "Sistema de gestión de la empresa Novisolutions",
+  "builders": "",
   "author": {
     "name": "Fernando Zhunio Reyes Alfonso",
     "url": "http://holeczek.pl",
