@@ -28,7 +28,7 @@ export class SidebarFzComponent implements OnInit, OnDestroy {
   @Output() hiddenSidebar: EventEmitter<boolean> = new EventEmitter();
 
   onlyIcons: boolean = false;
-  user: User | null = null;
+  user = User.getUser();
   urlImg;
   name: string;
   auxSearchPage: INavData[] = [];
@@ -39,7 +39,6 @@ export class SidebarFzComponent implements OnInit, OnDestroy {
   favoriteItems: Map<number, INavData> = new Map();
 
   constructor(private ss: StorageService, public sa: AuthService, private store: Store, private methodsHttp: MethodsHttpService) {
-    this.user = User.getInstance();
     this.name = this.user!.person?.first_name || this.user.name;
     this.urlImg = this.user?.person?.photo?.permalink || `https://ui-avatars.com/api/?background=random&name=${this.name}`;
   }

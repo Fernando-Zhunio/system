@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Iswal, SwalService } from '../swal.service';
 import { FilePondOptions } from 'filepond';
-import { StorageService } from '../storage.service';
+import { Token } from '../../class/fast-data';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class SharedService {
   public static dates_of_dashboard: { start_date: Date, end_date: Date } | null = null;
   public urlServer = environment.server;
 
-  constructor(private Http: HttpClient, private storage: StorageService) {
+  constructor(private Http: HttpClient) {
   }
 
   private notifications = new BehaviorSubject<INotification[]>([]);
@@ -185,7 +185,7 @@ export class SharedService {
   }
 
   filePondOptions(customFilePondOptions: CustomFilePondOptions) {
-    const pondOptions: FilePondOptions = new PondOptions(customFilePondOptions, this.storage.getCurrentToken() as string);
+    const pondOptions: FilePondOptions = new PondOptions(customFilePondOptions, Token.getToken()!);
     return pondOptions;
   }
 }

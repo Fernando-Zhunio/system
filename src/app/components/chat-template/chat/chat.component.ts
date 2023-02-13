@@ -1,3 +1,5 @@
+import { ChatService } from './../../../modules/chats/services/chat.service';
+import { MethodsHttpService } from './../../../services/methods-http.service';
 import {
   Component,
   Input,
@@ -10,7 +12,7 @@ import {
   QueryList,
   OnDestroy,
   AfterViewInit,
-  ChangeDetectorRef,
+  // ChangeDetectorRef,
   HostListener,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,27 +22,52 @@ import { Subscription } from 'rxjs';
 import autosize from 'autosize';
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/shared/shared.service';
-import { StandartSearchService } from '../../../services/standart-search.service';
-import { StorageService } from '../../../services/storage.service';
+// import { StandartSearchService } from '../../../services/standart-search.service';
+// import { StorageService } from '../../../services/storage.service';
 import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
-import { IchatBubble } from './../../../interfaces/chats/ichats';
+import { ChatMessage, Chat } from './../../../interfaces/chats/ichats';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Token, User } from '../../../class/fast-data';
 
-@Component({
+
+export interface ParticipantChatGroup {
+  _id: string;
+  id: number;
+  info: {
+    id: number;
+    name: string;
+    photo: string;
+    position: {
+      id: number;
+      name: string;
+      department_id: number;
+    }
+  }
+  last_seen: string;
+  status: 'online' | 'offline';
+  type: 'user' | 'group';
+}
+@Component({ 
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
+  styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
-  constructor(private dialog: MatDialog, private s_standard: StandartSearchService, private s_storage: StorageService, private s_shared: SharedService, private changed_detector: ChangeDetectorRef) { }
+  constructor(
+    private dialog: MatDialog, 
+    private methodHttp: MethodsHttpService, 
+    private s_shared: SharedService, 
+    private chatService: ChatService,
+  ) { }
   @ViewChild('scrollMe') private scrollFrame: ElementRef;
   @ViewChildren('ngfor') ngfor: QueryList<any>;
   @ViewChild('textMessage') textMessage: ElementRef;
   @ViewChild('myPond') myPond: any;
-  @Input() chat: IchatBubble;
-  @Input() current_chat_id: string;
+  @Input() chat: Chat;
+  // @Input() current_chat_id: string;
   @Output() delete: EventEmitter<any> = new EventEmitter();
-  @Input() my_id: number;
+  @Input() myUserId: number;
+  @Input() id: string;
   hasFile: boolean = false;
   scrollContainer: any = null;
   sendTyping: boolean = true;
@@ -48,7 +75,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   hasNewMessages: boolean = false;
   page: number = 1;
   notMoreOldMessage: boolean = false;
-  not_bottom: boolean = false;
+  // not_bottom: boolean = false;
   disableScroll: boolean = false;
   attachments: { url: any; file: File, type: 'image' }[] = [];
   firstScroll: boolean = true;
@@ -64,7 +91,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       process: {
         url: 'storage/attachments/upload',
         headers: {
-          Authorization: `Bearer ${this.s_storage.getCurrentToken()}`,
+          Authorization: `Bearer ${Token.getToken()}`,
           Accept: 'application/json',
         },
         onload: (response: any) => {
@@ -77,21 +104,50 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   isActiveWindow: boolean = true;
 
+  user = User.getUser();
+  inLineOrWrite: 'En línea' | 'Escribiendo...' = 'En línea';
+  participantsJoins = '';
+  messages: ChatMessage[] = [];
+  
+
   ngOnInit(): void {
+
     if (this.chat.data) {
       this.markReadMessage(this.chat.data._id);
       this.loadingMessages = true;
       this.getMessages();
+      if (this.chat.data.participants) {
+        this.participantsJoins = this.chat.data.participants.filter(x => x.id !== this.user.id).map(x => x.info.name).join(', ');
+        // console.log(this.chat?.data?.type)
+      }
+      this.subscriptionChat();
     }
     autosize(document.querySelectorAll('#textarea-chat'));
+  }
+  subscriptionChat(): void {
+    this.chatService.getChatActive(this.id)!.subscribe((message: ChatMessage) => {
+      if (!message) {
+        return
+      }
+      this.messages.push(message);
+      this.markReadMessage(this.chat.data._id);
+      if (this.isBottomScroll()) {
+        this.hasNewMessages = false;
+      }
+      
+    });
+  }
+
+  goBackScroll(): void {
+    this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight;
   }
 
   ngOnDestroy() {
     if (this.subscripted) {
       this.subscripted.unsubscribe();
     }
-    if (this.suscription_modal) {
-      this.suscription_modal.unsubscribe();
+    if (this.subscriptionModal) {
+      this.subscriptionModal.unsubscribe();
     }
     this.dialog.closeAll();
   }
@@ -99,7 +155,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:focus', ['$event'])
   windowActive(): void {
     this.isActiveWindow = true;
-    if (this.chat.id == this.current_chat_id) {
+    if (this.chat.id == this.id) {
       this.markReadMessage(this.chat.data._id);
     }
   }
@@ -114,53 +170,68 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.hasFile = false;
   }
 
-  getMessages(goBottom = false): void {
+  getPreviousMessages(): void {
+    this.page++;
+    this.getMessages();
+  }
+
+  trackByMessage(_index, item: ChatMessage): string {
+    return item._id;
+  }
+
+  getMessages(): void {
     SharedService.disabled_loader = true;
-    this.s_standard
-      .show(`chats/${this.chat.data._id}/messages?page=${this.page}`)
+    this.methodHttp
+      .methodGet(`chats/${this.chat.data._id}/messages?page=${this.page}`)
       .subscribe((res) => {
-        if (!Array.isArray(this.chat.messages)) {
-          this.chat.messages = [];
-        }
-        if (goBottom) {
-          this.not_bottom = true;
+        // if (!Array.isArray(this.chat.messages)) {
+        //   this.chat.messages = [];
+        // }
+        // if (goBottom) {
+        //   this.not_bottom = true;
+        //   const data = res.data.data;
+        //   if (data.length <= 0) {
+        //     this.notMoreOldMessage = true;
+        //   }
+        //   this.scrollContainer.scrollTop += 10;
+        //   // data.forEach((item) => {
+        //   //   this.chat.messages.unshift(item);
+        //   // });
+        //   this.messages = data
+        // } else {
           const data = res.data.data;
-          if (data.length <= 0) {
+          if (data?.length <= 0) {
             this.notMoreOldMessage = true;
+            return;
           }
           this.scrollContainer.scrollTop += 10;
-          data.forEach((item) => {
-            this.chat.messages.unshift(item);
-          });
-        } else {
-          const data = collect(res.data.data).reverse().all() as any;
-          this.chat.messages = this.chat.messages.concat(data);
-        }
-        this.page++;
+          const dataInverse = collect(data).reverse().all() as any;
+          this.messages = [...dataInverse, ...this.messages];
+        // }
         this.loadingMessages = false;
       });
   }
 
-  getMessageReconnected(): void {
-    SharedService.disabled_loader = true;
-    this.page = 1;
-    this.s_standard
-      .show(`chats/${this.chat.data._id}/messages?page=${this.page}`)
-      .subscribe((res) => {
-        this.not_bottom = true;
-        this.notMoreOldMessage = true;
-        this.scrollContainer.scrollTop += 10;
-        const data = collect(res.data.data).reverse().all() as any;
-        this.chat.messages = data;
-      }
-      );
-  }
+  // getMessageReconnected(): void {
+  //   SharedService.disabled_loader = true;
+  //   this.page = 1;
+  //   this.methodHttp
+  //     .methodGet(`chats/${this.chat.data._id}/messages?page=${this.page}`)
+  //     .subscribe((res) => {
+  //       this.not_bottom = true;
+  //       this.notMoreOldMessage = true;
+  //       this.scrollContainer.scrollTop += 10;
+  //       const data = collect(res.data.data).reverse().all() as any;
+  //       this.messages = data;
+  //     }
+  //     );
+  // }
 
   typingMessage(): void {
     if (this.sendTyping) {
       SharedService.disabled_loader = true;
       this.sendTyping = false;
-      this.s_standard.updatePut(`chats/${this.chat.id}/typing`, {}).subscribe();
+      this.methodHttp.methodPut(`chats/${this.chat.id}/typing`, {}).subscribe();
       setTimeout(() => {
         this.sendTyping = true;
       }, 2000);
@@ -183,27 +254,31 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.attachments.splice(index, 1);
   }
 
+  isBottomScroll(): boolean {
+    return this.scrollContainer.scrollTop + this.scrollContainer.clientHeight >= this.scrollContainer.scrollHeight - 100;
+  }
+
   ngAfterViewInit() {
     this.textMessage.nativeElement.focus();
     this.scrollContainer = this.scrollFrame.nativeElement;
-    this.subscripted = this.ngfor.changes.subscribe((data) => {
-      const hasBottom = this.scrollContainer.scrollTop + this.scrollContainer.clientHeight < this.scrollContainer.scrollHeight - (this.scrollContainer.clientHeight * 2);
-      if (hasBottom && !this.firstScroll) {
-        this.hasNewMessages = (!this.not_bottom && !data.last.nativeElement.className.includes('text-right'));
-        this.disableScroll = true;
-        this.positionScroll = this.scrollContainer.scrollTop;
-      } else {
-        this.hasNewMessages = false;
-        this.disableScroll = false;
-        this.positionScroll = this.scrollContainer.scrollHeight;
-      }
-      this.changed_detector.detectChanges();
-      this.not_bottom = false;
-      this.firstScroll = false;
-      if (this.chat.id == this.current_chat_id && this.isActiveWindow) {
-        this.markReadMessage(this.chat.data._id);
-      }
-    });
+    // this.subscripted = this.ngfor.changes.subscribe((_data) => {
+    //   // const hasBottom = this.scrollContainer.scrollTop + this.scrollContainer.clientHeight < this.scrollContainer.scrollHeight - (this.scrollContainer.clientHeight * 2);
+    //   // if (hasBottom && !this.firstScroll) {
+    //   //   this.hasNewMessages = (!this.not_bottom && !data.last.nativeElement.className.includes('text-right'));
+    //   //   this.disableScroll = true;
+    //   //   this.positionScroll = this.scrollContainer.scrollTop;
+    //   // } else {
+    //   //   this.hasNewMessages = false;
+    //   //   this.disableScroll = false;
+    //   //   this.positionScroll = this.scrollContainer.scrollHeight;
+    //   // }
+    //   this.changed_detector.detectChanges();
+    //   // this.not_bottom = false;
+    //   this.firstScroll = false;
+    //   if (this.chat.id == this.current_chat_id && this.isActiveWindow) {
+    //     this.markReadMessage(this.chat.data._id);
+    //   }
+    // });
   }
 
   scrollToBottom(): void {
@@ -228,7 +303,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onScrollUp(): void {
-    this.getMessages(true);
+    this.getPreviousMessages();
   }
 
 
@@ -253,29 +328,29 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     data['chat_id'] = this.chat.data._id;
 
-    this.s_standard
-      .store(`chats/user/messages`, data)
+    this.methodHttp
+      .methodPost(`chats/user/messages`, data)
       .subscribe(() => {
       });
   }
 
   markReadMessage(chat_id): void {
     SharedService.disabled_loader = true;
-    this.s_standard
-      .updatePut(`chats/${chat_id}/mark-read`, {}, false)
+    this.methodHttp
+      .methodPut(`chats/${chat_id}/mark-read`)
       .subscribe(() => {
         this.chat.data.unread_messages_count = 0;
       });
   }
 
-  suscription_modal: Subscription;
+  subscriptionModal: Subscription;
   openViewUsersGroupModal(): void {
-    this.suscription_modal = this.dialog.open(UsersGroupsChatModalComponent, {
+    this.subscriptionModal = this.dialog.open(UsersGroupsChatModalComponent, {
       data: {
         title: this.chat.name,
-        participants: this.chat.data.participants.filter(x => x.id != this.my_id),
+        participants: this.chat.data.participants.filter(x => x.id != this.myUserId),
         img: this.getPhoto(this.chat?.data?.img ? this.chat?.data?.img : this.chat?.data?.participants ? this.chat?.data?.participants[0]?.info?.photo : null),
-        isGroup: this.chat.data.type == 'group', myId: this.my_id, id_chat: this.chat.data._id,
+        isGroup: this.chat.data.type == 'group', myId: this.myUserId, id_chat: this.chat.data._id,
         admins: this.chat.data.admins,
         is_admin: this.chat.data.owner_is_admin
       }
@@ -287,7 +362,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   downloadResource(file, name, id) {
-    const message = this.chat.messages.find(x => x._id == id);
+    const message = this.messages.find(x => x._id == id);
     if (message == undefined) { return; }
     message.files[0]['isload'] = true;
     this.s_shared.download(`storage/attachments?file=${file}`)

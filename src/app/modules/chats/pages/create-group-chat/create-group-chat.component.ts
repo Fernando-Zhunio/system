@@ -5,7 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit2 } from '../../../../class/create-or-edit-2';
 import { MethodsHttpService } from '../../../../services/methods-http.service';
 import { convertFileToUrl } from '../../../../shared/class/tools';
-import { User } from '../../../../shared/interfaces/user';
+import { UserChatGroup } from '../../types/user-chat-group';
+import { debounceTime, switchMap, Observable } from 'rxjs';
+// import { User } from '../../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-create-group-chat',
@@ -15,7 +17,6 @@ import { User } from '../../../../shared/interfaces/user';
 export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
 
   constructor(protected act_router: ActivatedRoute, protected methodsHttp: MethodsHttpService, protected router: Router) {
-    // super(active_router, s_standard, router);
     super()
   }
 
@@ -24,19 +25,14 @@ export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
     img: new FormControl<File | null>(null),
   });
 
-  users: Map<any, User> = new Map();
+  imageUndefined = 	'https://ui-avatars.com/api/?background=random&name=NN'
+  users: Map<any, UserChatGroup> = new Map();
+  formSearch = new FormControl<string>('');
 
-  participants: Map<any, User> = new Map();
-  participantsAdmins: Map<any, User> = new Map();
+  participants: Map<any, UserChatGroup> = new Map();
+  participantsAdmins: Map<any, UserChatGroup> = new Map();
 
-  // usersSelect: Map<any, any> = new Map<any, any>();
-  secondFormGroup: FormGroup;
-  isEditable = false;
-  page: number = 1;
   searchText: string = '';
-  // img: { file: File, base64OrUrl: string } = { file: , base64OrUrl: 'assets/img/user_group.png' };
-  // nameGroup: string = '';
-  override isLoading: boolean = false;
 
   public urlSave: any = 'chats/groups';
   public override params: any = '?page=&search=';
@@ -44,9 +40,6 @@ export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
 
   base64OrUrl: any = 'assets/img/user_group.png';
 
-  // get image(): any {
-  //   return convertFileToUrl(this.form.get('img')!.value)
-  // }
 
   set image(value: File | null) {
     if (value === null) {
@@ -64,39 +57,48 @@ export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
   override isFormParams: boolean = true;
   ngOnInit(): void {
     this.init();
+    this.subscriptionSearchParticipant();
+  }
+
+  subscriptionSearchParticipant(): void {
+    this.formSearch.valueChanges
+    .pipe(
+      debounceTime(500),
+      switchMap(value => this.searchParticipants(value || ''))
+    )
+    .subscribe(
+      {
+        next: res => {
+          this.users = new Map<any, UserChatGroup>(res.data.data.map((item) => [item.id, item]));
+          this.isLoading = false;
+        }, error: () => { this.isLoading = false; }
+      }
+    );
   }
 
   override setData(data: any): void {
     if (this.status != 'edit') {
-      this.users = new Map<any, User>(data.data.map((item) => [item.id, item]));
+      this.users = new Map<any, UserChatGroup>(data.data.map((item) => [item.id, item]));
+      console.log(this.users);
     } else {
-      // const chatInfo = data.chat as Ichats;
       const {name, admins, img } = data.chat
-      //  chatInfo.name;
       this.form.get('name')!.setValue(name);
       this.base64OrUrl = img!;
       const participants = data.participants;
-      this.users = new Map<any, User>(data.users.data.map((item) => [item.id, item]));
+      this.users = new Map<any, UserChatGroup>(data.users.data.map((item) => [item.id, item]));
       this.participants = new Map<any, any>(participants.map((item) => [item.id, item]));
-      // { ...item, isAdmin: chatInfo.admins.includes(item._id) }
       this.participantsAdmins = new Map<any, any>(participants.map((item) => [item.id, { ...item, isAdmin: admins.includes(item.id) }]));
     }
   }
 
-  searchUser(): void {
+  searchParticipants(text: string): Observable<any> {
     this.isLoading = true;
-    this.params = '?page=&search=' + this.searchText;
-    this.methodsHttp.methodGet(`${this.urlSave}/create${this.params}`).subscribe(
-      {
-        next: res => {
-          this.users = new Map<any, User>(res.data.data.map((item) => [item.id, item]));
-          this.isLoading = false;
-        }, error: () => { this.isLoading = false; }
-      });
+    this.params = '?page=&search=' + text;
+    return this.methodsHttp.methodGet(`${this.urlSave}/create${this.params}`)
   }
 
   addParticipant(id): void {
-    if (this.users.has(id)) {
+    if (this.participants.has(id)) {
       return;
     }
     this.participants.set(id, this.users.get(id)!);
@@ -117,26 +119,16 @@ export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
     this.participantsAdmins.delete(id);
   }
 
-
-  // getPhoto(url): string {
-  //   return SharedService.rediredImageNull(url, 'assets/img/user.png');
-  // }
-
   uploadPhoto(event): void {
     this.image = event.target.files[0];
-    // this.img.base64OrUrl = SharedService.getBase64(event, this.callbackImg.bind(this));
   }
 
   removeImg(): void {
     this.image = null;
   }
 
-  // callbackImg(e): void {
-  //   this.image.base64OrUrl = e.srcElement.result;
-  // }
-
   override getDataForSendServer(): boolean | FormData {
-    if (this.form.invalid && this.participants.size < 3) {
+    if (this.form.invalid || this.participants.size < 2) {
       SwalService.swalFire({ icon: 'error', text: 'Faltan campos por llenar \n 1. Debe tener un mínimo de dos usuarios para ser un chat grupal\n 2. Debe tener un nombre de grupo', position: 'center' });
       return false;
     }
@@ -154,20 +146,7 @@ export class CreateGroupChatComponent extends CreateOrEdit2 implements OnInit {
     if (img) {
       formData.append('img', img);
     }
-    // formData.append('name', this.nameGroup);
-
-    // this.usersSelect.forEach((item) => {
-    //   formData.append('participants[]', item.id);
-    //   if (item.isAdmin) {
-    //     formData.append('admins[]', item.id);
-    //   }
-    // });
-
-    // if (this.image.base64OrUrl && this.image.file) {
-    //   formData.append('img', this.image.file);
-    // }
     return formData;
-
   }
 
   override go(): void {

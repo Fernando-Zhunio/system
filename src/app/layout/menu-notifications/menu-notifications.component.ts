@@ -98,7 +98,7 @@ export class MenuNotificationsComponent implements OnInit, OnDestroy {
   }
 
   getChannel(): string {
-    return CONST_ECHO_NOTIFICATION_CHANNEL_PRIVATE(User.getInstance().id);
+    return CONST_ECHO_NOTIFICATION_CHANNEL_PRIVATE(User.getUser().id);
   }
 
   suscribeNotifications(): void {

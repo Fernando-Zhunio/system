@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { User } from '../../../class/fast-data';
+// import { User } from '../../../class/fast-data';
 import { INotification } from '../../../interfaces/inotification';
 import { selectNotification } from '../../../redux/state/state.selectors';
 import { MethodsHttpService } from '../../../services/methods-http.service';
@@ -116,10 +117,10 @@ export class InicioComponent implements OnInit, OnDestroy {
       'name': 'Guayaquil',
       'cod': 200
   };
-  user: User;
+  user = User.getUser();
 
   ngOnInit(): void {
-    this.user = User.getInstance();
+    // this.user = User.getInstance();
     this.getDataWeather();
     this.sm.methodGet('home').subscribe(res => {
       if (res?.success) {

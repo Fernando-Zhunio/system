@@ -1,70 +1,32 @@
 <span class="col-md-3 col-12 chat-template p-0">
   <mat-card class="shadow rounded-fz">
-    <mat-card-header class="header-template-chat ">
+    <div class="header-chat">
         <img
         [src]="chat.img"
-        mat-card-avatar class="example-header-image "/>
-      <div class="chat-info-container d-flex justify-content-between">
-        <div class="chat-info">
-          <mat-card-title class="text-truncate mb-2">{{chat?.name}}
-          </mat-card-title>
-          <mat-card-subtitle>
-            <ng-container *ngIf="chat?.data?.type !== 'group';else TemplateGroup">
-              <ng-container *ngIf="!chat?.typing;else typingTemplate">
-                <span class="text-success"
-                  *ngIf="chat?.connected; else TemplateOffline">
-                  En linea
-                </span>
-                <ng-template #TemplateOffline>
-                  <span *ngIf="chat?.data?.participants[0]?.last_seen" class="text-muted">{{chat?.data?.participants[0]?.last_seen | date:'medium'}}</span>
-                </ng-template>
-    
-              </ng-container>
-              <ng-template #typingTemplate>
-                <span class="text-success">Escribiendo...</span>
-              </ng-template>
-              
-            </ng-container>
-            <ng-template #TemplateGroup>
-              <mat-card-subtitle class="text-info text-truncate">
-                <ul class="text-truncate d-flex p-0">
-                  <ng-container *ngFor="let participant of chat.data?.participants.slice(0,7);let i = index">
-                    <div class="name-group list-unstyled mr-1">
-                      <ng-container *ngIf="i < 6; else TemplateMoreParticipants">
-                        <img class="img-avatar-mini" [src]="getPhoto(participant?.info?.photo)" alt="">
-                        <span class="text-truncate p-2 tooltip-fz font-facebook">
-                          <img class="rounded-circle " [src]="getPhoto(participant?.info?.photo)"
-                            alt="">{{participant?.info?.name}}
-                        </span>
-                      </ng-container>
-                      <ng-template #TemplateMoreParticipants>
-                        <div class="text-muted center h-100">+{{chat?.data?.participants?.length - 7}}</div>
-                      </ng-template>
-                    </div>
-                  </ng-container>
-                </ul>
-              </mat-card-subtitle>
-            </ng-template>
-          </mat-card-subtitle>
+         class="photo-user"/>
+        <div class="overflow-hidden" style="flex:1">
+          <h3  class="text-truncate line-1 m-0 font-weight-bold">{{chat.name}}</h3>
+          <div class="chat-text-info-small">
+            <div class="text-success">
+              {{chat.typing ? 'Escribiendo...' : chat?.connected ? 'En linea' : ''}}
+            </div>
+            <div  class="text-truncate" *ngIf="chat?.data?.type === 'group'">
+                {{participantsJoins}}
+            </div>
+          </div>
         </div>
-        <div class="d-flex">
-          <!-- <button class="btn-close-chat text-danger font-2xl" (click)="closeChat()">
-            <i class="far fa-times-circle"></i>
-          </button> -->
-          <button mat-icon-button (click)="openViewUsersGroupModal()">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="closeChat()"><mat-icon>close</mat-icon></button>
+        <div class="container-option-chat">
+          <button (click)="openViewUsersGroupModal()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          <button class="text-danger" (click)="closeChat()"><i class="fa-solid fa-xmark"></i></button>
         </div>
-      </div>
-    </mat-card-header>
+    </div>
 
 
     <mat-card-content class="body-template-chat m-0">
       <div id="scroll-container" [scrollTop]="positionScroll"
         class="body-template-background-chat p-2" [infiniteScrollDisabled]="notMoreOldMessage" #scrollMe infiniteScroll
         [infiniteScrollUpDistance]="1" [infiniteScrollThrottle]="0" (scrolledUp)="onScrollUp()" [scrollWindow]="false">
-        <div #ngfor *ngFor="let message of chat?.messages"
+        <div #ngfor *ngFor="let message of messages; trackBy: trackByMessage"
           [ngClass]="{'text-right': message.author_user_id === my_id}">
           <ng-container *ngIf="message.type !== 'info';else templateInfo">
             <p class="shadow message" [ngClass]="message.author_user_id === my_id ?'message-send':'message-recept'">
@@ -112,7 +74,6 @@
                         Your browser does not support the audio element.
                       </audio>
                       <div *ngSwitchDefault>
-                        <!-- <embed [src]="file.permalink" type="*/{{file.ext}}"> -->
                         <div class="d-flex align-items-center text-muted bg-white rounded-lg p-sm-1">
                           <mat-icon>description</mat-icon>
                           <span class="text-truncate">{{file.original_name}}</span>
@@ -129,9 +90,6 @@
               </ng-template>
               <br>
               <small class="text-muted">{{message.created_at | date:'medium'}}
-                 <!-- <i
-                  *ngIf="message.author_user_id == my_id"
-                  class="{{message.is_readed_for_all?'fas text-success':'far'}} fa-check-circle"></i> -->
                   <i *ngIf="message.author_user_id === my_id"
                   [ngClass]="(message?.is_readed_for_all ) ? 'fas text-success': (message?.is_delivered_for_all)?'fas':'far'"
                   class="fa-check-circle"></i>
@@ -154,22 +112,16 @@
         <span class="shadow p-2">Cargando mensajes espere ...</span>
       </div>
     </mat-card-content>
-    <mat-card-actions  class="footer-template-chat position-relative align-items-center d-flex justify-content-between">
+    <mat-card-actions  class="footer-chat position-relative align-items-center d-flex justify-content-between">
       <div class="position-relative w-100" style="top: 27px;"> 
         <textarea autofocus  #textMessage (keydown)="typingMessage()" (keydown.enter)="sendMessage($event)" (keyup)="typingMessage()"  id="textarea-chat" type="text"
           class="input-send-message py-2 position-absolute w-100 border-0 shadow-sm" placeholder="Mensaje"></textarea>
       </div>
-      <!-- <i class="btn-emoji" (click)="toggled = !toggled" [(emojiPickerIf)]="toggled"
-        [emojiPickerDirection]="'top'"
-        (emojiPickerSelect)="handleSelection($event)">😄</i>
-        <i class="fas fa-paperclip btn-attach"></i> -->
 
       <button mat-icon-button class="btn-emoji" (click)="hasFile=!hasFile">
-        <!-- <mat-icon>attach_file</mat-icon> -->
         <i class="fa-solid fa-paperclip text-muted"></i>
       </button>
-      <button class="m-0 btn-send-message ml-1" mat-icon-button color="primary" (click)="sendMessage()">
-        <!-- <mat-icon>send</mat-icon> -->
+      <button class="m-0 btn-send-message ml-1" (click)="sendMessage()">
         <i class="fa-regular fa-paper-plane"></i>
       </button>
     </mat-card-actions>

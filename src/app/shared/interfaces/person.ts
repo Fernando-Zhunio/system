@@ -1,6 +1,11 @@
 export interface Person {
   birthday: string;
+  city: {
+    id: number;
+    name: string;
+  };
   city_id: number;
+  contact_info?: any;
   created_at: string;
   department_position_id: number;
   end_date: string;
@@ -9,6 +14,10 @@ export interface Person {
   identification_number: string;
   identification_type: string;
   last_name: string;
+  location: {
+    id: number;
+    name: string;
+  };
   location_id: number;
   photo: Photo;
   position: Position;
@@ -16,20 +25,11 @@ export interface Person {
   start_date: string;
   status: string;
   updated_at: string;
-  contact_info?: any;
   user_id: number;
-  location: {
-    id: number;
-    name: string;
-  };
   user?: {
     id: number;
     name: string;
     email?: string;
-  };
-  city: {
-    id: number;
-    name: string;
   };
 }
 
@@ -40,6 +40,7 @@ interface Photo {
   file: string;
   id: number;
   mime_type: string;
+  original_name: string;
   permalink: string;
   type: string;
   updated_at: string;

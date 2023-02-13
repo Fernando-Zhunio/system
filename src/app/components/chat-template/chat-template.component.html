@@ -1,5 +1,71 @@
-<div class="p-0 container-chat main-style shadow scrollbar-fz" [hidden]="!openOrClose">
-  <tabset [justified]="true">
+<div class="p-0 list-chats-container main-style shadow scrollbar-fz" [hidden]="!openOrClose">
+  <div class="header-list-chats">
+    <div (click)="changeTab('chats')">
+      <i class="fa-regular fa-comment"></i>
+      <span>Chats</span>
+    </div>
+    <div (click)="changeTab('users')">
+      <i class="fa-regular fa-address-book"></i>
+      <span>Contactos</span>
+    </div>
+    <div (click)="changeTab('bots')">
+      <i class="fa-solid fa-robot"></i>
+      <span>Bots</span>
+    </div>
+  </div>
+  <div>
+    <div [hidden]="activeTab !== 'chats'">
+      <ul>
+        <li (click)="openChatOfChat(chat.key)" class="item-chat" *ngFor="let chat of chats | keyvalue">
+          <div class="position-relative">
+            <img class="photo-chat" [src]="chat.value?.img || 'assets/img/user_group.png'" alt="img">
+            <span *ngIf="chat.value.connected" class="point-online-chat"></span>
+          </div>
+          <div class="info-chat">
+            <div class="name-chat">{{ chat.value?.name }}</div>
+            <div class="last-message-chat text-truncate"><ng-container
+              *ngIf="chat.value?.last_message.author_user_id === myUser.id"
+              >
+              <i
+                style="font-size: 10px;"
+                [ngClass]="chat.value?.last_message.is_readed_for_all ? 'fa-solid fa-check-double' : 'fa-solid fa-check' "
+                ></i>&nbsp;
+            </ng-container>{{ chat.value?.last_message?.text }}</div>
+          </div>
+          <div class="center">
+            <span class="date-chat">{{ chat.value?.last_message?.created_at | date: "shortDate" }}</span>
+            <span *ngIf="chat.value?.data?.unread_messages_count" class="badge badge-primary badge-pill ml-2">{{ chat.value?.data?.unread_messages_count }}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div [hidden]="activeTab !== 'users'">
+      <ul>
+        <li (click)="openChatOfChat(user.key)" class="item-chat" *ngFor="let user of users | keyvalue">
+          <div class="position-relative">
+            <img class="photo-chat" [src]="user.value.person?.photo?.permalink || 'assets/img/user_group.png'" alt="img">
+            <span *ngIf="user.value.connected" class="point-online-chat"></span>
+          </div>
+          <div class="info-chat">
+            <div class="name-chat">{{ user.value?.name }}</div>
+            <!-- <div class="last-message-chat text-truncate"><ng-container
+              *ngIf="chat.value?.last_message.author_user_id === myUser.id"
+              >
+              <i
+                style="font-size: 10px;"
+                [ngClass]="chat.value?.last_message.is_readed_for_all ? 'fa-solid fa-check-double' : 'fa-solid fa-check' "
+                ></i>&nbsp;
+            </ng-container>{{ chat.value?.last_message?.text }}</div> -->
+          </div>
+          <!-- <div class="center">
+            <span class="date-chat">{{ chat.value?.last_message?.created_at | date: "shortDate" }}</span>
+            <span *ngIf="chat.value?.data?.unread_messages_count" class="badge badge-primary badge-pill ml-2">{{ chat.value?.data?.unread_messages_count }}</span>
+          </div> -->
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- <tabset [justified]="true">
     <tab (selectTab)="onSelectChats($event)" [customClass]="'p-0 border-0'" id="tab1">
       <ng-template tabHeading>
         <span class="text-muted">
@@ -197,7 +263,7 @@
         </div>
       </div>
     </tab>
-  </tabset>
+  </tabset> -->
 </div>
 
 <div
@@ -211,5 +277,5 @@
       <img class="w-100 rounded-circle shadow-sm-img" [src]="chat?.value?.img" alt="icon chat">
     </span>
   </div>
-  <app-chat [current_chat_id]="current_chat_id" (delete)="closeChatBubble($event)" [chat]="chat.value" [my_id]="myUser.id"></app-chat>
+  <app-chat [id]="chat.key" (delete)="closeChatBubble($event)" [chat]="chat.value" [myUserId]="myUser.id"></app-chat>
 </div>

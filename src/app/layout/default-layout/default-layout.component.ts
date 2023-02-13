@@ -16,12 +16,6 @@ import { MethodsHttpService } from '../../services/methods-http.service';
 import { INavData } from '../../interfaces/inav-data';
 import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
 import { AuthService } from '../../services/auth.service';
-  /** start-dev */
-
-import { environment } from '../../../environments/environment';
-import { environment as environmentProd } from '../../../environments/environment.prod';
-
-/** end-dev */
 
 @Component({
   selector: 'app-dashboard',
@@ -136,20 +130,6 @@ export class DefaultLayoutComponent implements OnInit {
     localStorage.setItem('isDark', JSON.stringify(this.isDark));
   }
 
-
-  /** start-dev */
-  readonly envDev = {...environment};
-  readonly envProd = {...environmentProd};
-
-  changeEnvironment(): {
-
-  }
-  /** end-dev */
-
 }
 
 
-/** start-dev */
-type EnvironmentTypes = 'production' | 'development' | 'staging';
-
-/** end-dev */

@@ -1,6 +1,6 @@
 import { PreferencesTypes } from "../core/enums/preferences-types";
 import { Preferences as IPreferences } from "../core/interfaces/preferences";
-import { Person } from "../shared/interfaces/person";
+// import { Person } from "../shared/interfaces/person";
 import { User as IUser } from "../shared/interfaces/user";
 
 export class Token {
@@ -26,11 +26,12 @@ export class Token {
 }
 
 export class User {
+    private static user: IUser;
     private static instance: User;
-    id: number;
-    name: string;
-    email: string;
-    person: Person;
+    // id: number;
+    // name: string;
+    // email: string;
+    // person: Person;
     private constructor() { }
     public static getInstance(): User {
         if (!User.instance) {
@@ -38,14 +39,22 @@ export class User {
         }
         return User.instance;
     }
+
+    static getUser(): IUser {
+        return this.user;
+    }
+
+    static setUser(user: IUser): void {
+        this.user = user;
+    }
 }
 
-export function fillUser(user: IUser): void {
-    User.getInstance().id = user.id;
-    User.getInstance().name = user.name;
-    User.getInstance().email = user.email;
-    User.getInstance().person = user.person;
-}
+// export function fillUser(user: IUser): void {
+//     User.getInstance().id = user.id;
+//     User.getInstance().name = user.name;
+//     User.getInstance().email = user.email;
+//     User.getInstance().person = user.person;
+// }
 
 
 export class Preferences {

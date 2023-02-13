@@ -3,7 +3,7 @@ import { Session } from '../clases/session';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { User } from '../shared/interfaces/user';
 import { Person } from '../shared/interfaces/person';
-import { fillUser, Token } from '../class/fast-data';
+import { Token, User as UserFast } from '../class/fast-data';
 
 declare var require: any;
 const CryptoJS = require('crypto-js');
@@ -21,7 +21,8 @@ export class StorageService {
     this.currentSession = session;
     localStorage.setItem('session', this.encryptedAes(JSON.stringify(session)));
     Token.setToken(this.currentSession.token);
-    fillUser(this.currentSession.user);
+    UserFast.setUser(this.currentSession.user);
+    // fillUser(this.currentSession.user);
   }
 
   setSession(session: Session): void {
@@ -77,6 +78,7 @@ export class StorageService {
   }
 
   getCurrentToken(): string {
+    console.log(this.currentSession);
     return this.currentSession!.token;
   }
 

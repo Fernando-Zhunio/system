@@ -1,5 +1,5 @@
 import { NgxPermissionsService } from "ngx-permissions";
-import { fillUser, Token } from "../../class/fast-data";
+import { Token, User } from "../../class/fast-data";
 import { AuthService } from "../../services/auth.service";
 import { StorageService } from "../../services/storage.service";
 import { SoundNotification } from "../../shared/services/sound-notification";
@@ -24,7 +24,7 @@ export function InitializerAppNovisolutions(_st: StorageService, s_permissions: 
 
 function initializerFastData(st: StorageService) {
     Token.setToken(st.getCurrentToken())
-    fillUser(st.getCurrentUser());
+    User.setUser(st.getCurrentUser())
 }
 
 function notSession(sa: AuthService) {

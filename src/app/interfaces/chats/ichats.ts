@@ -1,26 +1,52 @@
+import { Person } from '../../shared/interfaces/person';
 import { Iperson } from './../iperson';
 
 
-export interface IchatBubble {
+export interface Chat {
   id: number | string;
-  data: Ichats;
-  // last_activity?: string;
+  data: ChatEvent;
   name: string;
   person?: Iperson | null;
   connected?: number;
-  messages: ImessageChat[];
+  // messages: ImessageChat[];
   index: number;
   img: string;
   last_message?: ImessageChat;
   typing: boolean;
-  // isActive: boolean;
-  // type: string;
 }
-export interface Ichats {
+
+
+export interface UserChatSearch {
+  connected: boolean;
+  id: number;
+  name: string;
+  person: Person
+}
+
+export interface ChatMessage {
+  _id: string;
+  author_user_id: number;
+  author: ChatAutor;
+  channel_id?: string;
+  created_at: string;
+  delivered_to?: [];
+  files: ChatFile[];
+  info?: Iinfo;
+  read_for?: ChatRead[];
+  // readed: string | boolean;
+  is_readed_for_all: boolean;
+  is_delivered_for_all: boolean;
+  text: string;
+  type: 'message' | 'info';
+  updated_at?: string;
+  links: Ilink[];
+}
+
+export interface ChatEvent {
   channel_id: string;
   created_at: string;
   img?: string;
-  last_message?: ImessageChat;
+  last_message?: ChatMessage;
   last_message_id: string;
   name: string;
   participants: IparticipantChat[];
@@ -72,7 +98,7 @@ export interface IuserChat {
   name: string;
   person?: Iperson;
   connected?: number;
-  data_chat: Ichats;
+  data_chat: ChatEvent;
   messages?: ImessageChat[];
   index?: number;
 }
@@ -80,13 +106,13 @@ export interface IuserChat {
 export interface ImessageChat {
   _id?: string;
   author_user_id: number;
-  author: Iauthor;
+  author: ChatAutor;
   channel_id?: string;
-  created_at: string ;
+  created_at: string;
   delivered_to?: [];
-  files: IfileChat[];
+  files: ChatFile[];
   info?: Iinfo;
-  read_for?: IreadForChat[];
+  read_for?: ChatRead[];
   // readed: string | boolean;
   is_readed_for_all: boolean;
   is_delivered_for_all: boolean;
@@ -118,14 +144,14 @@ interface Ilink {
   };
 }
 
-interface Iauthor {
+interface ChatAutor {
   id: number;
   info: Iinfo;
   status: 'online' | 'offline';
   type: 'user';
   _id: number;
 }
-export interface IfileChat {
+export interface ChatFile {
   attributes: { width: number, height: number };
   created_at: string;
   ext: string;
@@ -140,8 +166,8 @@ export interface IfileChat {
   progress?: number;
 }
 
-export interface Ichannel {
-  chats: Ichats[];
+export interface ChatChannel {
+  chats: ChatEvent[];
   name: null;
   privacity: 'private' | 'private';
   type: 'personal' | 'group';
@@ -150,7 +176,7 @@ export interface Ichannel {
   _id: string;
 }
 
-export interface IreadForChat {
+export interface ChatRead {
   user: {
     _id: string;
     id: number;
@@ -159,7 +185,7 @@ export interface IreadForChat {
   read_at: string;
 }
 
-export interface IchatList {
+export interface ChatList {
   chat_id: string;
   channel_id: string;
   last_message: ImessageChat;
