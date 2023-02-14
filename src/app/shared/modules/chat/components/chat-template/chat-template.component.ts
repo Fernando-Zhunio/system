@@ -1,25 +1,34 @@
-import { MethodsHttpService } from './../../services/methods-http.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChildren } from '@angular/core';
-import Echo from 'laravel-echo';
-import { environment } from '../../../environments/environment';
-import { EchoManager, EchoOptions } from '../../class/echo-manager';
-import { User } from '../../class/fast-data';
-import { IchatBot, Chat, ChatEvent, ImessageChat, IparticipantChat, IuserChat, UserChatSearch } from '../../interfaces/chats/ichats';
-import { SharedService } from '../../services/shared/shared.service';
+// import Echo from 'laravel-echo';
+// import { environment } from '../../../../../../environments/environment';
+// import { EchoManager, EchoOptions } from '../../class/echo-manager';
+import { User } from '../../../../../class/fast-data';
+// import { IchatBot, Chat, ChatEvent, IparticipantChat, IuserChat, UserChatSearch } from '../../../../../interfaces/chats/ichats';
+import { SharedService } from '../../../../../services/shared/shared.service';
 // import { StandartSearchService } from '../../services/standart-search.service';
 // import { StorageService } from '../../services/storage.service';
-import { SwalService } from '../../services/swal.service';
-import { CONST_ECHO_CHAT_CHANNEL_PRIVATE } from '../../shared/objects/constants';
-import { ChatComponent } from './chat/chat.component';
-import { ChatService } from '../../modules/chats/services/chat.service';
+import { SwalService } from '../../../../../services/swal.service';
+// import { CONST_ECHO_CHAT_CHANNEL_PRIVATE } from '../../../../objects/constants';
+import { ChatComponent } from '../chat/chat.component';
+import { ChatService } from '../../services/chat.service';
+// import { EchoOptions } from '../../../../interfaces/echo-options';
+// import { SocketsManagerService } from '../../../../services/sockets-manager.service';
+import { CHANNELS_CHAT } from '../../tools/chats-tools';
+import { ChatEvent, ChatParticipant } from '../../types/chat-event';
+import { Chat } from '../../types/chat';
+// import { UserChatSearch } from '../../../../../interfaces/chats/ichats';
+import { ChatBot, ChatUserSearch } from '../../types/chat-tools';
+import { ChatMessage } from '../../types/chat-message';
+import { IchatBot } from '../../../../../interfaces/chats/ichats';
 
 
 interface IDeliveryMessageListen {
   chat_id: string;
   is_delivered_for_all: boolean;
   message_id: string;
-  user: IparticipantChat;
+  user: ChatParticipant;
 }
 @Component({
   selector: 'app-chat-template',
@@ -45,44 +54,33 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     // private s_standard: StandartSearchService
     private methodHttp: MethodsHttpService,
     private chatService: ChatService,
+    // private socketManager: SocketsManagerService,
   ) { }
 
   @Input() openOrClose: boolean = false;
   @Output() newMessageEmit = new EventEmitter<boolean>();
   bots: Map<number | string, Chat> = new Map<number | string, Chat>();
   chats: Map<number | string, Chat> = new Map<number | string, Chat>();
-  chatsbubble: Map<number | string, Chat> = new Map<number | string, Chat>();
-  users: Map<number | string, UserChatSearch> = new Map();
+  chatsBubble: Map<number | string, Chat> = new Map<number | string, Chat>();
+  users: Map<number | string, ChatUserSearch> = new Map();
   hideUsers: boolean = true;
   page: number = 1;
   myUser: any = null;
   index: number = 100;
-  echoChat: Echo;
-  current_chat_id: string | any = null;
+  // echoChat: Echo;
+  socketName = 'chats';
+  currentChatId: string | any = null;
   last_chat_id: string | any = null;
   is_status_connect_chat: boolean = true;
   first_connect: boolean = false;
   activeTab: 'chats' | 'users' | 'bots' = 'chats';
+  channels
   @ViewChildren(ChatComponent) chatsComponent: ChatComponent[];
 
   ngOnInit(): void {
     this.myUser = User.getUser();
-    this.connectionChat();
-    this.echoChat.connector.pusher.connection.bind('connecting', () => {
-      this.is_status_connect_chat = false;
-    });
+    this.generateSocket();
 
-    this.echoChat.connector.pusher.connection.bind('state_change', () => {
-
-    });
-
-    this.echoChat.connector.pusher.connection.bind('connected', () => {
-      this.is_status_connect_chat = true;
-      if (!this.first_connect) {
-        this.first_connect = true;
-      }
-
-    });
     this.getAllUsers();
     this.onSelectChats(null);
     this.getAllBots();
@@ -90,51 +88,55 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
 
-  connectionChat(): void {
-    const optionEcho: EchoOptions = {
-      wsHost: environment.domain_serve_chat,
-      wsPort: environment.portSocket_chat,
-      wssPort: environment.portSocket_chat,
-    }
-    this.echoChat = new EchoManager().set(optionEcho).get();
-    this.echoChat.private(this.getChannelChat())
-      .listen(`.chat`, this.chatListen.bind(this))
-      .listen('.message', this.getMessages.bind(this))
+  generateSocket(): void {
+    const channels = this.chatService.initSocketChat(this.socketName);
+    channels.channelChat
+      .listen(`.chat`, this.chatsListen.bind(this))
+      .listen('.message', this.messagesListen.bind(this))
       .listen('.typing', this.typingUserListen.bind(this))
       .listen('.message_delivered', this.messageDeliveredListen.bind(this))
-      .listen('.message_readed', this.getMessageReaded.bind(this))
+      .listen('.message_readed', this.getMessageRead.bind(this))
       .listen('.message_deleted', this.deleteMessage.bind(this));
-    this.echoChat
-      .private(`chat_users`)
+    channels.channelChatUsers
       .listen('.user', this.getChatUserStatus.bind(this));
+
+    // socket.connector.pusher.connection.bind('connecting', () => {
+    //   this.is_status_connect_chat = false;
+    // });
+
+    // socket.connector.pusher.connection.bind('state_change', () => {});
+
+    // socket.connector.pusher.connection.bind('connected', () => {
+    //   this.is_status_connect_chat = true;
+    //   if (!this.first_connect) {
+    //     this.first_connect = true;
+    //   }
+    // });
   }
 
-  getChannelChat(): string {
-    return CONST_ECHO_CHAT_CHANNEL_PRIVATE(User.getUser().id);
-  }
 
   ngOnDestroy(): void {
-    this.echoChat.leave(this.getChannelChat());
+    this.chatService.deleteChatActive(this.socketName);
   }
 
   changeTab(tab: 'chats' | 'users' | 'bots'): void {
     this.activeTab = tab;
   }
-  
+
   markDoDeliveryAll(): void {
-    this.methodHttp.methodPut('chats/mark-delivered', {}).subscribe(() => {});
+    this.methodHttp.methodPut('chats/mark-delivered', {}).subscribe(() => { });
   }
 
   markDoDelivery(id: number | string): void {
     SharedService.disabled_loader = true;
-    this.methodHttp.methodPut(`chats/${id}/mark-delivered`, {}).subscribe( () => {});
+    this.methodHttp.methodPut(`chats/${id}/mark-delivered`, {}).subscribe(() => { });
   }
 
   messageDeliveredListen(event: IDeliveryMessageListen): void {
     if (this.chats.has(event.chat_id)) {
       this.chats.get(event.chat_id)!.last_message!.is_delivered_for_all = event.is_delivered_for_all;
     }
-    if (this.chatsbubble.has(event.chat_id)) {
+    if (this.chatsBubble.has(event.chat_id)) {
       // const msm = this.chatsbubble.get(event.chat_id)!.messages;
       // const msmIndex = msm.findIndex(m => m._id === event.message_id);
       // msm[msmIndex].is_delivered_for_all = event.is_delivered_for_all;
@@ -142,7 +144,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   deleteMessage(event: { chat_id: string, message_id: string }) {
-    if (this.chatsbubble.has(event.chat_id)) {
+    if (this.chatsBubble.has(event.chat_id)) {
       // const messages = this.chatsbubble.get(event.chat_id)!.messages;
       // const indexMsm = messages.findIndex(msm => msm._id === event.message_id);
       // if (indexMsm > -1) {
@@ -154,45 +156,43 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
   }
 
-  chatListen(event: { chat: ChatEvent; event: 'created' | 'updated' | 'deleted' }): void {
+  chatsListen({chat: chatEvent, event}:{ chat: ChatEvent; event: 'created' | 'updated' | 'deleted' }): void {
     console.log('chatListen', event)
-    if (event.event == 'created') {
-      const chat = event.chat;
+    if (event == 'created') {
+      const chat = this.convertChatEventToChat(chatEvent) ;
       // * Elimina mi usuario de la lista de participantes
-      const participantsIndex = chat.participants.findIndex(x => x.info.id == this.myUser.id);
-      if (participantsIndex != -1) {
-        chat.participants.splice(participantsIndex, 1);
-      }
-      const name = chat.name || chat.participants[0].info.name;
+      // const participantsIndex = chat.participants.findIndex(x => x.info.id == this.myUser.id);
+      // if (participantsIndex != -1) {
+      //   chat.participants.splice(participantsIndex, 1);
+      // }
+      // const name = chat.name || chat.participants[0].info.name;
 
-      const newChat: Chat = {
-        id: chat._id,
-        person: null,
-        connected: chat.participants[0].status == 'online' ? 1 : 0,
-        data: chat,
-        index: this.index,
-        name,
-        last_message: chat.last_message,
-        typing: false,
-        img: chat?.type == 'group' ? chat.img || 'assets/img/user_group.png' : chat.participants[0].info.photo || 'https://ui-avatars.com/api/?background=random&name=' + name,
-      };
-      this.chats.set(event.chat._id, newChat);
+      // const newChat: Chat = {
+      //   id: chat._id,
+      //   connected: chat.participants[0].status == 'online' ? 1 : 0,
+      //   index: this.index,
+      //   name,
+      //   last_message: chat.last_message,
+      //   typing: false,
+      //   img: chat?.type == 'group' ? chat.img || 'assets/img/user_group.png' : chat.participants[0].info.photo || 'https://ui-avatars.com/api/?background=random&name=' + name,
+      // };
+      this.chats.set(chat.id, chat);
       return;
     }
-    if (event.event == 'updated') {
-      if (this.chats.has(event.chat._id)) {
-        const chat = this.chats.get(event.chat._id)!;
-        if (!this.chatsbubble.has(event.chat._id)) {
+    if (event == 'updated') {
+      if (this.chats.has(chatEvent._id)) {
+        const chat = this.chats.get(chatEvent._id)!;
+        if (!this.chatsBubble.has(chat.id)) {
           chat.data.unread_messages_count = event.chat.unread_messages_count;
-        } else if (event.chat._id != this.current_chat_id) {
+        } else if (event.chat._id != this.currentChatId) {
           chat.data.unread_messages_count = event.chat.unread_messages_count;
         }
         if (chat.data.type != 'group') {
           const statusParticipant = event.chat.participants.find(x => x.id != this.myUser.id);
           chat.data.participants.find(x => x.id != this.myUser.id)!.status = statusParticipant!.status;
           chat.connected = statusParticipant!.status == 'online' ? 1 : 0;
-          if (this.chatsbubble.has(event.chat._id)) {
-            this.chatsbubble.get(event.chat._id)!.connected = chat.connected;
+          if (this.chatsBubble.has(event.chat._id)) {
+            this.chatsBubble.get(event.chat._id)!.connected = chat.connected;
           }
         } else {
           chat.data.owner_is_admin = event.chat.owner_is_admin;
@@ -206,27 +206,27 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     }
     if (event.event == 'deleted') {
       this.chats.delete(event.chat._id);
-      if (this.chatsbubble.has(event.chat._id)) {
-        this.chatsbubble.delete(event.chat._id);
+      if (this.chatsBubble.has(event.chat._id)) {
+        this.chatsBubble.delete(event.chat._id);
         SwalService.swalFire({ icon: 'error', title: 'Error', text: 'El chat ha sido eliminado' });
       }
       return;
     }
   }
 
-  getMessages(event: { chat: ChatEvent; message: ImessageChat }): void {
+  messagesListen(event: { chat: ChatEvent; message: ChatMessage }): void {
     // * si no esta abierto el panel de chat suma uno en el icono del chat
     if (!this.openOrClose) {
       this.newMessageEmit.emit(true);
     }
-    const isExistChatBubble = this.chatsbubble.has(event.chat._id);
+    const isExistChatBubble = this.chatsBubble.has(event.chat._id);
     // * si no existe el chat en el mapa de chats lo crea
     if (!this.chats.has(event.chat._id)) {
       this.generateChat(event.chat, event.message);
     }
     const _chat = this.chats.get(event.chat._id)!;
     // * si el chat del mensaje es diferente al chat abierto emite el sonido
-    if (event.chat._id != this.current_chat_id) {
+    if (event.chat._id != this.currentChatId) {
       this.reproducir();
     }
     // * captura  el chat en el mapa de chats lo actualiza
@@ -234,7 +234,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     _chat.typing = false;
     // * si existe una conversacion abierta actualiza el chat
     if (isExistChatBubble) {
-      const _chat_bubble = this.chatsbubble.get(event.chat._id)!;
+      const _chat_bubble = this.chatsBubble.get(event.chat._id)!;
       // _chat_bubble.messages.push(event.message);
       _chat_bubble.typing = false;
     }
@@ -273,20 +273,27 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   }
 
   // * funcion que escucha si se emite un evento de si el mensaje es leido o no
-  getMessageReaded(event: { chat_id: string, is_readed_for_all: boolean, message_id: string, user: IuserChat }): void {
+  getMessageRead({
+    chat_id,
+    is_readed_for_all,
+    message_id,
+    user,
+  }: { chat_id: string, is_readed_for_all: boolean, message_id: string, user: IuserChat }): void {
 
-    if (!event.is_readed_for_all) { return; }
-    this.chats.get(event.chat_id)!.last_message!.is_readed_for_all! = true;
-    if (this.chatsbubble.has(event.chat_id)) {
-      // const _chat = this.chatsbubble.get(event.chat_id)!;
-      // _chat.messages.map((message) => {
-      //   return (message.is_readed_for_all = true);
-      // });
-    }
+    if (!is_readed_for_all) { return; }
+    this.chats.get(chat_id)!.lastMessage!.is_readed_for_all! = true;
+    // this.chatService.getChatActive(chat_id);
+    this.chatService.setChatActive(chat_id, this.chats.get(chat_id)!.lastMessage!);
+    // if (this.chatsBubble.has(event.chat_id)) {
+    //   // const _chat = this.chatsbubble.get(event.chat_id)!;
+    //   // _chat.messages.map((message) => {
+    //   //   return (message.is_readed_for_all = true);
+    //   // });
+    // }
   }
 
   getPhotoGroup(img): string {
-      return img || 'assets/img/user_group.png';
+    return img || 'assets/img/user_group.png';
     // let img_path = 'assets/img/user.png';
     // return img || 'https://ui-avatars.com/api/?name=' + name;
     // return SharedService.rediredImageNull(user, img_path);
@@ -320,14 +327,22 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
 
   // * funcion que trae todos los bots de chats de la base de datos
   getAllBots(): void {
-    this.methodHttp.methodGet('chats/bots', {page: this.page.toString() || 30}, ).subscribe(
+    this.methodHttp.methodGet('chats/bots', { page: this.page.toString() || 30 },).subscribe(
       (data: any) => {
         if (data.data.data.length < 1) {
           return;
         }
-        data.data.data.map((x: IchatBot) => {
+        data.data.data.map((x: ChatBot) => {
           const { _id, info } = x;
-          this.bots.set(_id, { connected: 1, id: _id, name: info.name, person: null, data: (null as any), img: info.photo, index: this.index, typing: false, });
+          this.bots.set(_id, { 
+            connected: true, 
+            id: _id, 
+            name: info.name, 
+            img: info.photo, 
+            index: this.index, 
+            typing: false, 
+            unreadMessages: 0,
+          });
         });
         this.page++;
       }
@@ -337,20 +352,20 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
   typingUserListen(event): void {
     const _chat = this.chats.get(event.chat_id);
     _chat!.typing = true;
-    const isChatBubble = this.chatsbubble.has(event.chat_id);
+    const isChatBubble = this.chatsBubble.has(event.chat_id);
     if (isChatBubble) {
-      const _chat_bubble = this.chatsbubble.get(event.chat_id);
+      const _chat_bubble = this.chatsBubble.get(event.chat_id);
       _chat_bubble!.typing = true;
     }
     setTimeout(() => {
       this.chats.get(event.chat_id)!.typing = false;
-      if (isChatBubble) { this.chatsbubble.get(event.chat_id)!.typing = false; }
+      if (isChatBubble) { this.chatsBubble.get(event.chat_id)!.typing = false; }
     }, 2000);
   }
 
 
   openChatUser(user_id, key): void {
-    if (this.chatsbubble.has(key)) {
+    if (this.chatsBubble.has(key)) {
       this.upBubble(key);
       return;
     }
@@ -358,7 +373,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       .methodPost(`chats/user`, { participants: [user_id] })
       .subscribe((data) => {
         const id = data.data.chats._id;
-        if (this.chatsbubble.has(id)) {
+        if (this.chatsBubble.has(id)) {
           this.upBubble(id);
           this.users.get(user_id)!.id = id;
           return;
@@ -371,12 +386,12 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
         // _chat.messages = data.data.messages.data.reverse();
         // this.chatsbubble.set(_chat.id, _chat);
         // _chat.index = this.index++;
-        this.current_chat_id = _chat.id;
+        this.currentChatId = _chat.id;
       });
   }
 
   openChatBot(bot_id, key): void {
-    if (this.chatsbubble.has(key)) {
+    if (this.chatsBubble.has(key)) {
       this.upBubble(key);
       return;
     }
@@ -386,55 +401,58 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         const id = data.data.chats._id;
 
-        if (this.chatsbubble.has(id)) {
+        if (this.chatsBubble.has(id)) {
           this.upBubble(id);
           return;
         }
         const res = data.data as { chats: ChatEvent, messages: any[] };
         const _chat = this.bots.get(bot_id)!;
-        _chat.data = res.chats;
         _chat.id = res.chats._id;
         // _chat.messages = data.data.messages.data.reverse();
         // _chat.messages = [];
         _chat.index = this.index++;
-        this.current_chat_id = _chat.id;
-        this.chatsbubble.set(_chat.id, _chat);
+        this.currentChatId = _chat.id;
+        this.chatsBubble.set(_chat.id, _chat);
       });
   }
 
 
-  openChatOfChat(chat_id): void {
-    if (this.chatsbubble.has(chat_id)) {
-      this.upBubble(chat_id);
+  openChatOfChat(chatId): void {
+    if (this.chatsBubble.has(chatId)) {
+      this.upBubble(chatId);
       return;
     }
-    if (this.chats.has(chat_id)) {
-      const chat = this.chats.get(chat_id)!;
-      const _name = chat?.data.name || chat?.data.participants[0].info.name;
-
-      const newChat: Chat = {
-        id: chat.id,
-        person: null,
-        connected: chat?.data.participants[0].status == 'online' ? 1 : 0,
-        data: chat.data,
-        index: this.index++,
-        img: chat?.data.type == 'group' ? this.getPhotoGroup(chat.img) : this.getPhotoParticipant(chat.data.participants[0].info.photo, _name),
-        name: _name,
-        // messages: [],
-        typing: false,
-      };
-      this.current_chat_id = chat_id;
-      this.chatsbubble.set(chat!.id, newChat);
+    if (!this.chats.has(chatId)) {
+      return;
     }
+    const chat = this.chats.get(chatId)!;
+    this.chatService.setChatActive(chatId, '')
+    // const _name = chat?.data.name || chat?.data.participants[0].info.name;
+
+    // const newChat: Chat = this.convertChatEventToChat(chat);
+    
+    // {
+    //   id: chat.id,
+    //   person: null,
+    //   connected: chat?.data.participants[0].status == 'online' ? 1 : 0,
+    //   data: chat.data,
+    //   index: this.index++,
+    //   img: chat?.data.type == 'group' ? this.getPhotoGroup(chat.img) : this.getPhotoParticipant(chat.data.participants[0].info.photo, _name),
+    //   name: _name,
+    //   typing: false,
+    // };
+    this.currentChatId = chatId;
+    // this.chatsBubble.set(chat!.id, newChat);
+
   }
 
   closeChatBubble(user_id): void {
-    this.chatsbubble.delete(user_id);
-    if (this.chatsbubble.size >= 1) {
-      const key = this.chatsbubble.keys().next().value;
+    this.chatsBubble.delete(user_id);
+    if (this.chatsBubble.size >= 1) {
+      const key = this.chatsBubble.keys().next().value;
       this.upBubble(key);
     } else {
-      this.current_chat_id = (null as any);
+      this.currentChatId = (null as any);
     }
   }
 
@@ -464,7 +482,7 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
       const data = res.data.data as ChatEvent[];
       const _chat: any = [];
       data.map((x) => {
-        const participant = x.participants[0] as IparticipantChat;
+        const participant = x.participants[0] as ChatParticipant;
         const _name = x.name || participant.info.name;
         _chat.push([x._id,
         {
@@ -487,18 +505,32 @@ export class ChatTemplateComponent implements OnInit, OnDestroy {
     this.methodHttp
       .methodPut(`chats/${chat_id}/mark-read`, {})
       .subscribe(() => {
-        this.chats.get(chat_id)!.data.unread_messages_count = 0;
+        this.chats.get(chat_id)!.unreadMessages = 0;
       });
   }
 
   upBubble(_id) {
-    const chatBubble = this.chatsbubble.get(_id);
-    this.current_chat_id = _id;
+    const chatBubble = this.chatsBubble.get(_id);
+    this.currentChatId = _id;
     SharedService.disabled_loader = true;
-    if (this.chatsbubble.get(_id)?.data?.unread_messages_count! > 0) {
+    if (this.chatsBubble.get(_id)?.unreadMessages! > 0) {
       this.markReadMessage(_id);
     }
     chatBubble!.index = this.index++;
   }
+
+  convertChatEventToChat(chatEvent: ChatEvent): Chat {
+    const { _id: id, name, type, img, last_message, participants } = chatEvent;
+    return {
+        id,
+        name: name || participants[0]?.info.name,
+        img: type == 'group' ? img || 'assets/img/user_group.png' : participants[0].info.photo || 'https://ui-avatars.com/api/?background=random&name=' + name,
+        index: this.index,
+        typing: false,
+        lastMessage: last_message,
+        unreadMessages: chatEvent.unread_messages_count,
+        connected: Boolean(participants[0]?.connected),
+    } as Chat
+}
 
 }

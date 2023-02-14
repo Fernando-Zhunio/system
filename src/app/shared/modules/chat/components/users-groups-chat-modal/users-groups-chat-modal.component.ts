@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IparticipantChat } from '../../../interfaces/chats/ichats';
-import { StandartSearchService } from '../../../services/standart-search.service';
-import { SwalService } from '../../../services/swal.service';
+import { IparticipantChat } from '../../../../../interfaces/chats/ichats';
+import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { SwalService } from '../../../../../services/swal.service';
 
 
 interface ImodalChatInfo {

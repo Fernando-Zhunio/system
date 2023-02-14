@@ -1,5 +1,5 @@
-import { ChatService } from './../../../modules/chats/services/chat.service';
-import { MethodsHttpService } from './../../../services/methods-http.service';
+import { ChatService } from '../../services/chat.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import {
   Component,
   Input,
@@ -20,14 +20,14 @@ import collect from 'collect.js';
 import { FilePondOptions } from 'filepond';
 import { Subscription } from 'rxjs';
 import autosize from 'autosize';
-import { environment } from '../../../../environments/environment';
-import { SharedService } from '../../../services/shared/shared.service';
+import { environment } from '../../../../../../environments/environment';
+import { SharedService } from '../../../../../services/shared/shared.service';
 // import { StandartSearchService } from '../../../services/standart-search.service';
 // import { StorageService } from '../../../services/storage.service';
 import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
-import { ChatMessage, Chat } from './../../../interfaces/chats/ichats';
+import { ChatMessage, Chat } from '../../../../../interfaces/chats/ichats';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Token, User } from '../../../class/fast-data';
+import { Token, User } from '../../../../../class/fast-data';
 
 
 export interface ParticipantChatGroup {

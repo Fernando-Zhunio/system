@@ -271,7 +271,7 @@
   [ngStyle]="{ 'z-index': chat.value?.index }"
   [ngClass]="!openOrClose ? 'chat-bubble-position-5' : 'chat-bubble-position-250'"
   class="chat-template"
-  *ngFor="let chat of chatsbubble | keyvalue; let i = index; trackBy: chatMethod">
+  *ngFor="let chat of chatsBubble | keyvalue; let i = index; trackBy: chatMethod">
   <div>
     <span [matBadge]="chat.value?.data?.unread_messages_count > 0 ? chat.value?.data?.unread_messages_count: null"  (click)="upBubble(chat.key)" [ngStyle]="{'left': (i*46)+'px'}" class="bubble-mini-chat bg-white">
       <img class="w-100 rounded-circle shadow-sm-img" [src]="chat?.value?.img" alt="icon chat">
