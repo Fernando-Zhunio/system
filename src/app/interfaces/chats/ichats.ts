@@ -1,4 +1,4 @@
-import { Person } from '../../shared/interfaces/person';
+// import { Person } from '../../shared/interfaces/person';
 import { Iperson } from './../iperson';
 
 
@@ -16,12 +16,12 @@ export interface Chat {
 }
 
 
-export interface UserChatSearch {
-  connected: boolean;
-  id: number;
-  name: string;
-  person: Person
-}
+// export interface UserChatSearch {
+//   connected: boolean;
+//   id: number;
+//   name: string;
+//   person: Person
+// }
 
 export interface ChatMessage {
   _id: string;
@@ -60,12 +60,6 @@ export interface ChatEvent {
   admins: string[];
   owner_is_admin: boolean;
   user: IparticipantChat;
-  // user: {
-  //   id: number;
-  //   info: Iinfo;
-  //   status: 'online' | 'offline';
-  //   _id: string;
-  // };
 }
 
 export interface IparticipantChat {
