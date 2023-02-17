@@ -45,7 +45,6 @@
 
   <app-sidebar-fz (hiddenSidebar)="hiddenSidebar = $event" (isMinimizeSidebar)="sidebarMinimized = $event" class="main-style sidebar1 scroll scrollbar-sidebar-fz"></app-sidebar-fz>
 
-  <!-- Main content -->
   <main [ngClass]="{ 'open-menu-chat': hideUsersChat, 'minimize-sidebar': sidebarMinimized, 'hidden-sidebar': hiddenSidebar }" class="main scroll body">
     
     <div class="container-fluid scroll">
@@ -56,7 +55,7 @@
   <app-chat-template
     class="chat-template"
     (newMessageEmit)="newMessage($event)"
-    [openOrClose]="hideUsersChat"></app-chat-template>
+    [isOpen]="hideUsersChat"></app-chat-template>
 
   <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
     <p style="color: white">Cargando espere...</p>

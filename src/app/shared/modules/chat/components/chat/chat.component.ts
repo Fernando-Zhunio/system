@@ -2,10 +2,10 @@ import { ChatService } from '../../services/chat.service';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import {
   Component,
-  Input,
+  // Input,
   OnInit,
-  Output,
-  EventEmitter,
+  // Output,
+  // EventEmitter,
   ViewChild,
   ElementRef,
   ViewChildren,
@@ -18,16 +18,21 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import collect from 'collect.js';
 import { FilePondOptions } from 'filepond';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import autosize from 'autosize';
 import { environment } from '../../../../../../environments/environment';
 import { SharedService } from '../../../../../services/shared/shared.service';
 // import { StandartSearchService } from '../../../services/standart-search.service';
 // import { StorageService } from '../../../services/storage.service';
-import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
-import { ChatMessage, Chat } from '../../../../../interfaces/chats/ichats';
+// import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
+// import { ChatMessage, Chat } from '../../../../../interfaces/chats/ichats';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Token, User } from '../../../../../class/fast-data';
+import { ChatRef } from '../../class/chat-ref';
+import { Chat } from '../../types/chat';
+import { ChatMessage } from '../../types/chat-message';
+import { SwalService } from '../../../../../services/swal.service';
+// import { ChatMessageService } from '../../types/chat-tools';
 
 
 export interface ParticipantChatGroup {
@@ -47,31 +52,41 @@ export interface ParticipantChatGroup {
   status: 'online' | 'offline';
   type: 'user' | 'group';
 }
-@Component({ 
+
+interface InfoMessage {
+  text: string;
+  callback?: () => void;
+  isOpen: boolean;
+}
+@Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
-    private dialog: MatDialog, 
-    private methodHttp: MethodsHttpService, 
-    private s_shared: SharedService, 
+    private dialog: MatDialog,
+    private methodHttp: MethodsHttpService,
+    private s_shared: SharedService,
     private chatService: ChatService,
-  ) { }
+    private chatRef: ChatRef,
+  ) {
+    this.chat = this.chatRef.getChat();
+    this.id = User.getUser().id;
+  }
   @ViewChild('scrollMe') private scrollFrame: ElementRef;
   @ViewChildren('ngfor') ngfor: QueryList<any>;
   @ViewChild('textMessage') textMessage: ElementRef;
   @ViewChild('myPond') myPond: any;
-  @Input() chat: Chat;
+  chat: Chat;
   // @Input() current_chat_id: string;
-  @Output() delete: EventEmitter<any> = new EventEmitter();
-  @Input() myUserId: number;
-  @Input() id: string;
+  // @Output() delete: EventEmitter<any> = new EventEmitter();
+  // @Input() myUserId: number;
+  id: number;
   hasFile: boolean = false;
   scrollContainer: any = null;
   sendTyping: boolean = true;
-  subscripted: Subscription;
+  // subscripted: Subscription;
   hasNewMessages: boolean = false;
   page: number = 1;
   notMoreOldMessage: boolean = false;
@@ -80,7 +95,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   attachments: { url: any; file: File, type: 'image' }[] = [];
   firstScroll: boolean = true;
   positionScroll: number = 0;
-  loadingMessages: boolean = false;
   pondOptions: FilePondOptions = {
     allowMultiple: true,
     labelIdle: 'Arrastre o presione aquí',
@@ -104,38 +118,89 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   isActiveWindow: boolean = true;
 
-  user = User.getUser();
-  inLineOrWrite: 'En línea' | 'Escribiendo...' = 'En línea';
+  textInfo: InfoMessage;
+
   participantsJoins = '';
   messages: ChatMessage[] = [];
-  
+  isTyping = false;
+  destroy$ = new Subject<boolean>();
+  isOpenDetails = false;
 
   ngOnInit(): void {
-
-    if (this.chat.data) {
-      this.markReadMessage(this.chat.data._id);
-      this.loadingMessages = true;
+    if (this.chat) {
+      this.markReadMessage(this.chat.id);
       this.getMessages();
-      if (this.chat.data.participants) {
-        this.participantsJoins = this.chat.data.participants.filter(x => x.id !== this.user.id).map(x => x.info.name).join(', ');
-        // console.log(this.chat?.data?.type)
+      if (this.chat.participants) {
+        this.participantsJoins = this.chat.participants.filter(x => x.id !== this.id).map(x => x.info.name).join(', ');
       }
       this.subscriptionChat();
     }
     autosize(document.querySelectorAll('#textarea-chat'));
   }
+
+  openInfo(text: string, callback?: ()=>void): void {
+    this.textInfo = {
+      text,
+      callback,
+      isOpen: true,
+    };
+    // this.isOpenInfo = true;
+  }
+  closeInfo(): void {
+    this.textInfo = {
+      text: '',
+      isOpen: false,
+    };
+    // this.isOpenInfo = false;
+  }
+
   subscriptionChat(): void {
-    this.chatService.getChatActive(this.id)!.subscribe((message: ChatMessage) => {
+    this.chatService.getChatOpen(this.chat.id)!.messagesOrTyping$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((message) => {
       if (!message) {
         return
       }
-      this.messages.push(message);
-      this.markReadMessage(this.chat.data._id);
+      if (message === 'typing') {
+        this.isTyping = true;
+        setTimeout(() => {
+          this.isTyping = false;
+        }, 2000);
+        return;
+      }
+      if (message.event === 'new') {
+
+        this.messages.push(message.message);
+        return;
+      }
+      const index = this.messages.findIndex(x => x._id === message.id);
+      if (index === -1) {
+        return;
+      }
+
+      if (message.event === 'delivery') {
+        this.messages[index].is_delivered_for_all = true;
+        return;
+      }
+
+      if (message.event === 'read') {
+        this.messages[index].is_readed_for_all = true;
+        return;
+      }
+
+      this.markReadMessage(this.chat.id);
       if (this.isBottomScroll()) {
         this.hasNewMessages = false;
       }
-      
     });
+  }
+
+  scrollBack(): void {
+    this.hasNewMessages = false;
+    if (!this.scrollContainer) {
+      return;
+    }
+    this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight;
   }
 
   goBackScroll(): void {
@@ -143,21 +208,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    if (this.subscripted) {
-      this.subscripted.unsubscribe();
-    }
-    if (this.subscriptionModal) {
-      this.subscriptionModal.unsubscribe();
-    }
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
     this.dialog.closeAll();
   }
 
   @HostListener('window:focus', ['$event'])
   windowActive(): void {
     this.isActiveWindow = true;
-    if (this.chat.id == this.id) {
-      this.markReadMessage(this.chat.data._id);
-    }
+    // if (this.chat.id === this.id) {
+    //   this.markReadMessage(this.chat.id);
+    // }
   }
 
   @HostListener('window:blur', ['$event'])
@@ -181,35 +242,26 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getMessages(): void {
     SharedService.disabled_loader = true;
+    this.openInfo('Cargando mensajes...');
     this.methodHttp
-      .methodGet(`chats/${this.chat.data._id}/messages?page=${this.page}`)
-      .subscribe((res) => {
-        // if (!Array.isArray(this.chat.messages)) {
-        //   this.chat.messages = [];
-        // }
-        // if (goBottom) {
-        //   this.not_bottom = true;
-        //   const data = res.data.data;
-        //   if (data.length <= 0) {
-        //     this.notMoreOldMessage = true;
-        //   }
-        //   this.scrollContainer.scrollTop += 10;
-        //   // data.forEach((item) => {
-        //   //   this.chat.messages.unshift(item);
-        //   // });
-        //   this.messages = data
-        // } else {
-          const data = res.data.data;
-          if (data?.length <= 0) {
-            this.notMoreOldMessage = true;
-            return;
+      .methodGet(`chats/${this.chat.id}/messages?page=${this.page}`)
+      .subscribe(
+        {
+          next: (res) => {
+            this.closeInfo();
+            const data = res.data.data;
+            if (data?.length <= 0) {
+              this.notMoreOldMessage = true;
+              return;
+            }
+            this.scrollContainer.scrollTop += 10;
+            const dataInverse = collect(data).reverse().all() as any;
+            this.messages = [...dataInverse, ...this.messages];
+          }, error: () => {
+            this.openInfo('Error al cargar mensajes', this.getMessages.bind(this));
           }
-          this.scrollContainer.scrollTop += 10;
-          const dataInverse = collect(data).reverse().all() as any;
-          this.messages = [...dataInverse, ...this.messages];
-        // }
-        this.loadingMessages = false;
-      });
+        }
+      );
   }
 
   // getMessageReconnected(): void {
@@ -261,24 +313,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.textMessage.nativeElement.focus();
     this.scrollContainer = this.scrollFrame.nativeElement;
-    // this.subscripted = this.ngfor.changes.subscribe((_data) => {
-    //   // const hasBottom = this.scrollContainer.scrollTop + this.scrollContainer.clientHeight < this.scrollContainer.scrollHeight - (this.scrollContainer.clientHeight * 2);
-    //   // if (hasBottom && !this.firstScroll) {
-    //   //   this.hasNewMessages = (!this.not_bottom && !data.last.nativeElement.className.includes('text-right'));
-    //   //   this.disableScroll = true;
-    //   //   this.positionScroll = this.scrollContainer.scrollTop;
-    //   // } else {
-    //   //   this.hasNewMessages = false;
-    //   //   this.disableScroll = false;
-    //   //   this.positionScroll = this.scrollContainer.scrollHeight;
-    //   // }
-    //   this.changed_detector.detectChanges();
-    //   // this.not_bottom = false;
-    //   this.firstScroll = false;
-    //   if (this.chat.id == this.current_chat_id && this.isActiveWindow) {
-    //     this.markReadMessage(this.chat.data._id);
-    //   }
-    // });
   }
 
   scrollToBottom(): void {
@@ -292,7 +326,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   closeChat(): void {
-    this.delete.emit(this.chat.id);
+    this.chatRef.close();
   }
 
   getPhoto(user): string {
@@ -305,7 +339,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   onScrollUp(): void {
     this.getPreviousMessages();
   }
-
 
   sendMessage($event: any = null): boolean {
     SharedService.disabled_loader = true;
@@ -326,7 +359,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     if (attach_ids) {
       data['attachments_ids'] = attach_ids;
     }
-    data['chat_id'] = this.chat.data._id;
+    data['chat_id'] = this.chat.id;
 
     this.methodHttp
       .methodPost(`chats/user/messages`, data)
@@ -339,26 +372,25 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.methodHttp
       .methodPut(`chats/${chat_id}/mark-read`)
       .subscribe(() => {
-        this.chat.data.unread_messages_count = 0;
+        this.chat.unreadMessages = 0;
       });
   }
 
-  subscriptionModal: Subscription;
   openViewUsersGroupModal(): void {
-    this.subscriptionModal = this.dialog.open(UsersGroupsChatModalComponent, {
-      data: {
-        title: this.chat.name,
-        participants: this.chat.data.participants.filter(x => x.id != this.myUserId),
-        img: this.getPhoto(this.chat?.data?.img ? this.chat?.data?.img : this.chat?.data?.participants ? this.chat?.data?.participants[0]?.info?.photo : null),
-        isGroup: this.chat.data.type == 'group', myId: this.myUserId, id_chat: this.chat.data._id,
-        admins: this.chat.data.admins,
-        is_admin: this.chat.data.owner_is_admin
-      }
-    }).beforeClosed().subscribe((res) => {
-      if (res && typeof res === 'object' && res.state === 'deleted') {
-        this.delete.emit(this.chat.id as number);
-      }
-    });
+    // this.subscriptionModal = this.dialog.open(UsersGroupsChatModalComponent, {
+    //   data: {
+    //     title: this.chat.name,
+    //     participants: this.chat.participants.filter(x => x.id != this.id),
+    //     img: this.getPhoto(this.chat?.img ? this.chat?.img : this.chat?.data?.participants ? this.chat?.data?.participants[0]?.info?.photo : null),
+    //     isGroup: this.chat.type == 'group', myId: this.id, id_chat: this.chat.data._id,
+    //     admins: this.chat.admins,
+    //     is_admin: this.chat.owner_is_admin
+    //   }
+    // }).beforeClosed().subscribe((res) => {
+    //   if (res && typeof res === 'object' && res.state === 'deleted') {
+    //     this.delete.emit(this.chat.id as number);
+    //   }
+    // });
   }
 
   downloadResource(file, name, id) {
@@ -395,6 +427,27 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
         }
       }, () => { message.files[0]['isload'] = false; });
+  }
+
+  deleteChat() {
+    SwalService
+    .swalConfirmation('Eliminado', 'Seguro que desea eliminar este chat','success')
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.methodHttp.methodDelete(`chats/users/${this.chat.id}`).subscribe(() => {
+          this.closeChat();
+        });
+      }
+    });
+  }
+
+  deleteParticipants(participant_id): void {
+    this.methodHttp.methodDelete(`chats/groups/${this.chat.id}/participants/${participant_id}`).subscribe(res => {
+      if (res && res.hasOwnProperty('success') && res.success){
+        this.chat.participants = this.chat.participants?.filter(p => p.id != participant_id);
+        SwalService.swalFire({ icon: 'success', title: 'Eliminado', text: 'Esta participante a sido eliminado con éxito' });
+      }
+    });
   }
 
 }

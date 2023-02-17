@@ -15,8 +15,8 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { AppRoutingModule } from './app.routing';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+// import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -39,18 +39,18 @@ import { OkLoginComponent } from './components/ok-login/ok-login.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AddInfoPersonModalComponent } from './components/modals/add-info-person-modal/add-info-person-modal.component';
-import { ChatTemplateComponent } from './shared/modules/chat/components/chat-template/chat-template.component';
-import { ChatComponent } from './shared/modules/chat/components/chat/chat.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+// import { ChatTemplateComponent } from './shared/modules/chat/components/chat-template/chat-template.component';
+// import { ChatComponent } from './shared/modules/chat/components/chat/chat.component';
+// import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import {  registerPlugin } from 'ngx-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UsersGroupsChatModalComponent } from './shared/modules/chat/components/users-groups-chat-modal/users-groups-chat-modal.component';
-import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
+// import { MarkdownModule } from './Modulos/Markdown/markdown/markdown.module';
 registerPlugin(FilePondPluginImagePreview);
-import { OrderModule } from 'ngx-order-pipe';
+// import { OrderModule } from 'ngx-order-pipe';
 import { StoreModule } from '@ngrx/store';
 import { pricesReducer } from './redux/reducers/price.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -77,6 +77,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
 import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
 import { DATA_FOR_SEARCH_BAR } from '../../project/ngx-search-bar/src/public-api';
+import { ChatModule } from './shared/modules/chat/chat.module';
 
 registerLocaleData(localeEs, 'es');
 @NgModule({
@@ -84,8 +85,8 @@ registerLocaleData(localeEs, 'es');
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
+    // BsDropdownModule.forRoot(),
+    // TabsModule.forRoot(),
     ReactiveFormsModule,
     HttpClientModule,
     NgxSpinnerModule,
@@ -103,15 +104,15 @@ registerLocaleData(localeEs, 'es');
     MatSlideToggleModule,
     MatBadgeModule,
     MatDialogModule,
-    InfiniteScrollModule,
-    FilePondModule,
+    // InfiniteScrollModule,
+    // FilePondModule,
     MatTooltipModule,
     MatProgressBarModule,
-    MarkdownModule,
+    // MarkdownModule,
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
-    OrderModule,
+    // OrderModule,
     StoreModule.forRoot({ notification: notificationsReducer, price: pricesReducer, preferences: preferenceReducer }),
     EffectsModule.forRoot([PreferenceEffects, NotificationEffectService]),
     StoreDevtoolsModule.instrument({
@@ -128,9 +129,11 @@ registerLocaleData(localeEs, 'es');
     LoadingBarRouterModule,
     MatSliderModule,
     NgxSkeletonLoaderModule,
-    CreateHostDirective
+    CreateHostDirective,
+    ChatModule
   ],
   declarations: [
+    // ChatSortPipe,
     SidebarFzComponent,
     HeaderFzComponent,
     AppComponent,
@@ -141,8 +144,7 @@ registerLocaleData(localeEs, 'es');
     SnackBarLoaderComponent,
     OkLoginComponent,
     AddInfoPersonModalComponent,
-    ChatTemplateComponent,
-    ChatComponent,
+   
     UsersGroupsChatModalComponent,
     P403Component,
     MenuNotificationsComponent,

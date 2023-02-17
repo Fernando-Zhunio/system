@@ -78,7 +78,6 @@ export class StorageService {
   }
 
   getCurrentToken(): string {
-    console.log(this.currentSession);
     return this.currentSession!.token;
   }
 

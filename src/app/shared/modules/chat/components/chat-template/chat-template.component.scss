@@ -6,13 +6,23 @@
   top: -44px;
 }
 
+.photo-chat {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
 .chat-template {
   height: 70%;
   position: fixed;
   right: 5px;
   bottom: 5px;
-  z-index: 9999;
+  z-index: 1000;
   width: 350px;
+  pointer-events: none;
 }
 
 .chat-list-info {
@@ -42,13 +52,13 @@
   border: none !important;
 }
 
-.chat-bubble-position-250 {
-  right: 285px;
-}
+// .chat-bubble-position-250 {
+//   right: 285px;
+// }
 
-.chat-bubble-position-5 {
-  right: 5px;
-}
+// .chat-bubble-position-5 {
+//   right: 5px;
+// }
 
 @media screen and (max-width: 768px) {
   .chat-bubble-position-250 {
@@ -61,6 +71,14 @@
   .chat-template {
     width: calc(100% - 10px);
   }
+}
+
+::ng-deep app-chat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 // .bubble-mini-chat {
@@ -114,38 +132,59 @@
 // }
 
 .list-chats-container {
-  height: calc(100vh - 65px);
+  overflow: auto;
+  height: calc(100vh - 59px);
   position: fixed;
   width: 260px;
-  right: 0px;
+  right: -16px;
   z-index: 100;
   margin-right: 16px;
-  top: 58px;
-  border-radius: 20px;
-  overflow: auto;
+  top: 57px;
 }
 
-.header-list-chats {
+// .header-list-chats {
+//   display: flex;
+//   cursor: pointer;
+//   // font-size: 12px;
+//   > div {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     padding: 7px;
+//     // flex-direction: column;
+//     flex: 1;
+//     border-right: 1px solid #dadada99;
+//     border-bottom: 1px solid #dadada99;
+//   }
+//   span {
+//     font-size: 14px;
+//     font-weight: bold;
+//   }
+//   i {
+//     font-size: 15px;
+//     margin: 3px;
+//   }
+// }
+
+.header-chat {
   display: flex;
-  cursor: pointer;
-  font-size: 17px;
-  > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    flex-direction: column;
-    flex: 1;
-    border-right: 1px solid #dadada99;
-    border-bottom: 1px solid #dadada99;
+  align-items: center;
+  justify-content: space-between;
+  button {
+    padding: 5px;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: inset 1px 1px 17px #dadada;
+    border: none;
   }
-  span {
-    font-size: 20px;
-    font-weight: bold;
+  img {
+    width: 100%;
   }
   i {
-    font-size: 20px;
-    margin: 3px;
+    font-size: 17px;
   }
 }
 
@@ -163,13 +202,6 @@
   .last-message-chat {
     color: #898989;
     font-size: 13px;
-  }
-  .photo-chat {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
   }
   .date-chat {
     font-size: 11px;

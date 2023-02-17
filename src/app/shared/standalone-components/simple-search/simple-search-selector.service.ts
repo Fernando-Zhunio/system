@@ -1,10 +1,11 @@
-import { TemplateRef } from '@angular/core';
+import { EnvironmentProviders, Provider, TemplateRef } from '@angular/core';
 import { ComponentRef, Injectable, Injector } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SimpleSearchDialogRef } from './simple-search-dialog-ref';
 import { CreateHostDirective } from '../../directives/create-host.directive';
 import { SimpleSearchComponent } from './simple-search.component';
+import { DynamicGeneratorComponent } from '../../class/dynamic-generator-components';
 
 export class SimpleSearchSelectorDialogData {
   path: string;
@@ -21,26 +22,29 @@ export class SimpleSearchSelectorDialogData {
 @Injectable({
   providedIn: 'root'
 })
-export class SimpleSearchSelectorService {
+export class SimpleSearchSelectorService extends DynamicGeneratorComponent {
 
-  private createHostDirective: CreateHostDirective;
+  // override createHostDirective: CreateHostDirective;
   componentRefMap: Map<Symbol, { componentRef: ComponentRef<any>, beforeClose: Subject<any> }> = new Map<Symbol, { componentRef: ComponentRef<any>, beforeClose: Subject<any> }>();
 
-  constructor() { }
+  constructor() {
+    super();
+   }
 
-  setCreateHostDirective(createHostDirective: CreateHostDirective) {
-    this.createHostDirective = createHostDirective;
-  }
+  // setCreateHostDirective(createHostDirective: CreateHostDirective) {
+  //   this.createHostDirective = createHostDirective;
+  // }
 
-  openDialogSelector(data: SimpleSearchSelectorDialogData | {data: any} | null = null, customHost: CreateHostDirective | null = null) {
+  openDialogSelector(data?: SimpleSearchSelectorDialogData , customHost?: CreateHostDirective) {
     return this.openDialog(SimpleSearchComponent, data, customHost);
   }
 
-
-
-  openDialog(component: any, data: SimpleSearchSelectorDialogData | {data: any} | null = null, customHost: CreateHostDirective | null = null) {
+  openDialog(component: any, data?: SimpleSearchSelectorDialogData, customHost?: CreateHostDirective) {
     const host: CreateHostDirective = customHost ?? this.createHostDirective;
-    const { id, componentRef } = this.createComponent(component, host, data);
+    const id = Symbol();
+    const injector = this.generateInjector(id, data);
+    const componentRef  = this.createComponent(component, injector, host);
+    this.componentRefMap.set(id, { componentRef, beforeClose: new Subject<any>() });
 
     return {
       componentRef,
@@ -53,19 +57,17 @@ export class SimpleSearchSelectorService {
     }
   }
 
-  private createComponent(component, host: CreateHostDirective, data): { id: Symbol, componentRef: ComponentRef<any> } {
-    const id = Symbol();
-    const componentRef = host.viewContainerRef
-      .createComponent(component, { injector: this.generateInjector(id, data) });
-    // componentRef.injector.get(CreateHostRef).componentRef = componentRef;
-    this.componentRefMap.set(id, { componentRef, beforeClose: new Subject<any>() });
-    // this.assignData(data, componentRef);
-    return { id, componentRef };
-  }
+  // private createComponent(component, host: CreateHostDirective, data): { id: Symbol, componentRef: ComponentRef<any> } {
+  //   const id = Symbol();
+  //   const componentRef = host.viewContainerRef
+  //     .createComponent(component, { injector: this.generateInjector(id, data) });
+  //   this.componentRefMap.set(id, { componentRef, beforeClose: new Subject<any>() });
+  //   return { id, componentRef };
+  // }
 
   generateInjector(id, info?: SimpleSearchSelectorDialogData): Injector {
     const SimpleSearchDialogRefOverride = new SimpleSearchDialogRef(this, id)
-    const providers: {provide: any, [key:string]: any}[] = [
+    const providers: (Provider | EnvironmentProviders) = [
       {
         provide: SimpleSearchDialogRef,
         useValue: SimpleSearchDialogRefOverride

@@ -1,4 +1,8 @@
-import { Person } from "../../../interfaces/person";
+import type { Subject } from "rxjs";
+import type { Person } from "../../../interfaces/person";
+import { Chat } from "./chat";
+import type { ChatParticipant } from "./chat-event";
+import type { ChatMessage } from "./chat-message";
 
 export interface ChatAutor {
     id: number;
@@ -84,3 +88,26 @@ export interface ChatBot {
     type: string;
     _id: string;
   }
+
+export interface ChatDeliveryMessage {
+    chat_id: string;
+    is_delivered_for_all: boolean;
+    message_id: string;
+    user: ChatParticipant;
+}
+
+export interface ChatReadMessage {
+    chat_id: string;
+    is_readed_for_all: boolean;
+    message_id: string;
+    user: ChatParticipant;
+}
+
+export type ChatMessageService = 
+{ message: ChatMessage, event: 'new' } | { id: string, event: 'delivery' | 'read', all: boolean  };
+
+export type ChatOpen = {
+    chat: Chat;
+    componentRef: any;
+    messagesOrTyping$: Subject<ChatMessageService | 'typing'>;
+}

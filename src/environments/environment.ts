@@ -17,11 +17,11 @@ export const environment = {
 
   keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',
   portSocket_chat: 8443,
+  domain_serve_chat: 'chat-system.novicompu.com',
   portSocket: 6001,
   domain_serve: 'sistema-codificacion.test',
   // portSocket: 8443,
   // domain_serve: 'ws-system.novicompu.com',
-  domain_serve_chat: 'chat-system.novicompu.com',
   VAPID_PUBLIC_KEY: "BERzQbYAFmTV6wVKcm5vXp8GC0tx-XRjXzki54EbVUJNERkMduFQIVMwYL7Kx01vvTuVupswuRUUFfPFut-sSo8",
   mapbox_key: 'pk.eyJ1IjoiZmVybmFuZG8xOTkxIiwiYSI6ImNrOGRlcHF2czBxd28zbW5wa3hsaTZnaWcifQ.g1IjAr-9rd65D5W93ftlew',
   weather_key: '49a2c8b7cceb6f9a5b4f67b25975bb49',
