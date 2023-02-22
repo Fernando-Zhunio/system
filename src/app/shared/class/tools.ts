@@ -38,3 +38,25 @@ export function convertFileToUrl(file: any): Promise<any> {
     };
   });
 }
+
+
+export function checkInView(container, element, partial = false): boolean {
+
+  //Get container properties
+  let cTop = container.scrollTop;
+  let cBottom = cTop + container.clientHeight;
+
+  //Get element properties
+  let eTop = element.offsetTop;
+  let eBottom = eTop + element.clientHeight;
+
+  //Check if in view    
+  let isTotal = (eTop >= cTop && eBottom <= cBottom);
+  let isPartial = partial && (
+    (eTop < cTop && eBottom > cTop) ||
+    (eBottom > cBottom && eTop < cBottom)
+  );
+
+  //Return outcome
+  return  (isTotal  || isPartial);
+}

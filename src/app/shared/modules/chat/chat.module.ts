@@ -1,3 +1,5 @@
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -13,6 +15,7 @@ import { ChatSortPipe } from './pipes/chat-sort.pipe';
 import { MarkdownModule } from '../../../Modulos/Markdown/markdown/markdown.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChatsUsersListComponent } from './components/chats-users-list/chats-users-list.component';
+import { CreateOrEditChatGroupComponent } from './components/create-or-edit-chat-group/create-or-edit-chat-group.component';
 // import { ChatSortPipe } from './shared/modules/chat/pipes/chat-sort.pipe';
 
 @NgModule({
@@ -26,9 +29,12 @@ import { ChatsUsersListComponent } from './components/chats-users-list/chats-use
         MatIconModule,
         MatProgressBarModule,
         MatMenuModule,
+        MatDialogModule,
+        MatButtonModule,
         InfiniteScrollModule,
     ],
     declarations: [
+        CreateOrEditChatGroupComponent,
         ChatSortPipe,
         ChatTemplateComponent,
         ChatComponent,

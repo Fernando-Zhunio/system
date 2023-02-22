@@ -21,7 +21,7 @@ export abstract class CreateOrEditDialog<T = any, R = any> {
     public init(loadCreate: boolean = false): void {
         this.status = this.createOrEditData.status;
         const path = this.generatePathGet();
-        console.log(path);
+        // console.log(path);
         this.title = this.status === StatusCreateOrEdit.Create ? `Crear ${this.title}` : `Editar ${this.title}`;
         if (this.status === StatusCreateOrEdit.Edit || loadCreate) {
             this.loadData(path);

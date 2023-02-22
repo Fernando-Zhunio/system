@@ -20,28 +20,34 @@
         <button mat-button [matMenuTriggerFor]="menuRef"><i class="fa-solid fa-ellipsis-vertical"></i></button>
         <mat-menu #menuRef="matMenu">
             <button mat-menu-item (click)="deleteChat()">
-              <i class="fa-regular fa-trash-can text-danger"></i>
+              <span class="icon-menu"><i class="fa-regular fa-trash-can text-danger"></i></span>
               <span>Eliminar chat</span>
             </button>
-            <button *ngIf="chat.type === 'group'" mat-menu-item  (click)="isOpenDetails = true">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>Detalles</span>
-            </button>
+            <ng-container *ngIf="chat.type === 'group'">
+              <button  mat-menu-item  (click)="openEditGroup()">
+                <span class="icon-menu"><i class="fa-solid fa-pen"></i></span>
+                <span>Editar Grupo</span>
+              </button> 
+              <button  mat-menu-item  (click)="isOpenDetails = true">
+                <span class="icon-menu"><i class="fa-solid fa-circle-info"></i></span>
+                <span>Detalles</span>
+              </button>
+            </ng-container>
+            
         </mat-menu>
-        <!-- <button class="text-danger" (click)="closeChat()"><i class="fa-solid fa-xmark"></i></button> -->
       </div>
     </div>
     <mat-card-content class="body-template-chat m-0">
       <div
-        id="scroll-container"
-        [scrollTop]="scrollBack()"
+        [id]="chat.id"
+        [scrollTop]="scrollBackIfBottom()"
         class="body-template-background-chat p-2"
         [infiniteScrollDisabled]="notMoreOldMessage"
         #scrollMe
         infiniteScroll
         [infiniteScrollUpDistance]="1"
         [infiniteScrollThrottle]="0"
-        (scrolledUp)="onScrollUp()"
+        (scrolledUp)="getPreviousMessages()"
         [scrollWindow]="false">
         <div
           #ngfor
@@ -149,7 +155,7 @@
           [options]="pondOptions"></file-pond>
       </div>
       <div *ngIf="hasNewMessages" class="new-message">
-        <span (click)="scrollToBottom()" class="shadow p-2">
+        <span (click)="scrollBack()" class="shadow p-2">
           Nuevos Mensajes
           <i class="fas fa-arrow-down"></i>
         </span>
@@ -175,7 +181,7 @@
           placeholder="Mensaje"></textarea>
       </div>
 
-      <button mat-icon-button class="btn-emoji" (click)="hasFile = !hasFile">
+      <button class="btn-emoji" (click)="hasFile = !hasFile">
         <i class="fa-solid fa-paperclip text-muted"></i>
       </button>
       <button class="m-0 btn-send-message ml-1" (click)="sendMessage()">
@@ -183,23 +189,26 @@
       </button>
     </mat-card-actions>
 
-    <div class="chat-detail main-style p-4" *ngIf="isOpenDetails">
-      <button class="btn-close btn text-danger" (click)="isOpenDetails = false"><i class="fa-solid fa-xmark"></i></button>
+    <div class="chat-detail main-style p-4" [hidden]="!isOpenDetails" *ngIf="chat.type === 'group'">
+      <button style="left: 10px;position:absolute;top:10px" class="btn text-muted" (click)="isOpenDetails = false"><i class="fa-solid fa-arrow-left"></i></button>
       <div class="detail-header">
         <img [src]="chat.img" alt="">
         <span class="font-2xl text-capitalize">{{chat.name}}</span>
       </div>
-      <div class="mt-4">
-        <span class="font-3xl font-weight-bold">Participantes</span>
+      <div class="font-3xl font-weight-bold mt-4">Participantes</div>
+      <div class="overflow-auto">
         <div>
           <div class="detail-participant" *ngFor="let participant of chat.participants">
-            <img [src]="participant.info.photo" alt="">
-            <span>{{participant.info.name}}
-              <br>
-              <small>{{participant.info?.position?.name}}</small>
-              <!-- <br> -->
-              <!-- <small>{{participant.info?.?.name}}</small> -->
-            </span>
+            <div>
+              <img [src]="participant.info.photo" alt="">
+              <span>{{participant.info.name}}
+                <br>
+                <small>{{participant.info?.position?.name}}</small>
+              </span>
+            </div>
+            <div *ngIf="chat['info'].isAdmin" class="btn-delete-participant">
+              <button (click)="deleteParticipant(participant.id)" class="text-danger"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
           </div>
         </div>
       </div>

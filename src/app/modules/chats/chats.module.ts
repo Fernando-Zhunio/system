@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreateGroupChatComponent } from './pages/create-group-chat/create-group-chat.component';
+// import { CreateGroupChatComponent } from '../../shared/modules/chat/components/create-or-edit-chat-group/create-or-edit-chat-group.component';
 import { ChatRoutingModule } from './chats.routing';
 import { RouterModule } from '@angular/router';
 // import {MatStepperModule} from '@angular/material/stepper';
@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
-  declarations: [CreateGroupChatComponent],
+  declarations: [],
   imports: [
   CommonModule,
   ChatRoutingModule,

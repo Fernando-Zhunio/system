@@ -4,7 +4,7 @@ import { ChatMessage } from './chat-message';
 // import { ChatEvent } from "../../../../interfaces/chats/ichats";
 // import { Person } from '../../../interfaces/person';
 
-export interface Chat {
+export type Chat = {
     id: string;
     name: string;
     connected?: boolean;
@@ -13,6 +13,8 @@ export interface Chat {
     img: string;
     lastMessage?: ChatMessage;
     typing: boolean;
-    type: 'group' | 'personal';
+    // type: string;
     participants?: ChatParticipant[];
-  }
+  } & ({type:'group', info: {
+    isAdmin: boolean;
+  }} | {type:'personal'})

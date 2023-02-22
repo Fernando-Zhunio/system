@@ -53,18 +53,19 @@ export class ChatMethodsEvents {
 
     convertChatEventToChat(chatEvent: ChatEvent): Chat {
         const { _id: id, name, type, img, last_message: lastMessage, participants, unread_messages_count } = chatEvent;
-        const chat: Chat = {
+        const chatAux = {
             id,
             name: name || participants[0]?.info.name,
             img: type == 'group' ? img || 'assets/img/user_group.png' : participants[0].info.photo || 'https://ui-avatars.com/api/?background=random&name=' + name,
             index: this.index,
             typing: false,
             lastMessage,
-            type,
             participants,
             unreadMessages: unread_messages_count || 0,
             connected: Boolean(participants[0]?.status === 'online'),
         }
+        const chat: Chat = type === 'group' ? 
+        { ...chatAux, type, info: { isAdmin: chatEvent.owner_is_admin } } : {...chatAux, type};
         return chat;
     }
 }

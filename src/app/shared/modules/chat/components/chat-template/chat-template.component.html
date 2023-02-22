@@ -3,7 +3,7 @@
     <span *ngIf="tabActive=== 'chats'" >Chats</span>
     <span *ngIf="tabActive=== 'users'">Users</span>
     <div>
-      <button><img src="/assets/img/add-group.png" alt=""></button>
+      <button (click)="openCreateChatGroup()"><img src="/assets/img/add-group.png" alt=""></button>
       <button (click)="toggleChatAndUser()"><i [ngClass]="tabActive === 'chats' ? 'fa-solid fa-magnifying-glass': 'fa-regular fa-comments'"></i></button>
       <button mat-button [matMenuTriggerFor]="menuRef"><i class="fa-solid fa-robot"></i></button>
       <mat-menu #menuRef="matMenu">

@@ -6,6 +6,7 @@ export interface UserChatGroup {
     email: string;
     api_token?: any;
     admin: number;
+    isAdmin?: boolean;
     last_activity: string;
     created_at: string;
     updated_at: string;

@@ -1,0 +1,108 @@
+<h1 matDialogTitle class="font-3xl font-weight-bold">{{ title }}</h1>
+
+<mat-dialog-content>
+  <div>
+    <h2 class="font-weight-bold text-muted">Datos del grupo</h2>
+    <div class="header-chat-group">
+      <span class="container-photo-group">
+        <img [src]="base64OrUrl || 'assets/img/user_group.png'" alt="" />
+        <span>
+          <label for="edit-chat-group">
+            <button class="btn-icon c-edit" style="pointer-events: none"><i class="fa-solid fa-pen"></i></button>
+          </label>
+          <input type="file" hidden id="edit-chat-group" (change)="uploadPhoto($event)" accept="image/*" />
+        </span>
+      </span>
+      <span [formGroup]="form">
+        <input class="text-group-chat-name" type="text" placeholder="Nombre del grupo" formControlName="name" />
+      </span>
+    </div>
+  </div>
+  <hr />
+  <div>
+    <h2 class="font-weight-bold text-muted">Participantes</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div>
+          <div class="mb-4 container-input-search-participant">
+            <input
+              placeholder="Buscador"
+              [formControl]="formSearch"
+              class=""
+              type="text" />
+            <button>
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+          <div class="participant-container">
+            <ng-container *ngFor="let user of users | keyvalue">
+              <div class="item-group" *ngIf="!participants.has(user.key)">
+                <div class="info-group">
+                  <div>
+                    <img [src]="user.value.person?.photo?.permalink || imageUndefined" />
+                  </div>
+                  <div>
+                    <div>{{ user.value.name }}</div>
+                    <small>{{ user.value.email }}</small>
+                  </div>
+                </div>
+                <div>
+                  <button class="btn-icon btn-participant" (click)="addParticipant(user.key)">
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3>Participantes seleccionados</h3>
+        <div>
+          <div class="participant-container">
+            <ng-container *ngFor="let participant of participants | keyvalue">
+              <div class="item-group">
+                <div class="info-group">
+                  <div>
+                    <img [src]="participant.value.person?.photo?.permalink || imageUndefined" />
+                  </div>
+                  <div>
+                    <div>{{ participant.value.name }}</div>
+                    <small>{{ participant.value.email }}</small>
+                    <br />
+                    <button
+                      class="btn-admin text-info"
+                      (click)="makeAdmin(participant.key)"
+                      *ngIf="!participant.value?.isAdmin; else quitAdminTemplate">
+                      Hacer admin
+                      <i class="fa-solid fa-shield-halved"></i>
+                    </button>
+                    <ng-template #quitAdminTemplate>
+                      <button class="btn-admin text-danger" (click)="removeAdmin(participant.key)">
+                        Quitar Admin
+                        <i class="fa-solid fa-shield-halved"></i>
+                      </button>
+                    </ng-template>
+                  </div>
+                </div>
+                <div>
+                  <button class="btn-icon btn-participant text-danger" (click)="removeParticipant(participant.key)">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="warn" matDialogClose>Cerrar</button>
+  <button (click)="saveInServer()" color="primary" mat-raised-button>
+    Guardar
+    <i class="fa-regular fa-paper-plane"></i>
+  </button>
+</mat-dialog-actions>

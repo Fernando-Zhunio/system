@@ -1,30 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateGroupChatComponent } from './pages/create-group-chat/create-group-chat.component';
+// import { CreateGroupChatComponent } from '../../shared/modules/chat/components/create-or-edit-chat-group/create-or-edit-chat-group.component';
 
 
 
 const routes: Routes = [
   // usuarios
-  {
-    path: 'groups',
-    children: [
-      {
-        path: 'create',
-        component: CreateGroupChatComponent,
-        data: {
-          isEdit: false,
-        },
-      },
-      {
-        path: ':id/edit',
-        component: CreateGroupChatComponent,
-        data: {
-          isEdit: true,
-        },
-      },
-    ],
-  },
+  // {
+  //   path: 'groups',
+  //   children: [
+  //     {
+  //       path: 'create',
+  //       component: CreateGroupChatComponent,
+  //       data: {
+  //         isEdit: false,
+  //       },
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       component: CreateGroupChatComponent,
+  //       data: {
+  //         isEdit: true,
+  //       },
+  //     },
+  //   ],
+  // },
 
 
 

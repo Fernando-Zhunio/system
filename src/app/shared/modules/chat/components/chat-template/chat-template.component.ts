@@ -1,3 +1,5 @@
+import { StatusCreateOrEdit } from './../../../../enums/status-create-or-edit';
+import { MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
@@ -10,6 +12,8 @@ import { ChatEvent } from '../../types/chat-event';
 import { Chat } from '../../types/chat';
 import { CreateHostDirective } from '../../../../directives/create-host.directive';
 import moment from 'moment';
+import { CreateOrEditChatGroupComponent } from '../create-or-edit-chat-group/create-or-edit-chat-group.component';
+import { CreateOrEditDialogData } from '../../../../interfaces/create-or-edit-dialog-data';
 
 
 @Component({
@@ -35,6 +39,7 @@ export class ChatTemplateComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private methodHttp: MethodsHttpService,
     private chatService: ChatService,
+    private dialog: MatDialog,
   ) { }
 
   @Input() isOpen = false;
@@ -181,4 +186,12 @@ export class ChatTemplateComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
+  openCreateChatGroup(): void {
+    const data: CreateOrEditDialogData = {
+      status: StatusCreateOrEdit.Create,
+    }
+    this.dialog.open(CreateOrEditChatGroupComponent, {
+      data
+    });
+  }
 }
