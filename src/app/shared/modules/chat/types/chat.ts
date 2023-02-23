@@ -1,8 +1,5 @@
-// import { ChatMessage } from './../../../../interfaces/chats/ichats';
-import { ChatParticipant } from './chat-event';
-import { ChatMessage } from './chat-message';
-// import { ChatEvent } from "../../../../interfaces/chats/ichats";
-// import { Person } from '../../../interfaces/person';
+import { type ChatParticipant } from './chat-event';
+import { type ChatMessage } from './chat-message';
 
 export type Chat = {
     id: string;
@@ -13,7 +10,6 @@ export type Chat = {
     img: string;
     lastMessage?: ChatMessage;
     typing: boolean;
-    // type: string;
     participants?: ChatParticipant[];
   } & ({type:'group', info: {
     isAdmin: boolean;

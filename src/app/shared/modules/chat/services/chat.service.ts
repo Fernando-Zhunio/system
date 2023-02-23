@@ -1,21 +1,16 @@
 import { SocketsManagerService } from '../../../services/sockets-manager.service';
-// import { Subject } from 'rxjs';
 import { Injectable, Injector, Provider, Renderer2, RendererFactory2 } from '@angular/core';
 import { EchoOptions } from '../../../../class/echo-manager';
 import { environment } from '../../../../../environments/environment';
-// import { ChatMessage } from '../../../../interfaces/chats/ichats';
 import { ChatMethodsEvents } from '../tools/chat-methods-event';
 import { User } from '../../../../class/fast-data';
-// import { ChatMessageService } from '../types/chat-tools';
 import { Chat } from '../types/chat';
-// import { TemplatePortal } from '@angular/cdk/portal';
 import { DynamicGeneratorComponent } from '../../../class/dynamic-generator-components';
 import { CreateHostDirective } from '../../../directives/create-host.directive';
 import { ChatComponent } from '../components/chat/chat.component';
 import { ChatRef } from '../class/chat-ref';
 import { ChatMessageService, ChatOpen } from '../types/chat-tools';
 import { Subject } from 'rxjs';
-
 
 @Injectable({
   providedIn: 'root'

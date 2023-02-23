@@ -14,8 +14,7 @@ export class ChatMethodsEvents {
 
     chatsListen({ chat: chatEvent, event }: { chat: ChatEvent; event: 'created' | 'updated' | 'deleted' }): void {
         const chat = this.convertChatEventToChat(chatEvent);
-
-
+        console.log('chat', {chat, event});
         this.chat$.next({ event, chat });
     }
 

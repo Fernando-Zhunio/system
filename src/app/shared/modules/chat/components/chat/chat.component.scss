@@ -85,7 +85,7 @@
     color: black;
     border-radius: 15px 15px 15px 0;
     background: white;
-    display: block;
+    display: inline-block;
     padding: 7px;
     position: relative;
   }
@@ -123,9 +123,10 @@
     border-radius: 8px 8px 0 13px;
     background: #2f3c46 !important;
     color: white;
-    display: block;
+    display: inline-block;
     padding: 7px;
     position: relative;
+    
   }
 }
 

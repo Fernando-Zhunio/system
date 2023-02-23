@@ -1,32 +1,22 @@
-import { CreateOrEditDialogData } from './../../../../interfaces/create-or-edit-dialog-data';
+import { type CreateOrEditDialogData } from './../../../../interfaces/create-or-edit-dialog-data';
 import { ChatService } from '../../services/chat.service';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import {
   Component,
-  // Input,
   OnInit,
-  // Output,
-  // EventEmitter,
   ViewChild,
-  ElementRef,
-  // ViewChildren,
-  // QueryList,
+  // ElementRef,
   OnDestroy,
   AfterViewInit,
-  // ChangeDetectorRef,
   HostListener,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import collect from 'collect.js';
+// import collect from 'collect.js';
 import { FilePondOptions } from 'filepond';
-import { Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, takeUntil, type Observable } from 'rxjs';
 import autosize from 'autosize';
 import { environment } from '../../../../../../environments/environment';
 import { SharedService } from '../../../../../services/shared/shared.service';
-// import { StandartSearchService } from '../../../services/standart-search.service';
-// import { StorageService } from '../../../services/storage.service';
-// import { UsersGroupsChatModalComponent } from '../users-groups-chat-modal/users-groups-chat-modal.component';
-// import { ChatMessage, Chat } from '../../../../../interfaces/chats/ichats';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Token, User } from '../../../../../class/fast-data';
 import { ChatRef } from '../../class/chat-ref';
@@ -36,7 +26,8 @@ import { SwalService } from '../../../../../services/swal.service';
 import { CreateOrEditChatGroupComponent } from '../create-or-edit-chat-group/create-or-edit-chat-group.component';
 import { StatusCreateOrEdit } from '../../../../enums/status-create-or-edit';
 import { checkInView } from '../../../../class/tools';
-// import { ChatMessageService } from '../../types/chat-tools';
+import { ResponsePaginateApi } from '../../../../interfaces/response-api';
+import { ChatScroller } from '../../tools/chat-scroller';
 
 
 export interface ParticipantChatGroup {
@@ -67,7 +58,7 @@ interface InfoMessage {
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ChatComponent extends ChatScroller implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private methodHttp: MethodsHttpService,
@@ -75,25 +66,21 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     private chatService: ChatService,
     private chatRef: ChatRef,
   ) {
+    super();
     this.chat = this.chatRef.getChat();
-    this.id = User.getUser().id;
+    this.myId = User.getUser().id;
   }
-  // @ViewChild('scrollMe') private scrollFrame: ElementRef;
-  // @ViewChildren('ngfor') ngfor: QueryList<any>;
-  @ViewChild('textMessage') textMessage: ElementRef;
+  // @ViewChild('textMessage') textMessage: ElementRef;
   @ViewChild('myPond') myPond: any;
   chat: Chat;
-  id: number;
+  myId: number;
   hasFile: boolean = false;
-  // scrollContainer: any = null;
   sendTyping: boolean = true;
-  hasNewMessages: boolean = false;
-  page: number = 1;
-  notMoreOldMessage: boolean = false;
-  disableScroll: boolean = false;
+  // hasNewMessages: boolean = false;
+  // page: number = 1;
+  // notMoreOldMessage: boolean = false;
+  // disableScroll: boolean = false;
   attachments: { url: any; file: File, type: 'image' }[] = [];
-  // firstScroll: boolean = true;
-  // positionScroll: number = 0;
   pondOptions: FilePondOptions = {
     allowMultiple: true,
     labelIdle: 'Arrastre o presione aquí',
@@ -116,10 +103,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   };
   isActiveWindow: boolean = true;
-  containerMessages: HTMLElement;
+  // elementMessages: HTMLElement;
 
   textInfo: InfoMessage;
-  forceBackScroll: boolean = false;
+  // forceBackScroll: boolean = false;
 
   participantsJoins = '';
   messages: ChatMessage[] = [];
@@ -130,13 +117,25 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     if (this.chat) {
       this.markReadMessage(this.chat.id);
-      this.getMessages();
+      this.getFirstMessages();
       if (this.chat.participants) {
-        this.participantsJoins = this.chat.participants.filter(x => x.id !== this.id).map(x => x.info.name).join(', ');
+        this.participantsJoins = this.chat.participants.filter(x => x.id !== this.myId).map(x => x.info.name).join(', ');
       }
       this.subscriptionChat();
     }
     autosize(document.querySelectorAll('#textarea-chat'));
+  }
+
+  getFirstMessages(): void {
+    this.getMessagesObservable().subscribe({
+      next: (response) => {
+        this.messages = response.data.data?.reverse();
+        this.notMoreOldMessages = response.data.data.length < this.MESSAGES_PER_PAGE;
+        this.goBackScroll();
+      }, error: () => {
+        this.openInfo('No se pudo cargar los mensajes', this.getFirstMessages.bind(this));
+      }
+    });
   }
 
   closeInfo(): void {
@@ -153,7 +152,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!lastMessageElement) {
       return true;
     }
-    
+
     return checkInView(elementMessages, lastMessageElement);
   }
 
@@ -180,9 +179,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
       if (message.event === 'new') {
-        message.message.author_user_id === this.id;
-        this.scrollBack();
-        this.messages.push(message.message);
+        const isMyMessage = message.message.author_user_id === this.myId;
+        if (isMyMessage) {
+          this.addMyMessage(message.message);
+        } else {
+          this.addNotMyMessage(message.message);
+        }
         return;
       }
       const index = this.messages.findIndex(x => x._id === message.id);
@@ -207,34 +209,18 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  scrollBackIfBottom(): void {
-    if (this.isBottomScroll() || this.forceBackScroll) {
-      this.scrollBack();
-    }
+  addMyMessage(message: ChatMessage): void {
+    this.messages.push(message);
+    this.goBackScroll();
   }
 
-  scrollBack(withSmooth: boolean = false): void {
+  addNotMyMessage(message: ChatMessage): void {
+    this.messages.push(message);
     const elementChat = this.getElementContainerMessages();
     if (!elementChat) return;
-    this.hasNewMessages = false;
-    if (withSmooth) {
-      elementChat.scroll({
-        top: elementChat.scrollHeight,
-        left: 0,
-        behavior: 'smooth',
-      });
-    } else {
-      elementChat.scrollTop = elementChat.scrollHeight;
+    if (this.isBottomScroll()) {
+      this.goBackScroll();
     }
-    // this.hasNewMessages = false;
-    // if (!this.scrollContainer) {
-    //   return;
-    // }
-    // this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight;
-  }
-
-  getElementContainerMessages(): HTMLElement | undefined {
-    return this.containerMessages ||= document.getElementById(this.chat.id);
   }
 
   ngOnDestroy() {
@@ -254,41 +240,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:blur', ['$event'])
   windowInactive(_$event): void {
     this.isActiveWindow = false;
-
   }
 
   successFiles(_event): void {
     this.hasFile = false;
   }
 
-  getPreviousMessages(): void {
-    if (this.notMoreOldMessage) return
-    this.page++;
-    this.getMessages();
-  }
-
-  getMessages(): void {
+  getMessagesObservable(params = {}): Observable<ResponsePaginateApi<ChatMessage>> {
     SharedService.disabled_loader = true;
     this.openInfo('Cargando mensajes...');
-    this.methodHttp
-      .methodGet(`chats/${this.chat.id}/messages?page=${this.page}`)
-      .subscribe(
-        {
-          next: (res) => {
-            this.closeInfo();
-            const messages: ChatMessage[] = res.data.data;
-            if (messages?.length <= 0) {
-              this.notMoreOldMessage = true;
-              return;
-            }
-            // .scrollTop += 10;
-            const dataInverse = collect(messages).reverse().all() as any;
-            this.messages = [...dataInverse, ...this.messages];
-          }, error: () => {
-            this.openInfo('Error al cargar mensajes', this.getMessages.bind(this));
-          }
-        }
-      );
+    return this.methodHttp.methodGet(`chats/${this.chat.id}/messages`, params)
+    .pipe(finalize(() => this.closeInfo()))
   }
 
   // getMessageReconnected(): void {
@@ -334,7 +296,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.textMessage.nativeElement.focus();
+    // this.textMessage.nativeElement.focus();
+    // doc
+    console.log('E nacido');
   }
 
   closeChat(_res?: any): void {
@@ -439,17 +403,34 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  sendMessage($event: any = null): boolean {
-    SharedService.disabled_loader = true;
-    if ($event) { $event.preventDefault(); }
-    const text = this.textMessage.nativeElement.value;
-    if (text.trim() === '') {
-      return false;
-    }
+  sendMessage(message: string | File ): void {
+    if (!message || (typeof message === 'string' && message.trim() === '')) { return }
+
+    // console.log(event);
+    return
+    // SharedService.disabled_loader = true;
+    // if (event) { event.preventDefault(); }
+    // const text = this.textMessage.nativeElement.value;
+    // if (text.trim() === '') {
+    //   return false;
+    // }
+    // this.sendOneMessage(text);
+    // this.textMessage.nativeElement.value = '';
+    // autosize.update(this.textMessage.nativeElement);
+    // return false;
+  }
+
+  sendFile(file: File): void {
+    const formData = new FormData();
+    formData.append('file', file);
+    this.methodHttp
+      .methodPost(`chats/user/attachments`, formData)
+      .subscribe((res) => {
+      });
+  }
+
+  sendText(text: string): void {
     this.sendOneMessage(text);
-    this.textMessage.nativeElement.value = '';
-    autosize.update(this.textMessage.nativeElement);
-    return false;
   }
 
   sendOneMessage(text: any, attach_ids: any = null): any {

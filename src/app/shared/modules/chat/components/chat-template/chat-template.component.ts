@@ -91,7 +91,6 @@ export class ChatTemplateComponent implements OnInit, AfterViewInit, OnDestroy {
         const chatOld = this.chats.get(chat.id)!;
         chatOld.lastMessage = chat.lastMessage;
         chatOld.unreadMessages = chat.unreadMessages;
-        // chatOld.
         return;
       }
       if (event === 'deleted') {

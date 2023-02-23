@@ -38,11 +38,11 @@
       </div>
     </div>
     <mat-card-content class="body-template-chat m-0">
+      <!-- [scrollTop]="scrollBackIfBottom()" -->
       <div
         [id]="chat.id"
-        [scrollTop]="scrollBackIfBottom()"
         class="body-template-background-chat p-2"
-        [infiniteScrollDisabled]="notMoreOldMessage"
+        [infiniteScrollDisabled]="notMoreOldMessages"
         #scrollMe
         infiniteScroll
         [infiniteScrollUpDistance]="1"
@@ -50,14 +50,13 @@
         (scrolledUp)="getPreviousMessages()"
         [scrollWindow]="false">
         <div
-          #ngfor
           *ngFor="let message of messages; trackBy: trackByMessage"
-          [ngClass]="{ 'text-right': message.author_user_id === id }">
+          [ngClass]="{ 'text-right': message.author_user_id === myId }">
           <ng-container *ngIf="message.type !== 'info'; else templateInfo">
-            <p class="message" [ngClass]="message.author_user_id === id ? 'message-send' : 'message-recept'">
+            <p class="message" [ngClass]="message.author_user_id === myId ? 'message-send' : 'message-recept'">
               <span>
                 <ng-container *ngIf="!message.files; else templateFile">
-                  <ng-container *ngIf="chat.type === 'group' && message.author_user_id !== id">
+                  <ng-container *ngIf="chat.type === 'group' && message.author_user_id !== myId">
                     <span class="font-xs text-muted text-truncate">{{ message?.author?.info?.name }}</span>
                     <br />
                   </ng-container>
@@ -90,7 +89,7 @@
                         &nbsp;{{ file?.progress || 0 }}%
                       </div>
                     </div>
-                    <ng-container *ngIf="chat.type === 'group' && message.author_user_id !== id">
+                    <ng-container *ngIf="chat.type === 'group' && message.author_user_id !== myId">
                       <span class="font-xs text-muted text-truncate text-value-lg">{{ message.author.info.name }}</span>
                       <br />
                     </ng-container>
@@ -129,12 +128,12 @@
                   </div>
                   <span [innerHTML]="message.text | markdwon"></span>
                 </ng-template>
-              </span>
+              </span><br>
 
               <small class="text-muted">
                 {{ message.created_at | date : "medium" }}
                 <i
-                  *ngIf="message.author_user_id === id"
+                  *ngIf="message.author_user_id === myId"
                   [ngClass]="
                     message?.is_readed_for_all ? 'fas text-success' : message?.is_delivered_for_all ? 'fas' : 'far'
                   "
@@ -155,7 +154,7 @@
           [options]="pondOptions"></file-pond>
       </div>
       <div *ngIf="hasNewMessages" class="new-message">
-        <span (click)="scrollBack()" class="shadow p-2">
+        <span (click)="goBackScroll()" class="shadow p-2">
           Nuevos Mensajes
           <i class="fas fa-arrow-down"></i>
         </span>
@@ -172,19 +171,19 @@
         <textarea
           autofocus
           #textMessage
-          (keydown)="typingMessage()"
-          (keydown.enter)="sendMessage($event)"
           (keyup)="typingMessage()"
+          (keyup.enter)="sendMessage($event.target.value)"
           id="textarea-chat"
           type="text"
           class="input-send-message py-2 position-absolute w-100 border-0 shadow-sm"
           placeholder="Mensaje"></textarea>
-      </div>
+        </div>
+        <!-- (keyup)="typingMessage()" -->
 
       <button class="btn-emoji" (click)="hasFile = !hasFile">
         <i class="fa-solid fa-paperclip text-muted"></i>
       </button>
-      <button class="m-0 btn-send-message ml-1" (click)="sendMessage()">
+      <button class="m-0 btn-send-message ml-1" (click)="sendMessage(textMessage.target.value)">
         <i class="fa-regular fa-paper-plane"></i>
       </button>
     </mat-card-actions>
@@ -215,3 +214,4 @@
     </div>
   </mat-card>
 </span>
+image.png
