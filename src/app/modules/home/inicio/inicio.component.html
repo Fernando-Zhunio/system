@@ -4,12 +4,12 @@
       <div class="col-md-6 p-3 align-items-center">
         <div class="d-flex h-100" style="justify-content: space-between; flex-direction: column">
           <div class="" style="top: 10px">{{ date | date }}</div>
-          <div class="font-5xl mb-3 text-truncate text-info" style="line-height: 1">
-            Hola
-            <strong>{{ user?.person ?  user?.person?.first_name +' '+ user?.person?.last_name || '' : user.name}}</strong>
+          <div class="font-5xl mb-3 text-truncate" style="line-height: 1">
+            Hola Bienvenido <br>
+            <strong class="display-4 name-user">{{ user?.person ?  user?.person?.first_name +' '+ user?.person?.last_name || '' : user.name}}</strong>
           </div>
           <div>
-            <div>Bienvenido a Novisolutions</div>
+            <!-- <div>Bienvenido a Novisolutions</div> -->
             <div class="text-capitalize">{{ user?.person?.city?.name || 'Guayaquil' }}</div>
           </div>
         </div>
@@ -21,7 +21,7 @@
           {{ weather_date?.main?.temp }}°
         </div>
         <div class="col-md-6">
-          <img [src]="icon_url" class="w-100" alt="icon weather" />
+          <img [src]="icon_url" style="filter: drop-shadow(1px 2px 3px #dadada);" class="w-100" alt="icon weather" />
         </div>
         <div class="col-md-6 text-capitalize font-2xl">
           <div style="line-height: 1">

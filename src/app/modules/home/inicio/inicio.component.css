@@ -46,3 +46,8 @@ h4{
     grid-template-columns: repeat(3, 33.33%);
     grid-gap: 15px;
 }
+
+.name-user {
+  font-weight: 700;
+  color: darkseagreen;
+}

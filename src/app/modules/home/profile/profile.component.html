@@ -1,6 +1,6 @@
-<h2 class="font-5xl font-facebook list-group-item-accent-warning pl-2 mt-2">Perfil de usuario</h2>
+<!-- <h2 class="font-5xl font-facebook list-group-item-accent-warning pl-2 mt-2">Perfil de usuario</h2> -->
 
-<div class="font pb-3">
+<!-- <div class="font pb-3">
     <div class="row m-0 rounded-fz bg-white shadow" *ngIf="user?.person">
         <div class="col-12 row img-background-profile m-0 p-2">
             <div class="col-md-3 col-12">
@@ -16,59 +16,70 @@
             <div class="items card">
                 <div class="text-center"><i class="far fa-address-card fa-4x"></i></div>
                <div>Numero de identificación</div>
-               <mat-chip-list>
+               <mat-chip-set>
                    <mat-chip selected color="primary" class="text-uppercase">{{user?.person.identification_type}}: {{user?.person.identification_number}}</mat-chip>
-               </mat-chip-list>
+               </mat-chip-set>
             </div>
-            <!-- <div class="items card">
-                <div class="text-center"><i class="fas fa-city fa-4x"></i></div>
-                <div>Cuidad</div>
-                <mat-chip-list>
-                    <mat-chip selected color="primary" class="text-uppercase">{{user?.info?.city.name}}</mat-chip>
-                </mat-chip-list>
-             </div>
-             <div class="items card">
-                <div class="text-center"><i class="fas fa-transgender fa-4x"></i></div>
-                <div>Sexo</div>
-                <mat-chip-list>
-                    <mat-chip selected color="primary" class="text-uppercase">{{user?.info?.sex == 'male' ? 'Masculino': 'Femenino'}}</mat-chip>
-                </mat-chip-list>
-             </div> -->
              <div class="items card">
                 <div class="text-center"><i class="fas fa-birthday-cake fa-4x"></i></div>
                 <div>Fecha de nacimiento</div>
-                <mat-chip-list>
+                <mat-chip-set>
                     <mat-chip selected color="primary">{{user?.person.birthday | date}}</mat-chip>
-                </mat-chip-list>
+                </mat-chip-set>
              </div>
             <div class="items card">
                 <div class="text-center"><i class="fas fa-envelope-open-text fa-4x"></i></div>
                 <div>Correo electrónico</div>
-                <mat-chip-list>
+                <mat-chip-set>
                     <mat-chip selected color="primary">{{user?.email}}</mat-chip>
-                </mat-chip-list>
+                </mat-chip-set>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-street-view fa-4x"></i></div>
                 <div>Ubicación</div>
-                <mat-chip-list>
+                <mat-chip-set>
                     <mat-chip selected color="primary">{{user?.person.location.name}}</mat-chip>
-                </mat-chip-list>
+                </mat-chip-set>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-users fa-4x"></i></div>
                 <div>Posición</div>
-                <mat-chip-list>
+                <mat-chip-set>
                     <mat-chip selected color="primary">{{user?.person.position.name}}</mat-chip>
-                </mat-chip-list>
+                </mat-chip-set>
              </div>
              <div class="items card">
                 <div class="text-center"><i class="fas fa-chess-rook fa-4x"></i></div>
                 <div>Estado</div>
-                <mat-chip-list>
+                <mat-chip-set>
                     <mat-chip selected color="primary">{{user?.person?.status}}</mat-chip>
-                </mat-chip-list>
+                </mat-chip-set>
              </div>
         </div>
     </div>
+</div> -->
+
+<!-- <h1>{{}}</h1> -->
+<div class="container">
+  <div class="header-profile">
+    <h2>Información de Usuario</h2>
+    <h3>{{ user?.name || user?.person.first_name + " " + user?.person.last_name }}</h3>
+  </div>
+ <hr>
+  <div class="row">
+    <div class="col-md-8 col-12">
+      <div class="row">
+        <h4 class="col-12 font-2xl fw-bold">Nombres:</h4>
+        <mat-form-field class="col-md-6 col-12" appearance="outline">
+          <mat-label>Nombres</mat-label>
+          <input matInput placeholder="Nombres" />
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12" appearance="outline">
+          <mat-label>Apellidos</mat-label>
+          <input matInput placeholder="Apellidos" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-4 col-12"></div>
+  </div>
 </div>

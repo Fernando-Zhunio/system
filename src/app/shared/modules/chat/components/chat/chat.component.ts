@@ -425,7 +425,7 @@ export class ChatComponent extends ChatScroller implements OnInit, OnDestroy, Af
     formData.append('file', file);
     this.methodHttp
       .methodPost(`chats/user/attachments`, formData)
-      .subscribe((res) => {
+      .subscribe(() => {
       });
   }
 
