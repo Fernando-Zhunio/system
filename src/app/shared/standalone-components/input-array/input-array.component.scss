@@ -1,5 +1,5 @@
 .input-array {
-  margin: 10px 0;
+  margin-bottom: 10px;
   border-bottom: 1px solid gray;
   background: whitesmoke;
   padding: 12px;
@@ -39,4 +39,10 @@
       color: #e91e63;
     }
   }
+}
+
+.outline {
+  border: 1px solid gray;
+    border-radius: 5px;
+    background: transparent;
 }

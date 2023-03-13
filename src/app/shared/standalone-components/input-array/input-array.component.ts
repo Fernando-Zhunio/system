@@ -22,7 +22,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputArrayComponent implements ControlValueAccessor {
 
   @Input() label: string = '';
-  arraySelect: any[] = [];
+  @Input() appearance: string;
+  @Input() items: any[] = [];
   @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
   onChangeCb?: (select) => void;
   onTouchedCb?: () => void;
@@ -32,8 +33,9 @@ export class InputArrayComponent implements ControlValueAccessor {
 
   constructor() { }
   writeValue(obj: any): void {
-    this.arraySelect = obj;
-    this.onChangeCb && this.onChangeCb( typeof this.key ? this.arraySelect.map(item => item[this.key!]) : this.arraySelect);
+    console.log(obj);
+    this.items = this.items.filter(item => obj.includes(item[this.key!]));
+    this.onChangeCb && this.onChangeCb( this.key ? this.items.map(item => item[this.key!]) : this.items);
   }
   registerOnChange(fn: any): void {
     this.onChangeCb = fn;
@@ -47,8 +49,8 @@ export class InputArrayComponent implements ControlValueAccessor {
 
   deleteItem(item: any, event) {
     event.stopPropagation();
-    this.delete.emit(item);
+    const itemIndex = this.items.findIndex((x: any) => x[this.key!] === item[this.key!]);
+    this.items.splice(itemIndex, 1);
+    this.onChangeCb && this.onChangeCb(this.key ? this.items.map(item => item[this.key!]) : this.items);
   }
-  
-
 }

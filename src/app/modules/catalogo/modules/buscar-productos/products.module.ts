@@ -30,6 +30,7 @@ import { NgxSearchBarPaginatorComponent } from '../../../../shared/standalone-co
 import { NgOptimizedImage } from '@angular/common'
 import { PaginaWebComponent } from './components/pagina-web/pagina-web.component';
 import { NgxSearchBarModule } from '../../../../../../project/ngx-search-bar/src/public-api';
+import { InputArrayComponent } from '../../../../shared/standalone-components/input-array/input-array.component';
 
 @NgModule({
   declarations: [PaginaWebComponent, ProductsComponent, StockBodegasComponent, DialogHistoryPricesProductComponent],
@@ -37,6 +38,7 @@ import { NgxSearchBarModule } from '../../../../../../project/ngx-search-bar/src
     CommonModule,
     ProductsRoutingModule,
     FormsModule,
+    InputArrayComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -63,6 +65,6 @@ import { NgxSearchBarModule } from '../../../../../../project/ngx-search-bar/src
     NgOptimizedImage,
     NgxSearchBarModule
     ],
-    
+
 })
 export class BuscarProductosModule { }

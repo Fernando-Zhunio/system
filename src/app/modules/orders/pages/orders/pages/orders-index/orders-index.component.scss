@@ -85,7 +85,7 @@ td, th {
 .published {
   color: #29b624;
   background-color: #29b6242a;
-  
+
 }
 .cancelled {
   color: #eb1313;
@@ -192,4 +192,33 @@ td.mat-table-sticky-border-elem-right {
   background-color: #95b4222a;
 }
 
+.gap-5 {
+  gap: 5px;
+}
+.container-filters {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+  max-height: 70vh;
+  flex-direction: column;
+  overflow: auto;
+  padding: 7px;
+}
 
+::ng-deep .menu-width-350 {
+  max-width: 350px !important;
+}
+
+.select-columns {
+  min-width: 120px;
+    padding: 3px 17px;
+    border-radius: 20px;
+    background: #dadada;
+}
+
+.buttons-orders {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}

@@ -17,6 +17,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { PersonDataComponent } from './components/person-data/person-data.component';
 import { NgOptimizedImage } from '@angular/common'
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { NgOptimizedImage } from '@angular/common'
         MatChipsModule,
         MatSelectModule,
         MatDatepickerModule,
+        MatNativeDateModule,
         MatCardModule,
         MatTableModule,
         MatStepperModule,

@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 // import { SwiperOptions } from 'swiper';
 import { MatSelect } from '@angular/material/select';
 import { animation_conditional } from '../../../../../../animations/animate_leave_enter';
-import { ProductsService } from '../../../../../../services/products.service';
+// import { ProductsService } from '../../../../../../services/products.service';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 // import { HeaderSearchComponent } from '../../../../../../components/header-search/header-search.component';
 import { Product } from '../../../../../../interfaces/iproducts';
@@ -19,8 +19,9 @@ import { InfoViewComponent } from '../../../../components/info-view/info-view.co
 import { DialogHistoryPricesProductComponent } from '../../components/dialog-history-prices-product/dialog-history-prices-product.component';
 import { PERMISSIONS_CATALOG_PRODUCTS } from '../../class/permissions-products';
 import { PRODUCT_ROUTE_API_INDEX } from '../../routes-api/products-routes-api';
-import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
+// import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
 import { FormControl, FormGroup } from '@angular/forms';
+import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 
 @Component({
   selector: 'app-products',
@@ -33,8 +34,9 @@ export class ProductsComponent implements OnInit {
     private clipboard: Clipboard,
     private snack_bar: MatSnackBar,
     private dialog: MatDialog,
-    private s_product: ProductsService,
+    // private s_product: ProductsService,
     private methodsHttp: MethodsHttpService,
+    private dialogSelector: SimpleSearchSelectorService,
   ) {}
 
   @ViewChild('select_warehouse') select_warehouse: MatSelect;
@@ -49,34 +51,6 @@ export class ProductsComponent implements OnInit {
   prefixes: Iprefix[] = [];
   warehouses: Iwarehouse[] = [];
   search: string;
-  // config: SwiperOptions = {
-  //   direction: 'horizontal',
-  //   spaceBetween: 10,
-  //   breakpoints: {
-  //     320: {
-  //       slidesPerView: 1,
-  //       spaceBetween: 5,
-  //     },
-  //     480: {
-  //       slidesPerView: 1,
-  //       spaceBetween: 5,
-  //     },
-  //     601: {
-  //       slidesPerView: 1,
-  //       spaceBetween: 10,
-  //     },
-  //     950: {
-  //       slidesPerView: 2,
-  //       spaceBetween: 10,
-  //     },
-  //     1200: {
-  //       slidesPerView: 2,
-  //       spaceBetween: 10,
-  //     },
-  //   },
-  //   scrollbar: false,
-  //   pagination: false,
-  // };
   permission = PERMISSIONS_CATALOG_PRODUCTS;
   form: FormGroup = new FormGroup({
     min: new FormControl(null),
@@ -84,25 +58,24 @@ export class ProductsComponent implements OnInit {
     prefix_id: new FormControl(null),
     'warehouse_ids[]': new FormControl([]),
   });
-  filter: NgxSearchBarFilter = {
-    min: {
-      friendlyName: 'Precio mínimo',
-      value: null,
-    },
-    max: {
-      friendlyName: 'Precio máximo',
-      value: null,
-    },
-    prefix_id: {
-      friendlyName: 'Prefijo',
-      value: null,
-    },
-    'warehouse_ids[]': {
-      friendlyName: 'Bodegas',
-      value: [],
-    },
-    // prefix_id: null,
-  }
+  // filter: NgxSearchBarFilter = {
+  //   min: {
+  //     friendlyName: 'Precio mínimo',
+  //     value: null,
+  //   },
+  //   max: {
+  //     friendlyName: 'Precio máximo',
+  //     value: null,
+  //   },
+  //   prefix_id: {
+  //     friendlyName: 'Prefijo',
+  //     value: null,
+  //   },
+  //   'warehouse_ids[]': {
+  //     friendlyName: 'Bodegas',
+  //     value: [],
+  //   },
+  // }
 
   ngOnInit(): void {
     this.methodsHttp
@@ -115,23 +88,23 @@ export class ProductsComponent implements OnInit {
       });
   }
 
-  getNameWareHouse(id) {
-    const warehouse = this.warehouses.find((x) => x.id == id);
-    return warehouse ? warehouse.name : 'Todas las bodegas';
-  }
+  // getNameWareHouse(id) {
+  //   const warehouse = this.warehouses.find((x) => x.id == id);
+  //   return warehouse ? warehouse.name : 'Todas las bodegas';
+  // }
 
-  removeWarehouse(id) {
-    const warehouse = this.filter['warehouse_ids[]'].value as any[];
-    const index = warehouse.findIndex((x) => x == id);
-    if (index != -1) {
-      warehouse.splice(index, 1);
-      this.select_warehouse.writeValue(this.filter["warehouse_ids[]"]);
-    }
-  }
+  // removeWarehouse(id) {
+  //   const warehouse = this.filter['warehouse_ids[]'].value as any[];
+  //   const index = warehouse.findIndex((x) => x == id);
+  //   if (index != -1) {
+  //     warehouse.splice(index, 1);
+  //     this.select_warehouse.writeValue(this.filter["warehouse_ids[]"]);
+  //   }
+  // }
 
   copyCodigo(code) {
     this.clipboard.copy(code);
-    this.snack_bar.open('Codigo ' + code + ' copiado', 'OK', {
+    this.snack_bar.open('Código ' + code + ' copiado', 'OK', {
       duration: 2000,
     });
   }
@@ -152,19 +125,32 @@ export class ProductsComponent implements OnInit {
 
   viewWareHouse(index) {
     let warehouse = {};
-    if ((this.filter["warehouse_ids[]"] as any)?.length > 0) {
-      warehouse = {'warehouse_ids[]': this.filter["warehouse_ids[]"]};
+    if (this.form.get("warehouse_ids[]")?.value?.length > 0) {
+      warehouse = {'warehouse_ids[]': this.form.get("warehouse_ids[]")?.value};
     }
-    this.s_product.viewWareHouse(this.products[index].id, warehouse).subscribe((res) => {
-      this.dialog.open(StockBodegasComponent, {
-        data: {
-          titleOne: 'Bodegas Ventas',
-          titleTwo: 'Otras Bodegas',
-          data: res,
-          warehouse
-        },
-      });
-    });
+    this.methodsHttp.methodGet(`catalogs/products/${this.products[index].id}/stock/ajax`, warehouse)
+    .subscribe({
+      next: (res) => {
+        this.dialog.open(StockBodegasComponent, {
+          data: {
+            titleOne: 'Bodegas Ventas',
+            titleTwo: 'Otras Bodegas',
+            data: res,
+            warehouse
+          },
+        });
+      },
+    })
+    // this.s_product.viewWareHouse(, warehouse).subscribe((res) => {
+    //   this.dialog.open(StockBodegasComponent, {
+    //     data: {
+    //       titleOne: 'Bodegas Ventas',
+    //       titleTwo: 'Otras Bodegas',
+    //       data: res,
+    //       warehouse
+    //     },
+    //   });
+    // });
   }
 
   // changePaginator(event): void {
@@ -177,7 +163,14 @@ export class ProductsComponent implements OnInit {
       this.dialog.open(DialogHistoryPricesProductComponent, {
         data: { product },
       });
-    } 
+    }
+  }
+
+  openDialogWarehouse(): void {
+    this.dialogSelector.openDialogSelector({
+      isMultiSelection: true,
+      path: 'catalogs/warehouses/search',
+    })
   }
 
 }

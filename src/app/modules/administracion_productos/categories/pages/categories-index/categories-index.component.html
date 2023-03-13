@@ -8,10 +8,9 @@
     <mat-chip-set>
       <mat-chip selected color="create" (click)="createOrEdit()" class="ml-3"><i class="fas fa-plus mr-1"></i> Categoría</mat-chip>
     </mat-chip-set>
-  </ng-container> 
+  </ng-container>
 
- <ng-container>
-    <mat-card>
+    <mat-card class="overflow-auto">
       <mat-card-content>
         <table class="w-100" mat-table #table [dataSource]="dataSource">
           <ng-container matColumnDef="id">
@@ -55,5 +54,4 @@
         </table>
       </mat-card-content>
     </mat-card>
-  </ng-container>
 </ngx-search-bar-paginator>

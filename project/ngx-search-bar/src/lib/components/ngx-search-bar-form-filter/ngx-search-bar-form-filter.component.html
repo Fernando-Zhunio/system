@@ -12,7 +12,7 @@
   </svg>
   <span class="ngx-sbf-count" *ngIf="buttonsFilters.size">{{ buttonsFilters.size }}</span>
 </button>
-<mat-menu #menuRef="matMenu" x-position="after" y-position="below" [overlapTrigger]="false">
+<mat-menu [class]="classPanel" #menuRef="matMenu" x-position="after" y-position="below" [overlapTrigger]="false">
   <div style="padding: 0 7px">
     <div (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
       <div class="">

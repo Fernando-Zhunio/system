@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <app-search-template-table
     [filter_data]="filters"
     [placeholder]="'#, ci, cliente, email'"
@@ -348,15 +348,13 @@
       <ng-container matColumnDef="started_at">
         <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Publicada</th>
         <td mat-cell *matCellDef="let element">
-          <!-- {{ element.timing?.started_at | date: "medium" }} -->
           <span [ngClass]=" element.timing?.started_at ? 'text-success' : 'text-danger'">{{(element.timing?.started_at | date: 'medium')  || 'No publicada'}}</span>
         </td>
       </ng-container>
       <ng-container matColumnDef="ended_at">
         <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Entregado</th>
         <td mat-cell *matCellDef="let element">
-          <!-- {{ element.timing?.ended_at | date: "medium" }}
-          <span [hidden]="element.timing?.ended_at" class="badge bg-warning">No entregado</span> -->
+
           <span [ngClass]=" element.timing?.ended_at ? 'text-success' : 'text-danger'">{{(element.timing?.ended_at | date: 'medium')  || 'No entregada'}}</span>
         </td>
       </ng-container>
@@ -405,11 +403,406 @@
       <tr mat-row *matRowDef="let element; columns: columnsToDisplay"></tr>
     </table>
     </ng-container>
-    
-</app-search-template-table>
-</div>
 
-<div [hidden]="!isSearchWarehouse" class="search-warehouses">
+</app-search-template-table>
+</div> -->
+<ngx-search-bar-paginator
+  title="Ordenes"
+  [path]="url"
+  placeholder="Buscar orden por #, ci, cliente, email"
+  [formFilter]="formFilter"
+  [withFilter]="true"
+  [isChangeUrl]="true"
+  (data)="getData($event)">
+  <div filterMenu classPanel="menu-width-350">
+    <div class="container-filters" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+      <div>
+        <h3 class="font-2xl">Filtros</h3>
+      </div>
+      <div [formGroup]="formFilter">
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Estados</mat-label>
+            <mat-select formControlName="status[]" multiple>
+              <mat-option *ngFor="let status of statuses" [value]="status">
+                {{ status | translatefz : "orders" }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Tipos</mat-label>
+            <mat-select formControlName="type">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option *ngFor="let type of types" [value]="type">{{ type | translatefz : "orders" }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="d-flex gap-5">
+          <mat-form-field class="w-50" appearance="outline">
+            <input
+              readonly
+              style="font-size: 11px"
+              #filterOrderMin
+              formControlName="minDate"
+              matInput
+              placeholder="Fecha inicial" />
+          </mat-form-field>
+          <mat-form-field class="w-50" appearance="outline">
+            <input
+              readonly
+              style="font-size: 11px"
+              #filterOrderMax
+              formControlName="maxDate"
+              matInput
+              placeholder="Fecha final" />
+          </mat-form-field>
+        </div>
+        <div class="d-flex gap-5">
+          <mat-form-field class="w-50" appearance="outline">
+            <input type="number" style="font-size: 11px" formControlName="minPrice" matInput placeholder="Monto min" />
+          </mat-form-field>
+          <mat-form-field class="w-50" appearance="outline">
+            <input type="number" style="font-size: 11px" formControlName="maxPrice" matInput placeholder="Monto max" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Canal</mat-label>
+            <mat-select formControlName="channel">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option *ngFor="let channel of channels" [value]="channel.id">{{ channel.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Transferencias</mat-label>
+            <mat-select formControlName="hasMbaTransfers">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option value="0">Sin transferencias</mat-option>
+              <mat-option value="1">Con transferencias</mat-option>
+              <mat-option value="sended">Enviada</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="d-flex gap-5">
+          <mat-form-field class="w-50" appearance="outline">
+            <mat-label>Anticipos</mat-label>
+            <mat-select formControlName="hasMbaPayments">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="0">NO</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-50" appearance="outline">
+            <mat-label>Facturas</mat-label>
+            <mat-select formControlName="hasMbaInvoices">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="0">NO</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="gap-5 d-flex">
+          <mat-form-field class="w-50" appearance="outline">
+            <mat-label>Retenciones confirmadas</mat-label>
+            <mat-select formControlName="hasConfirmedRetention">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="0">NO</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="w-50" appearance="outline">
+            <mat-label>Guías</mat-label>
+            <mat-select formControlName="guide">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option value="1">SI</mat-option>
+              <mat-option value="0">NO</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <input matInput formControlName="paymentDocCode" placeholder="Código de documento" />
+          </mat-form-field>
+        </div>
+        <div>
+          <!-- <mat-form-field class="w-100" appearance="outline"> -->
+          <!-- <mat-chip-set #chipList aria-label="Fruit selection">
+            <mat-chip
+              *ngFor="let warehouse of warehousesSelected | keyvalue"
+              (removed)="removeWarehouse(warehouse.key)">
+              {{ warehouse.value.name }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              matInput
+              readonly
+              [matChipInputFor]="chipList"
+              [(ngModel)]="filters['warehouse[]']"
+              placeholder="Bodega" />
+            <mat-icon matSuffix (click)="isSearchWarehouse = !isSearchWarehouse">add</mat-icon>
+          </mat-chip-set> -->
+          <!-- </mat-form-field> -->
+          <input-array
+            key="id"
+            (click)="openSimpleSearch()"
+            appearance="outline"
+            label="Bodegas"
+            (delete)="removeWarehouseFilter($event)"
+            [items]="warehouses"
+            formControlName="warehouse[]">
+            <ng-template #warehouseTemplate let-item>
+              {{ item.name }}
+            </ng-template>
+          </input-array>
+        </div>
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Compañía</mat-label>
+            <mat-select formControlName="company">
+              <mat-option>
+                <mat-icon color="warn">delete_forever</mat-icon>
+                Limpiar selección
+              </mat-option>
+              <mat-option *ngFor="let company of companies | keyvalue" [value]="company.key">
+                {{ company.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <!-- <ng-container menuBar>
+    <mat-chip-list class="mx-1">
+      <mat-chip>
+        <mat-select
+          [(ngModel)]="workspaceSelect"
+          (selectionChange)="changeWorkspaces($event)"
+          placeholder="Espacio de trabajo">
+          <mat-option *ngFor="let workspace of workspaces" [value]="workspace.id">
+            {{ workspace.name }}
+          </mat-option>
+        </mat-select>
+      </mat-chip>
+      <mat-chip *ngxPermissionsOnly="permissions.create" [routerLink]="['./create']" class="ml-1 mat-btn-add">
+        <mat-icon>add</mat-icon>
+        Nueva
+      </mat-chip>
+    </mat-chip-list>
+  </ng-container> -->
+  </div>
+
+  <div buttons class="buttons-orders">
+    <mat-select
+      class="select-columns"
+      [(ngModel)]="workspaceSelect"
+      (selectionChange)="changeWorkspaces($event)"
+      >
+      <mat-option *ngFor="let workspace of workspaces" [value]="workspace.id">
+        {{ workspace.name }}
+      </mat-option>
+    </mat-select>
+    <mat-select
+      (selectionChange)="changeColumns($event)"
+      class="select-columns"
+      style="min-width: 120px"
+      [formControl]="formControlColumns"
+      multiple="true"
+      placeholder="Placeholder">
+      <mat-select-trigger>
+        Columnas
+        <span *ngIf="(formControlColumns.value?.length || 0) > 1" class="example-additional-selection">
+          (+{{ (formControlColumns.value?.length || 0) - 1 }}
+          {{ formControlColumns.value?.length === 2 ? "Otro" : "Otros" }})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let item of valuesToDisplay" [value]="item.value">
+        <div style="min-width: 70px">{{ item.friendly }}</div>
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <mat-card class="overflow-auto">
+    <mat-card-content>
+      <table
+        style="width: max-content !important"
+        mat-table
+        [dataSource]="dataSource"
+        multiTemplateDataRows
+        matSort
+        matSortActive="created_at"
+        matSortDisableClear
+        matSortDirection="desc"
+        (matSortChange)="changeSort($event)">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="font-sm">{{ element.type | translatefz : "orders" }}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let element">
+            <span [class]="element.status" class="badge-fz font-sm">{{ element.status | translatefz : "orders" }}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef>Cliente</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="font-sm">{{ element?.client?.first_name }} {{ element?.client?.last_name }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="channel">
+          <th mat-header-cell *matHeaderCellDef>Canal</th>
+          <td mat-cell *matCellDef="let element">
+            <span [class]="element?.channel?.type" class="badge-fz font-sm">
+              <i [class]="iconChannels[element?.channel?.type]"></i>
+              <span class="ml-1">{{ element?.channel?.name }}</span>
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="transference">
+          <th mat-header-cell *matHeaderCellDef>Transferencia</th>
+          <td mat-cell *matCellDef="let element">
+            <span
+              *ngIf="element?.additional_data?.transfers_status"
+              class="badge-fz font-sm"
+              [class]="element?.additional_data?.transfers_status === 'sended' ? ' init' : 'whatsapp'">
+              {{ element?.additional_data?.transfers_status | translatefz : "orders" }}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="guide">
+          <th mat-header-cell *matHeaderCellDef>Guía</th>
+          <td class="font-sm" mat-cell *matCellDef="let element">
+            {{ element?.additional_data?.shipping_trackings?.join(", ") }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="anticipe">
+          <th mat-header-cell *matHeaderCellDef>Anticipo</th>
+          <td class="font-sm" mat-cell *matCellDef="let element">
+            {{ element?.additional_data?.mba_payments?.join(", ") }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="invoice">
+          <th mat-header-cell *matHeaderCellDef>Factura</th>
+          <td class="font-sm" mat-cell *matCellDef="let element">
+            {{ element?.additional_data?.invoices?.join(", ") }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="warehouse">
+          <th mat-header-cell *matHeaderCellDef>Bodega</th>
+          <td class="font-sm" mat-cell *matCellDef="let element">
+            {{ element?.additional_data?.warehouses?.join(", ") }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="company">
+          <th mat-header-cell *matHeaderCellDef>Compañía</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="font-sm">{{ element.company?.name }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let element">${{ element.total }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="seller">
+          <th mat-header-cell *matHeaderCellDef>Vendedor</th>
+          <td mat-cell *matCellDef="let element">{{ element.seller_code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="started_at">
+          <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Publicada</th>
+          <td mat-cell *matCellDef="let element">
+            <span [ngClass]="element.timing?.started_at ? 'text-success' : 'text-danger'">
+              {{ (element.timing?.started_at | date : "medium") || "No publicada" }}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="ended_at">
+          <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Entregado</th>
+          <td mat-cell *matCellDef="let element">
+            <span [ngClass]="element.timing?.ended_at ? 'text-success' : 'text-danger'">
+              {{ (element.timing?.ended_at | date : "medium") || "No entregada" }}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="created_at">
+          <th mat-sort-header disableClear mat-header-cell *matHeaderCellDef>Creado</th>
+          <td mat-cell *matCellDef="let element">{{ element.created_at | date : "medium" }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="d-flex">
+              <button
+                class="btn-icon text-info"
+                *ngxPermissionsOnly="permissions.index"
+                (click)="openDetailOrder(element.id)">
+                <i class="far fa-eye"></i>
+              </button>
+              <a
+                class="btn-icon c-edit"
+                *ngxPermissionsOnly="permissions.edit"
+                [href]="'#/system-orders/orders/' + element.id + '/edit'"
+                [routerLink]="['/system-orders/orders', element.id, 'edit']">
+                <i class="far fa-edit"></i>
+              </a>
+              <button class="btn-icon c-delete" *ngxPermissionsOnly="['super-admin']" (click)="deleteData(element.id)">
+                <i class="fas fa-trash"></i>
+              </button>
+              <button
+                class="btn-icon text-dark"
+                *ngxPermissionsOnly="['super-admin']"
+                (click)="openLogOrder(element.id)">
+                <i class="fas fa-history"></i>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</ngx-search-bar-paginator>
+
+<!-- <div [hidden]="!isSearchWarehouse" class="search-warehouses">
   <button class="btn-close" (click)="isSearchWarehouse = !isSearchWarehouse" mat-mini-fab>
     <mat-icon>close</mat-icon>
   </button>
@@ -419,4 +812,4 @@
       (add)="addWarehouse($event)"
       (remove)="removeWarehouse($event)"></app-search-warehouses>
   </div>
-</div>
+</div> -->

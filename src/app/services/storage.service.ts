@@ -22,7 +22,6 @@ export class StorageService {
     localStorage.setItem('session', this.encryptedAes(JSON.stringify(session)));
     Token.setToken(this.currentSession.token);
     UserFast.setUser(this.currentSession.user);
-    // fillUser(this.currentSession.user);
   }
 
   setSession(session: Session): void {
@@ -100,7 +99,7 @@ export class StorageService {
   // logout(canPass: boolean = false): void {
   //   this.removeCurrentSession();
   //   this.activatedRoute.data.subscribe(res => {
-  //     if (res?.['guard'] != 'guest' || canPass) { 
+  //     if (res?.['guard'] != 'guest' || canPass) {
   //       this.router.navigate([PATH_LOGIN]);
   //     }
   //   })

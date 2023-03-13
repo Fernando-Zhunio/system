@@ -35,7 +35,7 @@ export class SimpleSearchSelectorService extends DynamicGeneratorComponent {
   //   this.createHostDirective = createHostDirective;
   // }
 
-  openDialogSelector(data?: SimpleSearchSelectorDialogData , customHost?: CreateHostDirective) {
+  openDialogSelector(data: SimpleSearchSelectorDialogData , customHost?: CreateHostDirective) {
     return this.openDialog(SimpleSearchComponent, data, customHost);
   }
 

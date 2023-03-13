@@ -7,5 +7,5 @@ export interface User {
   // permission?: any;
   // companies?: any;
   // company_company_id?: string;
-  person: Person;
+  person?: Person;
 }

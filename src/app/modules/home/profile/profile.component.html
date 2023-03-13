@@ -68,18 +68,106 @@
  <hr>
   <div class="row">
     <div class="col-md-8 col-12">
-      <div class="row">
+      <div [formGroup]="form" class="row">
         <h4 class="col-12 font-2xl fw-bold">Nombres:</h4>
         <mat-form-field class="col-md-6 col-12" appearance="outline">
           <mat-label>Nombres</mat-label>
-          <input matInput placeholder="Nombres" />
+          <input formControlName="first_name" matInput placeholder="Nombres" />
         </mat-form-field>
         <mat-form-field class="col-md-6 col-12" appearance="outline">
           <mat-label>Apellidos</mat-label>
-          <input matInput placeholder="Apellidos" />
+          <input formControlName="last_name" matInput placeholder="Apellidos" />
         </mat-form-field>
+        <h4 class="col-12 font-2xl fw-bold">Identificaciones:</h4>
+        <mat-form-field class="col-md-6 col-12" appearance="outline">
+          <mat-label>Tipo de identificación</mat-label>
+          <mat-select formControlName="identification_type" placeholder="Seleccione un tipo de identificación">
+            <mat-option *ngFor="let type_id of types_id | keyvalue" [value]="type_id.key">
+              {{type_id.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12" appearance="outline">
+          <mat-label>Número de identificación</mat-label>
+          <input formControlName="identification_number" matInput placeholder="Escriba el numero" />
+        </mat-form-field>
+        <h4 class="col-12 font-2xl fw-bold">Fechas:</h4>
+        <mat-form-field class="col-md-4 col-12" appearance="outline">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input formControlName="birthday" matInput [matDatepicker]="picker">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-md-4 col-12" appearance="outline">
+          <mat-label>Fecha de inicio laboral</mat-label>
+          <input formControlName="start_date" matInput [matDatepicker]="picker1">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <h4 class="col-12 font-2xl fw-bold">Mas información:</h4>
+        <mat-form-field class="col-md-6 col-12" appearance="outline">
+          <mat-label>Oficina / Local</mat-label>
+          <mat-select formControlName="location_id" placeholder="Seleccione una oficina o local">
+            <mat-option *ngFor="let location of locations | keyvalue" [value]="location.key">
+              {{location.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-12" appearance="outline">
+          <mat-label>Departamento</mat-label>
+          <mat-select formControlName="department_position_id" placeholder="Departamento">
+            <mat-option *ngFor="let position of positions | keyvalue" [value]="position.key">
+              {{position.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-md-4 col-12" appearance="outline">
+          <mat-label>Sexo</mat-label>
+          <mat-select formControlName="sex" placeholder="Sexo">
+            <mat-option *ngFor="let sex of sexes | keyvalue" [value]="sex.key">
+              {{sex.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-md-4 col-12" appearance="outline">
+          <mat-label>Ciudad</mat-label>
+          <mat-select formControlName="city_id" placeholder="Seleccione una ciudad">
+            <mat-option *ngFor="let city of cities | keyvalue" [value]="city.key">
+              {{city.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="col-12">
+          <button (click)="saveInServer()" [disabled]="isLoading" mat-raised-button color="primary">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+        </div>
       </div>
     </div>
-    <div class="col-md-4 col-12"></div>
+    <div class="col-md-4 col-12 text-center">
+      <div class="img-profile">
+        <img [src]="user?.person?.photo.permalink" alt="">
+      </div>
+      <div>
+        <ul class="font-2xl more-info">
+          <li>
+            <strong>Correo electrónico:</strong>
+            <br> <span>{{user.email}}</span>
+          </li>
+          <li>
+            <strong># Identificador:</strong>
+            <br><span>{{user.id}}</span>
+          </li>
+          <li>
+            <strong>Fecha de Creación:</strong>
+            <br><span>{{user?.person.created_at | date:'medium'}}</span>
+          </li>
+          <li>
+            <strong>Estado:</strong>
+            <br><span>{{user?.person.status}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

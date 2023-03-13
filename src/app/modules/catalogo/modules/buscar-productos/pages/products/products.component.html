@@ -5,224 +5,226 @@
   placeholder="Buscar producto"
   [path]="pathProductIndex"
   [isChangeUrl]="true"
-  [formFilter]="form"
->
-
-<ng-container>
-  <div class="px-3 card-columns">
-    <mat-card @fade class="card mb-2 card border-0 overflow-hidden" *ngFor="let p of products; index as ind">
-      <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0" style="top: 68px; background: inherit">
-        <div class="font-weight-light font-2xl mb-2 d-flex">
-          <mat-chip color="primary" selected (click)="copyCodigo(p.code)">
-            <small>
-              {{ p?.code }}
-              <i class="far fa-copy"></i>
-            </small>
-          </mat-chip>
-          <span class="align-items-center d-flex">
-            {{ p.name }}
-            <button
-              class="btn-icon c-edit"
-              *ngxPermissionsOnly="permission.product_edit"
-              [routerLink]="['/admin-products/productos/edit/' + p.id]"
-              >
-              <i class="fa-solid fa-pen"></i>
-            </button>
-          </span>
-        </div>
-      </mat-card-header>
-      <mat-card-content>
-        <div>
-          <div class="info-prices">
-            <small class="label-info-prices mat-card shadow-none">Hace 15 días en ventas</small>
-            <span class="badge-fz">
-             <span>Unidades:</span> {{p.last_sold_count}}
+  [formFilter]="form">
+  <ng-container>
+    <div class="px-3 card-columns">
+      <mat-card @fade class="card mb-2 card border-0 overflow-hidden" *ngFor="let p of products; index as ind">
+        <mat-card-header [id]="p.id" class="d-block mat-card-header-m-0" style="top: 68px; background: inherit">
+          <div class="font-weight-light font-2xl mb-2 d-flex">
+            <mat-chip color="primary" selected (click)="copyCodigo(p.code)">
+              <small>
+                {{ p?.code }}
+                <i class="far fa-copy"></i>
+              </small>
+            </mat-chip>
+            <span class="align-items-center d-flex">
+              {{ p.name }}
+              <button
+                class="btn-icon c-edit"
+                *ngxPermissionsOnly="permission.product_edit"
+                [routerLink]="['/admin-products/productos/edit/' + p.id]">
+                <i class="fa-solid fa-pen"></i>
+              </button>
             </span>
-            <span class="badge-fz">
-              <span>Último Precio:</span> ${{p.last_price_sold}}
-             </span>
-             <span class="badge-fz">
-              <span>Mínimo precio:</span> ${{p.min_price_sold}}
-             </span>
-             <span class="badge-fz">
-              <span>Máximo precio:</span> ${{p.max_price_sold}}
-             </span>
           </div>
-          <hr>
-          <div class="mt-2">
-            <button mat-button class="mr-1" type="button" color="primary" (click)="viewWareHouse(ind)">
-              <i class="fa-solid fa-cubes-stacked"></i>
-             Ver stock en bodegas {{ p.available }}
-            </button>
-            <button mat-button color="accent" class="my-1" (click)="openDialogHistoryPrices(p.id)">
-              <i class="fa-solid fa-clock-rotate-left"></i>
-              Ver historial de precios
-            </button>
-            <button (click)="toggle.classList.toggle('show')" mat-button class="my-1">
-              <i class="fa-solid fa-arrows-up-down"></i> Ver más
-            </button>
-          </div>
-          <div #toggle class="collapse-fz">
-            <div class="mt-3 px-3">
-              <h3 class="font-2xl my-1">Descripción</h3>
-              <p class="text-muted">{{p?.description}}</p>
-            </div>
-            <hr>
-            <div class="items-info d-flex flex-wrap">
-              <span>
-                <small>
-                  <strong>Identificador:</strong>
-                  #{{ p?.id }}
-                </small>
-              </span>
-              <span>
-                <small>
-                  <strong>Tipo:</strong>
-                  {{ p?.prefix?.type }}
-                </small>
-              </span>
-              <span>
-                <small>
-                  <strong>Marca:</strong>
-                  {{ p.brand.name }}
-                </small>
-              </span>
-              <span>
-                <small>
-                  <strong>Categoría:</strong>
-                  {{ p?.category?.name }}
-                </small>
-              </span>
-            </div>
-          </div>
+        </mat-card-header>
+        <mat-card-content>
           <div>
-            <div *ngIf="p?.last_prices?.length > 0" class="col-12">
-              <div class="header">
-                <div class="font-3xl my-4">Precios</div>
+            <div class="info-prices">
+              <small class="label-info-prices mat-card shadow-none">Hace 15 días en ventas</small>
+              <span class="badge-fz">
+                <span>Unidades:</span>
+                {{ p.last_sold_count }}
+              </span>
+              <span class="badge-fz">
+                <span>Último Precio:</span>
+                ${{ p.last_price_sold }}
+              </span>
+              <span class="badge-fz">
+                <span>Mínimo precio:</span>
+                ${{ p.min_price_sold }}
+              </span>
+              <span class="badge-fz">
+                <span>Máximo precio:</span>
+                ${{ p.max_price_sold }}
+              </span>
+            </div>
+            <hr />
+            <div class="mt-2">
+              <button mat-button class="mr-1" type="button" color="primary" (click)="viewWareHouse(ind)">
+                <i class="fa-solid fa-cubes-stacked"></i>
+                Ver stock en bodegas {{ p.available }}
+              </button>
+              <button mat-button color="accent" class="my-1" (click)="openDialogHistoryPrices(p.id)">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Ver historial de precios
+              </button>
+              <button (click)="toggle.classList.toggle('show')" mat-button class="my-1">
+                <i class="fa-solid fa-arrows-up-down"></i>
+                Ver más
+              </button>
+            </div>
+            <div #toggle class="collapse-fz">
+              <div class="mt-3 px-3">
+                <h3 class="font-2xl my-1">Descripción</h3>
+                <p class="text-muted">{{ p?.description }}</p>
               </div>
-              <ul class="card-body rounded-fz shadow list-unstyled">
-                <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
-                  <span class="text-muted mr-2">{{ price.group.name }}:</span>
-                  <b>${{ price?.full_price_formated }}</b>
-                </li>
-              </ul>
-            </div>
-            <div *ngIf="p.promotions?.length > 0" class="card-body">
-              <div class="font-3xl my-4">Promociones</div>
-              <mat-card *ngFor="let promotion of p.promotions" class="my-3">
-                <mat-card-header>
-                  <mat-card-title>
-                    <div class="font-2xl">{{ promotion.title }}</div>
-                  </mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p *ngIf="promotion.description">{{ promotion.description }}</p>
-                  <div>
-                    <small>Detalles</small>
-                    <ul class="list">
-                      <li>
-                        Precio:
-                        <b class="text-primary">{{ promotion.price_formated | currency }}</b>
-                      </li>
-                      <li>
-                        Creado:
-                        <b>{{ promotion.created_at | date: "medium" }}</b>
-                      </li>
-                    </ul>
-                  </div>
-                  <div *ngIf="promotion.duration_type === 'date_range'">
-                    <hr />
-                    <small>Fecha de inicio y fin</small>
-                    <ul class="list">
-                      <li>
-                        Inicio:
-                        <b>{{ promotion.start_date | date: "medium" }}</b>
-                      </li>
-                      <li>
-                        Fin:
-                        <b>{{ promotion.end_date | date: "medium" }}</b>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <hr />
-                    <small>Productos</small>
-                    <div>
-                      <table class="table table-sm">
-                        <thead class="text-black-50">
-                          <tr>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let product of promotion?.products">
-                            <td>
-                              <img
-                                class="shadow rounded-lg"
-                                [src]="product.image || 'assets/img/img_default_null.jpg'"
-                                alt=""
-                                width="50"
-                                height="50" />
-                            </td>
-                            <td>
-                              <span class="text-danger">{{ product.code }}</span>
-                              {{ product.name }}
-                            </td>
-                            <td>
-                              {{product.pivot?.price | currency}}
-                            </td>
-                            <td>{{ product.pivot.quantity }}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-          </div>
-          <ng-container *ngIf="p.vtex_skus?.length > 0">
-            <div class="co-12">
-              <div class="header">
-                <div class="font-3xl my-4">PÁGINA WEB</div>
+              <hr />
+              <div class="items-info d-flex flex-wrap">
+                <span>
+                  <small>
+                    <strong>Identificador:</strong>
+                    #{{ p?.id }}
+                  </small>
+                </span>
+                <span>
+                  <small>
+                    <strong>Tipo:</strong>
+                    {{ p?.prefix?.type }}
+                  </small>
+                </span>
+                <span>
+                  <small>
+                    <strong>Marca:</strong>
+                    {{ p.brand.name }}
+                  </small>
+                </span>
+                <span>
+                  <small>
+                    <strong>Categoría:</strong>
+                    {{ p?.category?.name }}
+                  </small>
+                </span>
               </div>
             </div>
             <div>
-              <mat-card style="background: inherit">
-               <mat-card-content>
-                 <app-pagina-web [skus]="p.vtex_skus"></app-pagina-web>
-               </mat-card-content>
-              </mat-card>
+              <div *ngIf="p?.last_prices?.length > 0" class="col-12">
+                <div class="header">
+                  <div class="font-3xl my-4">Precios</div>
+                </div>
+                <ul class="card-body rounded-fz shadow list-unstyled">
+                  <li *ngFor="let price of p.last_prices" class="border-bottom font-xl p-1">
+                    <span class="text-muted mr-2">{{ price.group.name }}:</span>
+                    <b>${{ price?.full_price_formated }}</b>
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="p.promotions?.length > 0" class="card-body">
+                <div class="font-3xl my-4">Promociones</div>
+                <mat-card *ngFor="let promotion of p.promotions" class="my-3">
+                  <mat-card-header>
+                    <mat-card-title>
+                      <div class="font-2xl">{{ promotion.title }}</div>
+                    </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p *ngIf="promotion.description">{{ promotion.description }}</p>
+                    <div>
+                      <small>Detalles</small>
+                      <ul class="list">
+                        <li>
+                          Precio:
+                          <b class="text-primary">{{ promotion.price_formated | currency }}</b>
+                        </li>
+                        <li>
+                          Creado:
+                          <b>{{ promotion.created_at | date : "medium" }}</b>
+                        </li>
+                      </ul>
+                    </div>
+                    <div *ngIf="promotion.duration_type === 'date_range'">
+                      <hr />
+                      <small>Fecha de inicio y fin</small>
+                      <ul class="list">
+                        <li>
+                          Inicio:
+                          <b>{{ promotion.start_date | date : "medium" }}</b>
+                        </li>
+                        <li>
+                          Fin:
+                          <b>{{ promotion.end_date | date : "medium" }}</b>
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <hr />
+                      <small>Productos</small>
+                      <div>
+                        <table class="table table-sm">
+                          <thead class="text-black-50">
+                            <tr>
+                              <th>Imagen</th>
+                              <th>Producto</th>
+                              <th>Precio</th>
+                              <th>Cantidad</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let product of promotion?.products">
+                              <td>
+                                <img
+                                  class="shadow rounded-lg"
+                                  [src]="product.image || 'assets/img/img_default_null.jpg'"
+                                  alt=""
+                                  width="50"
+                                  height="50" />
+                              </td>
+                              <td>
+                                <span class="text-danger">{{ product.code }}</span>
+                                {{ product.name }}
+                              </td>
+                              <td>
+                                {{ product.pivot?.price | currency }}
+                              </td>
+                              <td>{{ product.pivot.quantity }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
             </div>
-          </ng-container>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</ng-container>
-<ng-container filterMenu>
-  <div [formGroup]="form" class="px-2">
-    <mat-form-field class="w-100">
-      <mat-label>Prefijos</mat-label>
-      <mat-select formControlName="prefix_id">
-        <mat-option>Todos</mat-option>
-        <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="row">
-      <mat-form-field class="col-6">
-        <mat-label>Stock Min</mat-label>
-        <input matInput type="number" formControlName="min" type="number" class="" />
-      </mat-form-field>
-      <mat-form-field class="col-6">
-        <mat-label>Stock Max</mat-label>
-        <input formControlName="max" matInput />
-      </mat-form-field>
+            <ng-container *ngIf="p.vtex_skus?.length > 0">
+              <div class="co-12">
+                <div class="header">
+                  <div class="font-3xl my-4">PÁGINA WEB</div>
+                </div>
+              </div>
+              <div>
+                <mat-card style="background: inherit">
+                  <mat-card-content>
+                    <app-pagina-web [skus]="p.vtex_skus"></app-pagina-web>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </ng-container>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <mat-form-field class="w-100">
+  </ng-container>
+  <ng-container filterMenu>
+    <div [formGroup]="form" class="px-2">
+      <mat-form-field class="w-100">
+        <mat-label>Prefijos</mat-label>
+        <mat-select formControlName="prefix_id">
+          <mat-option>Todos</mat-option>
+          <mat-option *ngFor="let prefix of prefixes" [value]="prefix.id">{{ prefix.type }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="row">
+        <mat-form-field class="col-6">
+          <mat-label>Stock Min</mat-label>
+          <input matInput type="number" formControlName="min" type="number" class="" />
+        </mat-form-field>
+        <mat-form-field class="col-6">
+          <mat-label>Stock Max</mat-label>
+          <input formControlName="max" matInput />
+        </mat-form-field>
+      </div>
+      <!-- <mat-form-field class="w-100">
       <mat-label>Todas las Bodegas</mat-label>
       <mat-select type="text" #select_warehouse formControlName="warehouse_ids[]" multiple>
         <mat-select-trigger>
@@ -242,7 +244,8 @@
           {{ warehouse.name }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
-  </div>
-</ng-container>
+    </mat-form-field> -->
+      <!-- <input-array (click)="openDialogWarehouse()" formControlName="warehouse_ids[]"></input-array> -->
+    </div>
+  </ng-container>
 </ngx-search-bar-paginator>

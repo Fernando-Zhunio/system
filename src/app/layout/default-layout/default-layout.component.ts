@@ -2,10 +2,10 @@ import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotificationsWebPush } from '../../class/notifications-web-push';
 import { INotification } from '../../interfaces/inotification';
-import { SharedService } from '../../services/shared/shared.service';
-import { StorageService } from '../../services/storage.service';
-import { MatDialog } from '@angular/material/dialog';
-import { AddInfoPersonModalComponent } from '../../components/modals/add-info-person-modal/add-info-person-modal.component';
+// import { SharedService } from '../../services/shared/shared.service';
+// import { StorageService } from '../../services/storage.service';
+// import { MatDialog } from '@angular/material/dialog';
+// import { AddInfoPersonModalComponent } from '../../components/modals/add-info-person-modal/add-info-person-modal.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { SwPush } from '@angular/service-worker';
@@ -16,6 +16,7 @@ import { MethodsHttpService } from '../../services/methods-http.service';
 import { INavData } from '../../interfaces/inav-data';
 import { SidebarFzComponent } from '../sidebar-fz/sidebar-fz.component';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../class/fast-data';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,10 +26,10 @@ import { AuthService } from '../../services/auth.service';
 export class DefaultLayoutComponent implements OnInit {
   constructor(
     public sa: AuthService,
-    private ss: StorageService,
+    // private ss: StorageService,
     private methodsHttp: MethodsHttpService,
-    public s_shared: SharedService,
-    private dialog: MatDialog,
+    // public s_shared: SharedService,
+    // private dialog: MatDialog,
     public overlayContainer: OverlayContainer,
     public sw_push: SwPush,
     private store: Store,
@@ -59,11 +60,11 @@ export class DefaultLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUnreadCountMessages();
-    this.hasDarkTheme(); 
+    this.hasDarkTheme();
     this.notificationWeb = new NotificationsWebPush(this.methodsHttp);
-    this.notificationWeb.canInitSw(); 
-    this.user = this.ss.getCurrentUser(); 
-    if (!this.user.person) { this.addPersonModal(this.user); } 
+    this.notificationWeb.canInitSw();
+    this.user = User.getUser();
+    // if (!this.user.person) { this.addPersonModal(this.user); }
   }
 
   openOrCloseMenu(): void {
@@ -90,23 +91,23 @@ export class DefaultLayoutComponent implements OnInit {
     }
   }
 
-  addPersonModal(user): void {
-    this.dialog.open(AddInfoPersonModalComponent, {
-      data: { user },
-      disableClose: true,
-    }).beforeClosed()
-      .subscribe((res) => {
-        if (res == undefined) {
-          this.addPersonModal(user);
-        } else {
-          const userCurrent = this.ss.getCurrentUser();
-          if (userCurrent) {
-            userCurrent.person = res;
-            this.ss.setCurrentUser(userCurrent);
-          }
-        }
-      });
-  }
+  // addPersonModal(user): void {
+  //   this.dialog.open(AddInfoPersonModalComponent, {
+  //     data: { user },
+  //     disableClose: true,
+  //   }).beforeClosed()
+  //     .subscribe((res) => {
+  //       if (res == undefined) {
+  //         this.addPersonModal(user);
+  //       } else {
+  //         const userCurrent = this.ss.getCurrentUser();
+  //         if (userCurrent) {
+  //           userCurrent.person = res;
+  //           this.ss.setCurrentUser(userCurrent);
+  //         }
+  //       }
+  //     });
+  // }
 
   newMessage(e): void {
     e ? this.countMessages++ : this.countMessages = null;

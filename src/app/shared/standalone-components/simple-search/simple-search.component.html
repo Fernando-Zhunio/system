@@ -1,10 +1,10 @@
 <div class="container-search-products center">
-  <div  class="col-md-{{dialogData.columns || 5}} col-10 content-search main-style">
+  <div  class="col-md-{{dialogData?.columns || 5}} col-10 content-search main-style">
     <ngx-search-bar
       [isBarExpand]="true"
       @fade
       (data)="getData($event)"
-      [placeholder]="dialogData.placeholder || 'Buscador'"
+      [placeholder]="dialogData?.placeholder || 'Buscador'"
       [path]="dialogData.path"
       [autoInit]="loadInit"
       >
