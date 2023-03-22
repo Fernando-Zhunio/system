@@ -23,7 +23,7 @@ import { SelectClientModalComponent } from "./components/select-client-modal/sel
 // import { MatExpansionModule } from '@angular/material/expansion';
 // import { MatBadgeModule } from '@angular/material/badge';
 import { ClientComponent } from "./components/client/client.component"
-import { DashboardOrdersComponent } from "./dashboard-orders/dashboard-orders.component"
+// import { DashboardOrdersComponent } from "./dashboard-orders/dashboard-orders.component"
 import { CreateOrEditDiscountOrTaxOrderComponent } from "./components/create-or-edit-discount-or-tax-order/create-or-edit-discount-or-tax-order.component"
 // import { MatMenuModule } from '@angular/material/menu';
 import { CreateOrEditOrderComponent } from "./pages/orders/pages/create-or-edit-order/create-or-edit-order.component"
@@ -89,12 +89,13 @@ import { MatTableModule } from "@angular/material/table"
 import { MatCardModule } from "@angular/material/card"
 import { NgxPermissionsModule } from "ngx-permissions"
 import { MatDialogModule } from "@angular/material/dialog"
+import { MatListModule } from "@angular/material/list"
 // import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 // import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
-    DashboardOrdersComponent,
+    // DashboardOrdersComponent,
     SelectClientModalComponent,
     EditOrderComponent,
     OrdersIndexComponent,
@@ -164,7 +165,7 @@ import { MatDialogModule } from "@angular/material/dialog"
     TranslatefzModule,
     InputArrayComponent,
     ReactiveFormsModule,
-    //   MatListModule,
+    MatListModule,
     //   MatProgressSpinnerModule,
     //   MatDialogModule,
     //   MatAutocompleteModule,

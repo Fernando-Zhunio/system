@@ -414,6 +414,15 @@
   [withFilter]="true"
   [isChangeUrl]="true"
   (data)="getData($event)">
+  <div filters>
+    <div>
+        <mat-select formControlName="status[]" multiple>
+          <mat-option *ngFor="let status of statuses" [value]="status">
+            {{ status | translatefz : "orders" }}
+          </mat-option>
+        </mat-select>
+    </div>
+  </div>
   <div filterMenu classPanel="menu-width-350">
     <div class="container-filters" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
       <div>

@@ -167,6 +167,7 @@ export class OrdersIndexComponent
     return CONST_ECHO_ORDERS_CHANNEL_PRIVATE
   }
 
+
   listener(_e): void {
     SharedService.disabled_loader = true
     this.canLoading = false
@@ -181,6 +182,12 @@ export class OrdersIndexComponent
       dateFormat: "yyyy/MM/dd",
       timeFormat: "HH:mm",
       autoClose: true,
+      buttons: [{
+        content: '<i class="fa-solid fa-times mr-2"></i> Limpiar',
+         onClick: () => {
+          this.formFilter.get("minDate")?.setValue("")
+         }
+      }],
       onSelect: ({ date }) => {
         this.dpMax.update({
           minDate: date,
@@ -195,6 +202,12 @@ export class OrdersIndexComponent
       autoClose: true,
       dateFormat: "yyyy/MM/dd",
       timeFormat: "HH:mm",
+      buttons: [{
+        content: '<i class="fa-solid fa-times mr-2"></i> Limpiar',
+         onClick: () => {
+          this.formFilter.get("maxDate")?.setValue("")
+         }
+      }],
       onSelect: ({ date }) => {
         this.dpMin.update({
           maxDate: date,
@@ -281,6 +294,7 @@ export class OrdersIndexComponent
       })
       .beforeClose()
       .subscribe((res: any) => {
+        console.log(res)
         this.warehouses = res.data
       })
   }

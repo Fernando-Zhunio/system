@@ -35,6 +35,7 @@ export class NgxSearchBarService {
       const params = Object?.fromEntries(new URLSearchParams(segmentUrl[1]) as any);
       if (!params || !params.hasOwnProperty(this.nameQueryParams)) return null;
       NgxSearchBarService.currentQueryParams = JSON.parse(params[this.nameQueryParams]);
+      console.log({params: NgxSearchBarService.currentQueryParams})
     }
     catch (e) {
       NgxSearchBarService.currentQueryParams = null;

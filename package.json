@@ -99,6 +99,7 @@
     "@angular/cli": "^15.1.2",
     "@angular/compiler-cli": "^15.1.1",
     "@angular/language-service": "^15.1.1",
+    "@schematics/angular": "15.2.4",
     "@types/chart.js": "2.9.37",
     "@types/echarts": "^4.9.13",
     "@types/google-maps": "3.2.3",

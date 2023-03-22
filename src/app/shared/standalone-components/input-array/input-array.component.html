@@ -1,7 +1,7 @@
 <div [class]="appearance" class="input-array">
   <div class="ia-btn-search"><i class="fa-solid fa-magnifying-glass"></i> {{label}} </div>
   <div class="ia-content-item" *ngIf="templateRef">
-    <div class="ia-item" *ngFor="let arr of items">
+    <div class="ia-item" *ngFor="let arr of _items">
       <span>
         <ng-container
         [ngTemplateOutlet]="templateRef"

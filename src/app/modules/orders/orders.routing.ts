@@ -3,24 +3,24 @@ import { RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { environment } from '../../../environments/environment';
 import { PermissionOrders } from '../../class/permissions-modules';
-import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
+// import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
 import { CreateOrEditOrderComponent } from './pages/orders/pages/create-or-edit-order/create-or-edit-order.component';
 import { EditOrderComponent } from './pages/orders/pages/edit-order/edit-order.component';
 import { OrdersIndexComponent } from './pages/orders/pages/orders-index/orders-index.component';
 
 const permissionsModuleRoutes = PermissionOrders;
 const routes = [
-  {
-    path: 'dashboard-orders',
-    component: DashboardOrdersComponent,
-    data: {
-      permissions:{
-        only: permissionsModuleRoutes.index,
-        redirectTo: environment.ERROR_403_REDIRECT_URL
-      }
-    },
-    canActivate: [NgxPermissionsGuard],
-  },
+  // {
+  //   path: 'dashboard-orders',
+  //   component: DashboardOrdersComponent,
+  //   data: {
+  //     permissions:{
+  //       only: permissionsModuleRoutes.index,
+  //       redirectTo: environment.ERROR_403_REDIRECT_URL
+  //     }
+  //   },
+  //   canActivate: [NgxPermissionsGuard],
+  // },
   {
     path: 'orders',
     component: OrdersIndexComponent,

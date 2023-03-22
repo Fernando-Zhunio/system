@@ -23,7 +23,15 @@ export class InputArrayComponent implements ControlValueAccessor {
 
   @Input() label: string = '';
   @Input() appearance: string;
-  @Input() items: any[] = [];
+  _items: any[] = [];
+  @Input() set items(values: any[]){
+    if (!values) {
+      this._items = [];
+    }
+    this._items = values;
+    console.log(values);
+    this.writeValue(values);
+  };
   @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
   onChangeCb?: (select) => void;
   onTouchedCb?: () => void;
@@ -33,24 +41,26 @@ export class InputArrayComponent implements ControlValueAccessor {
 
   constructor() { }
   writeValue(obj: any): void {
-    console.log(obj);
-    this.items = this.items.filter(item => obj.includes(item[this.key!]));
-    this.onChangeCb && this.onChangeCb( this.key ? this.items.map(item => item[this.key!]) : this.items);
+    // this.items = this.items.filter(item => obj.includes(item[this.key!]));
+    this.onChangeCb && this.onChangeCb( this.key ? obj.map(item => item[this.key!]) : obj);
   }
+
   registerOnChange(fn: any): void {
     this.onChangeCb = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouchedCb = fn;
   }
+
   setDisabledState?(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }
 
   deleteItem(item: any, event) {
     event.stopPropagation();
-    const itemIndex = this.items.findIndex((x: any) => x[this.key!] === item[this.key!]);
-    this.items.splice(itemIndex, 1);
-    this.onChangeCb && this.onChangeCb(this.key ? this.items.map(item => item[this.key!]) : this.items);
+    const itemIndex = this._items.findIndex((x: any) => x[this.key!] === item[this.key!]);
+    this._items.splice(itemIndex, 1);
+    this.onChangeCb && this.onChangeCb(this.key ? this._items.map(item => item[this.key!]) : this._items);
   }
 }
