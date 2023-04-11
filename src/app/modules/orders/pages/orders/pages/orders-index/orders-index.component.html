@@ -416,11 +416,14 @@
   (data)="getData($event)">
   <div filters>
     <div>
-        <mat-select formControlName="status[]" multiple>
+        <!-- <mat-select formControlName="status[]" multiple>
           <mat-option *ngFor="let status of statuses" [value]="status">
             {{ status | translatefz : "orders" }}
           </mat-option>
-        </mat-select>
+        </mat-select> -->
+        <ngx-search-bar-select>
+          <ngx-search-bar-option [value]="1">Gern</ngx-search-bar-option>
+        </ngx-search-bar-select>
     </div>
   </div>
   <div filterMenu classPanel="menu-width-350">

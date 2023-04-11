@@ -1,0 +1,15 @@
+<div class="nsb-select" (click)="toggleSelect()">
+  <div class="nsb-select-selected" >
+    <div [innerHtml]="_label || placeholder"></div>
+    <div>
+       <i class="nsb-arrow-down"></i>
+    </div>
+  </div>
+  
+  <div *ngIf="isShowOptions" class="nsb-select-items">
+    <ng-content></ng-content>
+    <!-- <div [attr.data-option]="option.value" *ngFor="let option of options">
+      <div>{{option.label}} fer</div>
+    </div> -->
+  </div>
+</div>
