@@ -1,0 +1,53 @@
+.nsb-option {
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  align-items: center;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.nsb-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nsb-container-option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+
+
+.nsb-checkbox-container {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+  height: 20px;
+  width: 20px;
+  border: 3px solid #ccc;
+}
+
+
+.nsb-checkbox-container.nsb-checkmark:after {
+    width: 6px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(41deg);
+    background-color: #2196f3;
+    content: "";
+    display: inline-block;
+}
+
+.nsb-checkbox-container.nsb-checkmark {
+    background-color: #2196f3;
+    border: 2px solid #2196f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

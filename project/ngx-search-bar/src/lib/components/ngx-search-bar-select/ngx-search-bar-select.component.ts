@@ -1,12 +1,26 @@
-import { AfterViewInit, Component, HostListener, Input, QueryList, ViewChildren, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgxSearchBarOptionComponent, NgxSearchBarSelectionChange } from '../ngx-search-bar-option/ngx-search-bar-option.component';
-import { Subscription, merge, startWith, switchMap  } from 'rxjs';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ContentChildren,
+  ElementRef,
+  Input,
+  QueryList,
+  ViewChild,
+  forwardRef,
+} from "@angular/core"
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms"
+import {
+  NgxSearchBarOptionComponent,
+  NgxSearchBarSelectionChange,
+} from "../ngx-search-bar-option/ngx-search-bar-option.component"
+import { Subscription, merge, startWith, switchMap } from "rxjs"
+import { calcPositionDropdown } from "../../../../../../src/app/shared/class/tools"
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'ngx-search-bar-select',
-  templateUrl: './ngx-search-bar-select.component.html',
-  styleUrls: ['./ngx-search-bar-select.component.scss'],
+  selector: "ngx-search-bar-select",
+  templateUrl: "./ngx-search-bar-select.component.html",
+  styleUrls: ["./ngx-search-bar-select.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -15,105 +29,123 @@ import { Subscription, merge, startWith, switchMap  } from 'rxjs';
     },
   ],
 })
-export class NgxSearchBarSelectComponent implements ControlValueAccessor, AfterViewInit {
+export class NgxSearchBarSelectComponent implements ControlValueAccessor, AfterViewInit, AfterContentInit {
+  @ContentChildren(NgxSearchBarOptionComponent) options: QueryList<NgxSearchBarOptionComponent>
+  @ViewChild("triggerSelect") triggerSelect: ElementRef
+  @ViewChild("selectItems") selectItems: ElementRef
+  constructor() {}
+  @Input() placeholder: string = "Select"
+  @Input() multi = false
+  @Input() tabindex = 1
 
-  // @ViewChild('ngxsbselect') element: ElementRef;
-  @ViewChildren(NgxSearchBarOptionComponent) options: QueryList<NgxSearchBarOptionComponent>;
-  constructor() { }
-  @Input() placeholder: string = 'Select';
-  
-  selected: NgxSearchBarOptionComponent | null  = null;
+  // selected: NgxSearchBarOptionComponent | null = null
 
-  get _label () {
-    return this.selected?.getLabel();
-  }
+  label: any = null
 
-  isDisabled = false;
-  isShowOptions = false;
-  @HostListener('document:click', ['$event'])
-  onOutsideClick(_event: Event) {
-    // if (!this.getElement().contains(event.target)) {
-    //   this.isShowOptions = false;
-    // }
-  }
+  isDisabled = false
+  isShowOptions = false
 
   toggleSelect() {
-    this.isShowOptions = !this.isShowOptions;
+    if (this.isDisabled) {
+      return;
+    }
+    if (this.multi && this.isShowOptions) {
+      return;
+    }
+    this.isShowOptions = !this.isShowOptions
+    calcPositionDropdown(this.triggerSelect.nativeElement, this.selectItems.nativeElement, 5)
   }
 
-  onChange?: (item: any) => void;
+  onChange?: (item: any) => void
 
-  onTouchedCb?: () => void;
+  onTouchedCb?: () => void
 
   writeValue(obj: any): void {
     if (!obj) {
-
-      // this.setElementHtml(this.placeholder);
-      this.selected = null;
-      return;
+      this.label = null
+      this.onChange?.(null)
+      return
     }
+    if (this.multi) {
+      this.valuesMulti = new Map(obj.map((item) => [item, true]));
+      this.onChange?.(obj || [])
+      this.options.forEach((option) => {
+        option.selected = this.valuesMulti.has(option.value)
+        if (option.selected) {
+          this.valuesMulti.set(option.value, option.getLabel())
+        }
+      })
+      this.label = Array.from(this.valuesMulti.values()).join(", ")
+      return
+    }
+    this.label = this.options.find((option) => option.value === obj)?.getLabel()
+    this.onChange?.(obj)
   }
 
   setValue(value: any): void {
-    this.onChange?.(value);
+    this.onChange?.(value)
   }
 
   registerOnChange(fn: any): void {
-    this.onChange = fn;
+    this.onChange = fn
   }
 
   registerOnTouched(fn: any): void {
-    this.onTouchedCb = fn;
+    this.onTouchedCb = fn
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.isDisabled = isDisabled
   }
 
-  // getSelectedValue(event): any {
-  //   let option = event.target.closest('[data-option]');
-  //   if (!option) return;
-  //   let value = option.getAttribute('data-option');
-  //   let htmlSelect = option.querySelector('div:first-child');
-  //   this.setElementHtml(htmlSelect.innerHTML);
-  //   this.onChange?.(value);
-  // }
-
-  // getElement(): any {
-  //   return this.element.nativeElement;
-  // }
-  // setElementHtml(html: any): any {
-  //   this.element.nativeElement.innerHTML = html;
-  // }
-
-  _optionSubscription: Subscription;
-  private listenToOptions() {
-    this._optionSubscription = this.options.changes.pipe(
-      // map(_res => {console.log('fer'); return this.options}),
-      startWith(this.options),
-      switchMap((options: QueryList<NgxSearchBarOptionComponent>) => {
-        console.log(options, 'options');
-        return merge(...options.map(option => option.onSelectionChange));
-      })).
-      subscribe((event: NgxSearchBarSelectionChange) => {
-        console.log(event, 'listenToOptions');
-        // this.onSelect(event.source, event.isUserInput);
-      })
-
+  close() {
+    this.isShowOptions = false
   }
-  
+
   ngAfterViewInit() {
-    this.listenToOptions();
+    this._optionSubscription = this.options.changes
+      .pipe(
+        startWith(this.options),
+        switchMap((options: QueryList<NgxSearchBarOptionComponent>) => {
+          console.log(options, "options")
+          return merge(...this.options.map((option) => option.onSelectionChange))
+        })
+      )
+      .subscribe((event: NgxSearchBarSelectionChange) => {
+        console.log(event, "event")
+        this.onSelect(event.source, event.isUserInput)
+      })
   }
+
+  ngAfterContentInit() {
+    console.log(this.options, "ngAfterContentInit")
+  }
+
+  _optionSubscription: Subscription
+  valuesMulti = new Map();
 
   onSelect(option: NgxSearchBarOptionComponent, isUserInput: boolean): void {
-    if (isUserInput) {
-      this.selected = option;
-      // this.setElementHtml(option.getLabel());
+    if (!isUserInput) {
+      return
     }
+    this.setValueChange(option)
+  }
+
+  setValueChange(option: NgxSearchBarOptionComponent) {
+    if (this.multi) {
+      if (this.valuesMulti.has(option.value)) {
+        this.valuesMulti.delete(option.value)
+      } else {
+        this.valuesMulti.set(option.value, option.getLabel())
+      }
+      this.onChange?.(Array.from(this.valuesMulti.keys()))
+      this.label = Array.from(this.valuesMulti.values()).join(", ")
+      return
+    }
+    this.label = option.getLabel()
+    this.onChange?.(option.value)
   }
 }
-
 
 // export class SelectionModel<T> {
 //   private _model = new Set<T>();

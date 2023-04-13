@@ -1,60 +1,52 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core"
 
 @Component({
-  selector: 'ngx-search-bar-option',
-  templateUrl: './ngx-search-bar-option.component.html',
-  styleUrls: ['./ngx-search-bar-option.component.scss']
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: "ngx-search-bar-option",
+  templateUrl: "./ngx-search-bar-option.component.html",
+  styleUrls: ["./ngx-search-bar-option.component.scss"],
 })
-export class NgxSearchBarOptionComponent implements OnInit {
-
-  @Input() disabled = false;
-  @Input() value = null;
-  previousSelectedValue: any;
-  selected: any;
+export class NgxSearchBarOptionComponent {
+  @Input() disabled = false
+  @Input() value = null
+  previousSelectedValue: any
+  selected = false
+  isSelectable = true
   constructor(private element: ElementRef) {
-    this.selected = false;
-    this.previousSelectedValue = this.selected;
+    // this.selected = false
+    // this.previousSelectedValue = this.selected
   }
-  onSelectionChange = new EventEmitter<NgxSearchBarSelectionChange>();
-
-
-  ngOnInit() {
-  }
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
+  @Output() readonly onSelectionChange = new EventEmitter<NgxSearchBarSelectionChange>()
 
   emitSelectionChangeEvent(isUserInput = false): void {
-    console.log('emitSelectionChangeEvent');
-    this.onSelectionChange.emit(new NgxSearchBarSelectionChange(this, isUserInput));
+    console.log("emitSelectionChangeEvent")
+    this.onSelectionChange.emit(new NgxSearchBarSelectionChange(this, isUserInput))
   }
 
   toggle() {
     if (this.disabled) {
-      return;
+      return
     }
-    // if (this.selected !== this.previousSelectedValue) {
-      // this.previousSelectedValue = this.selected;
-      console.log('toggle');
-      this.emitSelectionChangeEvent(true);
-    // }
+    if (this.value === this.previousSelectedValue && !this.isSelectable) {
+      return
+    }
+    this.selected = !this.selected
+    this.emitSelectionChangeEvent(true)
   }
 
-  getLabel(): any {
-    return this.element.nativeElement.textContent.trim();
+  getLabel() {
+    return this.element.nativeElement.textContent.trim()
   }
 
   getValue(): any {
-    return this.value;
+    return this.value
   }
 
-  selectOption() {
-    this.selected = true;
-    this.toggle();
-  }
+  
+
 }
 
-
 export class NgxSearchBarSelectionChange {
-  constructor(
-    public source: NgxSearchBarOptionComponent,
-    public isUserInput = false,
-  ) { }
+  constructor(public source: NgxSearchBarOptionComponent, public isUserInput = false) {}
 }

@@ -1,3 +1,12 @@
-<div (click)="selectOption()">
-  <ng-content></ng-content>
+<div [ngClass]="{'nsb-disabled': disabled}" class="nsb-option" (click)="toggle()">
+  <div class="nsb-container-option">
+    <ng-container *ngIf="isSelectable">
+      <div [ngClass]="{'nsb-checkmark': selected}" class="nsb-checkbox-container">
+        <!-- <span class="checkmark"></span> -->
+      </div>
+    </ng-container>
+    <div>
+      <ng-content></ng-content>
+    </div>
+  </div>
 </div>
