@@ -17,33 +17,18 @@
         flex: auto;
         align-items: center;
         padding-left: 10px;
-        // .btn-filter {
-        //   border: none;
-        //   background-color: transparent;
-        //   outline: none;
-        //   height: 40px;
-        //   width: 40px;
-        //   cursor: pointer;
-        //   display: flex;
-        //   justify-content: center;
-        //   align-items: center;
-
-        //   border-radius: 10px;
-        //   box-shadow: 1px 1px 6px #80808061;
-        //   background-color: #ececec;
-        //   margin-left: 5px;
-        //   svg {
-        //     height: 20px;
-        //     width: 20px;
-        //     // fill: #5c5b5b;
-        //   }
-        // }
       }
     }
     .nsb-full-width {
       flex-grow: 999;
     }
+    .nsb-content-input-search:has(.nsb-input-search:focus) {
+      border: solid 1px rgb(50, 187, 205);
+      transition: border 0.5s ease-in-out;
+    }
     .nsb-content-input-search {
+      border-color: rgb(50, 187, 205);
+      transition: border 0.5s ease-in-out;
       background-color: #ececec;
       border-radius: 8px;
       min-width: 300px;

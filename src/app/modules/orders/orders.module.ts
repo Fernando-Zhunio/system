@@ -90,7 +90,6 @@ import { MatCardModule } from "@angular/material/card"
 import { NgxPermissionsModule } from "ngx-permissions"
 import { MatDialogModule } from "@angular/material/dialog"
 import { MatListModule } from "@angular/material/list"
-import { NgxSearchBarFiltersModule } from "../../../../project/ngx-search-bar/src/public-api"
 // import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 // import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
@@ -167,7 +166,6 @@ import { NgxSearchBarFiltersModule } from "../../../../project/ngx-search-bar/sr
     InputArrayComponent,
     ReactiveFormsModule,
     MatListModule,
-    NgxSearchBarFiltersModule,
     //   MatProgressSpinnerModule,
     //   MatDialogModule,
     //   MatAutocompleteModule,
