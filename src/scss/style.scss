@@ -403,3 +403,12 @@ a img {
 .mat-mdc-table-sticky {
   border-left: 1px solid #dbdbdb;
 }
+
+
+.nsb-container-items-filter {
+  display: flex;
+  overflow: auto;
+  gap: 0 5px;
+  padding-top: 10px;
+  flex-wrap: wrap;
+}

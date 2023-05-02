@@ -33,9 +33,30 @@
       border-radius: 8px;
       min-width: 300px;
       display: flex;
-      padding-right: 30px;
+      padding-right: 10px;
       position: relative;
       align-items: center;
+      .nsb-line {
+        height: 20px;
+        width: 2px;
+        border-left: 2px solid #7e7c7c6e;
+        margin-right: 6px;
+      }
+      .nsb-btn-filter {
+        border: none;
+        border-radius: 10px;
+        background: rgb(49 156 189 / 12%);
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+        color: #0277bd;
+      }
+      .nsb-btn-filter:hover {
+        background: rgb(49 156 189 / 20%);
+      }
       .nsb-btn-search {
         border: none;
         background-color: transparent;
@@ -52,6 +73,7 @@
           fill: #5c5b5b;
         }
       }
+
       .nsb-input-search {
         // height: 30px;
         border: none;
@@ -67,8 +89,9 @@
       .nsb-spinner {
         width: 20px;
         height: 20px;
-        position: absolute;
-        right: 10px;
+        position: relative;
+        margin-left: 10px;
+        margin-right: 6px;
       }
       .nsb-spinner::ng-deep circle {
         stroke: #a8a8a8;
@@ -109,4 +132,43 @@
   //     }
   //   }
   // }
+
+  .nsb-filter-container {
+    padding: 5px;
+    margin-top: 10px;
+    :nth-child(1) {
+      display: flex;
+      overflow: auto;
+    }
+  }
+
+  .nsb-action-filter {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 7px;
+      box-shadow: 1px 1px 10px #80808029;
+    }
+
+    .nsb-action-filter {
+      color: #0277bd;
+      background: #0277bd1f;
+    }
+    .nsb-action-filter:hover {
+      // background-color: ;
+    }
+    .nsb-action-close {
+      background: #ff00002b;
+    color: #d50000;
+    }
+  }
 }

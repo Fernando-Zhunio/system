@@ -419,162 +419,126 @@
         
     </div>
   </div>
-  <div filterMenu classPanel="menu-width-350">
-    <div class="container-filters" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-      <div>
-        <h3 class="font-2xl">Filtros</h3>
-      </div>
-      <div [formGroup]="formFilter">
-        <div>
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Estados</mat-label>
-            <mat-select formControlName="status[]" multiple>
-              <mat-option *ngFor="let status of statuses" [value]="status">
-                {{ status | translatefz : "orders" }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Tipos</mat-label>
-            <mat-select formControlName="type">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option *ngFor="let type of types" [value]="type">{{ type | translatefz : "orders" }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="d-flex gap-5">
-          <mat-form-field class="w-50" appearance="outline">
-            <input
-              readonly
-              style="font-size: 11px"
-              #filterOrderMin
-              formControlName="minDate"
-              matInput
-              placeholder="Fecha inicial" />
-          </mat-form-field>
-          <mat-form-field class="w-50" appearance="outline">
-            <input
-              readonly
-              style="font-size: 11px"
-              #filterOrderMax
-              formControlName="maxDate"
-              matInput
-              placeholder="Fecha final" />
-          </mat-form-field>
-        </div>
-        <div class="d-flex gap-5">
-          <mat-form-field class="w-50" appearance="outline">
-            <input type="number" style="font-size: 11px" formControlName="minPrice" matInput placeholder="Monto min" />
-          </mat-form-field>
-          <mat-form-field class="w-50" appearance="outline">
-            <input type="number" style="font-size: 11px" formControlName="maxPrice" matInput placeholder="Monto max" />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Canal</mat-label>
-            <mat-select formControlName="channel">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option *ngFor="let channel of channels" [value]="channel.id">{{ channel.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Transferencias</mat-label>
-            <mat-select formControlName="hasMbaTransfers">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option value="0">Sin transferencias</mat-option>
-              <mat-option value="1">Con transferencias</mat-option>
-              <mat-option value="sended">Enviada</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="d-flex gap-5">
-          <mat-form-field class="w-50" appearance="outline">
-            <mat-label>Anticipos</mat-label>
-            <mat-select formControlName="hasMbaPayments">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option value="1">SI</mat-option>
-              <mat-option value="0">NO</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="w-50" appearance="outline">
-            <mat-label>Facturas</mat-label>
-            <mat-select formControlName="hasMbaInvoices">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option value="1">SI</mat-option>
-              <mat-option value="0">NO</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="gap-5 d-flex">
-          <mat-form-field class="w-50" appearance="outline">
-            <mat-label>Retenciones confirmadas</mat-label>
-            <mat-select formControlName="hasConfirmedRetention">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option value="1">SI</mat-option>
-              <mat-option value="0">NO</mat-option>
-            </mat-select>
-          </mat-form-field>
+  <ng-container filterMenu>
+      <div class="nsb-container-items-filter" [formGroup]="formFilter">
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Estados</mat-label>
+          <mat-select formControlName="status[]" multiple>
+            <mat-option *ngFor="let status of statuses" [value]="status">
+              {{ status | translatefz : "orders" }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Tipos</mat-label>
+          <mat-select formControlName="type">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option *ngFor="let type of types" [value]="type">{{ type | translatefz : "orders" }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Fecha inicial</mat-label>
+          <input
+            readonly
+            style="font-size: 11px"
+            #filterOrderMin
+            formControlName="minDate"
+            matInput
+            placeholder="Fecha inicial" />
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Fecha final</mat-label>
+          <input
+            readonly
+            style="font-size: 11px"
+            #filterOrderMax
+            formControlName="maxDate"
+            matInput
+            placeholder="Fecha final" />
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Precio min</mat-label>
+          <input type="number" style="font-size: 11px" formControlName="minPrice" matInput placeholder="Monto min" />
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Pecio max</mat-label>
+          <input type="number" style="font-size: 11px" formControlName="maxPrice" matInput placeholder="Monto max" />
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Canal</mat-label>
+          <mat-select formControlName="channel">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option *ngFor="let channel of channels" [value]="channel.id">{{ channel.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Transferencias</mat-label>
+          <mat-select formControlName="hasMbaTransfers">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option value="0">Sin transferencias</mat-option>
+            <mat-option value="1">Con transferencias</mat-option>
+            <mat-option value="sended">Enviada</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Anticipos</mat-label>
+          <mat-select formControlName="hasMbaPayments">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option value="1">SI</mat-option>
+            <mat-option value="0">NO</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Facturas</mat-label>
+          <mat-select formControlName="hasMbaInvoices">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option value="1">SI</mat-option>
+            <mat-option value="0">NO</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Retenciones confirmadas</mat-label>
+          <mat-select formControlName="hasConfirmedRetention">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option value="1">SI</mat-option>
+            <mat-option value="0">NO</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-          <mat-form-field class="w-50" appearance="outline">
-            <mat-label>Guías</mat-label>
-            <mat-select formControlName="guide">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option value="1">SI</mat-option>
-              <mat-option value="0">NO</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="w-100" appearance="outline">
-            <input matInput formControlName="paymentDocCode" placeholder="Código de documento" />
-          </mat-form-field>
-        </div>
-        <div>
-          <!-- <mat-form-field class="w-100" appearance="outline"> -->
-          <!-- <mat-chip-set #chipList aria-label="Fruit selection">
-            <mat-chip
-              *ngFor="let warehouse of warehousesSelected | keyvalue"
-              (removed)="removeWarehouse(warehouse.key)">
-              {{ warehouse.value.name }}
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
-            <input
-              matInput
-              readonly
-              [matChipInputFor]="chipList"
-              [(ngModel)]="filters['warehouse[]']"
-              placeholder="Bodega" />
-            <mat-icon matSuffix (click)="isSearchWarehouse = !isSearchWarehouse">add</mat-icon>
-          </mat-chip-set> -->
-          <!-- </mat-form-field> -->
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Guías</mat-label>
+          <mat-select formControlName="guide">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option value="1">SI</mat-option>
+            <mat-option value="0">NO</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Código de documento</mat-label>
+          <input matInput formControlName="paymentDocCode" placeholder="Código de documento" />
+        </mat-form-field>
+        <!-- <div>
           <input-array
             key="id"
             (click)="openSimpleSearch()"
@@ -587,42 +551,21 @@
               {{ item.name }}
             </ng-template>
           </input-array>
-        </div>
-        <div>
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Compañía</mat-label>
-            <mat-select formControlName="company">
-              <mat-option>
-                <mat-icon color="warn">delete_forever</mat-icon>
-                Limpiar selección
-              </mat-option>
-              <mat-option *ngFor="let company of companies | keyvalue" [value]="company.key">
-                {{ company.value }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        </div> -->
+        <mat-form-field class="" appearance="outline">
+          <mat-label>Compañía</mat-label>
+          <mat-select formControlName="company">
+            <mat-option>
+              <mat-icon color="warn">delete_forever</mat-icon>
+              Limpiar selección
+            </mat-option>
+            <mat-option *ngFor="let company of companies | keyvalue" [value]="company.key">
+              {{ company.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-    </div>
-    <!-- <ng-container menuBar>
-    <mat-chip-list class="mx-1">
-      <mat-chip>
-        <mat-select
-          [(ngModel)]="workspaceSelect"
-          (selectionChange)="changeWorkspaces($event)"
-          placeholder="Espacio de trabajo">
-          <mat-option *ngFor="let workspace of workspaces" [value]="workspace.id">
-            {{ workspace.name }}
-          </mat-option>
-        </mat-select>
-      </mat-chip>
-      <mat-chip *ngxPermissionsOnly="permissions.create" [routerLink]="['./create']" class="ml-1 mat-btn-add">
-        <mat-icon>add</mat-icon>
-        Nueva
-      </mat-chip>
-    </mat-chip-list>
-  </ng-container> -->
-  </div>
+  </ng-container>
 
   <div buttons class="buttons-orders">
     <mat-select

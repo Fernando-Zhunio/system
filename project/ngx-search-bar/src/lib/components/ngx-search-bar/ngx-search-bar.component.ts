@@ -4,12 +4,24 @@ import { debounceTime, Subject, switchMap, takeUntil } from 'rxjs';
 import { NgxSearchBarService } from '../../ngx-search-bar.service';
 import { empty } from '../../utils/empty';
 import { NgxSearchBarFormFilterComponent } from '../ngx-search-bar-form-filter/ngx-search-bar-form-filter.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'ngx-search-bar',
   templateUrl: './ngx-search-bar.component.html',
   styleUrls: ['./ngx-search-bar.component.scss'],
+  animations: [
+    trigger('openOrCloseFilter', [
+      transition(':enter', [
+        style({ height: 0 }),
+        animate('200ms', style({ height: 'auto', overflow: 'hidden' })),
+      ]),
+      transition(':leave', [
+        animate('200ms', style({ height: 0,  overflow: 'hidden' }))
+      ])
+    ])
+  ]
 })
 export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestroy {
   constructor(
@@ -36,18 +48,18 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   searchText: string = '';
   subject: Subject<{ [key: string]: any }> = new Subject();
   currentParams: { [key: string]: any } = {};
+  numberFilter = 0;
+  isOpenFilter = false;
   //#endregion Variables
 
 
 
   ngOnInit(): void {
-    // this.initWithModifyUrl();
     this.subscribeForSearch();
   }
   
   ngAfterContentInit(): void {
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
+
     this.initWithModifyUrl();
     this.autoInit ? this.search() : this.getParamsSend();
   }
@@ -126,5 +138,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
       ...params,
     };
   }
+
+  
 
 }
