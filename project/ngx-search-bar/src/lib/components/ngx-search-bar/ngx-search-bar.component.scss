@@ -1,3 +1,6 @@
+:root {
+  --height-search-bar: 42px;
+}
 .nsb {
   padding: 10px;
   .nsb-title {
@@ -36,6 +39,8 @@
       padding-right: 10px;
       position: relative;
       align-items: center;
+      
+      height: var(--height-search-bar, 42px);
       .nsb-line {
         height: 20px;
         width: 2px;
@@ -75,12 +80,10 @@
       }
 
       .nsb-input-search {
-        // height: 30px;
         border: none;
         padding: 5px 10px;
         width: fit-content;
         display: inline-block;
-        // width: 100%;
         flex: auto;
         background-color: transparent;
         outline: none;
@@ -98,13 +101,6 @@
       }
     }
   }
-  // .params-container {
-  //   margin-top: 10px;
-  //   display: flex;
-  //   .values {
-  //     color: gray;
-  //   }
-  // }
 
   @media (max-width: 768px) {
     .nsb-title {
@@ -134,8 +130,10 @@
   // }
 
   .nsb-filter-container {
-    padding: 5px;
     margin-top: 10px;
+    box-shadow: 1px 10px 21px rgba(0,0,0,.15)!important;
+    padding: 10px 20px;
+    border-radius: 0 0 20px 20px;
     :nth-child(1) {
       display: flex;
       overflow: auto;
@@ -170,5 +168,15 @@
       background: #ff00002b;
     color: #d50000;
     }
+  }
+
+  .nsb-section-filter {
+    width: auto;
+    display: inline-block;
+    margin-bottom: 15px;
+    position: absolute;
+    z-index: 10;
+    background: white;
+    top: var(--height-search-bar, 42px);
   }
 }

@@ -28,14 +28,14 @@ export class NgxSearchBarService {
     this.location.replaceState(this.location.path().split('?')[0], searchParams.toString())
   }
 
-  getQueryParams(): object | null {
+  getQueryParams(): {[key:string]: string} | null {
     try {
-      const segmentUrl = window.location.href.split('?');
-      if (segmentUrl.length === 1) return null;
-      const params = Object?.fromEntries(new URLSearchParams(segmentUrl[1]) as any);
+      const queryParams = window.location.href.split('?');
+      if (queryParams.length === 1) return null;
+      const params = Object?.fromEntries(new URLSearchParams(queryParams[1]) as any);
       if (!params || !params.hasOwnProperty(this.nameQueryParams)) return null;
       NgxSearchBarService.currentQueryParams = JSON.parse(params[this.nameQueryParams]);
-      console.log({params: NgxSearchBarService.currentQueryParams})
+      // console.log({params: NgxSearchBarService.currentQueryParams})
     }
     catch (e) {
       NgxSearchBarService.currentQueryParams = null;

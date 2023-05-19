@@ -2,7 +2,7 @@
   <div class="nsb-bar">
     <div class="nsb-bar-container">
       <h1 *ngIf="title" class="nsb-title">{{ title }}</h1>
-      <div [ngClass]="{ 'nsb-full-width': isBarExpand }" class="nsb-content-input-search">
+      <div [ngStyle]="{'flex-grow': size}" [ngClass]="{ 'nsb-full-width': isBarExpand }" class="nsb-content-input-search">
         <button class="nsb-btn-search" (click)="search()">
           <svg
             stroke="currentColor"
@@ -40,6 +40,21 @@
           <span class="ngx-sbf-count" *ngIf="numberFilter">{{ numberFilter }}</span>
         </button>
         <mat-spinner *ngIf="isLoading" class="nsb-spinner" [diameter]="20"></mat-spinner>
+        <div @openOrCloseFilter class="nsb-section-filter" *ngIf="isOpenFilter">
+          <div class="nsb-filter-container">
+            <div>
+              <ng-content select="ngx-search-bar-form-filter"></ng-content>
+            </div>
+            <div class="nsb-action-filter">
+              <button (click)="search()"class="nsb-action-filter">
+                Aplicar filtros <mat-icon style="color: inherit">check</mat-icon>
+              </button>
+              <button (click)="isOpenFilter = false" class="nsb-action-close">
+                Cerrar filtros <mat-icon style="color: inherit">close</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="nsb-bar-buttons">
         <ng-content select="[buttons]"></ng-content>
@@ -47,7 +62,7 @@
       </div>
     </div>
   </div>
-  <div @openOrCloseFilter *ngIf="isOpenFilter">
+  <!-- <div class="nsb-section-filter" @openOrCloseFilter *ngIf="isOpenFilter">
     <div class="nsb-filter-container">
       <div>
         <ng-content select="ngx-search-bar-form-filter"></ng-content>
@@ -60,7 +75,6 @@
           Cerrar filtros <mat-icon style="color: inherit">close</mat-icon>
         </button>
       </div>
-      <hr>
     </div>
-  </div>
+  </div> -->
 </div>

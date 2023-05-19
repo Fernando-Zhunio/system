@@ -14,11 +14,11 @@ import { animate, style, transition, trigger } from '@angular/animations';
   animations: [
     trigger('openOrCloseFilter', [
       transition(':enter', [
-        style({ height: 0 }),
-        animate('200ms', style({ height: 'auto', overflow: 'hidden' })),
+        style({ height: 0, transform:'translateY(-50px)', opacity: 0 }),
+        animate('300ms', style({ transform: 'translateY(0)', height: '*', opacity: 1 })),
       ]),
       transition(':leave', [
-        animate('200ms', style({ height: 0,  overflow: 'hidden' }))
+        animate('300ms', style({ height: 0, transform:'translateY(-50px)', opacity: 0, background: 'inherit' }))
       ])
     ])
   ]
@@ -38,6 +38,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   @Input() autoInit: boolean = true;
   @Input() nameInputSearch: string = 'search';
   @Input() isBarExpand: boolean = false;
+  @Input() size: number = 4;
 
   @Output() data = new EventEmitter<any>();
   @Output() loading = new EventEmitter<boolean>();
