@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatCardModule } from '@angular/material/card';
-import { NgxSearchBarModule } from 'ngx-search-bar-fz';
+// import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
@@ -40,7 +40,7 @@ import { MatTableModule } from '@angular/material/table';
     MatButtonModule,
     NgxPermissionsModule,
     MatCardModule,
-    NgxSearchBarModule,
+    // NgxSearchBarModule,
     MatPaginatorModule,
     MatChipsModule,
     NgxSearchBarPaginatorComponent,

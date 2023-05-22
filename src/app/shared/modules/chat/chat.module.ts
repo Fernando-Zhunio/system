@@ -16,7 +16,6 @@ import { MarkdownModule } from '../../../Modulos/Markdown/markdown/markdown.modu
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChatsUsersListComponent } from './components/chats-users-list/chats-users-list.component';
 import { CreateOrEditChatGroupComponent } from './components/create-or-edit-chat-group/create-or-edit-chat-group.component';
-// import { ChatSortPipe } from './shared/modules/chat/pipes/chat-sort.pipe';
 
 @NgModule({
     imports: [

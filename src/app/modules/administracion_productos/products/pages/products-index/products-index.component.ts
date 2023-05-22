@@ -2,7 +2,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { Component, ViewChild } from '@angular/core';
 import { Product } from '../../interfaces/product';
-import { NgxSearchBarComponent } from 'ngx-search-bar-fz';
+// import { NgxSearchBarComponent } from 'ngx-search-bar-fz';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { MatTable } from '@angular/material/table';
 
@@ -28,7 +28,7 @@ export class ProductsIndexComponent extends MatTableHelper<any> {
     'super-admin',
     'products-admin.products.destroy',
   ];
-  @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent
+  // @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent
   products: Product[] = [];
   // filters: NgxSearchBarFilter = {
   //   id: {

@@ -42,7 +42,7 @@ import { AddInfoPersonModalComponent } from './components/modals/add-info-person
 // import { ChatTemplateComponent } from './shared/modules/chat/components/chat-template/chat-template.component';
 // import { ChatComponent } from './shared/modules/chat/components/chat/chat.component';
 // import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { PopoverModule } from 'ngx-bootstrap/popover';
+// import { PopoverModule } from 'ngx-bootstrap/popover';
 import {  registerPlugin } from 'ngx-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -90,7 +90,7 @@ registerLocaleData(localeEs, 'es');
     ReactiveFormsModule,
     HttpClientModule,
     NgxSpinnerModule,
-    PopoverModule.forRoot(),
+    // PopoverModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     MatButtonModule,
     MatIconModule,

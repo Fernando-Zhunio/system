@@ -1,27 +1,17 @@
 import { AfterContentInit, Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+// import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, Subject, switchMap, takeUntil } from 'rxjs';
 import { NgxSearchBarService } from '../../ngx-search-bar.service';
 import { empty } from '../../utils/empty';
 import { NgxSearchBarFormFilterComponent } from '../ngx-search-bar-form-filter/ngx-search-bar-form-filter.component';
-import { animate, style, transition, trigger } from '@angular/animations';
+// import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'ngx-search-bar',
   templateUrl: './ngx-search-bar.component.html',
   styleUrls: ['./ngx-search-bar.component.scss'],
-  animations: [
-    trigger('openOrCloseFilter', [
-      transition(':enter', [
-        style({ height: 0, transform:'translateY(-50px)', opacity: 0 }),
-        animate('300ms', style({ transform: 'translateY(0)', height: '*', opacity: 1 })),
-      ]),
-      transition(':leave', [
-        animate('300ms', style({ height: 0, transform:'translateY(-50px)', opacity: 0, background: 'inherit' }))
-      ])
-    ])
-  ]
+  
 })
 export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestroy {
   constructor(
@@ -44,7 +34,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   @Output() loading = new EventEmitter<boolean>();
 
   isLoading: boolean = false;
-  formFilters: FormGroup | null = null;
+  // formFilters: FormGroup | null = null;
   destroy$: Subject<boolean> = new Subject<boolean>();
   searchText: string = '';
   subject: Subject<{ [key: string]: any }> = new Subject();
@@ -78,14 +68,17 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
     }
 
     try {
-      this.formFilters = new FormGroup({});
+      // this.formFilters = new FormGroup({});
       const plusParams = {...this.ngxFormFilter.getFormFilters().value, ...params,}
-      Object.keys(plusParams).forEach(key => {
-        if (key === this.nameInputSearch || empty(plusParams[key])) return;
-        this.formFilters?.addControl(key, new FormControl(plusParams[key]));
+      const paramsSend = {}
+      Object.keys(plusParams).filter(x => x !== this.nameInputSearch).forEach(key => {
+        if (empty(plusParams[key])) return;
+        paramsSend[key] = plusParams[key];
+        // this.formFilters?.addControl(key, new FormControl(plusParams[key]));
       });
+      this.search(paramsSend);
       setTimeout(() => {
-        this.ngxFormFilter.setFormFiltersValue(this.formFilters!.value);
+        this.ngxFormFilter.setFormFiltersValue(paramsSend);
       }, 0);
     } catch (error) {
       console.error('error', error);
@@ -135,7 +128,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   getParamsSend(params: { [key: string]: any } = {}): { [key: string]: any } {
     return {
       [this.nameInputSearch]: this.searchText,
-      ...this.formFilters?.value,
+      ...this.ngxFormFilter?.getFilter() || {},
       ...params,
     };
   }
