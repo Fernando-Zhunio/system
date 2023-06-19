@@ -34,7 +34,7 @@ export class NgxSearchBarFormFilterComponent  {
   @Input() withParamsClean: boolean = false;
   buttonsFilters: Map<string, any> = new Map();
 
-  constructor(protected location: Location, private ngxSearchBar: NgxSearchBarComponent, @Inject(DATA_FOR_SEARCH_BAR) private dataInject: NgxSearchBarProvider,) {
+  constructor(protected location: Location, private ngxSearchBar: NgxSearchBarComponent, @Inject(DATA_FOR_SEARCH_BAR) public dataInject: NgxSearchBarProvider,) {
   }
   @Input() customBtnApplyFilter: any = this.dataInject?.OPTIONS?.customBtnApplyFilter || { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' };
 

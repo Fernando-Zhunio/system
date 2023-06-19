@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatMenuModule } from '@angular/material/menu';
 // import { CreateOrEditPublicacionComponent } from './modules/publicaciones/create-or-edit-publicacion/create-or-edit-publicacion.component';
-import { NgxFileDropModule } from 'ngx-file-drop';
+// import { NgxFileDropModule } from 'ngx-file-drop';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
@@ -55,7 +55,7 @@ import { SearchProductModalComponent } from '../../components/modals/search-prod
   CommonModule,
     CatalogoRoutingModule,
     MatTabsModule,
-    NgxFileDropModule,
+    // NgxFileDropModule,
     MatSelectModule,
     MatIconModule,
     MatPaginatorModule,

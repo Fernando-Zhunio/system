@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PermissionOrdersPayments } from '../../../../../../class/permissions-modules';
 import { SwalService } from '../../../../../../services/swal.service';
 import { OrdersService } from '../../../../services/orders.service';
@@ -8,7 +8,7 @@ import { OrdersService } from '../../../../services/orders.service';
   templateUrl: './select-change-status-payment.component.html',
   styleUrls: ['./select-change-status-payment.component.scss']
 })
-export class SelectChangeStatusPaymentComponent implements OnInit {
+export class SelectChangeStatusPaymentComponent {
 
   @Input() status: string;
   @Input() type: string;
@@ -17,9 +17,6 @@ export class SelectChangeStatusPaymentComponent implements OnInit {
   isLoading: boolean = false;
   permissionsPayments = PermissionOrdersPayments
   constructor(private orderService: OrdersService) { }
-
-  ngOnInit() {
-  }
 
   changeStatus(status): void {
     SwalService.swalFire(

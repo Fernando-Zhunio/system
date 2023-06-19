@@ -1,6 +1,5 @@
 <div class="my-3 section-order">
-  <div class="center justify-content-between flex-wrap">
-    <!-- <h3 class="font-3xl font-weight-bold m-0">Impuestos Retenciones y Descuentos</h3> -->
+  <!-- <div class="center justify-content-between flex-wrap">
     <ng-container *ngxPermissionsOnly="permissionTaxAndDiscount.create">
       <button
         *ngIf="!isCancelled"
@@ -12,10 +11,77 @@
         <i class="fa-solid fa-plus"></i>
       </button>
     </ng-container>
+  </div> -->
+
+  <div class="align-items-center d-flex justify-content-between mb-2">
+    <h4 class="font-2xl font-weight-bold text-primary m-0">Impuestos y descuentos</h4>
+    <button *ngxPermissionsOnly="permissionTaxAndDiscount.create" mat-mini-fab>
+      <i class="fa-solid fa-plus"></i>
+    </button>
   </div>
   <hr />
-  <div class="row">
-    <div class="col-md-4 p-2" *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
+  <div class="row w-100">
+    <mat-card class="w-100">
+        <mat-card-content>
+            <div>
+              <table class="table table-sm table-borderless table-striped">
+                <thead class="font-weight-bold text-muted">
+                  <tr>
+                    <th>
+                      Tipo 
+                    </th>
+                    <th>
+                      Tipo Monto
+                    </th>
+                    <th>
+                      Descripción
+                    </th>
+                    <th>
+                      Monto
+                    </th>
+                    <th>
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
+                    <td>
+                      {{ discountOrTax.value.type | translatefz: "orders" }}
+                    </td>
+                    <td>
+                      {{ discountOrTax.value.amount_type | translatefz: "orders" }}
+                    </td>
+                    <td>
+                      {{ discountOrTax.value.name }}
+                    </td>
+                    <td>
+                      $ {{ discountOrTax.value.amount }}
+                    </td>
+                    <td>
+                      <div class="d-flex" *ngIf="!isCancelled">
+                        <button
+                          *ngxPermissionsOnly="permissionTaxAndDiscount.edit"
+                          class="btn-icon c-edit"
+                          (click)="openDialogCreateOrEditDiscountOrTax(discountOrTax.key)">
+                          <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <button
+                          *ngxPermissionsOnly="permissionTaxAndDiscount.destroy"
+                          class="btn-icon c-delete"
+                          (click)="deleteAdditionalAmount(discountOrTax.key)">
+                          <!-- <mat-icon>delete</mat-icon> -->
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <!-- <div class="col-md-4 p-2" *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
       <mat-card>
         <div class="d-flex justify-content-between align-items-center">
           <span [class]="discountOrTax.value.type" class="badge-fz">
@@ -62,11 +128,10 @@
             mat-icon-button
             color="warn"
             (click)="deleteAdditionalAmount(discountOrTax.key)">
-            <!-- <mat-icon>delete</mat-icon> -->
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
       </mat-card>
-    </div>
+    </div> -->
   </div>
 </div>

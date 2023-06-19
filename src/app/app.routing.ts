@@ -9,7 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 
-import { LoadingBarModule } from '@ngx-loading-bar/core';
+// import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { P403Component } from './views/error/p403/p403.component';
 // import { MainResolver } from './guards/resolvers/main.resolver';
 import { AuthReverseGuard } from './guards/auth-reverse.guard';
@@ -133,7 +133,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), LoadingBarModule],
-  exports: [RouterModule, LoadingBarModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

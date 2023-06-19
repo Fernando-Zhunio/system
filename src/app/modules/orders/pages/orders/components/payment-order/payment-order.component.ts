@@ -10,6 +10,7 @@ import { TransactionsPaymentComponent } from '../transactions-payment/transactio
 import { HistoryStatusesComponent } from '../history-statuses/history-statuses.component';
 import { PermissionOrdersPayments } from '../../../../../../class/permissions-modules';
 import { PaymentStatus } from '../../../../enums/payment.enum';
+import { OrdersService } from '../../../../services/orders.service';
 
 @Component({
   selector: 'app-payment-order',
@@ -18,7 +19,7 @@ import { PaymentStatus } from '../../../../enums/payment.enum';
 })
 export class PaymentOrderComponent {
 
-  constructor(private dialog: MatDialog, private standard: StandartSearchService) { }
+  constructor(private orderService: OrdersService, private dialog: MatDialog, private standard: StandartSearchService) { }
   @Input() order_id: number;
   @Input() isCancelled: boolean;
   @Input() payments: IPaymentOrder[] = [];
@@ -150,4 +151,32 @@ export class PaymentOrderComponent {
       });
   }
 
+
+  changeStatus(status, id: number): void {
+    SwalService.swalFire(
+      {
+        title: 'Cambiar Estado',
+        text: '¿Está seguro de cambiar el estado del pago?',
+        icon: 'warning',
+        cancelButtonText: 'No, Cancelar',
+        confirmButtonText: 'Si, cambiar estado',
+        showCancelButton: true,
+        showConfirmButton: true,
+      })
+      .then(res => {
+        if (res.isConfirmed) {
+          this.orderService.changeStatusPayment(id, status).subscribe(res => {
+            if (res?.success) {
+              
+            }
+          }, () => {
+          });
+
+        } else {
+
+        }
+      }).catch(() => {
+
+      });
+  }
 }

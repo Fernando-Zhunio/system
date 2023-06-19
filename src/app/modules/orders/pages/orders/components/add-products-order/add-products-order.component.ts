@@ -7,9 +7,10 @@ import { IProduct } from '../../../../../../interfaces/iproducts';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { IPaginate } from '../../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../../services/swal.service';
-import { SimpleSearchComponent } from '../../../../../../shared/standalone-components/simple-search/simple-search.component';
-import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
+// import { SimpleSearchComponent } from '../../../../../../shared/standalone-components/simple-search/simple-search.component';
+// import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { EditProductOrderComponent } from '../edit-product-order/edit-product-order.component';
+import { FormProductOrderComponent } from '../form-product-order/form-product-order.component';
 
 @Component({
   selector: 'app-add-products-order',
@@ -18,7 +19,7 @@ import { EditProductOrderComponent } from '../edit-product-order/edit-product-or
 })
 export class AddProductsOrderComponent  {
 
-  constructor(private matDialog: MatDialog, private methodsHttp: MethodsHttpService, private chs: SimpleSearchSelectorService) { }
+  constructor(private matDialog: MatDialog, private methodsHttp: MethodsHttpService) { }
   @Input() order: IOrder;
   @Input() items
   @Input() isCancelled: boolean;
@@ -35,32 +36,47 @@ export class AddProductsOrderComponent  {
 
   permissionsProducts = PermissionOrdersItems;
 
-  openSearchProducts(): void {
-    this.chs.openDialog(
-      SimpleSearchComponent,
-      {
-        path: this.urlProducts,
-        isMultiSelection: true
-      }).beforeClose().subscribe(res => {
-        if (res?.data) {
-          this.form.get('product')?.setValue(res.data);
-        }
-      });
-  }
+  // openSearchProducts(): void {
+  //   this.chs.openDialog(
+  //     SimpleSearchComponent,
+  //     {
+  //       path: this.urlProducts,
+  //       isMultiSelection: true
+  //     }).beforeClose().subscribe(res => {
+  //       if (res?.data) {
+  //         this.form.get('product')?.setValue(res.data);
+  //       }
+  //     });
+  // }
 
-  addItem(): void {
-    this.isLoading = true;
-    const values = { ...this.form.value, product_id: this.form.getRawValue().product.id };
-    this.methodsHttp.methodPost(`system-orders/orders/${this.order.id}/items`, values)
-    .subscribe(res => {
+  // addItem(): void {
+  //   this.isLoading = true;
+  //   const values = { ...this.form.value, product_id: this.form.getRawValue().product.id };
+  //   this.methodsHttp.methodPost(`system-orders/orders/${this.order.id}/items`, values)
+  //   .subscribe(res => {
+  //     if (res?.success) {
+  //         this.form.reset();
+  //         SwalService.swalToast('Agregado correctamente', 'success' );
+  //       this.changeOrder.emit('change');
+  //     }
+  //     this.isLoading = false;
+  //   }, () => {
+  //     this.isLoading = false;
+  //   });
+  // }
+
+  onClickAddOrEditProduct(id: number | null = null): void {
+    let data = {id: this.order.id, isEdit: false};
+    if (id) {
+      data['item'] = this.items.get(id);
+      data['isEdit'] = true;
+    }
+    this.matDialog.open(FormProductOrderComponent, {
+      data
+    }).beforeClosed().subscribe(res => {
       if (res?.success) {
-          this.form.reset();
-          SwalService.swalToast('Agregado correctamente', 'success' );
         this.changeOrder.emit('change');
       }
-      this.isLoading = false;
-    }, () => {
-      this.isLoading = false;
     });
   }
 

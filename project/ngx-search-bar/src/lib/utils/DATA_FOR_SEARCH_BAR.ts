@@ -3,14 +3,16 @@ import { InjectionToken } from "@angular/core";
 export interface NgxSearchBarProvider {
   BASE_URL: string;
   OPTIONS?: {
-    customBtnApplyFilter?: { text?: string, class?: string, color?: string, icon?: string}
+    customBtnApplyFilter?: { text?: string, class?: string, color?: string, icon?: string},
+    classContainerFilter?: string,
   }
 }
 
 export const defaultConfigNgxSearchBar: NgxSearchBarProvider = {
   BASE_URL: 'https://jsonplaceholder.typicode.com/',
   OPTIONS: {
-    customBtnApplyFilter: { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' }
+    customBtnApplyFilter: { text: 'Aplicar Filtros', class: '' },
+    classContainerFilter: 'main-style',
   }
 }
 

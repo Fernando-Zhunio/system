@@ -57,7 +57,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { preferenceReducer } from './redux/reducers/preference.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PreferenceEffects } from './redux/effects/preference.effect';
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+// import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { P403Component } from './views/error/p403/p403.component';
 import { SidebarFzComponent } from './layout/sidebar-fz/sidebar-fz.component';
 import { HeaderFzComponent } from './layout/header-fz/header-fz.component';
@@ -126,7 +126,7 @@ registerLocaleData(localeEs, 'es');
         test: true
       }
     }),
-    LoadingBarRouterModule,
+    // LoadingBarRouterModule,
     MatSliderModule,
     NgxSkeletonLoaderModule,
     CreateHostDirective,
@@ -203,7 +203,10 @@ registerLocaleData(localeEs, 'es');
     {
       provide: DATA_FOR_SEARCH_BAR,
       useValue: {
-        BASE_URL: environment.server
+        BASE_URL: environment.server,
+        OPTIONS: {
+          classContainerFilter: 'main-style'
+        }
       }
     }
   ],

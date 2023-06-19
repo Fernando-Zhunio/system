@@ -324,6 +324,11 @@ a img {
   background-color: #e6521d !important;
 }
 
+.mat-btn-tool {
+  color: #fff !important;
+  background-color: #e6521d !important;
+}
+
 @media (max-width: 576px) {
   .card-columns {
     column-count: 1 !important;
@@ -411,4 +416,14 @@ a img {
   gap: 0 5px;
   padding-top: 10px;
   flex-wrap: wrap;
+}
+
+.select-columns {
+  background: #dbe4e7;
+    padding-inline: 20px;
+    padding-block: 5px;
+    font-size: 15px;
+    border-radius: 5px;
+    text-transform: capitalize;
+    font-weight: 600;
 }

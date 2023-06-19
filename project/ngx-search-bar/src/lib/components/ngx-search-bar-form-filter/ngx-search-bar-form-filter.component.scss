@@ -22,15 +22,20 @@
   background: white;
   top: var(--height-search-bar, 42px);
   left: 0;
+  border-radius: 8px;
+  margin-top: 5px;
+  box-shadow: 1px 10px 21px rgba(0, 0, 0, 0.15) !important;
 }
 .nsb-filter-container {
-  margin-top: 10px;
-  box-shadow: 1px 10px 21px rgba(0,0,0,.15)!important;
+  // margin-top: 10px;
+  // box-shadow: 1px 10px 21px rgba(0,0,0,.15)!important;
   padding: 10px 20px;
-  border-radius: 0 0 20px 20px;
+  // border-radius: 0 0 20px 20px;
   :nth-child(1) {
     display: flex;
     overflow: auto;
+    max-height: 500px;
+    // margin-bottom: 10px;
   }
 }
 
@@ -40,15 +45,16 @@
   align-items: center;
   gap: 10px;
 
+
   button {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5;
+    gap: 5px;
     border: none;
     padding: 6px 14px;
     border-radius: 7px;
-    box-shadow: 1px 1px 10px #80808029;
+    // box-shadow: 1px 1px 10px #80808029;
   }
 
   .nsb-action-filter {

@@ -1,0 +1,56 @@
+<h1 matDialogTitle>{{dataExternal.isEdit ? 'Editando producto' :'Agregando producto'}}</h1>
+
+<mat-dialog-content>
+  <p *ngIf="dataExternal.isEdit"><strong class="text-primary">Reemplazar: </strong>{{dataExternal.item.product.name}}</p>
+  <div [formGroup]="form">
+    <div>
+      <small class="text-muted d-block">Producto:</small>
+      <div>
+        <input
+          readonly
+          (click)="openSearchProducts()"
+          class="input-product"
+          [value]="
+            form.get('product')?.value
+              ? form.get('product')?.value?.code + ' / ' + form.get('product')?.value?.name
+              : ''
+          "
+          type="text"
+          placeholder="Producto" />
+      </div>
+    </div>
+    <div>
+      <div class="row">
+        <div class="col-md-6">
+          <small class="text-muted d-block">Precio *:</small>
+          <input min="0" class="input-price input-product" formControlName="price" type="number" placeholder="Precio" />
+        </div>
+        <div class="col-md-6">
+          <small class="text-muted d-block">Cantidad *:</small>
+          <input
+            min="1"
+            class="input-quantity input-product"
+            type="number"
+            formControlName="quantity"
+            placeholder="Cantidad" />
+        </div>
+      </div>
+      <div>
+        <small class="text-muted d-block">Descripción:</small>
+        <textarea class="input-product" formControlName="description" placeholder="Descripción"></textarea>
+      </div>
+      <!-- <div class="pt-md-2 col">
+        <button [disabled]="form.invalid || isLoading" color="primary" mat-raised-button (click)="addItem()">
+          Agregar producto
+        </button>
+        <button class="ml-2" color="warn" mat-raised-button matDialogClose>Action</button>
+      </div> -->
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button [disabled]="form.invalid || isLoading" color="primary" mat-raised-button (click)="addItem()">Agregar producto</button>
+    <button  class="ml-2" color="warn" mat-raised-button matDialogClose>Cerrar</button>
+    
+</mat-dialog-actions>

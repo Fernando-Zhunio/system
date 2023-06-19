@@ -90,6 +90,11 @@ import { MatCardModule } from "@angular/material/card"
 import { NgxPermissionsModule } from "ngx-permissions"
 import { MatDialogModule } from "@angular/material/dialog"
 import { MatListModule } from "@angular/material/list"
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet"
+import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader"
+import { MatMenuModule } from "@angular/material/menu"
+import { MatExpansionModule } from "@angular/material/expansion"
+import { FormProductOrderComponent } from "./pages/orders/components/form-product-order/form-product-order.component"
 // import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 // import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
@@ -132,6 +137,7 @@ import { MatListModule } from "@angular/material/list"
     PdfDetailOrderComponent,
     DetailsOrderComponent,
     SheetButtonOnlyInputComponent,
+    FormProductOrderComponent,
   ],
   imports: [
     CommonModule,
@@ -149,6 +155,7 @@ import { MatListModule } from "@angular/material/list"
     MatCardModule,
     NgxPermissionsModule,
     MatDialogModule,
+    MatBottomSheetModule,
     //   RouterModule,
     //   SearchTemplateTableComponent,
     //   MatCardModule,
@@ -165,7 +172,10 @@ import { MatListModule } from "@angular/material/list"
     TranslatefzModule,
     InputArrayComponent,
     ReactiveFormsModule,
+    NgxSkeletonLoaderModule,
     MatListModule,
+    MatMenuModule,
+    MatExpansionModule,
     //   MatProgressSpinnerModule,
     //   MatDialogModule,
     //   MatAutocompleteModule,

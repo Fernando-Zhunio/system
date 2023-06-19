@@ -6,7 +6,7 @@ import { SimpleSearchSelectorService } from './shared/standalone-components/simp
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'body',
-  template: `<ngx-loading-bar height="5px"></ngx-loading-bar>
+  template: `
   <router-outlet></router-outlet>
   <ng-template createHost></ng-template>
   `,

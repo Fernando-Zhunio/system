@@ -24,10 +24,12 @@
           autofocus
           class="nsb-input-search"
           type="text" />
-        <div class="nsb-line"></div>
-        <mat-spinner *ngIf="isLoading" class="nsb-spinner" [diameter]="20"></mat-spinner>
+          <div class="nsb-line"></div>
+        <ng-container *ngIf="isLoading">
+          <!-- <mat-spinner class="nsb-spinner" [diameter]="20"></mat-spinner> -->
+          <div class="nsb-spinner"></div>
+        </ng-container>
         <ng-content select="ngx-search-bar-form-filter"></ng-content>
-        
         <!-- <div @openOrCloseFilter class="nsb-section-filter" *ngIf="isOpenFilter">
           <div class="nsb-filter-container">
             <div>
