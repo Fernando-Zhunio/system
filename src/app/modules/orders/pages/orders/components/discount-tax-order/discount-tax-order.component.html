@@ -15,9 +15,11 @@
 
   <div class="align-items-center d-flex justify-content-between mb-2">
     <h4 class="font-2xl font-weight-bold text-primary m-0">Impuestos y descuentos</h4>
-    <button *ngxPermissionsOnly="permissionTaxAndDiscount.create" mat-mini-fab>
-      <i class="fa-solid fa-plus"></i>
-    </button>
+   <ng-container *ngIf="!isCancelled">
+     <button class="btn-primary-custom"  (click)="openDialogCreateOrEditDiscountOrTax()" *ngxPermissionsOnly="permissionTaxAndDiscount.create">
+      Agregar i/d <i class="fa-solid fa-plus"></i>
+     </button>
+   </ng-container>
   </div>
   <hr />
   <div class="row w-100">
@@ -45,6 +47,11 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <tr *ngIf="discountsAndTaxes.size === 0" class="text-muted">
+                    <td colspan="6">
+                      <div>No existen pagos asignados <i class="fa-regular fa-face-sad-tear"></i></div>
+                    </td>
+                  </tr>
                   <tr *ngFor="let discountOrTax of discountsAndTaxes | keyvalue">
                     <td>
                       {{ discountOrTax.value.type | translatefz: "orders" }}

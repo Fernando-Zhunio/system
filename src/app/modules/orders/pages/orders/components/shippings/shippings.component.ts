@@ -14,6 +14,7 @@ import { SelectedViewServientregaPdfComponent } from '../selected-view-servientr
 import { GenerateGuideServientregaComponent } from '../generate-guide-servientrega/generate-guide-servientrega.component';
 import { ShippingOrderSectionComponent } from '../shipping-order-section/shipping-order-section.component';
 import { ModalAddProductsShippingComponent } from '../modal-add-products-shipping/modal-add-products-shipping.component';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-shippings',
@@ -22,7 +23,7 @@ import { ModalAddProductsShippingComponent } from '../modal-add-products-shippin
 })
 export class ShippingsComponent {
 
-  constructor(private btnSheet: MatBottomSheet, private dialog: MatDialog, private methodsHttp: MethodsHttpService, protected _sanitizer: DomSanitizer) { }
+  constructor(private clipboard: Clipboard, private btnSheet: MatBottomSheet, private dialog: MatDialog, private methodsHttp: MethodsHttpService, protected _sanitizer: DomSanitizer) { }
   @Input() shippings: ShippingOrder[] = [];
   @Input() isCancelled: boolean;
   @Input() order_id: number;
@@ -191,5 +192,11 @@ export class ShippingsComponent {
 
   isVisibilityBtnReturn(status): boolean {
     return status != 'pending' && status != 'cancelled' && status != 'returned' && status != 'returned_to_courier_warehouse';
+  }
+
+  copy(text: string, textSuccess: string = 'Copiado en el portapapeles') {
+    this.clipboard.copy(text);
+    SwalService.swalToast(textSuccess);
+
   }
 }

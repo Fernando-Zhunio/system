@@ -95,6 +95,12 @@ import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader"
 import { MatMenuModule } from "@angular/material/menu"
 import { MatExpansionModule } from "@angular/material/expansion"
 import { FormProductOrderComponent } from "./pages/orders/components/form-product-order/form-product-order.component"
+import { ClipboardModule } from "@angular/cdk/clipboard"
+import { MatTooltipModule } from "@angular/material/tooltip"
+import { NgxMatSelectSearchModule } from "ngx-mat-select-search"
+import { ViewCornerComponent } from "../../Modulos/tools/view-corner/view-corner.component"
+import { NgxFileDropModule } from "ngx-file-drop"
+import { SearchNullComponent } from "../../Modulos/tools/search-null/search-null.component"
 // import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 // import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
@@ -138,6 +144,8 @@ import { FormProductOrderComponent } from "./pages/orders/components/form-produc
     DetailsOrderComponent,
     SheetButtonOnlyInputComponent,
     FormProductOrderComponent,
+    ViewCornerComponent,
+    SearchNullComponent,
   ],
   imports: [
     CommonModule,
@@ -156,6 +164,8 @@ import { FormProductOrderComponent } from "./pages/orders/components/form-produc
     NgxPermissionsModule,
     MatDialogModule,
     MatBottomSheetModule,
+    MatTooltipModule,
+    NgxMatSelectSearchModule,
     //   RouterModule,
     //   SearchTemplateTableComponent,
     //   MatCardModule,
@@ -176,6 +186,7 @@ import { FormProductOrderComponent } from "./pages/orders/components/form-produc
     MatListModule,
     MatMenuModule,
     MatExpansionModule,
+    ClipboardModule,
     //   MatProgressSpinnerModule,
     //   MatDialogModule,
     //   MatAutocompleteModule,
@@ -194,7 +205,7 @@ import { FormProductOrderComponent } from "./pages/orders/components/form-produc
     //   MatProgressBarModule,
     //   SearchProductsDialogModule,
     //   ToolsModule,
-    //   NgxFileDropModule,
+      NgxFileDropModule,
     //   NgxSkeletonLoaderModule
   ],
 })

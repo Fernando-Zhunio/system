@@ -31,15 +31,15 @@
 }
 
 .servientrega {
-  // background-color: #009225 !important;
   background: green;
-    color: white;
-    padding: 2px 5px;
-    margin: 5px;
-    display: inline-block;
-    transform: skewX(-24deg);
-    text-transform: uppercase;
-    font-family: unset;
+  color: white;
+  padding: 0px 5px;
+  margin: 5px;
+  display: inline-block;
+  transform: skewX(328deg);
+  text-transform: uppercase;
+  font-family: unset;
+  font-size: 10px;
 }
 
 .open-cv {
@@ -89,18 +89,28 @@
   height: 100vh;
 }
 
-.pickup{
-  background: #2196f31f;
+.pickup {
+  background: rgba(33, 150, 243, 0.1215686275);
   color: #2196f3;
   margin: 5px;
   display: inline-block;
   text-transform: uppercase;
+  font-size: 10px;
+  padding: 0 3px;
+  border-radius: 4px;
 }
 
-.body-info tr  {
-   td:nth-child(1) {
+.body-info tr {
+  td:nth-child(1) {
     font-weight: 400;
     color: gray;
   }
 }
 
+.sticky-column {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  transform: translate(0%, 0px);
+}

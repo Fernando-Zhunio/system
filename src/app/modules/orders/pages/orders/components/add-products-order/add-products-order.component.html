@@ -62,68 +62,74 @@
             Lista de productos
             <span class="badge badge-warning">{{ items?.size }}</span>
           </h4>
-          <button (click)="onClickAddOrEditProduct()" mat-mini-fab><i class="fa-solid fa-plus"></i></button>
+          <ng-container *ngIf="!isCancelled">
+            <button *ngxPermissionsOnly="permissionsProducts.create" class="btn-primary-custom " (click)="onClickAddOrEditProduct()">Agregar producto <i class="fa-solid fa-plus"></i></button>
+          </ng-container>
         </div>
         <hr>
-        <div>
-          <div class="table-container-products">
-            <table class="table table-responsive d-md-table table-borderless table-striped">
-              <thead class="text-muted table-header-products main-style">
-                <tr>
-                  <th>Imagen</th>
-                  <th>Producto</th>
-                  <th>Descripción</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngIf="items.size === 0" class="text-muted">
-                  <td colspan="6">
-                    <div>No existen productos asignados <i class="fa-regular fa-face-sad-tear"></i></div>
-                  </td>
-                </tr>
-                <tr *ngFor="let item of items | keyvalue">
-                  <td class="py-0">
-                    <span>
-                      <img
-                        class="img-product-item mt-2"
-                        mat-list-avatar
-                        [src]="item.value.product?.image || 'assets/img/img_default_null.jpg'"
-                        alt="imagen producto" />
-                    </span>
-                  </td>
-                  <td>
-                    <div>
-                      <span class="text-success">{{ item.value.product?.code }}</span>
-                      {{ item.value.product?.name }}
-                    </div>
-                  </td>
-                  <td>{{ item.value?.description }}</td>
-                  <td class="text-muted">${{ item.value.price }}</td>
-                  <td class="text-muted">{{ item.value.quantity }}</td>
-                  <td class="d-flex">
-                    <button
-                      *ngxPermissionsOnly="permissionsProducts.edit"
-                      [disabled]="isCancelled"
-                      class="btn-icon c-edit"
-                      (click)="onClickAddOrEditProduct(item.key)">
-                      <i class="fa-regular fa-pen-to-square"></i>
-                    </button>
-                    <button
-                      *ngxPermissionsOnly="permissionsProducts.destroy"
-                      [disabled]="isCancelled"
-                      class="btn-icon c-delete"
-                      (click)="deleteItemOrder(order.id, item.key)">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <mat-card>
+            <mat-card-content>
+              <div>
+                <div class="table-container-products">
+                  <table class="table table-responsive d-md-table table-borderless table-striped">
+                    <thead class="text-muted table-header-products main-style">
+                      <tr>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngIf="items.size === 0" class="text-muted">
+                        <td colspan="6">
+                          <div>No existen productos asignados <i class="fa-regular fa-face-sad-tear"></i></div>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let item of items | keyvalue">
+                        <td class="py-0">
+                          <span>
+                            <img
+                              class="img-product-item mt-2"
+                              mat-list-avatar
+                              [src]="item.value.product?.image || 'assets/img/img_default_null.jpg'"
+                              alt="imagen producto" />
+                          </span>
+                        </td>
+                        <td>
+                          <div>
+                            <span class="text-success">{{ item.value.product?.code }}</span>
+                            {{ item.value.product?.name }}
+                          </div>
+                        </td>
+                        <td>{{ item.value?.description }}</td>
+                        <td class="text-muted">${{ item.value.price }}</td>
+                        <td class="text-muted">{{ item.value.quantity }}</td>
+                        <td class="d-flex">
+                          <button
+                            *ngxPermissionsOnly="permissionsProducts.edit"
+                            [disabled]="isCancelled"
+                            class="btn-icon c-edit"
+                            (click)="onClickAddOrEditProduct(item.key)">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </button>
+                          <button
+                            *ngxPermissionsOnly="permissionsProducts.destroy"
+                            [disabled]="isCancelled"
+                            class="btn-icon c-delete"
+                            (click)="deleteItemOrder(order.id, item.key)">
+                            <i class="fa-solid fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </mat-card-content>
+        </mat-card>
       </div>
     </div>
   </div>

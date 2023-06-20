@@ -409,7 +409,6 @@ a img {
   border-left: 1px solid #dbdbdb;
 }
 
-
 .nsb-container-items-filter {
   display: flex;
   overflow: auto;
@@ -420,10 +419,18 @@ a img {
 
 .select-columns {
   background: #dbe4e7;
-    padding-inline: 20px;
-    padding-block: 5px;
-    font-size: 15px;
-    border-radius: 5px;
-    text-transform: capitalize;
-    font-weight: 600;
+  padding-inline: 20px;
+  padding-block: 5px;
+  font-size: 15px;
+  border-radius: 5px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.btn-primary-custom {
+  color: white;
+  background: #263238;
+  border-radius: 10px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  padding: 4px 10px;
 }

@@ -1,4 +1,4 @@
-<div class="row mt-4 ">
+<div class="row mt-4">
   <div class="col-md-9">
     <div class="content-client w-100">
       <ng-container *ngIf="!order; else elseHeader">
@@ -112,7 +112,7 @@
           <div class="px-md-3 py-md-2">
             <small>Estado:</small>
             <mat-chip-set>
-              <mat-chip selected color="primary">{{ order?.status | translatefz: "orders" }}</mat-chip>
+              <mat-chip selected color="primary">{{ order?.status | translatefz : "orders" }}</mat-chip>
             </mat-chip-set>
           </div>
           <div class="px-md-3 py-md-2">
@@ -131,7 +131,7 @@
             <div *ngIf="order?.timing.started_at" class="px-md-3 py-md-2">
               <small>Iniciado:</small>
               <mat-chip-set>
-                <mat-chip>{{ order?.timing?.started_at | date: "medium" }}</mat-chip>
+                <mat-chip>{{ order?.timing?.started_at | date : "medium" }}</mat-chip>
               </mat-chip-set>
             </div>
             <div class="px-md-3 py-md-2">
@@ -144,7 +144,7 @@
             <div *ngIf="order?.timing?.ended_at" class="px-md-3 py-md-2">
               <small>Finalizado:</small>
               <mat-chip-set>
-                <mat-chip>{{ order?.timing?.ended_at | date: "medium" }}</mat-chip>
+                <mat-chip>{{ order?.timing?.ended_at | date : "medium" }}</mat-chip>
               </mat-chip-set>
             </div>
           </ng-container>
@@ -161,7 +161,7 @@
 
     <ng-container *ngIf="!order; else elseTotals">
       <ngx-skeleton-loader
-        [theme]="{ height: '50px', width: '100px', 'margin-right': '10px'}"
+        [theme]="{ height: '50px', width: '100px', 'margin-right': '10px' }"
         count="6"
         appearance="line"></ngx-skeleton-loader>
     </ng-container>
@@ -195,13 +195,11 @@
     </ng-template>
   </div>
   <div class="border-left col-md-3">
-    <h3 class="font-3xl font-weight-bold m-0">
-      Dirección de envío
-    </h3>
+    <h3 class="font-3xl font-weight-bold m-0">Dirección de envío</h3>
     <div class="mt-2 p-3 rounded-fz shadow">
       <ng-container *ngIf="!order; else elseAddress">
         <ngx-skeleton-loader
-          [theme]="{ height: '10%', width: '100%'}"
+          [theme]="{ height: '10%', width: '100%' }"
           count="7"
           appearance="line"></ngx-skeleton-loader>
       </ng-container>
@@ -235,8 +233,6 @@
           <div>{{ order?.shipping_address?.zip_code }}</div>
         </div>
       </ng-template>
-      
-
     </div>
   </div>
 </div>
@@ -249,50 +245,50 @@
     <mat-card-content>
       <ng-container *ngIf="!order; else elseGestione">
         <ngx-skeleton-loader
-            [theme]="{ height: '50px', width: '100%' }"
-            count="4"
-            appearance="line"></ngx-skeleton-loader>
+          [theme]="{ height: '50px', width: '100%' }"
+          count="4"
+          appearance="line"></ngx-skeleton-loader>
       </ng-container>
       <ng-template #elseGestione>
         <div class="row">
           <div class="col-md-7">
-            <app-add-products-order
-                  [isCancelled]="order?.status === 'cancelled'"
-                  (changeOrder)="getOrder()"
-                  [items]="items"
-                  [order]="order"></app-add-products-order>
-          </div>
-          <div class="col-md-5">
-           <div>
-             <app-payment-order
-               [isCancelled]="order?.status === 'cancelled'"
-               (reload)="getOrder()"
-               [order_id]="order?.id"
-               [payments]="order?.payments"></app-payment-order>
-           </div>
-           <div>
-            <app-discount-tax-order
-            [isCancelled]="order?.status === 'cancelled'"
-            (reload)="getOrder()"
-            [order_id]="order?.id"
-            [discountsAndTaxes]="discountsAndTaxes"></app-discount-tax-order>
-          </div>
-          </div>
-          <div>
+            <div>
+              <app-add-products-order
+                [isCancelled]="order?.status === 'cancelled'"
+                (changeOrder)="getOrder()"
+                [items]="items"
+                [order]="order"></app-add-products-order>
+            </div>
             <div>
               <app-shippings
-              [isCancelled]="order?.status === 'cancelled'"
-              (change)="getOrder()"
-              [client]="order?.client"
-              [shipping_address]="order?.shipping_address"
-              [order_id]="order?.id"
-              [shippings]="order?.shippings"></app-shippings>
+                [isCancelled]="order?.status === 'cancelled'"
+                (change)="getOrder()"
+                [client]="order?.client"
+                [shipping_address]="order?.shipping_address"
+                [order_id]="order?.id"
+                [shippings]="order?.shippings"></app-shippings>
             </div>
-          
+          </div>
+          <div class="col-md-5">
+            <div>
+              <app-payment-order
+                [isCancelled]="order?.status === 'cancelled'"
+                (reload)="getOrder()"
+                [order_id]="order?.id"
+                [payments]="order?.payments"></app-payment-order>
+            </div>
+            <div>
+              <app-discount-tax-order
+                [isCancelled]="order?.status === 'cancelled'"
+                (reload)="getOrder()"
+                [order_id]="order?.id"
+                [discountsAndTaxes]="discountsAndTaxes"></app-discount-tax-order>
+            </div>
           </div>
           <div>
-
+            
           </div>
+          <div></div>
         </div>
         <mat-accordion #accordion2 class="example-headers-align" multi>
           <!-- <mat-expansion-panel>
@@ -312,7 +308,7 @@
               [items]="items"
               [order]="order"></app-add-products-order>
           </mat-expansion-panel> -->
-    
+
           <!-- <mat-expansion-panel *ngxPermissionsOnly="permissionsShipping.index">
             <mat-expansion-panel-header>
               <mat-panel-title>Envíos</mat-panel-title>
@@ -333,7 +329,7 @@
               [order_id]="order?.id"
               [shippings]="order?.shippings"></app-shippings>
           </mat-expansion-panel> -->
-    
+
           <!-- <mat-expansion-panel *ngxPermissionsOnly="permissionsPayments.index">
             <mat-expansion-panel-header>
               <mat-panel-title>Pagos</mat-panel-title>
@@ -374,136 +370,136 @@
     </mat-card-content>
   </mat-card>
   <mat-card class="mt-3">
-    <div class="d-flex justify-content-between align-items-center my-2">
-      <h3 class="font-weight-bold font-2xl my-1">Sincronización MBA</h3>
-    </div>
-    <ng-container *ngIf="!order; else elseMba">
-      <ngx-skeleton-loader
+    <mat-card-content>
+      <div class="d-flex justify-content-between align-items-center my-2">
+        <h3 class="font-weight-bold font-2xl my-1">Sincronización MBA</h3>
+      </div>
+      <ng-container *ngIf="!order; else elseMba">
+        <ngx-skeleton-loader
           [theme]="{ height: '50px', width: '100%' }"
           count="3"
           appearance="line"></ngx-skeleton-loader>
-    </ng-container>
-    <ng-template #elseMba>
-      <mat-accordion #accordion class="example-headers-align" multi>
-        <mat-expansion-panel *ngxPermissionsOnly="permissionsTransfers.index">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Transferencias</mat-panel-title>
-            <mat-panel-description>
-              <span class="d-md-inline-block d-none">Agregar o eliminar transferencias de la orden</span>
-              <span class="center">
-                <span class="badge bg-warning font-lg mr-1">{{ order?.transfers?.length || 0 }}</span>
-                <mat-icon>move_up</mat-icon>
-              </span>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <!-- <app-transference-order
-              [isCancelled]="order?.status === 'cancelled'"
-              (changeOrder)="getOrder()"
-              [metaData]="metaDataTransference"
-              [order_id]="order?.id"
-              [transfers]="order?.transfers"></app-transference-order> -->
-          <small class="text-success font-sm" *ngIf="metaDataTransference === 'sended'">Marcado como enviado</small>
-          <ng-container *ngxPermissionsOnly="permissionsTransference.create">
-            <div>
-              <button
-                *ngIf="metaDataTransference !== 'sended' && order?.transfers?.length <= 0 && order?.status !== 'cancelled'"
-                color="primary"
-                (click)="confirmTransaction()"
-                mat-raised-button>
-                Marcar como enviado
-              </button>
-              <button
-                *ngIf="order?.status !== 'cancelled'"
-                class="mt-2 ml-2"
-                mat-raised-button
-                color="accent"
-                (click)="openSyncMba('transference')">
-                <i class="fa-solid fa-plus"></i>
-                Agregar manualmente
-              </button>
-            </div>
-            <div class="row m-0">
-              <div class="col-md-6 p-2" *ngFor="let transfer of order?.transfers; let index = index">
-                <app-transference-order
-                  [transfer]="transfer"
-                  [orderId]="order.id"
-                  [isCancelled]="order?.status === 'cancelled'"></app-transference-order>
-              </div>
-            </div>
-          </ng-container>
-        </mat-expansion-panel>
-  
-        <mat-expansion-panel *ngxPermissionsOnly="permissionsAnticipe.index">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Anticipos (pagos o cobros) MBA</mat-panel-title>
-            <mat-panel-description>
-              <span class="d-md-inline-block d-none">Agregar o eliminar Pagos MBA de la orden</span>
-              <span class="center">
-                <span class="badge bg-warning font-lg mr-1">{{ order?.mba_payments?.length || 0 }}</span>
-                <mat-icon>receipt</mat-icon>
-              </span>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-  
-          <div class="center justify-content-between flex-wrap">
-            <ng-container *ngxPermissionsOnly="permissionsAnticipe.create">
-              <button
-                class="mt-2"
-                mat-raised-button
-                color="accent"
-                (click)="openSyncMba('anticipe')">
-                <i class="fa-solid fa-plus"></i>
-                Agregar manualmente
-              </button>
-            </ng-container>
-          </div>
-          <div class="row mt-2">
-            <app-payment-mba-item
-              class="col-md-4"
-              *ngFor="let payment of order?.mba_payments"
-              [item]="payment"
-              [isCancelled]="false"
-              (changeOrder)="getOrder()"
-              [order_id]="order?.id"></app-payment-mba-item>
-          </div>
-        </mat-expansion-panel>
-  
-        <mat-expansion-panel *ngxPermissionsOnly="permissionsInvoices.index">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Facturas</mat-panel-title>
-            <mat-panel-description>
-              <span class="d-md-inline-block d-none">Agregar o eliminar facturas de la orden</span>
-              <span class="center">
-                <span class="badge bg-warning font-lg mr-1">{{ order?.invoices?.length || 0 }}</span>
-                <mat-icon>receipt</mat-icon>
-              </span>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="center justify-content-between flex-wrap">
-            <ng-container *ngxPermissionsOnly="permissionsAnticipe.create">
-              <button
-                *ngIf="order?.status !== 'cancelled'"
-                class="mt-2"
-                mat-raised-button
-                color="accent"
-                (click)="openSyncMba('invoice')">
-                <i class="fa-solid fa-plus"></i>
-                Agregar manualmente
-              </button>
-            </ng-container>
-          </div>
-          <div class="row m-0">
-            <div class="col-md-6 p-2" *ngFor="let invoice of order?.invoices; let index = index">
-              <app-invoices-order
+      </ng-container>
+      <ng-template #elseMba>
+        <mat-accordion #accordion class="example-headers-align" multi>
+          <mat-expansion-panel *ngxPermissionsOnly="permissionsTransfers.index">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Transferencias</mat-panel-title>
+              <mat-panel-description>
+                <span class="d-md-inline-block d-none">Agregar o eliminar transferencias de la orden</span>
+                <span class="center">
+                  <span class="badge bg-warning font-lg mr-1">{{ order?.transfers?.length || 0 }}</span>
+                  <mat-icon>move_up</mat-icon>
+                </span>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <!-- <app-transference-order
                 [isCancelled]="order?.status === 'cancelled'"
                 (changeOrder)="getOrder()"
-                [invoice]="invoice"
-                [orderId]="order?.id"></app-invoices-order>
+                [metaData]="metaDataTransference"
+                [order_id]="order?.id"
+                [transfers]="order?.transfers"></app-transference-order> -->
+            <small class="text-success font-sm" *ngIf="metaDataTransference === 'sended'">Marcado como enviado</small>
+            <ng-container *ngxPermissionsOnly="permissionsTransference.create">
+              <div>
+                <button
+                  *ngIf="
+                    metaDataTransference !== 'sended' && order?.transfers?.length <= 0 && order?.status !== 'cancelled'
+                  "
+                  color="primary"
+                  (click)="confirmTransaction()"
+                  mat-raised-button>
+                  Marcar como enviado
+                </button>
+                <button
+                  *ngIf="order?.status !== 'cancelled'"
+                  class="mt-2 ml-2"
+                  mat-raised-button
+                  color="accent"
+                  (click)="openSyncMba('transference')">
+                  <i class="fa-solid fa-plus"></i>
+                  Agregar manualmente
+                </button>
+              </div>
+              <div class="row m-0">
+                <div class="col-md-6 p-2" *ngFor="let transfer of order?.transfers; let index = index">
+                  <app-transference-order
+                    [transfer]="transfer"
+                    [orderId]="order.id"
+                    [isCancelled]="order?.status === 'cancelled'"></app-transference-order>
+                </div>
+              </div>
+            </ng-container>
+          </mat-expansion-panel>
+  
+          <mat-expansion-panel *ngxPermissionsOnly="permissionsAnticipe.index">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Anticipos (pagos o cobros) MBA</mat-panel-title>
+              <mat-panel-description>
+                <span class="d-md-inline-block d-none">Agregar o eliminar Pagos MBA de la orden</span>
+                <span class="center">
+                  <span class="badge bg-warning font-lg mr-1">{{ order?.mba_payments?.length || 0 }}</span>
+                  <mat-icon>receipt</mat-icon>
+                </span>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+  
+            <div class="center justify-content-between flex-wrap">
+              <ng-container *ngxPermissionsOnly="permissionsAnticipe.create">
+                <button class="mt-2" mat-raised-button color="accent" (click)="openSyncMba('anticipe')">
+                  <i class="fa-solid fa-plus"></i>
+                  Agregar manualmente
+                </button>
+              </ng-container>
             </div>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </ng-template> 
+            <div class="row mt-2">
+              <app-payment-mba-item
+                class="col-md-4"
+                *ngFor="let payment of order?.mba_payments"
+                [item]="payment"
+                [isCancelled]="false"
+                (changeOrder)="getOrder()"
+                [order_id]="order?.id"></app-payment-mba-item>
+            </div>
+          </mat-expansion-panel>
+  
+          <mat-expansion-panel *ngxPermissionsOnly="permissionsInvoices.index">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Facturas</mat-panel-title>
+              <mat-panel-description>
+                <span class="d-md-inline-block d-none">Agregar o eliminar facturas de la orden</span>
+                <span class="center">
+                  <span class="badge bg-warning font-lg mr-1">{{ order?.invoices?.length || 0 }}</span>
+                  <mat-icon>receipt</mat-icon>
+                </span>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="center justify-content-between flex-wrap">
+              <ng-container *ngxPermissionsOnly="permissionsAnticipe.create">
+                <button
+                  *ngIf="order?.status !== 'cancelled'"
+                  class="mt-2"
+                  mat-raised-button
+                  color="accent"
+                  (click)="openSyncMba('invoice')">
+                  <i class="fa-solid fa-plus"></i>
+                  Agregar manualmente
+                </button>
+              </ng-container>
+            </div>
+            <div class="row m-0">
+              <div class="col-md-6 p-2" *ngFor="let invoice of order?.invoices; let index = index">
+                <app-invoices-order
+                  [isCancelled]="order?.status === 'cancelled'"
+                  (changeOrder)="getOrder()"
+                  [invoice]="invoice"
+                  [orderId]="order?.id"></app-invoices-order>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-template>
+    </mat-card-content>
   </mat-card>
 </div>
 

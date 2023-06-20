@@ -91,7 +91,7 @@ export class ShippingOrderSectionComponent implements OnInit, OnDestroy {
 
   fillData(data): void {
     this.warehouses.push(data.origin_warehouse);
-    this.form.setValue({
+    this.form.patchValue({
       type: data.type,
       amount: data.amount,
       weight: data.weight,

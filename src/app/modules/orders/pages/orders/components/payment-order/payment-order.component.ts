@@ -56,7 +56,8 @@ export class PaymentOrderComponent {
       data: {
         order_id: this.order_id,
         payment_id: id
-      }
+      },
+      panelClass: 'col-md-5'
     }).beforeClosed().subscribe(x => {
       if (x?.success) {
         this.reload.emit('add file');

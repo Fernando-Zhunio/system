@@ -1,13 +1,13 @@
-<app-viewer-gallery (close)="isOpenVisor = false" *ngIf="isOpenVisor" [src]="urlVisor" ></app-viewer-gallery>
-<h1 matDialogTitle class="font-weight-bold d-flex justify-content-between">
-  Archivos
+<!-- <app-viewer-gallery (close)="isOpenVisor = false" *ngIf="isOpenVisor" [src]="urlVisor" ></app-viewer-gallery> -->
+<h1 matDialogTitle class="">
+  Archivos de pagos
   <div *ngxPermissionsOnly="permissionPayments.edit">
     <button mat-raised-button color="accent" (click)="isOpenCreate = !isOpenCreate">Agregar archivo</button>
   </div>
 </h1>
 <mat-dialog-content>
-  <div class="card-columns mt-2">
-    <mat-card [ngSwitch]="file.file.type" class="card position-relative" *ngFor="let file of files">
+  <div class=" mt-2">
+    <!-- <div [ngSwitch]="file.file.type" class="card position-relative" *ngFor="let file of files">
       <div *ngxPermissionsOnly="permissionPayments.edit" class="btns-action">
         <button mat-icon-button color="warn" class="bg-ro-fz" (click)="removeFile(file.id)">
           <mat-icon>delete</mat-icon>
@@ -51,8 +51,42 @@
         <h3 class="font-2xl text-muted mt-3 font-weight-bold mb-1">Código</h3>
         <p>{{ file.code }}</p>
       </div>
-    </mat-card>
-    <div></div>
+    </div> -->
+    <div>
+      <div class="container-files" *ngFor="let file of files">
+        <div class="d-flex justify-between align-content-center">
+          <div class="d-flex">
+            <ng-container [ngSwitch]="file.file.type">
+              <span *ngSwitchCase="'image'">
+                <span class="sizes">
+                  <img [src]="file.file.permalink" alt="imagen" />
+                </span>
+              </span>
+              <span *ngSwitchCase="'video'">
+               <span class="sizes">
+                 <i class="fa-solid fa-play"></i>
+               </span>
+              </span>
+              <span *ngSwitchDefault>
+                <span class="sizes">
+                  <i class="fa-solid fa-file"></i>
+                </span>
+              </span>
+            </ng-container>
+            <span class="ml-2">
+              <small class="text-muted">ext: {{file.file.ext}}, tipo: {{file.file.type}}</small>
+              <p>Código: <span>{{file.code}}</span> </p>
+              <p>Descripción: <span>{{file.file.description}}</span></p>
+            </span>
+          </div>
+          <div *ngxPermissionsOnly="permissionPayments.edit" class="ml-3">
+            <button mat-icon-button color="warn" class="bg-ro-fz" (click)="removeFile(file.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div *ngIf="isLoading" class="text-center">
     <div class="parpadeo text-center font-3xl">Espere cargando archivos...</div>
