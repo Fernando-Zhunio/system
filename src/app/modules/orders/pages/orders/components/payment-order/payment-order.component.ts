@@ -57,7 +57,9 @@ export class PaymentOrderComponent {
         order_id: this.order_id,
         payment_id: id
       },
-      panelClass: 'col-md-5'
+      panelClass: 'col-md-5',
+      // minHeight: '70vh',
+
     }).beforeClosed().subscribe(x => {
       if (x?.success) {
         this.reload.emit('add file');

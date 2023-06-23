@@ -404,6 +404,7 @@ export class ChatComponent extends ChatScroller implements OnInit, OnDestroy, Af
   }
 
   sendMessage(message: string | File ): void {
+    console.log(message);
     if (!message || (typeof message === 'string' && message.trim() === '')) { return }
 
     // console.log(event);
