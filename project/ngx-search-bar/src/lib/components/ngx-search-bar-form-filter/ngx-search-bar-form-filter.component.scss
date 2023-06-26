@@ -9,6 +9,7 @@
   align-items: center;
   padding: 4px;
   color: #0277bd;
+  position: relative;
 }
 .nsb-btn-filter:hover {
   background: rgb(49 156 189 / 20%);
@@ -65,4 +66,18 @@
     background: #ff00002b;
   color: #d50000;
   }
+}
+
+.ngx-sbf-count {
+  top: -7px;
+  display: inline-block;
+  position: absolute;
+  background: #E91E63;
+  padding: 0px 5px;
+  border-radius: 10px;
+  color: white;
+  font-size: 11px;
+  transform: translateX(17px);
+  transform-origin: right;
+  min-width: 19px;
 }

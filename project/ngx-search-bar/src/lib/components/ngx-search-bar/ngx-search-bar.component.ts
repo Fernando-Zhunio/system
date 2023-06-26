@@ -69,7 +69,9 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
 
     try {
       // this.formFilters = new FormGroup({});
-      const plusParams = {...this.ngxFormFilter.getFormFilters().value, ...params,}
+      const params2 = this.ngxFormFilter.getFormFilters();
+      console.log('paramns', params);
+      const plusParams = {...params2.value, ...params,}
       const paramsSend = {}
       Object.keys(plusParams).filter(x => x !== this.nameInputSearch).forEach(key => {
         if (empty(plusParams[key])) return;
@@ -122,10 +124,12 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   search(params: { [key: string]: number } = {}) {
+    console.log('params', params);
     this.subject.next(params);
   }
 
   getParamsSend(params: { [key: string]: any } = {}): { [key: string]: any } {
+    console.log('params3', params);
     return {
       [this.nameInputSearch]: this.searchText,
       ...this.ngxFormFilter?.getFilter() || {},

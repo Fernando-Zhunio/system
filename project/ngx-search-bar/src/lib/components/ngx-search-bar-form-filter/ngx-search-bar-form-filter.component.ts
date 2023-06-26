@@ -1,5 +1,5 @@
 // import { NgxSearchBarFilterValue } from './../../interfaces/structures';
-import { Component, Inject, Input } from '@angular/core';
+import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { empty } from '../../utils/empty';
 import { DATA_FOR_SEARCH_BAR, NgxSearchBarProvider } from '../../utils/DATA_FOR_SEARCH_BAR';
@@ -15,20 +15,22 @@ import { animate, style, transition, trigger } from '@angular/animations';
   animations: [ 
     trigger('openOrCloseFilter', [
       transition(':enter', [
-        style({ height: 0, transform:'translateY(-50px)', opacity: 0 }),
-        animate('300ms', style({ transform: 'translateY(0)', height: '*', opacity: 1 })),
+        style({  transform:'translateY(-50px)', opacity: 0 }),
+        animate('300ms', style({ transform: 'translateY(0)', opacity: 1 })),
       ]),
       transition(':leave', [
-        animate('300ms', style({ height: 0, transform:'translateY(-50px)', opacity: 0, background: 'inherit' }))
+        animate('300ms', style({ transform:'translateY(-50px)', opacity: 0, background: 'inherit' }))
       ])
     ])
   ]
 })
 export class NgxSearchBarFormFilterComponent  {
 
+  @ViewChild('dropDownFilter', {static: false}) dropDownFilterElement: ElementRef;
   @Input() filters: FormGroup
   private filtersSend: { [key: string]: any } | null = null;
   @Input() classPanel: string;
+  classPosition: string = ''
   isOpenFilter = false;
   numberFilter = 0;
   @Input() withParamsClean: boolean = false;
@@ -40,6 +42,7 @@ export class NgxSearchBarFormFilterComponent  {
 
   applyFilters() {
     this.filtersSend = this.filterVerified();
+    this.numberFilter = this.filtersSend ? Object.keys(this.filtersSend).length : 0;
     console.log({filtersSend: this.filtersSend})
     this.isOpenFilter = false;
     this.ngxSearchBar.search();
@@ -53,6 +56,30 @@ export class NgxSearchBarFormFilterComponent  {
     // this.buttonsFilters.delete(key);
     this.filters.get(key)?.setValue(null);
     this.ngxSearchBar.search();
+  }
+
+  calculePosition() {
+    const containerFilter = ((this.dropDownFilterElement as ElementRef).nativeElement as HTMLElement)
+    const btn = document.querySelector('.nsb-content-input-search') as HTMLElement;
+    // console.log(btn.offsetHeight)
+    // this.positionHeight = btn.offsetTop
+    const dropdownRect = btn.getBoundingClientRect();
+    const spaceAbove = dropdownRect.top;
+    const spaceBelow = window.innerHeight - dropdownRect.bottom;
+
+    const height = btn?.['offsetHeight'] || 44;
+    console.log({spaceAbove, spaceBelow})
+    if (spaceBelow > spaceAbove) {
+      // this.classPosition = 'nsb-panel-above';
+      containerFilter.style.top = `${height}px`;
+      containerFilter.style.bottom = 'auto';
+      containerFilter.style.maxHeight = `${spaceBelow}px`;
+    } else {
+      containerFilter.style.top = 'auto';
+      containerFilter.style.bottom = `${height}px`;
+      // this.classPosition = 'nsb-panel-below';
+      containerFilter.style.maxHeight = `${spaceAbove}px`;
+    }
   }
 
   filterVerified(): { [key: string]: any } | null {
@@ -79,6 +106,8 @@ export class NgxSearchBarFormFilterComponent  {
   }
 
   setFormFiltersValue(filters: { [key: string]:  any}) {
+    console.log({filters})
+    this.numberFilter = filters ? Object.keys(filters).length : 0;
     this.filters.patchValue(filters);
     const values = this.filters.value;
     Object.keys(values).forEach((key) => {
@@ -90,7 +119,15 @@ export class NgxSearchBarFormFilterComponent  {
   }
 
   getFormFilters(): FormGroup {
+    console.log({filters: this.filters})
     return this.filters;
+  }
+
+  openFilter() {
+    this.isOpenFilter = !this.isOpenFilter;
+    if (this.isOpenFilter) {
+      this.calculePosition();
+    }
   }
 
 }
