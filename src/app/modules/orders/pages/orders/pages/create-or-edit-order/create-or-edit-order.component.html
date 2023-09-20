@@ -51,19 +51,21 @@
                           [value]="client.key"
                           *ngFor="let client of clientOrders.data | keyvalue"
                         >
-                          <button
-                            [routerLink]="[
-                              '/system-orders/clients',
-                              client.key,
-                              'edit'
-                            ]"
-                            class="bg-gray-200"
-                            mat-list-avatar
-                            color="accent"
-                            mat-icon-button
-                          >
-                            <mat-icon>edit</mat-icon>
-                          </button>
+                          <div matListItemIcon>
+                            <button
+                              [routerLink]="[
+                                '/system-orders/clients',
+                                client.key,
+                                'edit'
+                              ]"
+                              class="bg-gray-200"
+                              
+                              color="accent"
+                              mat-icon-button
+                            >
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                          </div>
                           <div mat-line>
                             {{ client.value.first_name }}
                             {{ client.value.last_name }}

@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PostFacebookComponent } from '../components/post/post-facebook.component';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
+// import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { PostInstagramComponent } from '../components/post-instagram/post-instagram.component';
 
 
@@ -19,7 +19,7 @@ import { PostInstagramComponent } from '../components/post-instagram/post-instag
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    CarouselModule
+    // CarouselModule
 
   ],
   exports: [PostFacebookComponent,PostInstagramComponent ]

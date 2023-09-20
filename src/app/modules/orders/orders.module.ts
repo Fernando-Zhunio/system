@@ -103,6 +103,9 @@ import { NgxFileDropModule } from "ngx-file-drop"
 import { SearchNullComponent } from "../../Modulos/tools/search-null/search-null.component"
 // import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 // import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import {MatStepperModule} from '@angular/material/stepper';
+import { SearchesModule } from "../../Modulos/searches/searches.module"
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 
 @NgModule({
   declarations: [
@@ -178,7 +181,7 @@ import { SearchNullComponent } from "../../Modulos/tools/search-null/search-null
     //   FormsModule,
     //   MatSelectModule,
     //   MatStepperModule,
-    // SearchesModule,
+    SearchesModule,
     TranslatefzModule,
     InputArrayComponent,
     ReactiveFormsModule,
@@ -187,7 +190,8 @@ import { SearchNullComponent } from "../../Modulos/tools/search-null/search-null
     MatMenuModule,
     MatExpansionModule,
     ClipboardModule,
-    //   MatProgressSpinnerModule,
+    MatStepperModule,
+      MatProgressSpinnerModule,
     //   MatDialogModule,
     //   MatAutocompleteModule,
     //   NgxMatSelectSearchModule,

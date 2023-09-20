@@ -14,7 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ClipboardModule} from '@angular/cdk/clipboard';
-import { SwiperModule } from 'swiper/angular';
+// import { SwiperModule } from 'swiper/angular';
 import { MomentModule } from 'ngx-moment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductsComponent } from './pages/products/products.component';
@@ -61,7 +61,7 @@ import { InputArrayComponent } from '../../../../shared/standalone-components/in
     TranslatefzModule,
     MatListModule,
     NgxSearchBarPaginatorComponent,
-    SwiperModule,
+    // SwiperModule,
     NgOptimizedImage,
     NgxSearchBarModule
     ],
