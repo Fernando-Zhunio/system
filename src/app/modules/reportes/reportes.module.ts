@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GroupProductsComponent } from './group-products/group-products.component';
+// import { GroupProductsComponent } from './group-products/group-products.component';
 import { ReportesRoutingModule } from './reportes-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { CreateOrEditGroupProductsComponent } from './group-products/create-or-edit-group-products/create-or-edit-group-products.component';
@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { MatChipsModule } from '@angular/material/chips';
-import { DownloadStockComponent } from './download-stock/download-stock.component';
+import { DownloadStockComponent } from './pages/download-stock/download-stock.component';
 import {MatListModule} from '@angular/material/list';
 import { MomentModule } from 'ngx-moment';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -21,13 +21,14 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { IndexReportsComponent } from './index-reports/index-reports.component';
+import { IndexReportsComponent } from './pages/index-reports/index-reports.component';
 import { CreateOrEditReportComponent } from './create-or-edit-report/create-or-edit-report.component';
+import { NgxSearchBarPaginatorComponent } from '../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 
 
 
 @NgModule({
-  declarations: [GroupProductsComponent, IndexReportsComponent, CreateOrEditReportComponent, CreateOrEditGroupProductsComponent, DownloadStockComponent],
+  declarations: [ IndexReportsComponent, CreateOrEditReportComponent, CreateOrEditGroupProductsComponent, DownloadStockComponent],
   imports: [
     CommonModule,
     ReportesRoutingModule,
@@ -52,6 +53,7 @@ import { CreateOrEditReportComponent } from './create-or-edit-report/create-or-e
     MatSelectModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    NgxSearchBarPaginatorComponent
   ]
 })
 export class ReportesModule { }

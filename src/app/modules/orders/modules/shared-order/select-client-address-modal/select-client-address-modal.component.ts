@@ -12,10 +12,13 @@ import { SwalService } from '../../../../../services/swal.service';
 })
 export class SelectClientAddressModalComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dataExternal: {order_id: number, client: IClientOrder}, private dialogRef: MatDialogRef<SelectClientAddressModalComponent>, private standard: StandartSearchService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public dataExternal: {order_id: number, client: IClientOrder}, private dialogRef: MatDialogRef<SelectClientAddressModalComponent>, private standard: StandartSearchService) { 
+  this.url = `system-orders/clients/${this.dataExternal.client.id}/addresses`;
+
+  }
   isLoading = false;
   addresses: IShippingAddress[] = [];
-  url = `system-orders/clients/${this.dataExternal.client.id}/addresses`;
+  url = '';
 
   getData(data) {
     if (data?.data) {

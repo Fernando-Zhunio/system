@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../../class/create-or-edit';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-webhook-url',
@@ -15,8 +15,10 @@ export class CreateOrEditWebhookUrlComponent extends CreateOrEdit<any> implement
   public urlSave: any = 'admin/webhooks/webhooks-url';
   override key_param: string = 'webhook_url_id';
 
-  constructor(activated_router: ActivatedRoute, s_standard: StandartSearchService, router: Router, public override location: Location) {
-    super(activated_router, s_standard, router);
+  constructor(
+    protected route: ActivatedRoute, protected methodsHttpService: MethodsHttpService, protected router: Router,
+    public override location: Location) {
+    super();
   }
 
   types: { name: string, value: string }[] = [];

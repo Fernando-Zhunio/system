@@ -63,7 +63,7 @@
             <span class="badge badge-warning">{{ items?.size }}</span>
           </h4>
           <ng-container *ngIf="!isCancelled">
-            <button *ngxPermissionsOnly="permissionsProducts.create" class="btn-primary-custom " (click)="onClickAddOrEditProduct()">Agregar producto <i class="fa-solid fa-plus"></i></button>
+            <button *ngxPermissionsOnly="permissionsProducts.create" class="px-3 py-2 bg-cyan-600 rounded-md text-white hover:bg-cyan-500" (click)="onClickAddOrEditProduct()">Agregar producto <i class="fa-solid fa-plus"></i></button>
           </ng-container>
         </div>
         <hr>
@@ -93,7 +93,7 @@
                           <span>
                             <img
                               class="img-product-item mt-2"
-                              mat-list-avatar
+                              matListItemAvatar
                               [src]="item.value.product?.image || 'assets/img/img_default_null.jpg'"
                               alt="imagen producto" />
                           </span>

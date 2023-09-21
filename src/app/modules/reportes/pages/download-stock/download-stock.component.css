@@ -11,10 +11,10 @@
   background-color: green !important;
   color: white !important;
 }
-.warehouse {
+/* .warehouse {
   height: 500px;
   overflow: auto;
-}
+} */
 
 .warehouse-item {
   display: flex !important;

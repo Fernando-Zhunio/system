@@ -11,8 +11,8 @@ import { IClientOrder } from '../../../../../../interfaces/iclient-order';
 import { IClientAddressOrder } from '../../../../../../interfaces/iclient-address-order';
 import { SharedService } from '../../../../../../services/shared/shared.service';
 import { CreateOrEditAddressClientComponent } from '../../../../modules/shared-order/create-or-edit-address-client/create-or-edit-address-client.component';
-import { StandartSearchService } from '../../../../../../services/standart-search.service';
 import { PermissionOrders, PermissionOrdersClients } from '../../../../../../class/permissions-modules';
+import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-order',
@@ -79,8 +79,10 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
     }
   }
 
-  constructor(private dialog: MatDialog, activatedRouter: ActivatedRoute, router: Router, standard: StandartSearchService) {
-    super(activatedRouter, standard, router);
+  constructor(private dialog: MatDialog, 
+    protected route: ActivatedRoute, protected methodsHttpService: MethodsHttpService, protected router: Router
+    ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -118,7 +120,7 @@ export class CreateOrEditOrderComponent extends CreateOrEdit<any> implements OnI
 
   changeStepper(event: StepperSelectionEvent): void {
     if (event.selectedStep.label === 'address') {
-      this.clientOrders.getAddresses(this.standard_service);
+      this.clientOrders.getAddresses(this.methodsHttpService);
     }
   }
 
@@ -153,10 +155,10 @@ class ClientOrderClass {
   isLoadingAddresses: boolean = false;
   addressesData: Map<number, IClientAddressOrder> = new Map<number, IClientAddressOrder>();
 
-  getAddresses(standard_service: StandartSearchService): void {
+  getAddresses(standard_service: MethodsHttpService): void {
     this.isLoadingAddresses = true;
     const urlAddressClient = `system-orders/clients/${this.client?.id}/addresses`;
-    standard_service.index(urlAddressClient).subscribe(res => {
+    standard_service.methodGet(urlAddressClient).subscribe(res => {
       this.isLoadingAddresses = false;
       if (res?.data?.data?.length > 0) {
         this.addressesData = new Map(res.data.data.map(item => [item['id'], item]));

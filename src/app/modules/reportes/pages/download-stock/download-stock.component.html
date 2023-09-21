@@ -1,0 +1,105 @@
+<div class="my-3 font-5xl">Descarga de reporte</div>
+
+<mat-card>
+  <mat-card-content>
+    <ng-container *ngIf="mbaStatus">
+      <div class="flex items-center mb-2">
+        <span class="lead">Estado del servicio MBA:&nbsp;</span>
+          <span class="text-white px-2 py-1 text-uppercase" [ngClass]="mbaStatus?.value === 'down' ? 'bg-red-600' : 'bg-green-600'">
+            {{ mbaStatus?.value === "down" ? "CAÍDO" : "EN LINEA" }} DESDE 
+            {{ mbaStatus.updated_at | amLocale : "es" | amTimeAgo }}
+          </span>
+      </div>
+      <div *ngIf="mbaStatus.value === 'down'" class="px-3 py-2 bg-yellow-600">
+        <strong>CUIDADO!</strong>
+        los datos de stock no se han actualizado desde
+        <b>{{ mbaStatus.updated_at | amLocale : "es" | amTimeAgo }}</b>
+        , lo cual significa que la información de este reporte no es fiable, úsela bajo su responsabilidad.
+      </div>
+    </ng-container>
+    <div class="my-2">
+      <input
+        (keyup)="filterWarehouse()"
+        [(ngModel)]="search"
+        type="text"
+        class="bg-slate-100 p-3 rounded-xl shadow-sm w-1/2 border mb-2 outline-0"
+        placeholder="Buscador de bodegas" />
+    </div>
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-8 ">
+      <div class="border-r mb-3 sm:p-3 md:p-7 shadow-lg mr-2 rounded-fz">
+        <div>
+          <div class="mb-2">
+            <div class=" inline-block">
+              <span class="text-2xl">Bodegas</span>
+              <span class="p-2 bg-green-500 text-white rounded-md ">{{ warehousesAll.length }}</span>
+            </div>
+          </div>
+          <div style="max-height: 500px;" class="overflow-auto relative">
+            <!-- <div class="w-full h-full backdrop-blur-sm bg-black/10 absolute z-10" *ngIf="allWarehouse"></div> -->
+            <mat-list
+              class="warehouse"
+              >
+              <mat-list-item
+                class="border-b"
+                [ngStyle]="{ filter: allWarehouse ? 'blur(3px)' : 'none' }"
+                *ngFor="let warehouse of warehousesAvailable">
+                <div class="warehouse-item items-center">
+                  <span>
+                    {{ warehouse.name }}
+                    <small>({{ warehouse.code }})</small>
+                  </span>
+                  <button mat-icon-button (click)="addWarehousesSelects(warehouse.id)">
+                    <mat-icon>done</mat-icon>
+                  </button>
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+      </div>
+      <div class="">
+        <div class="shadow-lg ml-2 rounded-fz sm:p-3 md:p-7" style="position: sticky; top: 20px">
+          <div class="font-2xl">Bodegas seleccionadas</div>
+          <mat-chip-set>
+            <mat-chip class="bg-yellow-500 mt-3 text-white" [color]="'warn'">
+              Total de bodegas seleccionadas:&nbsp;
+              <span class="badge badge-info">{{ allWarehouse ? "Todas" : warehousesSelects.length }}</span>
+            </mat-chip>
+          </mat-chip-set>
+          <div style="max-height: 500px;" class="overflow-auto">
+            <mat-list [ngStyle]="{ filter: allWarehouse ? 'blur(3px)' : 'none' }">
+              <mat-list-item
+                class="border-bottom"
+                *ngFor="let warehouse of warehousesSelects">
+                <div class="warehouse-item items-center">
+                  <span>
+                    {{ warehouse.name }}
+                    <small>({{ warehouse.code }})</small>
+                  </span>
+                  <button mat-icon-button (click)="removeWarehousesSelects(warehouse.id)">
+                    <mat-icon color="warn">close</mat-icon>
+                  </button>
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </div>
+          <div class="my2">
+            <mat-slide-toggle (change)="changeAllWarehouse($event)">Traer todas las Bodegas</mat-slide-toggle>
+            <br />
+            <mat-slide-toggle [(ngModel)]="show_global_stock">Mostrar conteo global</mat-slide-toggle>
+            <br />
+            <button
+              class="my-3"
+              (click)="saveInServer()"
+              [disabled]="(warehousesSelects.length < 1 && !allWarehouse) || isLoading"
+              mat-raised-button
+              color="accent">
+              Descargar reporte
+              <mat-icon>save_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

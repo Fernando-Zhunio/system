@@ -7,13 +7,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { ViewDocComponent } from './view-doc/view-doc.component';
-import { ViewCornerComponent } from './view-corner/view-corner.component';
-import { SearchNullComponent } from './search-null/search-null.component';
-
-
+// import { SearchNullComponent } from './search-null/search-null.component';
 
 @NgModule({
-  declarations: [ ViewDocComponent, ViewCornerComponent, SearchNullComponent],
+  declarations: [ ViewDocComponent],
   imports: [
     CommonModule,
     MatTreeModule,
@@ -22,6 +19,6 @@ import { SearchNullComponent } from './search-null/search-null.component';
     MatButtonModule,
     MatChipsModule,
   ],
-  exports: [ViewDocComponent, ViewCornerComponent, SearchNullComponent]
+  exports: [ViewDocComponent]
 })
 export class ToolsModule { }

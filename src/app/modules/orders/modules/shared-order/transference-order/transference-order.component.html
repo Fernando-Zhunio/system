@@ -27,68 +27,70 @@
         <div class="row m-0">
           <div class="col-md-6 p-2" *ngFor="let transfer of transfers; let index = index"> -->
             <mat-card>
-              <div class="d-md-flex justify-content-between align-items-center">
+              <mat-card-content>
+                <div class="d-md-flex justify-content-between align-items-center">
+                  <div>
+                    Estado:
+                    <span class="badge font-sm {{ transfer.status }}">
+                      {{ transfer.status | translatefz: "orders" }}
+                    </span>
+                  </div>
+                  <div class="text-success">
+                    Doc ID:
+                    <span>{{ transfer.doc_id }}</span>
+                  </div>
+                  <div *ngxPermissionsOnly="permissionsTransference.destroy">
+                    <button *ngIf="!isCancelled" color="warn" (click)="unlink(transfer.id)" mat-button>
+                      Desvincular transferencia
+                    </button>
+                  </div>
+                </div>
+                <p *ngIf="transfer?.memo">
+                  <span>Memo:</span>
+                  {{ transfer?.memo }}
+                </p>
+                <hr />
+                <div *ngIf="transfer.origin_warehouse || transfer.destination_warehouse" class="rounded-lg p-2">
+                  <div *ngIf="transfer.origin_warehouse">
+                    Bodega de origen:
+                    <span class="text-danger">
+                      {{ transfer.origin_warehouse?.code }} - {{ transfer.origin_warehouse?.name }}
+                    </span>
+                  </div>
+                  <div *ngIf="transfer.destination_warehouse">
+                    Bodega de destino:
+                    <span class="text-success">
+                      {{ transfer.destination_warehouse?.code }} - {{ transfer.destination_warehouse?.name }}
+                    </span>
+                  </div>
+                </div>
                 <div>
-                  Estado:
-                  <span class="badge font-sm {{ transfer.status }}">
-                    {{ transfer.status | translatefz: "orders" }}
-                  </span>
-                </div>
-                <div class="text-success">
-                  Doc ID:
-                  <span>{{ transfer.doc_id }}</span>
-                </div>
-                <div *ngxPermissionsOnly="permissionsTransference.destroy">
-                  <button *ngIf="!isCancelled" color="warn" (click)="unlink(transfer.id)" mat-button>
-                    Desvincular transferencia
-                  </button>
-                </div>
-              </div>
-              <p *ngIf="transfer?.memo">
-                <span>Memo:</span>
-                {{ transfer?.memo }}
-              </p>
-              <hr />
-              <div *ngIf="transfer.origin_warehouse || transfer.destination_warehouse" class="rounded-lg p-2">
-                <div *ngIf="transfer.origin_warehouse">
-                  Bodega de origen:
-                  <span class="text-danger">
-                    {{ transfer.origin_warehouse?.code }} - {{ transfer.origin_warehouse?.name }}
-                  </span>
-                </div>
-                <div *ngIf="transfer.destination_warehouse">
-                  Bodega de destino:
-                  <span class="text-success">
-                    {{ transfer.destination_warehouse?.code }} - {{ transfer.destination_warehouse?.name }}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <mat-accordion *ngIf="transfer?.items?.length > 0">
-                  <mat-expansion-panel class="rounded-fz shadow">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Productos
-                        <span class="font-sm badge bg-warning">{{ transfer?.items?.length }}</span>
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <div *ngFor="let item of transfer?.items">
-                      <div>
-                        <div>{{ item?.product.name }}</div>
+                  <mat-accordion *ngIf="transfer?.items?.length > 0">
+                    <mat-expansion-panel class="rounded-fz shadow">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Productos
+                          <span class="font-sm badge bg-warning">{{ transfer?.items?.length }}</span>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div *ngFor="let item of transfer?.items">
                         <div>
-                          <span class="text-muted">Código:</span>
-                          {{ item?.product.code }}
+                          <div>{{ item?.product.name }}</div>
+                          <div>
+                            <span class="text-muted">Código:</span>
+                            {{ item?.product.code }}
+                          </div>
+                          <div>
+                            <span class="text-muted">Cantidad:</span>
+                            {{ item.quantity }}
+                          </div>
                         </div>
-                        <div>
-                          <span class="text-muted">Cantidad:</span>
-                          {{ item.quantity }}
-                        </div>
+                        <hr />
                       </div>
-                      <hr />
-                    </div>
-                  </mat-expansion-panel>
-                </mat-accordion>
-              </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+              </mat-card-content>
             </mat-card>
          <!-- </div>
          </div>

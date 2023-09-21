@@ -4,7 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
 import { PermissionOrdersClients } from '../../../../class/permissions-modules';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
+// import { StandartSearchService } from '../../../../services/standart-search.service';
 
 @Component({
   selector: 'app-create-or-edit-client-order',
@@ -30,8 +31,8 @@ export class CreateOrEditClientOrderComponent extends CreateOrEdit<any> implemen
 
   permissions = PermissionOrdersClients;
 
-  constructor(public override location: Location, activeRouter: ActivatedRoute, standardService: StandartSearchService, router: Router) {
-    super ( activeRouter, standardService, router );
+  constructor(public override location: Location,protected route: ActivatedRoute, protected methodsHttpService: MethodsHttpService, protected router: Router) {
+    super();
   }
 
   ngOnInit(): void {

@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { GroupProductsComponent } from './group-products/group-products.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { CreateOrEditGroupProductsComponent } from './group-products/create-or-edit-group-products/create-or-edit-group-products.component';
-import { DownloadStockComponent } from './download-stock/download-stock.component';
-import { IndexReportsComponent } from './index-reports/index-reports.component';
+import { DownloadStockComponent } from './pages/download-stock/download-stock.component';
+import { IndexReportsComponent } from './pages/index-reports/index-reports.component';
 import { CreateOrEditReportComponent } from './create-or-edit-report/create-or-edit-report.component';
 import { PermissionReportsOrders } from '../../class/permissions-modules';
 

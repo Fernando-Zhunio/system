@@ -36,6 +36,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
   @Input() customBtnApplyFilter: any = { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' };
   @Input() isCustomPaginator: boolean = false;
   @Input() formFilter: FormGroup;
+  @Input() maxWidth: string = '100%';
 
   @Output() data = new EventEmitter<any[] | any>();
   @Output() isLoading = new EventEmitter<boolean>();

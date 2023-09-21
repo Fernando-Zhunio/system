@@ -30,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: 'appointments',
-        loadChildren: () => import('./appointments/appointments.module').then(m => m.AppointmentsModule),
+        loadChildren: () => import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule),
         data: {
           permissions: {
             only: ['super-admin', 'rrhh-appointments'],

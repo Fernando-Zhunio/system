@@ -40,7 +40,7 @@
       <div class="col-md-5 p-2">
         <h3 class="text-center font-2xl font-weight-bold">Productos para asignar</h3>
         <div class="card-body">
-          <div class="shadow rounded-fz">
+          <div class="">
             <!-- <div *ngFor="let item of itemsOrder | keyvalue">
               <div *ngIf="item.value.quantity > 0" class="p-2">
                 <div class="shadow p-3 rounded-fz">
@@ -79,14 +79,14 @@
             <mat-list>
               <ng-container *ngFor="let item of itemsOrder | keyvalue">
                 <mat-list-item  *ngIf="item.value.quantity > 0">
-                  <div mat-list-avatar><img class="w-100" [src]="item.value?.product?.image || 'assets/img/img_not_available.png'" alt="" /></div>
-                  <div mat-line>
+                  <div matListItemAvatar><img class="w-100" [src]="item.value?.product?.image || 'assets/img/img_not_available.png'" alt="" /></div>
+                  <div matListItemTitle>
                     {{ item.value.product?.name }}
                     <small>({{ item.value.product?.code }})</small>
                   </div>
-                  <div mat-line>Cantidad: {{ item.value.quantity }}</div>
-                  <div mat-line>Precio: ${{ item.value.price }}</div>
-                  <div [hidden]="item.value.quantity <= 1" mat-line>
+                  <div matListItemLine>Cantidad: {{ item.value.quantity }}</div>
+                  <div matListItemLine>Precio: ${{ item.value.price }}</div>
+                  <div [hidden]="item.value.quantity <= 1" matListItemLine>
                     <small>Cantidad a pasar:</small>
                     <input
                       #quantity
@@ -97,11 +97,13 @@
                       class="input-quantity"
                       />
                   </div>
-                  <div mat-line>
-                    <mat-chip selected (click)="pass(quantity.value, item.key)" mat-button color="accent">
-                      Pasar
-                      <mat-icon>done</mat-icon>
-                    </mat-chip>
+                  <div matListItemLine>
+                    <div class="inline-block">
+                      <button class="btn-small center bg-blue-300 hover:bg-blue-200" (click)="pass(quantity.value, item.key)">
+                        Pasar
+                        <mat-icon>done</mat-icon>
+                      </button>
+                    </div>
                   </div>
                 </mat-list-item>
               </ng-container>
@@ -131,18 +133,24 @@
             <div class="p-3">
               <mat-list>
                 <mat-list-item *ngFor="let item of currentItemPdf?.items | keyvalue">
-                  <div mat-list-avatar><img class="w-100" [src]="item.value?.img" alt="" /></div>
-                  <div mat-line>
+                  <div matListItemAvatar><img class="w-100" [src]="item.value?.img" alt="" /></div>
+                  <div matListItemTitle>
                     {{ item.value.name }}
                     <small>({{ item.value.code }})</small>
                   </div>
-                  <div mat-line>Cantidad: {{ item.value.quantity }}</div>
-                  <div mat-line>Precio: ${{ item.value.price }}</div>
-                  <div mat-line>
-                    <mat-chip selected (click)="quitItem(item.key)" color="warn">
+                  <div matListItemLine>Cantidad: {{ item.value.quantity }}</div>
+                  <div matListItemLine>Precio: ${{ item.value.price }}</div>
+                  <div matListItemLine>
+                    <!-- <mat-chip selected (click)="quitItem(item.key)" color="warn">
                       Quitar
                       <mat-icon>close</mat-icon>
-                    </mat-chip>
+                    </mat-chip> -->
+                    <div class="inline-block">
+                      <button (click)="quitItem(item.key)" class="btn-small center bg-red-300 hover:bg-red-200">
+                        Quitar
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
                   </div>
                 </mat-list-item>
               </mat-list>
@@ -264,12 +272,12 @@
                   <mat-list>
                     <mat-list-item *ngFor="let item of itemPdf.value?.items | keyvalue">
                       <div mat-list-avatar><img class="w-100" [src]="item.value?.img" alt="" /></div>
-                      <div mat-line>
+                      <div matListItemLine>
                         {{ item.value.name }}
                         <small>({{ item.value.code }})</small>
                       </div>
-                      <div mat-line>Cantidad: {{ item.value.quantity }}</div>
-                      <div mat-line>Precio: ${{ item.value.price }}</div>
+                      <div matListItemLine>Cantidad: {{ item.value.quantity }}</div>
+                      <div matListItemLine>Precio: ${{ item.value.price }}</div>
                     </mat-list-item>
                   </mat-list>
                   <button (click)="removeAllItems(itemPdf.key)" color="warn" mat-button>Remover bodega <mat-icon>close</mat-icon></button>

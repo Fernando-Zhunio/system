@@ -16,7 +16,7 @@
   <div class="align-items-center d-flex justify-content-between mb-2">
     <h4 class="font-2xl font-weight-bold text-primary m-0">Impuestos y descuentos</h4>
    <ng-container *ngIf="!isCancelled">
-     <button class="btn-primary-custom"  (click)="openDialogCreateOrEditDiscountOrTax()" *ngxPermissionsOnly="permissionTaxAndDiscount.create">
+     <button class="px-3 py-2 bg-cyan-600 rounded-md text-white hover:bg-cyan-500"  (click)="openDialogCreateOrEditDiscountOrTax()" *ngxPermissionsOnly="permissionTaxAndDiscount.create">
       Agregar i/d <i class="fa-solid fa-plus"></i>
      </button>
    </ng-container>

@@ -1,31 +1,31 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { animation_conditional } from '../../../../animations/animate_leave_enter';
-import { CTemplateSearch } from '../../../../class/ctemplate-search';
-import { HeaderSearchComponent } from '../../../../components/header-search/header-search.component';
-import { Iappointment, Iuser } from '../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
-import { SharedService } from '../../../../services/shared/shared.service';
-import { StandartSearchService } from '../../../../services/standart-search.service';
-import { SwalService } from '../../../../services/swal.service';
-import { ModalSendCvComponent } from '../tools/modal-send-cv/modal-send-cv.component';
-import { ModalZoomComponent } from '../tools/modal-zoom/modal-zoom.component';
+import { animation_conditional } from '../../../../../../animations/animate_leave_enter';
+import { CTemplateSearch } from '../../../../../../class/ctemplate-search';
+import { HeaderSearchComponent } from '../../../../../../components/header-search/header-search.component';
+import { Iappointment, Iuser } from '../../../../../../interfaces/JobNovicompu/interfaces-jobNovicompu';
+import { SharedService } from '../../../../../../services/shared/shared.service';
+import { SwalService } from '../../../../../../services/swal.service';
+import { ModalSendCvComponent } from '../../../../appointments/tools/modal-send-cv/modal-send-cv.component';
+import { ModalZoomComponent } from '../../../../appointments/tools/modal-zoom/modal-zoom.component';
+import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css'],
+  templateUrl: './index-appointments.component.html',
+  styleUrls: ['./index-appointments.component.css'],
   animations: animation_conditional
 
 })
-export class IndexComponent
+export class IndexAppointmentsComponent
   extends CTemplateSearch<Iappointment>
 {
   constructor(
     private s_shared: SharedService,
     private dialog: MatDialog,
     private router: Router,
-    private s_serviceStandard: StandartSearchService,
+    private methodsHttpService: MethodsHttpService,
   ) {
     super();
   }
@@ -49,8 +49,8 @@ export class IndexComponent
       ).then((result) => {
         if (result.isConfirmed) {
           appointment['isLoading'] = true;
-          this.s_serviceStandard
-            .destory(
+          this.methodsHttpService
+            .methodDelete(
               `rrhh/requests/${appointment.request.id}/appointments/${appointment.id}`
             )
             .subscribe(
@@ -117,8 +117,8 @@ export class IndexComponent
     const appointment = this.products.find((x) => x.id === id);
     if (appointment) {
       const url = `rrhh/requests/${appointment.request_id}/statuses`;
-      this.s_serviceStandard
-      .store(url, { status: 'request_finalist' })
+      this.methodsHttpService
+      .methodPost(url, { status: 'request_finalist' })
       .subscribe(
         (res1: any) => {
           appointment['isLoading'] = false;
@@ -147,8 +147,8 @@ export class IndexComponent
           if (res.isConfirmed) {
             appointment['isLoading'] = true;
             const url = `rrhh/requests/${appointment.request_id}/statuses`;
-            this.s_serviceStandard
-              .store(url, { status: 'request_finalist' })
+            this.methodsHttpService
+              .methodPost(url, { status: 'request_finalist' })
               .subscribe(
                 (res1: any) => {
                   appointment['isLoading'] = false;
@@ -174,8 +174,8 @@ export class IndexComponent
       ).then((result) => {
         if (result.isConfirmed) {
           const url = `rrhh/requests/${appointment.request_id}/statuses`;
-          this.s_serviceStandard
-            .store(url, { status: 'request_hired' })
+          this.methodsHttpService
+            .methodPost(url, { status: 'request_hired' })
             .subscribe((res) => {
               if (res.hasOwnProperty('success') && res.success) {
                 appointment.request.current_status.type_action = 'request_hired';

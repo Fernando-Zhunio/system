@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { PermissionReportsOrders } from '../../../class/permissions-modules';
-import { IReportOrder } from '../../../interfaces/orders/ireport-order';
-import { MethodsHttpService } from '../../../services/methods-http.service';
-import { SwalService } from '../../../services/swal.service';
+import { PermissionReportsOrders } from '../../../../class/permissions-modules';
+import { IReportOrder } from '../../../../interfaces/orders/ireport-order';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
+import { SwalService } from '../../../../services/swal.service';
 
 @Component({
   selector: 'app-index-reports',
@@ -24,11 +24,8 @@ export class IndexReportsComponent  {
     'id',
     'name',
     'title',
-    // 'file_path',
-    // 'disk',
     'created_at',
     'ext',
-    'permalink',
     'actions'
   ]
 

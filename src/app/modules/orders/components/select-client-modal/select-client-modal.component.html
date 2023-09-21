@@ -9,7 +9,7 @@
                 [multiple]="false">
                 <mat-list-option [value]="client.id"
                     *ngFor="let client of clients ">
-                    <button [routerLink]="['/orders/clients',client.id,'edit']"  class="bg-gray-200" mat-list-avatar color="accent" mat-icon-button><mat-icon>edit</mat-icon></button>
+                    <button [routerLink]="['/orders/clients',client.id,'edit']"  class="bg-gray-200" matListItemAvatar color="accent" mat-icon-button><mat-icon>edit</mat-icon></button>
                     <div mat-line>{{client.first_name}} {{client.last_name}}
                     </div>
                     <div mat-line>{{client.email}} - {{client.doc_id}}

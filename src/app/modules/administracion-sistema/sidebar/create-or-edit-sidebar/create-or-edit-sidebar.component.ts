@@ -5,7 +5,8 @@ import { MatSelectionListChange } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../class/create-or-edit';
 import { IPermission } from '../../../../interfaces/ipermission';
-import { StandartSearchService } from '../../../../services/standart-search.service';
+// import { StandartSearchService } from '../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-sidebar',
@@ -28,8 +29,10 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   formSearchPermission = new FormControl(null, [Validators.required]);
   isLoadingPermissions = false;
   isOpenSearchPermission = false;
-  constructor(router_activated: ActivatedRoute, private standard: StandartSearchService, router: Router) {
-    super(router_activated, standard, router);
+  constructor(
+    protected route: ActivatedRoute, protected methodsHttpService: MethodsHttpService, protected router: Router
+    ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -41,7 +44,7 @@ export class CreateOrEditSidebarComponent extends CreateOrEdit<any> implements O
   search($event = null): void {
     this.isLoadingPermissions = true;
     const text_search = $event;
-    this.standard.methodGet(this.urlPermission + '?search=' + text_search).subscribe(res => {
+    this.methodsHttpService.methodGet(this.urlPermission + '?search=' + text_search).subscribe(res => {
       if (res?.success) {
         this.permissions = res.data.data;
       }

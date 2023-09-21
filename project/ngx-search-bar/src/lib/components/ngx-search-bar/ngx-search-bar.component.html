@@ -2,7 +2,7 @@
   <div class="nsb-bar">
     <div class="nsb-bar-container">
       <h1 *ngIf="title" class="nsb-title">{{ title }}</h1>
-      <div [ngStyle]="{'flex-grow': size}" [ngClass]="{ 'nsb-full-width': isBarExpand }" class="nsb-content-input-search">
+      <div [style.max-width]="maxWidth" [ngStyle]="{'flex-grow': size}" [ngClass]="{ 'nsb-full-width': isBarExpand }" class="nsb-content-input-search">
         <button class="nsb-btn-search" (click)="search()">
           <svg
             stroke="currentColor"

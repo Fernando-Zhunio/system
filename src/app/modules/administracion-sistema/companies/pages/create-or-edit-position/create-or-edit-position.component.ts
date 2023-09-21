@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../../class/create-or-edit';
 import { IDepartment } from '../../../../../interfaces/idepartment';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { IPosition } from '../../../../../interfaces/iposition';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-position',
@@ -14,8 +14,9 @@ import { IPosition } from '../../../../../interfaces/iposition';
 export class CreateOrEditPositionComponent extends CreateOrEdit<IPosition> implements OnInit {
   public urlSave: any;
 
-  constructor( public override act_router: ActivatedRoute, public override standard_service: StandartSearchService, public override router: Router) {
-    super( act_router, standard_service, router);
+  constructor( 
+    protected route: ActivatedRoute, protected methodsHttpService: MethodsHttpService, protected router: Router) {
+    super();
     this.urlSave = `admin/companies/${this.getId('company_id')}/departments/${this.getId('department_id')}/positions`;
   }
 

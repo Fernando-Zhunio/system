@@ -1,0 +1,211 @@
+<div>
+  <ngx-search-bar-paginator
+    [title]="'Citas'"
+    [placeholder]="'Buscador de citas'"
+    (isLoading)="isLoading = $event"
+    [withFilter]="true"
+    [path]="url"
+    (data)="loadData($event)">
+    <!-- <mat-chip-set class="ml-1">
+      <mat-chip [matMenuTriggerFor]="menuState" class="text-truncate">
+        <mat-icon class="text-black-50" type="search">filter_alt</mat-icon>
+      </mat-chip>
+    </mat-chip-set> -->
+    <ng-container buttons>
+      <button class="hover:bg-blue-500 bg-blue-600 rounded-lg text-white center px-3 py-2" [matMenuTriggerFor]="menu">
+        <mat-icon class="text-white" type="search">more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <button [routerLink]="['/recursos-humanos/requests']" mat-menu-item>
+          <mat-icon>add</mat-icon>
+          <span>Crear cita</span>
+        </button>
+        <button (click)="changedStatus()" mat-menu-item>
+          <mat-icon>email</mat-icon>
+          <span>Enviar CV por email</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+
+    <!-- <mat-menu #menuState="matMenu" [overlapTrigger]="false"> -->
+    <div filterMenu>
+      <mat-form-field class="w-100">
+        <mat-label>Crear cita</mat-label>
+        <mat-select [(ngModel)]="statusAppointment">
+          <mat-option value="all">Todos</mat-option>
+          <mat-option value="available">Disponible</mat-option>
+          <mat-option value="expired">Expirados</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- <div mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <button (click)="applyFilter()" mat-raised-button>Aplicar filtros</button>
+      </div> -->
+    <!-- </mat-menu> -->
+
+    <div class="mt-4 card-columns">
+      <mat-card
+        @fade
+        *ngFor="let p of products; let index_product = index"
+        class="card border-0 rounded-fz overflow-hidden position-relative">
+        <div *ngIf="p?.isLoading" class="position-absolute w-100 h-100 opaque-blur"></div>
+        <div>
+          <div class="row m-0">
+            <div class="col-12 font-weight-bold h3">{{ p.request.work.title }}</div>
+            <hr class="col-12" />
+            <div class="col-md-7 col-12">
+              <div class="header-request">
+                <p class="font-italic lead">
+                  Solicitante:
+                  <span>
+                    {{ p.request.user.first_name }} {{ p.request.user.last_name }}
+                    <br />
+                  </span>
+                  Tipo :
+                  <span>
+                    {{ p.type }}
+                    <br />
+                  </span>
+                  Estado :
+                  <span class="text-success">
+                    {{ p.request.current_status.name }}
+                    <br />
+                  </span>
+                  Fecha:
+                  <span>{{ p.date | date : "dd/MM/yyyy" }}</span>
+                  <br />
+                  Hora:
+                  <span>{{ p.date | date : "hh:mm" }}</span>
+                  <br />
+                  Persona asignada:
+                  <span>
+                    <ng-container *ngIf="p.assigned_person; else notAssignedPerson">
+                      {{ p.assigned_person.first_name }}{{ p.assigned_person.last_name }}
+                    </ng-container>
+                    <ng-template #notAssignedPerson>Sin persona asignada</ng-template>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-5 col-12 center">
+              <img [src]="p.request.user.photo.real_permalink" class="rounded-fz shadow w-100" alt="" />
+            </div>
+            <div class="col-12">
+              Comentario:
+              <span class="font-weight-bold d-flex">{{ p.comment ? p.comment : "Sin comentario" }}</span>
+            </div>
+            <div class="col-12">
+              <mat-chip-set class="ml-1">
+                <mat-chip (click)="goWork(p.request.work.id)" class="text-truncate">
+                  <mat-icon>description</mat-icon>
+                  Empleo
+                </mat-chip>
+                <mat-chip
+                  *ngIf="p.type === 'video_conference'"
+                  color="accent"
+                  (click)="modalZoom(p.id)"
+                  class="text-truncate">
+                  <mat-icon>videocam</mat-icon>
+                  Zoom
+                </mat-chip>
+                <mat-chip color="accent" (click)="openCv(p.id)" class="text-truncate">
+                  <mat-icon>assignment_ind</mat-icon>
+                  HV
+                </mat-chip>
+                <mat-chip selected color="warn" (click)="deleteAppointment(p.id)" class="text-truncate">
+                  <mat-icon>delete</mat-icon>
+                </mat-chip>
+                <mat-chip selected color="accent" (click)="gotEditAppointment(p.id)" class="text-truncate">
+                  <mat-icon>edit</mat-icon>
+                </mat-chip>
+                <mat-chip
+                  class="bg-success"
+                  matTooltip="Hacer Finalista"
+                  *ngIf="p.request.current_status.type_action === 'request_in_process'"
+                  color="accent"
+                  (click)="doFinalist(p.id)"
+                  class="text-truncate">
+                  <mat-icon>file_download_done</mat-icon>
+                </mat-chip>
+                <mat-chip
+                  class="bg-success"
+                  matTooltip="Contratar a esta persona"
+                  *ngIf="p.request.current_status.type_action === 'request_finalist'"
+                  color="accent"
+                  (click)="doHired(p.id)"
+                  class="text-truncate">
+                  <mat-icon>military_tech</mat-icon>
+                </mat-chip>
+                <mat-chip
+                  class="bg-success"
+                  selected
+                  *ngIf="p.request.current_status.type_action === 'request_hired'"
+                  color="primary"
+                  class="text-truncate">
+                  Esta persona ya fue contratada
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </ngx-search-bar-paginator>
+
+  <!-- <div *ngIf="isLoading" class="mt-4 card-columns">
+    <div @fade *ngFor="let item of [1, 2, 3]" class="card border-0 rounded-fz text-center">
+
+      <ngx-skeleton-loader count="1" [theme]="{
+        'border-radius': '20px',
+    height: '200px'
+  }"></ngx-skeleton-loader>
+      <div class="text-center">
+        <ngx-skeleton-loader appearance="circle" count="1"></ngx-skeleton-loader>
+      </div>
+      <ngx-skeleton-loader count="1" [theme]="{
+    'border-radius': '5px',
+    height: '35px',
+    width:'150px',
+    'margin-right':'5px'
+  }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader count="1" [theme]="{
+    'border-radius': '5px',
+    height: '25px',
+    width:'150px',
+    'margin-right':'5px'
+  }"></ngx-skeleton-loader>
+    </div>
+  </div> -->
+
+  <!-- <ng-container *ngIf="!isLoading && products?.length < 1">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/assets/img/respuesta_vacia.svg" alt="" width="100%">
+      </div>
+      <div class="col-md-6 font-facebook font-2xl d-flex align-items-center">
+        Ups! Sin resultados en tu búsqueda
+      </div>
+    </div>
+  </ng-container> 
+  <mat-paginator [hidden]="isLoading" *ngIf="products?.length > 0" [pageSizeOptions]="[10, 20, 30]"
+    (page)="changePaginator($event)" showFirstLastButtons [pageSize]="paginator.per_page" [length]="paginator.total"
+    [pageIndex]="paginator.current_page-1">
+  </mat-paginator>-->
+</div>
+
+<div *ngIf="isOpenCv" [ngClass]="isOpenCv ? 'open-cv' : 'close-cv'" class="section-cv">
+  <div class="content-cv">
+    <button class="btn-close-cv bg-dark" (click)="isOpenCv = false" mat-mini-fab>
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="container-cv shadow p-3">
+      <div class="row h-100">
+        <div class="col-md-12">
+          <div class="display-4 h-100">
+            <ngx-doc-viewer [url]="cv" viewer="pdf" style="width: 100%; height: 100%"></ngx-doc-viewer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,8 @@
 import { AfterContentInit, Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-// import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, Subject, switchMap, takeUntil } from 'rxjs';
 import { NgxSearchBarService } from '../../ngx-search-bar.service';
 import { empty } from '../../utils/empty';
 import { NgxSearchBarFormFilterComponent } from '../ngx-search-bar-form-filter/ngx-search-bar-form-filter.component';
-// import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -29,6 +27,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   @Input() nameInputSearch: string = 'search';
   @Input() isBarExpand: boolean = false;
   @Input() size: number = 4;
+  @Input() maxWidth: string = '100%';
 
   @Output() data = new EventEmitter<any>();
   @Output() loading = new EventEmitter<boolean>();

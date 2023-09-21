@@ -1,8 +1,8 @@
 import { Component, NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NgxPermissionsGuard } from "ngx-permissions";
-import { IndexComponent } from "./index/index.component";
-import { CreateOrEditAppointmentComponent } from "./create-or-edit-appointment/create-or-edit-appointment.component";
+import { IndexAppointmentsComponent } from "./pages/index-appointments/index-appointments.component";
+import { CreateOrEditAppointmentComponent } from "../../appointments/create-or-edit-appointment/create-or-edit-appointment.component";
 
 @Component({
   selector: 'app-rrhh-appointment',
@@ -17,7 +17,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: IndexComponent,
+        component: IndexAppointmentsComponent,
         data: {
           permissions: {
             only: ['super-admin', 'rrhh-appointments'],

@@ -17,11 +17,11 @@ export class CreateOrEditPriceComponent
 {
   constructor(
     public override location: Location,
-    public override act_router: ActivatedRoute,
+    public override route: ActivatedRoute,
     public override standard_service: StandartSearchService,
     public override router: Router
   ) {
-    super(act_router, standard_service, router);
+    super(route, standard_service, router);
     this.urlSave = `catalogs/products/${this.getId("product_id")}/prices`;
   }
 

@@ -3,6 +3,7 @@
     [placeholder]="placeholder"
     [path]="path"
     [title]="title"
+    [maxWidth]="maxWidth"
     [isChangeUrl]="isChangeUrl"
     [nameInputSearch]="nameInputSearch"
     (data)="getData($event)"
@@ -12,8 +13,6 @@
       <ng-content select="[filterMenu]"></ng-content>
     </ngx-search-bar-form-filter>
     <ng-content buttons select="[buttons]"></ng-content>
-    <!-- <ng-template #filtersButtons></ng-template> -->
-    <!-- <ng-content filters select="[filters]"></ng-content> -->
   </ngx-search-bar>
 
   <div class="position-relative table-container">

@@ -4,9 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Inewsletter } from '../../../../../interfaces/inewsletter';
 import { IrolSystem } from '../../../../../interfaces/irol-system';
 import { SharedService } from '../../../../../services/shared/shared.service';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
+// import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
 import { CreateOrEdit } from '../../../../../class/create-or-edit';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-newsletter',
@@ -15,8 +16,10 @@ import { CreateOrEdit } from '../../../../../class/create-or-edit';
 })
 export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> implements OnInit {
 
-  constructor(actived_router: ActivatedRoute, standard_service: StandartSearchService, router: Router) {
-    super(actived_router, standard_service, router);
+  constructor(
+    protected route: ActivatedRoute, protected methodsHttpService: MethodsHttpService, protected router: Router
+    ) {
+    super();
   }
 
   urlSave = 'admin/newsletter';
@@ -44,7 +47,7 @@ export class CreateOrEditNewsletterComponent extends CreateOrEdit<Inewsletter> i
   }
 
   override loaderDataForCreate(): void {
-    this.standard_service.index('admin/newsletter/create').subscribe((res) => {
+    this.methodsHttpService.methodGet('admin/newsletter/create').subscribe((res) => {
       this.roles = res.data;
     });
   }

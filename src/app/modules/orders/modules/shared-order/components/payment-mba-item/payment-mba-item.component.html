@@ -1,116 +1,117 @@
 <mat-card class="card border-0">
-  <div class="d-md-flex justify-content-between align-items-center">
-    <div>Estado: <span class="badge font-sm {{item.status}}"> {{item.status |
-        translatefz:
-        'orders'}}</span></div>
-    <div *ngxPermissionsOnly="permissionsPaymentsMBA.destroy">
-      <button *ngIf="!isCancelled" color="warn" (click)="unlink(item.id)" mat-button>Desvincular</button>
+  <mat-card-content>
+    <div class="d-md-flex justify-content-between align-items-center">
+      <div>Estado: <span class="badge font-sm {{item.status}}"> {{item.status |
+          translatefz:
+          'orders'}}</span></div>
+      <div *ngxPermissionsOnly="permissionsPaymentsMBA.destroy">
+        <button *ngIf="!isCancelled" color="warn" (click)="unlink(item.id)" mat-button>Desvincular</button>
+      </div>
     </div>
-  </div>
-  <div class="text-success">Doc ID:<span> {{item.number}}</span></div>
-  <div>
-    <small class="text-muted">Detalles:</small>
-    <table class="table table-sm table-borderless">
-      <tbody>
-        <tr>
-          <td><span>Creado:</span></td>
-          <td><span>{{item.created_at | date}}</span></td>
-        </tr>
-        <tr>
-          <td><span>Memo:</span></td>
-          <td><span>{{item.memo}}</span></td>
-        </tr>
-        <ng-container *ngIf="item?.data">
+    <div class="text-success">Doc ID:<span> {{item.number}}</span></div>
+    <div>
+      <small class="text-muted">Detalles:</small>
+      <table class="table table-sm table-borderless">
+        <tbody>
+          <tr>
+            <td><span>Creado:</span></td>
+            <td><span>{{item.created_at | date}}</span></td>
+          </tr>
+          <tr>
+            <td><span>Memo:</span></td>
+            <td><span>{{item.memo}}</span></td>
+          </tr>
+          <ng-container *ngIf="item?.data">
+            <tr>
+              <td>
+                <span>Monto:</span>
+              </td>
+              <td>
+                <span>{{item.data?.amount}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>Descuento:</span>
+              </td>
+              <td>
+                <span>{{item.data?.discount}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>Retención:</span>
+              </td>
+              <td>
+                <span>{{item.data?.retention}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>Método:</span>
+              </td>
+              <td>
+                <span>{{item.data?.method}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>Pago neto:</span>
+              </td>
+              <td>
+                <span>{{item.data?.net_payment}}</span>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="item?.data?.client">
+      <small class="text-muted">Cliente:</small>
+      <table class="table table-sm table-borderless">
+        <tbody>
           <tr>
             <td>
-              <span>Monto:</span>
+              <span>Nombre:</span>
             </td>
             <td>
-              <span>{{item.data?.amount}}</span>
+              <span>{{item.data?.client?.name}}</span>
             </td>
           </tr>
           <tr>
             <td>
-              <span>Descuento:</span>
+              <span>Email:</span>
             </td>
             <td>
-              <span>{{item.data?.discount}}</span>
+              <span>{{item.data?.client?.email}}</span>
             </td>
           </tr>
           <tr>
             <td>
-              <span>Retención:</span>
+              <span>Teléfono:</span>
             </td>
             <td>
-              <span>{{item.data?.retention}}</span>
+              <span>{{item.data?.client?.phone}}</span>
             </td>
           </tr>
           <tr>
             <td>
-              <span>Método:</span>
+              <span>Dirección:</span>
             </td>
             <td>
-              <span>{{item.data?.method}}</span>
+              <span>{{item.data?.client?.address}}</span>
             </td>
           </tr>
           <tr>
             <td>
-              <span>Pago neto:</span>
+              <span>Identificación:</span>
             </td>
             <td>
-              <span>{{item.data?.net_payment}}</span>
+              <span>{{item.data?.client?.identification}}</span>
             </td>
           </tr>
-        </ng-container>
-
-      </tbody>
-    </table>
-  </div>
-  <div *ngIf="item?.data?.client">
-    <small class="text-muted">Cliente:</small>
-    <table class="table table-sm table-borderless">
-      <tbody>
-        <tr>
-          <td>
-            <span>Nombre:</span>
-          </td>
-          <td>
-            <span>{{item.data?.client?.name}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Email:</span>
-          </td>
-          <td>
-            <span>{{item.data?.client?.email}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Teléfono:</span>
-          </td>
-          <td>
-            <span>{{item.data?.client?.phone}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Dirección:</span>
-          </td>
-          <td>
-            <span>{{item.data?.client?.address}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>Identificación:</span>
-          </td>
-          <td>
-            <span>{{item.data?.client?.identification}}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>
 </mat-card>

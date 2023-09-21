@@ -6,9 +6,9 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Icompany } from '../../../../../interfaces/idashboard';
 import { IDepartment } from '../../../../../interfaces/idepartment';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
 import { CreateOrEdit } from '../../../../../class/create-or-edit';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 
 export interface ITreeDepartment {
@@ -32,8 +32,12 @@ export interface ITreeDepartment {
 export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> implements OnInit {
   urlSave: any;
 
-  constructor(public override act_router: ActivatedRoute, public override standard_service: StandartSearchService, public override router: Router) {
-    super(act_router, standard_service, router);
+  constructor(
+    protected route: ActivatedRoute, 
+    protected methodsHttpService: MethodsHttpService, 
+    protected router: Router
+    ) {
+    super();
     this.urlSave = `admin/companies/${this.getId('company_id')}/departments`;
   }
 

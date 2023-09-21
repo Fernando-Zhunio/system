@@ -147,10 +147,10 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
     DetailsOrderComponent,
     SheetButtonOnlyInputComponent,
     FormProductOrderComponent,
-    ViewCornerComponent,
-    SearchNullComponent,
   ],
   imports: [
+    SearchNullComponent,
+    ViewCornerComponent,
     CommonModule,
     OrdersRoutingModule,
     // NgxSearchBarModule,

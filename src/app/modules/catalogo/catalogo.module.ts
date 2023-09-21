@@ -34,20 +34,16 @@ import { ConvertsModule } from '../../Modulos/converts/converts.module';
 // import { CreateOrEditMultipublicationComponent } from './modules/publicaciones/create-or-edit-multipublication/create-or-edit-multipublication.component';
 import { TemplateSearchModule } from '../../Modulos/template-search/template-search.module';
 import { MatTreeModule } from '@angular/material/tree';
-import { ToolsModule } from '../../Modulos/tools/tools.module';
+// import { ToolsModule } from '../../Modulos/tools/tools.module';
 import { SearchTemplateModule } from '../../Modulos/search-template/search-template.module';
 import { InfoViewComponent } from './components/info-view/info-view.component';
 import { SearchProductModalComponent } from '../../components/modals/search-product-modal/search-product-modal.component';
+import { ViewCornerComponent } from '../../Modulos/tools/view-corner/view-corner.component';
 
 @NgModule({
   declarations: [
     RepublicarCuentasModalComponent, 
-    // PublicacionesComponent, 
-    // CreateOrEditPublicacionComponent,
     PublicationComponent, 
-    // ShowPublicationComponent, 
-    // MenuMultiPublicationComponent, 
-    // CreateOrEditMultipublicationComponent,
     InfoViewComponent,
     SearchProductModalComponent
   ],
@@ -81,8 +77,9 @@ import { SearchProductModalComponent } from '../../components/modals/search-prod
     ConvertsModule,
     TemplateSearchModule,
     MatTreeModule,
-    ToolsModule,
+    // ToolsModule,
     SearchTemplateModule,
+    ViewCornerComponent,
   ],
 })
 export class CatalogoModule { }

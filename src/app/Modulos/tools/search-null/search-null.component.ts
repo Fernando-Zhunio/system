@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-search-null',
   template: `<div class="row">
     <div class= "col-md-6" >

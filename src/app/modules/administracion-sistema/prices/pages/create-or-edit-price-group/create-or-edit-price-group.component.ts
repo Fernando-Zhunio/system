@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOrEdit } from '../../../../../class/create-or-edit';
 import { Roles } from '../../../../../interfaces/iroles-and-permissions';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-price-group',
@@ -13,8 +13,10 @@ import { StandartSearchService } from '../../../../../services/standart-search.s
 export class CreateOrEditPriceGroupComponent extends CreateOrEdit<any> implements OnInit {
   public title: string = 'Grupo de precios - ';
 
-  constructor( standard: StandartSearchService, router: Router, activated_router: ActivatedRoute ) {
-    super( activated_router, standard, router);
+  constructor( 
+    protected route: ActivatedRoute, protected methodsHttpService: MethodsHttpService, protected router: Router
+    ) {
+    super();
    }
   urlSave: any = 'admin/prices/groups';
   override form: FormGroup = new FormGroup({
