@@ -1,0 +1,33 @@
+<div style="display: flex;" [style.justifyContent]="align">
+  <div (click)="isOpenOption = false" class="backpanel" *ngIf="isOpenOption" [style.zIndex]="backZIndex"></div>
+  <div class="nsb-paginator" style="font-size: .8rem;">
+     <div class="nsb-paginator-container">
+      <span>Item por pagina</span>
+      <div class="nsb-paginator-size">
+         <div (click)="toggleSelect()" class="nsb-paginator-size-label">{{pageSize}} <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg></div>
+         <div [style.zIndex]="backZIndex" [ngClass]="{'show': isOpenOption}" class="nsb-paginator-size-options">
+          <div (click)="changePageSize(option)" *ngFor="let option of pageSizeOptions">
+            {{option}}
+          </div>
+         </div>
+      </div>
+      <div>
+        {{offset.start}} - {{offset.end}} de {{length}}
+      </div>
+      <div class="nsb-paginator-arrow">
+        <button (click)="goStart()" [disabled]="!arrows.start">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M240-240v-480h80v480h-80Zm440 0L440-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+        </button>
+        <button (click)="goPrevious()" [disabled]="!arrows.previous">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+        </button>
+        <button (click)="goNext()" [disabled]="!arrows.next">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+        </button>
+        <button (click)="goEnd()" [disabled]="!arrows.end">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m280-240-56-56 184-184-184-184 56-56 240 240-240 240Zm360 0v-480h80v480h-80Z"/></svg>
+        </button>
+      </div>
+     </div>
+  </div>
+</div>

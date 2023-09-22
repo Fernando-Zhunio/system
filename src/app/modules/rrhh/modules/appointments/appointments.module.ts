@@ -27,10 +27,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSearchBarPaginatorComponent } from '../../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
-
-// import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
-// import { Ngx } from '@angular-material-components';
-
+import { NgxSearchBarModule } from '../../../../../../project/ngx-search-bar/src/public-api';
 
 
 @NgModule({
@@ -62,6 +59,7 @@ import { NgxSearchBarPaginatorComponent } from '../../../../shared/standalone-co
         MatOptionModule,
         FormsModule,
         NgxSearchBarPaginatorComponent,
+        NgxSearchBarModule,
     ]
 })
 export class AppointmentsModule { }

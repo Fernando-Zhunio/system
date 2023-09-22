@@ -2,7 +2,7 @@
 import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { empty } from '../../utils/empty';
-import { DATA_FOR_SEARCH_BAR, NgxSearchBarProvider } from '../../utils/DATA_FOR_SEARCH_BAR';
+import { DATA_NGX_SEARCH_BAR, NgxSearchBarProvider } from '../../utils/DATA_FOR_SEARCH_BAR';
 import { NgxSearchBarComponent } from '../ngx-search-bar/ngx-search-bar.component';
 import { Location } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -36,7 +36,7 @@ export class NgxSearchBarFormFilterComponent  {
   @Input() withParamsClean: boolean = false;
   buttonsFilters: Map<string, any> = new Map();
 
-  constructor(protected location: Location, private ngxSearchBar: NgxSearchBarComponent, @Inject(DATA_FOR_SEARCH_BAR) public dataInject: NgxSearchBarProvider,) {
+  constructor(protected location: Location, private ngxSearchBar: NgxSearchBarComponent, @Inject(DATA_NGX_SEARCH_BAR) public dataInject: NgxSearchBarProvider,) {
   }
   @Input() customBtnApplyFilter: any = this.dataInject?.OPTIONS?.customBtnApplyFilter || { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' };
 

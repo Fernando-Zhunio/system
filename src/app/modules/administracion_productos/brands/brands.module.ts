@@ -13,7 +13,8 @@ import { CreateOrEditBrandComponent } from './pages/create-or-edit-brand/create-
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+// import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 
 @NgModule({
   declarations: [BrandsIndexComponent, CreateOrEditBrandComponent],
@@ -31,7 +32,8 @@ import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-compo
     MatChipsModule,
     MatTableModule,
     MatDialogModule,
-    NgxSearchBarPaginatorComponent
+    // NgxSearchBarPaginatorComponent,
+    NgxSearchBarModule,
   ]
 })
 export class BrandsModule { }

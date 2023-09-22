@@ -76,7 +76,7 @@ import { InitializerAppNovisolutions } from './core/class/initializer-app-noviso
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
 import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
-import { DATA_FOR_SEARCH_BAR } from '../../project/ngx-search-bar/src/public-api';
+import { DATA_NGX_SEARCH_BAR } from '../../project/ngx-search-bar/src/public-api';
 import { ChatModule } from './shared/modules/chat/chat.module';
 
 registerLocaleData(localeEs, 'es');
@@ -201,7 +201,7 @@ registerLocaleData(localeEs, 'es');
     //     multi: true,
     //   },
     {
-      provide: DATA_FOR_SEARCH_BAR,
+      provide: DATA_NGX_SEARCH_BAR,
       useValue: {
         BASE_URL: environment.server,
         OPTIONS: {

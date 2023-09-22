@@ -26,6 +26,10 @@ export class BrandsIndexComponent extends MatTableHelper<any> {
 
   permissions = Permission_brands.brands;
 
+  override getData($event: any): void {
+     this.dataSource = $event.data.data;
+  }
+
   createOrEdit(id =null ): void {
     const data: CreateOrEditDialogData = {
       status: id ? StatusCreateOrEdit.Edit : StatusCreateOrEdit.Create,
@@ -45,5 +49,9 @@ export class BrandsIndexComponent extends MatTableHelper<any> {
           this.addItemInTable(data.response.data);
         }
     });
+  }
+
+  getLength(res: any) {
+    return res.data.total
   }
 }

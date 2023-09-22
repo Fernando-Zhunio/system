@@ -1,0 +1,68 @@
+.nsb-paginator .nsb-paginator-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-block: 10px;
+}
+
+.nsb-paginator .nsb-paginator-arrow {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    button {
+        padding: 5px;
+        cursor: pointer;
+        border: none;
+    }
+    button:disabled svg {
+        fill: #c5c5c5;
+    }
+}
+
+.nsb-paginator .nsb-paginator-size-label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.nsb-paginator .nsb-paginator-size-options {
+    display: none;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 0 5px #0000003b;
+    border-radius: 6px;
+    margin-top: 5px;
+    bottom: 0px;
+    z-index: 1;
+    background: white;
+    position: absolute;
+    overflow: hidden;
+    div {
+        padding: 10px 5px;
+    }
+    div:hover {
+        background: #ccc;
+    }
+}
+
+.nsb-paginator .nsb-paginator-size {
+    cursor: pointer;
+    position: relative;
+    .show {
+        display: block;
+    }
+}
+
+.backpanel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+// .nsb-paginator .nsb-paginator-size:hover .nsb-paginator-size-options{
+//     display: block;
+// }
