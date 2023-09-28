@@ -186,7 +186,9 @@
   }
 }
 
-
-.nsb-paginator {
-  
+.nsb-sticky {
+  position: sticky;
+  top: 27px;
+  z-index: 1;
+  background-color: white;
 }

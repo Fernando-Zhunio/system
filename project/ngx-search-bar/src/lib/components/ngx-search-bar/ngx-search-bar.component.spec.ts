@@ -7,7 +7,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { DATA_NGX_SEARCH_BAR } from '../../utils/DATA_FOR_SEARCH_BAR';
+import { NGX_SEARCH_BAR_DATA } from '../../utils/DATA_FOR_SEARCH_BAR';
 import { NgxSearchBarComponent } from './ngx-search-bar.component';
 
 describe('NgxSearchBarComponent', () => {
@@ -30,7 +30,7 @@ describe('NgxSearchBarComponent', () => {
       ],
       providers: [
         {
-          provide: DATA_NGX_SEARCH_BAR,
+          provide: NGX_SEARCH_BAR_DATA,
           useValue: {
             BASE_URL: 'http://localhost:3000/',
           }

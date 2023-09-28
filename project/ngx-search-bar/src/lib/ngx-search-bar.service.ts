@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
-import { DATA_NGX_SEARCH_BAR, NgxSearchBarProvider } from './utils/DATA_FOR_SEARCH_BAR';
+import { NGX_SEARCH_BAR_DATA, NgxSearchBarProvider } from './utils/DATA_FOR_SEARCH_BAR';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +11,17 @@ export class NgxSearchBarService {
 
   constructor(private http: HttpClient,
     private location: Location,
-    @Inject(DATA_NGX_SEARCH_BAR) private data: NgxSearchBarProvider) {
+    @Inject(NGX_SEARCH_BAR_DATA) private data: NgxSearchBarProvider) {
       NgxSearchBarService.currentQueryParams = this.getQueryParams();
   }
   nameQueryParams: string = 'params-ngx-search-bar';
   public static currentQueryParams: { [key: string]: any } | null = null;
 
-  search(path: string, params: any): Observable<any> {
-    return this.http.get(`${this.data.BASE_URL}${path}`, { params });
+  search(path: string, params: any, baseUrl: string | null): Observable<any> {
+    if (!baseUrl) {
+      baseUrl = this.data.BASE_URL
+    }
+    return this.http.get(`${baseUrl}${path}`, { params });
   }
 
   setQueryParams(params: { [key: string]: any } = {}): void {

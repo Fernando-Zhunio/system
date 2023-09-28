@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core"
+import { Component, Inject, Input, OnInit } from "@angular/core"
 import { NgxSearchBarComponent } from "../ngx-search-bar/ngx-search-bar.component"
+import { NGX_SEARCH_BAR_DATA, NgxSearchBarProvider } from "../../utils/DATA_FOR_SEARCH_BAR";
 
 @Component({
   selector: "ngx-search-bar-paginator",
@@ -16,7 +17,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
   @Input() length = 0;
   @Input() backZIndex = '1000';
   @Input() align: 'start' | 'center' | 'end' = 'end';
-  @Input() getLength: ((...arg) => number) | string = ""
+  @Input() getLength: ((arg) => number) | string = "";
 
   arrows: {
     next: boolean
@@ -35,7 +36,11 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
     end: 0,
   }
 
-  constructor(private ngxSearchBar: NgxSearchBarComponent) {}
+  constructor(@Inject(NGX_SEARCH_BAR_DATA) private dataProvider: NgxSearchBarProvider, private ngxSearchBar: NgxSearchBarComponent) {
+    if (!this.getLength && this.dataProvider.OPTIONS_PAGINATE?.fnGetLength) {
+      this.getLength = this.dataProvider.OPTIONS_PAGINATE?.fnGetLength;
+    }
+  } 
 
   ngOnInit() {}
 

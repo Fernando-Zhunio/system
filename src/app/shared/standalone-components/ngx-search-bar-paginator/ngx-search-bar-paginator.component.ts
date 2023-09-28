@@ -22,7 +22,6 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
 
   @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent
 
-  constructor() { }
   @Input() placeholder: string = 'Buscador';
   @Input() title = 'Pagina Novisolutions';
   @Input() path: string;

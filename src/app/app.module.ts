@@ -76,7 +76,7 @@ import { InitializerAppNovisolutions } from './core/class/initializer-app-noviso
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
 import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
-import { DATA_NGX_SEARCH_BAR } from '../../project/ngx-search-bar/src/public-api';
+import { NGX_SEARCH_BAR_DATA } from '../../project/ngx-search-bar/src/public-api';
 import { ChatModule } from './shared/modules/chat/chat.module';
 
 registerLocaleData(localeEs, 'es');
@@ -201,11 +201,20 @@ registerLocaleData(localeEs, 'es');
     //     multi: true,
     //   },
     {
-      provide: DATA_NGX_SEARCH_BAR,
+      provide: NGX_SEARCH_BAR_DATA,
       useValue: {
         BASE_URL: environment.server,
         OPTIONS: {
-          classContainerFilter: 'main-style'
+          classContainerFilter: 'main-style',
+          fnScrollTop:  () => {
+            window.scrollTo(0, 0)
+          },
+          stickyTop: "55px",
+        },
+        OPTIONS_PAGINATE: {
+          fnGetLength: (arg: any) => {
+            return arg.data.total
+          }
         }
       }
     }

@@ -4,7 +4,13 @@ export interface NgxSearchBarProvider {
   BASE_URL: string
   OPTIONS?: {
     customBtnApplyFilter?: { text?: string; class?: string; color?: string; icon?: string }
-    classContainerFilter?: string
+    classContainerFilter?: string,
+    fnScrollTop?: () => void,
+    autoInit?: boolean,
+    stickyTop?: string,
+  }
+  OPTIONS_PAGINATE?: {
+    fnGetLength?: ((arg) => number) | string,
   }
 }
 
@@ -16,7 +22,7 @@ export const defaultConfigNgxSearchBar: NgxSearchBarProvider = {
   },
 }
 
-export const DATA_NGX_SEARCH_BAR = new InjectionToken<NgxSearchBarProvider>(
+export const NGX_SEARCH_BAR_DATA = new InjectionToken<NgxSearchBarProvider>(
   "Token de datos para la barra de búsqueda",
   {
     providedIn: "root",

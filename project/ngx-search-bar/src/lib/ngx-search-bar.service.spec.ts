@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { DATA_NGX_SEARCH_BAR } from '../public-api';
+import { NGX_SEARCH_BAR_DATA } from '../public-api';
 
 import { NgxSearchBarService } from './ngx-search-bar.service';
 
@@ -17,7 +17,7 @@ describe('NgxSearchBarService', () => {
       ],
       providers: [
         {
-          provide: DATA_NGX_SEARCH_BAR,
+          provide: NGX_SEARCH_BAR_DATA,
           useValue: {
             ROUTER: { navigate(_a: never[], _b: { queryParams: { [x: string]: any; }; replaceUrl: true; }): void { alert('Please inject provider de Router with token DATA_FOR_SEARCH_BAR for use input isChangeUrl to true, in component NgxSearchBarComponent'); throw 'Please inject provider de Router with token DATA_FOR_SEARCH_BAR' } },
             BASE_URL: 'http://localhost:3000/',
