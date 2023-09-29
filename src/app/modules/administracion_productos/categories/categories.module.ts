@@ -12,8 +12,9 @@ import { CategoriesIndexComponent } from './pages/categories-index/categories-in
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
-import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+// import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { MatCardModule } from '@angular/material/card';
+import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 
 
 @NgModule({
@@ -21,16 +22,19 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     CategoriesRoutingModule,
+    NgxSearchBarModule,
+    NgxPermissionsModule,
+
+    // Material Modules
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    NgxPermissionsModule,
     MatTableModule,
     MatDialogModule,
     MatChipsModule,
-    NgxSearchBarPaginatorComponent,
+    // NgxSearchBarPaginatorComponent,
     MatCardModule
   ]
 })

@@ -28,42 +28,7 @@ export class ProductsIndexComponent extends MatTableHelper<any> {
     'super-admin',
     'products-admin.products.destroy',
   ];
-  // @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent
   products: Product[] = [];
-  // filters: NgxSearchBarFilter = {
-  //   id: {
-  //     friendlyName: '#',
-  //     value: null
-  //   },
-  //   code: {
-  //     friendlyName: "Código",
-  //     value: null,
-  //   },
-  //   code_alt: {
-  //     friendlyName: "C Alt.",
-  //     value: null
-  //   },
-  //   description: {
-  //     friendlyName: "Descripción",
-  //     value: null
-  //   },
-  //   prefix: {
-  //     friendlyName: "Prefijo",
-  //     value: null
-  //   },
-  //   category: {
-  //     friendlyName: "Categoría",
-  //     value: null
-  //   },
-  //   sequence: {
-  //     friendlyName: "Secuencia",
-  //     value: null
-  //   },
-  //   brand: {
-  //     friendlyName: "Marca",
-  //     value: null
-  //   }
-  // }
 
   formFilter: FormGroup = new FormGroup({
     id: new FormControl(''),

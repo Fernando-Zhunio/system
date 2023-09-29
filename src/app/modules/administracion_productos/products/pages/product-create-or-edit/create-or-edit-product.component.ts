@@ -2,15 +2,15 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ProductsService } from '../../../../services/products.service';
-import { SwalService } from '../../../../services/swal.service';
+import { ProductsService } from '../../../../../services/products.service';
+import { SwalService } from '../../../../../services/swal.service';
 
 @Component({
   selector: 'app-product-create-or-edit',
-  templateUrl: './product-create-or-edit.component.html',
-  styleUrls: ['./product-create-or-edit.component.css']
+  templateUrl: './create-or-edit-product.component.html',
+  styleUrls: ['./create-or-edit-product.component.css']
 })
-export class ProductCreateOrEditComponent implements OnInit {
+export class CreateOrEditProductComponent implements OnInit {
 
   constructor(private location: Location, private s_products: ProductsService, private act_router: ActivatedRoute) { }
 

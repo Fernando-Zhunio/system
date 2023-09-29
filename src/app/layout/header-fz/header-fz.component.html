@@ -1,13 +1,13 @@
 <header class="header-fz px-2 px-md-3 py-2 shadow-sm">
-  <nav class="h-100 d-flex justify-content-between">
+  <nav class="h-full flex justify-between">
     <span class="content-brand">
-      <img [routerLink]="['/home/inicio']" style="width: 180px;"  class="d-none d-md-inline-block" src="assets/vectores/logo.svg" alt="logo-company">
-      <img [routerLink]="['/home/inicio']" style="width: 35px;" class=" d-inline-block d-md-none" src="assets/vectores/semi-logo.svg" alt="logo-company">
+      <img [routerLink]="['/home/inicio']" style="width: 180px;"  class="hidden md:inline-block" src="assets/vectores/logo.svg" alt="logo-company">
+      <img [routerLink]="['/home/inicio']" style="width: 35px;" class="inline-block md:hidden" src="assets/vectores/semi-logo.svg" alt="logo-company">
       <button (click)="openOrCloseMenu()" class="btn-open-menu">
         <i class="fas fa-stream"></i>
       </button>
     </span>
-    <div class="d-flex">
+    <div class="flex">
       <ng-content></ng-content>
     </div>
   </nav>

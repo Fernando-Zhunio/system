@@ -32,17 +32,23 @@ export class NgxSearchBarFormFilterComponent  {
   @Input() classPanel: string;
   classPosition: string = ''
   isOpenFilter = false;
-  numberFilter = 0;
   @Input() withParamsClean: boolean = false;
+  @Input() customBtnApplyFilter: {text?: string, class?: string, color?: string, icon?: string} | null = null;
+  numberFilter = 0;
   buttonsFilters: Map<string, any> = new Map();
 
-  constructor(protected location: Location, private ngxSearchBar: NgxSearchBarComponent, @Inject(NGX_SEARCH_BAR_DATA) public dataInject: NgxSearchBarProvider,) {
+  constructor(
+    protected location: Location, 
+    private ngxSearchBar: NgxSearchBarComponent, 
+    @Inject(NGX_SEARCH_BAR_DATA) public dataInject: NgxSearchBarProvider,) {
+      if (!this.customBtnApplyFilter) {
+        this.customBtnApplyFilter = this.dataInject?.OPTIONS?.customBtnApplyFilter || { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' }
+      }
   }
-  @Input() customBtnApplyFilter: any = this.dataInject?.OPTIONS?.customBtnApplyFilter || { text: 'Aplicar Filtros', class: '', color: 'accent', icon: 'done' };
 
   applyFilters() {
     this.filtersSend = this.filterVerified();
-    this.numberFilter = this.filtersSend ? Object.keys(this.filtersSend).length : 0;
+    // this.numberFilter = this.filtersSend ? Object.keys(this.filtersSend).length : 0;
     console.log({filtersSend: this.filtersSend})
     this.isOpenFilter = false;
     this.ngxSearchBar.search();
@@ -53,7 +59,6 @@ export class NgxSearchBarFormFilterComponent  {
   }
 
   removeQueryParam(key: string) {
-    // this.buttonsFilters.delete(key);
     this.filters.get(key)?.setValue(null);
     this.ngxSearchBar.search();
   }
@@ -61,8 +66,6 @@ export class NgxSearchBarFormFilterComponent  {
   calculePosition() {
     const containerFilter = ((this.dropDownFilterElement as ElementRef).nativeElement as HTMLElement)
     const btn = document.querySelector('.nsb-content-input-search') as HTMLElement;
-    // console.log(btn.offsetHeight)
-    // this.positionHeight = btn.offsetTop
     const dropdownRect = btn.getBoundingClientRect();
     const spaceAbove = dropdownRect.top;
     const spaceBelow = window.innerHeight - dropdownRect.bottom;
@@ -83,26 +86,18 @@ export class NgxSearchBarFormFilterComponent  {
   }
 
   filterVerified(): { [key: string]: any } | null {
-    // const filtersOverride: FormGroup = new FormGroup({});
     const filters = this.filters.value;
-    // this.filtersSend = null;
     const filtersOverride = {};
-    // this.buttonsFilters.clear();
+    this.numberFilter = 0;
     for (const key in filters) {
       if (!empty(filters[key])) {
+        this.numberFilter++;
         console.log({key})
         filtersOverride[key] = filters[key];
-        // this.buttonsFilters.set(key, filters[key]);
-        // filtersOverride.addControl(key, new FormControl(filters[key]) );
       }
     }
     this.filtersSend = this.withParamsClean ? filtersOverride : this.filters.value;
     return this.filtersSend
-    // : Object.keys(filters)
-    //   .reduce((acc: FormGroup, curr) => {
-    //     acc.addControl(curr, filters[curr]);
-    //     return acc;
-    //   }, new FormGroup({}));
   }
 
   setFormFiltersValue(filters: { [key: string]:  any}) {

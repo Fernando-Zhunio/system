@@ -10,7 +10,7 @@ export abstract class MatTableHelper<T = any> {
     protected dataSource: T[];
     protected isLoading: boolean = false;
     getData($event: any): void {
-        this.dataSource = $event;
+        this.dataSource = $event.data.data;
     }
 
     deleteData(id: number, url: string | null = null): void {

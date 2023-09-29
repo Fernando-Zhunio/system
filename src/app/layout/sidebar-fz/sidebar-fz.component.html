@@ -1,19 +1,21 @@
-<div [ngClass]="{'d-none': hiddenMenu}" class="h-100">
-  <div class="overlay d-md-none d-block"></div>
+<div [ngClass]="{'hidden': hiddenMenu}" class="h-full">
+  <div class="overlay md:hidden block"></div>
   <nav [ngClass]="{'icon-only-container': onlyIcons}" class="content-sidebar content-size">
     <div class="user-item">
       <span>
         <img [src]="urlImg">
         <span [hidden]="onlyIcons" class="line-1">
-          <span style="padding-right: 24px;" class="d-block m-0 text-truncate">{{name}}</span>
-          <small class="text-success">En linea</small>
+          <span style="padding-right: 24px;" class="block m-0 truncate">{{name}}</span>
+          <small class="text-green-500">En linea</small>
         </span>
-        <span [ngClass]="{'icon-only-arrow': onlyIcons}" (click)="minimizeSidebar()" class="arrow-open-or-close main-style d-none d-md-inline-block"> <i [ngClass]="!onlyIcons ? 'fa-angle-left': 'fa-angle-right'" class="fas"></i> </span>
+        <span [ngClass]="{'icon-only-arrow': onlyIcons}" (click)="minimizeSidebar()" class="arrow-open-or-close main-style hidden md:inline-block"> <i [ngClass]="!onlyIcons ? 'fa-angle-left': 'fa-angle-right'" class="fas"></i> </span>
       </span>
-      <div [hidden]="onlyIcons" class="position-relative search-page-container">
+      <div [hidden]="onlyIcons" class="relative search-page-container">
         <input #inputSearchPage (keydown)="searchPage($event)" type="text" class="search-page"
           placeholder="Buscar pagina">
-        <button (click)="searchPage($event)"  mat-icon-button class="btn-search-page"><mat-icon class="text-muted">search</mat-icon></button>
+        <button (click)="searchPage($event)"  class="absolute top-3  p-1 left-1">
+          <mat-icon class="text-gray-400">search</mat-icon>
+        </button>
       </div>
     </div>
     <ul class="scrollbar-sidebar-fz">
@@ -22,7 +24,7 @@
       }" count="5" appearance="line"></ngx-skeleton-loader>
       <ng-container *ngIf="favoriteItems.size > 0">
         <li [hidden]="onlyIcons">
-          <span class="title text-danger">Favoritos <i class="fa-regular fa-heart"></i></span>
+          <span class="title text-red-400">Favoritos <i class="fa-regular fa-heart"></i></span>
         </li>
         <li *ngFor="let favoriteItem of favoriteItems | keyvalue" routerLinkActive="active">
           <a [routerLink]="[favoriteItem.value.url]" [href]="favoriteItem.value.url">

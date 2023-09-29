@@ -1,26 +1,26 @@
 <app-header-fz (isOpenOrCloseMenu)="openOrCloseMenu()" class="app-header-fz main-style">
-  <ul class="d-flex m-0 align-items-center">
-    <li class="nav-item d-md-down-none d-flex align-items-center justify-content-center p-1 rounded-fz">
-      <i class="fa-regular fa-sun text-warning icon-size" [ngClass]="{ 'text-muted': isDark }"></i>
+  <ul class="flex m-0 items-center">
+    <li class="gap-1 flex items-center justify-center p-1 rounded-fz">
+      <i class="fa-regular fa-sun text-yellow-500 icon-size" [ngClass]="{ '!text-gray-400': isDark }"></i>
       &nbsp;
       <mat-slide-toggle [(ngModel)]="isDark" (change)="onSetTheme($event)"></mat-slide-toggle>
       &nbsp;
-      <i [ngClass]="{ 'text-muted': !isDark }" class="fa-regular fa-moon text-white icon-size"></i>
+      <i [ngClass]="{ '!text-white': isDark }" class="fa-regular fa-moon text-gray-400 icon-size"></i>
     </li>
     <li class="nav-item">
       <app-menu-notifications></app-menu-notifications>
-    </li >
+    </li>
     
     <li class="nav-item">
       <button mat-icon-button (click)="openOrCloseChats()">
         <i [matBadge]="countMessages"
-        class="d-inline-flex"
+        class="inline-flex"
         matBadgePosition="above after"
         matBadgeColor="accent"
         color="primary" class="fa-regular fa-comment icon-size"></i>
       </button>
     </li>
-    <li class="nav-item dropdown" dropdown placement="bottom right">
+    <li class="nav-item dropdown" dropdown >
       <a class="nav-link" [matMenuTriggerFor]="menu2">
         <img [src]="user?.person?.photo?.permalink || url_img" class="img-avatar custom-avatar" alt="user" />
       </a>
@@ -47,7 +47,7 @@
 
   <main [ngClass]="{ 'open-menu-chat': hideUsersChat, 'minimize-sidebar': sidebarMinimized, 'hidden-sidebar': hiddenSidebar }" class="main scroll body">
     
-    <div class="container-fluid scroll">
+    <div class="px-2 scroll">
       <router-outlet></router-outlet>
     </div>
   </main> 

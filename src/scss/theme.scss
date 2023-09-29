@@ -20,11 +20,16 @@ $custom-typography: mat.define-typography-config(
 $dark-primary: mat.define-palette(mat.$yellow-palette, A700, A400, 900);
 $dark-accent: mat.define-palette(mat.$light-green-palette, 900);
 $dark-warn: mat.define-palette(mat.$deep-orange-palette);
-$dark-bg: #323232;
-$dark-theme: mat.define-dark-theme((
-  color:
-  (primary:$dark-primary, accent: $dark-accent, warn: $dark-warn)
-  ));
+$dark-bg: #2b2b2b;
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $dark-primary,
+      accent: $dark-accent,
+      warn: $dark-warn,
+    ),
+  )
+);
 
 .dark-theme {
   @include mat.all-component-colors($dark-theme);
@@ -32,6 +37,18 @@ $dark-theme: mat.define-dark-theme((
   .app-header {
     background-color: $dark-bg;
   }
+  .nsb-sticky {
+    background-color: $dark-bg !important;
+  }
+}
+
+.dark-theme input,
+.dark-theme textarea,
+.dark-theme select {
+  color: black;
+}
+.dark-theme .nsb-bar .nsb-section-filter {
+  background-color: $dark-bg;
 }
 
 // Light theme
@@ -47,11 +64,11 @@ $light-theme: mat.define-light-theme(
       warn: $light-warn,
     ),
     typography: $custom-typography,
-    density: 0
+    density: 0,
   )
 );
 
 .light-theme {
 }
- 
+
 @include mat.all-component-themes($light-theme);

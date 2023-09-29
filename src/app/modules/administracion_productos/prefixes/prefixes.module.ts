@@ -13,8 +13,9 @@ import { SearchTemplateTableComponent } from '../../../Modulos/search-template/s
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
-import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+// import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { MatCardModule } from '@angular/material/card';
+import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 
 
 
@@ -23,17 +24,20 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     PrefixesRoutingModule,
+    NgxPermissionsModule,
+    SearchTemplateTableComponent,
     ReactiveFormsModule,
+    NgxSearchBarModule,
+
+    // Material Modules
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,
-    NgxPermissionsModule,
-    SearchTemplateTableComponent,
     MatDialogModule,
     MatTableModule,
     MatChipsModule,
-    NgxSearchBarPaginatorComponent,
+    // NgxSearchBarPaginatorComponent,
     MatCardModule
   ]
 })

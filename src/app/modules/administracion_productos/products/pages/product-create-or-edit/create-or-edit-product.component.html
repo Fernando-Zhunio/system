@@ -1,0 +1,73 @@
+<div class="mt-3 pb-3">
+    <div class="flex justify-between">
+        <div class="text-4xl font-bold">{{title}} <span style="    line-height: 1;" class="text-info">{{product_name}}</span></div> <button mat-mini-fab (click)="goBack()" class="mb-2"><mat-icon>keyboard_return</mat-icon></button>
+    </div>
+    <form  [formGroup]="formCreateOrEdit" (ngSubmit)="sendData()">
+        <mat-card>
+            <mat-card-content>
+                <div>
+                    <div class="grid md:grid-cols-3 gap-2">
+                        <mat-form-field appearance="outline" class="block">
+                            <mat-label>Nombre del producto</mat-label>
+                            <input matInput placeholder=" Escriba el nombre del producto" type="text" formControlName="name" required>
+                            <mat-error *ngIf="formCreateOrEdit.controls['name'].invalid">Nombre Requerido</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-sm-12 col-md-4">
+                            <mat-label>Código antiguo</mat-label>
+                            <input matInput placeholder="Escriba el código antiguo" type="text" formControlName="code_old">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-sm-12 col-md-4">
+                            <mat-label>Código alternativo</mat-label>
+                            <input matInput placeholder="Escriba el código alternativo" type="text" formControlName="code_alt">
+                            <!-- <mat-error *ngIf="formCreateOrEdit.controls['name'].invalid">Nombre Requerido</mat-error> -->
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-sm-12 col-md-4">
+                            <mat-label>Seleccione una Categoría</mat-label>
+                            <mat-select formControlName="category" required>
+                                <mat-option *ngFor="let item of categories" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formCreateOrEdit.controls['category'].invalid">Categoría Requerida</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-md-4 col-sm-12">
+                            <mat-label>Seleccione una prefijo</mat-label>
+                            <mat-select formControlName="prefix" required>
+                                <mat-option *ngFor="let item of prefixes" [value]="item.id">{{item.type}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formCreateOrEdit.controls['prefix'].invalid">Prefijo Requerido</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-md-4 col-sm-12">
+                            <mat-label>Seleccione una Marca</mat-label>
+                            <mat-select formControlName="brand" required>
+                                <mat-option *ngFor="let item of brands" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formCreateOrEdit.controls['brand'].invalid">Marca Requerida</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="outline" class="block">
+                        <mat-label>Descripción</mat-label>
+                        <textarea formControlName="description" type="text" rows="3" matInput placeholder="Escriba la descripcion"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="block">
+                        <mat-label>Secuencia
+                            <ng-container *ngIf="!id">
+                                predefinida
+                            </ng-container>
+                        </mat-label>
+                        <input matInput placeholder="Escriba la Secuencia predefinida" type="text" formControlName="sequence">
+                        <mat-hint>Secuencia predefinida: (Colocar solo en caso de que se requiera una secuencia especifica, esto modificara las secuencias siguientes)</mat-hint>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="block">
+                        <mat-label>Código predefinido</mat-label>
+                        <input matInput placeholder=" Escriba el Código predefinido" type="text" formControlName="special_code">
+                        <mat-hint>Código Predefinido: (Colocar en el caso que se requiera un código especial)</mat-hint>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" *ngIf="id" class="block mt-4">
+                        <mat-label>Código</mat-label>
+                        <input matInput placeholder="" formControlName="code">
+                    </mat-form-field>
+                    <button type="submit" class="mt-3" [disabled]="formCreateOrEdit.invalid || isSend" mat-raised-button color="primary">Enviar <mat-icon>send</mat-icon></button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+</div>
