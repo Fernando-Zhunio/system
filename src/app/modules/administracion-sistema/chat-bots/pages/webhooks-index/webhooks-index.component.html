@@ -1,0 +1,52 @@
+<div>
+  <ngx-search-bar 
+  title="Webhook" 
+  [path]="url" 
+  (data)="getData($event)"
+  >
+    <ng-container buttons>
+        <button mat-raised-button class="!bg-blue-500 !text-white" (click)="openDialog()">
+          <mat-icon>webhook</mat-icon>
+          &nbsp; Agregar Webhook
+        </button>
+    </ng-container>
+    <div class="p-3">
+      <mat-card *ngFor="let webhook of data | keyvalue">
+        <mat-card-content>
+          <div>
+            <div>
+              _id:
+              <span>{{ webhook.value._id }}</span>
+            </div>
+            <div>
+              Endpoint:
+              <span>{{ webhook.value.endpoint }}</span>
+            </div>
+            <div>
+              Usuario id:
+              <span>{{ webhook.value.user_id }}</span>
+            </div>
+            <div>
+              Creado:
+              <span>{{ webhook.value.created_at | date }}</span>
+            </div>
+            <div>
+              Modificado:
+              <span>{{ webhook.value.updated_at | date }}</span>
+            </div>
+          </div>
+          <div>
+            <button
+              mat-mini-fab
+              (click)="openDialog(webhook.key)"
+              routerLinkActive="router-link-active"
+              color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-mini-fab color="warn" (click)="deleteData(webhook.key)"><mat-icon>delete</mat-icon></button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ngx-search-bar>
+</div>

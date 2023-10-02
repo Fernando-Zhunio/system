@@ -7,6 +7,8 @@ import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { NgxSearchBarPaginatorComponent } from '../../../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { Company } from '../../interfaces/company';
 import { Department } from '../../interfaces/department';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateOrEditDepartmentComponent } from '../create-or-edit-department/create-or-edit-department.component';
 
 @Component({
   selector: 'app-department-index',
@@ -20,7 +22,12 @@ export class IndexDepartmentsComponent extends MatTableHelper<Department> {
   // protected mhs: MethodsHttpService;
   url: string;
 
-  constructor(protected mhs: MethodsHttpService, protected snackBar: MatSnackBar, private act_router: ActivatedRoute) {
+  constructor(
+    protected mhs: MethodsHttpService, 
+    protected snackBar: MatSnackBar, 
+    private act_router: ActivatedRoute,
+    private dialog: MatDialog,
+    ) {
     super();
     this.url = `admin/companies/${this.getParam()}/departments`;
   }
@@ -43,4 +50,12 @@ export class IndexDepartmentsComponent extends MatTableHelper<Department> {
     this.ngxSearchBarPaginator.setDataPaginator(dataPaginator)
   }
 
+  openDialog(id: number | null = null): void {
+    const data = id ? this.dataSource.find((item: any) => item.id === id) : null
+    
+    this.dialog.open(CreateOrEditDepartmentComponent, {
+      data
+    })
+    console.log(data);
+  }
 }

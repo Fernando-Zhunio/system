@@ -1,5 +1,5 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
@@ -7,8 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Icompany } from '../../../../../interfaces/idashboard';
 import { IDepartment } from '../../../../../interfaces/idepartment';
 import { SwalService } from '../../../../../services/swal.service';
-import { CreateOrEdit } from '../../../../../class/create-or-edit';
+// import { CreateOrEdit } from '../../../../../class/create-or-edit';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 
 export interface ITreeDepartment {
@@ -29,23 +30,25 @@ export interface ITreeDepartment {
   templateUrl: './create-or-edit-department.component.html',
   styleUrls: ['./create-or-edit-department.component.css']
 })
-export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> implements OnInit {
-  urlSave: any;
+export class CreateOrEditDepartmentComponent implements OnInit {
+  // urlSave: any;
+  isLoading = false;
 
   constructor(
     protected route: ActivatedRoute, 
     protected methodsHttpService: MethodsHttpService, 
-    protected router: Router
+    protected router: Router,
+    private dialogRef: MatDialogRef<CreateOrEditDepartmentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: IDepartment
     ) {
-    super();
-    this.urlSave = `admin/companies/${this.getId('company_id')}/departments`;
+    // this.urlSave = `admin/companies/${this.getId('company_id')}/departments`;
   }
 
-  public override key_param: string = 'department_id';
+  // public override key_param: string = 'department_id';
 
   title: string = 'Departamento';
   departments: IDepartment[] = [];
-  override form: FormGroup = new FormGroup({
+  form: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
   });
 
@@ -67,7 +70,11 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
   company!: Icompany;
 
   ngOnInit(): void {
-    this.init();
+    this.title+= this.data ? `Editando` : 'Creando';
+    // this.init();
+    if (this.data) {
+      this.setData(this.data);
+    }
   }
 
   recursiveFind(node: any, id: number): ITreeDepartment {
@@ -82,8 +89,8 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
     return node;
   }
 
-  override setData(data: any): void {
-    if (this.status === 'create') {
+  setData(data: any): void {
+    if (!this.data) {
       this.dataSource.data = data.tree;
     } else {
       this.company = data.company;
@@ -104,12 +111,12 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
     this.department_selected = $event.value;
   }
 
-  override getDataForSendServer(): any {
+  getDataForSendServer(): any {
     if (this.form.valid && Number.isInteger(this.department_selected)) {
       return {
         ...this.form.value,
         parent_department_id: this.department_selected,
-        company_id: this.getId('company_id')
+        company_id: this.data.id
       };
     } else {
       SwalService.swalToast('Faltan datos por llenar', 'error');
@@ -117,9 +124,31 @@ export class CreateOrEditDepartmentComponent extends CreateOrEdit<IDepartment> i
     }
   }
 
-  override go(): void {
-    this.router.navigate(['/administracion-sistema/companies/', this.getId('company_id'), 'departments']);
+  saveInServer() {
+    const sendData = this.getDataForSendServer();
+    if (!sendData) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.isLoading = true;
+    const path = this.data ? `admin/companies/${this.company.id}/departments/${this.data.id}` : `admin/companies/${this.company.id}/departments`;
+    const observable = this.data ? this.methodsHttpService.methodPut(path, sendData) : this.methodsHttpService.methodPost(path, sendData);
+    observable.subscribe(
+      {
+        next: (data) => {
+          this.isLoading = false;
+          this.dialogRef.close(data);
+        }, error: (err) => {
+          this.isLoading = false;
+          SwalService.swalToast(err.error.message, 'error');
+        }
+      }
+    )
   }
+
+  // go(): void {
+  //   this.router.navigate(['/administracion-sistema/companies/', this.getId('company_id'), 'departments']);
+  // }
 
 
 

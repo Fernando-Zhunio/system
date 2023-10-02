@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <div>
         <h1 class="mt-3 font-4xl">{{title}}</h1>
     </div>
@@ -24,4 +24,32 @@
             </form>
         </mat-card-content>
     </mat-card>
-</div>
+</div> -->
+
+<h1 matDialogTitle>{{title}}</h1>
+
+<mat-dialog-content>
+    <form [formGroup]="form" class="">
+        <div class="relative">
+            <div class="img-bot relative m-auto rounded-xl overflow-hidden">
+                <label for="photo" class="absolute p-3 cursor-pointer ">
+                    <i class="fa-solid fa-pen"></i>
+                </label>
+                <button mat-icon-button type="button" class="btn-remove" (click)="removeImg()" *ngIf="img.file"><mat-icon color="warn">delete</mat-icon></button>
+                <input hidden (change)="getBase64($event)" type="file" name="photo" id="photo">
+                <img class="w-full" [src]="img.base64" alt="imagen chatbot">
+            </div>
+        </div>
+        <div class="mt-3">
+        <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Escribe el nombre al chatbot" formControlName="name">
+        </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button color="warn" matDialogClose>Cerrar</button>
+    <button [disabled]="isLoading" color="primary" (click)="saveInServer()" mat-raised-button>Guardar <mat-icon>save</mat-icon></button>
+</mat-dialog-actions>

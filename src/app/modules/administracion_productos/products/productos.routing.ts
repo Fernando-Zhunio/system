@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { CreateOrEditProductComponent } from './pages/product-create-or-edit/create-or-edit-product.component';
+import { CreateOrEditProductComponent } from './pages/create-or-edit-product/create-or-edit-product.component';
 import { ProductsIndexComponent } from './pages/products-index/products-index.component';
 
 const routes: Routes = [

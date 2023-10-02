@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { ChatBotsCreateOrEditComponent } from './pages/chat-bots-create-or-edit/chat-bots-create-or-edit.component';
+import { ChatBotsCreateOrEditComponent } from './components/dialog-chat-bots-create-or-edit/dialog-chat-bots-create-or-edit.component';
 import { ChatBotsIndexComponent } from './pages/chat-bots-index/chat-bots-index.component';
-import { CreateOrEditChatbotWebhookComponent } from './webhooks/create-or-edit-chatbot-webhook/create-or-edit-chatbot-webhook.component';
-import { WebhooksComponent } from './webhooks/webhooks.component';
+import { DialogCreateOrEditChatbotWebhookComponent } from './components/dialog-create-or-edit-chatbot-webhook/dialog-create-or-edit-chatbot-webhook.component';
+import { WebhooksIndexComponent } from './pages/webhooks-index/webhooks-index.component';
 
 const permisos = {
   chatbot: {
@@ -60,15 +60,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: WebhooksComponent,
+        component: WebhooksIndexComponent,
       },
       {
         path: 'create',
-        component: CreateOrEditChatbotWebhookComponent,
+        component: DialogCreateOrEditChatbotWebhookComponent,
       },
       {
         path: ':webhook_id/edit',
-        component: CreateOrEditChatbotWebhookComponent,
+        component: DialogCreateOrEditChatbotWebhookComponent,
         data: {
           isEdit: true,
         },

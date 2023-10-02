@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductsIndexComponent } from './pages/products-index/products-index.component';
 import { ProductosRoutingModule } from './productos.routing';
 
-import { CreateOrEditProductComponent } from './pages/product-create-or-edit/create-or-edit-product.component'; // <-- import the module
+import { CreateOrEditProductComponent } from './pages/create-or-edit-product/create-or-edit-product.component'; // <-- import the module
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {MatInputModule} from '@angular/material/input';

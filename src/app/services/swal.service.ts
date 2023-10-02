@@ -87,8 +87,8 @@ También puede pasar una función personalizada que devuelva un valor booleano, 
   ): Promise<{ isConfirmed: boolean, dismiss: boolean }> {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: 'btn btn-success mr-1',
-        cancelButton: 'btn btn-danger',
+        confirmButton: 'px-3 py-2 bg-blue-500 !rounded-md text-white mr-2',
+        cancelButton: 'px-3 py-2 bg-red-500 text-white',
       },
       buttonsStyling: false,
     });

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IndexCompaniesComponent } from './pages/index-companies/index-companies.component';
 import { CompaniesRoutingModule } from './companies.routing';
-import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -19,12 +18,14 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatRadioModule } from '@angular/material/radio';
 import { IndexPositionsComponent } from './pages/index-positions/index-positions.component';
 import { CreateOrEditPositionComponent } from './pages/create-or-edit-position/create-or-edit-position.component';
+import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 
 @NgModule({
   imports: [
     CommonModule,
     CompaniesRoutingModule,
-    NgxSearchBarPaginatorComponent,
+    NgxSearchBarModule,
+    ReactiveFormsModule,
     MatChipsModule,
     MatTableModule,
     MatCardModule,
@@ -32,7 +33,6 @@ import { CreateOrEditPositionComponent } from './pages/create-or-edit-position/c
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    ReactiveFormsModule,
     MatSelectModule,
     MatTreeModule,
     MatRadioModule

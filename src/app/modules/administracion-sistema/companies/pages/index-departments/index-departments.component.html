@@ -1,20 +1,17 @@
 
 
-<ngx-search-bar-paginator
+<ngx-search-bar
 title="Departamentos de {{company?.name}}"
 (data)="getData($event)" 
  [path]="url"
  placeholder="Buscar departamentos"
- [isCustomPaginator]="true"
 >
 <ng-container buttons>
-    <mat-chip-set class="ml-1">
-        <mat-chip color="create" [routerLink]="['./create']">
+        <button mat-raised-button class="!bg-blue-500 !text-white" [routerLink]="['./create']">
             <i class="fa-solid fa-plus"></i> &nbsp; Departamento
-        </mat-chip>
-    </mat-chip-set>
+        </button>
 </ng-container>
-<ng-container>
+<div class="p-2">
     <mat-card>
         <mat-card-content>
             <table mat-table #table [dataSource]="dataSource">
@@ -37,7 +34,7 @@ title="Departamentos de {{company?.name}}"
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
                     <td mat-cell *matCellDef="let row">
-                        <div class="d-flex">
+                        <div class="flex gap-2">
                             <button [routerLink]="['./', row.id, 'edit']" class="btn-icon c-edit">
                                 <i class="fa-solid fa-pen"></i>
                             </button>
@@ -55,9 +52,9 @@ title="Departamentos de {{company?.name}}"
             </table>
         </mat-card-content>
     </mat-card>
-</ng-container>
+</div>
 
-</ngx-search-bar-paginator>
+</ngx-search-bar>
 
 <!-- <app-search-template title="Departamentos de {{company?.name}}" [key_paginator]="'departments'" (data)="getData($event)" [filter_data]="{}" [url$]="url"
     [placeholder]="'Buscar departamentos'">

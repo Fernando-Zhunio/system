@@ -1,11 +1,12 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-// import { Crud } from '../../../../../class/crud';
-// import { IChatbot } from '../../../../../interfaces/ichatbot';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
+import { MatDialog } from '@angular/material/dialog';
+import { ChatBotsCreateOrEditComponent } from '../../components/dialog-chat-bots-create-or-edit/dialog-chat-bots-create-or-edit.component';
+import { NgxSearchBarComponent } from '../../../../../../../project/ngx-search-bar/src/public-api';
 
 
 @Component({
@@ -16,9 +17,13 @@ import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 export class ChatBotsIndexComponent extends MatTableHelper<any> {
   protected columnsToDisplay: string[] = ['img', 'api_token', 'id', 'name', 'status', 'type', 'actions'];
   protected table: MatTable<any>;
-  // protected mhs: MethodsHttpService;
+  @ViewChild(NgxSearchBarComponent) searchBar: NgxSearchBarComponent 
 
-    constructor(protected mhs: MethodsHttpService, protected snackBar: MatSnackBar,  private clipboard: Clipboard) {
+    constructor(protected mhs: MethodsHttpService, 
+      protected snackBar: MatSnackBar,  
+      private clipboard: Clipboard,
+      private dialog: MatDialog,
+      ) {
       super();
    }
 
@@ -34,6 +39,19 @@ export class ChatBotsIndexComponent extends MatTableHelper<any> {
       duration: 2000,
     });
     return code;
+  }
+
+  openDialog(id?: number): void {
+    const item = id ? this.dataSource.find(x => x._id === id) : null;
+    this.dialog.open(ChatBotsCreateOrEditComponent, {
+      width: '400px',
+      data: item,
+    }).beforeClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+      this.searchBar.search();
+    });
   }
 
 }

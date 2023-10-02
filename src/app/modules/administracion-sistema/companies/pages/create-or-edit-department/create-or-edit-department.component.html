@@ -1,5 +1,5 @@
 
-<div class="my-3">
+<!-- <div class="my-3">
     <h1 class=" m-0">{{title}} </h1>
     <h4 class="text-muted">Compañía: {{company?.name}}</h4>
 </div>
@@ -19,9 +19,6 @@
             </mat-tree-node>
             <mat-tree-node isExpanded="true" class="align-items-baseline" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
               <button mat-icon-button matTreeNodeToggle>
-                <!-- <mat-icon class="mat-icon-rtl-mirror">
-                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                </mat-icon> -->
                 <i class="fa-solid fa-chevron-{{treeControl.isExpanded(node) ? 'down' : 'right'}}"></i>
               </button>
               <mat-radio-button [value]="node.id" [checked]="node.selected" (change)="changeValueSelectDepartment($event)" class="center" >{{node.name}}</mat-radio-button>
@@ -30,4 +27,36 @@
           <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
     </form>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
+
+
+<h1 matDialogTitle>{{title}} ({{company?.name}})</h1>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="w-full" appearance="outline">
+        <input matInput placeholder="Nombre de departamento" formControlName="name">
+    </mat-form-field>
+    <h3>Jerarquía</h3>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+          <button mat-icon-button disabled></button>
+           <mat-radio-button [value]="node.id" (change)="changeValueSelectDepartment($event)" class="checklist-leaf-node"
+
+                        >{{node.name}}</mat-radio-button>
+        </mat-tree-node>
+        <mat-tree-node isExpanded="true" class="items-baseline" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle>
+            <i class="fa-solid fa-chevron-{{treeControl.isExpanded(node) ? 'down' : 'right'}}"></i>
+          </button>
+          <mat-radio-button [value]="node.id" [checked]="node.selected" (change)="changeValueSelectDepartment($event)" class="center" >{{node.name}}</mat-radio-button>
+        </mat-tree-node>
+      </mat-tree>
+      <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+</form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button matDialogClose>Cerrar</button>
+    <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+</mat-dialog-actions>
