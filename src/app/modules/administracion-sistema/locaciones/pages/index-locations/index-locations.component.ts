@@ -1,7 +1,5 @@
-// import { NgxSearchBarFilter } from 'ngx-search-bar-fz';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-// import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { Location } from '../../../../../class/location';
 import { HeaderSearchComponent } from '../../../../../components/header-search/header-search.component';
@@ -15,10 +13,10 @@ import { Company } from '../../../companies/interfaces/company';
 
 @Component({
   selector: 'app-index-locations-page',
-  templateUrl: './index-locations.page.html',
-  styleUrls: ['./index-locations.page.css']
+  templateUrl: './index-locations.component.html',
+  styleUrls: ['./index-locations.component.css']
 })
-export class IndexLocationsPage extends MatTableHelper<Location> implements OnInit {
+export class IndexLocationsComponent extends MatTableHelper<Location> implements OnInit {
   protected url: string ='admin/locations';
   @ViewChild(MatTable) table: MatTable<any>;
 
@@ -50,30 +48,6 @@ export class IndexLocationsPage extends MatTableHelper<Location> implements OnIn
     type: new FormControl(null),
   });
 
-  // filters: NgxSearchBarFilter = {
-  //   city_id: {
-  //     value: 0,
-  //     friendlyName: 'Ciudad',
-  //   },
-  //   company_id: {
-  //     value: 0,
-  //     friendlyName: 'Empresa',
-  //     castValue: () => { 
-  //       console.log('aqui')
-  //      return this.companies.find((company) => company.id === this.filters['company_id'].value)?.name || 'nos'},
-  //   },
-  //   status: {
-  //     value: null,
-  //     friendlyName: 'Estado',
-  //     castValue: 'fernando'
-      
-  //   },
-  //   type: {
-  //     value: null,
-  //     friendlyName: 'Tipo',
-  //   }
-  // }
-
   ngOnInit(): void {
     this.getDataFilters();
   }
@@ -98,9 +72,6 @@ export class IndexLocationsPage extends MatTableHelper<Location> implements OnIn
     if (!location) return;
     this.dialog.open(DetailLocationDialogComponent, {
       data: location,
-      panelClass: 'col-md-7',
-      
-    
     })
   }
 

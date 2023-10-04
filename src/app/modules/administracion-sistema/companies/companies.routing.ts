@@ -6,7 +6,7 @@ import { COMPANIES_PERMISSIONS } from './permissions/companies.permissions'
 import { CreateOrEditCompanyComponent } from './pages/create-or-edit-company/create-or-edit-company.component';
 import { IndexDepartmentsComponent } from './pages/index-departments/index-departments.component';
 import { CreateOrEditDepartmentComponent } from './pages/create-or-edit-department/create-or-edit-department.component';
-import { CreateOrEditPositionComponent } from './pages/create-or-edit-position/create-or-edit-position.component';
+import { DialogCreateOrEditPositionComponent } from './components/dialog-create-or-edit-position/dialog-create-or-edit-position.component';
 import { IndexPositionsComponent } from './pages/index-positions/index-positions.component';
 const routes: Routes = [
     {
@@ -68,7 +68,7 @@ const routes: Routes = [
                     },
                     {
                         path: 'create',
-                        component: CreateOrEditPositionComponent,
+                        component: DialogCreateOrEditPositionComponent,
                         data: {
                             isEdit: false,
                             permissions: {},
@@ -76,7 +76,7 @@ const routes: Routes = [
                     },
                     {
                         path: ':position_id/edit',
-                        component: CreateOrEditPositionComponent,
+                        component: DialogCreateOrEditPositionComponent,
                         data: {
                             isEdit: true,
                             permissions: {},

@@ -17,7 +17,7 @@ import { CreateOrEditDepartmentComponent } from './pages/create-or-edit-departme
 import { MatTreeModule } from '@angular/material/tree';
 import { MatRadioModule } from '@angular/material/radio';
 import { IndexPositionsComponent } from './pages/index-positions/index-positions.component';
-import { CreateOrEditPositionComponent } from './pages/create-or-edit-position/create-or-edit-position.component';
+import { DialogCreateOrEditPositionComponent } from './components/dialog-create-or-edit-position/dialog-create-or-edit-position.component';
 import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 
 @NgModule({
@@ -43,7 +43,7 @@ import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/pu
     IndexDepartmentsComponent,
     CreateOrEditDepartmentComponent,
     IndexPositionsComponent,
-    CreateOrEditPositionComponent
+    DialogCreateOrEditPositionComponent,
   ]
 })
 export class CompaniesModule { }

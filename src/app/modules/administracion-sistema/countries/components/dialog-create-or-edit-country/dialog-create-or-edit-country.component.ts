@@ -8,13 +8,13 @@ import { CreateOrEditDialog } from '../../../../../shared/class/create-or-edit-d
 import { CreateOrEditDialogData } from '../../../../../shared/interfaces/create-or-edit-dialog-data';
 
 @Component({
-  selector: 'app-create-or-edit-city',
-  templateUrl: './create-or-edit-city.component.html',
-  styleUrls: ['./create-or-edit-city.component.css']
+  selector: 'app-create-or-edit-country',
+  templateUrl: './dialog-create-or-edit-country.component.html',
+  styleUrls: ['./dialog-create-or-edit-country.component.css']
 })
-export class CreateOrEditCityComponent extends CreateOrEditDialog implements OnInit {
+export class DialogCreateOrEditCountryComponent extends CreateOrEditDialog implements OnInit {
   protected title: string = 'País';
-  protected path: string ;
+  protected path: string = 'admin/countries';
   
 
   form: FormGroup = new FormGroup({
@@ -26,10 +26,9 @@ export class CreateOrEditCityComponent extends CreateOrEditDialog implements OnI
   country: Country = new Country();
   constructor(
     protected methodHttp: MethodsHttpService,
-    protected dialogRef: MatDialogRef<CreateOrEditCityComponent>,
+    protected dialogRef: MatDialogRef<DialogCreateOrEditCountryComponent>,
     @Inject(MAT_DIALOG_DATA) protected createOrEditData: CreateOrEditDialogData) {
     super();
-    this.path = 'admin/countries/' + this.createOrEditData?.multiId?.['countryId'] + '/cities';
   }
 
   ngOnInit(): void {
@@ -37,11 +36,7 @@ export class CreateOrEditCityComponent extends CreateOrEditDialog implements OnI
   }
 
   override loadData(_data: any): void {
+    
     this.form.patchValue(this.createOrEditData.info);
   }
-
-  
-
-
-
 }

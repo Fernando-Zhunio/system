@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IndexLocationsPage } from './pages/index-locations/index-locations.page';
+import { IndexLocationsComponent } from './pages/index-locations/index-locations.component';
 import { LocationRouting } from './location.routing.routing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,12 +18,17 @@ import { MatMenuModule } from '@angular/material/menu';
 // import { SearchTemplateTableComponent } from '../../../Modulos/search-template/search-template-table/search-template-table.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DetailLocationDialogComponent } from './components/detail-location-dialog/detail-location-dialog.component';
-import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+// import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 @NgModule({
   imports: [
     CommonModule,
     LocationRouting,
     ReactiveFormsModule,
+    NgxSearchBarModule,
+    FormsModule,
+    NgxPermissionsModule,
+    // Material modules
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
@@ -32,16 +37,12 @@ import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-compo
     MatIconModule,
     MatSelectModule,
     MatTableModule,
-    // SearchTemplateTableComponent,
-    NgxPermissionsModule,
     MatChipsModule,
     MatMenuModule,
-    FormsModule,
     MatDialogModule,
-    NgxSearchBarPaginatorComponent,
   ],
   declarations: [
-    IndexLocationsPage,
+    IndexLocationsComponent,
     CreateOrEditLocationComponent,
     DetailLocationDialogComponent,
   ]

@@ -1,11 +1,11 @@
 <div>
-  <ngx-search-bar-paginator
+  <ngx-search-bar
     title="Países"
     placeholder="Buscar país"
     [path]="url"
     (data)="getData($event)">
-    <ng-container>
-      <mat-card class="overflow-auto">
+    <div class="p-2">
+      <mat-card>
         <mat-card-content>
           <mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="id">
@@ -55,15 +55,15 @@
           </mat-table>
         </mat-card-content>
       </mat-card>
-    </ng-container>
+    </div>
 
     <ng-container *ngxPermissionsOnly="permissions.create" buttons>
-      <mat-chip color="create" (click)="openDialog()" class="mat-btn-add ml-1">
+      <button mat-raised-button (click)="openDialog()" class="!bg-orange-500 !text-white">
         <i class="fa-solid fa-plus"></i>
         &nbsp; País
-      </mat-chip>
+      </button>
     </ng-container>
-  </ngx-search-bar-paginator>
+  </ngx-search-bar>
 
   <!-- <app-search-template
     title="Países"

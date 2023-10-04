@@ -1,4 +1,3 @@
-
 <!-- <div class="my-3">
     <h1 class=" m-0">{{title}} </h1>
     <h4 class="text-muted">Compañía: {{company?.name}}</h4>
@@ -29,34 +28,71 @@
   </mat-card-content>
 </mat-card> -->
 
-
-<h1 matDialogTitle>{{title}} ({{company?.name}})</h1>
+<h1 matDialogTitle>{{ title }} ({{ company?.name }})</h1>
 
 <mat-dialog-content>
-  <form [formGroup]="form">
+  <form class="py-2" [formGroup]="form">
     <mat-form-field class="w-full" appearance="outline">
-        <input matInput placeholder="Nombre de departamento" formControlName="name">
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre de departamento" formControlName="name" />
     </mat-form-field>
     <h3>Jerarquía</h3>
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-          <button mat-icon-button disabled></button>
-           <mat-radio-button [value]="node.id" (change)="changeValueSelectDepartment($event)" class="checklist-leaf-node"
-
-                        >{{node.name}}</mat-radio-button>
-        </mat-tree-node>
-        <mat-tree-node isExpanded="true" class="items-baseline" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-          <button mat-icon-button matTreeNodeToggle>
-            <i class="fa-solid fa-chevron-{{treeControl.isExpanded(node) ? 'down' : 'right'}}"></i>
-          </button>
-          <mat-radio-button [value]="node.id" [checked]="node.selected" (change)="changeValueSelectDepartment($event)" class="center" >{{node.name}}</mat-radio-button>
-        </mat-tree-node>
-      </mat-tree>
-      <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
-</form>
+    <div>
+      <!-- <div *ngFor="let node of tree">
+        <ul> -->
+      <!-- <li><span (click)="departmentSelected == node" [ngClass]="{'is-active': departmentSelected?.id == node.id}"  class="my-1 rounded-md bg-blue-200 px-2 py-1  hover:bg-blue-300 cursor-pointer inline-block">{{node.name}}</span> -->
+      <div *ngTemplateOutlet="recursiveList; context: { $implicit: tree }"></div>
+      <!-- </li> -->
+      <!-- </ul> -->
+      <!-- </div> -->
+    </div>
+    <ng-template #recursiveList let-department>
+      <ul class="ml-5">
+        <li *ngFor="let node of department">
+          <span
+            (click)="(departmentSelected = node)"
+            [ngClass]="{ 'is-active': departmentSelected?.id == node.id }"
+            class="my-1 rounded-md bg-blue-200 px-2 py-1 hover:bg-blue-300 cursor-pointer inline-block">
+            {{ node.name }}
+          </span>
+          <ng-container *ngIf="node.childs && node.childs.length > 0">
+            <ng-container  *ngTemplateOutlet="recursiveList; context: { $implicit: node.childs }"></ng-container>
+          </ng-container>
+        </li>
+      </ul>
+    </ng-template>
+    <!-- <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-radio-button [value]="node.id" (change)="changeValueSelectDepartment($event)" class="checklist-leaf-node">
+          {{ node.name }}
+        </mat-radio-button>
+      </mat-tree-node>
+      <mat-tree-node
+        isExpanded="true"
+        class="items-baseline"
+        *matTreeNodeDef="let node; when: hasChild"
+        matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle>
+          <i class="fa-solid fa-chevron-{{ treeControl.isExpanded(node) ? 'down' : 'right' }}"></i>
+        </button>
+        <mat-radio-button
+          [value]="node.id"
+          [checked]="node.selected"
+          (change)="changeValueSelectDepartment($event)"
+          class="center">
+          {{ node.name }}
+        </mat-radio-button>
+      </mat-tree-node>
+    </mat-tree> -->
+    <!-- <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button> -->
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button mat-button matDialogClose>Cerrar</button>
-    <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+  <button color="warn" mat-button matDialogClose>Cerrar</button>
+  <button mat-raised-button [disabled]="isLoading" color="primary" (click)="saveInServer()">
+    Guardar
+    <i class="fa-regular fa-paper-plane"></i>
+  </button>
 </mat-dialog-actions>

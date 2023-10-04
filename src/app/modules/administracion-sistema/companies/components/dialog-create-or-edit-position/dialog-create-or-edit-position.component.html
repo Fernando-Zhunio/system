@@ -1,0 +1,71 @@
+<!-- <div>
+    <h1 class="my-2 ">{{title}}</h1>
+    <h4>Departamento: {{department?.name}}</h4>
+    <div>
+        <mat-card class="rounded-fz border-0">
+            <mat-card-content>
+                <form [formGroup]="form" class="row m-0">
+                    <mat-form-field class="col-12">
+                        <input matInput formControlName="name" placeholder="Nombre de Cargo">
+                    </mat-form-field>
+    
+                    <mat-form-field class="col-md-12 col-12">
+                        <mat-select placeholder="Seleccione un tipo de jerarquia" formControlName="hierarchy_type">
+                            <mat-option *ngFor="let item of hierarchy_types | keyvalue" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field class="col-md-12 col-12">
+                        <mat-select placeholder="Seleccione un tipo de empleado" formControlName="employe_type">
+                            <mat-option *ngFor="let item of employe_types | keyvalue" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button (click)="saveInServer()" [disabled]="isLoading" color="primary">Guardar <i class="fa-regular fa-paper-plane"></i></button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div> -->
+
+<h1 matDialogTitle>{{title}}</h1>
+
+<mat-dialog-content>
+    <h4>Departamento: {{department?.name}}</h4>
+    <form [formGroup]="form" class="">
+        <div>
+            <mat-form-field class="" appearance="outline">
+                <input matInput formControlName="name" placeholder="Nombre de Cargo">
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field class="" appearance="outline">
+                <mat-select placeholder="Seleccione un tipo de jerarquia" formControlName="hierarchy_type">
+                    <mat-option *ngFor="let item of hierarchy_types | keyvalue" [value]="item.key">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field class="" appearance="outline">
+                <mat-select placeholder="Seleccione un tipo de empleado" formControlName="employe_type">
+                    <mat-option *ngFor="let item of employe_types | keyvalue" [value]="item.key">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <!-- <button mat-raised-button (click)="saveInServer()" [disabled]="isLoading" color="primary">Guardar <i class="fa-regular fa-paper-plane"></i></button> -->
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button color="warn" mat-button matDialogClose>Cerrar</button>
+    <button mat-raised-button (click)="saveInServer()" [disabled]="isLoading" color="primary">Guardar</button>
+</mat-dialog-actions>

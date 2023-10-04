@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NgxPermissionsGuard } from "ngx-permissions";
 import { IndexCitiesComponent } from "./pages/index-cities/index-cities.component";
-import { CreateOrEditCountryComponent } from "./pages/create-or-edit-country/create-or-edit-country.component";
+import { DialogCreateOrEditCountryComponent } from "./components/dialog-create-or-edit-country/dialog-create-or-edit-country.component";
 import { IndexCountriesComponent } from "./pages/index-countries/index-countries.component";
 import { PERMISSIONS_COUNTRIES, PERMISSIONS_CITIES } from "./permissions/countries-and-cities.permissions";
 
@@ -45,7 +45,7 @@ const routes: Routes =
         },
         {
           path: 'create',
-          component: CreateOrEditCountryComponent,
+          component: DialogCreateOrEditCountryComponent,
           data: {
             isEdit: false,
             permissions: {
@@ -56,7 +56,7 @@ const routes: Routes =
         },
         {
           path: 'edit/:id',
-          component: CreateOrEditCountryComponent,
+          component: DialogCreateOrEditCountryComponent,
           data: {
             isEdit: true,
             permissions: {

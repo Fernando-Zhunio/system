@@ -11,7 +11,7 @@ import { MatTableHelper } from "../../../../../shared/class/mat-table-helper";
 import { StatusCreateOrEdit } from "../../../../../shared/enums/status-create-or-edit";
 import { CreateOrEditDialogData } from "../../../../../shared/interfaces/create-or-edit-dialog-data";
 import { PERMISSIONS_CITIES } from "../../permissions/countries-and-cities.permissions";
-import { CreateOrEditCityComponent } from "../create-or-edit-city/create-or-edit-city.component";
+import { DialogCreateOrEditCityComponent } from "../../components/dialog-create-or-edit-city/dialog-create-or-edit-city.component";
 
 @Component({
   selector: "app-cities-index",
@@ -48,7 +48,7 @@ export class IndexCitiesComponent
       data.id = id;
       data.info = this.dataSource.find(res => res.id == id);
     }
-    this.dialog.open(CreateOrEditCityComponent,
+    this.dialog.open(DialogCreateOrEditCityComponent,
       {
         data
       }

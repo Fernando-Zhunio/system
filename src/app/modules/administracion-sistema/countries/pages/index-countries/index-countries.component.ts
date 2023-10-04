@@ -2,18 +2,11 @@ import { CreateOrEditDialogData } from './../../../../../shared/interfaces/creat
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
-// import { Country } from '../../../../../class/country';
 import { MethodsHttpService } from '../../../../../services/methods-http.service';
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { StatusCreateOrEdit } from '../../../../../shared/enums/status-create-or-edit';
-import { CreateOrEditCountryComponent } from '../create-or-edit-country/create-or-edit-country.component';
+import { DialogCreateOrEditCountryComponent } from '../../components/dialog-create-or-edit-country/dialog-create-or-edit-country.component';
 import { PERMISSIONS_COUNTRIES } from '../../permissions/countries-and-cities.permissions';
-// import { Country } from '../../../class/country';
-// import { HeaderSearchComponent } from '../../../components/header-search/header-search.component';
-// import { Ipagination } from '../../../interfaces/ipagination';
-// import { StandartSearchService } from '../../../services/standart-search.service';
-// import { SwalService } from '../../../services/swal.service';
-// import { CreateOrEditCountryComponent } from './create-or-edit-country/create-or-edit-country.component';
 declare let Swal: any;
 
 @Component({
@@ -105,7 +98,7 @@ export class IndexCountriesComponent extends MatTableHelper {
       data.id = id;
       data.info = this.dataSource.find(res => res.id == id);
     }
-    this.dialog.open(CreateOrEditCountryComponent,
+    this.dialog.open(DialogCreateOrEditCountryComponent,
       {
         data
       }
