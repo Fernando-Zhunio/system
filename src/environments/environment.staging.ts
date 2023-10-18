@@ -8,6 +8,7 @@ export const environment = {
   production: false,
   appVersion: require('../../package.json').version,
   server: 'https://staging-front-api-system.novicompu.com/api/',
+  serverBar: 'https://staging-front-api-system.novicompu.com/api',
   server_img: 'https://staging-front-api-system.novicompu.com/',
   keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',
   portSocket: 8443,

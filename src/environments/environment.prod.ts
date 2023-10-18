@@ -5,6 +5,8 @@ export const environment = {
   appVersion: require('../../package.json').version,
   
   server: 'https://front-api-system.novicompu.com/api/',
+  serverBar: 'https://front-api-system.novicompu.com/api',
+  
   server_img: 'https://front-api-system.novicompu.com/',
 
   keySocket: 'XLuoRgESQWL3lgvbnJh11R9vmfxT1Gz8xQ2m0PXJl1hASyIEOe',

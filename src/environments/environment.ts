@@ -8,6 +8,7 @@ export const environment = {
   production: false,
   appVersion: require('../../package.json').version,
   server: 'http://sistema-codificacion.test/api/',
+  serverBar: 'http://sistema-codificacion.test/api',
   server_img: 'http://sistema-codificacion.test/',
 
   // server: 'https://front-api-system.novicompu.com/api/',

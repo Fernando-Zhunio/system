@@ -6,7 +6,6 @@ export interface NgxSearchBarProvider {
     customBtnApplyFilter?: { text?: string; class?: string; color?: string; icon?: string }
     classContainerFilter?: string,
     fnScrollTop?: () => void,
-    autoInit?: boolean,
     stickyTop?: string,
   }
   OPTIONS_PAGINATE?: {

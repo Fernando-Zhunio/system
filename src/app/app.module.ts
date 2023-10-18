@@ -203,7 +203,7 @@ registerLocaleData(localeEs, 'es');
     {
       provide: NGX_SEARCH_BAR_DATA,
       useValue: {
-        BASE_URL: environment.server,
+        BASE_URL: environment.serverBar,
         OPTIONS: {
           classContainerFilter: 'main-style',
           fnScrollTop:  () => {

@@ -53,7 +53,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
   }
 
   initParamsPaginator() {
-    const params= NgxSearchBarService.currentQueryParams
+    const params= NgxSearchBarService.params
     if (!params) return;
     if (params['page']) {
       this.paginator.pageIndex = params['page'] - 1;

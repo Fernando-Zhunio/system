@@ -101,7 +101,6 @@ export class NgxSearchBarFormFilterComponent  {
   }
 
   setFormFiltersValue(filters: { [key: string]:  any}) {
-    console.log({filters})
     this.numberFilter = filters ? Object.keys(filters).length : 0;
     this.filters.patchValue(filters);
     const values = this.filters.value;
