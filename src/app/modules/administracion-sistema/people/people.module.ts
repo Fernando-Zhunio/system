@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { NgxSearchBarPaginatorComponent } from "../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component";
+// import { NgxSearchBarPaginatorComponent } from "../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component";
 import { IndexPeopleComponent } from "./pages/index-people/index-people.component";
 import { PeopleRoutingModule } from "./people.routing";
 import { MatTableModule } from '@angular/material/table';
@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { PersonDataComponent } from './components/person-data/person-data.component';
 import { NgOptimizedImage } from '@angular/common'
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { MatNativeDateModule } from '@angular/material/core';
         NgOptimizedImage,
         ReactiveFormsModule,
         PeopleRoutingModule,
-        NgxSearchBarPaginatorComponent,
+        // NgxSearchBarPaginatorComponent,
+        NgxSearchBarModule,
         MatFormFieldModule,
         MatChipsModule,
         MatSelectModule,

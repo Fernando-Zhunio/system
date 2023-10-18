@@ -1,5 +1,5 @@
 <div class="mt-4">
-  <h2 class="font-4xl d-flex align-items-center font-weight-bold d-inline-block">
+  <h2 class="font-4xl flex items-center font-bold">
     <button mat-mini-fab (click)="goBack()" class="mb-2">
       <mat-icon>keyboard_return</mat-icon>
     </button>
@@ -7,113 +7,106 @@
   </h2>
   <mat-card>
     <mat-card-content>
-      <div class="row" [formGroup]="formLocation">
-        <div class="col-md-6">
-          <div class="row m-0">
-            <mat-form-field class="w-100">
-              <mat-label>Nombre</mat-label>
-              <input matInput formControlName="name" type="text" required />
-              <mat-error *ngIf="formLocation.controls['name'].invalid">Nombre Requerido</mat-error>
+      <div class="grid md:grid-cols-2 gap-3" [formGroup]="formLocation">
+        <div>
+          <div class="grid md:grid-cols-2 gap-x-3 gap-y-1">
+            <div class="col-span-2">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="name" type="text" required />
+                <mat-error *ngIf="formLocation.controls['name'].invalid">Nombre Requerido</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-span-2">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Dirección</mat-label>
+                <textarea type="address" matInput formControlName="address" required></textarea>
+                <mat-error *ngIf="formLocation.controls['address'].invalid">Dirección requerida</mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Seleccione una Compañía</mat-label>
+              <mat-select formControlName="company" required>
+                <mat-option *ngFor="let company of companies" [value]="company.id">
+                  {{ company.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formLocation.controls['company'].invalid">Compañía requerida</mat-error>
             </mat-form-field>
-            <mat-form-field class="w-100">
-              <mat-label>Dirección</mat-label>
-              <textarea type="address" matInput formControlName="address" required></textarea>
-              <mat-error *ngIf="formLocation.controls['address'].invalid">Dirección requerida</mat-error>
+            <mat-form-field appearance="outline">
+              <mat-label>Teléfono</mat-label>
+              <input matInput formControlName="phone" type="text" />
             </mat-form-field>
 
-            <div class="row w-100">
-              <mat-form-field class="col-md-6">
-                <mat-label>Seleccione una Compañía</mat-label>
-                <mat-select formControlName="company" required>
-                  <mat-option *ngFor="let company of companies" [value]="company.id">
-                    {{ company.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formLocation.controls['company'].invalid">Compañía requerida</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col-md-6">
-                <mat-label>Teléfono</mat-label>
-                <input matInput formControlName="phone" type="text" />
-              </mat-form-field>
-            </div>
-
-            <div class="row w-100">
-              <mat-form-field class="col-md-6">
-                <mat-label>Código postal</mat-label>
-                <input [disabled]="isLoadingPostalCode" required matInput formControlName="postal_code" type="text" />
-                <div class="d-flex" matSuffix>
-                  <button mat-icon-button (click)="getCodePostal()">
-                    <mat-icon>search</mat-icon>
-                  </button>
-                  <a href="https://www.codigopostal.gob.ec/#" target="_blank" mat-icon-button>
-                    <!-- <i class="fa-solid fa-up-right-from-square"></i> -->
-                    <mat-icon>link</mat-icon>
-                  </a>
-                </div>
-                <mat-error *ngIf="formLocation.controls['postal_code'].invalid">Código postal requerida</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col-md-6">
-                <mat-label>Referencias</mat-label>
-                <input matInput formControlName="reference" type="text" />
-              </mat-form-field>
-            </div>
-
-            <div class="row w-100">
-              <mat-form-field class="col-md-6">
-                <mat-label>Seleccione una ciudad</mat-label>
-                <mat-select formControlName="city" required>
-                  <mat-option *ngFor="let keyCity of keyCities" [value]="keyCity">
-                    {{ cities[keyCity] }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="formLocation.controls['city'].invalid">Cuidad Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col-md-6">
-                <mat-label>Seleccione un tipo</mat-label>
-                <mat-select formControlName="type" required>
-                  <mat-option *ngFor="let keyType of keyTypes" [value]="keyType">
-                    {{ types[keyType] }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div class="row w-100">
-              <mat-form-field class="col-md-6">
-                <mat-label>Código mba</mat-label>
-                <input matInput formControlName="mba_code" />
-              </mat-form-field>
-              <mat-form-field class="col-md-6">
-                <mat-label>Seleccione un estado</mat-label>
-                <mat-select formControlName="status" required>
-                  <mat-option value="active">Activo</mat-option>
-                  <mat-option value="inactive">Inactivo</mat-option>
-                </mat-select>
-                <mat-error *ngIf="formLocation.controls['status'].invalid">Estado Requerido</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="row w-100">
-              <mat-form-field class="col-md-5">
-                <mat-label>Latitud</mat-label>
-                <input matInput formControlName="latitude" />
-                <mat-error *ngIf="formLocation.controls['latitude'].invalid">Latitud Requerido</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col-md-5">
-                <mat-label>Longitud</mat-label>
-                <input matInput formControlName="longitude" />
-                <mat-error *ngIf="formLocation.controls['longitude'].invalid">Longitud requerida</mat-error>
-              </mat-form-field>
-              <div class="col-md-2">
-                <button color="accent" mat-raised-button (click)="goLocationMarker()">
-                  <i class="fa-solid fa-location-crosshairs"></i>
+            <mat-form-field appearance="outline">
+              <mat-label>Código postal</mat-label>
+              <input [disabled]="isLoadingPostalCode" required matInput formControlName="postal_code" type="text" />
+              <div class="d-flex" matSuffix>
+                <button mat-icon-button (click)="getCodePostal()">
+                  <mat-icon>search</mat-icon>
                 </button>
+                <a href="https://www.codigopostal.gob.ec/#" target="_blank" mat-icon-button>
+                  <!-- <i class="fa-solid fa-up-right-from-square"></i> -->
+                  <mat-icon>link</mat-icon>
+                </a>
               </div>
-              <div class="col-12 mb-2">
-                <button color="accent" mat-raised-button (click)="resetMap()">
-                  Restablecer Mapa
-                  <i class="fa-solid fa-rotate ml-2"></i>
-                </button>
-              </div>
+              <mat-error *ngIf="formLocation.controls['postal_code'].invalid">Código postal requerida</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Referencias</mat-label>
+              <input matInput formControlName="reference" type="text" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Seleccione una ciudad</mat-label>
+              <mat-select formControlName="city" required>
+                <mat-option *ngFor="let keyCity of keyCities" [value]="keyCity">
+                  {{ cities[keyCity] }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formLocation.controls['city'].invalid">Cuidad Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Seleccione un tipo</mat-label>
+              <mat-select formControlName="type" required>
+                <mat-option *ngFor="let keyType of keyTypes" [value]="keyType">
+                  {{ types[keyType] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Código mba</mat-label>
+              <input matInput formControlName="mba_code" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Seleccione un estado</mat-label>
+              <mat-select formControlName="status" required>
+                <mat-option value="active">Activo</mat-option>
+                <mat-option value="inactive">Inactivo</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formLocation.controls['status'].invalid">Estado Requerido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Latitud</mat-label>
+              <input matInput formControlName="latitude" />
+              <mat-error *ngIf="formLocation.controls['latitude'].invalid">Latitud Requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Longitud</mat-label>
+              <input matInput formControlName="longitude" />
+              <mat-error *ngIf="formLocation.controls['longitude'].invalid">Longitud requerida</mat-error>
+            </mat-form-field>
+            <div class="col-span-2 flex items-center gap-1">
+              <button color="accent" mat-icon-button (click)="goLocationMarker()">
+                <i class="fa-solid fa-location-crosshairs"></i>
+              </button>
+              <button color="accent" mat-raised-button (click)="resetMap()">
+                Restablecer Mapa
+                <i class="fa-solid fa-rotate ml-2"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -251,8 +244,8 @@
             </table>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="position-relative w-100 container p-0 shadow-lg rounded-fz overflow-hidden mb-3">
+        <div>
+          <div class="relative w-full container p-0 shadow-lg rounded-fz overflow-hidden mb-3">
             <div #mapElement id="map"></div>
             <!-- <div *ngIf="apiLoaded | async">
               <google-map [options]="options"></google-map>
@@ -260,7 +253,7 @@
           </div>
         </div>
 
-        <div class="col-md-12">
+        <div>
           <button mat-raised-button [disabled]="isLoadServer" color="primary" (click)="saveInServer()">
             Guardar localidad
             <i class="fa-regular fa-paper-plane"></i>

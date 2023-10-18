@@ -8,7 +8,7 @@ import { zoomImage } from '../../../../../shared/class/tools';
 // import { Person } from '../../../../../shared/interfaces/person';
 
 @Component({
-  selector: 'app-personas',
+  selector: 'app-peoples',
   templateUrl: './index-people.component.html',
   styleUrls: ['./index-people.component.css'],
 })

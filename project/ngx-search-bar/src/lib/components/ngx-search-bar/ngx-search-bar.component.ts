@@ -28,7 +28,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   @ContentChild(NgxSearchBarFormFilterComponent) ngxFormFilter: NgxSearchBarFormFilterComponent
   @ContentChild(NgxSearchBarPaginatorComponent) ngxPaginator: NgxSearchBarPaginatorComponent
 
-  @Input() BASE_URL: string | null = null
+  @Input() baseUrl: string | null = null 
   @Input() placeholder: string = "Search here"
   @Input() title: string | null = null
   @Input() path: string = "posts"
@@ -51,19 +51,19 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
 
   isLoading: boolean = false
   destroy$: Subject<boolean> = new Subject<boolean>()
-  searchText: string = ""
+  // searchText: string = ""
   subject: Subject<{ [key: string]: any }> = new Subject()
-  currentParams: { [key: string]: any } = {}
+  // currentParams: INsbParams
   numberFilter = 0;
   isOpenFilter = false;
 
   constructor(
-    private searchBarService: NgxSearchBarService,
+    private service: NgxSearchBarService,
     @Inject(NGX_SEARCH_BAR_DATA) private dataProvider: NgxSearchBarProvider
   ) {
-    if (!this.autoInit) {
-      this.autoInit = this.dataProvider?.OPTIONS?.autoInit || true
-    }
+    // if (!this.autoInit) {
+    //   this.autoInit = this.dataProvider?.OPTIONS?.autoInit || true
+    // }
     if (!this.fnScrollTop) {
       this.fnScrollTop = this.dataProvider?.OPTIONS?.fnScrollTop || null
     }
@@ -93,17 +93,16 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
         this.fnScrollTop()
       }
     } catch (error) {}
-    // window.scrollTo(0, 0);
   }
 
   initWithModifyUrl(): void {
-    if (!this.ngxFormFilter) return
+    // if (!this.ngxFormFilter) return
     let params = {}
     if (this.isChangeUrl) {
-      params = this.searchBarService.getQueryParams() || {}
+      params = this.service.getQueryParams() || {}
       if (!params) return
       if (params.hasOwnProperty(this.nameInputSearch)) {
-        this.searchText = params[this.nameInputSearch]
+        this.service.params.search = params[this.nameInputSearch]
       }
     }
 
@@ -117,7 +116,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
           if (empty(plusParams[key])) return
           paramsSend[key] = plusParams[key]
         })
-      this.search(paramsSend)
+        this.autoInit && this.search(paramsSend);
       setTimeout(() => {
         this.ngxFormFilter.setFormFiltersValue(paramsSend)
       }, 0)
@@ -141,7 +140,7 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
             this.ngxPaginator.setLength(res)
           }
           if (this.isChangeUrl) {
-            this.searchBarService.setQueryParams(this.currentParams)
+            this.service.setQueryParams()
           }
           this.data.emit(res)
         },
@@ -154,10 +153,10 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
 
   searchObservable(params: { [key: string]: number } = {}) {
     this.isLoading = true
-    this.scrollTop()
+    this.scrollTop();
     this.loading.emit(this.isLoading)
     this.currentParams = this.getParamsSend(params)
-    return this.searchBarService.search(this.path, this.currentParams, this.BASE_URL).pipe(
+    return this.service.search(this.path, this.currentParams, this.baseUrl).pipe(
       catchError(() => {
         this.isLoading = false
         this.loading.emit(this.isLoading)
@@ -167,7 +166,6 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   search(params: { [key: string]: number } = {}) {
-    console.log("params", params)
     this.subject.next(params)
   }
 

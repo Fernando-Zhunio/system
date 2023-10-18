@@ -1,4 +1,4 @@
-<ngx-search-bar-paginator
+<ngx-search-bar
   [path]="url"
   title="Novedades"
   placeholder="Buscar novedades"
@@ -6,24 +6,22 @@
 >
 
 <ng-container buttons>
-  <mat-chip-set class="ml-1">
-    <mat-chip color="create" [routerLink]="['./create']">
+    <button mat-raised-button class="!bg-orange-500 !text-white" [routerLink]="['./create']">
       <i class="fa-solid fa-plus"></i>&nbsp; Agregar novedades
-    </mat-chip>
-  </mat-chip-set>
+    </button>
 </ng-container>
 
 <ng-container>
-  <div class="row">
-    <div class="col-md-4 col-12 my-2" *ngFor="let data of newsletters | keyvalue">
+  <div class="grid md:grid-cols-3 gap-3">
+    <div class=" my-2" *ngFor="let data of newsletters | keyvalue">
       <mat-card>
         <mat-card-content>
           <h3 class="font-2xl">{{data.value.title}}</h3>
           <p class="container-html" [innerHTML]="data.value.description"></p>
-          <div class="d-flex">
+          <div class="flex">
             <h4>{{data.value?.start_date | date}} al {{data?.value.end_date | date}}</h4>
           </div>
-          <div class="d-flex">
+          <div class="flex">
             <button class="btn-icon c-edit" [routerLink]="['./edit/'+data.value.id]">
               <i class="fa-solid fa-pen"></i>
             </button>
@@ -36,7 +34,7 @@
     </div>
   </div>
 </ng-container>
-</ngx-search-bar-paginator>
+</ngx-search-bar>
 
 
 

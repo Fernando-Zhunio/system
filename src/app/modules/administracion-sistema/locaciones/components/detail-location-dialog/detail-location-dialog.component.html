@@ -1,8 +1,8 @@
+<h1 matDialogTitle>#{{ location.mba_code }} {{ location.name }}</h1>
 <mat-dialog-content>
-  <div class="row">
-    <div class="col-md-6">
-      <h1 matDialogTitle>#{{ location.mba_code }} {{ location.name }}</h1>
-      <h3 class="font-weight-bold mb-1">Horarios</h3>
+  <div class="grid md:grid-cols-2">
+    <div>
+      <h3 class="font-bold mb-1">Horarios</h3>
       <div *ngIf="schedule">
         <div *ngFor="let day of DAYS">
           <span *ngIf="schedule[day.key].status; else templateClose">
@@ -13,23 +13,22 @@
           </ng-template>
         </div>
       </div>
-      <h3 class="font-weight-bold mb-1">Codigo Postal</h3>
+      <h3 class="font-bold mb-1">Código Postal</h3>
       <div>{{ location.postal_code }}</div>
-      <h3 class="font-weight-bold mb-1">Detalles</h3>
+      <h3 class="font-bold mb-1">Detalles</h3>
       <div>
         <ul>
-          <li>Latitud: {{location.latitude}}</li>
-          <li>Longitud: {{location.longitude}}</li>
-          <li>Teléfono: {{location.phone}}</li>
-          <li>Creado: {{location.created_at | date: 'medium'}}</li>
+          <li>Latitud: {{ location.latitude }}</li>
+          <li>Longitud: {{ location.longitude }}</li>
+          <li>Teléfono: {{ location.phone }}</li>
+          <li>Creado: {{ location.created_at | date : "medium" }}</li>
         </ul>
       </div>
-
     </div>
-    <div class="col-md-6 pb-3">
+    <div class="pb-3">
       <div
         *ngIf="location.longitude && location.latitude"
-        class="w-100 h-100 shadow rounded-fz pb-3"
+        class="w-full h-full shadow rounded-fz pb-3"
         #mapElement
         id="map"></div>
     </div>
@@ -37,7 +36,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button color="warn" mat-button matDialogClose>
+  <button color="warn" mat-raised-button matDialogClose>
     Cerrar
     <i class="fa-solid fa-xmark"></i>
   </button>

@@ -26,6 +26,7 @@ import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/pu
     LocationRouting,
     ReactiveFormsModule,
     NgxSearchBarModule,
+    
     FormsModule,
     NgxPermissionsModule,
     // Material modules

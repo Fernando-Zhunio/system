@@ -4,7 +4,8 @@
     /* top: 0;
     bottom: 0; */
     width: 100% !important;
-    height: 400px !important;
+    min-height: 400px !important;
+    height: 100%
     /* text-align: end */
 }
 
@@ -57,6 +58,11 @@ input[type=time]{
 
 td{
     vertical-align: middle;
+    padding: 7px;
+}
+
+table {
+    width: 100%;
 }
 
 tbody tr > td:first-child{

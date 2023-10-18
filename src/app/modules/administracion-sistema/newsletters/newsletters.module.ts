@@ -1,4 +1,4 @@
-import { NgxSearchBarPaginatorComponent } from './../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
+// import { NgxSearchBarPaginatorComponent } from './../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { IndexNewLettersComponent } from './pages/index-newsletters/index-newsletters.component';
@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { MatInputModule } from '@angular/material/input';
     ],
     imports: [
         CommonModule,
-        NgxSearchBarPaginatorComponent,
+        // NgxSearchBarPaginatorComponent,
+        NgxSearchBarModule,
         NewLettersRoutingModule,
         MatChipsModule,
         MatCardModule,

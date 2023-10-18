@@ -1,17 +1,17 @@
 <div >
-  <ngx-search-bar-paginator
+  <ngx-search-bar
   title="Cuentas ML"
   placeholder="Buscar cuentas ml"
   [path]="url"
   (data)="getData($event)"
   >
     <ng-container buttons *ngxPermissionsOnly="permissions.create">
-      <mat-chip color="create" class="ml-1 mat-btn-add" [routerLink]="['/administracion-sistema/mercado-libre/accounts/create']">
+      <button mat-raised-button class="!bg-orange-500 !text-white" [routerLink]="['/administracion-sistema/mercado-libre/accounts/create']">
         <i class="fa-solid fa-plus"></i>&nbsp;  Cuenta ml
-      </mat-chip>
+      </button>
     </ng-container>
 
-    <div>
+    <div class="p-2">
       <mat-card class="overflow-auto">
           <mat-card-content>
             <mat-table #table [dataSource]="dataSource">
@@ -82,7 +82,7 @@
           </mat-card-content>
       </mat-card>
     </div>
-  </ngx-search-bar-paginator>
+  </ngx-search-bar>
   <!-- <app-search-template title="Cuentas ML" [columns]="1" placeholder="Buscar cuentas ml" [url$]="urlData" (data)="loadData($event)">
     <ng-container data>
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">

@@ -72,6 +72,7 @@ export class IndexLocationsComponent extends MatTableHelper<Location> implements
     if (!location) return;
     this.dialog.open(DetailLocationDialogComponent, {
       data: location,
+      minWidth: '50%'
     })
   }
 

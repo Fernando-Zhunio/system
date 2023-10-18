@@ -1,85 +1,36 @@
-<div>
-  <h1 class="font-4xl font-weight-bold my-3">{{ title }}</h1>
+<div class="mt-3">
+  <h1 class="font-4xl font-bold my-3">{{ title }}</h1>
   <mat-card class="rounded-fz shadow-sm">
-    <form class="row card-body" [formGroup]="form" (ngSubmit)="saveInServer()">
-      <mat-form-field class="col-12">
-        <input matInput placeholder="Titulo" formControlName="title" />
-      </mat-form-field>
-      <!-- <div class="w-100 mb-5" [ngClass]="{ 'expand-quill': expandQuill }">
-        <div [style]="editorStyle" class="w-100 h-100">
-          <div quill-editor-toolbar>
-            <span class="ql-formats">
-              <select class="ql-font">
-                <option selected></option>
-                <option value="serif"></option>
-                <option value="monospace"></option>
-              </select>
-              <select class="ql-size">
-                <option value="small"></option>
-                <option selected></option>
-                <option value="large"></option>
-                <option value="huge"></option>
-              </select>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-bold"></button>
-              <button class="ql-italic"></button>
-              <button class="ql-underline"></button>
-              <button class="ql-strike"></button>
-            </span>
-            <span class="ql-formats">
-              <select class="ql-color"></select>
-              <select class="ql-background"></select>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-list" value="ordered"></button>
-              <button class="ql-list" value="bullet"></button>
-              <select class="ql-align">
-                <option selected></option>
-                <option value="center"></option>
-                <option value="right"></option>
-                <option value="justify"></option>
-              </select>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-link"></button>
-              <button class="ql-image"></button>
-            </span>
-          </div>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="saveInServer()">
+        <mat-form-field class="w-full" appearance="outline">
+          <input matInput placeholder="Titulo" formControlName="title" />
+        </mat-form-field>
+        <div>
+          <button color="accent" class="mb-2" mat-raised-button type="button" (click)="expandQuillEditor()">
+            Expandir editor de texto
+            <i class="fa-solid fa-expand"></i>
+          </button>
         </div>
-      </div> -->
-      <div class="col-12 p-0">
-        <button class="" mat-button type="button" color="primary" (click)="expandQuillEditor()">
-          Expandir editor de texto
-          <i class="fa-solid fa-expand"></i>
-        </button>
-      </div>
-      <mat-form-field class="col-md-6">
-        <mat-label>Todas los roles</mat-label>
-        <mat-select type="text" #select_warehouse formControlName="roles" multiple>
-          <mat-select-trigger>
-            <mat-chip-set>
-              <mat-chip (removed)="removeRol(_rol)" *ngFor="let _rol of form.get('roles')?.value" [removable]="true">
-                {{ getNameRol(_rol) }}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-set>
-          </mat-select-trigger>
-          <mat-option *ngFor="let rol of roles" [value]="rol.id">
-            {{ rol.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <!-- <mat-form-field class="col-md-6">
-                  <mat-label>Fecha de financiación <small>(d/m/yyyy)</small></mat-label>
-                  <input matInput  formControlName="end_date" [matDatepicker]="dp4">
-                  <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
-                  <mat-datepicker #dp4 disabled="false"></mat-datepicker>
-                  <mat-error *ngIf="form.controls['end_date'].invalid">Fecha de financiación requerida</mat-error>
-              </mat-form-field> -->
-
-      <button [disabled]="form.invalid" type="submit" mat-raised-button>Guardar</button>
-    </form>
+        <mat-form-field appearance="outline">
+          <mat-label>Todas los roles</mat-label>
+          <mat-select type="text" #select_warehouse formControlName="roles" multiple>
+            <mat-select-trigger>
+              <mat-chip-set>
+                <mat-chip (removed)="removeRol(_rol)" *ngFor="let _rol of form.get('roles')?.value" [removable]="true">
+                  {{ getNameRol(_rol) }}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-set>
+            </mat-select-trigger>
+            <mat-option *ngFor="let rol of roles" [value]="rol.id">
+              {{ rol.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> 
+        <button [disabled]="form.invalid" type="submit" mat-raised-button>Guardar</button>
+      </form>
+    </mat-card-content>
   </mat-card>
   <button mat-fab class="quill-expand-btn" type="button" *ngIf="expandQuill" (click)="expandQuillEditor()">
     <i class="fa-solid fa-xmark"></i>

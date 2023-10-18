@@ -10,8 +10,8 @@
       &nbsp;Agregar locación
     </button>
   </ng-container>
-  <div class="p-2">
-    <mat-card>
+  <div class="p-2 ">
+    <mat-card class="overflow-auto">
       <mat-card-content>
         <table mat-table [dataSource]="dataSource">
           <ng-container matColumnDef="id">
@@ -98,7 +98,7 @@
     </mat-card>
   </div>
   <ngx-search-bar-form-filter [filters]="formFilters">
-    <div [formGroup]="formFilters">
+    <div [formGroup]="formFilters" class="pt-2 px-1">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Ciudades</mat-label>
         <mat-select formControlName="city_id">
@@ -136,4 +136,5 @@
       </mat-form-field>
     </div>
   </ngx-search-bar-form-filter>
+  <ngx-search-bar-paginator></ngx-search-bar-paginator>
 </ngx-search-bar>

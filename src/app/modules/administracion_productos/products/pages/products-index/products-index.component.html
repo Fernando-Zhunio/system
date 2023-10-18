@@ -48,7 +48,7 @@
 
     <ng-container buttons>
         <button
-          class="!bg-blue-400 text-white"
+          class="!bg-orange-500 !text-white"
           mat-raised-button
           *ngxPermissionsOnly="permission_create"
           [routerLink]="['/admin-products/productos/create']">
@@ -121,4 +121,5 @@
         </mat-card-content>
       </mat-card>
     </div>
+    <ngx-search-bar-paginator></ngx-search-bar-paginator>
   </ngx-search-bar>

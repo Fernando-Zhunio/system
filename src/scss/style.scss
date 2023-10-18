@@ -144,6 +144,9 @@ button {
   }
 }
 
+.nsb-sticky{
+  z-index: 100 !important;
+}
 
 .dark-theme .sidebar1 .content-sidebar {
   background-color: $dark-bg;

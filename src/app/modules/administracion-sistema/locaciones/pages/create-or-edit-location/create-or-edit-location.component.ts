@@ -89,6 +89,7 @@ export class CreateOrEditLocationComponent implements OnInit, AfterViewInit {
       end: new FormControl(null, [Validators.required]),
     }, [this.validateHours()]),
   })
+  
   coordinates: { lat: number, lng: number } = { lat: 0, lng: 0 };
 
   ngOnInit(): void {
