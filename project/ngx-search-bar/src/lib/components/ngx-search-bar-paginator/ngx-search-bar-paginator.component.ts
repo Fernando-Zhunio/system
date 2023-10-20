@@ -1,6 +1,7 @@
 import { Component, Inject, Input, OnInit } from "@angular/core"
-import { NgxSearchBarComponent } from "../ngx-search-bar/ngx-search-bar.component"
+// import { NgxSearchBarComponent } from "../ngx-search-bar/ngx-search-bar.component"
 import { NGX_SEARCH_BAR_DATA, NgxSearchBarProvider } from "../../utils/DATA_FOR_SEARCH_BAR";
+import { NgxSearchBarService } from "../../ngx-search-bar.service";
 
 @Component({
   selector: "ngx-search-bar-paginator",
@@ -19,6 +20,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
   @Input() align: 'start' | 'center' | 'end' = 'end';
   @Input() getLength: ((arg) => number) | string = "";
 
+  private id!: Symbol;
   arrows: {
     next: boolean
     previous: boolean
@@ -36,18 +38,24 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
     end: 0,
   }
 
-  constructor(@Inject(NGX_SEARCH_BAR_DATA) private dataProvider: NgxSearchBarProvider, private ngxSearchBar: NgxSearchBarComponent) {
+  constructor(@Inject(NGX_SEARCH_BAR_DATA) private dataProvider: NgxSearchBarProvider, private service: NgxSearchBarService) {
     if (!this.getLength && this.dataProvider.OPTIONS_PAGINATE?.fnGetLength) {
       this.getLength = this.dataProvider.OPTIONS_PAGINATE?.fnGetLength;
     }
-  } 
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
+
+  setId(id: Symbol) {
+    this.id = id
+  }
 
   getPaginator() {
     return {
-      page: this.page + 1,
-      pageSize: this.pageSize,
+      page: {value: this.page + 1, field: this.pageAttr},
+      pageSize: {value:this.pageSize, field: this.pageSizeAttr},
     }
   }
 
@@ -77,7 +85,12 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
       return
     }
     this.page = 0
-    this.ngxSearchBar.search()
+    this.search()
+  }
+
+  search() {
+    this.service.setParamsPaginate(this.id, this.getPaginator())
+    this.service.searchApply(this.id);
   }
 
   goPrevious() {
@@ -85,7 +98,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
       return
     }
     this.page--
-    this.ngxSearchBar.search()
+    this.search()
   }
 
   goNext() {
@@ -93,7 +106,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
       return
     }
     this.page++
-    this.ngxSearchBar.search()
+    this.search()
   }
 
   goEnd() {
@@ -101,7 +114,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
       return
     }
     this.page = Math.ceil(this.length / this.pageSize) - 1
-    this.ngxSearchBar.search()
+    this.search()
   }
 
   isFirstPage() {
@@ -114,8 +127,8 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
 
   changePageSize(size: number) {
     this.pageSize = size;
-    this.isOpenOption = false
-    this.ngxSearchBar.search()
+    this.isOpenOption = false;
+    this.search()
   }
 
   isOpenOption = false;
@@ -124,5 +137,13 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
       this.isOpenOption = a
     }
     this.isOpenOption = !this.isOpenOption
+  }
+
+  loadPaginator() {
+    if (this.service.queryParams?.paginate) {
+      this.page = (this.service.queryParams?.paginate?.page.value || 1) - 1
+      this.pageSize = this.service.queryParams.paginate?.pageSize.value || 10
+    }
+    this.service.setParamsPaginate(this.id, this.getPaginator())
   }
 }

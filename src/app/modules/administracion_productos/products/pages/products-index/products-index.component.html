@@ -3,7 +3,11 @@
     nameInputSearch="name"
     placeholder="Buscar productos"
     title="Productos"
+    [autoInit]="true"
     (data)="getData($event)"
+    [isBarExpand]="false"
+    maxWidth="50%"
+    [isSticky]="true"
     path="products-admin/products">
 
     <ngx-search-bar-form-filter

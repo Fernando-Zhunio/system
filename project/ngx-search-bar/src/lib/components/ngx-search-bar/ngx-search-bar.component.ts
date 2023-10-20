@@ -11,7 +11,7 @@ import {
 } from "@angular/core"
 import { catchError, debounceTime, of, Subject, switchMap, takeUntil } from "rxjs"
 import { NgxSearchBarService } from "../../ngx-search-bar.service"
-import { empty } from "../../utils/empty"
+// import { empty } from "../../utils/empty"
 import { NgxSearchBarFormFilterComponent } from "../ngx-search-bar-form-filter/ngx-search-bar-form-filter.component"
 import { NgxSearchBarPaginatorComponent } from "../ngx-search-bar-paginator/ngx-search-bar-paginator.component"
 import { NGX_SEARCH_BAR_DATA, NgxSearchBarProvider } from "../../utils/DATA_FOR_SEARCH_BAR"
@@ -40,30 +40,23 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   @Input() maxWidth: string = "100%";
   @Input() isSticky: boolean  = true;
   @Input() stickyTop: string  = "0px";
-  @Input() stickyBottom: string  = "0px";
   @Input() fnScrollTop: (() => void)| null = null;
   @Input() notScroll: boolean = false;
-  @Input() scrollSelected: string | null = null
-  // @Input() pageClass: NgxSearchBarPageEvent | null = null
 
   @Output() data = new EventEmitter<any>()
   @Output() loading = new EventEmitter<boolean>()
 
   isLoading: boolean = false
   destroy$: Subject<boolean> = new Subject<boolean>()
-  // searchText: string = ""
+  searchText: string = ""
   subject: Subject<{ [key: string]: any }> = new Subject()
-  // currentParams: INsbParams
-  numberFilter = 0;
-  isOpenFilter = false;
+
+  private id = Symbol();
 
   constructor(
     private service: NgxSearchBarService,
     @Inject(NGX_SEARCH_BAR_DATA) private dataProvider: NgxSearchBarProvider
   ) {
-    // if (!this.autoInit) {
-    //   this.autoInit = this.dataProvider?.OPTIONS?.autoInit || true
-    // }
     if (!this.fnScrollTop) {
       this.fnScrollTop = this.dataProvider?.OPTIONS?.fnScrollTop || null
     }
@@ -74,16 +67,29 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   ngOnInit(): void {
-    this.subscribeForSearch()
+    this.service.addBarSearch(this.id, this)
+    this.subscribeForSearch();
   }
 
   ngAfterContentInit(): void {
-    this.initWithModifyUrl()
+    if (this.ngxFormFilter) {
+      this.ngxFormFilter.setId(this.id);
+      this.isChangeUrl && this.ngxFormFilter.loadFilters();
+    }
+
+    if (this.ngxPaginator) {
+      this.ngxPaginator.setId(this.id);
+      this.isChangeUrl && this.ngxPaginator.loadPaginator();
+    }
+    if (this.isChangeUrl) {
+      this.searchText = this.service.queryParams.search || ""
+    }
     this.autoInit ? this.search() : this.getParamsSend()
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true)
+    this.service.removeBarSearch(this.id);
+    this.destroy$.next(true);
     this.destroy$.unsubscribe()
   }
 
@@ -95,36 +101,6 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
     } catch (error) {}
   }
 
-  initWithModifyUrl(): void {
-    // if (!this.ngxFormFilter) return
-    let params = {}
-    if (this.isChangeUrl) {
-      params = this.service.getQueryParams() || {}
-      if (!params) return
-      if (params.hasOwnProperty(this.nameInputSearch)) {
-        this.service.params.search = params[this.nameInputSearch]
-      }
-    }
-
-    try {
-      const params2 = this.ngxFormFilter.getFormFilters()
-      const plusParams = { ...params2.value, ...params }
-      const paramsSend = {}
-      Object.keys(plusParams)
-        .filter((x) => x !== this.nameInputSearch)
-        .forEach((key) => {
-          if (empty(plusParams[key])) return
-          paramsSend[key] = plusParams[key]
-        })
-        this.autoInit && this.search(paramsSend);
-      setTimeout(() => {
-        this.ngxFormFilter.setFormFiltersValue(paramsSend)
-      }, 0)
-    } catch (error) {
-      console.error("error", error)
-    }
-  }
-
   subscribeForSearch(): void {
     this.subject
       .pipe(
@@ -134,19 +110,20 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
       )
       .subscribe({
         next: (res) => {
-          this.isLoading = false
-          this.loading.emit(this.isLoading)
+          this.isLoading = false;
+          this.loading.emit(this.isLoading);
           if (this.ngxPaginator) {
-            this.ngxPaginator.setLength(res)
+            this.ngxPaginator.setLength(res);
           }
           if (this.isChangeUrl) {
-            this.service.setQueryParams()
+            this.service.setParamsSearch(this.id, this.searchText);
+            this.service.changeQueryParams(this.id);
           }
-          this.data.emit(res)
+          this.data.emit(res);
         },
         error: () => {
-          this.isLoading = false
-          this.loading.emit(this.isLoading)
+          this.isLoading = false;
+          this.loading.emit(this.isLoading);
         },
       })
   }
@@ -155,13 +132,13 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
     this.isLoading = true
     this.scrollTop();
     this.loading.emit(this.isLoading)
-    this.currentParams = this.getParamsSend(params)
-    return this.service.search(this.path, this.currentParams, this.baseUrl).pipe(
+    const p = this.getParamsSend(params)
+    return this.service.search(this.path, p, this.baseUrl).pipe(
       catchError(() => {
         this.isLoading = false
         this.loading.emit(this.isLoading)
-        return of(null)
-      })
+        return of(null) as any
+      } )
     )
   }
 
@@ -170,15 +147,21 @@ export class NgxSearchBarComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   getParamsSend(params: { [key: string]: any } = {}): { [key: string]: any } {
-    let paramsSend = {}
-    if (this.ngxPaginator) {
-      paramsSend = this.ngxPaginator.getPaginator()
+    // let paramsSend = {}
+    // if (this.ngxPaginator) {
+    //   paramsSend = this.ngxPaginator.getPaginator()
+    // }
+    const p = this.service.getBarSearch(this.id)?.params;
+    const paginate = {};
+    if (p?.paginate) {
+      paginate[p.paginate.page.field] = p.paginate.page.value;
+      paginate[p.paginate.pageSize.field] = p.paginate.pageSize.value;
     }
     return {
       [this.nameInputSearch]: this.searchText,
-      ...(this.ngxFormFilter?.getFilter() || {}),
+      ...(p?.form || {}),
+      ...(paginate),
       ...params,
-      ...paramsSend,
     }
   }
 }

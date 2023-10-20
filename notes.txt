@@ -13,3 +13,5 @@ Procesa solo la primera notificación y descarta las anteriores
 
 --reglas para botones del buscador en crear usar estas clases:
     hover:bg-blue-500 bg-blue-600 rounded-lg text-white center px-3 py-2
+
+     project/ngx-search-bar/src/lib/components/ngx-search-bar-paginator/ngx-search-bar-paginator.component.spec.ts

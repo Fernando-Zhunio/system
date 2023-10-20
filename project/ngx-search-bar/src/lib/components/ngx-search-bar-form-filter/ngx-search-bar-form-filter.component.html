@@ -24,14 +24,14 @@
     <hr />
     <div class="nsb-action-filter">
       <button (click)="applyFilters()" class="nsb-action-filter">
-        Aplicar filtros
+        {{textBtnApply}}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="green" width="24px" height="24px">
           <path d="M0 0h24v24H0z" fill="none" />
           <path d="M9 16.17L5.83 13L4.4 14.41L9 19L21 7L19.59 5.59L9 16.17z" />
         </svg>
       </button>
       <button (click)="isOpenFilter = false" class="nsb-action-close">
-        Cerrar filtros
+       {{textBtnClose}}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" width="24px" height="24px">
           <path d="M0 0h24v24H0z" fill="none" />
           <path

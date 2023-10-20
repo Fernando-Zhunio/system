@@ -23,7 +23,7 @@
       }
     }
     .nsb-full-width {
-      flex-grow: 999;
+      flex-grow: 999 !important;
     }
     .nsb-content-input-search:has(.nsb-input-search:focus) {
       border: solid 1px rgb(50, 187, 205);

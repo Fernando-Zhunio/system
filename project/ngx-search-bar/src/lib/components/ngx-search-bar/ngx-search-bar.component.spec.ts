@@ -53,22 +53,10 @@ describe('NgxSearchBarComponent', () => {
   });
 
   it('#search', () => {
-    component.withParamsClean = false;
     component.path = 'posts'
     component.nameInputSearch = 'search2';
-    component.auxfilters = {
-      "fernando": {
-        friendlyName: 'Fernando',
-        value: 'fer',
-      }, 
-      "fernando2": {
-        friendlyName: 'Fernando2',
-        value: 'fer2',
-      },
-    }
     component.search();
     spyOn(component.data, 'emit');
-
 
     const req = httpMock.expectOne('http://localhost:3000/posts?search2=&fernando=fer&fernando2=fer2');
     expect(req.request.method).toBe('GET');

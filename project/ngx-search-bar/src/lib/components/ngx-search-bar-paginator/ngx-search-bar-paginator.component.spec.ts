@@ -9,7 +9,7 @@ describe('NgxSearchBarPaginatorComponent', () => {
   let component: NgxSearchBarPaginatorComponent;
   let fixture: ComponentFixture<NgxSearchBarPaginatorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [ NgxSearchBarPaginatorComponent ]
     })
@@ -25,4 +25,8 @@ describe('NgxSearchBarPaginatorComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('validate buttons', () => {
+    
+  })
 });

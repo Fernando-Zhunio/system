@@ -1,9 +1,9 @@
-@import "~air-datepicker/air-datepicker.css";
-@import "theme";
-@import "custom-colors";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "~air-datepicker/air-datepicker.css";
+@import "theme";
 
 :root {
   --max-height-noty: 80vh;

@@ -1,12 +1,14 @@
 import { Location } from "@angular/common"
 import { HttpClient } from "@angular/common/http"
 import { Inject, Injectable } from "@angular/core"
-import type { Observable } from "rxjs"
+// import type { Observable } from "rxjs"
 import { NGX_SEARCH_BAR_DATA, NgxSearchBarProvider } from "./utils/DATA_FOR_SEARCH_BAR"
+import { NgxSearchBarComponent } from "../public-api"
+import { Observable } from "rxjs"
 
 interface INsbParams {
   search: string | null
-  paginate?: { pageSize: number; page: number }
+  paginate?: { page: { value: number; field: string }; pageSize: { value: number; field: string } }
   form?: { [key: string]: any }
 }
 @Injectable({
@@ -18,63 +20,90 @@ export class NgxSearchBarService {
     private location: Location,
     @Inject(NGX_SEARCH_BAR_DATA) private data: NgxSearchBarProvider
   ) {
-    this.params = { search: null, paginate: undefined, form: undefined }
+    this.getQueryParams()
   }
+  searchBars = new Map<Symbol, {component: NgxSearchBarComponent, params: INsbParams}>()
+
   nameQueryParams: string = "params-ngx-search-bar"
-  public params: INsbParams = { search: null, paginate: undefined, form: undefined }
+  public queryParams: INsbParams = { search: null, paginate: undefined, form: undefined }
 
   search(path: string, params: any, baseUrl: string | null): Observable<any> {
     if (!baseUrl) {
       baseUrl = this.data.BASE_URL
     }
-    return this.http.get(`${baseUrl}/${path}`, { params })
+    return this.http.get<any>(`${baseUrl}/${path}`, { params })
   }
 
-  setQueryParams(): void {
-    let searchParams = new URLSearchParams()
-    // console.log({ params })
-    searchParams.set(this.nameQueryParams, JSON.stringify(this.params) || "")
-    // this.params = params
+  changeQueryParams(symbol:Symbol): void {
+    
+    let searchParams = new URLSearchParams();
+    const p = this.searchBars.get(symbol)!;
+    searchParams.set(this.nameQueryParams, JSON.stringify(p.params) || "")
     this.location.replaceState(this.location.path().split("?")[0], searchParams.toString())
   }
 
-  getQueryParams(): INsbParams | null {
+  getQueryParams() {
+    let paramsBar = this.queryParams;
     try {
       const queryParams = window.location.href.split("?")
-      if (queryParams.length === 1) return null
+      if (queryParams.length === 1) return 
       const params = Object?.fromEntries(new URLSearchParams(queryParams[1]) as any)
       if (!params || !params.hasOwnProperty(this.nameQueryParams)) {
-        this.params = { search: null }
-        return null
+        paramsBar =  { search: null }
+        return 
       }
       const p = JSON.parse(params[this.nameQueryParams]) as INsbParams
-      // if (!params.hasOwnProperty(this.nameQueryParams)) return null
       if (typeof p?.search === "string") {
-        this.params["search"] = p.search
+        paramsBar["search"] = p.search
       }
-      this.params = JSON.parse(params[this.nameQueryParams])
       if (p?.paginate) {
-        this.params["paginate"] = {
+        paramsBar["paginate"] = {
           page: p?.paginate?.page || 1,
           pageSize: p?.paginate?.pageSize || 10,
         }
       }
 
       if (p?.form) {
-        this.params["form"] = p?.form
+        paramsBar["form"] = p?.form
       }
-      return this.params
+      return
     } catch (e) {
-      this.params = { search: null }
+      paramsBar = { search: null }
     }
-    return this.params
+    return
   }
 
-  setParamsPaginate(paginate: {page:number, pageSize: number}) {
-    this.params["paginate"] = paginate;
+  setParamsPaginate(symbol: Symbol, paginate: { page: { value: number; field: string }; pageSize: { value: number; field: string } }) {
+    const paramsBar = this.searchBars.get(symbol)!.params;
+    paramsBar["paginate"] = paginate;
   }
 
-  setParamsForm(form: { [key: string]: any }) {
-    this.params["form"] = form
+  setParamsForm(symbol: Symbol, form: { [key: string]: any } | null) {
+    const paramsBar = this.searchBars.get(symbol)!.params;
+    paramsBar["form"] = form || undefined
+  }
+
+  setParamsSearch(symbol: Symbol, search: string) {
+    const paramsBar = this.searchBars.get(symbol)!.params;
+    paramsBar["search"] = search
+  }
+
+  addBarSearch(symbol: Symbol, bar: NgxSearchBarComponent) {
+    this.searchBars.set(symbol, {component: bar, params: {search: null}})
+  }
+
+  getBarSearch(symbol: Symbol) {
+    return this.searchBars.get(symbol);
+  }
+
+  removeBarSearch(symbol: Symbol) {
+    this.searchBars.delete(symbol)
+  }
+
+  searchApply(symbol: Symbol) {
+    const bar = this.searchBars.get(symbol)
+    if (bar) {
+      bar.component.search()
+    }
   }
 }

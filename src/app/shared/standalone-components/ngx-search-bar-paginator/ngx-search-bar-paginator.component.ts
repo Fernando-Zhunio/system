@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { NgxSearchBarService } from '../../../../../project/ngx-search-bar/src/public-api';
+// import { NgxSearchBarService } from '../../../../../project/ngx-search-bar/src/public-api';
 import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
 import { ResponsePaginateApi } from '../../interfaces/response-api';
 
@@ -53,7 +53,8 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
   }
 
   initParamsPaginator() {
-    const params= NgxSearchBarService.params
+    // const params= NgxSearchBarService.params
+    const params= null;
     if (!params) return;
     if (params['page']) {
       this.paginator.pageIndex = params['page'] - 1;
