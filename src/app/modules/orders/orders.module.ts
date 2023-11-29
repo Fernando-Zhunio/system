@@ -73,7 +73,6 @@ import { ViewerGalleryComponent } from "../../Modulos/viewer-gallery/viewer-gall
 import { PdfDetailOrderComponent } from "./modules/shared-order/pdf-detail-order/pdf-detail-order.component"
 import { DetailsOrderComponent } from "./modules/shared-order/details-order/details-order.component"
 import { SheetButtonOnlyInputComponent } from "./pages/orders/components/sheet-button-only-input/sheet-button-only-input.component"
-// import { NgxSearchBarModule } from "../../../../project/ngx-search-bar/src/public-api"
 import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatInputModule } from "@angular/material/input"
 import { MatButtonModule } from "@angular/material/button"

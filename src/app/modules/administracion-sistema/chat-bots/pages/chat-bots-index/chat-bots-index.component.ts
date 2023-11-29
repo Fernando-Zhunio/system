@@ -6,7 +6,7 @@ import { MethodsHttpService } from '../../../../../services/methods-http.service
 import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatBotsCreateOrEditComponent } from '../../components/dialog-chat-bots-create-or-edit/dialog-chat-bots-create-or-edit.component';
-import { NgxSearchBarComponent } from '../../../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarComponent } from 'ngx-search-bar-fz';
 
 
 @Component({

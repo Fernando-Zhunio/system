@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { PersonDataComponent } from './components/person-data/person-data.component';
 import { NgOptimizedImage } from '@angular/common'
 import { MatNativeDateModule } from '@angular/material/core';
-import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 @NgModule({
     declarations: [

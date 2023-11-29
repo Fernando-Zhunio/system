@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { WebhooksIndexComponent } from './pages/webhooks-index/webhooks-index.component';
 import { DialogCreateOrEditChatbotWebhookComponent } from './components/dialog-create-or-edit-chatbot-webhook/dialog-create-or-edit-chatbot-webhook.component';
 import { MatTableModule } from '@angular/material/table';
-import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({

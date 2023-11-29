@@ -76,9 +76,8 @@ import { InitializerAppNovisolutions } from './core/class/initializer-app-noviso
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateHostDirective } from './shared/directives/create-host.directive';
 import { DownloadFileStatusComponent } from './core/components/download-file-status/download-file-status.component';
-import { NGX_SEARCH_BAR_DATA } from '../../project/ngx-search-bar/src/public-api';
 import { ChatModule } from './shared/modules/chat/chat.module';
-
+import {NGX_SEARCH_BAR_DATA} from 'ngx-search-bar-fz';
 registerLocaleData(localeEs, 'es');
 @NgModule({
   imports: [

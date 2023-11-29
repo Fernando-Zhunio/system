@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 @NgModule({
     declarations: [

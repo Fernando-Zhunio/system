@@ -9,7 +9,7 @@ import { Company } from '../../interfaces/company';
 import { Department } from '../../interfaces/department';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateOrEditDepartmentComponent } from '../create-or-edit-department/create-or-edit-department.component';
-import { NgxSearchBarComponent } from '../../../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarComponent } from 'ngx-search-bar-fz';
 
 @Component({
   selector: 'app-department-index',

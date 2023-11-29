@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-// import { NgxSearchBarService } from '../../../../../project/ngx-search-bar/src/public-api';
-import { NgxSearchBarComponent, NgxSearchBarFilter, NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarComponent, NgxSearchBarModule } from 'ngx-search-bar-fz';
 import { ResponsePaginateApi } from '../../interfaces/response-api';
 
 @Component({
@@ -26,7 +25,7 @@ export class NgxSearchBarPaginatorComponent implements OnInit {
   @Input() title = 'Pagina Novisolutions';
   @Input() path: string;
   @Input() isChangeUrl: boolean = false;
-  @Input() filters: NgxSearchBarFilter
+  @Input() filters: any
   @Input() withFilter: boolean = false;
   @Input() autoInit: boolean = true;
   @Input() nameInputSearch: string = "search";

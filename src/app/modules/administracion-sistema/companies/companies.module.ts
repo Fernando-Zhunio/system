@@ -18,7 +18,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatRadioModule } from '@angular/material/radio';
 import { IndexPositionsComponent } from './pages/index-positions/index-positions.component';
 import { DialogCreateOrEditPositionComponent } from './components/dialog-create-or-edit-position/dialog-create-or-edit-position.component';
-import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 @NgModule({
   imports: [

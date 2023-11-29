@@ -13,7 +13,7 @@ import { CreateOrEditMercadoLibreAdminComponent } from "./pages/mercado-libre-cr
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 @NgModule({
     declarations: [

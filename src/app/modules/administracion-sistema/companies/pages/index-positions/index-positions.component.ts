@@ -7,7 +7,7 @@ import { MatTableHelper } from '../../../../../shared/class/mat-table-helper';
 import { Department } from '../../interfaces/department';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateOrEditPositionComponent } from '../../components/dialog-create-or-edit-position/dialog-create-or-edit-position.component';
-import { NgxSearchBarComponent } from '../../../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarComponent } from 'ngx-search-bar-fz';
 
 @Component({
   selector: 'app-index-positions',

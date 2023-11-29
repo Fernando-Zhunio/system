@@ -5,7 +5,7 @@ import { animation_conditional } from '../../../animations/animate_leave_enter';
 import { SimpleSearchDialogRef } from './simple-search-dialog-ref';
 import { ResponsePaginateApi } from '../../interfaces/response-api';
 import { SimpleSearchSelectorDialogData } from './simple-search-selector.service';
-import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 @Component({
   standalone: true,

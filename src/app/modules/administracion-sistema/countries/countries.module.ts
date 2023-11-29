@@ -14,7 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MatCardModule } from '@angular/material/card';
 import { DialogCreateOrEditCityComponent } from './components/dialog-create-or-edit-city/dialog-create-or-edit-city.component';
-import { NgxSearchBarModule } from '../../../../../project/ngx-search-bar/src/public-api';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 @NgModule({
     declarations: [

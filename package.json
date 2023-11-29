@@ -73,6 +73,7 @@
     "ngx-pagination": "^5.0.0",
     "ngx-permissions": "16.0.0",
     "ngx-quill": "22.0.0",
+    "ngx-search-bar-fz": "1.0.2",
     "ngx-skeleton-loader": "8.1.0",
     "ngx-spinner": "16.0.2",
     "pdfmake": "0.2.5",
