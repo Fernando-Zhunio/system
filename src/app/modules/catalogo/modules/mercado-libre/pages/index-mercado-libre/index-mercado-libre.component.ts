@@ -116,20 +116,7 @@ export class IndexMercadoLibreComponent extends MatTableHelper implements OnInit
     zoomImage(target);
   }
 
-
-
-  // loadData($event): void {
-  //   // this.paginator = $event.data;
-  //   // this.mlInfos = this.paginator.data;
-  //   this.mercadoLibreItems = $event
-  //     ;
-  // }
-
-  // changePaginator(event): void {
-  //   this.headerComponent.searchBar(event);
-  // }
-
-  // applyFilter() {
-  //   this.headerComponent.searchBar();
-  // }
+  override getData($event: any): void {
+    this.dataSource = $event;
+  }
 }

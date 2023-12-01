@@ -1,14 +1,13 @@
-<div>
+
   <ngx-search-bar-paginator
     title="Mercado libre"
-    [withFilter]="true"
     [formFilter]="formFilters"
     placeholder="Buscar productos"
     [path]="url"
     (data)="getData($event)">
     <ng-container filterMenu>
       <div [formGroup]="formFilters">
-        <mat-form-field class="w-100">
+        <mat-form-field class="w-full">
           <mat-label>Estados</mat-label>
           <mat-select formControlName="state">
             <mat-option value="">Todos</mat-option>
@@ -17,13 +16,13 @@
             <mat-option value="payment_required">Pago requerido</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field class="w-100">
+        <mat-form-field class="w-full">
           <mat-label>Precio Min</mat-label>
           <input matInput formControlName="min" class="example-right-align" />
           <span matPrefix>$&nbsp;</span>
           <span matSuffix>.00</span>
         </mat-form-field>
-        <mat-form-field class="w-100">
+        <mat-form-field class="w-full">
           <mat-label>Precio Max</mat-label>
           <input formControlName="max" matInput class="example-right-align" />
           <span matPrefix>$&nbsp;</span>
@@ -106,41 +105,4 @@
       </mat-card-content>
     </mat-card>
   </ngx-search-bar-paginator>
-  <!-- <app-search-template [title]="'Mercado libre'" [active_filters_menu]="true" [filter_data]="filters" placeholder="Buscar productos" [url$]="'catalogs/ml-products'" (data)="loadData($event)">
-    <ng-container data>
-      <mat-card @fade *ngFor="let ml of mlInfos" class="card border-0 rounded-fz">
-        <app-ml [withName]="true" (click_menu)="executeMenu($event)" [ml]="ml"></app-ml>
-    </mat-card>
-    </ng-container>
-    <ng-container filterMenu>
-      <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-        <mat-form-field class="w-100">
-          <mat-label>Estados</mat-label>
-          <mat-select [(ngModel)]="filters.state">
-            <mat-option value="">Todos</mat-option>
-            <mat-option value="active">Activo</mat-option>
-            <mat-option value="closed">Inactivo</mat-option>
-            <mat-option value="payment_required">Pago requerido</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-        <mat-form-field>
-          <mat-label>Precio Min</mat-label>
-          <input matInput [(ngModel)]="filters.min" class="example-right-align">
-          <span matPrefix>$&nbsp;</span>
-          <span matSuffix>.00</span>
-        </mat-form-field>
-      </div>
-      <div mat-menu-item (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-        <mat-form-field>
-          <mat-label>Precio Max</mat-label>
-          <input [(ngModel)]="filters.max" matInput class="example-right-align">
-          <span matPrefix>$&nbsp;</span>
-          <span matSuffix>.00</span>
-        </mat-form-field>
-      </div>
-    </ng-container>
 
-  </app-search-template> -->
-</div>

@@ -31,7 +31,6 @@ import { NgxSearchBarModule } from 'ngx-search-bar-fz';
         NgOptimizedImage,
         ReactiveFormsModule,
         PeopleRoutingModule,
-        // NgxSearchBarPaginatorComponent,
         NgxSearchBarModule,
         MatFormFieldModule,
         MatChipsModule,

@@ -43,7 +43,7 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let row">
-              <div class="d-flex">
+              <div class="flex gap-1">
                 <button class="btn-icon c-edit" [routerLink]="['./', row.id, 'edit']">
                     <i class="fa-solid fa-pen"></i>
                 </button>

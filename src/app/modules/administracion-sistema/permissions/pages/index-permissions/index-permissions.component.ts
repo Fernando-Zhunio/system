@@ -40,10 +40,7 @@ export class IndexPermissionsComponent extends MatTableHelper {
 
   openDialogGroupPermission() {
     this.dialog.open(IndexGroupsPermissionsComponent).afterClosed().subscribe(() => {
-
     });
   }
-
-
 
 }

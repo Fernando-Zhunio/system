@@ -42,10 +42,10 @@ export class IndexLocationsComponent extends MatTableHelper<Location> implements
   types: any [] = [];
   companies: Company[] = [];
   formFilters: FormGroup = new FormGroup({
-    city_id: new FormControl(null),
-    company_id: new FormControl(null),
-    status: new FormControl(null),
-    type: new FormControl(null),
+    city_id: new FormControl(''),
+    company_id: new FormControl(''),
+    status: new FormControl(''),
+    type: new FormControl(''),
   });
 
   ngOnInit(): void {

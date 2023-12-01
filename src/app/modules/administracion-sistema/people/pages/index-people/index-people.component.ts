@@ -38,8 +38,6 @@ export class IndexPeopleComponent extends MatTableHelper {
   constructor(
     protected mhs: MethodsHttpService,
     private dialog: MatDialog,
-    // private router_active: ActivatedRoute,
-    // private s_standart: StandartSearchService
   ) {
     super();
   }

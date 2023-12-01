@@ -1,26 +1,30 @@
 <div class="mt-4">
-  <h2 class="font-5xl d-flex align-items-center">
-    <button  mat-icon-button (click)="goBack()">
+  <div class="flex text-2xl items-center gap-2">
+    <button (click)="goBack()">
       <i class="fa-solid fa-chevron-left"></i>
     </button>
-    &nbsp;{{ title }}
-  </h2>
+    <h2 class="!text-5xl !font-bold !m-0">
+      &nbsp;{{ title }}
+    </h2>
+  </div>
+  <mat-card>
+    <mat-card-content>
       <form [formGroup]="form" class="rounded-fz border-0 card-body">
         <ng-template matStepLabel>Formulario de persona</ng-template>
-        <div class="row">
-          <mat-form-field class="col-md-6">
+        <div class="grid grid-cols-12 gap-3">
+          <mat-form-field class="md:col-span-6">
             <mat-label>Nombres</mat-label>
             <input matInput formControlName="first_name" type="text" required />
             <mat-error *ngIf="form.controls['first_name'].invalid">Nombres Requerido</mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>Apellidos</mat-label>
             <input matInput formControlName="last_name" type="text" required />
             <mat-error *ngIf="form.controls['last_name'].invalid">Apellidos Requerido</mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>Tipo de identificación</mat-label>
             <mat-select formControlName="identification_type" required>
               <mat-option *ngFor="let idType of idTypes | keyvalue" [value]="idType.key">
@@ -31,16 +35,16 @@
               Tipo de identificación Requerido
             </mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>Número de identificación</mat-label>
             <input matInput formControlName="identification_number" type="text" required />
             <mat-error *ngIf="form.controls['identification_number'].invalid">
               Número de identificación Requerido
             </mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>
               Fecha de nacimiento
               <small>(d/m/yyyy)</small>
@@ -50,8 +54,8 @@
             <mat-datepicker #dp4 disabled="false"></mat-datepicker>
             <mat-error *ngIf="form.controls['birthday'].invalid">Fecha de nacimiento Requerido</mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>Sexo</mat-label>
             <mat-select formControlName="sex" required>
               <mat-option *ngFor="let sex of sexes | keyvalue" [value]="sex.key">
@@ -60,8 +64,8 @@
             </mat-select>
             <mat-error *ngIf="form.controls['sex'].invalid">Sexo Requerido</mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>
               Fecha de inicio laboral
               <small>(d/m/yyy)</small>
@@ -71,10 +75,10 @@
             <mat-datepicker #dp3 disabled="false"></mat-datepicker>
             <mat-error *ngIf="form.controls['start_date'].invalid">Fecha de inicio laboral Requerido</mat-error>
           </mat-form-field>
-
-          <div class="col-12 font-2xl mt-2 mb-4">Información</div>
-
-          <mat-form-field class="col-md-6">
+  
+          <div class="col-span-12 font-bold mt-2 mb-4 text-4xl">Información</div>
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>Seleccione una ciudad</mat-label>
             <mat-select formControlName="city_id" required>
               <mat-option *ngFor="let city of cities | keyvalue" [value]="city.key">
@@ -83,8 +87,8 @@
             </mat-select>
             <mat-error *ngIf="form.controls['city_id'].invalid">Cuidad Requerido</mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>Seleccione un departamento</mat-label>
             <mat-select formControlName="department_position_id" required>
               <mat-option *ngFor="let position of positions | keyvalue" [value]="position.key">
@@ -93,8 +97,8 @@
             </mat-select>
             <mat-error *ngIf="form.controls['department_position_id'].invalid">Departamento Requerido</mat-error>
           </mat-form-field>
-
-          <mat-form-field class="col-md-6">
+  
+          <mat-form-field class="md:col-span-6">
             <mat-label>Seleccione una oficina / local</mat-label>
             <mat-select formControlName="location_id" required>
               <mat-option *ngFor="let location of locations | keyvalue" [value]="location.key">
@@ -103,7 +107,7 @@
             </mat-select>
             <mat-error *ngIf="form.controls['location_id'].invalid">Departamento Requerido</mat-error>
           </mat-form-field>
-
+  
           <div class="form-group col-12">
             <label for="foto">Foto</label>
             <input
@@ -115,12 +119,12 @@
               type="file"
               name="" />
           </div>
-          <div class="col-md-3 col-6 mb-3">
+          <div class="md:col-span-6 mb-3">
             <ng-container *ngIf="photo">
-              <button mat-mini-fab class="position-absolute m-1" (click)="clearPhoto()">
+              <button mat-mini-fab class="absolute m-1" (click)="clearPhoto()">
                 <i class="fa-solid fa-xmark"></i>
               </button>
-              <img class="w-100" [src]="photo" alt="imagen de usuario" />
+              <img class="w-full" [src]="photo" alt="imagen de usuario" />
             </ng-container>
           </div>
         </div>
@@ -135,4 +139,6 @@
           </button>
         </div>
       </form>
+    </mat-card-content>
+  </mat-card>
 </div>

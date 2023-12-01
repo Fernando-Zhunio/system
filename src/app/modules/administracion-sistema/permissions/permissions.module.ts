@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PermissionsRoutingModule } from './permissions.routing';
 import { IndexPermissionsComponent } from './pages/index-permissions/index-permissions.component';
-// import { IndexWithMatTableModule } from '../../../Modulos/index-with-mat-table/index-with-mat-table.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CreateOrEditPermissionComponent } from './components/create-or-edit-permission/create-or-edit-permission.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
@@ -17,10 +16,10 @@ import { IndexGroupsPermissionsComponent } from './pages/index-groups-permission
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { NgxSearchBarPaginatorComponent } from '../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { CreateOrEditGroupPermissionComponent } from './components/create-or-edit-group-permission/create-or-edit-group-permission.component';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 
 @NgModule({
@@ -33,8 +32,7 @@ import { CreateOrEditGroupPermissionComponent } from './components/create-or-edi
     imports: [
         PermissionsRoutingModule,
         CommonModule,
-        NgxSearchBarPaginatorComponent,
-        // IndexWithMatTableModule,
+        NgxSearchBarModule,
         MatDialogModule,
         MatBottomSheetModule,
         MatListModule,

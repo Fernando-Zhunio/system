@@ -10,6 +10,7 @@ export abstract class MatTableHelper<T = any> {
     protected dataSource: T[];
     protected isLoading: boolean = false;
     getData($event: any): void {
+        console.log({$event});
         this.dataSource = $event.data.data;
     }
 

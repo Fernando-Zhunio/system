@@ -7,12 +7,13 @@
 export const environment = {
   production: false,
   appVersion: require('../../package.json').version,
-  server: 'http://sistema-codificacion.test/api/',
-  serverBar: 'http://sistema-codificacion.test/api',
-  server_img: 'http://sistema-codificacion.test/',
-
-  // server: 'https://front-api-system.novicompu.com/api/',
-  // server_img: 'https://front-api-system.novicompu.com/',
+  // server: 'http://sistema-codificacion.test/api/',
+  // serverBar: 'http://sistema-codificacion.test/api',
+  // server_img: 'http://sistema-codificacion.test/',
+  
+  server: 'https://front-api-system.novicompu.com/api/',
+  serverBar: 'https://front-api-system.novicompu.com/api',
+  server_img: 'https://front-api-system.novicompu.com/',
   // server: 'https://staging-front-api-system.novicompu.com/api/',
   // server_img: 'https://staging-front-api-system.novicompu.com/',
 
