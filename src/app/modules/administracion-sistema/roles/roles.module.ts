@@ -2,7 +2,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { NgxSearchBarPaginatorComponent } from './../../../shared/standalone-components/ngx-search-bar-paginator/ngx-search-bar-paginator.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from "@angular/core";
 import { CreateOrEditRolesComponent } from "./pages/create-or-edit-roles/create-or-edit-roles.component";
@@ -13,6 +12,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { NgxSearchBarModule } from 'ngx-search-bar-fz';
 
 @NgModule({
     declarations: [
@@ -21,7 +21,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     ],
     imports: [
         CommonModule,
-        NgxSearchBarPaginatorComponent,
+        NgxSearchBarModule,
         ReactiveFormsModule,
         NgxPermissionsModule,
         RolesRoutingModule,
@@ -31,6 +31,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
+        
         DragDropModule
     ],
 })

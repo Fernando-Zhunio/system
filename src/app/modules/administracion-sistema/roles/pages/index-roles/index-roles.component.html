@@ -1,55 +1,52 @@
-<ngx-search-bar-paginator (data)="getData($event)" [path]="url" placeholder="Buscar roles" title="Roles">
+<ngx-search-bar (data)="getData($event)" [path]="url" placeholder="Buscar roles" title="Roles">
   <ng-container>
-    <mat-card class="overflow-auto">
-      <mat-card-content>
-        <mat-table [dataSource]="dataSource">
-          <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="title">
-            <mat-header-cell *matHeaderCellDef>Titulo</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef>Descripción </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element?.description }}</mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="permissions_count">
-            <mat-header-cell *matHeaderCellDef># Permisos</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.permissions_count }}</mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="actions">
-            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
-            <mat-cell *matCellDef="let element; let ind = index">
-              <button
-                *ngxPermissionsOnly="permissions.edit"
-                class="btn-icon c-edit"
-                [routerLink]="[element.id, 'edit']">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button
-                class="btn-icon c-delete"
-                *ngxPermissionsOnly="permissions.delete"
-                (click)="deleteData(element.id)">
-                <i class="fa-regular fa-trash-can"></i>
-              </button>
-            </mat-cell>
-          </ng-container>
-          <mat-header-row style="top: 67px" *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
-        </mat-table>
-      </mat-card-content>
-    </mat-card>
+    <div class="w-full p-3 overflow-auto">
+      <mat-card>
+        <mat-card-content>
+          <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef>Titulo</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element?.description }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="permissions_count">
+              <mat-header-cell *matHeaderCellDef># Permisos</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.permissions_count }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+              <mat-cell *matCellDef="let element; let ind = index">
+                <button
+                  *ngxPermissionsOnly="permissions.edit"
+                  class="btn-icon c-edit"
+                  [routerLink]="[element.id, 'edit']">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button
+                  class="btn-icon c-delete"
+                  *ngxPermissionsOnly="permissions.delete"
+                  (click)="deleteData(element.id)">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row style="top: 67px" *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+          </mat-table>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </ng-container>
   <ng-container buttons *ngxPermissionsOnly="permissions.create">
     <mat-chip-set>
@@ -59,7 +56,8 @@
       </mat-chip>
     </mat-chip-set>
   </ng-container>
-</ngx-search-bar-paginator>
+  <ngx-search-bar-paginator></ngx-search-bar-paginator>
+</ngx-search-bar>
 
 <!-- <div>
     <app-search-template title="Roles" columns="1" placeholder="Buscar roles" [url$]="'admin/roles'" (data)="loadData($event)">

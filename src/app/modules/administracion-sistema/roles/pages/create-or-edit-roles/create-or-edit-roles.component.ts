@@ -10,8 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IpermissionSystem } from '../../../../../interfaces/administracion-sistema/ipermission-system';
 import { IrolSystem } from '../../../../../interfaces/irol-system';
-import { StandartSearchService } from '../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../services/swal.service';
+import { MethodsHttpService } from '../../../../../services/methods-http.service';
 
 @Component({
   selector: 'app-create-or-edit-roles',
@@ -25,13 +25,13 @@ export class CreateOrEditRolesComponent implements OnInit {
     description: new FormControl(null),
     guard_name: new FormControl('user'),
   });
+
   constructor(
     private ngx_spinner: NgxSpinnerService,
     private activated_route: ActivatedRoute,
-    private s_standart: StandartSearchService,
+    private methodsHttp: MethodsHttpService,
     private location: Location,
     private router: Router,
-
   ) {}
 
   state: 'create' | 'edit' = 'create';
@@ -49,8 +49,8 @@ export class CreateOrEditRolesComponent implements OnInit {
         const id = Number.parseInt(
           this.activated_route.snapshot.paramMap.get('id')!
         );
-        this.s_standart
-          .show('admin/roles/' + id + '/edit')
+        this.methodsHttp
+          .methodGet('admin/roles/' + id + '/edit')
           .subscribe(
             (res: {
               success: boolean;
@@ -70,7 +70,7 @@ export class CreateOrEditRolesComponent implements OnInit {
             }
           );
       } else {
-        this.s_standart.show('admin/roles/create').subscribe((res) => {
+        this.methodsHttp.methodGet('admin/roles/create').subscribe((res) => {
           this.permissions = res.data;
           this.permissionFilter = this.permissions;
           this.ngx_spinner.hide();
@@ -135,7 +135,7 @@ export class CreateOrEditRolesComponent implements OnInit {
       const data = this.captureData();
       if (data) {
         this.ngx_spinner.show();
-        this.s_standart.store('admin/roles', data).subscribe(() => {
+        this.methodsHttp.methodPost('admin/roles', data).subscribe(() => {
           this.ngx_spinner.hide();
           this.router.navigate(['administracion-sistema/roles']);
         });
@@ -144,7 +144,7 @@ export class CreateOrEditRolesComponent implements OnInit {
       if (this.state == 'edit'){
         const data = this.captureData();
        if (data) {
-         this.s_standart.updatePut('admin/roles/' + this.role.id, data).subscribe(() => {
+         this.methodsHttp.methodPut('admin/roles/' + this.role.id, data).subscribe(() => {
            this.ngx_spinner.hide();
           this.router.navigate(['administracion-sistema/roles']);
          });
