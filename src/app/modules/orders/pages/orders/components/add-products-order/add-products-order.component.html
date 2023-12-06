@@ -1,64 +1,9 @@
 <div class="mt-3">
-  <!-- <h3 class="font-3xl font-weight-bold">Productos</h3> -->
   <div class="">
     <div class="">
-      <!-- <div class="col-md-4" *ngxPermissionsOnly="permissionsProducts.create" [formGroup]="form">
-        <div *ngIf="!isCancelled">
-          <h4 class="font-2xl font-weight-bold text-primary">Formulario de productos</h4>
-          <div>
-            <div>
-              <small class="text-muted d-block">Producto:</small>
-              <div>
-                <input
-                  readonly
-                  (click)="openSearchProducts()"
-                  class="input-product"
-                  [value]="form.get('product')?.value ? form.get('product')?.value?.code+' / '+ form.get('product')?.value?.name : ''"
-                  type="text"
-                  placeholder="Producto" />
-              </div>
-            </div>
-            <div>
-              <div class="row">
-                <div class="col-md-6">
-                  <small class="text-muted d-block">Precio *:</small>
-                  <input
-                    min="0"
-                    class="input-price input-product"
-                    formControlName="price"
-                    type="number"
-                    placeholder="Precio" />
-                </div>
-                <div class="col-md-6">
-                  <small class="text-muted d-block">Cantidad *:</small>
-                  <input
-                    min="1"
-                    class="input-quantity input-product"
-                    type="number"
-                    formControlName="quantity"
-                    placeholder="Cantidad" />
-                </div>
-              </div>
-              <div>
-                <small class="text-muted d-block">Descripción:</small>
-                <textarea class="input-product" formControlName="description" placeholder="Descripción"></textarea>
-              </div>
-              <div class="pt-md-2 col">
-                <button
-                  [disabled]="form.invalid || isLoading"
-                  color="primary"
-                  mat-raised-button
-                  (click)="addItem()">
-                  Agregar producto
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
       <div class="">
-        <div class="align-items-center d-flex justify-content-between mb-2">
-          <h4 class="font-2xl font-weight-bold text-primary m-0">
+        <div class="items-center flex justify-between mb-2">
+          <h4 class="text-2xl font-bold text-blue-400 m-0">
             Lista de productos
             <span class="badge badge-warning">{{ items?.size }}</span>
           </h4>
@@ -70,7 +15,7 @@
         <mat-card>
             <mat-card-content>
               <div>
-                <div class="table-container-products">
+                <div class="p-3">
                   <table class="table table-responsive d-md-table table-borderless table-striped">
                     <thead class="text-muted table-header-products main-style">
                       <tr>
@@ -107,7 +52,7 @@
                         <td>{{ item.value?.description }}</td>
                         <td class="text-muted">${{ item.value.price }}</td>
                         <td class="text-muted">{{ item.value.quantity }}</td>
-                        <td class="d-flex">
+                        <td class="flex gap-2">
                           <button
                             *ngxPermissionsOnly="permissionsProducts.edit"
                             [disabled]="isCancelled"

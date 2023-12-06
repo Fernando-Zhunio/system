@@ -1,5 +1,5 @@
-<mat-card class="card border-0">
-    <div class="card-body client-container">
+<mat-card class=" border-0">
+    <mat-card-content class="client-container">
         <div>
             <span><i class="fas fa-user"></i> Nombres: &nbsp;</span>{{client.first_name}}
         </div>
@@ -28,5 +28,5 @@
             <span><i class="fas fa-flag"></i> País: &nbsp;</span>{{client.country}}
         </div>
         <ng-content select="[btn]"></ng-content>
-    </div>
+    </mat-card-content>
 </mat-card>

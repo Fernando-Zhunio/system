@@ -60,8 +60,6 @@ export class EditOrderComponent implements OnInit, OnDestroy, AfterContentInit {
   permissionsInvoices = PermissionOrdersInvoicesMba;
   permissionsTransference = PermissionOrdersTransfersMba;
 
-
-
   subscriptionOrder: Subscription
 
   setIntervalOfTime: any = null;
@@ -115,8 +113,6 @@ export class EditOrderComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
     this.getStatuses();
   }
 

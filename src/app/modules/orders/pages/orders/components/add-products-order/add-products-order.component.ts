@@ -7,8 +7,6 @@ import { IProduct } from '../../../../../../interfaces/iproducts';
 import { MethodsHttpService } from '../../../../../../services/methods-http.service';
 import { IPaginate } from '../../../../../../services/standart-search.service';
 import { SwalService } from '../../../../../../services/swal.service';
-// import { SimpleSearchComponent } from '../../../../../../shared/standalone-components/simple-search/simple-search.component';
-// import { SimpleSearchSelectorService } from '../../../../../../shared/standalone-components/simple-search/simple-search-selector.service';
 import { EditProductOrderComponent } from '../edit-product-order/edit-product-order.component';
 import { FormProductOrderComponent } from '../form-product-order/form-product-order.component';
 
